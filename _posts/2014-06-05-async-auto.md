@@ -1,6 +1,8 @@
 ---
 layout: post
 title:  "Async Auto"
+tags:
+  - Javascript
 ---
 
 I've been exploring the handy [`async`](https://github.com/caolan/async) over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.
@@ -13,19 +15,19 @@ Consider the following dependency graph:
 
 With `async` this could be modelled like so:
 
+```javascript
+(function init() {
+	async.auto({
+		dbConn: dbConn,
+		schemas: [ 'dbConn', schemas ],
+		http: http,
+		httpMiddleware: [ 'http', httpMiddleware ],
+		routes: [ 'http', 'schemas', routes ]
+	}, listen);
 
-	(function init() {
-		async.auto({
-			dbConn: dbConn,
-			schemas: [ 'dbConn', schemas ],
-			http: http,
-			httpMiddleware: [ 'http', httpMiddleware ],
-			routes: [ 'http', 'schemas', routes ]
-		}, listen);
-
-		// Definitions of functions below.
-	}());
-
+	// Definitions of functions below.
+}());
+```
 
 The first parameter of the function is an object of tasks. They follow the format `taskName: function` or `taskName: [dependencies, function]`. Tasks with dependencies will only start when those have been resolved.
 
@@ -33,24 +35,24 @@ So async helps with the handling of dependencies, but can we handle dependant st
 
 For example, `dbConn` produces a `connection` variable, and `schemas` consumes it. The two functions look like this:
 
+```javascript
+function dbConn(callback) {
+	var connection = db.connect(someString).connection
+	connection.on('success', function () {
+		// Return `connection` into the `results`
+		callback(null, connection);
+	});
+	connection.on('error', function (error) {
+		callback(error, null);
+	});
+}
 
-	function dbConn(callback) {
-		var connection = db.connect(someString).connection
-		connection.on('success', function () {
-			// Return `connection` into the `results`
-			callback(null, connection);
-		});
-		connection.on('error', function (error) {
-			callback(error, null);
-		});
-	}
-
-	function schemas(callback, results) {
-		// Do a bunch of stuff.
-		// results.dbConn has the connection.
-		callback(null);
-	}
-
+function schemas(callback, results) {
+	// Do a bunch of stuff.
+	// results.dbConn has the connection.
+	callback(null);
+}
+```
 
 The result values of any task which another depends on are populated into the `results` parameter.
 
