@@ -4,6 +4,7 @@ title:  "Arch Docker Baseimage"
 tags:
  - Docker
  - Arch Linux
+ - Tutorials
 ---
 
 ## Problem ##

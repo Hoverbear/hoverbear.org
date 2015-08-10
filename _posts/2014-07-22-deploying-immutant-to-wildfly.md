@@ -3,6 +3,8 @@ layout: post
 title:  "Deploying Immutant to Wildfly"
 tags:
  - Clojure
+ - Simbioses
+ - Tutorials
 ---
 
 Currently, the [tutorial on deploying to Wildfly with Immutant 2](http://immutant.org/tutorials/wildfly/index.html) is not written. Furthermore,the JBoss documentation isn't particularly tailored towards Clojure applications.

@@ -3,6 +3,8 @@ layout: post
 title:  "Starting with Immutant"
 tags:
  - Clojure
+ - Simbioses
+ - Tutorials
 ---
 
 Immutant is suite of **Clojure** libraries that is part of the JBossAS/Wildfly ecosystem. Great, fantastic! Clojure is a lisp that runs on the JVM, the CLR, and compiles to Javascript. Lets get started!
