@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Back Channel Keycloak Requests"
+author: "Andrew Hobden"
 tags:
  - Clojure
  - Simbioses

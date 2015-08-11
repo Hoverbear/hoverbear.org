@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Async Auto"
+author: "Andrew Hobden"
 tags:
   - Javascript
   - Tutorials

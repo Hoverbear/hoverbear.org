@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Collecting Results from Collections"
+author: "Andrew Hobden"
 tags:
  - Rust
 ---

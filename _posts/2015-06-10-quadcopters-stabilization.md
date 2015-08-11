@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: Stabilization"
+author: "Andrew Hobden"
 tags:
  - Quadcopters
 ---

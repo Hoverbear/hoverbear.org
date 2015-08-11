@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Integrating Immutant and Keycloak"
+author: "Andrew Hobden"
 tags:
  - Clojure
  - Simbioses

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "A Ghost OpenRC Script"
+author: "Andrew Hobden"
 tags:
  - Init
  - Ghost

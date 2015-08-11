@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "A First Look at DACS"
+author: "Andrew Hobden"
 tags:
  - Simbioses
  - Tutorials

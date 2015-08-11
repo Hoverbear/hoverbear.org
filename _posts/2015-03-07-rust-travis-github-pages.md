@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Rust, Travis, and Github Pages"
+author: "Andrew Hobden"
 tags:
  - Rust
  - Tooling

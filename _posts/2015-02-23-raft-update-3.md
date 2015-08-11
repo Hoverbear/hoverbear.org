@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Raft: A First Prototype"
+author: "Andrew Hobden"
 tags:
  - Raft
  - Rust

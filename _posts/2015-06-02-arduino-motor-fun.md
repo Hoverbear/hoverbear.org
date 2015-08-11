@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Arduino: Motor Fun!"
+author: "Andrew Hobden"
 tags:
  - Quadcopters
  - Arduino

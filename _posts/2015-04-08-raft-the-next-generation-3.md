@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Raft: Status Update"
+author: "Andrew Hobden"
 tags:
  - Raft
  - Rust

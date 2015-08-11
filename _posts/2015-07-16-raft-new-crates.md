@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Raft: New Crates!"
+author: "Andrew Hobden"
 tags:
  - Rust
  - Raft

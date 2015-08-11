@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Reflections on a Quarter Century"
+author: "Andrew Hobden"
 tags:
  - Philosophy
 ---

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: The Board"
+author: "Andrew Hobden"
 tags:
  - Quadcopters
 ---

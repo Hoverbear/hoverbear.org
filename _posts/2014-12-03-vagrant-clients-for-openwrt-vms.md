@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Vagrant Clients for OpenWRT VMs"
+author: "Andrew Hobden"
 tags:
  - OpenWRT
  - CSC467

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: Motors"
+author: "Andrew Hobden"
 tags:
  - Quadcopters
 ---

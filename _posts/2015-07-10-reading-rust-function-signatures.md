@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Reading Rust Function Signatures"
+author: "Andrew Hobden"
 tags:
  - Rust
  - Tutorials

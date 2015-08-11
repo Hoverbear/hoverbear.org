@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "First look at Cap'n Proto in Rust"
+author: "Andrew Hobden"
 tags:
  - Raft
  - Rust

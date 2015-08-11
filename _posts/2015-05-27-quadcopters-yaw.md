@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: Yaw"
+author: "Andrew Hobden"
 tags:
  - Quadcopters
 ---

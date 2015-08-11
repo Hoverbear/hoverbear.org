@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Init - Configuration"
+author: "Andrew Hobden"
 tags:
  - Init
  - Tutorials
