@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Quadcopters: Orientation"
+title: "Quadcopters: Orientation"
 tags:
  - Quadcopters
 ---

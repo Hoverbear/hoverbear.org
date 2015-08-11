@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "A Journey into Iterators"
+title: "A Journey into Iterators"
 tags:
  - Rust
  - Tutorials

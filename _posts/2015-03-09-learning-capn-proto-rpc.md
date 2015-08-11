@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Learning Cap'n Proto RPC"
+title: "Learning Cap'n Proto RPC"
 tags:
  - Raft
  - Rust

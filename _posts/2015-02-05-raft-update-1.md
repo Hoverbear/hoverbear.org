@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Raft Experiences and Repo Made Public!"
+title: "Raft Experiences and Repo Made Public!"
 tags:
  - Raft
  - Rust

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Quadcopters: Sensors"
+title: "Quadcopters: Sensors"
 tags:
  - Quadcopters
 ---

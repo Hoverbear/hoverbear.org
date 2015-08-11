@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Photography from Last Decade"
+title: "Photography from Last Decade"
 tags:
  - Photography
 ---

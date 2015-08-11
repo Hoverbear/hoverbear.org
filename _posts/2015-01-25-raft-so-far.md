@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Raft So Far"
+title: "Raft So Far"
 tags:
  - Raft
  - Rust

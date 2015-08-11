@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Quadcopters: The Board"
+title: "Quadcopters: The Board"
 tags:
  - Quadcopters
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Gathering Our Voices 2014"
+title: "Gathering Our Voices 2014"
 tags:
  - BCAAFC
 ---

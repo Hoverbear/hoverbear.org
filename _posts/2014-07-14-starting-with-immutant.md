@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Starting with Immutant"
+title: "Starting with Immutant"
 tags:
  - Clojure
  - Simbioses

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Getting Acquainted with MIO"
+title: "Getting Acquainted with MIO"
 tags:
  - Raft
  - Rust

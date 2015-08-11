@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Raft: A First Prototype"
+title: "Raft: A First Prototype"
 tags:
  - Raft
  - Rust

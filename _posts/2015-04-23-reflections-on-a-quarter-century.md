@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Reflections on a Quarter Century"
+title: "Reflections on a Quarter Century"
 tags:
  - Philosophy
 ---

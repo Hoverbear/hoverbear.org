@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Async Auto"
+title: "Async Auto"
 tags:
   - Javascript
   - Tutorials

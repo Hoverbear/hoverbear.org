@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Vagrant Clients for OpenWRT VMs"
+title: "Vagrant Clients for OpenWRT VMs"
 tags:
  - OpenWRT
  - CSC467

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Arduino: Motor Fun!"
+title: "Arduino: Motor Fun!"
 tags:
  - Quadcopters
  - Arduino

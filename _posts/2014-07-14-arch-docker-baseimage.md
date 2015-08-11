@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Arch Docker Baseimage"
+title: "Arch Docker Baseimage"
 tags:
  - Docker
  - Arch Linux

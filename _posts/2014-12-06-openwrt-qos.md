@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "OpenWRT QoS"
+title: "OpenWRT QoS"
 tags:
  - OpenWRT
  - CSC467

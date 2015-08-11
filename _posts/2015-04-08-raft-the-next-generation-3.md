@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Raft: Status Update"
+title: "Raft: Status Update"
 tags:
  - Raft
  - Rust

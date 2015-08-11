@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Integrating Immutant and Keycloak"
+title: "Integrating Immutant and Keycloak"
 tags:
  - Clojure
  - Simbioses

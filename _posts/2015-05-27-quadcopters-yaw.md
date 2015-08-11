@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Quadcopters: Yaw"
+title: "Quadcopters: Yaw"
 tags:
  - Quadcopters
 ---

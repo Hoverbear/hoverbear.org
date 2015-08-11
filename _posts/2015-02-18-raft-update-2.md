@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Raft: Progress on the Log"
+title: "Raft: Progress on the Log"
 tags:
  - Raft
  - Rust

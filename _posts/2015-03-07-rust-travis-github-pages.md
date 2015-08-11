@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust, Travis, and Github Pages"
+title: "Rust, Travis, and Github Pages"
 tags:
  - Rust
  - Tooling

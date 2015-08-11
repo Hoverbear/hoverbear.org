@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "First look at Cap'n Proto in Rust"
+title: "First look at Cap'n Proto in Rust"
 tags:
  - Raft
  - Rust

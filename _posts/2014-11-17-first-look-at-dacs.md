@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "A First Look at DACS"
+title: "A First Look at DACS"
 tags:
  - Simbioses
  - Tutorials

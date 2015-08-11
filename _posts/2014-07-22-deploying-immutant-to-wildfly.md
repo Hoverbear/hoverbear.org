@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Deploying Immutant to Wildfly"
+title: "Deploying Immutant to Wildfly"
 tags:
  - Clojure
  - Simbioses

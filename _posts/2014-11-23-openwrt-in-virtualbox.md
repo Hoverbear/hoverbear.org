@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "OpenWRT in Virtualbox"
+title: "OpenWRT in Virtualbox"
 tags:
  - OpenWRT
  - CSC467
