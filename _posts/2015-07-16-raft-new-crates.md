@@ -17,45 +17,49 @@ Working with Raft we discovered a useful error pattern for making use of things 
 
 Let's say you're off happily using `.read()` on some file descriptor (maybe a `TcpStream`) and than performing some action which may also result in an error. So you write a function like so:
 
-	use std::io::Read;
-	fn read_and_action<R: Read>(reader: R) -> Result<String, _> {
-    	let buf = Vec::with_capacity(10);
-        try!(reader.read(&mut buf));
-        try!(String::from_utf8(buf))
-    }
+```rust
+use std::io::Read;
+fn read_and_action<R: Read>(reader: R) -> Result<String, _> {
+	let buf = Vec::with_capacity(10);
+    try!(reader.read(&mut buf));
+    try!(String::from_utf8(buf))
+}
+```
 
 But wait! There is a problem here! The first `try!()` and the second `try!()` have *different errors* that they might return. **This won't work.** Even worse, in a sufficiently complex library or application there can be many `Error` types in play!
 
 We identified this very early in Raft and came up with a eloquent solution: Create an `Error` composed of the various possible errors! James went ahead and actually made a [fantastic macro](https://github.com/james-darkfox/rs-wrapped_enum-macro) that you can use to do the same easily!
 
-    /// A simple convienence type.
-    pub type Result<T> = std::result::Result<T, Error>;
+```rust
+/// A simple convienence type.
+pub type Result<T> = std::result::Result<T, Error>;
 
-	// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
-    wrapped_enum!{
-        #[derive(Debug)]
-        pub enum Error {
-        	// Cap'n Proto Errors
-            CapnProto(capnp::Error),
-            // Cap'n Proto schema errors
-            SchemaError(capnp::NotInSchema),
-            // std::io errors
-            Io(io::Error),
-            // Our very own!
-            Raft(RaftError),
+// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
+wrapped_enum!{
+    #[derive(Debug)]
+    pub enum Error {
+    	// Cap'n Proto Errors
+        CapnProto(capnp::Error),
+        // Cap'n Proto schema errors
+        SchemaError(capnp::NotInSchema),
+        // std::io errors
+        Io(io::Error),
+        // Our very own!
+        Raft(RaftError),
+    }
+}
+
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Error::CapnProto(ref error) => fmt::Display::fmt(error, f),
+            Error::SchemaError(ref error) => fmt::Display::fmt(error, f),
+            Error::Io(ref error) => fmt::Display::fmt(error, f),
+            Error::Raft(ref error) => fmt::Debug::fmt(error, f),
         }
     }
-
-    impl fmt::Display for Error {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-            match *self {
-                Error::CapnProto(ref error) => fmt::Display::fmt(error, f),
-                Error::SchemaError(ref error) => fmt::Display::fmt(error, f),
-                Error::Io(ref error) => fmt::Display::fmt(error, f),
-                Error::Raft(ref error) => fmt::Debug::fmt(error, f),
-            }
-        }
-    }
+}
+```
 
 With this machinery in place our previous example starts to work, fantastic! This has saved us so much headache and complication in our code. Want it? Click one of the badges below!
 
@@ -72,25 +76,29 @@ James and Dan put together the [`scoped_log`](https://github.com/james-darkfox/r
 
 When we use this crate with tests (which makes it all that much more awesome!) we use the following macro.
 
-    /// Prepares the environment testing. Should be called as the first line of every test with the
-    /// name of the test as the only argument.
-    #[cfg(test)]
-    macro_rules! setup_test {
-        ($test_name:expr) => (
-            let _ = env_logger::init();
-            push_log_scope!($test_name);
-        );
-    }
+```rust
+/// Prepares the environment testing. Should be called as the first line of every test with the
+/// name of the test as the only argument.
+#[cfg(test)]
+macro_rules! setup_test {
+    ($test_name:expr) => (
+        let _ = env_logger::init();
+        push_log_scope!($test_name);
+    );
+}
+```
 
 Now our logs look like this:
 
-    INFO:raft::replica: test_apply_client_message: ElectionTimeout
-    INFO:raft::replica: test_election_3: ElectionTimeout
-    INFO:raft::replica: test_election_2: ElectionTimeout
-    INFO:raft::replica: test_apply_client_message: transitioning to Leader
-    INFO:raft::replica: test_election_5: ElectionTimeout
-    INFO:raft::replica: test_election_5: transitioning to Candidate
-    DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
+```
+INFO:raft::replica: test_apply_client_message: ElectionTimeout
+INFO:raft::replica: test_election_3: ElectionTimeout
+INFO:raft::replica: test_election_2: ElectionTimeout
+INFO:raft::replica: test_apply_client_message: transitioning to Leader
+INFO:raft::replica: test_election_5: ElectionTimeout
+INFO:raft::replica: test_election_5: transitioning to Candidate
+DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
+```
 
 Much more context that we *barely* have to tool. Fantastic! This crate even maintains the same `noop` characteristic of the `log` crate which it heavily relies on. Want it?
 

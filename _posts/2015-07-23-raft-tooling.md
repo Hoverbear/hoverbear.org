@@ -15,26 +15,28 @@ Travis CI released [their container infrastructure](http://blog.travis-ci.com/20
 
 In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:
 
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-            # Needed for building Cap'n Proto.
-          - gcc-4.8
-          - g++-4.8
+```yaml
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+        # Needed for building Cap'n Proto.
+      - gcc-4.8
+      - g++-4.8
 
-    # We need to install Cap'n Proto.
-    install:
-        - git clone https://github.com/kentonv/capnproto.git
-        - cd capnproto/c++
-        - ./setup-autotools.sh
-        - autoreconf -i
-        - ./configure --disable-shared
-        - make -j5
-        - export PATH="$PATH:$(pwd)"
-        - export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(pwd)"
-        -  cd ../..
+# We need to install Cap'n Proto.
+install:
+    - git clone https://github.com/kentonv/capnproto.git
+    - cd capnproto/c++
+    - ./setup-autotools.sh
+    - autoreconf -i
+    - ./configure --disable-shared
+    - make -j5
+    - export PATH="$PATH:$(pwd)"
+    - export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$(pwd)"
+    -  cd ../..
+```
 
 Now that we've flagged `sudo: false` in our `.travis.yml` our Travis *wait time* for a build have significantly decreased. Some of our test builds take under 1:45 minutes!
 
@@ -42,33 +44,37 @@ Now that we've flagged `sudo: false` in our `.travis.yml` our Travis *wait time*
 
 Huon created the fantastic `travis-cargo` crate and we recently moved over to it! This helped clean up the `.travis.yml` a bit and opened the door for us to utilize future improvements. This took our `.travis.yml` script section from this:
 
-    # Generate Docs
-    after_success: |
-      [ $TRAVIS_BRANCH = master ] &&
-      [ $TRAVIS_PULL_REQUEST = false ] &&
-      cargo doc &&
-      echo '<meta http-equiv=refresh content=0;url=raft/index.html>' > target/doc/index.html &&
-      sudo pip install ghp-import &&
-      ghp-import -n target/doc &&
-      git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+```yaml
+# Generate Docs
+after_success: |
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  cargo doc &&
+  echo '<meta http-equiv=refresh content=0;url=raft/index.html>' > target/doc/index.html &&
+  sudo pip install ghp-import &&
+  ghp-import -n target/doc &&
+  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+```
 
 To this:
 
-    # Load `travis-cargo`
-    before_script:
-        - pip install 'travis-cargo' --user
-        - export PATH=$HOME/.local/bin:$PATH
+```yaml
+# Load `travis-cargo`
+before_script:
+    - pip install 'travis-cargo' --user
+    - export PATH=$HOME/.local/bin:$PATH
 
-    script:
-        - travis-cargo build
-        - travis-cargo test
-        - travis-cargo bench
-        - travis-cargo doc
+script:
+    - travis-cargo build
+    - travis-cargo test
+    - travis-cargo bench
+    - travis-cargo doc
 
-    # Generate Docs and coverage
-    after_success:
-        - travis-cargo doc-upload
-        - travis-cargo coveralls --no-sudo
+# Generate Docs and coverage
+after_success:
+    - travis-cargo doc-upload
+    - travis-cargo coveralls --no-sudo
+```
 
 With `travis-cargo` our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.
 
