@@ -34,7 +34,7 @@ First, let's start with a basic on/off motor. This gives us the chance to unders
 
 ### Breadboard
 
-![Plain](/assets/2015/06/plain.png)
+![Plain](/assets/images/2015/06/plain.png)
 
 ### Code
 
@@ -106,7 +106,7 @@ Same as above, but add:
 
 ## Breadboard
 
-![Turnpot](/assets/2015/06/turnpot.png)
+![Turnpot](/assets/images/2015/06/turnpot.png)
 
 ## Code
 

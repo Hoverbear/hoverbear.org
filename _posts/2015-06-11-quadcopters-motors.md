@@ -37,7 +37,7 @@ In order to get some firm measurements about the motor, we built an apparatus to
 
 Since we didn't want to damage the motor we were careful and used very small wire looped into the connector. Then we used tape to keep the copper wires seperate. The wires touching would cause a short circuit and be very bad (resulting in smoke and an angry motor.)
 
-![Taping](/assets/2015/05/taping.jpg)
+![Taping](/assets/images/2015/05/taping.jpg)
 
 After that was complete we used an adjustable soldering stand to hold the motor up in the path of a photogate sensor. The idea was to use the propellor to break the photogate's beam and use the number of breaks to determine the rotations per minute (RPM) of the propellor at various speeds.
 
@@ -65,31 +65,31 @@ This is a very fun and curious experiment to try on your own or with your cohort
 
 Using a pair of multimeters and an adjustable power supply we could take measurements of the motor at various power settings.
 
-![Measuring Setup](/assets/2015/06/motor_measuring.jpg)
+![Measuring Setup](/assets/images/2015/06/motor_measuring.jpg)
 
 First, let's take a look at the relationship between voltage and the rotations per minute (RPM) of the propeller. Voltage is the **difference in potential** between the hot and ground wires.
 
 > If you picture yourself as an electron walking along a road (the wire), you can picture voltage as how steep the hill is.
 
-![Voltage vs. RPM](/assets/2015/06/volt-v-rpm.jpg)
+![Voltage vs. RPM](/assets/images/2015/06/volt-v-rpm.jpg)
 
 The relationship that current and the rotations per minute have is also very much a straight line.
 
 > If you picture yourself as an electron current is how hard you're pushing against something.
 
-![Current vs. RPM](/assets/2015/06/cur-v-rpm.jpg)
+![Current vs. RPM](/assets/images/2015/06/cur-v-rpm.jpg)
 
 The power of the motor is equals to the voltage times the current. You can see that this relationship is a nice, smooth curve. It's interesting to note that there are diminishing returns the more power you put in.
 
 $$voltage * current = power$$
 
-![Power vs. RPM](/assets/2015/06/pow-v-rpm-2.jpg)
+![Power vs. RPM](/assets/images/2015/06/pow-v-rpm-2.jpg)
 
 The angular velocity is the speed at which the blade of the propeller is rotating around the motor's axis. This relationship is straight, just like the voltage vs RPM graph.
 
 $$velocity_{angular} = RPM * \frac{2\pi}{60 seconds}$$
 
-![Voltage vs. Angular Velocity](/assets/2015/06/volt-v-angu-2.jpg)
+![Voltage vs. Angular Velocity](/assets/images/2015/06/volt-v-angu-2.jpg)
 
 # Motors in Action
 
@@ -99,24 +99,24 @@ In order to capture this data we held the quadcopter (mostly) in place and fully
 
 ## Pitch
 
-![Pitch Increase](/assets/2015/06/pitch-increase.jpg)
+![Pitch Increase](/assets/images/2015/06/pitch-increase.jpg)
 
 In these you can see the very clear demonstration of the front motor and rear motors raising or lowering depending on the input.
 
-![Pitch Decrease](/assets/2015/06/pitch-decrease.jpg)
+![Pitch Decrease](/assets/images/2015/06/pitch-decrease.jpg)
 
 ## Roll
 
-![Roll Increase](/assets/2015/06/roll-increase.jpg)
+![Roll Increase](/assets/images/2015/06/roll-increase.jpg)
 
 In these you can observe the left and right motors changing accordingly.
 
-![Roll Decrease](/assets/2015/06/roll-decrease.jpg)
+![Roll Decrease](/assets/images/2015/06/roll-decrease.jpg)
 
 ## Yaw
 
-![Yaw Increase](/assets/2015/06/yaw-increase.jpg)
+![Yaw Increase](/assets/images/2015/06/yaw-increase.jpg)
 
 Finally, in these you can see the diagonal motors changing as we've previously discussed.
 
-![Yaw Decrease](/assets/2015/06/yaw-decrease.jpg)
+![Yaw Decrease](/assets/images/2015/06/yaw-decrease.jpg)

@@ -8,15 +8,15 @@ tags:
 
 Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.
 
-![Digital Sensors](/assets/2015/06/sensors_bb.jpg)
+![Digital Sensors](/assets/images/2015/06/sensors_bb.jpg)
 
 Some sensors are **digital**, like a button or switch, and can be read via a `digitalRead()` on an Arduino, returning either `HIGH` or `LOW`.
 
-![Analog Sensors](/assets/2015/06/analog_sensors.jpg)
+![Analog Sensors](/assets/images/2015/06/analog_sensors.jpg)
 
 Other sensors are **analog** and can return anything in the range of 0-1023. These are things like potentiometers, force sensors, light sensors, and temperature sensors.
 
-![I2C Sensors](/assets/2015/06/i2c_spi.jpg)
+![I2C Sensors](/assets/images/2015/06/i2c_spi.jpg)
 
 Finally, some sensors use Inter-integrated Circuit (**I2C**) or Serial Peripheral Interface (**SPI**) to interface. Typically these are found on more complicated chips like gyroscopes and accelerometers. These interfaces require multiple wires and often require you to build a small *wrapper* around the interface to interact with it. If you enjoy playing with Arduinos, companies like [Adafruit](http://adafruit.com/) almost always include libraries for their products.
 
@@ -40,7 +40,7 @@ If you have one to play with you can explore it's readings by taking a reasonabl
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/-TEnJt4TLkE?rel=0" frameborder="0" allowfullscreen></iframe>
 
-![Magnetometer Readings](/assets/2015/06/mag-2.jpg)
+![Magnetometer Readings](/assets/images/2015/06/mag-2.jpg)
 
 Some uses of Magnetometers:
 
@@ -63,7 +63,7 @@ Here's how we can demonstrate this sensor, along with the output:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/vYcVIqqawoU?rel=0" frameborder="0" allowfullscreen></iframe>
 
-![Gyroscope Readings](/assets/2015/06/gyro-1.jpg)
+![Gyroscope Readings](/assets/images/2015/06/gyro-1.jpg)
 
 ## Accelerometer
 
@@ -77,7 +77,7 @@ Here's how we can demonstrate this sensor, along with the output:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6aI5Q7sSGGg?rel=0" frameborder="0" allowfullscreen></iframe>
 
-![Accelerometer Readings](/assets/2015/06/accel-1.jpg)
+![Accelerometer Readings](/assets/images/2015/06/accel-1.jpg)
 
 Some uses of Accelerometers:
 
@@ -110,7 +110,7 @@ Therefore if the quadcopter has a reference to the air pressure of where it took
 
 These readings are a bit noisy, sorry.
 
-![Pressure Readings](/assets/2015/06/baro.jpg)
+![Pressure Readings](/assets/images/2015/06/baro.jpg)
 
 ## Sensor Fusion
 

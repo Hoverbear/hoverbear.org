@@ -75,7 +75,7 @@ That's it! Now to fire up the VM:
 
 Next, it's time to settle in and get comfortable. The boot output will not show you command prompt until you manually focus the window and tap return, then you should see a prompt.
 
-![The VM screen](/assets/2014/11/openwrt.png)
+![The VM screen](/assets/images/2014/11/openwrt.png)
 
 ## WAN
 

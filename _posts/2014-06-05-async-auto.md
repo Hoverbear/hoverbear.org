@@ -13,7 +13,7 @@ I've been exploring the handy [`async`](https://github.com/caolan/async) over th
 
 Consider the following dependency graph:
 
-![Graph](/assets/javascript/2014/06/dep.png)
+![Graph](/assets/images/javascript/2014/06/dep.png)
 
 With `async` this could be modelled like so:
 

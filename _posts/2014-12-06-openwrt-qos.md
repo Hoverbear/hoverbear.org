@@ -113,7 +113,7 @@ If you're wondering, the `-` in `-500` operates *I think*, on the definition of 
 
 As a reminder, here is the configuration of our setup.
 
-![Our setup.](/assets/2014/12/diagram.jpg)
+![Our setup.](/assets/images/2014/12/diagram.jpg)
 
 First, we need to pull in `xt_connmark`, which is a depedency for some features of `qos-scripts`:
 
@@ -184,7 +184,7 @@ Open up a terminal to use `vagrant ssh test1` and `test2` then, run the followin
 
 You should see something like the following:
 
-![In action.](/assets/2014/12/in-action-1.png)
+![In action.](/assets/images/2014/12/in-action-1.png)
 
 Feel free to cancel them at any time. We only care about the rate right now.
 
@@ -255,7 +255,7 @@ Finally, restart the QoS:
 
 Then get `test1` to download from port 80, and `test2` to download from port 8080.
 
-![httpdev](/assets/2014/12/httpdev.png)
+![httpdev](/assets/images/2014/12/httpdev.png)
 
 Attempting to download on port 8080 only resulted in recieving 10% of the available bandwidth, where on port 80 it was able to use the entire link.
 
@@ -273,7 +273,7 @@ On the router, edit `/etc/config/qos`, change the `Normal` class to have a `50` 
 
 Then issue `/etc/init.d/qos reload`. To test this, **on one of the `test1` or `test2`** open two connections and attempt to download from both ports.
 
-![Priorities.](/assets/2014/12/priorities.png)
+![Priorities.](/assets/images/2014/12/priorities.png)
 
 Here I ran two tests, one with downloads on different ports, one with them on the same. Notice how the `8080` download is much slower while there is a download on port `80` happening, but while both at on port `80` they're nearly the same *(except that I couldn't stop both at the same time so the second one I stopped was reading higher then before, they were both in the teens).*
 

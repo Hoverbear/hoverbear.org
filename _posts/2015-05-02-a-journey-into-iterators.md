@@ -381,4 +381,4 @@ If you get stuck, don't panic! Try googling the error if it befuddles you, Rust 
 
 We're just scratching the surface... A vast world awaits us.
 
-![Getting ready to explore](/assets/2015/05/photo-1425136738262-212551713a58-1.jpg)
+![Getting ready to explore](/assets/images/2015/05/photo-1425136738262-212551713a58-1.jpg)

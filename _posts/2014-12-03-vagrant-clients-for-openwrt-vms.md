@@ -15,7 +15,7 @@ Since [Vagrant](http://vagrantup.com/) has support for [multi-machine configurat
 
 ## The Plan
 
-![Diagram.](/assets/2014/12/diagram.jpg)
+![Diagram.](/assets/images/2014/12/diagram.jpg)
 
 Here is (roughly) the goal. The pair of VMs `test1` and `test2` will access `test3` (and the internet) through the OpenWRT router we created. Later, we'll build in QoS and talk about the effects of various parameters.
 

@@ -44,7 +44,7 @@ For simplicity, we'll replace the contents of `src/lib.rs` with the following:
 
 Now you can run `cargo doc` and visit a url like `file:///Users/hoverbear/travis-demo/target/doc/travis-demo/` to view the generated documentation.
 
-![Our Documentation](/assets/2015/03/docs.png)
+![Our Documentation](/assets/images/2015/03/docs.png)
 
 Finally, push this project up to Github (You'll need to make it on Github!):
 
@@ -59,7 +59,7 @@ First, you'll need to sign up with Travis. This is trivially done by visiting [T
 
 Then, visit your profile by clicking on your name in the top right corner.
 
-![How to get to your profile.](/assets/2015/03/profile.png)
+![How to get to your profile.](/assets/images/2015/03/profile.png)
 
 On this page, in the "Repositories" tab, you'll see a list of all your public repositories. If you *just* made your repository you might need to tell Travis to **Sync Now**.
 
@@ -67,7 +67,7 @@ On this page, in the "Repositories" tab, you'll see a list of all your public re
 
 Now enable our demo repository by flipping the switch.
 
-![Flip that switch](/assets/2015/03/switch.png)
+![Flip that switch](/assets/images/2015/03/switch.png)
 
 Feel encouraged to take a moment to click on the wrench and explore the options Travis offers. We'll play with them in a minute!
 
@@ -104,9 +104,9 @@ We can add the following to ours:
 
 Since it would be positively outrageous to give Travis your Github password or private key, we'll use what's called an "access token". To get one of these, go to your Github settings and hit the "Applictions" tab.
 
-![Getting a token](/assets/2015/03/token1.png)
+![Getting a token](/assets/images/2015/03/token1.png)
 
-![Token Creation Screen](/assets/2015/03/token2.png)
+![Token Creation Screen](/assets/images/2015/03/token2.png)
 
 Once you hit "Generate Token" you'll return to the previous page and see a green highlighted key. **Copy that, you won't see it again!**
 
@@ -128,7 +128,7 @@ Now if you visit [`https://travis-ci.org/repositories`](https://travis-ci.org/re
 
 Your build should look similar to the following:
 
-![Example Build](/assets/2015/03/build.png)
+![Example Build](/assets/images/2015/03/build.png)
 
 ## Tinkering with the Crate
 
@@ -156,7 +156,7 @@ The first is `RUST_BACKTRACE`, we can set it to `1` to make Rust print out a sta
 
 If you use [`log` and `env-logger`](https://github.com/rust-lang/log) you also might want to set `RUST_LOG`. I would definitely suggest limiting the logging to a specific crate as otherwise `rustc` and other libs will spout a considerable amount of output.
 
-![Setting ENV Variables](/assets/2015/03/ENV.png)
+![Setting ENV Variables](/assets/images/2015/03/ENV.png)
 
 ## A While Later...
 
@@ -164,6 +164,6 @@ Try visiting [`https://$YOUR_GITHUB_USER.github.io/$YOUR_REPO`](https://hoverbea
 
 Don't forget to add it to the repository page on Github!
 
-![Our new Repo](/assets/2015/03/Screen-Shot-2015-03-06-at-7-03-22-PM.png)
+![Our new Repo](/assets/images/2015/03/Screen-Shot-2015-03-06-at-7-03-22-PM.png)
 
 Enjoy your new documentation! Your users will appreciate your documentation being up to date, you don't need to do it yourself, and later on you can hack this method to only handle commits to `stable` or other tags.

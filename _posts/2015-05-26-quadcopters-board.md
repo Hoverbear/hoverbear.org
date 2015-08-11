@@ -18,7 +18,7 @@ On the pictures below we'll use the **schematic symbols** as they are shortest.
 
 # Top Side #
 
-![Labelled Top](/assets/2015/05/image4144.jpg)
+![Labelled Top](/assets/images/2015/05/image4144.jpg)
 
 <table>
   <thead>
@@ -71,7 +71,7 @@ On the pictures below we'll use the **schematic symbols** as they are shortest.
 
 # Bottom Side #
 
-![Labelled Bottom](/assets/2015/05/labelled_bottom.png)
+![Labelled Bottom](/assets/images/2015/05/labelled_bottom.png)
 
 <table>
   <thead>
