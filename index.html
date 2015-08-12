@@ -15,15 +15,32 @@ layout: default
     <h1 class="blog-title">{{ site.title }}</h1>
     <h2 class="blog-description">{{ site.description }}</h2>
     <div class="custom-links">
-        {% for social in site.social %}
-            {% if social.url %}
-                <a class="icon-{{ social.icon }}" href="{{ social.url }}">
-                    <i class="fa fa-{{ social.icon }}"></i>
-                </a>
-                &nbsp;&nbsp;·&nbsp;&nbsp;
-            {% endif %}
+        {% for page in site.pages %}
+          {% if page.title %}
+          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+          {% endif %}
         {% endfor %}
-        <a href="/about/">About</a>
+
+        <br>
+        <br>
+
+        {% if site.email %}
+        <a href="mailto:{{ site.email }}">
+            <i class="fa fa-envelope"></i>
+        </a>
+        {% endif %}
+
+        {% if site.github_username %}
+        <a href="https://github.com/{{ site.github_username }}">
+            <i class="fa fa-github"></i>
+        </a>
+        {% endif %}
+
+        {% if site.twitter_username %}
+        <a href="https://twitter.com/{{ site.twitter_username }}">
+          <i class="fa fa-twitter"></i>
+        </a>
+        {% endif %}
     </div>
 </header>
 
