@@ -5,6 +5,7 @@ author: "Andrew Hobden"
 tags:
  - Rust
  - Raft
+image: /assets/images/2015/08/boat.jpg
 ---
 
 We've also got couple nice working examples! Yes, they're ready to play with!
