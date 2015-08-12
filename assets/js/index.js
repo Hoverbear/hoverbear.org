@@ -31,8 +31,11 @@
           });
           $window.trigger('scroll');
 
-          var height = $('.article-image').height();
-          $('.post-content').css('padding-top', height + 'px');
+          $window.on('resize', function() {
+              var height = $('.article-image').height();
+              $('.post-content').css('padding-top', height + 'px');
+          });
+          $window.trigger('resize');
 
           $('a[href*=#]:not([href=#])').click(function() {
             if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
