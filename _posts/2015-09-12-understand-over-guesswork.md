@@ -258,20 +258,25 @@ use std::marker::Sync;
 use std::marker::Send;
 ```
 
-Other, more fearless forms of concurrency such as **sharing stack frames** is even encouraged by these models. This is done via a scoped thread model.
+Rust's concurrency primitives are powerful and composable, allowing users to implement other, more fearless forms of concurrency such as **sharing stack frames**. For example, here's a demonstration of a third-party crate called **crossbeam** that allows us to safely operate concurrently on stack-allocated data: [*(ref)*][crossbeam]
 
 ```rust
+extern crate crossbeam;
+
 fn main() {
-    let items = vec![1, 2, 3];
-    let mut guards = vec![];
-    for item in items {
-        let guard = thread::scoped(move || {
-            print!("{}", item);
-        });
-        guards.push(guard);
-    }
-} // `guards` destroyed here, implicitly joining
+    let items = [1, 2, 3];
+
+    crossbeam::scope(|scope| {
+        for item in &items {
+            scope.spawn(move || {
+                println!("{}", item);
+            });
+        }
+    });
+}
 ```
+
+This same crate also provides primitives for building lock-free concurrent data structures without the overhead of a garbage collector [*(ref)*][lock-freedom], again demonstrating Rust's capacity for building safe, efficient, and reusable concurrent components.
 
 # 4. Safety, Tools, and Community
 
@@ -351,3 +356,5 @@ In this work we have overviewed some of the reasons to consider Rust as the lanu
 [pvs-studio]: http://www.viva64.com/en/pvs-studio/ "PVS-Studio"
 [billion-dollar]: http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare "The Billion Dollar Mistake"
 [raft]: http://ramcloud.stanford.edu/raft.pdf "In Search of an Understandable Consensus Algorithm"
+[crossbeam]: http://aturon.github.io/crossbeam-doc/crossbeam/struct.Scope.html#method.spawn "crossbeam::Scope::spawn"
+[lock-freedom]: http://aturon.github.io/blog/2015/08/27/epoch/ "Lock-freedom without garbage collection"
