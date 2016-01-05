@@ -1,27 +1,47 @@
 <head>
-  <meta charset="utf-8">
-  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{{ site.description }}" />
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{{ site.description }}" />
 
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+    {% if post.image %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ post.image }}">
+    {% else %}
+        <meta name="twitter:card" content="summary">
+    {% endif %}
 
-  <link rel="shortcut icon" href="{{ "/assets/images/favicon.ico" | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
-  <link href="{{ "/bower_components/fontawesome/css/font-awesome.min.css"  | prepend: site.baseurl  }}" rel="stylesheet">
+    <meta name="twitter:site" content="@andrewhobden">
+    <meta name="twitter:creator" content="@andrewhobden">
 
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ "/css/main.css"  | prepend: site.baseurl  }}" />
-  <link rel="stylesheet" type="text/css" media="print" href="{{ "/css/print.css"  | prepend: site.baseurl  }}" />
-  <!-- Katex -->
-  <link rel="stylesheet" href="{{ "/bower_components/katex/dist/katex.min.css" | prepend: site.baseurl }}">
+    {% if post.title %}
+        <meta name="twitter:title" content="{{ post.title }}">
+    {% else %}
+        <meta name="twitter:title" content="Hoverbear.org">
+    {% endif %}
+
+    {% if post.excerpt %}
+        <meta name="twitter:description" content="{{ post.excerpt }}">
+    {% endif %}
+
+    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml">
+
+    <link rel="shortcut icon" href="{{ "/assets/images/favicon.ico" | prepend: site.baseurl }}">
+    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+    <link href="{{ "/bower_components/fontawesome/css/font-awesome.min.css"  | prepend: site.baseurl  }}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ "/css/main.css"  | prepend: site.baseurl  }}" />
+    <link rel="stylesheet" type="text/css" media="print" href="{{ "/css/print.css"  | prepend: site.baseurl  }}" />
+    <!-- Katex -->
+    <link rel="stylesheet" href="{{ "/bower_components/katex/dist/katex.min.css" | prepend: site.baseurl }}">
 </head>
