@@ -38,8 +38,6 @@ I made the mistake of starting it right before both exams and the holidays, so t
 
 * **Rust has no posted version strings for `nightly` and `beta`**, unlike stable which you can get the current versions with `curl https://static.rust-lang.org/dist/channel-rust-stable`, you cannot use a similar method to detect for `beta` and `nightly`. While I was using `rustup` at one point I resorted to using `curl -s https://doc.rust-lang.org/$RUSTC_CHANNEL/index.html | grep -hE "class=\"hash" | grep -ohE "\w{9}"` to detect the version! I didn't like that, it was dirty.
 
-* **Heroku doesn't expose configuration variables during the compile phase.** This was quite unexpected for me, and I initially designed the buildpack to work entirely off environment variables like `RUSTC_CHANNEL`. This is why these variables are set in the `Cargo.toml` now.
-
 * **Heroku doesn't let buildpacks do anything more than applications really.** Really, thinking about it, this makes sense, but I was initially really surprised that I couldn't (easily) use tools like `apt-get` to fetch packages.
 
 * **`grep`'s options are vaster in number than I first realized.** I love `grep` and use it with regexs all the time, but in my exploration I actually found some really interesting flags, including one that `null`s out newlines for multiline matching. Crazy stuff!
