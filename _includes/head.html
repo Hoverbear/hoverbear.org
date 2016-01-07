@@ -24,13 +24,13 @@
     <meta name="twitter:creator" content="@andrewhobden">
 
     {% if page.title %}
-        <meta name="twitter:title" content="{{ page.title }}">
+        <meta name="twitter:title" content="{{ page.title | escape }}">
     {% else %}
         <meta name="twitter:title" content="Hoverbear.org">
     {% endif %}
 
     {% if page.excerpt %}
-        <meta name="twitter:description" content="{{ page.excerpt }}">
+        <meta name="twitter:description" content="{{ page.excerpt | escape }}">
     {% else %}
         <meta name="twitter:description" content="Musing of a Hoverbear.">
     {% endif %}

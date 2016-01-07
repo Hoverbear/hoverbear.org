@@ -9,6 +9,7 @@ tags:
 ---
 
 ## Problem ##
+
 You need a base image of Arch Linux that you're sure is a-okay.
 
 ### Compounding Factors ###
@@ -114,4 +115,4 @@ Give it a try!
 
 
 ## A full, start to end script ##
-You can grab a fullly automated script [here](https://github.com/Hoverbear/docker-archlinux).
+You can grab a fully automated script [here](https://github.com/Hoverbear/docker-archlinux).
