@@ -3,10 +3,11 @@ layout: page
 title: "Projects"
 ---
 
-I'm currently working on several projects:
+I'm currently working on several projects I'd love to share with you:
 
-* [Raft](https://github.com/hoverbear/raft)
+* [Raft-rs](https://github.com/hoverbear/raft-rs)
 * [Gathering Our Voices](https://github.com/BCAAFC/Gathering-Our-Voices)
-* Revamping OpenRC -- *(No repo yet!)*
-* [SCRUM'2015](http://scrum2015.cs.uvic.ca/)
 * [Untangling the Web](http://webhome.cs.uvic.ca/~ycoady/utw/)
+* [Badssl.com](http://badssl.com/)
+* [Rust-Rosetta](https://github.com/Hoverbear/rust-rosetta)
+* [Heroku-buildpack-rust](https://github.com/Hoverbear/heroku-buildpack-rust)
