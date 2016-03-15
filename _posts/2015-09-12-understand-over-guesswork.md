@@ -239,7 +239,7 @@ Harnessing the power of ownership semantics, the type system, the standard libra
 
 ```rust
 use std::sync::mpsc::{channel, Sender, Receiver};
-let (send, recieve) = channel();
+let (send, receive) = channel();
 ```
 
 **Locks** can encapsulate data such that access is only granted if the lock is held. In Rust, you **don't lock code, you lock data**, and it is safer because of it. Locks are typically represented by `Mutex`s and shared between threads with an Atomically Reference Counted structure (`Arc`). It should be noted that this design of locking data prevents a lock from being acquired and never given up, identified as common by Engler [*(ref)*][deviant].
