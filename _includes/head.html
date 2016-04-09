@@ -38,11 +38,11 @@
     <link rel="alternate" type="application/rss+xml" href="/feed.xml">
 
     <!-- Stylesheets are fun -->
-    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+    <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css"> 
     <link rel="stylesheet" type="text/css" media="screen" href="{{ "/assets/main.css"  | prepend: site.baseurl  }}" />
 
     <!-- Include Katex if it's necessary. -->
-    {{% if page.math %}}
+    {% if page.math == true %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/contrib/auto-render.min.js"></script>
@@ -51,6 +51,6 @@
                 renderMathInElement(document.body);
             });
         </script>
-    {{% endif %}}
+    {% endif %}
 
 </head>
