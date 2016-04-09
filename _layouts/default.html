@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html>
     {% include head.html %}
-
-    <body>
-
-        <div class="page-content">
-            <div class="wrapper">
-                {{ content }}
-            </div>
-        </div>
-
+    <body style="background-image: {% if page.image %}url({{page.image}}){% else %}url({{site.cover}}){% endif %}">
+        {{ content }}
     </body>
 
 </html>

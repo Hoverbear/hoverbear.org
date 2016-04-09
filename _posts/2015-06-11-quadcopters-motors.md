@@ -2,6 +2,7 @@
 layout: post
 title: "Quadcopters: Motors"
 author: "Andrew Hobden"
+math: true
 tags:
  - Quadcopters
 ---

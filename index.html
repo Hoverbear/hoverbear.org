@@ -2,156 +2,52 @@
 layout: default
 ---
 
-<div class="teaserimage">
-    <div class="teaserimage-image" {% if site.cover %}style="background-image: url({{ site.cover }})"{% endif %}>
-        Teaser Image
-    </div>
-</div>
+<header id="index">
+    <h1>A Hoverbear's Musings</h1>
+    <h2>Andrew Hobden</h2>
 
-<header class="blog-header">
-    {% if site.logo %}
-        <a class="blog-logo" href="{{site.url}}" style="background-image: url('{{ site.logo }}')">{{ site.title }}</a>
-    {% endif %}
-    <h1 class="blog-title">{{ site.title }}</h1>
-    <h2 class="blog-description">{{ site.description }}</h2>
-    <div class="custom-links">
-        {% for page in site.pages %}
-          {% if page.title %}
-            <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-          {% endif %}
-        {% endfor %}
-
-        <br>
-        <br>
-
-        {% if site.email %}
-        <a href="mailto:{{ site.email }}">
-            <i class="fa fa-envelope"></i>
-        </a>
+    {% for item in site.pages %}
+        {% if item.title != null and item.layout == "page" %}
+            <a class="{% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
         {% endif %}
-
-        {% if site.github_username %}
-        <a href="https://github.com/{{ site.github_username }}">
-            <i class="fa fa-github"></i>
-        </a>
-        {% endif %}
-
-        {% if site.twitter_username %}
-        <a href="https://twitter.com/{{ site.twitter_username }}">
-          <i class="fa fa-twitter"></i>
-        </a>
-        {% endif %}
-    </div>
+    {% endfor %}
 </header>
 
-
-<main class="content" role="main">
-
-{% if site.tags.featured %}
-    <h5 class="index-headline featured"><span>Featured</span></h5>
-
-    <div class="container featured">
-        {% for post in site.tags.featured %}
-            <article class="post" itemscope itemtype="http://schema.org/BlogPosting" role="article">
-                <div class="article-item">
-                    <header class="post-header">
-                        <h2 class="post-title" itemprop="name"><a href="{{ post.url }}" itemprop="url">{{ post.title }}</a></h2>
-                    </header>
-                    <section class="post-excerpt" itemprop="description">
-                        <p>{{ post.content | strip_html | truncatewords: 100 }}</p>
-                    </section>
-                    <div class="post-meta">
-                        <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
-                        {% for tag in post.tags %}
-                            {% if forloop.index == 1 %}
-                                , in
-                            {% elsif forloop.index == forloop.length -1 %}
-                                {% if forloop.index != 2 %},{% endif %}
-                                and
-                            {% else %}
-                                ,
-                            {% endif %}
-                            <span class="post-tag-{{tag}}"><a href="/tag/{{tag | downcase}}">{{tag}}</a></span>
-                        {% endfor %}
-                        .
-                    </div>
-                </div>
-            </article>
-        {% endfor %}
-    </div>
-
-    <h5 class="index-headline normal"><span>Regular</span></h5>
-{% endif %}
-
-<div class="cf frame">
+<main id="index">
     {% for post in paginator.posts %}
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting" role="article">
-            <div class="article-item">
-                <header class="post-header">
-                    <h2 class="post-title" itemprop="name"><a href="{{ post.url }}" itemprop="url">{{ post.title }}</a></h2>
-                </header>
-                <section class="post-excerpt" itemprop="description">
-                    <p>{{ post.content | strip_html | truncatewords: 100 }}</p>
-                </section>
-                <div class="post-meta">
-                    on
-                    <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
-                    {% for tag in post.tags %}
-                        {% if forloop.index == 1 %}
-                            , in
-                        {% elsif forloop.index == forloop.length -1 %}
-                            {% if forloop.index != 2 %},{% endif %}
-                            and
-                        {% else %}
-                            ,
-                        {% endif %}
-                        <span class="post-tag-{{tag}}"><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
-                    {% endfor %}
-                    .
-                </div>
+        <article>
+            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            <section class="excerpt">
+                <p>{{ post.content | strip_html | truncatewords: 100 }}</p>
+            </section>
+            <div class="post-meta">
+                Posted on
+                <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
+                {% for tag in post.tags %}
+                    {% if forloop.index == 1 %}, into
+                    {% elsif forloop.index == forloop.length -1 %}
+                        {% if forloop.index != 2 %},{% endif %} and
+                    {% else %},
+                    {% endif %}
+                    <span><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
+                {% endfor %}.
             </div>
         </article>
     {% endfor %}
-</div>
+</main>
 
 <nav class="pagination" role="navigation">
     {% if paginator.next_page %}
-        <a class="newer-posts" href="/page{{paginator.next_page}}">&larr; Older posts</a>
+        <a class="newer-posts" href="/archive/{{paginator.next_page}}">&larr; Older posts</a>
     {% endif %}
     <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
     {% if paginator.previous_page %}
         {% if paginator.page == 2 %}
             <a class="older-posts" href="/">Newer posts &rarr;</a>
         {% else %}
-            <a class="older-posts" href="/page{{paginator.previous_page}}">Newer posts &rarr;</a>
+            <a class="older-posts" href="/archive/{{paginator.previous_page}}">Newer posts &rarr;</a>
         {% endif %}
     {% endif %}
 </nav>
 
-<footer class="site-footer">
-  <div class="wrapper">
-    <div class="footer-col-wrapper">
-          {% if site.email %}
-            <a href="mailto:{{ site.email }}">
-              <span class="icon  icon--github">
-                <i class="fa fa-envelope"></i> {{ site.email }}
-            </a>
-          {% endif %}
-
-          {% if site.github_username %}
-            <a href="https://github.com/{{ site.github_username }}">
-              <span class="icon  icon--github">
-                <i class="fa fa-github"></i> @Hoverbear
-            </a>
-          {% endif %}
-
-          {% if site.twitter_username %}
-            <a href="https://twitter.com/{{ site.twitter_username }}">
-              <i class="fa fa-twitter"></i> @andrewhobden
-            </a>
-          {% endif %}
-    </div>
-  </div>
-</footer>
-
-</main>
+{% include footer.html %}
