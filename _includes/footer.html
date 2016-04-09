@@ -1,27 +1,23 @@
 <footer class="post-footer">
+
+
     <h4>{{ site.author }}</h4>
     <p class="bio">{{author.bio}}</p>
-
-    {% if site.email %}
-    <a href="mailto:{{ site.email }}">
-        <i class="fa fa-envelope"></i> {{ site.email }}
-    </a>
+    
     <br>
+
+    Connect through
+    {% if site.email %}
+        <a href="mailto:{{ site.email }}">{{ site.email }}</a>,
     {% endif %}
 
     {% if site.github_username %}
-    <a href="https://github.com/{{ site.github_username }}">
-        <i class="fa fa-github"></i> @{{ site.github_username }}
-    </a>
-    <br>
+        <a href="https://github.com/{{ site.github_username }}">@{{ site.github_username }}github</a> on Github,
     {% endif %}
 
     {% if site.twitter_username %}
-    <a href="https://twitter.com/{{ site.twitter_username }}">
-      <i class="fa fa-twitter"></i> @{{ site.twitter_username }}
-    </a>
-    <br>
+        <a href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a> on Twitter,</a>
     {% endif %}
 
-    <a class="subscribe" href="{{ "/feed.xml" | prepend: site.baseurl }}">RSS Feed</a>
+    or track my <a class="subscribe" href="{{ "/feed.xml" | prepend: site.baseurl }}">RSS Feed</a>.
 </footer>

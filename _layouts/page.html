@@ -1,16 +1,28 @@
 ---
 layout: default
 ---
-{% include header.html %}
+
+
+<header>
+    <h1>A Hoverbear's Musings</h1>
+    <h2>Andrew Hobden</h2>
+    
+    <nav class="pages">
+        {% for item in site.pages %}
+            {% if item.title != null and item.layout == "page" %}
+                <a class="button {% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
+            {% endif %}
+        {% endfor %}
+    <nav>
+</header>
 
 <main>
     <article>
         {{content}}
-    </article>
-
-    <aside>
+        
+        <hr>
         <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
-    </aside>
+    </article>
 </main>
 
 {% include footer.html %}

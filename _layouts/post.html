@@ -9,8 +9,7 @@ layout: default
         {{content}}
     </article>
 
-    <aside>
-        <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index<a>
+    <aside class="post-meta">
         Posted on 
         {% if page.date %}
             <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
@@ -25,6 +24,8 @@ layout: default
             <span><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
         {% endfor %}.
 
+        <hr>
+        <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
     </aside>
 
 </main>
