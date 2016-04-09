@@ -10,20 +10,21 @@ layout: default
     </article>
 
     <aside>
+        <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index<a>
+        Posted on 
         {% if page.date %}
             <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
         {% endif %}
 
         {% for tag in page.tags %}
-            {% if forloop.index == 1 %}
-                , in
-            {% else %}
-                ,
+            {% if forloop.index == 1 %}, into
+            {% elsif forloop.index == forloop.length -1 %}
+                {% if forloop.index != 2 %},{% endif %} and
+            {% else %},
             {% endif %}
-            <span class="post-tag-{{tag}}"><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
-        {% endfor %}
+            <span><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
+        {% endfor %}.
 
-        <a href="{{ "/"  | prepend: site.baseurl  }}">Home...</a>
     </aside>
 
 </main>

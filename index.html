@@ -5,12 +5,14 @@ layout: default
 <header id="index">
     <h1>A Hoverbear's Musings</h1>
     <h2>Andrew Hobden</h2>
-
-    {% for item in site.pages %}
-        {% if item.title != null and item.layout == "page" %}
-            <a class="{% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
-        {% endif %}
-    {% endfor %}
+    
+    <nav class="pages">
+        {% for item in site.pages %}
+            {% if item.title != null and item.layout == "page" %}
+                <a class="button {% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
+            {% endif %}
+        {% endfor %}
+    <nav>
 </header>
 
 <main id="index">
@@ -20,6 +22,7 @@ layout: default
             <section class="excerpt">
                 <p>{{ post.content | strip_html | truncatewords: 100 }}</p>
             </section>
+            <hr>
             <div class="post-meta">
                 Posted on
                 <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
