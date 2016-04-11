@@ -7,7 +7,10 @@ html,body {
 }
 
 * {
-  font-family: 'Fira Sans';
+    font-family: 'Fira Sans';
+    &:not(pre,code) {
+        font-variant: common-ligatures;
+    }
 }
 
 body {
@@ -21,8 +24,6 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center center;
-
-    margin-top: 80vh;
 }
 
 article,header,aside,footer,nav.pagination {
@@ -63,8 +64,11 @@ hr {
 .post-meta {
     color: rgba(0,0,0,.5);
     font-style: italic;
-    padding-top: 5vh;
-    width: 100%;
+    // padding-top: 2vh;
+}
+
+figure > figcaption {
+    text-align: center;
 }
 
 // Hide the underlines from title links.
