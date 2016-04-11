@@ -1,134 +1,33 @@
 ---
 layout: default
 ---
-<body itemscope itemtype="http://schema.org/Article">
+{% include header.html %}
 
-    <main class="content" role="main">
-        {% include header.html %}
-        <article class="post">
-            {% if page.image %}
-                <div class="article-image">
-                    <div class="post-image-image" style="background-image: url({% if page.image %}{{ page.image }}{% endif %})">
-                        Article Image
-                    </div>
-                    <div class="post-meta">
-                        <h1 class="post-title">{{ page.title }}</h1>
-                        <div class="cf post-meta-text">
-                            <div class="author-image" style="background-image: url({{ site.author_image }})">Blog Logo</div>
-                            <h4 class="author-name" itemprop="author" itemscope itemtype="http://schema.org/Person">{{ site.author }}</h4>
-                            on
-                            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
-                            {% for tag in page.tags %}
-                                {% if forloop.index == 1 %}
-                                    , in
-                                {% else %}
-                                    ,
-                                {% endif %}
-                                <span class="post-tag-{{tag}}"><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
-                            {% endfor %}
-                            .
-                        </div>
-                        <div style="text-align:center">
-                            <a href="#topofpage" class="topofpage"><i class="fa fa-angle-down"></i></a>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <div class="noarticleimage">
-                    <div class="post-meta">
-                        <h1 class="post-title">{{ page.title }}</h1>
-                        <div class="cf post-meta-text">
-                            <div class="author-image" style="background-image: url({{ site.author_image }})">Blog Logo</div>
-                            <h4 class="author-name" itemprop="author" itemscope itemtype="http://schema.org/Person">{{ page.author }}</h4>
-                            on
-                            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
-                            {% for tag in page.tags %}
-                                {% if forloop.index == 1 %}
-                                    , in
-                                {% else %}
-                                    ,
-                                {% endif %}
-                                <span class="post-tag-{{tag}}"><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
-                            {% endfor %}
-                            .
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <br>
+<main>
+
+    <article>
+        {{content}}
+    </article>
+
+    <aside class="post-meta">
+        Posted on 
+        {% if page.date %}
+            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
+        {% endif %}
+
+        {% for tag in page.tags %}
+            {% if forloop.index == 1 %}, into
+            {% elsif forloop.index == forloop.length -1 %}
+                {% if forloop.index != 2 %},{% endif %} and
+            {% else %},
             {% endif %}
-            <section class="post-content">
-                <a name="topofpage"></a>
-                {{content}}
-            </section>
-            <footer class="post-footer">
-                <section class="share">
-                    {% for social in site.social %}
-                        {% if social.share_url != null %}
-                            <a class="icon-{{ social.icon }}" href="{{ social.share_url }}{{ social.share_title }}{{page.title | cgi_escape}}{{ social.share_link }}{{site.url}}{{page.id}}"
-                                                              onclick="window.open(this.href, '{{ social.icon }}-share', 'width=550,height=255');return false;">
-                                <i class="fa fa-{{ social.icon }}"></i><span class="hidden">{{ social.icon }}</span>
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                </section>
-            </footer>
-            <div class="bottom-teaser cf">
-                <div class="isLeft">
-                    <h5 class="index-headline featured"><span>Written by</span></h5>
-                    <section class="author">
-                        <div class="author-image" style="background-image: url({{site.author_image}})">Blog Logo</div>
-                        <h4>{{ site.author }}</h4>
-                        <p class="bio">{{author.bio}}</p>
-                        <hr>
-                        <p class="published">Published <time datetime="{{ page.date | date: "%F %R" }}">{{ page.date | date_to_string }}</time></p>
-                    </section>
-                </div>
-                {{/post}}
-                <div class="isRight">
-                    <h5 class="index-headline featured"><span>Connect</span></h5>
-                    <footer class="site-footer">
+            <span><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
+        {% endfor %}.
 
-                        {% if site.email %}
-                        <a href="mailto:{{ site.email }}">
-                            <i class="fa fa-envelope"></i> {{ site.email }}
-                        </a>
-                        <br>
-                        {% endif %}
+        <hr>
+        <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
+    </aside>
 
-                        {% if site.github_username %}
-                        <a href="https://github.com/{{ site.github_username }}">
-                            <i class="fa fa-github"></i> @{{ site.github_username }}
-                        </a>
-                        <br>
-                        {% endif %}
+</main>
 
-                        {% if site.twitter_username %}
-                        <a href="https://twitter.com/{{ site.twitter_username }}">
-                          <i class="fa fa-twitter"></i> @{{ site.twitter_username }}
-                        </a>
-                        <br>
-                        {% endif %}
-
-                        <a class="subscribe" href="{{ "/feed.xml" | prepend: site.baseurl }}"> <span class="tooltip"> <i class="fa fa-rss"></i> RSS Feed</span></a>
-                        <div class="inner">
-                            <section class="copyright">All content under <em>Creative Commons Attribution-ShareAlike 4.0 International License</em>.</section>
-                        </div>
-                    </footer>
-                </div>
-            </div>
-        </article>
-    </main>
-    <div class="bottom-closer">
-        <div class="background-closer-image" {%if site.cover %} style="background-image: url({{ site.cover }})"{% endif %}>
-            Image
-        </div>
-        <div class="inner">
-            <h1 class="blog-title">{{ site.title }}</h1>
-            <h2 class="blog-description">{{ site.description }}</h2>
-            <a href="/" class="btn">Back to Overview</a>
-        </div>
-    </div>
-    {% include javascript.html %}
-</body>
+{% include footer.html %}

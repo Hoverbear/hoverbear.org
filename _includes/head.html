@@ -1,49 +1,85 @@
 <head>
+    <!-- Fun compatability things -->
     <meta charset="utf-8">
-    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-    <meta name="description" content="{{ site.description }}" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="320" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="{{ "/assets/images/favicon.ico" | prepend: site.baseurl }}">
 
+    <!-- Information about this site -->
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{{ site.description }}" />
+
+    <!-- Various Twitter related content. -->
     {% if page.image %}
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
     {% else %}
         <meta name="twitter:card" content="summary">
     {% endif %}
-
     <meta name="twitter:site" content="@andrewhobden">
     <meta name="twitter:creator" content="@andrewhobden">
-
     {% if page.title %}
         <meta name="twitter:title" content="{{ page.title | escape }}">
     {% else %}
         <meta name="twitter:title" content="Hoverbear.org">
     {% endif %}
-
     {% if page.excerpt %}
         <meta name="twitter:description" content="{{ page.excerpt | escape }}">
     {% else %}
         <meta name="twitter:description" content="Musing of a Hoverbear.">
     {% endif %}
 
+    <!-- Talk about the homepage and the rss feed. -->
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
     <link rel="alternate" type="application/rss+xml" href="/feed.xml">
 
-    <link rel="shortcut icon" href="{{ "/assets/images/favicon.ico" | prepend: site.baseurl }}">
-    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
-    <link href="{{ "/bower_components/fontawesome/css/font-awesome.min.css"  | prepend: site.baseurl  }}" rel="stylesheet">
+    <!-- Stylesheets are fun -->
+    <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ "/assets/main.css"  | prepend: site.baseurl  }}" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ "/css/main.css"  | prepend: site.baseurl  }}" />
-    <link rel="stylesheet" type="text/css" media="print" href="{{ "/css/print.css"  | prepend: site.baseurl  }}" />
-    <!-- Katex -->
-    <link rel="stylesheet" href="{{ "/bower_components/katex/dist/katex.min.css" | prepend: site.baseurl }}">
+    <!-- Include Katex if it's necessary. -->
+    {% if page.math == true %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/contrib/auto-render.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                renderMathInElement(document.body);
+            });
+        </script>
+    {% endif %}
+
+    <!-- Must be here otherwise we can't set it per-page.  -->
+    <style>
+        body {
+            {% if page.image %}
+            margin-top: 80vh;
+            background: linear-gradient(to bottom, rgba(1,1,1,0) 0, rgba(1,1,1,.80) 120vh),
+                        url({{page.image}}) fixed center/cover no-repeat,
+                        black;
+            {% else %}
+            margin-top: 80vh;
+            background: linear-gradient(to bottom, rgba(1,1,1,0) 0, rgba(1,1,1,.80) 80vh),
+                        url({{site.cover}}) fixed center/cover no-repeat,
+                        black;
+            {% endif %}
+        }
+    </style>
+
+    <script>
+        // Create captions from Alt tags
+        document.addEventListener("DOMContentLoaded", function(event) {
+            Array.from(document.querySelectorAll("main img")).forEach(function (item) {
+                if (item.attributes['alt']) {
+                    var caption = document.createElement("figcaption");
+                    caption.innerHTML = item.attributes['alt'].value;
+                    item.outerHTML = "<figure>" + item.outerHTML + caption.outerHTML + "</figure>";
+                }
+            });
+        });
+    </script>
 </head>

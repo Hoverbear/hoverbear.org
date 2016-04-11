@@ -1,7 +1,29 @@
-To get going:
+## Prereqs ##
+
+* `bundler`
+
+## Install ##
 
 ```bash
-gem install bundler
-bundle install
-bundle exec jekyll serve
+make install
+```
+
+## Build ##
+
+```bash
+make
+```
+
+## Serve ##
+
+Runs a watcher and rebuilds the site on change.
+
+```bash
+make serve
+```
+
+## Update ##
+
+```bash
+make update
 ```

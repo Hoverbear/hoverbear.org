@@ -1,0 +1,18 @@
+<footer class="post-footer">
+    <h4>By {{ site.author }}</h4>
+
+    Connect through
+    {% if site.email %}
+        <a href="mailto:{{ site.email }}">{{ site.email }}</a>,
+    {% endif %}
+
+    {% if site.github_username %}
+        <a href="https://github.com/{{ site.github_username }}">@{{ site.github_username }}</a> on Github,
+    {% endif %}
+
+    {% if site.twitter_username %}
+        <a href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a> on Twitter,</a>
+    {% endif %}
+
+    or track via <a class="subscribe" href="{{ "/feed.xml" | prepend: site.baseurl }}">RSS Feed</a>.
+</footer>
