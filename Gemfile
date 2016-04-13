@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'jekyll'
-gem 'redcarpet'
-gem 'rouge'
 
 group :jekyll_plugins do
+    gem 'jekyll'
+    gem 'redcarpet'
+    gem 'rouge'
+    gem 'support-for'
+    gem 'normalize-scss'
     gem 'jekyll-tagging'
     gem 'jekyll-paginate'
 end

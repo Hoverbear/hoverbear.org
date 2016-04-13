@@ -4,10 +4,10 @@ layout: default
 
 
 <header>
-    <h1>A Hoverbear's Musings</h1>
-    <h2>Andrew Hobden</h2>
-    
+    <h1><a href="{{ site.baseurl }}/">{{ page.title }}</a></h1>
+
     <nav class="pages">
+        <a class="button" href="{{ site.baseurl }}/">Index</a>
         {% for item in site.pages %}
             {% if item.title != null and item.layout == "page" %}
                 <a class="button {% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
@@ -19,7 +19,7 @@ layout: default
 <main>
     <article>
         {{content}}
-        
+
         <hr>
         <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
     </article>
