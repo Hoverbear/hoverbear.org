@@ -10,7 +10,7 @@ layout: default
     </article>
 
     <aside class="post-meta">
-        Posted on 
+        Posted on
         {% if page.date %}
             <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
         {% endif %}
@@ -23,6 +23,9 @@ layout: default
             {% endif %}
             <span><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
         {% endfor %}.
+
+        {% if page.author %}<span class="author">Written by: {{ page.author }}</span>{% endif %}
+        {% if page.image-credit %}<span class="image-credit">Image by: {{ page.image-credit }}</span>{% endif %}
 
         <hr>
         <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>

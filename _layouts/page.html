@@ -21,7 +21,10 @@ layout: default
         {{content}}
 
         <hr>
-        <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
+        <div class="post-meta">
+            <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
+            {% if page.image-credit %}<span class="image-credit">Image by: {{ page.image-credit }}</span>{% endif %}
+        </div>
     </article>
 </main>
 

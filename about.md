@@ -2,6 +2,7 @@
 layout: page
 title: About
 image: /assets/images/about.jpg
+image-credit: Geoff Howe
 ---
 
 Hello,
