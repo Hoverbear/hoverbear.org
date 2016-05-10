@@ -4,7 +4,11 @@ layout: default
 
 
 <header>
-    <h1><a href="{{ site.baseurl }}/">{{ page.title }}</a></h1>
+    {% if page.title %}
+        <h1><a href="{{ site.baseurl }}/">{{ page.title }}</a></h1>
+    {% else %}
+        <h1><a href="{{ site.baseurl }}/">{{ site.title }}</a></h1>
+    {% endif %}
 
     <nav class="pages">
         <a class="button" href="{{ site.baseurl }}/">Index</a>

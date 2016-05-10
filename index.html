@@ -32,7 +32,7 @@ layout: default
                         {% if forloop.index != 2 %},{% endif %} and
                     {% else %},
                     {% endif %}
-                    <span><a href="/tag/{{tag | downcase}}/">{{tag}}</a></span>
+                    <span><a href="/tag/{{tag | downcase | slugify}}/">{{tag}}</a></span>
                 {% endfor %}.
             </div>
         </article>
