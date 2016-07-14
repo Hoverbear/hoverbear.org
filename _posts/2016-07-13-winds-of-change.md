@@ -44,7 +44,7 @@ Asquera does a considerable amount of work in the Rust, Ruby, and ElasticSearch 
 
 ![Asquera](/assets/images/2016/07/asquera.png)
 
-Over the last few weeks I've gotten to know the team a bit, and gosh are they ever cool! I can't wait to work with them. It will be a big change from where I what I currently do for work, and I'm both nervous and excited aboutt the change.
+Over the last few weeks I've gotten to know the team a bit, and gosh are they ever cool! I can't wait to work with them. It will be a big change from where I what I currently do for work, and I'm both nervous and excited about it.
 
 ## Eyes to the Future
 
