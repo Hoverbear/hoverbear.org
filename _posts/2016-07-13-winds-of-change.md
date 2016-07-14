@@ -40,7 +40,7 @@ I'm very happy to announce that I'll be joining Asquera next month as a Junior D
 
 Asquera is a back-end consultancy. I originally encountered them through my friend [Florian](https://github.com/skade) and realized they might be a perfect fit for me. They work with many of the things I'm familiar with, and will introduce me to plenty new things to satisfy my appetite. It's going to be fantastic.
 
-Asquera does a considerable amount of work in the Rust, Ruby, and ElasticSearch communities. This is very important to me and I'm very excited to get involved on the other side of the planet. I'm temporarily leaving several very awesome communities here back home, and I'm sure that ebing involved there will make me feel more at home.
+Asquera does a considerable amount of work in the Rust, Ruby, and Elasticsearch communities. This is very important to me and I'm very excited to get involved on the other side of the planet. I'm temporarily leaving several very awesome communities here back home, and I'm sure that ebing involved there will make me feel more at home.
 
 ![Asquera](/assets/images/2016/07/asquera.png)
 
