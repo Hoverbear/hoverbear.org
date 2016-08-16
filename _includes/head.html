@@ -20,17 +20,17 @@
     {% else %}
         <meta name="twitter:card" content="summary">
     {% endif %}
-    <meta name="twitter:site" content="@andrewhobden">
-    <meta name="twitter:creator" content="@andrewhobden">
+    <meta name="twitter:site" content="@{{ site.twitter }}">
+    <meta name="twitter:creator" content="@{{ site.twitter }}">
     {% if page.title %}
         <meta name="twitter:title" content="{{ page.title | escape }}">
     {% else %}
-        <meta name="twitter:title" content="Hoverbear.org">
+        <meta name="twitter:title" content="{{ site.url }}">
     {% endif %}
     {% if page.excerpt %}
         <meta name="twitter:description" content="{{ page.excerpt | escape }}">
     {% else %}
-        <meta name="twitter:description" content="Musing of a Hoverbear.">
+        <meta name="twitter:description" content="{{ site.description }}">
     {% endif %}
 
     <!-- Talk about the homepage and the rss feed. -->
