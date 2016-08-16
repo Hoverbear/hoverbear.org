@@ -5,52 +5,52 @@
 @import "normalize/import-now";
 
 html,body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 * {
-    font-family: 'Fira Sans';
-    &:not(pre,code) {
-        font-variant: common-ligatures;
-    }
+  font-family: 'Fira Sans';
+  &:not(pre,code) {
+    font-variant: common-ligatures;
+  }
 }
 
 body {
-    display: flex;
-    flex: auto;
-    flex-direction: column;
+  display: flex;
+  flex: auto;
+  flex-direction: column;
 
-    // The background is set in _layouts/default.html since we need to set it per-page.
-    background-color: black;
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center center;
+  // The background is set in _layouts/default.html since we need to set it per-page.
+  background-color: black;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 article,header,aside,footer,nav.pagination {
-    background-color: white;
-    box-shadow: 0 2px 5px 0 rbga(0,0,0,.5);
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rbga(0,0,0,.5);
 
-    padding-left: 3vw;
-    padding-right: 3vw;
-    padding-top: 3vh;
-    padding-bottom: 3vh;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
 }
 
 header,main,nav.pagination {
-    margin-right: 5vw;
-    margin-left: 5vw;
+  margin-right: 5vw;
+  margin-left: 5vw;
 }
 
 header,footer,nav.pagination {
-    text-align: center;
+  text-align: center;
 }
 
 header,article,aside,nav.pagination {
-    margin-bottom: 5vh;
-    margin-top: 2vh;
+  margin-bottom: 5vh;
+  margin-top: 2vh;
 }
 
 main {
@@ -58,56 +58,55 @@ main {
 }
 
 hr {
-    width: 60%;
-    border: none;
-    height: 1px;
-    background-color: rgba(0,0,0,.3);
+  width: 60%;
+  border: none;
+  height: 1px;
+  background-color: rgba(0,0,0,.3);
 }
 
 .post-meta {
-    color: rgba(0,0,0,.5);
-    font-style: italic;
-    // padding-top: 2vh;
+  color: rgba(0,0,0,.5);
+  font-style: italic;
 }
 
 span.author,span.image-credit {
-    display: block;
-    font-size: 12pt;
+  display: block;
+  font-size: 12pt;
 }
 
 figure {
-    text-align: center;
+  text-align: center;
 }
 img {
-    display: block;
-    margin: auto;
+  display: block;
+  margin: auto;
 }
 
 // Hide the underlines from title links.
 h1,h2,h3,h4 {
-    > a {
-        text-decoration: none;
-        // font-size: 18pt;
-        color: #000000;
-        &:visited {
-            color: #666666;
-            text-decoration: none;
-        }
+  > a {
+    text-decoration: none;
+    // font-size: 18pt;
+    color: #000000;
+    &:visited {
+      color: #666666;
+      text-decoration: none;
     }
+  }
 }
 
 header {
 }
 
 article {
-    > h2 {
-        margin-top: 0px;
-    }
+  > h2 {
+    margin-top: 0px;
+  }
 }
 
 footer {
-    right: 0;
-    left: 0;
+  right: 0;
+  left: 0;
 }
 
 nav.pagination {
@@ -116,49 +115,49 @@ nav.pagination {
 
 // Make a nice button class
 .button {
-    display: inline-block;
-    font-weight: bold;
-    text-decoration: none;
-    color: #000000;
-    padding: 5pt 15pt;
-    margin: 5pt 5pt;
-    line-height: 18pt;
-    border: 1px solid #DDDDDD;
-    box-shadow: 0 0 0px;
-    transition: box-shadow 0.2s linear;
-    &:hover {
-        box-shadow: 0 0 2px;
-    }
-    &.active {
-      background-color: black;
-      color: white;
-      box-shadow: 0 0 2px black;
-      border-color: black;
-    }
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000000;
+  padding: 5pt 15pt;
+  margin: 5pt 5pt;
+  line-height: 18pt;
+  border: 1px solid #DDDDDD;
+  box-shadow: 0 0 0px;
+  transition: box-shadow 0.2s linear;
+  &:hover {
+    box-shadow: 0 0 2px;
+  }
+  &.active {
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 2px black;
+    border-color: black;
+  }
 }
 
 // Images really like to get huge. Scale them down.
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 // Make a nice border around code.
 pre {
-    padding: 5px;
-    background-color: #EEEEEE;
-    border: 1px solid #DDDDDD;
+  padding: 5px;
+  background-color: #EEEEEE;
+  border: 1px solid #DDDDDD;
 }
 
 :not(pre) > code {
-    padding-left: 2px;
-    padding-right: 2px;
-    background-color: #EEEEEE;
-    border: 1px solid #DDDDDD;
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: #EEEEEE;
+  border: 1px solid #DDDDDD;
 }
 
 code,pre {
-    font-family: 'Fira Mono';
-    font-size: 10pt;
+  font-family: 'Fira Mono';
+  font-size: 10pt;
 }
 
 // This is for code highlighting.
