@@ -28,7 +28,7 @@ layout: default
                 <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
                 {% for tag in post.tags %}
                     {% if forloop.index == 1 %}, into
-                    {% elsif forloop.index == forloop.length -1 %}
+                    {% elsif forloop.index == forloop.length %}
                         {% if forloop.index != 2 %},{% endif %} and
                     {% else %},
                     {% endif %}
