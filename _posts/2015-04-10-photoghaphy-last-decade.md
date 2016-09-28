@@ -1,9 +1,6 @@
 ---
 layout: post
 title: "Photography from Last Decade"
-
-tags:
- - Photography
 ---
 
 I did a fair amount of photography and digital imaging in high school. Please, enjoy.

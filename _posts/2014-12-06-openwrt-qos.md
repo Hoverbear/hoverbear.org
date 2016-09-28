@@ -3,8 +3,8 @@ layout: post
 title: "OpenWRT QoS"
 
 tags:
- - OpenWRT
- - CSC467
+  - Tutorials
+  - OpenWRT
 ---
 
 Using the setup from my [last](/2014/11/23/openwrt-in-virtualbox/) [two](/2014/12/03/vagrant-clients-for-openwrt-vms/) posts, let's play with some QoS parameters and observe the results.

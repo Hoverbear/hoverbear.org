@@ -3,7 +3,7 @@ layout: post
 title: "Collecting Results from Collections"
 
 tags:
- - Rust
+  - Rust
 ---
 
 I've been playing around with a new project that uses a lot of collections of results, for example `Vec<Result<()>>` and asked some folks on Rust if they new a good way of transforming this into a `Result<Vec<()>>`.

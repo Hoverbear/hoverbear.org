@@ -3,10 +3,8 @@ layout: post
 title: "Raft So Far"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 I've been working quite a bit on my Raft implementation over the last few days and I must say it's been quite a pleasure to work in Rust, which recently released it's 1.0.0-alpha.

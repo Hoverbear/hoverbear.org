@@ -4,6 +4,9 @@ title: "The Menagerie of Badssl"
 
 image: /assets/images/2016/04/menagerie.jpg
 image-credit: "Samuel Scrimshaw"
+
+tags:
+  - UVic
 ---
 
 Late last year I was given an opporunity to participate in the Mozilla Winter of Security 2016! I'm happy to report it was, and still is, super cool. Plans diverted significantly at the very start of the project as it was discovered that the "menagerie" of certificates we wanted to build already existed.

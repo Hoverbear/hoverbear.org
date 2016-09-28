@@ -3,8 +3,8 @@ layout: post
 title: "Vagrant Clients for OpenWRT VMs"
 
 tags:
- - OpenWRT
- - CSC467
+  - Tutorials
+  - OpenWRT
 ---
 
 In my [last post](/2014/11/23/openwrt-in-virtualbox/), we explored how to set up a OpenWRT VM in VirtualBox.

@@ -3,10 +3,8 @@ layout: post
 title: "Learning Cap'n Proto RPC"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 Awhile ago, I wrote a [First Look at Cap'n Proto](/2015/02/11/capn-proto-in-rust/). Unfortunately I didn't cover how to utilize it's RPC capabilities. In Rust, this is via the [`capnp-rpc-rust`](https://github.com/dwrensha/capnp-rpc-rust) crate.

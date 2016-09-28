@@ -3,7 +3,7 @@ layout: post
 title: "Arch Linux on Docker Revisited"
 
 tags:
- - Docker
+ - Containers
  - Arch Linux
 image: /assets/images/2016/01/construction.jpg
 ---

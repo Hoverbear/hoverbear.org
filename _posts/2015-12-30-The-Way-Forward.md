@@ -2,6 +2,8 @@
 layout: post
 title: "The Way Forward"
 
+tags:
+  - Personal
 ---
 
 In April, I will be graduating from University. It's pretty darn exciting! Once

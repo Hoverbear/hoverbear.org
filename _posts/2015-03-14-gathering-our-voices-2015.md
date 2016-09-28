@@ -3,7 +3,8 @@ layout: post
 title: "Gathering Our Voices 2015"
 
 tags:
- - BCAAFC
+  - BCAAFC
+  - Events
 ---
 
 Over the past [two](http://www.hoverbear.org/2014/03/21/gathering-our-voices-2014/) [years](http://www.hoverbear.org/2013/03/21/gathering-our-voices-2013/) I helped the [BC Association of Aboriginal Friendship Centres](http://bcaafc.com/) host [Gathering Our Voices](http://gatheringourvoices.bcaafc.com/), the largest annual Youth Conference in BC.

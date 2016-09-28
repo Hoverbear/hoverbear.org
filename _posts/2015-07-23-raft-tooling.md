@@ -3,8 +3,9 @@ layout: post
 title: "Raft: Tooling & Infra Update"
 
 tags:
- - Rust
- - Raft
+  - Rust
+  - Raft
+  - Tooling
 ---
 
 In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our [`.travis.yml` here](https://github.com/Hoverbear/raft/blob/master/.travis.yml).

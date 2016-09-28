@@ -3,8 +3,8 @@ layout: post
 title: "Parsing Arguments in Rust"
 
 tags:
- - Rust
- - Tutorials
+  - Rust
+  - Tutorials
 ---
 
 I was reading about the [Docopt](http://docopt.org/) project the other day and really liked the standardized approach to `--help` prompts and argument parsing that it offers.

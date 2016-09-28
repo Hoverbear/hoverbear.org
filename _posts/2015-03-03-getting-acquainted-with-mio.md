@@ -3,10 +3,8 @@ layout: post
 title: "Getting Acquainted with MIO"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 One of my next goals in my [Raft](http://hoverbear.org/tag/raft/) project is to tame the `tick()` with [`mio`](https://github.com/carllerche/mio). In this post, we'll explore what it is, what it can do, and why it matters. First things first: What is MIO?

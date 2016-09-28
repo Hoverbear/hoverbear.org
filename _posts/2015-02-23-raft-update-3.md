@@ -3,10 +3,8 @@ layout: post
 title: "Raft: A First Prototype"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 As you may have [previously](/2015/02/05/raft-update-1/) [read](/2015/02/18/raft-update-2/), I've been working on implementing the [Raft Distributed Consensus Algorithm](https://raftconsensus.github.io/) in [Rust](http://rust-lang.org/) for my classes (and fun!).

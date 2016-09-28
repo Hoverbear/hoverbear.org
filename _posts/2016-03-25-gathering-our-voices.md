@@ -5,7 +5,7 @@ title: "Gathering Our Voices 2016"
 image: /assets/images/2016/03/gov-21-1.jpg
 image-credit: "(All) Geoff Howe"
 tags:
- - BCAAFC
+  - BCAAFC
 ---
 
 This year helped again with Gathering Our Voices. I worked in the same capacity as previous years and had a similarly great time.

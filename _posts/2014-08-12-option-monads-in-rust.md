@@ -3,8 +3,8 @@ layout: post
 title: "Option Monads in Rust"
 
 tags:
- - Rust
- - Tutorials
+  - Rust
+  - Tutorials
 ---
 
 

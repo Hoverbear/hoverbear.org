@@ -3,7 +3,7 @@ layout: post
 title: "Quadcopters: Orientation"
 
 tags:
- - Quadcopters
+  - Quadcopters
 ---
 
 > Spinnning tens of thousands times a second, four rotors cut through the air with their propellors. Their motion lifts them in unison, for they are connected together. In the center of the apparatus sits a bank of sensors, processors, and a radio acting in concert to control the great flow of air passing over it.

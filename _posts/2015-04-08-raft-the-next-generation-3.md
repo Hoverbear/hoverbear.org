@@ -3,10 +3,8 @@ layout: post
 title: "Raft: Status Update"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 In order to celebrate the new [beta](http://blog.rust-lang.org/2015/04/03/Rust-1.0-beta.html) release of Rust, and as part of reporting requirements for my class, I'm happy to write to you regarding [hoverbear/raft](https://github.com/hoverbear/raft)!

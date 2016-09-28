@@ -3,8 +3,9 @@ layout: post
 title: "Raft: New Crates!"
 
 tags:
- - Rust
- - Raft
+  - Rust
+  - Raft
+  - UVic
 ---
 
 We've been resoundingly busy with our [Raft](http://raftconsensus.github.io/) implementation after a brief period of calm in the early summer! I'll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!

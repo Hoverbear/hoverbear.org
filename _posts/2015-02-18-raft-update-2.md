@@ -3,10 +3,8 @@ layout: post
 title: "Raft: Progress on the Log"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 I've spent the majority of my free time this last week working on [Raft](https://github.com/hoverbear/raft). As you can see from this [issue](https://github.com/Hoverbear/raft/issues/1) I've been mostly working on the idea of transactions.

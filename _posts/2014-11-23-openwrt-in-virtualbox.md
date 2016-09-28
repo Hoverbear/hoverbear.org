@@ -3,8 +3,8 @@ layout: post
 title: "OpenWRT in Virtualbox"
 
 tags:
- - OpenWRT
- - CSC467
+  - Tutorials
+  - OpenWRT
 ---
 
 For my CSC 467 project I'm studying the configuration and performance of various QoS parameters in OpenWRT.

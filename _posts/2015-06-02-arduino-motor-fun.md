@@ -3,8 +3,7 @@ layout: post
 title: "Arduino: Motor Fun!"
 
 tags:
- - Quadcopters
- - Arduino
+  - Quadcopters
 ---
 
 Lately we've been playing with Quadcopters a lot, one of the key components of any copter is it's motors! I'll be writing about motors next, but before that I wanted to share some small, short Arduino 'labs' that you can do either on your own or with your cohort!

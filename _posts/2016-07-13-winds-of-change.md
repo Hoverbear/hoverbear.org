@@ -4,6 +4,9 @@ title: "Winds of Change"
 
 image: /assets/images/2016/07/winds-of-change.jpg
 image-credit: "Jérôme Prax"
+
+tags:
+  - Personal
 ---
 
 Unlike most of this blog this post is not technical in the slightest, instead it's a personal update. Though, I have been wanting to write this post for a long time now!

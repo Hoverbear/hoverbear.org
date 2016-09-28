@@ -4,7 +4,6 @@ title: "A Rust Heroku Buildpack"
 
 tags:
  - Rust
- - Heroku
 image: /assets/images/2016/01/clouds.jpg
 ---
 

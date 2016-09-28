@@ -3,13 +3,11 @@ layout: post
 title: "Init - Configuration"
 
 tags:
- - Init
- - Tutorials
- - CSC499
+  - Tutorials
 ---
 
 
-An initialization system's main interface with the user is through it's configuration scripts and service files. Let's take a look at what this looks like for systemd and OpenRC.
+An initialization system's main interface with the user is through it's configuration scripts and service files. Let's take a look at what this looks like for `systemd` and OpenRC.
 
 With systemd, daemon configuration is handled by `.toml` configuration files. With OpenRC, this task is performed by shell scripts.
 

@@ -3,10 +3,8 @@ layout: post
 title: "Raft Experiences and Repo Made Public!"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 > TL;DR: I've made [Hoverbear/raft](https://github.com/Hoverbear/raft) publicly available *(It's still not ready)*! Feel encouraged to contribute feedback or code via Github or email!

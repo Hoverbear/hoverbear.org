@@ -3,8 +3,8 @@ layout: post
 title: "A Journey into Iterators"
 
 tags:
- - Rust
- - Tutorials
+  - Rust
+  - Tutorials
 ---
 
 One of my favorite features of Rust is iterators. They are a fast, safe, 'lazy' way of working with data structures, streams, and other more creative applications.

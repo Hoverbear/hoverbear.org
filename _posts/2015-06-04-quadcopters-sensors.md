@@ -3,7 +3,7 @@ layout: post
 title: "Quadcopters: Sensors"
 
 tags:
- - Quadcopters
+  - Quadcopters
 ---
 
 Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.

@@ -4,7 +4,7 @@ title: "Quadcopters: Motors"
 
 math: true
 tags:
- - Quadcopters
+  - Quadcopters
 ---
 
 We've already talked a bit about motors in our [previous articles](http://hoverbear.org/tag/quadcopters/), in this article we'll talk more about **motors** than the quadcopter as a whole.

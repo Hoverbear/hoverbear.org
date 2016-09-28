@@ -4,8 +4,7 @@ title: "Photos: San Fransisco Trip"
 tags:
  - Rust
  - Raft
- - Photos
- - SFO
+ - Events
 image: /assets/images/2015/08/d1-yyj-yvr.jpg
 ---
 

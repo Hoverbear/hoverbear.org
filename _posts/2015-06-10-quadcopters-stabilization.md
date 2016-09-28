@@ -3,7 +3,7 @@ layout: post
 title: "Quadcopters: Stabilization"
 
 tags:
- - Quadcopters
+  - Quadcopters
 ---
 
 In our [past articles](/tag/quadcopters/) we've explored some of the basics of the mechanics of Quadcopters. In this article we'll be doing something a bit different and discussing the algorithms behind how the Quadcopter keeps itself stable.

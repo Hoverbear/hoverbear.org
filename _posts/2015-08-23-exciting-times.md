@@ -2,8 +2,8 @@
 layout: post
 title: "Exciting Times"
 tags:
- - Rust
- - Raft
+  - Rust
+  - Raft
 ---
 
 The next few weeks are full of excitement and busy-ness! First up is the [Meetup](http://www.meetup.com/Rust-Bay-Area/events/219696985/) in San Fran [(See our planning)](https://github.com/Hoverbear/raft-rs/issues/74). I can't wait! It will be so fun to meet many people I've already met in IRC and through the community!

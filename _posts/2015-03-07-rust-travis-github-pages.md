@@ -3,8 +3,8 @@ layout: post
 title: "Rust, Travis, and Github Pages"
 
 tags:
- - Rust
- - Tooling
+  - Rust
+  - Tooling
 ---
 
 [Rust](http://rust-lang.org/) is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They're pursuing the trifecta: *Safe, Fast, Concurrent.* It's been a great learning journey for me so far and I learnt to write better code in **all** languages.

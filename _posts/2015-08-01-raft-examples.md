@@ -3,8 +3,9 @@ layout: post
 title: "Raft Progress & Examples!"
 
 tags:
- - Rust
- - Raft
+  - Rust
+  - Raft
+  - UVic
 image: /assets/images/2015/08/boat.jpg
 ---
 

@@ -3,8 +3,8 @@ layout: post
 title: "A First Look at DACS"
 
 tags:
- - Simbioses
- - Tutorials
+  - UVic
+  - Tutorials
 ---
 
 At Simbioses Lab, we've been recently looking at the federated authentication [DACS](http://dacs.dss.ca/) as well as [Keycloak](http://keycloak.jboss.org/). I've previously written about Keycloak, so let's take a look at DACS.

@@ -3,10 +3,8 @@ layout: post
 title: "First look at Cap'n Proto in Rust"
 
 tags:
- - Raft
- - Rust
- - CSC466
- - CSC462
+  - Raft
+  - Rust
 ---
 
 So, I found [this](https://github.com/dwrensha/capnproto-rust) ([this](https://github.com/dwrensha/capnpc-rust), and [this](https://github.com/dwrensha/capnp-rpc-rust)) [Cap'n Proto](https://kentonv.github.io/capnproto/) library for [Rust](http://www.rust-lang.org/) and wanted to explore it a bit. Unfortunately the documentation is sparse for the library, and I haven't played with Cap'n Proto before.

@@ -3,13 +3,11 @@ layout: post
 title: "Init - Runlevels and Targets"
 
 tags:
- - Init
- - Tutorials
- - CSC499
+  - Tutorials
 ---
 
 
-In this post, we'll look at how runlevels work in two major init systems, systemd and OpenRC. If you're interested in trying out systemd, I'd suggest using an [Arch Linux Live ISO](https://www.archlinux.org/download/). For those interested in trying OpenRC, check out [Funtoo](http://www.funtoo.org/Funtoo_Linux_Installation). Both of these will work great in your favorite virtualization solution.
+In this post, we'll look at how runlevels work in two major init systems, systemd and OpenRC. If you're interested in trying out `systemd`, I'd suggest using an [Arch Linux Live ISO](https://www.archlinux.org/download/). For those interested in trying OpenRC, check out [Funtoo](http://www.funtoo.org/Funtoo_Linux_Installation). Both of these will work great in your favorite virtualization solution.
 
 # OpenRC
 

@@ -3,8 +3,7 @@ layout: post
 title: "A Ghost OpenRC Script"
 
 tags:
- - Init
- - Ghost
+  - Tutorials
 ---
 
 Whipped up an OpenRC script for [Ghost](https://ghost.org/). Feel free to use it for yourself.

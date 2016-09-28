@@ -3,7 +3,8 @@ layout: post
 title: "Gathering Our Voices 2014"
 
 tags:
- - BCAAFC
+  - Events
+  - BCAAFC
 ---
 
 I played dual roles for Gathering Our Voices 2014. One role was with the B.C. Association of Aboriginal Friendship Centres, and the other was with Science Venture.

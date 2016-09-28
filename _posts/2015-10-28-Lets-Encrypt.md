@@ -3,7 +3,7 @@ layout: post
 title: "It's a Let's Encrypt Beta!"
 
 tags:
-  - Security
+  - Tooling
 image: /assets/images/2015/10/lock.jpg
 ---
 
@@ -28,7 +28,7 @@ cd letsencrypt
 
 From here you'll be brought to something that looks like a `make menuconfig` when building your own kernel... But a lot easier. From here you have two options, "Manual" and "Standalone".
 
-**Manual** asks you for your domain then tasks you with the job of hosting a file under something like `$YOUR_DOMAIN/.well_known/acme-challenge/$KEY`. 
+**Manual** asks you for your domain then tasks you with the job of hosting a file under something like `$YOUR_DOMAIN/.well_known/acme-challenge/$KEY`.
 
 **Standalone** will make an effort to automatically verify your domain for you by hosting it's own web server. (*You'll need to stop your existing `nginx` server if you have one.*)
 

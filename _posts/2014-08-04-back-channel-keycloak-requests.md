@@ -3,9 +3,8 @@ layout: post
 title: "Back Channel Keycloak Requests"
 
 tags:
- - Clojure
- - Simbioses
- - Tutorials
+  - UVic
+  - Tutorials
 ---
 
 

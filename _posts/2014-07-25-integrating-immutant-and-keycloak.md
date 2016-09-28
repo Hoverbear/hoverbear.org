@@ -3,9 +3,8 @@ layout: post
 title: "Integrating Immutant and Keycloak"
 
 tags:
- - Clojure
- - Simbioses
- - Tutorials
+  - UVic
+  - Tutorials
 ---
 
 

@@ -6,12 +6,16 @@
 
     {% if page.tags %}
       {% for tag in page.tags %}
+        {% if site.data.tags contains tag %}
           {% if forloop.index == 1 %}, into
           {% elsif forloop.index == forloop.length %}
               {% if forloop.index != 2 %},{% endif %} and
           {% else %},
           {% endif %}
-          <span><a href="/tag/{{tag | downcase | slugify}}/">{{tag}}</a></span>
+          <span><a href="/tags#{{tag | downcase | slugify}}">{{tag}}</a></span>
+        {% else %}
+          <h1>{{tag}} NOT FOUND IN {{ site.data.tags | join: ','}}</h1>
+        {% endif %}
       {% endfor %}.
     {% endif %}
 

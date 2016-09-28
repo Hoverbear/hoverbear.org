@@ -4,7 +4,7 @@ title: "Quadcopters: Yaw"
 
 math: true
 tags:
- - Quadcopters
+  - Quadcopters
 ---
 
 So, in our [earlier article](/2015/05/19/quadcopters-orientation/) we talked about Yaw a little but, but we didn't get into details. First, let's take a look at what yaw looks like under simple circumstances, then we'll explain the motion.

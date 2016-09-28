@@ -3,7 +3,7 @@ layout: post
 title: "Quadcopters: The Board"
 
 tags:
- - Quadcopters
+  - Quadcopters
 ---
 
 This post is less about the mechanics of the quadcopter and more to satisfy those curious about what exactly is on the board.

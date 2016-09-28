@@ -3,7 +3,7 @@ layout: post
 title: "Reflections on a Quarter Century"
 
 tags:
- - Philosophy
+  - Personal
 ---
 
 > Twenty five years is a fairly long time, it turns out.

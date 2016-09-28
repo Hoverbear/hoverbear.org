@@ -3,10 +3,9 @@ layout: post
 title: "Command Execution in Rust"
 
 tags:
- - Rust
- - Init
- - Tutorials
- - CSC499
+  - Rust
+  - Tutorials
+  - UVic
 ---
 
 One of my projects over the upcoming semester is to explore the Linux boot process and the job of the init (initialization) system. The init system is considered **PID 1** and is responsible for a significant portion of userspace functionality. Common init systems on Linux are OpenRC and systemd. One of the key parts of an init system is to spawn new processes, like in command shell.

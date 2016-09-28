@@ -3,9 +3,9 @@ layout: post
 title: "Arch Docker Baseimage"
 
 tags:
- - Docker
- - Arch Linux
- - Tutorials
+  - Containers
+  - Arch Linux
+  - Tutorials
 ---
 
 ## Problem ##

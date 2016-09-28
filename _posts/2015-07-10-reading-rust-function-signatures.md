@@ -3,8 +3,8 @@ layout: post
 title: "Reading Rust Function Signatures"
 
 tags:
- - Rust
- - Tutorials
+  - Rust
+  - Tutorials
 ---
 
 In Rust, function signatures tell a story. Just from glancing at the signature of a function an experienced Rust user can tell much of the functions behaivor.

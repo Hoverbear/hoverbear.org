@@ -2,8 +2,8 @@
 layout: post
 title: "Understanding Over Guesswork"
 tags:
- - Rust
- - Papers
+  - Rust
+  - UVic
 image: /assets/images/2015/09/mountains.jpg
 ---
 
