@@ -22,7 +22,7 @@ layout: default
                         {% if forloop.index != 2 %},{% endif %} and
                     {% else %},
                     {% endif %}
-                    <span><a href="/tags#{{tag | downcase | slugify}}">{{tag}}</a></span>
+                    <span><a href="/tags/#{{tag | downcase | slugify}}">{{tag}}</a></span>
                   {% else %}
                     <h1>{{tag}} NOT FOUND IN {{ site.data.tags | join: ','}}</h1>
                   {% endif %}
