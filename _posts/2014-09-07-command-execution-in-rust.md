@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Command Execution in Rust"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Init

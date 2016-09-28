@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Arch Docker Baseimage"
-author: "Andrew Hobden"
+
 tags:
  - Docker
  - Arch Linux

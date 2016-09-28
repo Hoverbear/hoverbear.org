@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Deploying Immutant to Wildfly"
-author: "Andrew Hobden"
+
 tags:
  - Clojure
  - Simbioses

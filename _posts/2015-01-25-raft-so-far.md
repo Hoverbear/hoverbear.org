@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Raft So Far"
-author: "Andrew Hobden"
+
 tags:
  - Raft
  - Rust

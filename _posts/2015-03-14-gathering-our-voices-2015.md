@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Gathering Our Voices 2015"
-author: "Andrew Hobden"
+
 tags:
  - BCAAFC
 ---

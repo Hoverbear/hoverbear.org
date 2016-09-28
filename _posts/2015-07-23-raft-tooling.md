@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Raft: Tooling & Infra Update"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Raft

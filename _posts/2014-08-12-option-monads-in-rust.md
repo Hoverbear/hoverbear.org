@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Option Monads in Rust"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Tutorials

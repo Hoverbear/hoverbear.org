@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "A Journey into Iterators"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Tutorials

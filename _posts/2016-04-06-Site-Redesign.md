@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Site Redesign"
-author: "Andrew Hobden"
+
 image: /assets/images/2016/04/construction.jpg
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "OpenWRT in Virtualbox"
-author: "Andrew Hobden"
+
 tags:
  - OpenWRT
  - CSC467

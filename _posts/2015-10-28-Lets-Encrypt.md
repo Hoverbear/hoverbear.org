@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "It's a Let's Encrypt Beta!"
-author: "Andrew Hobden"
+
 tags:
   - Security
 image: /assets/images/2015/10/lock.jpg

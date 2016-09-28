@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Menagerie of Badssl"
-author: "Andrew Hobden"
+
 image: /assets/images/2016/04/menagerie.jpg
 image-credit: "Samuel Scrimshaw"
 ---

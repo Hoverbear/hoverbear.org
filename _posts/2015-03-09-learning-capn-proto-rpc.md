@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Learning Cap'n Proto RPC"
-author: "Andrew Hobden"
+
 tags:
  - Raft
  - Rust

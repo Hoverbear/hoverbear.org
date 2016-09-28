@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: Orientation"
-author: "Andrew Hobden"
+
 tags:
  - Quadcopters
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Arch Linux on Docker Revisited"
-author: "Andrew Hobden"
+
 tags:
  - Docker
  - Arch Linux

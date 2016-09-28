@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Photography from Last Decade"
-author: "Andrew Hobden"
+
 tags:
  - Photography
 ---

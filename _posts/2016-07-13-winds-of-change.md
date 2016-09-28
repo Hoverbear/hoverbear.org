@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Winds of Change"
-author: "Andrew Hobden"
+
 image: /assets/images/2016/07/winds-of-change.jpg
 image-credit: "Jérôme Prax"
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: Yaw"
-author: "Andrew Hobden"
+
 math: true
 tags:
  - Quadcopters

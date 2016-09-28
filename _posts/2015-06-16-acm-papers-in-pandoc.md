@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ACM papers in Pandoc"
-author: "Andrew Hobden"
+
 tags:
  - Publishing
 ---

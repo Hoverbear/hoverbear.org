@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "A Rust Heroku Buildpack"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Heroku

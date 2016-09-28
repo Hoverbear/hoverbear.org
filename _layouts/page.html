@@ -2,33 +2,14 @@
 layout: default
 ---
 
-<header>
-    {% if page.title %}
-        <h1><a href="{{ site.baseurl }}/">{{ page.title }}</a></h1>
-    {% else %}
-        <h1><a href="{{ site.baseurl }}/">{{ site.title }}</a></h1>
-    {% endif %}
-
-    <nav class="pages">
-        <a class="button" href="{{ site.baseurl }}/">Index</a>
-        {% for item in site.pages %}
-            {% if item.title != null and item.layout == "page" %}
-                <a class="button {% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
-            {% endif %}
-        {% endfor %}
-    <nav>
-</header>
+{% include header.html %}
 
 <main>
     <article>
         {{content}}
-
-        <hr>
-        <div class="post-meta">
-            <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
-            {% if page.image-credit %}<span class="image-credit">Image by: {{ page.image-credit }}</span>{% endif %}
-        </div>
     </article>
+
+    {% include metadata.html %}
 </main>
 
 {% include footer.html %}

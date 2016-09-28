@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Quadcopters: Sensors"
-author: "Andrew Hobden"
+
 tags:
  - Quadcopters
 ---

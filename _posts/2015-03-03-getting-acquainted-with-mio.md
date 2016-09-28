@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Getting Acquainted with MIO"
-author: "Andrew Hobden"
+
 tags:
  - Raft
  - Rust

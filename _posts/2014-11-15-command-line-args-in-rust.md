@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Parsing Arguments in Rust"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Tutorials

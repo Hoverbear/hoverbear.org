@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Gathering Our Voices 2016"
-author: "Andrew Hobden"
+
 image: /assets/images/2016/03/gov-21-1.jpg
 image-credit: "(All) Geoff Howe"
 tags:

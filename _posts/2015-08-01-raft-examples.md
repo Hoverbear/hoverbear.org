@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Raft Progress & Examples!"
-author: "Andrew Hobden"
+
 tags:
  - Rust
  - Raft

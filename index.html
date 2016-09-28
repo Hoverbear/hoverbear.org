@@ -2,18 +2,7 @@
 layout: default
 ---
 
-<header id="index">
-    <h1>A Hoverbear's Musings</h1>
-    <p class="description">{{ site.description }}</p>
-
-    <nav class="pages">
-        {% for item in site.pages %}
-            {% if item.title != null and item.layout == "page" %}
-                <a class="button {% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
-            {% endif %}
-        {% endfor %}
-    <nav>
-</header>
+{% include header.html %}
 
 <main id="index">
     {% for post in paginator.posts %}
@@ -22,7 +11,7 @@ layout: default
             <section class="excerpt">
                 <p>{{ post.content | strip_html | truncatewords: 100 }}</p>
             </section>
-            <hr>
+
             <div class="post-meta">
                 Posted on
                 <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
@@ -35,6 +24,7 @@ layout: default
                     <span><a href="/tag/{{tag | downcase | slugify}}/">{{tag}}</a></span>
                 {% endfor %}.
             </div>
+            <hr>
         </article>
     {% endfor %}
 </main>

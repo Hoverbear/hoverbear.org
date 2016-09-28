@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Raft Experiences and Repo Made Public!"
-author: "Andrew Hobden"
+
 tags:
  - Raft
  - Rust
