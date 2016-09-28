@@ -8,9 +8,10 @@ html,body {
 
 * {
   font-family: 'Fira Sans';
-  &:not(pre,code) {
-    font-variant: common-ligatures;
-  }
+}
+
+*:not(pre,code) {
+  font-variant: common-ligatures;
 }
 
 body {
@@ -18,7 +19,8 @@ body {
   flex: auto;
   flex-direction: column;
 
-  // The background is set in _layouts/default.html since we need to set it per-page.
+  /* The background is set in _layouts/default.html since we need to set it
+  per-page. */
   background-color: black;
   background-size: cover;
   background-attachment: fixed;
@@ -50,10 +52,6 @@ header,article,aside,nav.pagination {
   margin-top: 2vh;
 }
 
-main {
-
-}
-
 hr {
   width: 60%;
   border: none;
@@ -79,26 +77,18 @@ img {
   margin: auto;
 }
 
-// Hide the underlines from title links.
-h1,h2,h3,h4 {
-  > a {
+/* Hide the underlines from title links. */
+h1 > a,h2 > a,h3 > a,h4 > a {
     text-decoration: none;
-    // font-size: 18pt;
     color: #000000;
-    &:visited {
-      color: #666666;
-      text-decoration: none;
-    }
-  }
 }
 
-header {
+a:visited {
+  color: #666666;
 }
 
-article {
-  > h2 {
+article > h2 {
     margin-top: 0px;
-  }
 }
 
 footer {
@@ -106,11 +96,7 @@ footer {
   left: 0;
 }
 
-nav.pagination {
-
-}
-
-// Make a nice button class
+/* Make a nice button class */
 .button {
   display: inline-block;
   font-weight: bold;
@@ -122,23 +108,25 @@ nav.pagination {
   border: 1px solid #DDDDDD;
   box-shadow: 0 0 0px;
   transition: box-shadow 0.2s linear;
-  &:hover {
+}
+
+.button:hover {
     box-shadow: 0 0 2px;
-  }
-  &.active {
+}
+
+.button:active {
     background-color: black;
     color: white;
     box-shadow: 0 0 2px black;
     border-color: black;
-  }
 }
 
-// Images really like to get huge. Scale them down.
+/* Images really like to get huge. Scale them down. */
 img {
   max-width: 100%;
 }
 
-// Make a nice border around code.
+/* Make a nice border around code. */
 pre {
   padding: 5px;
   background-color: #EEEEEE;
@@ -157,7 +145,7 @@ code,pre {
   font-size: 10pt;
 }
 
-// This is for code highlighting.
+/* This is for code highlighting. */
 .highlight .hll { background-color: #ffffcc }
 .highlight .c { color: #999988; font-style: italic } // Comment
 .highlight .err { color: #a61717; background-color: #e3d2d2 } // Error
