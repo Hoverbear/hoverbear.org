@@ -26,7 +26,7 @@ body {
 
   /* A nice fade in. */
   opacity: 0;
-  animation: .5s fadeIn ease-in 1 forwards;
+  animation: .5s fadeIn ease-in 0s 1 forwards;
 }
 
 @keyframes fadeIn {
@@ -49,14 +49,19 @@ header,footer,nav.pagination {
   text-align: center;
 }
 
-header > div#cover {
+#cover-wrapper {
+  background-color: black;
+}
+
+#cover {
   min-width: 100%;
   height: 70vh;
-  background-color: black;
+  opacity: 0;
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  animation: 1s fadeIn ease-in 0s 1 forwards;
 }
 
 article,aside,nav.pagination {
