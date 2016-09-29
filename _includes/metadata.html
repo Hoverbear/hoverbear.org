@@ -1,27 +1,25 @@
 <aside class="post-meta">
-    {% if page.date %}
-      Posted on
-      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
-    {% endif %}
+  {% if page.date %}
+    Posted on
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
+  {% endif %}
 
-    {% if page.tags %}
-      {% for tag in page.tags %}
-        {% if site.data.tags contains tag %}
-          {% if forloop.index == 1 %}, into
-          {% elsif forloop.index == forloop.length %}
-              {% if forloop.index != 2 %},{% endif %} and
-          {% else %},
-          {% endif %}
-          <span><a href="/tags/#{{tag | downcase | slugify}}">{{tag}}</a></span>
-        {% else %}
-          <h1>{{tag}} NOT FOUND IN {{ site.data.tags | join: ','}}</h1>
+  {% if page.tags %}
+    {% for tag in page.tags %}
+      {% if site.data.tags contains tag %}
+        {% if forloop.index == 1 %}, into
+        {% elsif forloop.index == forloop.length %}
+            {% if forloop.index != 2 %},{% endif %} and
+        {% else %},
         {% endif %}
-      {% endfor %}.
-    {% endif %}
+        <span><a href="/tags/#{{tag | downcase | slugify}}">{{tag}}</a></span>
+      {% else %}
+        <h1>{{tag}} NOT FOUND IN {{ site.data.tags | join: ','}}</h1>
+      {% endif %}
+    {% endfor %}.
+  {% endif %}
 
-    {% if page.image-credit %}
-      <span class="image-credit">Image by: {{ page.image-credit }}</span>
-    {% endif %}
-
-    <a class="button" href="{{ "/"  | prepend: site.baseurl  }}">Return to index</a>
+  {% if page.image-credit %}
+    <span class="image-credit">Image by: {{ page.image-credit }}</span>
+  {% endif %}
 </aside>
