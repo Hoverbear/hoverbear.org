@@ -1,11 +1,9 @@
 <header>
-    <div id="cover-wrapper">
-      {% if page.image %}
-        <img id="cover" src="{{ page.image  | prepend: site.baseurl }}">
-      {% else %}
-        <img id="cover" src="{{ site.cover  | prepend: site.baseurl }}">
-      {% endif %}
-    </div>
+    {% if page.image %}
+      <img id="cover" src="{{ page.image  | prepend: site.baseurl }}">
+    {% else %}
+      <img id="cover" src="{{ site.cover  | prepend: site.baseurl }}">
+    {% endif %}
 
     <div class="title">
       {% if page.title %}
