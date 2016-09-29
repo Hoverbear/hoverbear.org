@@ -28,14 +28,20 @@ layout: default
                   {% endif %}
                 {% endfor %}.
             </div>
-            <hr>
         </article>
+        {% if forloop.last != true %}
+          <hr>
+        {% endif %}
     {% endfor %}
 </main>
+
+<hr>
 
 <nav id="pagination">
     {% if paginator.next_page %}
         <a href="/archive/{{paginator.next_page}}/">&larr; Older posts</a>
+    {% else %}
+        <a href="#">&larr; Older posts</a>
     {% endif %}
     <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
     {% if paginator.previous_page %}
@@ -44,6 +50,8 @@ layout: default
         {% else %}
             <a href="/archive/{{paginator.previous_page}}/">Newer posts &rarr;</a>
         {% endif %}
+    {% else %}
+      <a href="#">Newer posts &rarr;</a>
     {% endif %}
 </nav>
 
