@@ -36,10 +36,17 @@ header,footer,nav.pagination {
 header > div#cover {
   min-width: 100%;
   height: 70vh;
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  /* A nice fade in. */
+  opacity: 0;
+  animation: 1s fadeIn ease-in 1 forwards;
 }
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
 article,aside,nav.pagination {
   margin-bottom: 5vh;
