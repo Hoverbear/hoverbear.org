@@ -6,6 +6,10 @@ html,body {
   padding: 0;
 }
 
+html {
+  background-color: black;
+}
+
 * {
   font-family: 'Fira Sans';
 }
@@ -18,11 +22,14 @@ body {
   display: flex;
   flex: auto;
   flex-direction: column;
+  background: white;
+
+  /* A nice fade in. */
+  opacity: 0;
+  animation: .5s fadeIn ease-in 1 forwards;
 }
 
 article,aside,footer,nav.pagination {
-  background-color: white;
-
   padding-left: 3vw;
   padding-right: 3vw;
   padding-top: 3vh;
@@ -36,14 +43,11 @@ header,footer,nav.pagination {
 header > div#cover {
   min-width: 100%;
   height: 70vh;
+  background-color: black;
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  /* A nice fade in. */
-  opacity: 0;
-  animation: 1s fadeIn ease-in 1 forwards;
 }
 
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
