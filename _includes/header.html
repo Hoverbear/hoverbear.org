@@ -7,20 +7,28 @@
       {% endif %}
     </div>
 
-    {% if page.title %}
-      <h1>{{ page.title }}</h1>
-    {% else %}
-      <h1>{{ site.title }}</h1>
-      <p class="description">{{ site.description }}</p>
-    {% endif %}
+    <div class="title">
+      {% if page.title %}
+        <h1>{{ page.title }}</h1>
+      {% else %}
+        <h1>{{ site.title }}</h1>
+        <p class="description">{{ site.description }}</p>
+      {% endif %}
+    </div>
 
 
-    <nav class="pages">
-        <a class="button" href="{{ site.baseurl }}/">Index</a>
+    <nav id="pages">
+      <ul>
+        <li><a href="{{ site.baseurl }}/">Index</a></li>
         {% for item in site.pages %}
             {% if item.title != null and item.layout == "page" %}
-                <a class="button {% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">{{ item.title }}</a>
+                <li>
+                  <a class="{% if page.url == item.url %}active{% endif %}" href="{{ item.url }}">
+                    {{ item.title }}
+                  </a>
+                </li>
             {% endif %}
         {% endfor %}
+      </ul>
     <nav>
 </header>

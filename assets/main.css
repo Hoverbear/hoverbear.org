@@ -11,11 +11,11 @@ html {
 }
 
 * {
-  font-family: 'Fira Sans';
-}
-
-*:not(pre,code) {
-  font-variant: common-ligatures;
+  font-family: 'Fira Code';
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "calt" 1; /* For IE/Edge */
+  font-weight: 400;
+  font-style: normal;
 }
 
 body {
@@ -38,21 +38,10 @@ body {
   }
 }
 
-article,aside,footer,nav.pagination {
-  padding-left: 3vw;
-  padding-right: 3vw;
-  padding-top: 3vh;
-  padding-bottom: 3vh;
-}
-
-header,footer,nav.pagination {
-  text-align: center;
-}
-
 #cover-wrapper {
   background-color: black;
   min-width: 100%;
-  height: 70vh;
+  height: 75vh;
   text-align: center;
   overflow: hidden;
 }
@@ -65,10 +54,40 @@ header,footer,nav.pagination {
   object-fit: cover;
 }
 
-article,aside,nav.pagination {
+article,aside,footer,nav#pagination {
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+}
+
+header,footer,nav#pagination {
+  text-align: center;
+}
+
+article,aside,nav#pagination {
   margin-bottom: 5vh;
   margin-top: 2vh;
 }
+
+/* Pages Navigation */
+nav#pages {
+
+}
+
+nav#pages > ul > li {
+  display: inline-block;
+}
+
+nav#pages > ul > li > a {
+  text-decoration: none;
+}
+
+nav#pages > ul > li:not(:first-child):before {
+  content: " | ";
+}
+
+/* Misc */
 
 hr {
   width: 60%;

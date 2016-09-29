@@ -45,7 +45,7 @@ Asquera is a back-end consultancy. I originally encountered them through my frie
 
 Asquera does a considerable amount of work in the Rust, Ruby, and Elasticsearch communities. This is very important to me and I'm very excited to get involved on the other side of the planet. I'm temporarily leaving several very awesome communities here back home, and I'm sure that ebing involved there will make me feel more at home.
 
-![Asquera](/assets/images/2016/07/asquera.png)
+![Asquera](/assets/images/2016/07/asquera.svg)
 
 Over the last few weeks I've gotten to know the team a bit, and gosh are they ever cool! I can't wait to work with them. It will be a big change from where I what I currently do for work, and I'm both nervous and excited about it.
 

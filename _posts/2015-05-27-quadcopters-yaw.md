@@ -19,7 +19,7 @@ Let's first talk about **Center of Gravity**, have you ever tried to balance an 
 
 ![Center of Gravity for a Quad](/assets/images/2015/05/center.jpg)
 
-**Torque** (\\(\tau\\)) is a twisting force, you use it when you do things like turn a door-knob handle, use a wrench, or pedal a bicycle. Now, the torque produced by a force equals the magnitude of the *force* (\\(F\\)) times the *radius* (\\(r\\)), or distance from the center of gravity.
+**Torque** ($$ \tau $$) is a twisting force, you use it when you do things like turn a door-knob handle, use a wrench, or pedal a bicycle. Now, the torque produced by a force equals the magnitude of the *force* ($$ F $$) times the *radius* ($$ r $$), or distance from the center of gravity.
 
 $$ \tau = F*r $$
 
@@ -47,9 +47,11 @@ In our example we're only showing one motor, but recalling that two motors almos
 
 Calculating the *net maximum torque* in this diagram can be done using the following equation:
 
-$$ \tau = F(r\_1)-F(r\_2) = F(r\_1-r\_2) $$
+$$
+  \tau = F(r_1)-F(r_2) = F(r_1-r_2)
+$$
 
-Where \\(r\_1\\) is the bottom (larger) radius, and \\(r\_2\\) is the top (smaller) radius. The key takeaway here is for each propeller **despite the forces being equal, the radii are not** and because of that, \\(\tau\\) is a positive value.
+Where $$ r_1 $$ is the bottom (larger) radius, and $$ r_2 $$ is the top (smaller) radius. The key takeaway here is for each propeller **despite the forces being equal, the radii are not** and because of that, $$ \tau $$ is a positive value.
 
 What we end up with is a small amount of torque being created by each of the two active motors, these two amounts are in the same direction, and can be added together!
 

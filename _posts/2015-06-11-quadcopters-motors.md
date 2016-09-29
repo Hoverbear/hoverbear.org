@@ -52,9 +52,11 @@ This threw us for a bit of a loop but we figured out a better, simpler method. W
 
 > How can a strobe light be used to measure RPM?
 
-First the strobe light pulses its light at a constant, uniform rate, and the motor is turning at a (mostly) constant, uniform rate. Because of this, if the strobe light pulses at some amount of *pulses per minute* (\\(PPM\\)) which is equal to the motors *rotations per minute* (\\(RPM\\)) then each pulse of light will shine on approximately the same image of the motor. This image is what we see observing it.
+First the strobe light pulses its light at a constant, uniform rate, and the motor is turning at a (mostly) constant, uniform rate. Because of this, if the strobe light pulses at some amount of *pulses per minute* ($$ PPM $$) which is equal to the motors *rotations per minute* ($$ RPM $$) then each pulse of light will shine on approximately the same image of the motor. This image is what we see observing it.
 
-$$PPM = RPM$$
+$$
+  PPM = RPM
+$$
 
 You can see how it looks in this below video, apologies for the video quality **and loud sound**, strobes are noisy and cameras don't image the way our eyes do.
 
@@ -82,13 +84,17 @@ The relationship that current and the rotations per minute have is also very muc
 
 The power of the motor is equals to the voltage times the current. You can see that this relationship is a nice, smooth curve. It's interesting to note that there are diminishing returns the more power you put in.
 
-$$voltage * current = power$$
+$$
+  voltage * current = power
+$$
 
 ![Power vs. RPM](/assets/images/2015/06/pow-v-rpm-2.jpg)
 
 The angular velocity is the speed at which the blade of the propeller is rotating around the motor's axis. This relationship is straight, just like the voltage vs RPM graph.
 
-$$velocity_{angular} = RPM * \frac{2\pi}{60 seconds}$$
+$$
+  velocity_{angular} = RPM * \frac{2\pi}{60 seconds}
+$$
 
 ![Voltage vs. Angular Velocity](/assets/images/2015/06/volt-v-angu-2.jpg)
 
