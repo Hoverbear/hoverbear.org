@@ -1,17 +1,17 @@
 <header>
   <div id="cover-wrapper">
     {% if page.image %}
-      <img id="cover" src="{{ page.image  | prepend: site.baseurl }}">
+      <img id="cover" src="{{ page.image }}">
     {% else %}
-      <img id="cover" src="{{ site.cover  | prepend: site.baseurl }}">
+      <img id="cover" src="{{ site.cover }}">
     {% endif %}
   </div>
 
   <div class="title">
     {% if page.title %}
-      <h1><a href="{{ site.baseurl }}/">{{ page.title }}</a></h1>
+      <h1><a href="/">{{ page.title }}</a></h1>
     {% else %}
-      <h1><a href="{{ site.baseurl }}/">{{ site.title }}</a></h1>
+      <h1><a href="/">{{ site.title }}</a></h1>
       <p class="description">{{ site.description }}</p>
     {% endif %}
   </div>
