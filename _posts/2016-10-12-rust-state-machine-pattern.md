@@ -8,12 +8,12 @@ image-credit: "Samuel Zeller"
 tags:
   - Rust
 
-published: false
+# published: false
 ---
 
-Lately I've been thinking a lot about the *patterns* and *structures* which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand and empowers you to start working on the project faster.
+Lately I've been thinking a lot about the *patterns* and *structures* which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.
 
-Perhaps you're working on a new project and realize that you need to do something in the same was as you did in another project. This *thing* might not be a functionality or a library, it might not be something which you can encode into some clever macro. Instead, it may be simply a pattern, or a structural concept which addresses a problem nicely.
+Sometimes you're working on a new project and realize that you need to do something in the same was as you did in another project. This *thing* might not be a functionality or a library, it might not be something which you can encode into some clever macro or small crate. Instead, it may be simply a pattern, or a structural concept which addresses a problem nicely.
 
 One interesting pattern that is commonly applied to problems is that of the 'State Machine'. Let's take some time to consider what exactly we mean when we say that, and why they're interesting.
 
@@ -21,9 +21,9 @@ One interesting pattern that is commonly applied to problems is that of the 'Sta
 
 ## Founding Our Concepts
 
-There are a **lot** of resources and people topical articles about state machines out there on the internet. Even more so, there are a lot of **implementations** of state machines.
+There are a **lot** of resources and topical articles about state machines out there on the internet. Even more so, there are a lot of **implementations** of state machines.
 
-Just to get to this web page you used one. You can model TCP as a state machine. You can model HTTP requests as one too. You can model any *regular* language, such as a regex without look behinds, as a state machine. They're everywhere, hiding inside things we use every day.
+Just to get to this web page you used one. You can model TCP as a state machine. You can model HTTP requests with one too. You can model any *regular* language, such as a regex, as a state machine. They're everywhere, hiding inside things we use every day.
 
 So, a State Machine is any **'machine'** which has a set of **'states'** and **'transitions'** defined between them.
 
@@ -40,7 +40,7 @@ fn main() {
 
 States are a way to reason about *where* a machine is in its process. For example, we can think about a bottle filling machine as an example. The machine is in a 'waiting' state when it is waiting for a new bottle. Once it detects a bottle it moves to the 'filling' state. Upon detecting the bottle is filled it enters the 'done' state. After the bottle is left the machine we return to the 'waiting' state.
 
-A key takeaway here is that none of the states have any information relevant for the other states. The 'filling' state doesn't care how long the 'waiting' state waited. The 'done' state doesn't care about what rate the bottle was filled at. Each state has *discrete responsibilities and concerns*. The natural way to consider these is as an `enum`.
+A key takeaway here is that none of the states have any information relevant for the other states. The 'filling' state doesn't care how long the 'waiting' state waited. The 'done' state doesn't care about what rate the bottle was filled at. Each state has *discrete responsibilities and concerns*. The natural way to consider these *variants* is as an `enum`.
 
 ```rust
 enum BottleFillerState {
@@ -74,7 +74,7 @@ Let's look again at the transitions we described for our bottle filler in a diag
 
 As we can see here there are a finite number of states, and a finite number of transitions between these states. Now, it is possible to have a valid transition between each state and every other state, but in most cases this is not true.
 
-This means moving between a state such as 'Waiting' and 'Filling' should have defined semantics. In our example this can be defined as "There is a bottle in place." In the case of a TCP stream it might be "We have received a FIN packet" which means we need to close out the stream.
+This means moving between a state such as 'Waiting' to a state such as 'Filling' should have defined semantics. In our example this can be defined as "There is a bottle in place." In the case of a TCP stream it might be "We have received a FIN packet" which means we need to finish closing out the stream.
 
 ## Determining What We Want
 
@@ -83,11 +83,12 @@ Now that we know what a state machine is, how do we represent them in Rust? Firs
 Ideally, we'd like to see the following characteristics:
 
 * Can only be in one state at a time.
-* Each state should able have it's own associated values if required.
+* Each state should able have its own associated values if required.
 * Transitioning between states should have well defined semantics.
 * It should be possible to have some level of shared state.
 * Only explicitly defined transitions should be permitted.
-* We shouldn't need to allocate memory for **all** states. Perhaps just the largest sized state.
+* Changing from one state to another should **consume** the state so it can no longer be used.
+* We shouldn't need to allocate memory for **all** states. No more than largest sized state certainly
 * Any error messages should be easy to understand.
 * We shouldn't need to resort to heap allocations to do this. Everything should be possible on the stack.
 * The type system should be harnessed to our greatest ability.
@@ -97,7 +98,7 @@ So if we could have a design pattern which allowed for all these things it'd be 
 
 ## Exploring Possible Implementation Options
 
-With a type system as powerful and flexible as Rusts we should be able to represent this. The truth is: there are a number of ways to try, each teaches us lessons.
+With a type system as powerful and flexible as Rusts we should be able to represent this. The truth is: there are a number of ways to try, each has valuable characteristics, and each teaches us lessons.
 
 ### A Second Shot with Enums
 
@@ -151,12 +152,12 @@ Now you might be thinking "Hoverbear you could totally wrap the `to_filling()` o
 
 So let's keep looking!
 
-### Structure Based Transitions
+### Structures With Transitions
 
-So what if we just used a set of structs? We could have them all implement traits which all states should share. We could use special functions that transitioned the type into the new type even! How would it look?
+So what if we just used a set of structs? We could have them all implement traits which all states should share. We could use special functions that transitioned the type into the new type! How would it look?
 
 ```rust
-// This is some functionality shared by all of the state.
+// This is some functionality shared by all of the states.
 trait SharedFunctionality {
     fn get_shared_value(&self) -> usize;
 }
@@ -208,7 +209,7 @@ fn main() {
 
 Gosh that's a buncha code! So the idea here was that all states have some common shared values along with their own specialized values. As you can see from the `to_filling()` function we can consume a given 'Waiting' state and transition it into a 'Filling' state. Let's do a little rundown:
 
-* Transition errors are caught at compile time! For example you can't even create a `Filling` state without first starting with a `Waiting` state.
+* Transition errors are caught at compile time! For example you can't even create a `Filling` state accidentally without first starting with a `Waiting` state. (You could on purpose, but this is beside the matter.)
 * Transition enforcement happens everywhere.
 * When a transition between states is made the old value is **consumed** instead of just modified. We could have done this with the enum example above as well though.
 * We don't have to `match` all the time.
@@ -255,9 +256,9 @@ Not only does this give us a common function for transitioning, but it also is n
 
 So this is cool, but how do we deal with all this nasty code repetition and the repeating `shared_value` stuff? Let's explore a bit more!
 
-### Growing Sophistication
+### Generically Sophistication
 
-In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this idea is to harness the power of generics. Let's take a look at the barest possible structures representing this:
+In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this is to harness the power of generics. Let's take a look at a fairly bare structure representing this:
 
 ```rust
 struct BottleFillingMachine<S> {
@@ -332,7 +333,7 @@ Alternatively if you're doing this inside of a function whose type signature res
 
 ```rust
 fn transition_the_states(val: BottleFillingMachine<Waiting>) -> BottleFillingMachine<Filling> {
-    val.into()
+    val.into() // Nice right?
 }
 ```
 
@@ -351,7 +352,9 @@ error[E0277]: the trait bound `BottleFillingMachine<Done>: std::convert::From<Bo
    = note: required by `std::convert::From::from`
 ```
 
-It's pretty clear what's wrong from that. The error message even hints to us some valid transitions! So what does this scheme give us?
+It's pretty clear what's wrong from that. The error message even hints to us some valid transitions!
+
+So what does this scheme give us?
 
 * Transitions are ensured to be valid at compile time.
 * The error messages about invalid transitions are very understandable and even list valid options.
@@ -422,7 +425,7 @@ Or you can just `panic!()` if that's what you really want. But if you just wante
 
 ## Worked Examples
 
-This is the kind of thing it's always nice to have some examples for. So below I've put together a few worked examples with comments for you to explore.
+This is the kind of thing it's always nice to have some examples for. So below I've put together a couple worked examples with comments for you to explore.
 
 ### Three State, Two Transitions
 
@@ -518,3 +521,131 @@ impl From<StateMachine<StateB>> for StateMachine<StateC> {
     }
 }
 ```
+
+### A Raft Example
+
+If you've followed my posts for awhile you may know I rather enjoy thinking about Raft. Raft, and a discussion with [**@argorak**](https://twitter.com/Argorak) were the primary motivators behind all of this research.
+
+Raft is a bit more complex than the above examples as it does not just have linear states where `A->B->C`. Here is the transition diagram:
+
+```
++----------+    +-----------+    +--------+
+|          +---->           |    |        |
+| Follower |    | Candidate +----> Leader |
+|          <----+           |    |        |
++--------^-+    +-----------+    +-+------+
+         |                         |
+         +-------------------------+
+```
+
+> [Playground link](https://is.gd/HDZeGR)
+
+```rust
+// You can play around in this function.
+fn main() {
+    let is_follower = Raft::new(/* ... */);
+    // Raft typically comes in groups of 3, 5, or 7. Just 1 for us. :)
+
+    // Simulate this node timing out first.
+    let is_candidate = Raft::<Candidate>::from(is_follower);
+
+    // It wins! How unexpected.
+    let is_leader = Raft::<Leader>::from(is_candidate);
+
+    // Then it fails and rejoins later, becoming a Follower again.
+    let is_follower_again = Raft::<Follower>::from(is_leader);
+
+    // And goes up for election...
+    let is_candidate_again = Raft::<Candidate>::from(is_follower_again);
+
+    // But this time it fails!
+    let is_follower_another_time = Raft::<Follower>::from(is_candidate_again);
+}
+
+
+// This is our state machine.
+struct Raft<S> {
+    // ... Shared Values
+    state: S
+}
+
+// The three cluster states a Raft node can be in
+
+// If the node is the Leader of the cluster services requests and replicates its state.
+struct Leader {
+    // ... Specific State Values
+}
+
+// If it is a Candidate it is attempting to become a leader due to timeout or initialization.
+struct Candidate {
+    // ... Specific State Values
+}
+
+// Otherwise the node is a follower and is replicating state it receives.
+struct Follower {
+    // ... Specific State Values
+}
+
+// Raft starts in the Follower state
+impl Raft<Follower> {
+    fn new(/* ... */) -> Self {
+        // ...
+        Raft {
+            // ...
+            state: Follower { /* ... */ }
+        }
+    }
+}
+
+// The following are the defined transitions between states.
+
+// When a follower timeout triggers it begins to campaign
+impl From<Raft<Follower>> for Raft<Candidate> {
+    fn from(val: Raft<Follower>) -> Raft<Candidate> {
+        // ... Logic prior to transition
+        Raft {
+            // ... attr: val.attr
+            state: Candidate { /* ... */ }
+        }
+    }
+}
+
+// If it doesn't receive a majority of votes it loses and becomes a follower again.
+impl From<Raft<Candidate>> for Raft<Follower> {
+    fn from(val: Raft<Candidate>) -> Raft<Follower> {
+        // ... Logic prior to transition
+        Raft {
+            // ... attr: val.attr
+            state: Follower { /* ... */ }
+        }
+    }
+}
+
+// If it wins it becomes the leader.
+impl From<Raft<Candidate>> for Raft<Leader> {
+    fn from(val: Raft<Candidate>) -> Raft<Leader> {
+        // ... Logic prior to transition
+        Raft {
+            // ... attr: val.attr
+            state: Leader { /* ... */ }
+        }
+    }
+}
+
+// If the leader becomes disconnected it may rejoin to discover it is no longer leader
+impl From<Raft<Leader>> for Raft<Follower> {
+    fn from(val: Raft<Leader>) -> Raft<Follower> {
+        // ... Logic prior to transition
+        Raft {
+            // ... attr: val.attr
+            state: Follower { /* ... */ }
+        }
+    }
+}
+```
+
+## Closing Thoughts
+
+Rust lets us represent State Machines in a fairly good way. In an ideal situation we'd be able to make `enum`s with restricted transitions between variants, but that's not the case. Instead, we can harness the power of generics and the ownership system to create something expressive, safe, and understandable.
+
+If you have any feedback or suggestions on this article I'd suggest checking out the footer of this page for contact details. I also hang out on Mozilla's IRC as Hoverbear.
