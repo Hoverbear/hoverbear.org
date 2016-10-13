@@ -208,7 +208,7 @@ fn main() {
 
 Gosh that's a buncha code! So the idea here was that all states have some common shared values along with their own specialized values. As you can see from the `to_filling()` function we can consume a given 'Waiting' state and transition it into a 'Filling' state. Let's do a little rundown:
 
-* Transition errors are caught at runtime! For example you can't even create a `Filling` state without first starting with a `Waiting` state.
+* Transition errors are caught at compile time! For example you can't even create a `Filling` state without first starting with a `Waiting` state.
 * Transition enforcement happens everywhere.
 * When a transition between states is made the old value is **consumed** instead of just modified. We could have done this with the enum example above as well though.
 * We don't have to `match` all the time.
@@ -257,7 +257,7 @@ So this is cool, but how do we deal with all this nasty code repetition and the 
 
 ### Growing Sophistication
 
-In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this idea is to harness the power of generics. Let's take a look at the barest possible strutures representing this:
+In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this idea is to harness the power of generics. Let's take a look at the barest possible structures representing this:
 
 ```rust
 struct StateMachine<S> {
@@ -351,4 +351,15 @@ error[E0277]: the trait bound `StateMachine<Done>: std::convert::From<StateMachi
    = note: required by `std::convert::From::from`
 ```
 
-It's pretty clear what's wrong from that. The error message even hints to us some valid transitions!
+It's pretty clear what's wrong from that. The error message even hints to us some valid transitions! So what does this scheme give us?
+
+* Transitions are ensured to be valid at compile time.
+* The error messages about invalid transitions are very understandable and even list valid options.
+* We have a 'parent' structure which can have traits and values associated with it that aren't repeated.
+* Once a transition is made the old state no longer exists, it is consumed. Indeed, the entire structure is consumed so if there are side effects of the transition on the parent (for example altering the average waiting time) we can't access stale values.
+* Memory consumption is lean and everything is on the stack.
+
+There are some downsides still:
+
+* Our `From<T>` implementations suffer from a fair bit of "type noise". This is a highly minor concern though.
+* Each `StateMachine<S>` has a different size, with our previous example, so we'll need to use an enum. Because of our structure though we can do this in a way that doesn't suck. We'll explore below.
