@@ -260,7 +260,7 @@ So this is cool, but how do we deal with all this nasty code repetition and the 
 In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this idea is to harness the power of generics. Let's take a look at the barest possible structures representing this:
 
 ```rust
-struct StateMachine<S> {
+struct BottleFillingMachine<S> {
     shared_value: usize,
     state: S
 }
@@ -278,14 +278,14 @@ struct Filling {
 struct Done;
 ```
 
-So here we're actually building the state into the type signature of the StateMachine itself. A state machine in the 'Filling' state is `StateMachine<Filling>` which is just **awesome** since it means when we see it as part of an error message or something we know immediately what state the machine is in.
+So here we're actually building the state into the type signature of the `BottleFillingMachine` itself. A state machine in the 'Filling' state is `BottleFillingMachine<Filling>` which is just **awesome** since it means when we see it as part of an error message or something we know immediately what state the machine is in.
 
 From there we can go ahead and implement `From<T>` for some of these specific generic variants like so:
 
 ```rust
-impl From<StateMachine<Waiting>> for StateMachine<Filling> {
-    fn from(val: StateMachine<Waiting>) -> StateMachine<Filling> {
-        StateMachine {
+impl From<BottleFillingMachine<Waiting>> for BottleFillingMachine<Filling> {
+    fn from(val: BottleFillingMachine<Waiting>) -> BottleFillingMachine<Filling> {
+        BottleFillingMachine {
             shared_value: val.shared_value,
             state: Filling {
                 rate: 1,
@@ -294,9 +294,9 @@ impl From<StateMachine<Waiting>> for StateMachine<Filling> {
     }
 }
 
-impl From<StateMachine<Filling>> for StateMachine<Done> {
-    fn from(val: StateMachine<Filling>) -> StateMachine<Done> {
-        StateMachine {
+impl From<BottleFillingMachine<Filling>> for BottleFillingMachine<Done> {
+    fn from(val: BottleFillingMachine<Filling>) -> BottleFillingMachine<Done> {
+        BottleFillingMachine {
             shared_value: val.shared_value,
             state: Done,
         }
@@ -307,9 +307,9 @@ impl From<StateMachine<Filling>> for StateMachine<Done> {
 Defining a starting state for the machine looks like this:
 
 ```rust
-impl StateMachine<Waiting> {
+impl BottleFillingMachine<Waiting> {
     fn new(shared_value: usize) -> Self {
-        StateMachine {
+        BottleFillingMachine {
             shared_value: shared_value,
             state: Waiting {
                 waiting_time: std::time::Duration::new(0, 0),
@@ -323,15 +323,15 @@ So how does it look to change between two states? Like this:
 
 ```rust
 fn main() {
-    let in_waiting = StateMachine::<Waiting>::new(0);
-    let in_filling = StateMachine::<Filling>::from(in_waiting);
+    let in_waiting = BottleFillingMachine::<Waiting>::new(0);
+    let in_filling = BottleFillingMachine::<Filling>::from(in_waiting);
 }
 ```
 
 Alternatively if you're doing this inside of a function whose type signature restricts the possible outputs it might look like this:
 
 ```rust
-fn transition_the_states(val: StateMachine<Waiting>) -> StateMachine<Filling> {
+fn transition_the_states(val: BottleFillingMachine<Waiting>) -> BottleFillingMachine<Filling> {
     val.into()
 }
 ```
@@ -339,15 +339,15 @@ fn transition_the_states(val: StateMachine<Waiting>) -> StateMachine<Filling> {
 What do the **compile time** error messages look like?
 
 ```
-error[E0277]: the trait bound `StateMachine<Done>: std::convert::From<StateMachine<Waiting>>` is not satisfied
+error[E0277]: the trait bound `BottleFillingMachine<Done>: std::convert::From<BottleFillingMachine<Waiting>>` is not satisfied
   --> <anon>:50:22
    |
-50 |     let in_filling = StateMachine::<Done>::from(in_waiting);
+50 |     let in_filling = BottleFillingMachine::<Done>::from(in_waiting);
    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
    |
    = help: the following implementations were found:
-   = help:   <StateMachine<Filling> as std::convert::From<StateMachine<Waiting>>>
-   = help:   <StateMachine<Done> as std::convert::From<StateMachine<Filling>>>
+   = help:   <BottleFillingMachine<Filling> as std::convert::From<BottleFillingMachine<Waiting>>>
+   = help:   <BottleFillingMachine<Done> as std::convert::From<BottleFillingMachine<Filling>>>
    = note: required by `std::convert::From::from`
 ```
 
@@ -362,4 +362,159 @@ It's pretty clear what's wrong from that. The error message even hints to us som
 There are some downsides still:
 
 * Our `From<T>` implementations suffer from a fair bit of "type noise". This is a highly minor concern though.
-* Each `StateMachine<S>` has a different size, with our previous example, so we'll need to use an enum. Because of our structure though we can do this in a way that doesn't suck. We'll explore below.
+* Each `BottleFillingMachine<S>` has a different size, with our previous example, so we'll need to use an enum. Because of our structure though we can do this in a way that doesn't completely suck.
+
+> You can play with this example [**here**](https://is.gd/CyuJlH)
+
+### Getting Messy With the Parents
+
+So how can we have some parent structure hold our state machine without it being a gigantic pain to interact with? Well, this circles us back around to the `enum` idea we had at first.
+
+If you recall the primary problem with the `enum` example above was that we had to deal with no ability to enforce transitions, and the only errors we got were at runtime when we did try.
+
+```rust
+enum BottleFillingMachineWrapper {
+    Waiting(BottleFillingMachine<Waiting>),
+    Filling(BottleFillingMachine<Filling>),
+    Done(BottleFillingMachine<Done>),
+}
+struct Factory {
+    bottle_filling_machine: BottleFillingMachineWrapper,
+}
+impl Factory {
+    fn new() -> Self {
+        Factory {
+            bottle_filling_machine: BottleFillingMachineWrapper::Waiting(BottleFillingMachine::new(0)),
+        }
+    }
+}
+```
+
+At this point your first reaction is likely "Gosh, Hoverbear, look at that awful and long type signature!" You're quite right! Frankly it's rather long, but I picked long, explanatory type names! You'll be able to use all your favorite arcane abbreviations and type aliases in your own code. Have at!
+
+```rust
+impl BottleFillingMachineWrapper {
+    fn step(mut self) -> Self {
+        self = match self {
+            BottleFillingMachineWrapper::Waiting(val) => BottleFillingMachineWrapper::Filling(val.into()),
+            BottleFillingMachineWrapper::Filling(val) => BottleFillingMachineWrapper::Done(val.into()),
+            BottleFillingMachineWrapper::Done(val) => BottleFillingMachineWrapper::Waiting(val.into()),
+        };
+        self
+    }
+}
+
+fn main() {
+    let mut the_factory = Factory::new();
+    the_factory.bottle_filling_machine = the_factory.bottle_filling_machine.step();
+}
+```
+
+Again you may notice that this works by **consumption** not mutation. Using `match` the way we are above *moves* `val` so that it can be used with `.into()` which we've already determined should consume the state. If you'd really like to use mutation you can consider having your states `#[derive(Clone)]` or even `Copy`, but that's your call.
+
+Despite this being a bit less ergonomic and pleasant to work with than we might want we still get strongly enforced state transitions and all the guarantees that come with them.
+
+One thing you will notice is this scheme **does** force you to handle all potential states when manipulating the machine, and that makes sense. You are reaching into a structure with a state machine and manipulating it, you need to have defined actions for each state that it is in.
+
+Or you can just `panic!()` if that's what you really want. But if you just wanted to `panic!()` then why didn't you just use the first attempt?
+
+> You can see a fully worked example of this Factory example [**here**](https://is.gd/s03IaQ)
+
+## Worked Examples
+
+This is the kind of thing it's always nice to have some examples for. So below I've put together a few worked examples with comments for you to explore.
+
+### Three State, Two Transitions
+
+This example is very similar to the Bottle Filling Machine above, but instead it **actually** does work, albeit trivial work. It takes a string and returns the number of words in it.
+
+> [Playground link](https://is.gd/4ITDyV)
+
+```rust
+fn main() {
+    // The `<StateA>` is implied here. We don't need to add type annotations!
+    let in_state_a = StateMachine::new("Blah blah blah".into());
+
+    // This is okay here. But later once we've changed state it won't work anymore.
+    in_state_a.some_unrelated_value;
+    println!("Starting Value: {}", in_state_a.state.start_value);
+
+
+    // Transition to the new state. This consumes the old state.
+    // Here we need type annotations (since not all StateMachines are linear in their state).
+    let in_state_b = StateMachine::<StateB>::from(in_state_a);
+
+    // This doesn't work! The value is moved when we transition!
+    // in_state_a.some_unrelated_value;
+    // Instead, we can use the existing value.
+    in_state_b.some_unrelated_value;
+
+    println!("Interm Value: {:?}", in_state_b.state.interm_value);
+
+    // And our final state.
+    let in_state_c = StateMachine::<StateC>::from(in_state_b);
+
+    // This doesn't work either! The state doesn't even contain this value.
+    // in_state_c.state.start_value;
+
+    println!("Final state: {}", in_state_c.state.final_value);
+}
+
+// Here is our pretty state machine.
+struct StateMachine<S> {
+    some_unrelated_value: usize,
+    state: S,
+}
+
+// It starts, predictably, in `StateA`
+impl StateMachine<StateA> {
+    fn new(val: String) -> Self {
+        StateMachine {
+            some_unrelated_value: 0,
+            state: StateA::new(val)
+        }
+    }
+}
+
+// State A starts the machine with a string.
+struct StateA {
+    start_value: String,
+}
+impl StateA {
+    fn new(start_value: String) -> Self {
+        StateA {
+            start_value: start_value,
+        }
+    }
+}
+
+// State B goes and breaks up that String into words.
+struct StateB {
+    interm_value: Vec<String>,
+}
+impl From<StateMachine<StateA>> for StateMachine<StateB> {
+    fn from(val: StateMachine<StateA>) -> StateMachine<StateB> {
+        StateMachine {
+            some_unrelated_value: val.some_unrelated_value,
+            state: StateB {
+                interm_value: val.state.start_value.split(" ").map(|x| x.into()).collect(),
+            }
+        }
+    }
+}
+
+// Finally, StateC gives us the length of the vector, or the word count.
+struct StateC {
+    final_value: usize,
+}
+impl From<StateMachine<StateB>> for StateMachine<StateC> {
+    fn from(val: StateMachine<StateB>) -> StateMachine<StateC> {
+        StateMachine {
+            some_unrelated_value: val.some_unrelated_value,
+            state: StateC {
+                final_value: val.state.interm_value.len(),
+            }
+        }
+    }
+}
+```
