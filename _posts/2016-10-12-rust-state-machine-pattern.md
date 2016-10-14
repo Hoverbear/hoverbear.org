@@ -643,6 +643,19 @@ impl From<Raft<Leader>> for Raft<Follower> {
 }
 ```
 
+## Alternatives From Feedback
+
+I saw an interesting comment by [I-impv on Reddit](https://www.reddit.com/r/rust/comments/57ccds/pretty_state_machine_patterns_in_rust/d8rhwq4) showing off [this approach based on our examples above](https://play.rust-lang.org/?gist=ee3e4df093c136ced7b394dc7ffb78e1&version=stable&backtrace=0). Here's what they had to say about it:
+
+> I like the way you did it. I am working on a fairly complex FSM myself currently and did it slightly different.
+>
+> Some things I did different:
+>
+> * I also modeled the input for the state machine. That way you can model your transitions as a match over (State, Event) every invalid combination is handled by the 'default' pattern
+> * Instead of using panic for invalid transitions I used a Failure state, So every invalid combination transitions to that Failure state
+
+I really like the idea of modeling the input in the transitions!
+
 ## Closing Thoughts
 
 Rust lets us represent State Machines in a fairly good way. In an ideal situation we'd be able to make `enum`s with restricted transitions between variants, but that's not the case. Instead, we can harness the power of generics and the ownership system to create something expressive, safe, and understandable.
