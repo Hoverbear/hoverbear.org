@@ -398,12 +398,11 @@ At this point your first reaction is likely "Gosh, Hoverbear, look at that awful
 ```rust
 impl BottleFillingMachineWrapper {
     fn step(mut self) -> Self {
-        self = match self {
+        match self {
             BottleFillingMachineWrapper::Waiting(val) => BottleFillingMachineWrapper::Filling(val.into()),
             BottleFillingMachineWrapper::Filling(val) => BottleFillingMachineWrapper::Done(val.into()),
             BottleFillingMachineWrapper::Done(val) => BottleFillingMachineWrapper::Waiting(val.into()),
-        };
-        self
+        }
     }
 }
 
