@@ -17,7 +17,7 @@ Sometimes you're working on a new project and realize that you need to do someth
 
 One interesting pattern that is commonly applied to problems is that of the 'State Machine'. Let's take some time to consider what exactly we mean when we say that, and why they're interesting.
 
-> Throughout this post you can run all examples in [the playground](http://play.rust-lang.org/), I typically use 'Nightly' out of habit.
+> Throughout this post you can run all examples in [the playground](https://play.rust-lang.org/), I typically use 'Nightly' out of habit.
 
 ## Founding Our Concepts
 
