@@ -243,7 +243,7 @@ The Rust standard library defines two highly related traits: [`From`](https://do
 // ...
 impl From<Waiting> for Filling {
     fn from(val: Waiting) -> Filling {
-        From {
+        Filling {
             rate: 1,
             shared_value: val.shared_value,
         }
