@@ -12,7 +12,7 @@ tags:
 # published: false
 ---
 
-Recently there has been a lot of progress in the Rust language towards a robust asyncronous stack. In this article we'll take a look at what these things are, take a tour of what's available, play with some examples, and talk about how the pieces fit together.
+Recently there has been a lot of progress in the Rust language towards a robust asynchronous stack. In this article we'll take a look at what these things are, take a tour of what's available, play with some examples, and talk about how the pieces fit together.
 
 We'll get started with the `futures` crate to start, move on to `futures_cpupool`, and then eventually to `tokio`. We will assume you have some knowledge of programming, and have at least thought about trying Rust before.
 
@@ -24,7 +24,7 @@ One way of handling this is to spawn threads and discretely slice up tasks to be
 
 As a community we've learnt some techniques over the years, such as CPU pools which allow a number of threads to cooperate on a task, and 'future' values which resolve to their intended value after they are finished some computation. These provide us useful and powerful tools that makes it easier, safer, and more fun to write such code.
 
-If you've ever developed in Javascript you may already be familiar with asyncronous programming and the idea of Promises. Futures in Rust are very similar to this, but we're provided more control and more responsibility. With this comes greater power.
+If you've ever developed in Javascript you may already be familiar with asynchronous programming and the idea of Promises. Futures in Rust are very similar to this, but we're provided more control and more responsibility. With this comes greater power.
 
 ## How We Got Here
 
@@ -36,11 +36,11 @@ Today, [`tokio`](https://tokio.rs/) and [`futures`](https://github.com/alexcrich
 
 ## Getting Started
 
-The `futures` crate offers a number of structures and abstractions to *enable* building asyncronous code. By itself it's quite simple, and through its clever design it is fundamentally a zero cost abstraction. This is an important thing to keep in mind as we work through our examples: Writing code with futures should have no performance overhead over code without.
+The `futures` crate offers a number of structures and abstractions to *enable* building asynchronous code. By itself it's quite simple, and through its clever design it is fundamentally a zero cost abstraction. This is an important thing to keep in mind as we work through our examples: Writing code with futures should have no performance overhead over code without.
 
 When compiled futures [boil down to actual state machines](https://aturon.github.io/blog/2016/08/11/futures/) while still allowing us to write our code in a relatively familiar 'callback style' pattern. If you've already been using Rust then working with Futures will feel very similar to how iterators feel.
 
-One of the things we'll commonly do in this section is "sleep a little bit" on a thread to simulate some asyncronous action. In order to do this let's create a little function:
+One of the things we'll commonly do in this section is "sleep a little bit" on a thread to simulate some asynchronous action. In order to do this let's create a little function:
 
 ```rust
 extern crate rand;
@@ -139,7 +139,7 @@ fn main() {
         rx_set.push(rx);
 
         // Spawning up a thread means things won't be executed sequentially, so this will actually
-        // behave like an asyncronous value, so we can actually see how they work.
+        // behave like an asynchronous value, so we can actually see how they work.
         thread::spawn(move || {
             println!("{} --> START", index);
 
@@ -431,7 +431,7 @@ This means that we can create a CPU pool and delegate arbitrary tasks to it thro
 
 ## Visiting Tokio's Core
 
-The [`tokio`](https://tokio.rs/) project has been developed closely alongside of `futures` and the projects share many authors. The project has a number of crates intended for building asyncronous applications. In the `tokio-core` crate there are things like the main event loop, TCP handlers, and timeouts. Building on top of that are crates such as `tokio-proto` and `tokio-service` which build on top of these constructs.
+The [`tokio`](https://tokio.rs/) project has been developed closely alongside of `futures` and the projects share many authors. The project has a number of crates intended for building asynchronous applications. In the `tokio-core` crate there are things like the main event loop, TCP handlers, and timeouts. Building on top of that are crates such as `tokio-proto` and `tokio-service` which build on top of these constructs.
 
 We'll start with just `tokio-core` and doing a simple HTTP GET request. Note since we're not actually using a HTTP client we need to handle all the details ourselves. Here's what that looks like:
 
@@ -483,7 +483,7 @@ fn main() {
 
 This looks a bit different than what we've previously been doing with our futures. [`Core::new()`](https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Core.html) is how we create an event loop, or 'Reactor', which we can get [`Handle`s](https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Handle.html) which we use when issuing tasks such as `TcpStream::Connect`. You can learn more about the basics of the Reactor [here](https://tokio.rs/docs/getting-started/reactor/).
 
-Working with the types provided by Tokio is slightly different than working with those provided by `std`, however many of the ideas and concepts are the same. Many of the changes are due to the differences between syncronous and asyncronous I/O.
+Working with the types provided by Tokio is slightly different than working with those provided by `std`, however many of the ideas and concepts are the same. Many of the changes are due to the differences between syncronous and asynchronous I/O.
 
 Near the end of the example we have `core.run()` which is a way to fire off **one off** tasks and get a return value from them, similar to how we were using futures. Tokio also provides a `spawn()` and `spawn_fn()` functions which are executed in the background and must do their own handling of errors, making it ideal for tasks such as responding to new connections.
 

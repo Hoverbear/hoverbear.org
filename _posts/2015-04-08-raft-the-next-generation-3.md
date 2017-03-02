@@ -25,7 +25,7 @@ With the help of [Dan Burkert](https://github.com/danburkert/) several dramatic 
 
 Summarily, the second prototype builds from the first in the following ways:
 
-* The [mio](https://github.com/carllerche/mio) **Asyncronous Event Loop** backs the library, providing
+* The [mio](https://github.com/carllerche/mio) **Asynchronous Event Loop** backs the library, providing
   it with event driven sockets and timers. This removes the `loop {}` and
   reduces demands on the system by using things like `epoll`.
 * **Communication is over TCP**, as opposed to UDP in the first prototype. It
