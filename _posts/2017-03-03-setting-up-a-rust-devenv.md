@@ -98,7 +98,7 @@ We'll cover four valuable tools for working with Rust:
 We'll need to use nightly to install it, so we just need to run the following:
 
 ~~~bash
-rustup run nightly cargo install clippy
+cargo +nightly install clippy
 ~~~
 
 Now let's create a test case. Run `cargo init --bin test && cd test` then modify the `src/main.rs` file to have to have the following:
@@ -113,7 +113,7 @@ fn main() {
 Now we can run `clippy` with the following command:
 
 ~~~bash
-rustup run nightly cargo clippy
+cargo +nightly clippy
 ~~~
 
 This should yield a warning from `clippy`:
@@ -238,9 +238,9 @@ First, let's download VS Code. Drop over to [their website](https://code.visuals
 
 In order to run `code` from the command line we may need to open up VS Code and open the 'Command Palette' with `Shift+Command+P` on Mac, or `Shift+Control+P` on Linux. In it, enter `shell command` and look for the `Shell Command: Install 'code' command in PATH` option. After doing this any new shell we open should be able to run `code`.
 
-### Extension: Rusty code
+### Extension: Rust
 
-The 'Rusty code' extension provides some helpers around build, formatting, and other useful things. It can be installed by selecting the bottom 'Box with border and smaller box in the top right corner' button on the sidebar and searching for 'Rusty code'. You can take a look at the readme before you install.
+The 'Rust' extension provides some helpers around build, formatting, and other useful things. It can be installed by selecting the bottom 'Box with border and smaller box in the top right corner' button on the sidebar and searching for 'Rust'. You can take a look at the readme before you install.
 
 ### Extension: `rls_vscode`
 
