@@ -417,3 +417,5 @@ At this point we have a functional Rust development environment that can target 
 Some of the tools and extensions we're using are still alpha, or don't work perhaps as well as we might hope, but things are only getting better! If you're interested, you can even get involved with these different projects to help them be even more awesome. Every few weeks you can go and do a quick update of things and see the improvements.
 
 Now, we don't have any excuses *not* to have fun with Rust! Why not find something that looks interesting and try to make your first PR? Can't find something? Check out [/r/rust](https://www.reddit.com/r/rust/) and look at the projects people are talking about, look at the `E - Easy` issues on [`rustc`](https://github.com/rust-lang/rust/labels/E-easy), or tackle something small from [`rust-rosetta`](https://github.com/Hoverbear/rust-rosetta)!
+
+> Thanks to [Asquera](http://asquera.de/) for allocating some time for me to write this! The same article is hosted [here](http://asquera.de/blog/2017-03-03/setting-up-a-rust-devenv/) as well!
