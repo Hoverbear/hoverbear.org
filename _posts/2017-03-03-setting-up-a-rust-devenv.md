@@ -21,7 +21,7 @@ In this post we'll be discussing one way to set up your machine for Rust develop
 
 Everything we do should be functional on both Linux and MacOS, on Windows your mileage may vary. I, unfortunately, don't have a Windows instance to test on.
 
-In order to finish this all up you'll need to have the `build-essentials` (Ubuntu/Debian), `base-dev` (Arch), or XCode (Mac) installed already.
+In order to finish this all up you'll need to have the `build-essentials` (Ubuntu/Debian), `base-devel` (Arch), or XCode (Mac) installed already.
 
 ## Setting up Rust via Rustup
 
