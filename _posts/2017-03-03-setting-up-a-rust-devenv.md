@@ -86,6 +86,7 @@ We'll cover four valuable tools for working with Rust:
 
 * [`rust-clippy`](https://github.com/Manishearth/rust-clippy) - A linter.
 * [`rustfmt`](https://github.com/rust-lang-nursery/rustfmt) - A code formatter.
+* [`cargo-audit`](https://github.com/rustsec/cargo-audit) - A security auditor.
 * [`racer`](https://github.com/phildawes/racer) - An autocompletion utility.
 * [`rls`](https://github.com/rust-lang-nursery/rls) - A language server (for symbol search etc.)
 
@@ -166,6 +167,10 @@ fn       main    ()
 Then we can run `cargo fmt` and we can see that our file is correctly formatted again.
 
 **Gotcha:** `rustfmt` is still not in perfect shape and will occasionally butcher the formatting of otherwise normal looking code. Your mileage may vary for the time being.
+
+### `cargo-audit`
+
+
 
 ### `racer`
 
@@ -394,7 +399,7 @@ LLVM_ROOT = "/usr/local/opt/emscripten/libexec/llvm/bin"
 #JAVA = 'java'
 ~~~
 
-Now you can compile our example in Web Assembly, then run it:
+Now you can compile our example in asm.js, then run it:
 
 ~~~bash
 cargo build --target=asmjs-unknown-emscripten
