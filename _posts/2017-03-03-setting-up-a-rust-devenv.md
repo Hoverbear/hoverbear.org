@@ -384,9 +384,15 @@ Next let's set a breakpoint somewhere. Finally we can go to the 'No Bugs' icon a
 
 ## Compiling to Different Targets
 
-So far we've been building `x86_64-apple-darwin`. If we were using Linux we'd be building `x86_64-unknown-linux-gnu` most likely. Let's target `asmjs-unknown-emscripten` (that is, Javascript) for fun. 
+So far we've been building `x86_64-apple-darwin`. If we were using Linux we'd be building `x86_64-unknown-linux-gnu` most likely. Let's target `asmjs-unknown-emscripten` (that is, Javascript) for fun.
 
-First we need to install the `emcripten` package. On Mac this can be found in `brew` via `brew install emscripten`, some Linux distributions also package `emscripten`, but you can also set it up via the guide [here]().
+First we need to install the `emcripten` package. On Mac this can be found in `brew` via `brew install emscripten`, some Linux distributions also package `emscripten`, but you can also set it up via the guide [here](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
+
+Next install the target with `rustup`:
+
+```bash
+rustup target add asmjs-unknown-emscripten
+```
 
 If on Mac, the following probably needs to be changed in `~/.emscripten`:
 
