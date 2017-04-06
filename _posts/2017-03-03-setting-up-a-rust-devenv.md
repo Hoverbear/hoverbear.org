@@ -27,13 +27,13 @@ In order to finish this all up you'll need to have the `build-essentials` (Ubunt
 
 [Rustup](https://rustup.rs/) is an official Rust project that allows us to install, manage, and update multiple Rust toolchains. It can be installed easily via:
 
-~~~bash
+```bash
 curl https://sh.rustup.rs -sSf | sh
-~~~
+```
 
 After a brief download Rustup will prompt us for some configuration. Just accept the defaults here:
 
-~~~
+```
 Current installation options:
 
    default host triple: x86_64-apple-darwin
@@ -43,40 +43,40 @@ Current installation options:
 1) Proceed with installation (default)
 2) Customize installation
 3) Cancel installation
-~~~
+```
 
 After we'll be prompted to run the following command to update the current shell with the changes:
 
-~~~bash
+```bash
 source $HOME/.cargo/env
-~~~
+```
 
 At this point we can run `cargo` and `rustc` to confirm that we have Rust and Cargo installed. Also confirm that `rustup` exists since we'll need that later.
 
 Next it's advisable to install the Rust source and documentation locally for later use when offline or for tools such as the autocompletion we set up later.
 
-~~~bash
+```bash
 rustup component add rust-src
 rustup component add rust-docs
-~~~
+```
 
 Eventually we'll want to update our Rust installation, the following command will update all toolchains and components.
 
-~~~bash
+```bash
 rustup update
-~~~
+```
 
 Eventually you may encounter a project which prefers to use Rust's nightly builds. You can easily install the nightly (or beta) version alongside stable.
 
-~~~bash
+```bash
 rustup toolchain install nightly
-~~~
+```
 
 You can change the default toolchain of the system with `rustup default stable` or `rustup default nightly`, but it's advisable to keep it to stable and set overrides for projects that use nightly. You can do that by navigating to the project directory and running the following:
 
-~~~bash
+```bash
 rustup override set nightly
-~~~
+```
 
 For now that's all we need to know about Rustup, so let's move on.
 
@@ -86,7 +86,6 @@ We'll cover four valuable tools for working with Rust:
 
 * [`rust-clippy`](https://github.com/Manishearth/rust-clippy) - A linter.
 * [`rustfmt`](https://github.com/rust-lang-nursery/rustfmt) - A code formatter.
-* [`cargo-audit`](https://github.com/rustsec/cargo-audit) - A security auditor.
 * [`racer`](https://github.com/phildawes/racer) - An autocompletion utility.
 * [`rls`](https://github.com/rust-lang-nursery/rls) - A language server (for symbol search etc.)
 
@@ -98,28 +97,28 @@ We'll cover four valuable tools for working with Rust:
 
 We'll need to use nightly to install it, so we just need to run the following:
 
-~~~bash
+```bash
 cargo +nightly install clippy
-~~~
+```
 
 Now let's create a test case. Run `cargo init --bin test && cd test` then modify the `src/main.rs` file to have to have the following:
 
-~~~rust
+```rust
 fn main() {
     // Clippy warns on statements with no effect, like this one.
     true;
 }
-~~~
+```
 
 Now we can run `clippy` with the following command:
 
-~~~bash
+```bash
 cargo +nightly clippy
-~~~
+```
 
 This should yield a warning from `clippy`:
 
-~~~
+```
 warning: statement with no effect
  --> src/main.rs:2:5
   |
@@ -128,17 +127,17 @@ warning: statement with no effect
   |
   = note: #[warn(no_effect)] on by default
   = help: for further information visit https://github.com/Manishearth/rust-clippy/wiki#no_effect
-~~~
+```
 
 Excellent. You can see the different lints which `clippy` detects [here](https://github.com/Manishearth/rust-clippy#lints). You can configure various lints in the `clippy.toml` according to their options listed in the wiki.
 
 To disable (or warn instead of deny) various lints you can add the `deny` and `allow` flags to your crate attributes:
 
-~~~rust
+```rust
 #![cfg_attr(feature = "cargo-clippy", deny(empty_enum))]
 #![cfg_attr(feature = "cargo-clippy", warn(indexing_slicing))]
 #![cfg_attr(feature = "cargo-clippy", allow(print_with_newline))]
-~~~
+```
 
 ### `rustfmt`
 
@@ -146,31 +145,27 @@ To disable (or warn instead of deny) various lints you can add the `deny` and `a
 
 `rustfmt` is a code formatting tool akin to `gofmt`. Unlike `clippy`, it runs happily on stable. To install it:
 
-~~~rust
+```rust
 cargo install rustfmt
-~~~
+```
 
 At this point we can run `cargo fmt` to format a repository. It runs `rustfmt` in the 'replace' mode which creates backup files with a `.bk` extension. If our project is already in version control we may not want this. If that is the case we can edit `rustfmt.toml` to include the following:
 
-~~~toml
+```toml
 write_mode = "overwrite"
-~~~
+```
 
 The `rustfmt.toml` lets us configure the various options found in `rustfmt --config-help`. Now let's edit the `main.rs` we made later to have some obviously poor style:
 
-~~~rust
+```rust
 fn       main    ()
 { true
 ; }
-~~~
+```
 
 Then we can run `cargo fmt` and we can see that our file is correctly formatted again.
 
 **Gotcha:** `rustfmt` is still not in perfect shape and will occasionally butcher the formatting of otherwise normal looking code. Your mileage may vary for the time being.
-
-### `cargo-audit`
-
-
 
 ### `racer`
 
@@ -180,26 +175,26 @@ Then we can run `cargo fmt` and we can see that our file is correctly formatted 
 
 First, install it:
 
-~~~bash
+```bash
 cargo install racer
-~~~
+```
 
 Next we need to set an environment variable so `racer` knows where to look for the Rust source. In your `~/.bashrc` (or `~/.zshrc` etc) add the following line:
 
-~~~bash
+```bash
 # Mac
 export RUST_SRC_PATH=${HOME}/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 # Linux
 export RUST_SRC_PATH=${HOME}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
-~~~
+```
 
 If you're not on MacOS or Linux you will need to set this to what is shown as default in `rustup show`.
 
 Then you can test that `racer` works by doing a test run via the command line:
 
-~~~bash
+```bash
 racer complete std::io::B
-~~~
+```
 
 You should see several matches from this. At this point `racer` is set up and ready to be used in your editor or with `rls`.
 
@@ -213,23 +208,23 @@ Unlike the other tools we've described `rls` is still *in the alpha stages* of d
 
 In whatever directory you store all your `git` repositories in, clone down `rls` and build it with nightly:
 
-~~~bash
+```bash
 git clone https://github.com/rust-lang-nursery/rls.git
 cd rls
 rustup override set nightly
 cargo build --release
-~~~
+```
 
 Next we need to set up an environment variable. We need to set `DYLD_LIBRARY_PATH` and `RLS_ROOT` (you'll probably need to adjust this to your repository clone):
 
-~~~bash
+```bash
 # Mac
 export DYLD_LIBRARY_PATH=${HOME}/.rustup/toolchains/stable-x86_64-apple-darwin/lib
 export RLS_ROOT=${HOME}/git/rust/rls
 # Linux
 export DYLD_LIBRARY_PATH=${HOME}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib
 export RLS_ROOT=${HOME}/git/rust/rls
-~~~
+```
 
 At this point it should be set up. We'll test and use it later when we configure VS Code.
 
@@ -253,19 +248,19 @@ We'll need `node` installed, you can do this via your package manager (If you're
 
 Once this is done we can install the `rls_vscode` extension. Since `rls` isn't released yet we need to do all the fun work ourselves! Nagivate to your regular `git` directory and clone the repository and install its dependencies.
 
-~~~bash
+```bash
 git clone https://github.com/jonathandturner/rls_vscode.git
 cd rls_vscode
 npm install
-~~~
+```
 
 Next step is to build the extension, which we do through VS Code itself. Run `code .` in the repository we just cloned. In the VS Code window, select the 'Crossed out bug' icon and hit the green 'Play Button' beside the words 'Launch Extension' in the left. A new VS Code window will pop up, you can just close it.
 
 Now that the extension is built we can set up a symlink to install it into VS Code (if you're using Insiders the directory is `.vscode-insiders`):
 
-~~~bash
+```bash
 ln -s ${HOME}/git/rust/rls_vscode/ ${HOME}/.vscode/extensions/rls_vscode
-~~~
+```
 
 Later you can update the extension with a similar process. Due to the development pace it's advisable do to this every once in awhile.
 
@@ -287,7 +282,7 @@ We'll talk about how to use this extension in the next section.
 
 Let's scaffold out a super basic application to test our debugging on before we get on to any real experimentation. We'll run `cargo init --bin example` and set `src/main.rs` to:
 
-~~~rust
+```rust
 pub enum Direction { North, South, East, West }
 
 pub fn is_north(dir: Direction) -> bool {
@@ -305,7 +300,7 @@ fn main() {
     let compass = is_north(points);
     println!("{}", compass);
 }
-~~~
+```
 
 This gives us something actually worthwhile to use the debugger on. Let's debug!
 
@@ -313,16 +308,16 @@ This gives us something actually worthwhile to use the debugger on. Let's debug!
 
 The first step before debugging is to build, then fire it up with the debugger:
 
-~~~bash
+```bash
 cargo build
 rust-lldb ./target/debug/example
-~~~
+```
 
 From here we can interact with the program like we normally would with LLDB. (Yes, there is `rust-gdb`, you're free to use that too!)
 
 For example:
 
-~~~
+```
 (lldb) breakpoint set -f main.rs -l 3
 Breakpoint 1: where = example`example::is_north + 10 at main.rs:3, address = 0x0000000100000ffa
 (lldb) process launch
@@ -340,7 +335,7 @@ Process 8376 stopped
    7   	    }
 (lldb) print dir
 (example::Direction) $0 = South
-~~~
+```
 
 ### With VS Code
 
@@ -348,7 +343,7 @@ After installing the 'LLDB Debugger' extension you can set a breakpoint by click
 
 Add the following to `.vscode/launch.json`:
 
-~~~json
+```json
 {
     "version": "0.2.0",
     "configurations": [
@@ -364,11 +359,11 @@ Add the following to `.vscode/launch.json`:
         }
     ]
 }
-~~~
+```
 
 Then, add a `.vscode/tasks.json` with the following:
 
-~~~json
+```json
 {
     "version": "0.1.0",
     "command": "cargo",
@@ -376,7 +371,7 @@ Then, add a `.vscode/tasks.json` with the following:
     "args": ["build"],
     "showOutput": "always"
 }
-~~~
+```
 
 Next let's set a breakpoint somewhere. Finally we can go to the 'No Bugs' icon and hit the 'Play' and we should see something like this:
 
@@ -396,28 +391,28 @@ rustup target add asmjs-unknown-emscripten
 
 If on Mac, the following probably needs to be changed in `~/.emscripten`:
 
-~~~bash
+```bash
 LLVM_ROOT = "/usr/local/opt/emscripten/libexec/llvm/bin"
 #LLVM_ROOT = os.path.expanduser(os.getenv('LLVM') or '/usr/bin') # directory
 #BINARYEN_ROOT = os.path.expanduser(os.getenv('BINARYEN') or '/usr/bin') # directory
 
 # Avoid annoying popups about Java.
 #JAVA = 'java'
-~~~
+```
 
 Now you can compile our example in asm.js, then run it:
 
-~~~bash
+```bash
 cargo build --target=asmjs-unknown-emscripten
 node target/asmjs-unknown-emscripten/debug/example.js
-~~~
+```
 
 The output should be:
 
-~~~
+```
 2
 false
-~~~
+```
 
 Targetting other systems and architectures works similarly, the biggest stumbling block is installing the toolchain (in this case it was `emscripten`.)
 
