@@ -22,15 +22,17 @@ Before we start please make sure you're using the current (or developer) version
 
 ## What Are We Looking At?
 
-[*WebAssembly*](http://webassembly.org/) (or *wasm*) describes an *execution environment* which browsers can implement within their Javascrip Virtual Machines. Essentially it's a way to run code in place of, or alongside, our Javascript.
+[*WebAssembly*](http://webassembly.org/) (or *wasm*) describes an *execution environment* which browsers can implement within their Javascript Virtual Machines. It's a way to run code in place of, or alongside, our Javascript.
 
 WebAssembly can be thought of as similar to [*asm.js*](http://asmjs.org/). Indeed, we can use [*Emscripten*](http://emscripten.org/) compiler to target both.
+
+Most existing documentation discusses how to build C, C++, or Rust into wasm, but there is nothing excluding languages like [Ruby](ruby.dj) or Python from working as well.
 
 ## Installing The Tools
 
 We'll need two things to get started with WebAssembly and Rust, assuming you already have a functional development environment otherwise (That is, you have `build-essential`, XCode, or the like installed.)
 
-First, Rust. You can review [here](https://hoverbear.org/2017/03/03/setting-up-a-rust-devenv/#setting-up-rust-via-rustup) for a more long winded explaination of how to do this, or you can just run the following, accept the defaults, and then `source $HOME/.cargo/env`:
+First, Rust. You can review [here](https://hoverbear.org/2017/03/03/setting-up-a-rust-devenv/#setting-up-rust-via-rustup) for a more long winded explanation of how to do this, or you can just run the following, accept the defaults, and then `source $HOME/.cargo/env`:
 
 ```bash
 curl https://sh.rustup.rs -sSf | sh
@@ -298,9 +300,9 @@ Awesome!
 
 ## Third Experiment: Calling From Javascript
 
-It's also possible to use generated wasm as a library and call the generated code from within Javascript. This has its own set of complications though. Namely:
+It's also possible to use generated wasm as a library and call the generated code from within Javascript. This has its own set of complications though.
 
-Emscripten requires any function we want to export to be delcared via `-s EXPORTED_FUNCTIONS=[]`. This is best done via `link_args` which is a Nightly only feature. So we need to run `rustup override set nightly` for our project.
+Emscripten requires any function we want to export to be declared via `-s EXPORTED_FUNCTIONS=[]`. This is best done via `link_args` which is a Nightly only feature. So we need to run `rustup override set nightly` for our project.
 
 WebAssembly only supports a limited number of [value types](https://github.com/WebAssembly/design/blob/master/Semantics.md#types):
 
@@ -378,8 +380,6 @@ It's also possible to call the function via `Module._get_data()` but you'll noti
 
 ## Fourth Experiment: Calling Javascript From Rust
 
-So far I've not discovered a *nice* way to call Javascript functions from the Rust code we've written. So, instead, let's look at the way I did find.
-
 There isn't a tremendous amount of writing about this topic, the best resource I was able to find was in the ['Interacting with code'](https://kripken.github.io/emscripten-site/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html#implement-c-in-javascript) section of the Emscripten documentation.
 
 The basic concept is that when `emcc` goes and does its job it includes a `library.js` file which we can add functions to via the `--js-library` flag. These functions can return values, or do things like run `alert("Blah blah")`.
@@ -389,20 +389,21 @@ In order to do this we need to create a `site/utilities.js` file containing the 
 ```javascript
 'use strict';
 
-mergeInto(LibraryManager.library, {
+var library = {
   get_data: function() {
     var str = "Hello from JS.";
     alert(str);
 
     // Not needed for numerics.
-    // See https://kripken.github.io/emscripten-site/docs/api_reference/preamble.js.html#stringToUTF8
     var len = lengthBytesUTF8(str);
     var buffer = Module._malloc(len);
     Module.stringToUTF8(str, buffer, len);
 
     return buffer;
   },
-});
+};
+
+mergeInto(LibraryManager.library, library);
 ```
 
 Then the HTML:
@@ -425,8 +426,6 @@ Then the HTML:
 Lastly, the Rust code:
 
 ```rust
-#![feature(link_args)]
-
 #![feature(link_args)]
 
 #[cfg_attr(target_arch="wasm32", link_args = "\
@@ -457,15 +456,63 @@ fn main() {
 
 If we build this and load the page we'll get an alert, and see `"Hello from JS"` printed out on the console.
 
-The good thing is it works. The bad thing is that it is rather complex to do. Hopefully it will get better in the future. 
+The good thing is it works. The bad thing is that it is rather complex to do. Hopefully it will get better in the future.
+
+> I'm not entirely happy with this situation, if you have any ideas how we can do this better please let me know!
 
 ## Using The Web Platform
 
-TODO
+As we've discovered by now, the barrier between our compiled code and Javascript is a bit annoying. It'd be quite handy if we could just write everything in Rust and avoid dealing with Javascript except where absolutely needed.
+
+Luckly for us, there is a crate called [`rust-webplatform`](https://github.com/tcr/rust-webplatform/) that was started. It allows for convienent DOM manipulation and provides some helpers for doing Javascript. It's still a bit rough around the edges, but the foundations are there.
+
+
+To get started, let's add `webplatform = "*"` to our dependencies. Then we can use some slightly modified sample code from the repo:
+
+```rust
+extern crate webplatform;
+
+fn main() {
+    let document = webplatform::init();
+    let body = document.element_query("body")
+        .unwrap();
+    body.html_append("\
+        <h1>This header brought to you by Rust</h1>\
+        <button>Click me!</button>\
+    ");
+    
+    let button = document.element_query("button")
+        .unwrap();
+    button.on("mouseenter", move |_| {
+        println!("Mouse entered!");
+        body.html_append("<p>Mouse entered!</p>");
+    });
+    button.on("click", |_| {
+        println!("Clicked!");
+        webplatform::alert("Clicked!");
+    });
+
+    webplatform::spin();
+}
+```
+
+Building our project you should see:
+
+* DOM elements created when the wasm is loaded.
+* DOM elements being created when your mouse goes over the button.
+* An alert when you click on the button.
+
+Due to the youth of the library there isn't much in the way of examples or documentation, so be prepared to fumble around in the dark. For example, I discovered the key to getting some events and `println!()` working was to use `webplatform::spin()`.
+
+> If you're looking for something to contribute, this crate would likely be an excellent place to do so! There's a bunch of work to be done and you could really make a difference for the blossoming Rust wasm community!
 
 ## Outlook
 
-TODO
+The future of Rust on the web is quite bright! Much of the foundations already exist, as we've seen in this article, and the Rust community is actively interested in improving the experience. The Rust repository even has an [`A-wasm`](https://github.com/rust-lang/rust/issues?utf8=%E2%9C%93&q=label%3AA-wasm%20) tag for issues! 
+
+There are currently discussions about moving from `emcc` to the nascent LLVM wasm backend which you can track [here](https://github.com/rust-lang/rust/issues/38804). This may make significant parts of this article obselete, which is very exciting!
+
+The ecosystem around wasm in Rust is still young, and now is a great time to get involved and help shape the future!
 
 > Special thanks to [Jan-Erik (Badboy)](https://fnordig.de/) for his workshop at Rust Belt Rust 2016, his hard work on this ecosystem, his advice while writing this post, for reviewing this before publishing, and most of all for being my valued friend. May we continue to hack in the same circles.
 
