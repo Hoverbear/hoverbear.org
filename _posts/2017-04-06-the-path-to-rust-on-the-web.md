@@ -16,7 +16,7 @@ Recently there has been quite a bit of talk about *WebAssembly*, a new format fo
 
 In the interest of learning more about this technology (and to avoid writing more Javascript) let's explore together and get our hands dirty!
 
-> **Disclaimer:** WebAssembly is not stabilized. The information contained here may become out of date or be incorrect, despite working at the time of writing.
+> **Disclaimer:** WebAssembly is stabilized, but most implementations are not. The information contained here may become out of date or be incorrect, despite working at the time of writing.
 
 Before we start please make sure you're using the current (or developer) version of Firefox or Chrome. You can check out `about:config` or `chrome://flags/` and make sure `wasm` related things are enabled.
 
@@ -302,7 +302,7 @@ Awesome!
 
 It's also possible to use generated wasm as a library and call the generated code from within Javascript. This has its own set of complications though.
 
-Emscripten requires any function we want to export to be declared via `-s EXPORTED_FUNCTIONS=[]`. This is best done via `link_args` which is a Nightly only feature. So we need to run `rustup override set nightly` for our project.
+In order to do this, at least for now, we need to run `rustup override set nightly` for our project so we use nightly. This is because stable seems to optimize out the exported functions, while nightly does not.
 
 WebAssembly only supports a limited number of [value types](https://github.com/WebAssembly/design/blob/master/Semantics.md#types):
 
@@ -318,15 +318,6 @@ Writing this interaction code means that on the Rust side of things we have to t
 So, let's write a basic function which returns a String from Rust into Javascript.
 
 ```rust
-#![feature(link_args)]
-
-#[cfg_attr(target_arch="wasm32", link_args = "\
-    -s WASM=1 -s EXPORTED_FUNCTIONS=[\
-        '_get_data',\
-    ]\
-")]
-extern {}
-
 use std::os::raw::c_char;
 use std::ffi::CString;
 use std::collections::HashMap;
