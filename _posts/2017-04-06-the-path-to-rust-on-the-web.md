@@ -46,11 +46,11 @@ rustup target add wasm32-unknown-emscripten
 
 We can use this command to install other targets, found via `rustup target list`, as well.
 
-Next we need to set up Emscripten via [`emsdk`](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). We'll to use the *incoming* version of Emscripten in order to get the best output.
+Next we need to set up Emscripten via [`emsdk`](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). We'll use the *incoming* version of Emscripten in order to get the best output.
 
 ```bash
 curl https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | tar -xv -C ~/
-cd emsdk-portable
+cd ~/emsdk-portable
 ./emsdk update
 ./emsdk install sdk-incoming-64bit
 ./emsdk activate sdk-incoming-64bit
@@ -451,7 +451,7 @@ The good thing is it works. The bad thing is that it is rather complex to do. Ho
 
 > I'm not entirely happy with this situation, if you have any ideas how we can do this better please let me know!
 
-## Using The Web Platform
+## Fifth Experiment: Using The Web Platform
 
 As we've discovered by now, the barrier between our compiled code and Javascript is a bit annoying. It'd be quite handy if we could just write everything in Rust and avoid dealing with Javascript except where absolutely needed.
 
@@ -507,4 +507,4 @@ The ecosystem around wasm in Rust is still young, and now is a great time to get
 
 > Special thanks to [Jan-Erik (Badboy)](https://fnordig.de/) for his workshop at Rust Belt Rust 2016, his hard work on this ecosystem, his advice while writing this post, for reviewing this before publishing, and most of all for being my valued friend. May we continue to hack in the same circles.
 
-> This post was supported by [Asquera](http://asquera.de/). If you'd like to hire us for training, consulting, or developing in Rust (or anything else) please get in touch with me at [andrew.hobden@asquera.de](mailto:andrew.hobden@asquera.de).
+> This post was supported by [Asquera](http://asquera.de/) and is an extension of the wasm chapter in our [Three Days of Rust](https://github.com/skade/rust-three-days-course/) course. If you'd like to hire us for training, consulting, or developing in Rust (or anything else) please get in touch with me at [andrew.hobden@asquera.de](mailto:andrew.hobden@asquera.de).
