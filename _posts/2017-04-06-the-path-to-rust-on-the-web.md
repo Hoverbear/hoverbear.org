@@ -46,7 +46,7 @@ rustup target add wasm32-unknown-emscripten
 
 We can use this command to install other targets, found via `rustup target list`, as well.
 
-Next we need to set up Emscripten via [`emsdk`](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). We'll use the *incoming* version of Emscripten in order to get the best output.
+Next we need to set up Emscripten via [`emsdk`](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). We'll use the *incoming* version of Emscripten in order to get the best output. Note: This may take awhile.
 
 ```bash
 curl https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | tar -xv -C ~/
