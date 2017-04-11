@@ -22,23 +22,23 @@ Before we start please make sure you're using the current (or developer) version
 
 ## What Are We Looking At?
 
-[*WebAssembly*](http://webassembly.org/) (or *wasm*) describes an *execution environment* which browsers can implement within their Javascript Virtual Machines. It's a way to run code in place of, or alongside, our Javascript.
+[*WebAssembly*](http://webassembly.org/) (or *wasm*) describes an *execution environment* which browsers can implement within their Javascript Virtual Machines. It's a way to run code in place of, or alongside, Javascript.
 
 WebAssembly can be thought of as similar to [*asm.js*](http://asmjs.org/). Indeed, we can use [*Emscripten*](http://emscripten.org/) compiler to target both.
 
-Most existing documentation discusses how to build C, C++, or Rust into wasm, but there is nothing excluding languages like [Ruby](ruby.dj) or Python from working as well.
+Most existing documentation discusses how to build C, C++, or Rust into wasm, but there is nothing excluding languages like [Ruby](http://ruby.dj/) or Python from working as well.
 
 ## Installing The Tools
 
 We'll need two things to get started with WebAssembly and Rust, assuming you already have a functional development environment otherwise (That is, you have `build-essential`, XCode, or the like installed.)
 
-First, Rust. You can review [here](https://hoverbear.org/2017/03/03/setting-up-a-rust-devenv/#setting-up-rust-via-rustup) for a more long winded explanation of how to do this, or you can just run the following, accept the defaults, and then `source $HOME/.cargo/env`:
+First, Rust. You can review [here](https://hoverbear.org/2017/03/03/setting-up-a-rust-devenv/#setting-up-rust-via-rustup) for a more long winded explanation of how to do this, or you can just run the following and accept the defaults:
 
 ```bash
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-Next we'll add the `wasm32-unknown-emscripten` compile target via `rustup`:
+Open a new terminal or run `source $HOME/.cargo/env`, then we'll add the `wasm32-unknown-emscripten` compile target via `rustup` as well:
 
 ```bash
 rustup target add wasm32-unknown-emscripten
@@ -46,7 +46,7 @@ rustup target add wasm32-unknown-emscripten
 
 We can use this command to install other targets, found via `rustup target list`, as well.
 
-Next we need to set up Emscripten via [`emsdk`](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). We'll use the *incoming* version of Emscripten in order to get the best output. Note: This may take awhile.
+Next we need to set up Emscripten via [`emsdk`](http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html). We'll use the *incoming* version of Emscripten in order to get the best output. Note: This may take awhile (an hour!).
 
 ```bash
 curl https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | tar -xv -C ~/
@@ -75,12 +75,13 @@ Now, let's kick the tires a bit!
 
 ## First Experiment: Standalone Executable
 
-In our first experiment we'll compile some Rust code into wasm and have it run in the browser console. We'll try a basic code samples to ensure things are working as we expect. We won't try to do any crate importing, DOM manipulation, or network access yet, but that's coming later!
+In our first experiment we'll compile some Rust code into wasm and have it run in the browser console. We'll try a basic code sample to ensure things are working as we expect. We won't try to do any crate importing, DOM manipulation, or network access yet, but that's coming later!
 
-Let's create our project, we'll use this same project for our future experiments as well.
+Let's create our project, we'll use this same project for our future experiments as well. We need to set this to nightly (at least at the time or writing) to have our demos work.
 
 ```bash
 cargo init wasm-demo --bin
+rustup override set nightly
 ```
 
 Then we'll put our first code sample into `src/main.rs`:
@@ -156,7 +157,7 @@ At this point we can't really *use* the created files, since we don't have a web
 </html>
 ```
 
-Next we need to set up some way to get the generated files from the `target/` folder into the `site/` folder. `make` is a good solution for this, so let's make a `Makefile`.
+Next we need to set up some way to get the generated files from the `target/` folder into the `site/` folder. `make` is a good solution for this, so let's make a `Makefile`. (Makefiles **require** tabs, not spaces!)
 
 ```makefile
 SHELL := /bin/bash
@@ -180,7 +181,7 @@ site
 
 Let's test our generated code by running `python -m SimpleHTTPServer`, browsing to [`http://localhost:8000/site/`](http://localhost:8000/site/), and opening the browser console.
 
-In my console I get:
+In the browser console you should see:
 
 ```
 trying binaryen method: native-wasm
@@ -302,8 +303,6 @@ Awesome!
 
 It's also possible to use generated wasm as a library and call the generated code from within Javascript. This has its own set of complications though.
 
-In order to do this, at least for now, we need to run `rustup override set nightly` for our project so we use nightly. This is because stable seems to optimize out the exported functions, while nightly does not.
-
 WebAssembly only supports a limited number of [value types](https://github.com/WebAssembly/design/blob/master/Semantics.md#types):
 
 * `i32`: 32-bit integer
@@ -313,7 +312,7 @@ WebAssembly only supports a limited number of [value types](https://github.com/W
 
 Notice how this doesn't include strings or other more satisfying types. That's ok! We can still use a function called `Module.cwrap` to define the parameters and expected return values of the wasm exported functions.
 
-Writing this interaction code means that on the Rust side of things we have to treat it as though we're interacting with C. This can make some things a bit complicated, on the bright side it means writing more (native) FFI later will be much easier.
+Writing this interaction code means that on the Rust side of things we have to treat it as though we're interacting with C. This can make some things a bit complicated, on the bright side it means writing more FFI (foreign function interfaces) later will be much easier.
 
 So, let's write a basic function which returns a String from Rust into Javascript.
 
