@@ -204,15 +204,13 @@ You should see several matches from this. At this point `racer` is set up and re
 
 `rls` is a [language server](http://langserver.org/) implementation for Rust. It provides things like code completion, goto definitions, rich refactoring, and some other nice features.
 
-Unlike the other tools we've described `rls` is still *in the alpha stages* of development, and thus does not have the easiest install story. If you don't use VS Code it might be worth skipping this step for now.
+To install `rls` we need to use Rustup, specifying the appropriate toolchain when we do. (Macs use `nightly-x86_64-apple-darwin`, Linux should be `nightly-x86_64-unknown-linux-gnu`) If you don't use VS Code it might be worth skipping this step for now.
 
-In whatever directory you store all your `git` repositories in, clone down `rls` and build it with nightly:
 
 ```bash
-git clone https://github.com/rust-lang-nursery/rls.git
-cd rls
-rustup override set nightly
-cargo build --release
+rustup component add rls --toolchain nightly-x86_64-apple-darwin
+rustup component add rust-analysis --toolchain nightly-x86_64-apple-darwin
+rustup component add rust-src --toolchain nightly-x86_64-apple-darwin
 ```
 
 Next we need to set up an environment variable. We need to set `DYLD_LIBRARY_PATH` and `RLS_ROOT` (you'll probably need to adjust this to your repository clone):
