@@ -1,6 +1,8 @@
-## Prereqs ##
+## Prereqs
 
 * `bundler`
+* `make`
+* `ruby`
 
 ## Install ##
 
@@ -16,7 +18,7 @@ make
 
 ## Serve ##
 
-Runs a watcher and rebuilds the site on change.
+Run a watcher and rebuilds the site on change.
 
 ```bash
 make serve

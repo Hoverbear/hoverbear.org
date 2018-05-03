@@ -11,10 +11,15 @@ html {
 }
 
 * {
-  font-family: 'Fira Code';
+  font-family: 'Fira Sans';
   text-rendering: optimizeLegibility;
   font-feature-settings: "calt" 1; /* For IE/Edge */
 }
+
+pre, pre > *, code, code > * {
+  font-family: 'Fira Code' !important;
+}
+
 
 body {
   background: white;
@@ -47,13 +52,31 @@ body {
   right: 0;
 }
 
-#cover {
-  max-height: 85vh;
+#cover-wrapper > img#cover {
+  max-height: 90vh;
   opacity: 0;
   animation: 1s fadeIn ease-in .5s 1 forwards;
   width: 100%;
   display: block;
   object-fit: cover;
+}
+
+#cover-wrapper > div.content {
+  margin: auto;
+  text-align: left;
+  position: absolute;
+  bottom: 10vh;
+  left: 20vw;
+  animation: 1s fadeIn ease-in 0s 1 forwards;
+}
+
+#cover-wrapper > div.content > * {
+  color: white;
+  text-shadow: 0px 0px 1em black, 0px 0px 1em black;
+}
+
+#cover-wrapper a:visited {
+  color: white;
 }
 
 main,aside,footer,nav#pagination {
@@ -131,7 +154,7 @@ img {
 }
 
 main {
-  max-width: 60em;
+  max-width: 60vw;
   margin: auto;
   line-height: 1.4;
 }
