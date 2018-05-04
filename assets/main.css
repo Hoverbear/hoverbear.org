@@ -38,12 +38,12 @@ body {
   }
 }
 
-#cover-wrapper {
+#hero-wrapper {
   background-color: black;
   position: relative;
 }
 
-#cover-wrapper::before {
+#hero-wrapper::before {
   content: "";
   position: absolute;
   top: 0;
@@ -52,8 +52,15 @@ body {
   right: 0;
 }
 
-#cover-wrapper > img#cover {
+header > #hero-wrapper > img#background {
   max-height: 90vh;
+}
+
+footer > #hero-wrapper > img#background {
+  max-height: 40vh;
+}
+
+#hero-wrapper > img#background {
   opacity: 0;
   animation: 1s fadeIn ease-in .5s 1 forwards;
   width: 100%;
@@ -61,7 +68,7 @@ body {
   object-fit: cover;
 }
 
-#cover-wrapper > div.content {
+#hero-wrapper > div.content {
   margin: auto;
   text-align: left;
   position: absolute;
@@ -71,16 +78,16 @@ body {
   animation: 1s fadeIn ease-in 0s 1 forwards;
 }
 
-#cover-wrapper > div.content > * {
+#hero-wrapper > div.content > * {
   color: white;
   text-shadow: 0px 0px 1em black, 0px 0px 1em black;
 }
 
-#cover-wrapper a:visited {
+#hero-wrapper a:visited {
   color: white;
 }
 
-main,aside,footer,nav#pagination {
+main,aside,nav#pagination {
   padding-left: 5vw;
   padding-right: 5vw;
   padding-top: 3vh;
@@ -200,11 +207,6 @@ a:visited {
 
 article > h2 {
     margin-top: 0px;
-}
-
-footer {
-  right: 0;
-  left: 0;
 }
 
 /* Make a nice button class */

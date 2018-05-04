@@ -1,18 +1,29 @@
 <footer class="post-footer">
-    <h4>By {{ site.author }}</h4>
-
-    Connect through
-    {% if site.email %}
-        <a href="mailto:{{ site.email }}">{{ site.email }}</a>,
+  <div id="hero-wrapper">
+    {% if page.image %}
+      <img id="background" src="{{ page.image }}">
+    {% else %}
+      <img id="background" src="{{ site.cover }}">
     {% endif %}
+    <div class="content">
+      <h4>By {{ site.author }}</h4>
 
-    {% if site.github_username %}
-        <a href="https://github.com/{{ site.github_username }}">@{{ site.github_username }}</a> on Github,
-    {% endif %}
+      <p>
+        Connect through
+        {% if site.email %}
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>,
+        {% endif %}
 
-    {% if site.twitter_username %}
-        <a href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a> on Twitter,</a>
-    {% endif %}
+        {% if site.github_username %}
+            <a href="https://github.com/{{ site.github_username }}">@{{ site.github_username }}</a> on Github,
+        {% endif %}
 
-    or track via <a class="subscribe" href="/feed.xml">RSS Feed</a>.
+        {% if site.twitter_username %}
+            <a href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a> on Twitter,</a>
+        {% endif %}
+
+        or track via <a class="subscribe" href="/feed.xml">RSS Feed</a>.
+      </p>
+    </div>
+  </div>
 </footer>
