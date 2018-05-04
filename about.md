@@ -7,7 +7,7 @@ image-credit: Geoff Howe
 
 Hello,
 
-My name is Andrew Hobden. I speak primarily English, but I also know a bit of Deutsch and 汉语. I am a forward-looking human who is passionate about open source, community, technology, education, and space. I am a Canadian from the west coast, and have ancestry from Norway, France, England, and the Listuguj Mi'kmaq. Ultimately though, I am from Earth, just like you.
+My name is Andrew Hobden, or Hoverbear. I speak primarily English, but I also know a bit of Deutsch and 汉语. I am a forward-looking human who is passionate about open source, community, technology, education, and space. I am a Canadian from the west coast, and have ancestry from Norway, France, England, and the Listuguj Mi'kmaq. Ultimately though, I am from Earth, just like you.
 
 Life draws me into many interesting adventures and teachings. I try to use this site to catalog and document some of it. While it documents edited and often well researched topics, it does not capture the true *texture* of life. When I write I try to take you along on my exploration, but that is by no means a subsitute for your own adventures.
 
