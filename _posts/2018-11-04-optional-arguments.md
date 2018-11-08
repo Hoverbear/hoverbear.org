@@ -269,7 +269,7 @@ optional_into (Vec<u64>) None
 
 We learnt there are many options when it comes to API design with Rust. During our exploration we noted that choosing to declare our functions semantically, and/or enabling a more flexible API doesn't have to cost much.
 
-If you're interested in learning more about enabling flexible APIs in Rust, I'd reccomend exploring the [Guidelines](https://rust-lang-nursery.github.io/api-guidelines/flexibility.html).
+If you're interested in learning more about enabling flexible APIs in Rust, I'd reccomend exploring the [Guidelines](https://rust-lang-nursery.github.io/api-guidelines/flexibility.html). I'd also reccomend exploring the [Builder Pattern](https://doc.rust-lang.org/1.0.0/style/ownership/builders.html), since it's generally more well used in Rust.
 
 Thanks for reading! Hope to use your lovely code soon. 😉
 
