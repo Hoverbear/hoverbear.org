@@ -22,11 +22,11 @@ This post is the first in a series of articles surrounding quadcopters, how they
 
 > Look for emphasized notes like this! They will be questions, key takeaways, and other important notes.
 
-As we progress, readers will learn about aeronautics, physics, mathematics, electonics, and computer science. If at any point you become confused or have questions please feel encouraged to ask via [email](mailto:andrew@hoverbear.org).
+As we progress, readers will learn about aeronautics, physics, mathematics, electonics, and computer science. If at any point you become confused or have questions please feel encouraged to ask via [email](mailto:ana@hoverbear.org).
 
 # Who We Are
 
-I, Andrew Hobden, am a 4th year Computer Science student at the University of Victoria. I am interested in systems, infrastructure, networking, and embedded devices. Currently, I'm a new member of the [(Mod)ularity Squad](http://webhome.cs.uvic.ca/~ycoady/) with advisor Yvonne Coady.
+I, Ana Hobden, am a 4th year Computer Science student at the University of Victoria. I am interested in systems, infrastructure, networking, and embedded devices. Currently, I'm a new member of the [(Mod)ularity Squad](http://webhome.cs.uvic.ca/~ycoady/) with advisor Yvonne Coady.
 
 My partner, Bob Sedlock, is a Physics instructor at Camosun College. He's interested in relativity, fluid dynamics, and physics in general.
 

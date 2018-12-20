@@ -114,4 +114,4 @@ With its help we've moved to a `sudo`-less build and overall things work much be
 
 # Aside: Contributors!!!
 
-We now have 3 whole code contributors to Raft! This includes [Dan Burkert](https://github.com/danburkert), [James McGlashan](https://github.com/james-darkfox), and [myself](https://github.com/hoverbear/) (Andrew Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!
+We now have 3 whole code contributors to Raft! This includes [Dan Burkert](https://github.com/danburkert), [James McGlashan](https://github.com/james-darkfox), and [myself](https://github.com/hoverbear/) (Ana Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!

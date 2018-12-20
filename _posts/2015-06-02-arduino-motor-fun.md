@@ -10,7 +10,7 @@ Lately we've been playing with Quadcopters a lot, one of the key components of a
 
 All of these 'labs' are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.
 
-> You're welcome to print, distribute, and modify all of these to meet your needs. You can [email me](mailto:andrew+blog@hoverbear.org) if you'd like the source files. We use [Fritzing](http://www.fritzing.org/) for breadboard layouts.
+> You're welcome to print, distribute, and modify all of these to meet your needs. You can [email me](mailto:ana+blog@hoverbear.org) if you'd like the source files. We use [Fritzing](http://www.fritzing.org/) for breadboard layouts.
 
 # On and Off
 

@@ -52,7 +52,7 @@ and the opportunity for you to learn while doing so.
 ### Interested?
 
 If you've read the above, and happen to be looking for new people to bring onto
-your team, then please do get in touch with me. I'm andrew@hoverbear.org
+your team, then please do get in touch with me. I'm ana@hoverbear.org
 ([gpg](https://keybase.io/hoverbear)).
 
 For those who I've already been in touch with, again, thank you for your time

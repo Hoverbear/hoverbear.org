@@ -56,7 +56,7 @@ $ cat checkin
 
 ```dockerfile
 FROM hoverbear/archlinux
-MAINTAINER Andrew Hobden <andrew@hoverbear.org>
+MAINTAINER Ana Hobden <ana@hoverbear.org>
 
 # It's always a good idea to update Arch, then install deps.
 RUN pacman -Syu

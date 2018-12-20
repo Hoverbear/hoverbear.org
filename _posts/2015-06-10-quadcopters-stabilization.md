@@ -87,7 +87,7 @@ Functions can be invoked by calling them like so:
 
 # Understanding the Code
 
-The stabilization code is broken up into a few sections. We'll take the code directly from the project and go over it slowly. If anything doesn't make sense please [email me](mailto:andrew+quads@hoverbear.org) and I'll make it more clear!
+The stabilization code is broken up into a few sections. We'll take the code directly from the project and go over it slowly. If anything doesn't make sense please [email me](mailto:ana+quads@hoverbear.org) and I'll make it more clear!
 
 
 ## Initialization

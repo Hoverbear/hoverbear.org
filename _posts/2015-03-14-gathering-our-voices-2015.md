@@ -135,4 +135,4 @@ Thanks to everyone who had a part of making this event happen!
 
 ![Thanks](/assets/images/2015/03/buttons.jpg)
 
-> Images used with permission. Images are copyright BCAAFC and Gathering Our Voices. Most images captured by [Geoff Howe](http://geoffhowe.net/), others by Andrew Hobden. Distributing these images or claiming them as your own may have legal rammifications, be considerate of privacy.
+> Images used with permission. Images are copyright BCAAFC and Gathering Our Voices. Most images captured by [Geoff Howe](http://geoffhowe.net/), others by Ana Hobden. Distributing these images or claiming them as your own may have legal rammifications, be considerate of privacy.

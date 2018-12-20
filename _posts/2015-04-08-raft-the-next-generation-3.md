@@ -58,7 +58,7 @@ Merged pull requests by Dan Burkert:
 * [impl `::std::error::Error` for `capnp::Error`](https://github.com/dwrensha/capnproto-rust/pull/30)
 * [Implement `std::error::Error` for `std::sync::mpsc` error types](https://github.com/rust-lang/rust/pull/23125)
 
-Merged pull requests by Andrew Hobden:
+Merged pull requests by Ana Hobden:
 
 * [Move to `&mut s[..]` syntax](https://github.com/dwrensha/capnproto-rust/pull/35)
 * [Update `std::error` example](https://github.com/rust-lang/rust/pull/23836)
