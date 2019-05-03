@@ -9,7 +9,7 @@ Hello,
 
 My name is Ana Hobden, or Hoverbear / 飘飘熊 / Schwebebär. I speak primarily English, but I also know a bit of Deutsch and 汉语. I am a forward-looking human who is passionate about open source, community, technology, education, and space. I am a Canadian from the west coast, and have ancestry from Norway, France, England, and the Listuguj Mi'kmaq. Ultimately though, I am from Earth, just like you.
 
-I live in Victoria, Canada. It's a provincial capital with around 92,000 residents. I grew up here and love the diverse population, green spaces, sustainable living, and cultural attitudes. It's also conviently located close to Vancouver and Seattle, with easy flights to most of the world from their airports. For a couple years I also lived in Berlin, and it remains my favorite city to experience humanity.
+I live in Victoria, Canada. It's a provincial capital with around 92,000 residents. I grew up here and love the diverse population, green spaces, sustainable living, and laid-back cultural attitudes. It's also conviently located close to Vancouver and Seattle, with easy flights to most of the world from their airports. It's my favorite spot to experience the world. For a couple years I also lived in Berlin, and it remains my favorite city to experience humanity.
 
 Life draws me into many interesting adventures and teachings. I try to use this site to catalog and document some of it. While it documents edited and often well researched topics, it does not capture the true *texture* of life. When I write I try to take you along on my exploration, but that is by no means a subsitute for your own adventures.
 
