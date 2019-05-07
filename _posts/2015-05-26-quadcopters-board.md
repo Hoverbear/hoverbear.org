@@ -16,7 +16,7 @@ Here are links to the schematics and component placements:
 
 On the pictures below we'll use the **schematic symbols** as they are shortest.
 
-# Top Side #
+## Top Side
 
 ![Labelled Top](/assets/images/2015/05/image4144.jpg)
 
@@ -65,11 +65,11 @@ On the pictures below we'll use the **schematic symbols** as they are shortest.
       <td>U8</td>
       <td>RFX2401C</td>
       <td>2.4Ghz Zigbee Transceiver</td>
-    </td>
+    </tr>
   </tbody>
 </table>
 
-# Bottom Side #
+## Bottom Side
 
 ![Labelled Bottom](/assets/images/2015/05/labelled_bottom.png)
 
