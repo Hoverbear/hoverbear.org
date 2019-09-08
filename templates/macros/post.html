@@ -1,0 +1,16 @@
+{% macro metadata(post) %}
+  <section>
+    <h2><a href="{{ post.permalink }}">{{ post.title }}</a></h2>
+    <p>{{ post.description }}</p>
+    <section class="excerpt">
+      {{ post.summary | safe }}
+      <a href="{{ post.permalink }}#continue-reading">Continue Reading</a>
+    </section>
+
+    <div class="post-meta">
+        Posted on
+        <time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
+
+    </div>
+  </section>
+{% endmacro metadata %}

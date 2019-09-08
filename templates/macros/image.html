@@ -1,0 +1,13 @@
+{% macro full(path) %}
+  <img srcset="
+              {{ resize_image(path=path, width=1280, height=720, op='fill') }} 1280w,
+              {{ resize_image(path=path, width=1920, height=1080, op='fill') }} 1920w,
+              {{ resize_image(path=path, width=3840, height=2160, op='fill') }} 3840w
+              "
+        sizes="
+               (max-width: 600px) 600px,
+               (max-width: 1200px) 1200px,
+               (max-width: 1800px) 1800px,
+               3840px"
+        src="{{ resize_image(path=path, width=1280, height=720, op='fill') }}" />
+{% endmacro large %}

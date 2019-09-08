@@ -1,0 +1,30 @@
+<header>
+    <div id="hero-wrapper">
+        {% if page.extra.image %}
+            {% set page_url_components = page.relative_path | split(pat='/') %}
+            {% set page_base = page_url_components | slice(end=page_url_components | length - 1) | join(sep='/') %}
+            {% set image_url = page_base ~ '/' ~ page.extra.image %}
+            {{ image::full(path=image_url) }}
+        {% else %}
+            {% set image_url = '../static/' ~ config.extra.cover %}
+            {{ image::full(path=image_url) }}
+        {% endif %}
+        <div class="content">
+            {% if page.title %}
+                <h1><a href="{{ config.base_url }}">{{ page.title }}</a></h1>
+                <p class="description">{{ page.description }}</h1>
+            {% else %}
+                <h1><a href="{{ config.base_url }}">{{ config.title }}</a></h1>
+                <p class="description">{{ config.description }}</p>
+            {% endif %}
+            <nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    </header>
+      

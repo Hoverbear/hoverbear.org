@@ -1,0 +1,16 @@
+{% extends "default.html" %}
+
+{% import "macros/post.html" as post %}
+
+{% block content %}
+    {% for term in terms  %}
+        <section>
+            <h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2>
+            <ul>
+                {% for page in term.pages  %}
+                    {{ post::metadata(post=page) }}
+                {% endfor %}
+            </ul>
+        </section>
+    {% endfor %}
+{% endblock content %}

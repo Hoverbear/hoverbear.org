@@ -1,0 +1,11 @@
+{% extends "default.html" %}
+{% import "macros/post.html" as post %}
+
+{% block content %}
+  {% for post in section.pages  %}
+    {{ post::metadata(post=post) }}
+    {% if loop.last != true %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock content %}

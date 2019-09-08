@@ -1,0 +1,224 @@
+html {
+    background-color: black;
+    font-family: 'Fira Sans';
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "calt" 1; /* For IE/Edge */
+    body {
+        margin: auto;
+        padding: 0;
+        background: white;
+
+        /* A nice fade in. */
+        opacity: 0;
+        animation: .5s fadeIn ease-in 0s 1 forwards;
+
+        // Hero images are intended to be very prominent, and can hold some content.
+        #hero-wrapper {
+            background-color: black;
+            position: relative;
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+            & > img {
+                max-height: 90vh;
+                opacity: 0;
+                animation: 1s fadeIn ease-in .5s 1 forwards;
+                width: 100%;
+                display: block;
+                object-fit: cover;
+            }
+            &  > div.content {
+                margin: auto;
+                text-align: left;
+                position: absolute;
+                bottom: 10vh;
+                left: 20vw;
+                right: 20vw;
+                animation: 1s fadeIn ease-in 0s 1 forwards;
+                & > * {
+                    color: white;
+                    text-shadow: 0px 0px 1em black, 0px 0px 1em black;
+                }
+            }
+
+            a:visited, a {
+                color: white;
+            }
+        }
+
+        // Tweak the footer hero to be a bit smaller and more "goodbye" feeling.
+        footer {
+            span.author,span.image-credit {
+                display: block;
+                font-size: 12pt;
+            }
+            & > #hero-wrapper > img {
+                max-height: 40vh;
+                filter: blur(2px) saturate(20%) contrast(200%);
+                background-color: black;
+            }
+        }
+
+        header,footer,nav#pagination {
+            text-align: center;
+        }
+
+        main,aside,nav#pagination {
+            padding-left: 5vw;
+            padding-right: 5vw;
+            padding-top: 3vh;
+            padding-bottom: 3vh;
+            margin-bottom: 5vh;
+            margin-top: 2vh;
+        }
+
+        nav {
+            &#pages > ul {
+                padding-left: 0;
+                & > li {
+                    display: inline-block;
+                    & > a, & > a:hover, & > a:visited {
+                        text-decoration: none;
+                    }
+                    &:not(:first-child):before {
+                        content: " | ";
+                    }
+                }
+            }
+            &#pagination {
+                & > a[href="#"] {
+                    color: #CCCCCC;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        main {
+            max-width: 60vw;
+            margin: auto;
+            line-height: 1.4;
+            // Create nice article breaks.
+            article {
+                & > h1:before,article > h2:before {
+                    content: "";
+                    width: 45vw;
+                    height: 5px;
+                    position: relative;
+                    display: flex;
+                    background: #999999;
+                    height: 1px;
+                    margin-top: 3vh;
+                    margin-bottom: 3vh;
+                }
+                & > h2 {
+                    margin-top: 0px;
+                }
+                & > h3:before {
+                    content: "";
+                    width: 25vw;
+                    height: 5px;
+                    position: relative;
+                    display: flex;
+                    background: #999999;
+                    height: 1px;
+                    margin-top: 3vh;
+                    margin-bottom: 3vh;
+                }
+                  
+            }
+            .post-meta {
+                color: rgba(0,0,0,.5);
+                font-style: italic;
+            }
+        }
+
+        hr {
+            width: 60%;
+            border: none;
+            height: 1px;
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+            background-color: rgba(0,0,0,.3);
+        }
+          
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+
+/* Make a nice button class */
+.button {
+    display: inline-block;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+    padding: 5pt 15pt;
+    margin: 5pt 5pt;
+    line-height: 18pt;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 0 0px;
+    transition: box-shadow 0.2s linear;\
+    &:hover {
+          box-shadow: 0 0 2px;
+    }
+    &:active {
+          background-color: black;
+          color: white;
+          box-shadow: 0 0 2px black;
+          border-color: black;
+    }
+  }
+  
+
+// *** Bad Behavior fixes ***
+// Figure captions should center align.
+figure {
+    text-align: center;
+}
+// Images should try to behave somewhat.
+img {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+// Better link behavior. No underlines, simpler colors.
+h1 > a,h2 > a,h3 > a,h4 > a {
+    text-decoration: none;
+}
+a {
+    color: #666666;
+}
+    
+a:visited {
+    color: #999999;
+}
+
+// Make a nice border around code.
+pre {
+    font-family: 'Fira Code' !important;
+    padding: 5px;
+    border: 1px solid #DDDDDD;
+    overflow-x: scroll;
+    border-radius: 5px;
+}
+
+:not(pre) > code {
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+}
