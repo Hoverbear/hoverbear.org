@@ -377,7 +377,7 @@ Then, add a `.vscode/tasks.json` with the following:
 
 Next let's set a breakpoint somewhere. Finally we can go to the 'No Bugs' icon and hit the 'Play' and we should see something like this:
 
-![Demonstrating the VS Debugger](rust-debug.png)
+{{ figure(path="rust-debug.png", alt="Demonstrating the VS Debugger", colocated=true) }}
 
 ## Compiling to Different Targets
 

@@ -94,7 +94,7 @@ user@full.domain.name/current/directory (system state) (last exit code)
 
 `(last exit code)` will be `0` if the last command exited successfully, and a different number if it did not.
 
-![My prompt](ps1.jpg)
+{{ figure(path="ps1.jpg", alt="My prompt", colocated=true) }}
 
 ## The Multiplexer
 
@@ -189,7 +189,7 @@ Launching `tmux` you can create new 'tabs' with `Ctl+b c` (press `Control` and `
 
 You can **detach** `tmux` with `Ctl+b d` and you can **re-attach** with `tmux a` later on. Sessions will persist between logins but not between reboots.
 
-![Example of tmux](tmux.jpg)
+{{ figure(path="tmux.jpg", alt="Example of tmux", colocated=true) }}
 
 ## Editing the Editor
 
@@ -314,6 +314,6 @@ In later posts we'll be discussing BTRFS more in regards to how it works with co
 
 Try running our three configured programs as both `root` and your `$USER`, their configurations should be the same. Our system has been configured to act in a simple, usable manner and behave with little surprising behaivor. Below you can see it with `nvim /etc/iptables/iptables.rules`, `systemd-cgtop` and `journalctl -f` running.
 
-![An Example](all.jpg)
+{{ figure(path="all.jpg", alt="An Example", colocated=true) }}
 
 What's perhaps most important to remember throughout this process is that you kept this system very clean. Next post we'll discuss using containers to construct virtual environments, which we can be much more *messy* with!

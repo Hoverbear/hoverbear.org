@@ -452,7 +452,7 @@ Give it a few seconds then try running `systemctl status haproxy -M web`.
 
 **Gotcha:** Sometimes `puppet` doesn't wait for the name resolution to configure and needs to be restarted with `systemctl restart puppet -M web`. I'm currently pondering solutions to this.
 
-![That looks great.](creation.jpg)
+{{ figure(path="creation.jpg", alt="That looks great.", colocated=true) }}
 
 ## Rest and Test
 

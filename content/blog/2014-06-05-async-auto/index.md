@@ -17,7 +17,7 @@ I've been exploring the handy [`async`](https://github.com/caolan/async) over th
 
 Consider the following dependency graph:
 
-![Graph](dep.png)
+{{ figure(path="dep.png", alt="Graph", colocated=true) }}
 
 With `async` this could be modelled like so:
 

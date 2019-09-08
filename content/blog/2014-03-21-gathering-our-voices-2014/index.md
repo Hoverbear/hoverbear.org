@@ -24,17 +24,17 @@ The conference had 1800 delegates and over 2000 participants.
 
 With the Association, I played both a technical and organizational role.
 
-![The GOV 2014 Site](site.jpg)
+{{ figure(path="site.jpg", alt="The GOV 2014 Site", colocated=true) }}
 
 I rewrote the website code from the ground up. It was redesigned to be much more robust and speedy. The architecture itself didn't change much, but everything was refined and made cleaner. While there were some bugs, as with any software, I was able to maintain a very quick turn around as they arose.
 
 *In one case we discovered a bug (due to load) on a particular database action that was inproperly ordered. In MongoDB 'transactions' don't really exist, and lead to several attendees being only partially registered for workshops. It was resolved without major issue. The patch was developed, tested, and deployed within 6 hours of reporting (even though I wasn't working at the Association that day, and it was after hours), and affected delegates were resolved within the next day. I felt horrible, but it's a lesson learned.*
 
-![Workshop Selection](workshops.png)
+{{ figure(path="workshops.png", alt="Workshop Selection", colocated=true) }}
 
 I worked with [Geoff Howe](http://geoffhowe.ca/) to organize photography for the event, helped coordinate registration and workshop organization, and provided technical support both on-site and in-office to the team during the entire planning of, and time of, the event.
 
-![Opening Ceremonies.](opening.jpeg)
+{{ figure(path="opening.jpeg", alt="Opening Ceremonies.", colocated=true) }}
 
 Acting with the Association I also hosted a workshop, taking 20 delegates on a trip to Science World on the Vancouver Skytrain. It was a 3 hour workshop and delegates were able to inquire into what interested them.
 
@@ -44,17 +44,17 @@ With Science Venture, I helped deliver two different workshops, both occuring tw
 
 The workshops were facilitated by Melisa Yestrau, Laura Bowman(?), and I. We had a great time and learnt many things ourselves.
 
-![Me.](me.jpeg)
+{{ figure(path="me.jpeg", alt="Me.", colocated=true) }}
 
 This project was supported in part by LE,<u>N</u>ONET. I've included their official descriptions below.
 
-![Extracting DNA from strawberries](berries.jpg)
+{{ figure(path="berries.jpg", alt="Extracting DNA from strawberries", colocated=true) }}
 
 ## Exposing the Evidence
 
 Explore the world of forensic science in this workshop. Enter a simulated lab, and use various techniques to solve a crime. Lab coats and hazmat suits provided. From DNA extraction to fingerprint analysis and blood typing, unleash your inner geek.
 
-![Turbine](turbine.jpeg)
+{{ figure(path="turbine.jpeg", alt="Turbine", colocated=true) }}
 
 ## H20 Design Challenge
 

@@ -50,15 +50,15 @@ We also had to consider budget. After surveying the field and considering our ta
 
 We ended up choosing the [BitCraze Crazyflie 2.0](https://www.bitcraze.io/crazyflie-2/) because it satisfied our requirements. The developers of the device are three awesome folks from Sweden!
 
-![Unpacking](laid-out.jpg)
+{{ figure(path="laid-out.jpg", alt="Unpacking", colocated=true) }}
 
-![Crazyflie](crazyflie.jpg)
+{{ figure(path="crazyflie.jpg", alt="Crazyflie", colocated=true) }}
 
-![Crazyflie again](crazyflie_again.jpg)
+{{ figure(path="crazyflie_again.jpg", alt="Crazyflie again", colocated=true) }}
 
 In diagrams we will often simplify the quad into the following diagram:
 
-![Quad Diagram](quad-1.svg)
+<img src="quad-1.svg" alt="Quad Diagram">
 
 The front is identified by the knob with an arrow. If the arrows around the motors appear black, it means they are holding steady, if they are green they are speeding up, and if they are red they are slowing down.
 
@@ -86,15 +86,15 @@ When reasoning about the location and orientation of a quadcopter we need to con
 * **Yaw** is the rotation of the quad. Changing the yaw is equivalent to you turning left or right. A negative value turns the quad counter clockwise, a positive value turns it clockwise.
 * **Roll** is the rotational tilt about an axis running from the quad's central front to back. This is the equivalent of tilting to the side such that you are standing on one foot. A positive roll tilts the quad to the right, while a negative roll tilts it to the left.
 
-![Axis Demonstration](axes-3.svg)
+<img src="axes-3.svg" alt="Axis Demonstration">
 
 # Pitching, Yawing, and Rolling
 
 In order to cause a change in **Pitch** or **Roll** we can cause motors on one side of the quad to contribute a bit more, and the motors on the other side to contribute a bit less.
 
-![Increase Pitch](pitch-up-1.svg)
+<img src="pitch-up-1.svg" alt="Increase Pitch">
 
-![Increase Roll](roll-cw-1.svg)
+<img src="roll-cw-1.svg" alt="Increase Roll">
 
 > How can we change yaw?
 
@@ -102,7 +102,7 @@ Yaw doesn't necessarily require the quad to tilt in a particular manner, instead
 
 In order to change it's yaw the quad utilizes the following strategy:
 
-![Increasing Yaw](yaw-2.svg)
+<img src="yaw-2.svg" alt="Increasing Yaw">
 
 So how does this work? Well, the quadcopter must somehow exert a **sideways** force in order to turn.
 
@@ -114,7 +114,7 @@ But if the quadcopter can only push air downward with its motors, how does it ro
 
 Not all of the propellers are the same. Have a look at these two:
 
-![Propellers](props.jpg)
+{{ figure(path="props.jpg", alt="Propellers", colocated=true) }}
 
 Do you see how one is "flipped" compared to the other? That's because if we had all four propellers the same the quad would simply not function correctly. Let's take a look!
 
@@ -128,7 +128,7 @@ With all propellers the same:
 
 You can see how when all of the propellers are the same the quad is unable to take off and it tends to spin a bit. When the motors on the diagonal have matching propellers the quad performs as desired. Why? Notice the directions of the arrows of the motors:
 
-![Quad Diagram](quad-1.svg)
+<img src="quad-1.svg" alt="Quad Diagram">
 
 See how the motors on any side *counteract* one another? That is, the go in the opposite direction. This is again because of Sir Newton's law, and indeed the mechanics of how yaw works.
 

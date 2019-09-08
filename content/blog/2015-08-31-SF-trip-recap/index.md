@@ -20,56 +20,56 @@ A selection of images from my trip that I thought I'd share with the world.
 
 # Day 1
 
-![Victoria's Airport has trees growing in the floor.](d1-yyj-tree.jpg)
+{{ figure(path="d1-yyj-tree.jpg", alt="Victoria's Airport has trees growing in the floor.", colocated=true) }}
 
-![YYJ ✈ YVR](d1-yyj-yvr.jpg)
+{{ figure(path="d1-yyj-yvr.jpg", alt="YYJ ✈ YVR", colocated=true) }}
 
-![Officially entering the US... in Vancouver!](d1-yvr-customs.jpg)
+{{ figure(path="d1-yvr-customs.jpg", alt="Officially entering the US... in Vancouver!", colocated=true) }}
 
-![A fire in California. The west is burning this year, and it's only going to get worse.](d1-yvr-sfo-fire.jpg)
+{{ figure(path="d1-yvr-sfo-fire.jpg", alt="A fire in California. The west is burning this year, and it's only going to get worse.", colocated=true) }}
 
-![The SFO roof is pretty neat.](d1-sfo-roof.jpg)
+{{ figure(path="d1-sfo-roof.jpg", alt="The SFO roof is pretty neat.", colocated=true) }}
 
-![My first BART sighting.](d1-sfo-bart.jpg)
+{{ figure(path="d1-sfo-bart.jpg", alt="My first BART sighting.", colocated=true) }}
 
-![Riding the BART.](d1-bart-ride.jpg)
+{{ figure(path="d1-bart-ride.jpg", alt="Riding the BART.", colocated=true) }}
 
-![Obligatory Trolley Shot](d1-trolley.jpg)
+{{ figure(path="d1-trolley.jpg", alt="Obligatory Trolley Shot", colocated=true) }}
 
-![Gratuitous Skyscraper shot one.](d1-skyscraper-1.jpg)
+{{ figure(path="d1-skyscraper-1.jpg", alt="Gratuitous Skyscraper shot one.", colocated=true) }}
 
-![Gratuitous Skyscraper shot two.](d1-skyscraper-2.jpg)
+{{ figure(path="d1-skyscraper-2.jpg", alt="Gratuitous Skyscraper shot two.", colocated=true) }}
 
-![Me in front of the Firefox Totem](d1-firefox-post.jpg)
+{{ figure(path="d1-firefox-post.jpg", alt="Me in front of the Firefox Totem", colocated=true) }}
 
-![Some of the Mozilla Meet-up Space.](d1-moz-space.jpg)
+{{ figure(path="d1-moz-space.jpg", alt="Some of the Mozilla Meet-up Space.", colocated=true) }}
 
-![Meetup time!](d1-moz-meetup.jpg)
+{{ figure(path="d1-moz-meetup.jpg", alt="Meetup time!", colocated=true) }}
 
-![Dan (dcb) is an exceptional presenter.](d1-moz-dan-present.jpg)
+{{ figure(path="d1-moz-dan-present.jpg", alt="Dan (dcb) is an exceptional presenter.", colocated=true) }}
 
 # Day 2
 
-![Some open space near the Ferry Building](d2-balls.jpg)
+{{ figure(path="d2-balls.jpg", alt="Some open space near the Ferry Building", colocated=true) }}
 
-![We don't have trees like this in Canada.](d2-trees.jpg)
+{{ figure(path="d2-trees.jpg", alt="We don't have trees like this in Canada.", colocated=true) }}
 
-![There was a market at the Ferry Building](d2-ferry.jpg)
+{{ figure(path="d2-ferry.jpg", alt="There was a market at the Ferry Building", colocated=true) }}
 
-![A very cool water feature.](d2-water-feature.jpg)
+{{ figure(path="d2-water-feature.jpg", alt="A very cool water feature.", colocated=true) }}
 
-![Leftovers from a wild night for an archer.](d2-bow-arrow.jpg)
+{{ figure(path="d2-bow-arrow.jpg", alt="Leftovers from a wild night for an archer.", colocated=true) }}
 
-![Lunch with Alex, Aaron, Huon, and Patrick](d2-lunch.jpg)
+{{ figure(path="d2-lunch.jpg", alt="Lunch with Alex, Aaron, Huon, and Patrick", colocated=true) }}
 
-![Top Floor of Mozilla HQ](d2-moz-top-floor.jpg)
+{{ figure(path="d2-moz-top-floor.jpg", alt="Top Floor of Mozilla HQ", colocated=true) }}
 
-![Obligatory bridge shot from atop Mozilla HQ.](d2-bridge.jpg)
+{{ figure(path="d2-bridge.jpg", alt="Obligatory bridge shot from atop Mozilla HQ.", colocated=true) }}
 
 # Day 3
 
-![Breakfast with Dan (dcb) and Alex (posix4e)](d3-breakfast.jpg)
+{{ figure(path="d3-breakfast.jpg", alt="Breakfast with Dan (dcb) and Alex (posix4e)", colocated=true) }}
 
-![Customs, Canada Style](d3-yvr-customs.jpg)
+{{ figure(path="d3-yvr-customs.jpg", alt="Customs, Canada Style", colocated=true) }}
 
-![More Canadian Comforts](d3-disc.jpg)
+{{ figure(path="d3-disc.jpg", alt="More Canadian Comforts", colocated=true) }}

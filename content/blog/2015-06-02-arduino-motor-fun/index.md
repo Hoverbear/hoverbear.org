@@ -37,7 +37,7 @@ First, let's start with a basic on/off motor. This gives us the chance to unders
 
 ### Breadboard
 
-![Plain](plain.png)
+{{ figure(path="plain.png", alt="Plain", colocated=true) }}
 
 ### Code
 
@@ -109,7 +109,7 @@ Same as above, but add:
 
 ## Breadboard
 
-![Turnpot](turnpot.png)
+{{ figure(path="turnpot.png", alt="Turnpot", colocated=true) }}
 
 ## Code
 

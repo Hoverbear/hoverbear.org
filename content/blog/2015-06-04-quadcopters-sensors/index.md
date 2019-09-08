@@ -12,15 +12,15 @@ Most intelligent devices existing in the physical world, a quadcopter included, 
 
 <!-- more -->
 
-![Digital Sensors](sensors_bb.jpg)
+{{ figure(path="sensors_bb.jpg", alt="Digital Sensors", colocated=true) }}
 
 Some sensors are **digital**, like a button or switch, and can be read via a `digitalRead()` on an Arduino, returning either `HIGH` or `LOW`.
 
-![Analog Sensors](analog_sensors.jpg)
+{{ figure(path="analog_sensors.jpg", alt="Analog Sensors", colocated=true) }}
 
 Other sensors are **analog** and can return anything in the range of 0-1023. These are things like potentiometers, force sensors, light sensors, and temperature sensors.
 
-![I2C Sensors](i2c_spi.jpg)
+{{ figure(path="i2c_spi.jpg", alt="I2C Sensors", colocated=true) }}
 
 Finally, some sensors use Inter-integrated Circuit (**I2C**) or Serial Peripheral Interface (**SPI**) to interface. Typically these are found on more complicated chips like gyroscopes and accelerometers. These interfaces require multiple wires and often require you to build a small *wrapper* around the interface to interact with it. If you enjoy playing with Arduinos, companies like [Adafruit](http://adafruit.com/) almost always include libraries for their products.
 
@@ -44,7 +44,7 @@ If you have one to play with you can explore it's readings by taking a reasonabl
 
 {{ youtube(id="-TEnJt4TLkE") }}
 
-![Magnetometer Readings](mag-2.jpg)
+{{ figure(path="mag-2.jpg", alt="Magnetometer Readings", colocated=true) }}
 
 Some uses of Magnetometers:
 
@@ -67,7 +67,7 @@ Here's how we can demonstrate this sensor, along with the output:
 
 {{ youtube(id="vYcVIqqawoU") }}
 
-![Gyroscope Readings](gyro-1.jpg)
+{{ figure(path="gyro-1.jpg", alt="Gyroscope Readings", colocated=true) }}
 
 ## Accelerometer
 
@@ -81,7 +81,7 @@ Here's how we can demonstrate this sensor, along with the output:
 
 {{ youtube(id="6aI5Q7sSGGg") }}
 
-![Accelerometer Readings](accel-1.jpg)
+{{ figure(path="accel-1.jpg", alt="Accelerometer Readings", colocated=true) }}
 
 Some uses of Accelerometers:
 
@@ -114,7 +114,7 @@ Therefore if the quadcopter has a reference to the air pressure of where it took
 
 These readings are a bit noisy, sorry.
 
-![Pressure Readings](baro.jpg)
+{{ figure(path="baro.jpg", alt="Pressure Readings", colocated=true) }}
 
 ## Sensor Fusion
 

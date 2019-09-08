@@ -25,7 +25,7 @@ I went [Camosun College](http://camosun.ca/) in late 2010, and transfered to the
 
 I'm now the proud holder of a **Computer Science (Networking) with Distinction** degree. I wasn't sure what the 'with Distinction' meant but according to [this](http://web.uvic.ca/calendar2016-09/undergrad/info/regulations/graduation.html) it means I was in the top 20%! Wild.
 
-![My degree.](degree.jpg)
+{{ figure(path="degree.jpg", alt="My degree.", colocated=true) }}
 
 As the heading suggests, I plan to do more academia in the future. I'd like to work and explore a bit first. Which brings up my next topic!
 
@@ -49,7 +49,7 @@ Asquera is a back-end consultancy. I originally encountered them through my frie
 
 Asquera does a considerable amount of work in the Rust, Ruby, and Elasticsearch communities. This is very important to me and I'm very excited to get involved on the other side of the planet. I'm temporarily leaving several very awesome communities here back home, and I'm sure that ebing involved there will make me feel more at home.
 
-![Asquera](asquera.svg)
+<img src="asquera.svg", alt="Asquera">
 
 Over the last few weeks I've gotten to know the team a bit, and gosh are they ever cool! I can't wait to work with them. It will be a big change from where I what I currently do for work, and I'm both nervous and excited about it.
 

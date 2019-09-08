@@ -22,7 +22,7 @@ On the pictures below we'll use the **schematic symbols** as they are shortest.
 
 ## Top Side
 
-![Labelled Top](board.jpg)
+{{ figure(path="board.jpg", alt="Labelled Top", colocated=true) }}
 
 <table>
   <thead>
@@ -75,7 +75,7 @@ On the pictures below we'll use the **schematic symbols** as they are shortest.
 
 ## Bottom Side
 
-![Labelled Bottom](labelled_bottom.png)
+{{ figure(path="labelled_bottom.png", alt="Labelled Bottom", colocated=true) }}
 
 <table>
   <thead>

@@ -1,0 +1,5 @@
+{%- import "macros/image.html" as image -%}
+<figure>
+    {{ image::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
+    <figcaption>{{ alt }}</figcaption>
+</figure>

@@ -79,7 +79,7 @@ That's it! Now to fire up the VM:
 
 Next, it's time to settle in and get comfortable. The boot output will not show you command prompt until you manually focus the window and tap return, then you should see a prompt.
 
-![The VM screen](openwrt.png)
+{{ figure(path="openwrt.png", alt="The VM screen", colocated=true) }}
 
 ## WAN
 

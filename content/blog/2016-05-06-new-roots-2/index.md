@@ -28,7 +28,7 @@ Servers do, though, have different requirements. You will not want to install a 
 
 Much to my joy, Hetzner offers Arch Linux as part of their [Install Image](https://wiki.hetzner.de/index.php/Installimage). Their install scripts are very general though, and installing a different choice is a similar process.
 
-![Several Options](options.jpg)
+{{ figure(path="options.jpg", alt="Several Options", colocated=true) }}
 
 ## Rescue Me!
 
@@ -36,7 +36,7 @@ All providers are different in how this process will work. Some will have more o
 
 With Hetzner you can select a rescue image from their web UI allows you to SSH in using your pre-provided key. You can also generally choose premade images from a similar panel of the web UI, in Hetzner's UI has this under the "Linux" tab.
 
-![The rescue web UI](rescue.jpg)
+{{ figure(path="rescue.jpg", alt="The rescue web UI", colocated=true) }}
 
 From this system, you can either run something like the provided `installimage` or install your own system. Since we want to experiment let's just install our own! If you choose to use `installimage` you'll find it to be very painless.
 
@@ -304,6 +304,6 @@ reboot
 
 With any luck, in a few minutes you'll be able to `ssh` in again. I found with Hetzner you may need to issue an automatic reset from their online console, you might need to as well.
 
-![Mine works! :)](success.jpg)
+{{ figure(path="success.jpg", alt="Mine works! :)", colocated=true) }}
 
 In our next post we'll talk about [configuring your server's services and doing some hardening](/2016/05/07/new-roots-3/).

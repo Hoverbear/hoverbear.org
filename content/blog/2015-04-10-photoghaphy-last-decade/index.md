@@ -8,22 +8,22 @@ I did a fair amount of photography and digital imaging in high school. Please, e
 
 <!-- more -->
 
-![](spirals.jpg)
+{{ figure(path="spirals.jpg", alt="", colocated=true) }}
 
-![](above.jpg)
+{{ figure(path="above.jpg", alt="", colocated=true) }}
 
-![](audience.jpg)
+{{ figure(path="audience.jpg", alt="", colocated=true) }}
 
-![](duality.jpg)
+{{ figure(path="duality.jpg", alt="", colocated=true) }}
 
-![](bundle.jpg)
+{{ figure(path="bundle.jpg", alt="", colocated=true) }}
 
-![](drifting.jpg)
+{{ figure(path="drifting.jpg", alt="", colocated=true) }}
 
-![](orange.jpg)
+{{ figure(path="orange.jpg", alt="", colocated=true) }}
 
-![](planar.jpg)
+{{ figure(path="planar.jpg", alt="", colocated=true) }}
 
-![](steps.jpg)
+{{ figure(path="steps.jpg", alt="", colocated=true) }}
 
-![](two.jpg)
+{{ figure(path="two.jpg", alt="", colocated=true) }}

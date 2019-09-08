@@ -16,7 +16,7 @@ I helped plan and host the 11th Gathering Our Voices Aboriginal Youth Conference
 
 <!-- more -->
 
-![The registration site.](reg.png)
+{{ figure(path="reg.png", alt="The registration site.", colocated=true) }}
 
 I developed Gathering Our Voice's custom conference management software using Mongoose (A MongoDB ODM), MongoDB, Node.JS, Bootstrap, and Redis. The software was deployed to Heroku. The implementation language was CoffeeScript.
 
