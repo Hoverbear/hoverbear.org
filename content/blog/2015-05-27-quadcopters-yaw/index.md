@@ -12,7 +12,7 @@ So, in our [earlier article](/2015/05/19/quadcopters-orientation/) we talked abo
 
 <!-- more -->
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lNNAw4XgGoM?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="lNNAw4XgGoM") }}
 
 > Notice how two propellers come to a stop when yawing?
 
@@ -70,13 +70,13 @@ This apparatus is designed to dip it's two wooden paddles into the water, with t
 
 We were very impressed with the result. Note the yawing motion as we predicted. The apparatus did not hold up particularly well however, as you can observe, our eslastics were not particularly happy campers! This is because of the friction of them rubbing on one another.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_mr9RFb55MA?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="_mr9RFb55MA") }}
 
 # Observing under Constraints
 
 In order to capture this in the air we tied our quadcopter up via string, then harnessed a weight on the bottom of it to help smooth out it's flight height. Doing this we found using elastics particularly useful as a harness point.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Hckv6u9C0y0?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="Hckv6u9C0y0") }}
 
 > But why didn't I see the two propellers stop?
 

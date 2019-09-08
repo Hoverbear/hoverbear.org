@@ -120,11 +120,11 @@ Do you see how one is "flipped" compared to the other? That's because if we had 
 
 With propellers paired up correctly:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VBBwQI46L94?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="VBBwQI46L94") }}
 
 With all propellers the same:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/naXnYenOaHw?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="naXnYenOaHw") }}
 
 You can see how when all of the propellers are the same the quad is unable to take off and it tends to spin a bit. When the motors on the diagonal have matching propellers the quad performs as desired. Why? Notice the directions of the arrows of the motors:
 

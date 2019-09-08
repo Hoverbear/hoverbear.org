@@ -38,11 +38,11 @@ Magnetometers measure the magnetic field around them, allowing the device to ans
 
 The following video explains how one type of magnetometer, called a *Fluxgate Magnometer*, functions.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/CMBDVx3o37g?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="CMBDVx3o37g") }}
 
 If you have one to play with you can explore it's readings by taking a reasonably strong magnet and moving it around the sensor. Notice how when we flip over the magnet we get a negative reading?
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/-TEnJt4TLkE?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="-TEnJt4TLkE") }}
 
 ![Magnetometer Readings](mag-2.jpg)
 
@@ -61,11 +61,11 @@ Gyroscopes measure the **rotational acceleration** of the sensor. They are commo
 
 A quick, basic video of how these work is below:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/zwe6LEYF0j8?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="zwe6LEYF0j8") }}
 
 Here's how we can demonstrate this sensor, along with the output:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/vYcVIqqawoU?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="vYcVIqqawoU") }}
 
 ![Gyroscope Readings](gyro-1.jpg)
 
@@ -75,11 +75,11 @@ Accelerometers measure the **lateral acceleration** of the sensor (not rotationa
 
 There is a guide to *Piezoelectric Accelerometers* [here](http://www.pcb.com/TechSupport/Tech_Accel.aspx) that we sound useful. The *Engineer Guy* also has this great video [(along with many more!)](https://www.youtube.com/channel/UC2bkHVIDjXS7sgrgjFtzOXQ)
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/KZVgKu6v808?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="KZVgKu6v808") }}
 
 Here's how we can demonstrate this sensor, along with the output:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6aI5Q7sSGGg?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="6aI5Q7sSGGg") }}
 
 ![Accelerometer Readings](accel-1.jpg)
 
@@ -110,7 +110,7 @@ Pressure Sensors measure the **air pressure** around the device. The utility of 
 
 Therefore if the quadcopter has a reference to the air pressure of where it took off from it is able to understand roughly how high it is relative to that point.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mJjuXnLn3jQ?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="mJjuXnLn3jQ") }}
 
 These readings are a bit noisy, sorry.
 

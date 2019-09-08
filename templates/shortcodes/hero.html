@@ -1,0 +1,14 @@
+{% import "macros/image.html" as image %}
+
+<div id="hero-wrapper">
+    {%- if colocated -%}
+        {{ image::full(path=path, colocated=colocated) }}
+    {%- else -%}
+        {{ image::full(path=path, colocated=false) }}
+    {%- endif -%}
+    {%- if body -%}
+        <div class="content">
+            {{ body }}
+        </div>
+    {%- endif -%}
+</div>

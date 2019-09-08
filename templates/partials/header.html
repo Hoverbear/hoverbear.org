@@ -1,14 +1,14 @@
 <header>
+    {%- if page.extra.image -%}
+        {%- set image = page.extra.image -%}
+        {%- set colocated = true -%}
+    {%- else -%}
+        {%- set image = '../static/' ~ config.extra.cover -%}
+        {%- set colocated = false -%}
+    {%- endif -%}
+
     <div id="hero-wrapper">
-        {% if page.extra.image %}
-            {% set page_url_components = page.relative_path | split(pat='/') %}
-            {% set page_base = page_url_components | slice(end=page_url_components | length - 1) | join(sep='/') %}
-            {% set image_url = page_base ~ '/' ~ page.extra.image %}
-            {{ image::full(path=image_url) }}
-        {% else %}
-            {% set image_url = '../static/' ~ config.extra.cover %}
-            {{ image::full(path=image_url) }}
-        {% endif %}
+        {{ image::full(path=image, colocated=colocated) }}
         <div class="content">
             {% if page.title %}
                 <h1><a href="{{ config.base_url }}">{{ page.title }}</a></h1>

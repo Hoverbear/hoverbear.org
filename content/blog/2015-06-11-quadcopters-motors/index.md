@@ -22,7 +22,7 @@ One of the best ways to learn about anything is hands on! Why not try to make a 
 
 The below video explains how you can build a simple motor out of some basic supplies. This project is more suitable for younger or less technically inclined humans. Note that the motors used in a Quadcopter are *slightly* more sophisticated.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ziWUmIUcR2k?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="ziWUmIUcR2k") }}
 
 ## Tinker or Make a Demo
 
@@ -32,8 +32,7 @@ If you have any old drills or other motored devices hanging around (or found at 
 
 > Getting your hands on something is unquestionably the best way to learn, having demos and experiments is a fantastic way to enhance your lessons or self-study.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/-qS85aIvleQ?rel=0" frameborder="0" allowfullscreen></iframe>
-
+{{ youtube(id="-qS85aIvleQ") }}
 
 # Measuring the Motor
 
@@ -45,7 +44,7 @@ Since we didn't want to damage the motor we were careful and used very small wir
 
 After that was complete we used an adjustable soldering stand to hold the motor up in the path of a photogate sensor. The idea was to use the propellor to break the photogate's beam and use the number of breaks to determine the rotations per minute (RPM) of the propellor at various speeds.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/OgLc68JZ2xY?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="OgLc68JZ2xY") }}
 
 With the motor held safely, the photogate in place, and the power supply wired in to provide power to the motor, we attached our photogate to a measurement device to start our experiment.
 
@@ -63,7 +62,7 @@ $$
 
 You can see how it looks in this below video, apologies for the video quality **and loud sound**, strobes are noisy and cameras don't image the way our eyes do.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_8-kZzx6Kw4?rel=0" frameborder="0" allowfullscreen></iframe>
+{{ youtube(id="_8-kZzx6Kw4") }}
 
 This is a very fun and curious experiment to try on your own or with your cohort however strobe lights can be hard to source.
 
