@@ -1,8 +1,5 @@
 +++
 title = "Gathering Our Voices 2013"
-description = """
-I helped plan and host the 11th Gathering Our Voices Aboriginal Youth Conference in Penticton, British Columbia. Much of my time was spent learning proper software design and refining the management and registration software I developed. This was my first 'real' software project.
-"""
 aliases = ["2013/03/21/gathering-our-voices/"]
 layout = "blog/single.html"
 [taxonomies]
