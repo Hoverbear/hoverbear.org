@@ -1,14 +1,14 @@
 <footer class="post-footer">
     <div id="hero-wrapper">
-        {% if page.extra.image %}
-            {% set page_url_components = page.relative_path | split(pat='/') %}
-            {% set page_base = page_url_components | slice(end=page_url_components | length - 1) | join(sep='/') %}
-            {% set image_url = page_base ~ '/' ~ page.extra.image %}
+        {%- if page.extra.image -%}
+            {%- set page_url_components = page.relative_path | split(pat='/') -%}
+            {%- set page_base = page_url_components | slice(end=page_url_components | length - 1) | join(sep='/') -%}
+            {%- set image_url = page_base ~ '/' ~ page.extra.image -%}
             {{ image::full(path=image_url) }}
-        {% else %}
-            {% set image_url = '../static/' ~ config.extra.cover %}
+        {%- else -%}
+            {%- set image_url = '../static/' ~ config.extra.cover -%}
             {{ image::full(path=image_url) }}
-        {% endif %}
+        {%- endif -%}
         <div class="content">
         <h4><a href=/>← Back to top of index</a></h4>
     
@@ -16,18 +16,18 @@
     
         <p>
             Connect through
-            {% if config.extra.email %}
+            {%- if config.extra.email -%}
                 <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>,
-            {% endif %}
-    
-            {% if config.extra.github %}
+            {%- endif -%}
+            <span> </span>
+            {%- if config.extra.github -%}
                 <a href="https://github.com/{{ config.extra.github }}">@{{ config.extra.github }}</a> on Github,
-            {% endif %}
-    
-            {% if config.extra.twitter %}
+            {%- endif -%}
+            <span> </span>
+            {%- if config.extra.twitter -%}
                 <a href="https://twitter.com/{{ config.extra.twitter }}">@{{ config.extra.twitter }}</a> on Twitter,</a>
-            {% endif %}
-    
+            {%- endif -%}
+            <span> </span>
             or track via <a class="subscribe" href="{{ config.base_url }}/rss.xml">RSS Feed</a>.
         </p>
         </div>

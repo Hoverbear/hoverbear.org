@@ -8,15 +8,14 @@
     {%- endif -%}
 
     <div id="hero-wrapper">
-        {{ image::full(path=image, colocated=colocated) }}
         <div class="content">
-            {% if page.title %}
+            {%- if page.title -%}
                 <h1><a href="{{ config.base_url }}">{{ page.title }}</a></h1>
                 <p class="description">{{ page.description }}</h1>
-            {% else %}
+            {%- else -%}
                 <h1><a href="{{ config.base_url }}">{{ config.title }}</a></h1>
                 <p class="description">{{ config.description }}</p>
-            {% endif %}
+            {%- endif -%}
             <nav id="pages">
                 <ul>
                     <li><a href="/blog/">Blog</a></li>
@@ -25,6 +24,7 @@
                 </ul>
             </nav>
         </div>
+        {{ image::full(path=image, colocated=colocated) }}
     </div>
-    </header>
+</header>
       
