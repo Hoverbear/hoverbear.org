@@ -2,15 +2,23 @@
 	<section>
 		<h2><a href="{{ post.permalink }}">{{ post.title }}</a></h2>
 		<p>{{ post.description }}</p>
-		<section class="excerpt">
+		<div class="excerpt">
 			{{ post.summary | safe }}
 			<a href="{{ post.permalink }}#continue-reading">Continue reading for around {{ post.reading_time }} minutes...</a>
-		</section>
+		</div>
 
 		<div class="post-meta">
 			<br>
 			Posted on
 			<time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
+			{%- if post.taxonomies.tags -%}
+				&nbsp;under
+				{%- for tag in post.taxonomies.tags -%}
+					{%- if loop.first != true and post.taxonomies.tags | length > 2 -%},{%- endif -%}
+					{%- if loop.last -%}&nbsp; and{%- endif -%}
+					&nbsp;<a href="{{ config.base_url }}/tags/{{ tag }}">{{ tag }}</a>
+				{%- endfor -%}
+			{%- endif -%}
 		</div>
 	</section>
 {%- endmacro metadata -%}

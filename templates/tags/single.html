@@ -1,5 +1,13 @@
 {% extends "default.html" %}
 
 {% block content %}
-    {{ term | safe }}
+<section>
+    <h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2>
+    {% for post in term.pages  %}
+        {{ post::metadata(post=post) }}
+        {% if loop.last != true %}
+            <hr>
+        {% endif %}
+    {% endfor %}
+</section>
 {% endblock content %}
