@@ -10,7 +10,7 @@ html {
         background: white;
         // A nice fade in.
         opacity: 0;
-        animation: .5s fadeIn ease-in 0s 1 forwards;
+        animation: .5s fade-in ease-in 0s 1 forwards;
 
         // Hero images are intended to be very prominent, and can hold some content.
         #hero-wrapper {
@@ -29,7 +29,7 @@ html {
             & > img {
                 max-height: 80vmin;
                 opacity: 0;
-                animation: 1s fadeIn ease-in .5s 1 forwards;
+                animation: 1s fade-in ease-in .5s 1 forwards;
                 width: 100%;
                 display: block;
                 object-fit: cover;
@@ -43,7 +43,7 @@ html {
                 bottom: 10vmin;
                 left: 20vmin;
                 right: 20vmin;
-                animation: 1s fadeIn ease-in 0s 1 forwards;
+                animation: 1s fade-in ease-in 0s 1 forwards;
                 z-index: 1;
 
                 & > * {
@@ -54,6 +54,15 @@ html {
 
             a:visited, a {
                 color: white;
+            }
+            
+            &:hover > img {
+                animation: 1s fade-in ease-in .5s 1 forwards,
+                           .15s undreamify ease-in 0s 1 forwards;
+            }
+            &:not(:hover) > img {
+                animation: 1s fade-in ease-in .5s 1 forwards,
+                           .50s dreamify ease-in 2.5s 1 forwards;
             }
         }
 
@@ -235,13 +244,30 @@ html {
     }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
     0% {
-        opacity:0;
+        opacity: 0;
     }
     100% {
-        opacity:1;
+        opacity: 1;
+    }
+}
+
+@keyframes undreamify {
+    0% {
+        filter: blur(2px) saturate(20%) contrast(110%);
+    }
+    100% {
+        filter: blur(0px) saturate(100%) contrast(100%);
     }
 }
 
 
+@keyframes dreamify {
+    0% {
+        filter: blur(0px) saturate(100%) contrast(100%);
+    }
+    100% {
+        filter: blur(2px) saturate(20%) contrast(110%);
+    }
+}

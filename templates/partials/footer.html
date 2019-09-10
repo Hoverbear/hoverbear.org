@@ -10,26 +10,29 @@
             {{ image::full(path=image_url) }}
         {%- endif -%}
         <div class="content">
-        <h4><a href=/>← Back to top of index</a></h4>
-    
-        <h4>By {{ config.extra.author }}</h4>
-    
-        <p>
-            Connect through
-            {%- if config.extra.email -%}
-                <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>,
-            {%- endif -%}
-            &nbsp;
-            {%- if config.extra.github -%}
-                <a href="https://github.com/{{ config.extra.github }}">@{{ config.extra.github }}</a> on Github,
-            {%- endif -%}
-            &nbsp;
-            {%- if config.extra.twitter -%}
-                <a href="https://twitter.com/{{ config.extra.twitter }}">@{{ config.extra.twitter }}</a> on Twitter,</a>
-            {%- endif -%}
-            &nbsp;
-            or track via <a class="subscribe" href="{{ config.base_url }}/rss.xml">RSS Feed</a>.
-        </p>
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By {{ config.extra.author }}</h4>
+        
+            <p>
+                Connect through
+                {%- if config.extra.email -%}
+                    <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>,
+                {%- endif -%}
+                &nbsp;
+                {%- if config.extra.github -%}
+                    <a href="https://github.com/{{ config.extra.github }}">@{{ config.extra.github }}</a> on Github,
+                {%- endif -%}
+                &nbsp;
+                {%- if config.extra.twitter -%}
+                    <a href="https://twitter.com/{{ config.extra.twitter }}">@{{ config.extra.twitter }}</a> on Twitter,</a>
+                {%- endif -%}
+                &nbsp;
+                or track via <a class="subscribe" href="{{ config.base_url }}/rss.xml">RSS Feed</a>.
+            </p>
+            
+            {%- set commit = load_data(path=".git/refs/heads/master") -%}
+            <p>Built from commit <a href="https://github.com/Hoverbear/hoverbear.org/commit/{{commit}}"><code>{{ commit }}</code></a></p>
         </div>
     </div>
 </footer>
