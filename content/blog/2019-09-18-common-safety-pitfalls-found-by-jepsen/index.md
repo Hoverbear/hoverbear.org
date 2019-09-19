@@ -393,3 +393,5 @@ This is a summary of each report's problems discovered.
 * Zookeeper
 	+ 2013-09-23 - 3.4.5
     	- Zookeeper passed linearizability tests.
+
+> This article was originally published on [PingCAP's blog](https://pingcap.com/blog/safety-first-common-safety-pitfalls-in-distributed-databases-found-by-jepsen-tests/), it has been edited to fit the aesthetic and tone of this blog. Thanks to Kyle ([@aphyr](https://github.com/aphyr)) for review.
