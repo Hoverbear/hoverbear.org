@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Arduino: Motor Fun!</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Arduino: Motor Fun!">
+        
+        
+            <meta name="twitter:description" content="Lately we&#x27;ve been playing with Quadcopters a lot, one of the key components of any copter is it&#x27;s motors! I&#x27;ll be writing about motors next, but before that I wanted to share some small, short Arduino &#x27;labs&#x27; that you can do either on your own or with your cohort!
+All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Arduino: Motor Fun!</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Lately we've been playing with Quadcopters a lot, one of the key components of any copter is it's motors! I'll be writing about motors next, but before that I wanted to share some small, short Arduino 'labs' that you can do either on your own or with your cohort!</p>
+<p>All of these 'labs' are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<blockquote>
+<p>You're welcome to print, distribute, and modify all of these to meet your needs. You can <a href="mailto:ana+blog@hoverbear.org">email me</a> if you'd like the source files. We use <a href="http://www.fritzing.org/">Fritzing</a> for breadboard layouts.</p>
+</blockquote>
+<h1 id="on-and-off">On and Off</h1>
+<p>First, let's start with a basic on/off motor. This gives us the chance to understand two particularly important concepts.</p>
+<p><strong>Using a transistor as a trigger</strong> allows us to safely control larger amounts of voltage with an Arduino pin. If we tried to just use a plain Arduino pin to power the motor we'd risk blowing out the pin as the motor tried to draw many more milliamps than the Arduino can supply through a digital pin.</p>
+<p><strong>Using a Diode to handle backcurrent</strong> helps prevent any damage that may come from the attached motor is <em>suddenly</em> stopped. This is a neat characteristic in and of itself!</p>
+<p><strong>You should see</strong> the motor turn on, spin for a pair of seconds, than turn off for two seconds. It will then repeat.</p>
+<h3 id="parts-list">Parts List</h3>
+<ul>
+<li>1x Arduino</li>
+<li>1x DC Motor (smaller is better)</li>
+<li>1x Diode</li>
+<li>1x Resistor (We used 5.6k ohm)</li>
+<li>1x NPN transistor</li>
+<li>Wires</li>
+</ul>
+<h3 id="breadboard">Breadboard</h3>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;87445c93deae9bd800.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;23c887885365074000.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f5085daeef0cd57f00.png"
+              alt="Plain" />
+    <figcaption>Plain</figcaption>
+</figure>
+<h3 id="code">Code</h3>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">const int motor = 3;
+
+</span><span style="color:#c0c5ce;">void setup() {
+</span><span style="color:#c0c5ce;">  pinMode(motor, OUTPUT);
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">void loop() {
+</span><span style="color:#c0c5ce;">  // Motor on.
+</span><span style="color:#c0c5ce;">  digitalWrite(motor, HIGH);
+
+</span><span style="color:#c0c5ce;">  delay(2000);
+
+</span><span style="color:#c0c5ce;">  // Motor off.
+</span><span style="color:#c0c5ce;">  digitalWrite(motor, LOW);
+
+</span><span style="color:#c0c5ce;">  delay(2000);
+</span><span style="color:#c0c5ce;">}
+</span></pre><h1 id="pulse-width-modulation">Pulse Width Modulation</h1>
+<p>If you haven't used Pulse Width Modulation before, it's a way to use certain digital pins on the Arduino to mimic the behaivor of an analog pin, sorta. Essentially PWM makes the pin <strong>pulse</strong> at specific <strong>widths</strong> to <strong>modulate</strong> the signal. This can be used to provide varying amounts of power to something like a motor.</p>
+<p><strong>You should see</strong> the motor slowly speed up and then back down again.</p>
+<h3 id="supplies-breadboard">Supplies &amp; Breadboard</h3>
+<p>Same as above.</p>
+<h3 id="code-1">Code</h3>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">const int motor = 3;
+</span><span style="color:#c0c5ce;">int speed = 0;
+</span><span style="color:#c0c5ce;">int amount = 5;
+
+</span><span style="color:#c0c5ce;">void setup() {
+</span><span style="color:#c0c5ce;">  pinMode(motor, OUTPUT);
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">void loop() {
+</span><span style="color:#c0c5ce;">  // Use PWM
+</span><span style="color:#c0c5ce;">  analogWrite(motor, speed);
+
+</span><span style="color:#c0c5ce;">  // Amount will either be + or -
+</span><span style="color:#c0c5ce;">  speed = speed + amount;
+
+</span><span style="color:#c0c5ce;">  if (speed == 0 || speed == 255) {
+</span><span style="color:#c0c5ce;">    // At a boundary, swap +/- on amount
+</span><span style="color:#c0c5ce;">    amount = -amount;
+</span><span style="color:#c0c5ce;">  }
+
+</span><span style="color:#c0c5ce;">  delay(30);
+</span><span style="color:#c0c5ce;">}
+</span></pre><h1 id="reacting-to-input">Reacting to Input</h1>
+<p>The last few experiments we just used code to change the speed of the motor, however this isn't quite what a quadcopter does. <strong>A quadcopter has to take input from sensors and alter the amount of power to the motors accordingly.</strong></p>
+<p><strong>You should see</strong> the motor's speed change as you turn the potentiometer.</p>
+<h2 id="parts-list-1">Parts List</h2>
+<p>Same as above, but add:</p>
+<ul>
+<li>1x Potentiometer (Or any sensor which offers variable resistance)</li>
+</ul>
+<h2 id="breadboard-1">Breadboard</h2>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6ffb50851da90f3e00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;34d6b0fe6a813a7900.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c989742c3db0d95e00.png"
+              alt="Turnpot" />
+    <figcaption>Turnpot</figcaption>
+</figure>
+<h2 id="code-2">Code</h2>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">const int motor = 3;
+</span><span style="color:#c0c5ce;">const int turnpot = A0;
+
+</span><span style="color:#c0c5ce;">void setup() {
+</span><span style="color:#c0c5ce;">  pinMode(motor, OUTPUT);
+</span><span style="color:#c0c5ce;">  pinMode(turnpot, INPUT);
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">void loop() {
+</span><span style="color:#c0c5ce;">  int value = analogRead(turnpot);
+</span><span style="color:#c0c5ce;">  analogWrite(motor, value);
+</span><span style="color:#c0c5ce;">  delay(30);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>I hope you had some fun exploring these basic motor circuits with your Arduino! If you have any other sensor wirings or circuits you'd like to share please just email me and I'll put them here too!</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

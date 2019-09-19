@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>It&#x27;s a Let&#x27;s Encrypt Beta!</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;29704f5a5c59809d00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="It&#x27;s a Let&#x27;s Encrypt Beta!">
+        
+        
+            <meta name="twitter:description" content="I was privileged to recieve one of the early Let&#x27;s Encrypt beta certificates for https:&#x2F;&#x2F;hoverbear.org. I had an easy and fun time setting it up this evening on my Funtoo Container and wanted to quickly jot down how to!
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">It&#x27;s a Let&#x27;s Encrypt Beta!</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;13a3f64f9dd53f1c00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;29704f5a5c59809d00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d69ebd386a568c2c00.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>I was privileged to recieve one of the early <a href="https://letsencrypt.org/">Let's Encrypt</a> beta certificates for <a href="https://hoverbear.org/">https://hoverbear.org</a>. I had an easy and fun time setting it up this evening on my <a href="http://www.funtoo.org/Funtoo_Hosting">Funtoo Container</a> and wanted to quickly jot down how to!</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="get-er-done">Get 'er Done</h2>
+<p>I first needed some prerequisites (I already had <code>nginx</code> installed):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> emerge</span><span style="color:#bf616a;"> -vqa</span><span style="color:#c0c5ce;"> augeas python-augeas dialog
+</span></pre>
+<p>Then, following the instructions provided:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/letsencrypt/letsencrypt
+</span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> letsencrypt
+</span><span style="color:#bf616a;">./letsencrypt-auto --agree-dev-preview --server </span><span style="color:#c0c5ce;">\
+  https://acme-v01.api.letsencrypt.org/directory auth
+</span></pre>
+<p>From here you'll be brought to something that looks like a <code>make menuconfig</code> when building your own kernel... But a lot easier. From here you have two options, &quot;Manual&quot; and &quot;Standalone&quot;.</p>
+<p><strong>Manual</strong> asks you for your domain then tasks you with the job of hosting a file under something like <code>$YOUR_DOMAIN/.well_known/acme-challenge/$KEY</code>.</p>
+<p><strong>Standalone</strong> will make an effort to automatically verify your domain for you by hosting it's own web server. (<em>You'll need to stop your existing <code>nginx</code> server if you have one.</em>)</p>
+<h2 id="gotchas">Gotchas</h2>
+<p>Let's Encrypt only issues certificates that are good for 90 days, so you need to regularly renew! There is a <a href="https://wiki.mozilla.org/Security/Automation/Winter_Of_Security_2015#Certificate_Automation_tooling_for_Let.27s_Encrypt">MWoS'2015 Project</a> to make this renewal automated.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;13a3f64f9dd53f1c00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;29704f5a5c59809d00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d69ebd386a568c2c00.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

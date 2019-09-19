@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Quadcopters: Orientation</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Quadcopters: Orientation">
+        
+        
+            <meta name="twitter:description" content="
+Spinnning tens of thousands times a second, four rotors cut through the air with their propellors. Their motion lifts them in unison, for they are connected together. In the center of the apparatus sits a bank of sensors, processors, and a radio acting in concert to control the great flow of air passing over it.
+
+
+Some ways away, perhaps near, perhaps far, its pilot watches over it. Whether by program or controller, they hold the fate of the airborne being in their hands.
+
+Quadcopters are fascinating marriages of physics, electronics, aviation, and computer science that have only become popular in the last couple of years. Examining them allows us to explore a number of interesting topics.
+But first, a bit of an introduction...
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Quadcopters: Orientation</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <blockquote>
+<p>Spinnning tens of thousands times a second, four rotors cut through the air with their propellors. Their motion lifts them in unison, for they are connected together. In the center of the apparatus sits a bank of sensors, processors, and a radio acting in concert to control the great flow of air passing over it.</p>
+</blockquote>
+<blockquote>
+<p>Some ways away, perhaps near, perhaps far, its pilot watches over it. Whether by program or controller, they hold the fate of the airborne being in their hands.</p>
+</blockquote>
+<p>Quadcopters are fascinating marriages of physics, electronics, aviation, and computer science that have only become popular in the last couple of years. Examining them allows us to explore a number of interesting topics.</p>
+<p>But first, a bit of an introduction...</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<iframe src="https://embed-ssl.ted.com/talks/raffaello_d_andrea_the_astounding_athletic_power_of_quadcopters.html" width="750" height="480" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+<h1 id="what-is-this">What is This?</h1>
+<p>This post is the first in a series of articles surrounding quadcopters, how they work, why they work, and what makes them tick. While these articles will aim to be approachable for all humans they will be targetted mainly towards <em>outreach educators</em>, <em>young scientists</em>, and <em>curious tinkerers</em>.</p>
+<blockquote>
+<p>Look for emphasized notes like this! They will be questions, key takeaways, and other important notes.</p>
+</blockquote>
+<p>As we progress, readers will learn about aeronautics, physics, mathematics, electonics, and computer science. If at any point you become confused or have questions please feel encouraged to ask via <a href="mailto:ana@hoverbear.org">email</a>.</p>
+<h1 id="who-we-are">Who We Are</h1>
+<p>I, Ana Hobden, am a 4th year Computer Science student at the University of Victoria. I am interested in systems, infrastructure, networking, and embedded devices. Currently, I'm a new member of the <a href="http://webhome.cs.uvic.ca/%7Eycoady/">(Mod)ularity Squad</a> with advisor Yvonne Coady.</p>
+<p>My partner, Bob Sedlock, is a Physics instructor at Camosun College. He's interested in relativity, fluid dynamics, and physics in general.</p>
+<p>Our work is supported in part by NSERC, Camosun College, and the University of Victoria.</p>
+<h1 id="choice-for-experiment">Choice for Experiment</h1>
+<p>Since our main goal is to explore the workings of the quadcopter, we sought a device that fit several desirable qualities:</p>
+<ul>
+<li><strong>Measurable:</strong> Instrumentation for logging data is vital to producing any sort of interesting information.</li>
+<li><strong>Modifiable:</strong> Also known as 'Hackable' in this context, it's useful to be able to change the behaivor of that which is being experimented upon.</li>
+<li><strong>Repairable:</strong> One of the biggest concerns with quadcopters is the ease of replacing their oft-damaged parts.</li>
+<li><strong>Compatible:</strong> In order to make sure others can replicate our experiments, we want to</li>
+<li><strong>Community Friendly:</strong> We are extremely strong supporters of the Maker movement and open source, being able to contribute back is a huge boon.</li>
+</ul>
+<p>We also had to consider budget. After surveying the field and considering our target audience, we decided to set our budget at <strong>under $400 CAD</strong>. It was important to find a quality device that was still accessible to others.</p>
+<p>We ended up choosing the <a href="https://www.bitcraze.io/crazyflie-2/">BitCraze Crazyflie 2.0</a> because it satisfied our requirements. The developers of the device are three awesome folks from Sweden!</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2de5da193d85764700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0dcbbf18b0036b5e00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b697b70416d008fa00.jpg"
+              alt="Unpacking" />
+    <figcaption>Unpacking</figcaption>
+</figure>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b78209bfb94b7aef00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;18fd2ac8d4fcc0ba00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d954c96e9343abbd00.jpg"
+              alt="Crazyflie" />
+    <figcaption>Crazyflie</figcaption>
+</figure>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d0b1d35f345b201400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5e918fac1835edfa00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9b8646257a93473500.jpg"
+              alt="Crazyflie again" />
+    <figcaption>Crazyflie again</figcaption>
+</figure>
+<p>In diagrams we will often simplify the quad into the following diagram:</p>
+<img src="quad-1.svg" alt="Quad Diagram">
+<p>The front is identified by the knob with an arrow. If the arrows around the motors appear black, it means they are holding steady, if they are green they are speeding up, and if they are red they are slowing down.</p>
+<h1 id="how-does-it-work">How Does It Work?</h1>
+<p>A quadcopter lifts itself into the air with four electric motors. In the Crazyflie's case, small <em>coreless</em> motors are used. These four motors are the <em>actuators</em> of the quadcopter and, under normal circumstances, are the only things that actually move on the device.</p>
+<p>Attached to the four motors are propellers. Since the motors of the quadcopter spin propellers which push air <em>downward</em>. Because of this pushing of air downward there is an <strong>equal and opposite</strong> amount of force pushing the quadcopter <em>upward</em>. This characteristic is the third of Sir Isaac Newton's laws. <em>Every action must have an equal and opposite reaction</em>.</p>
+<blockquote>
+<p>How can we use the four motors to keep the Quadcopter hovering in place?</p>
+</blockquote>
+<p>As you may have learnt from physics, <em>the total force acting on a body is equal to it's mass times its acceleration.</em> To talk about forces, we'll use the idea of a <strong>Newton (N)</strong>, you can think about a newton as about the weight of an apple you hold in your hand. It would exert about 1 N of force downward on your hand. In order to hold the apple stationary you must exert the same amount of force (1 N) upwards.</p>
+<p>Now, our Quadcopter is about 28 grams in mass. <strong>Gravity</strong> is pulling down on the quad with 0.28 Newtons. This means that our quad must offset this force to hover in place.</p>
+<p>Therefore <strong>four motors</strong> each must contribute an equal \( \frac{1}{4} 0.28 N \) to stay level in the air. If one motor contributes slightly more or less than it's equal share, that side of the quad would lift or fall accordingly.</p>
+<p>\[ (Mass * Accceleration)_{Quadcopter} = Force_{Gravity} + Force_{Motor 1} + Force_{Motor 2} + ... \]</p>
+<h1 id="getting-oriented">Getting Oriented</h1>
+<p>When reasoning about the location and orientation of a quadcopter we need to consider three values.</p>
+<ul>
+<li><strong>Pitch</strong> is the up-down tilt. Having a positive pitch means the quad is tilted skywards, while a negative pitch means that the ground is approaching.</li>
+<li><strong>Yaw</strong> is the rotation of the quad. Changing the yaw is equivalent to you turning left or right. A negative value turns the quad counter clockwise, a positive value turns it clockwise.</li>
+<li><strong>Roll</strong> is the rotational tilt about an axis running from the quad's central front to back. This is the equivalent of tilting to the side such that you are standing on one foot. A positive roll tilts the quad to the right, while a negative roll tilts it to the left.</li>
+</ul>
+<img src="axes-3.svg" alt="Axis Demonstration">
+<h1 id="pitching-yawing-and-rolling">Pitching, Yawing, and Rolling</h1>
+<p>In order to cause a change in <strong>Pitch</strong> or <strong>Roll</strong> we can cause motors on one side of the quad to contribute a bit more, and the motors on the other side to contribute a bit less.</p>
+<img src="pitch-up-1.svg" alt="Increase Pitch">
+<img src="roll-cw-1.svg" alt="Increase Roll">
+<blockquote>
+<p>How can we change yaw?</p>
+</blockquote>
+<p>Yaw doesn't necessarily require the quad to tilt in a particular manner, instead, it requires it to rotate in place. A first guess that the quad might tilt slightly in order to somehow turn is quite valid, however the answer is more subtle than that!</p>
+<p>In order to change it's yaw the quad utilizes the following strategy:</p>
+<img src="yaw-2.svg" alt="Increasing Yaw">
+<p>So how does this work? Well, the quadcopter must somehow exert a <strong>sideways</strong> force in order to turn.</p>
+<p>Think about standing with one foot on a still merry-go-round, if you wish to cause it to spin you must push on the ground with your other foot one way, the ground then pushes you (and the merry-go-round) the other way.</p>
+<p>But if the quadcopter can only push air downward with its motors, how does it rotate in place?</p>
+<h1 id="equal-and-opposite">Equal and Opposite</h1>
+<p>Not all of the propellers are the same. Have a look at these two:</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1fed7742b2e11a9a00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d27eadcc9105155700.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f51c42eaa67f9a1000.jpg"
+              alt="Propellers" />
+    <figcaption>Propellers</figcaption>
+</figure>
+<p>Do you see how one is &quot;flipped&quot; compared to the other? That's because if we had all four propellers the same the quad would simply not function correctly. Let's take a look!</p>
+<p>With propellers paired up correctly:</p>
+<div ></div>
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/VBBwQI46L94"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen>
+    </iframe>
+</div>
+<p>With all propellers the same:</p>
+<div ></div>
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/naXnYenOaHw"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen>
+    </iframe>
+</div>
+<p>You can see how when all of the propellers are the same the quad is unable to take off and it tends to spin a bit. When the motors on the diagonal have matching propellers the quad performs as desired. Why? Notice the directions of the arrows of the motors:</p>
+<img src="quad-1.svg" alt="Quad Diagram">
+<p>See how the motors on any side <em>counteract</em> one another? That is, the go in the opposite direction. This is again because of Sir Newton's law, and indeed the mechanics of how yaw works.</p>
+<p>During our later <em>motors</em> article we'll discuss this effect in detail and examine it's implications more deeply.</p>
+<h1 id="looking-forward">Looking Forward</h1>
+<p>Over the next few weeks we'll be posting articles on the following topics related to Quadcopters:</p>
+<ul>
+<li>Motors</li>
+<li>Sensors</li>
+<li>Stabilization</li>
+<li>Radio</li>
+</ul>
+<p>We'll be introducting hands-on demos which you can replicate yourself (or with your class!) as well as <a href="http://playground.arduino.cc/uploads/Main/arduino_comic_v0004.pdf">Arduino</a> tutorials for those interested in learning to work with these devices.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

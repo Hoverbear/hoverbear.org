@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>New Roots part 4, Making it 127.0.0.1</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="New Roots part 4, Making it 127.0.0.1">
+        
+        
+            <meta name="twitter:description" content="This is the fourth of a series on taking up residence on a new server. In our last post we talked about how to set up some basic network services like ssh and configure iptables, our firewall. In this post we&#x27;ll talk about making your server feel like home.
+There are a grand number of things we can do at this point to make our time on the machine enjoyable. Take time to evaluate your choices though. This &#x27;root&#x27; host is going to be our &#x27;control seat&#x27; so it&#x27;s not going to be doing much more than orcestrating virtualized environments. Once we configure these environments (next post) we&#x27;ll be using these for any sort of development, deployment, or experiments.
+With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to do what we need to do. These are tools like nvim which we installed earlier. If you were following the last host you may have installed mosh as well, which makes our ssh sessions safe from network changes and comfortable against latency.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 4, Making it 127.0.0.1</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;56a685959943722400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca68e3fdaa7db2f800.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>This is the fourth of a series on taking up residence on a new server. In our <a href="/2016/05/07/new-roots-3/">last post</a> we talked about how to set up some basic network services like <code>ssh</code> and configure <code>iptables</code>, our firewall. In this post we'll talk about making your server feel like home.</p>
+<p>There are a grand number of things we can do at this point to make our time on the machine enjoyable. Take time to evaluate your choices though. This 'root' host is going to be our 'control seat' so it's not going to be doing much more than orcestrating virtualized environments. Once we configure these environments (next post) we'll be using these for any sort of development, deployment, or experiments.</p>
+<p>With 'root' our goal is to make a simple set of good, sharp tools to do what we need to do. These are tools like <code>nvim</code> which we installed earlier. If you were following the last host you may have installed <code>mosh</code> as well, which makes our <code>ssh</code> sessions safe from network changes and comfortable against latency.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>After installing a few more tools we'll discuss configuration of our tools while we overview their functionality and purposes.</p>
+<h2 id="aside-the-user-skeleton">Aside: The User Skeleton</h2>
+<p>In <code>/etc/skel</code> you can find the file structure created for a new user. If a user <code>hoverbear</code> is created then everything in <code>/etc/skel</code> is copied into <code>/home/hoverbear</code> (or wherever that user's home directory is).</p>
+<p>On our 'root' we won't be utilizing this, since we will be the only users (your user and root which is also you). Instead we'll just be modifying the system-wide defaults, this way if we end up acting as the <code>root</code> user or something we'll still have the same configuration.</p>
+<h2 id="the-shell">The Shell</h2>
+<p>The prompt you've been typing all these commands at is your shell. There are lots of different shells, this one is <code>bash</code>. I've enjoyed using <code>zsh</code> and <code>fish</code> before as well.  Since this is our 'root' we're just going to stick with the built-in defaults, we can choose a <em>fancy</em> shell to load with lots of sketchy plugins in our less privileged container!</p>
+<p><code>bash</code> looks for configuration in <code>/etc/bash.bashrc</code> which is overridden by <code>~/.bashrc</code>. We'll remove these user specific files then edit the system-wide file.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">rm ~</span><span style="color:#c0c5ce;">/.bashrc
+</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> rm /root/.bashrc
+</span><span style="color:#bf616a;">vim</span><span style="color:#c0c5ce;"> /etc/bash.bashrc
+</span></pre>
+<p>Below I've included a commented configuration to explain many settings.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;">#
+# /etc/bash.bashrc
+#
+
+# If not running interactively, don&#39;t do anything.
+</span><span style="color:#96b5b4;">[[ </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">- </span><span style="color:#c0c5ce;">!= *i* </span><span style="color:#96b5b4;">]] </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#b48ead;">return
+
+</span><span style="color:#65737e;"># Use extra globing features. See man bash, search extglob.
+</span><span style="color:#c0c5ce;">shopt -s extglob
+</span><span style="color:#65737e;"># Include .files when globbing.
+</span><span style="color:#c0c5ce;">shopt -s dotglob
+</span><span style="color:#65737e;"># When a glob expands to nothing, make it an empty string instead of the literal characters.
+</span><span style="color:#c0c5ce;">shopt -s nullglob
+</span><span style="color:#65737e;"># A command name that is the name of a directory is executed as if it were the argument to the cd command.
+</span><span style="color:#c0c5ce;">shopt -s autocd
+</span><span style="color:#65737e;"># Let bash update the window size if we resize it.
+</span><span style="color:#c0c5ce;">shopt -s checkwinsize
+
+</span><span style="color:#65737e;"># This is what you see between every command.
+# Make your own at http://bashrcgenerator.com/
+</span><span style="color:#c0c5ce;">PS1=&quot;</span><span style="color:#a3be8c;">\[\033[38;5;10m\]\u\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\]\[\033[38;5;7m\]@\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\]\[\033[38;5;9m\]\H\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\]\[\033[38;5;12m\]\w\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\]\[\033[38;5;3m\] </span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">systemctl</span><span style="color:#a3be8c;"> is-system-running) \[\033[38;5;15m\]\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> bold)\]</span><span style="color:#96b5b4;">\$</span><span style="color:#a3be8c;">?\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\] \n\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\]\[\033[38;5;7m\]\t\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\]\[\033[38;5;15m\] \[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> bold)\]</span><span style="color:#96b5b4;">\\</span><span style="color:#a3be8c;">$\[</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">tput</span><span style="color:#a3be8c;"> sgr0)\] </span><span style="color:#c0c5ce;">&quot;
+</span><span style="color:#65737e;"># The rest can really just be left default.
+</span><span style="color:#c0c5ce;">PS2=&#39;</span><span style="color:#a3be8c;">&gt; </span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#bf616a;">PS3</span><span style="color:#c0c5ce;">=&#39;</span><span style="color:#a3be8c;">&gt; </span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#bf616a;">PS4</span><span style="color:#c0c5ce;">=&#39;</span><span style="color:#a3be8c;">+ </span><span style="color:#c0c5ce;">&#39;
+
+</span><span style="color:#65737e;"># Set up bash completion.
+</span><span style="color:#96b5b4;">[ </span><span style="color:#bf616a;">-r</span><span style="color:#c0c5ce;"> /usr/share/bash-completion/bash_completion   </span><span style="color:#96b5b4;">] </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#96b5b4;">.</span><span style="color:#c0c5ce;"> /usr/share/bash-completion/bash_completion
+
+</span><span style="color:#65737e;"># This tells grep to use color when appropriate.
+</span><span style="color:#c0c5ce;">export GREP_OPTIONS=&#39;</span><span style="color:#a3be8c;">--color=auto</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#65737e;"># Configures the default editor, we installed nvim earlier.
+</span><span style="color:#c0c5ce;">export EDITOR=&#39;</span><span style="color:#a3be8c;">nvim</span><span style="color:#c0c5ce;">&#39;
+
+</span><span style="color:#65737e;"># Get colors in ls by default
+</span><span style="color:#c0c5ce;">alias ls=&quot;</span><span style="color:#a3be8c;">ls --color=auto</span><span style="color:#c0c5ce;">&quot;
+</span></pre>
+<p>Now test it out by running <code>bash</code>, your prompt should change. If it looks good <code>exit</code> then <code>exit</code> again and reconnect. This configuration is by no means exotic or impressive, it's just some nice basics.</p>
+<p>The prompt is intended to clearly communicate where, and who, you are, as well as the exit code. Time can sometimes be useful, so I included it as well. It's all also nicely color coded. Here's how it's structured:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">user@full.domain.name/current/directory (system state) (last exit code)
+(time) $
+</span></pre>
+<p><code>(system state)</code> refers to the output of <code>systemctl is-system-running</code> which will output based on <a href="https://www.freedesktop.org/software/systemd/man/systemctl.html#is-system-running">this</a> list. In most cases it will either be <code>running</code> if everything is good, or <code>degraded</code> if some service has failed.</p>
+<p><code>(last exit code)</code> will be <code>0</code> if the last command exited successfully, and a different number if it did not.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fdb8256c62c2010a00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;da9f2b5ec6c944e400.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4990a9c556a8832700.jpg"
+              alt="My prompt" />
+    <figcaption>My prompt</figcaption>
+</figure>
+<h2 id="the-multiplexer">The Multiplexer</h2>
+<p>Shell multiplexing is a great way to maintain a workspace on a remote machine. The idea is to have a daemon which holds onto your shell sessions for you and essentially acts as a 'window manager' for your various shell panes. You're then able to 'detach' and 'reattach' to these sessions whenever you want.</p>
+<p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> tmux
+</span></pre>
+<p>The global configuration for <code>tmux</code> lives at <code>/etc/tmux.conf</code> and we can just configure a couple settings:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># Use a 256 color configuration.
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g default-terminal &quot;</span><span style="color:#a3be8c;">screen-256color</span><span style="color:#c0c5ce;">&quot;
+
+ </span><span style="color:#65737e;"># Start windows and panes at 1, not 0.
+</span><span style="color:#c0c5ce;">set -g base-index 1
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g pane-base-index 1
+
+</span><span style="color:#65737e;"># So the history doesn&#39;t go on forever.
+</span><span style="color:#c0c5ce;">set -g history-limit 10000
+
+</span><span style="color:#65737e;"># Split panes using | and -, this makes more sense!
+</span><span style="color:#c0c5ce;">bind </span><span style="color:#96b5b4;">\ </span><span style="color:#c0c5ce;">split-window </span><span style="color:#bf616a;">-h
+</span><span style="color:#96b5b4;">bind</span><span style="color:#c0c5ce;"> - split-window -v
+</span><span style="color:#bf616a;">unbind </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">&quot;</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#bf616a;">unbind </span><span style="color:#c0c5ce;">%
+
+</span><span style="color:#65737e;"># Don&#39;t rename windows automatically. Rename with Ctl+B followed by ,
+</span><span style="color:#c0c5ce;">set</span><span style="color:#bf616a;"> -g</span><span style="color:#c0c5ce;"> allow-rename off
+
+</span><span style="color:#65737e;">###
+# Theme below.
+###
+# Panes
+</span><span style="color:#c0c5ce;">set</span><span style="color:#bf616a;"> -g</span><span style="color:#c0c5ce;"> pane-border-bg colour235
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g pane-border-fg colour238
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g pane-active-border-bg colour236
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g pane-active-border-fg colour10
+
+</span><span style="color:#65737e;"># Messaging
+</span><span style="color:#c0c5ce;">set -g message-attr bold
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g message-fg colour232
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g message-bg colour166
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g message-command-fg blue
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g message-command-bg black
+
+</span><span style="color:#65737e;"># Window mode
+</span><span style="color:#c0c5ce;">setw -g mode-bg colour6
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> mode-fg colour0
+
+</span><span style="color:#65737e;"># Window status
+</span><span style="color:#c0c5ce;">setw</span><span style="color:#bf616a;"> -g</span><span style="color:#c0c5ce;"> window-status-current-fg colour10
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-current-bg colour238
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-current-attr bold
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-current-format &#39;</span><span style="color:#a3be8c;"> #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour10]#F </span><span style="color:#c0c5ce;">&#39;
+
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-fg colour138
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-bg colour235
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-attr none
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-format &#39;</span><span style="color:#a3be8c;"> #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F </span><span style="color:#c0c5ce;">&#39;
+
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-bell-attr bold
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-bell-fg colour255
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> window-status-bell-bg colour1
+
+</span><span style="color:#65737e;"># Info on left
+</span><span style="color:#c0c5ce;">set</span><span style="color:#bf616a;"> -g</span><span style="color:#c0c5ce;"> status-left &#39;&#39;
+
+</span><span style="color:#65737e;"># Modes
+</span><span style="color:#c0c5ce;">setw</span><span style="color:#bf616a;"> -g</span><span style="color:#c0c5ce;"> clock-mode-colour colour135
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> mode-attr bold
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> mode-fg colour196
+</span><span style="color:#bf616a;">setw -g</span><span style="color:#c0c5ce;"> mode-bg colour238
+
+</span><span style="color:#65737e;"># The statusbar
+</span><span style="color:#c0c5ce;">set</span><span style="color:#bf616a;"> -g</span><span style="color:#c0c5ce;"> status-position bottom
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-bg colour233
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-fg colour137
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-justify left
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-interval 2
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-attr dim
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-left &#39;&#39;
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-right &#39;</span><span style="color:#a3be8c;">#[bgcolour=0]#[fg=colour10]#(echo $USER)#[fg=colour7]@#[fg=colour9]#(hostname) #[fg=colour3]#(systemctl is-system-running) </span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-right-length 50
+</span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g status-left-length 20
+</span></pre>
+<p>Launching <code>tmux</code> you can create new 'tabs' with <code>Ctl+b c</code> (press <code>Control</code> and <code>b</code>, then let go and press <code>c</code>). You can rename them with <code>Ctl+b ,</code>. You can split them with <code>Ctl+\</code> and <code>Ctl+-</code> respectively. You can move between splits with <code>Ctl+b left</code> and <code>Ctl+b right</code>. With <code>Ctl+b 1</code> or any number you can change 'tabs'.</p>
+<p>You can <strong>detach</strong> <code>tmux</code> with <code>Ctl+b d</code> and you can <strong>re-attach</strong> with <code>tmux a</code> later on. Sessions will persist between logins but not between reboots.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed6c4dc15bf5d08700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f8381fb3a47d6bc300.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;30006dc003920e9900.jpg"
+              alt="Example of tmux" />
+    <figcaption>Example of tmux</figcaption>
+</figure>
+<h2 id="editing-the-editor">Editing the Editor</h2>
+<p>Earlier we installed <code>nvim</code> with <code>pacman -S neovim</code>. <a href="https://neovim.io/">Neovim</a> is a minimal modern recreation of <code>vim</code> which itself was a recreation of <code>vi</code>. There are also editors like <code>emacs</code>, <code>ed</code>, and <code>nano</code>.</p>
+<p>The <code>nvim</code> systemwide configuration is stored at <code>/etc/xdg/nvim/init.vim</code>, and you might need to create the folder with <code>mkdir -p /etc/xdg/nvim/</code>.</p>
+<p>Inside we can do some basic configuration:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&quot; Be improved
+set nocompatible
+
+&quot; General
+set number      &quot; Show line numbers
+set history=700 &quot; Commands
+set autoread
+set magic       &quot; Regex related
+set showmatch   &quot; Brackets
+set mouse=a     &quot; Enable all mouse interaction.
+filetype plugin on
+syntax enable
+set ttyfast     &quot; Improve smoothness
+set lazyredraw  &quot; Don&#39;t redraw while executing macros
+set showcmd     &quot; Show partially typed commands at the bottom
+set wrap        &quot; Soft wrap lines
+
+&quot; Indents
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set ai &quot; Auto Indent
+set si &quot; Smart Indent
+
+&quot; Peace and quiet
+&quot; (Side note: Vim does a &#39;bell&#39; very often)
+set noerrorbells
+set novisualbell
+
+&quot; Searching
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
+&quot; Don&#39;t do some legacy-related things like temporary swapfiles.
+set nobackup
+set nowb
+set noswapfile
+
+&quot; Tell vim to remember certain things when we exit
+&quot;  &#39;10  :  marks will be remembered for up to 10 previously edited files
+&quot;  &quot;100 :  will save up to 100 lines for each register
+&quot;  :20  :  up to 20 lines of command-line history will be remembered
+&quot;  %    :  saves and restores the buffer list
+&quot;  n... :  where to save the viminfo files
+set viminfo=&#39;10,\&quot;100,:20,%,n~/.viminfo
+
+&quot; Automagically restore files we were editing to the line we were on.
+function! RestoreLine()
+  if line(&quot;&#39;\&quot;&quot;) &lt;= line(&quot;$&quot;)
+    normal! g`&quot;
+    return 1
+  endif
+endfunction
+augroup restoreLine
+  autocmd!
+  autocmd BufWinEnter * call RestoreLine()
+augroup END
+
+&quot; Colorscheme
+colorscheme spacegrey
+</span></pre>
+<p>Now we need to fetch the colorscheme, <em>Spacegrey</em>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/xdg/nvim/colors/
+</span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://raw.githubusercontent.com/ajh17/Spacegray.vim/master/colors/spacegray.vim</span><span style="color:#bf616a;"> -o</span><span style="color:#c0c5ce;"> /etc/xdg/nvim/colors/spacegrey.vim
+</span></pre>
+<p>At this point <code>nvim</code> is quite capable of doing any task we might need of it. Triumph in this by telling the system you and it are officially in a relationship.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/bash.bashrc
+
+</span><span style="color:#65737e;"># Use nvim
+</span><span style="color:#c0c5ce;">export EDITOR=nvim
+</span><span style="color:#b48ead;">EOF
+</span></pre><h2 id="final-steps">Final Steps</h2>
+<p>Since it's probably been a couple days since you started this process, it's also a good idea to update:</p>
+<ol>
+<li>Check the <a href="https://www.archlinux.org/">Arch Frontpage</a> in case there is any news item you need to be aware of.</li>
+<li>Issue <code>pacman -Syu</code>.</li>
+</ol>
+<p>Before moving on it might be a good idea to make a snapshot of what we have so far, this way we can roll back. This is a very cool feature of BTRFS and one of the main reasons I use it. Since this is technically our <code>/</code> the process is a bit more involved than usual.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># First, mount the BTRFS volume somewhere plainly, no subvolume.
+</span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> compress=lzo /dev/sda /mnt/
+</span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> /mnt
+</span><span style="color:#65737e;"># Create a read-only snapshot of `root` called `root-fresh`.
+</span><span style="color:#c0c5ce;">sudo btrfs subvolume snapshot -r root root-fresh
+</span></pre>
+<p>If you ever find yourself in a situation where you just need to restart all over again, this is a snapshot you can use so you don't have to re-do all your configuration and setup. You <strong>would</strong> just have to:</p>
+<ul>
+<li>Boot into recovery.</li>
+<li>Mount the filesystem with <code>mount -o compress=lzo /dev/sda /mnt/</code>.</li>
+<li><code>btrfs subvolume delete /mnt/root</code></li>
+<li><code>btrfs subvolume snapshot /mnt/root-fresh /mnt/root</code></li>
+</ul>
+<p>For now this will give you a way to return back to this exact point while we dork around with containers. You can also mount it (like the other subvolumes) and recover defaults in case something gets bungled in your current system.</p>
+<p>In later posts we'll be discussing BTRFS more in regards to how it works with containers and backups.</p>
+<h2 id="ready-to-go">Ready to Go</h2>
+<p>Try running our three configured programs as both <code>root</code> and your <code>$USER</code>, their configurations should be the same. Our system has been configured to act in a simple, usable manner and behave with little surprising behaivor. Below you can see it with <code>nvim /etc/iptables/iptables.rules</code>, <code>systemd-cgtop</code> and <code>journalctl -f</code> running.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a21dbbe2ed97548700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4f5c212ca56b519200.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;15cc12bb6628cc7d00.jpg"
+              alt="An Example" />
+    <figcaption>An Example</figcaption>
+</figure>
+<p>What's perhaps most important to remember throughout this process is that you kept this system very clean. Next post we'll discuss using containers to construct virtual environments, which we can be much more <em>messy</em> with!</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;56a685959943722400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca68e3fdaa7db2f800.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

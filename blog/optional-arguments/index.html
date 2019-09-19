@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Optional Arguments in Rust</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cbf80a8bf17e211900.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Optional Arguments in Rust">
+        
+        
+            <meta name="twitter:description" content="When designing an API for your crate one topic which can come is how to handle optional arguments. Let&#x27;s explore our Options in Rust!
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Optional Arguments in Rust</a></h1>
+                <p class="description">Exploring Rust UX and API design.</h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;60e40d2b2e87fbce00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cbf80a8bf17e211900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b3daf90e98e00a5000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>When designing an API for your crate one topic which can come is how to handle optional arguments. Let's explore our <code>Option</code>s in Rust!</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="we-don-t-have-splats-or-multiple-implementations">We Don't Have Splats or Multiple Implementations</h2>
+<p>Rust currently does not offer functions with variadic or optional arguments. This means this is not possible:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">) {}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">other</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">) {}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">rest</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">...) {}
+</span></pre>
+<p>Coming from languages such as JS or Ruby, you might miss this functionality. In particular, I found myself often looking for a way to have an optional configuration or value I pass in.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;">// In the context of an configuration structure for a client:
+</span><span style="color:#c0c5ce;">client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span style="color:#c0c5ce;">&quot;)?;
+client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span style="color:#c0c5ce;">&quot;, custom_config)?;
+</span></pre>
+<blockquote>
+<p><strong>Note on scope:</strong> I'm not interested in writing about how to deal with variadic arguments at this time. If you are insatiable about this, try it yourself, consider a macro, reference <code>format!()</code>.</p>
+</blockquote>
+<h2 id="just-throw-another-function-at-it">Just Throw Another Function At It!</h2>
+<p>Since that's not possible, what's a viable alternative?</p>
+<p>The most obvious is to have <strong>two functions.</strong> There is nothing technically wrong with that. It's perfectly reasonable, and results in a very acceptable API. There is no tricks, and it's understandable immediately:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String) -&gt; Result&lt;</span><span style="color:#b48ead;">Self</span><span style="color:#c0c5ce;">, io::Error&gt; {
+    </span><span style="color:#b48ead;">Self</span><span style="color:#c0c5ce;">::connect_with_config(addr, Config::default())
+}
+
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">connect_with_config</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String, </span><span style="color:#bf616a;">config</span><span style="color:#c0c5ce;">: Config) -&gt; Result&lt;</span><span style="color:#b48ead;">Self</span><span style="color:#c0c5ce;">, io::Error&gt; {
+    </span><span style="color:#65737e;">// ...
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>But this is a very specific example. There are sometimes general cases where this is <strong>not</strong> as reasonable. For example, let's say we have a send message that <strong>usually</strong> takes a payload, but supports no payload (for pings, for example). At this point the technique just looks strange, you either end up with <code>message_with_payload()</code> everywhere, a <code>ping()</code> function, or a <code>message_without_payload()</code> function. Using your imagination you might be able to think of other examples in your own code where you've encountered this.</p>
+<h2 id="we-ve-got-options">We've got <code>Option</code>s</h2>
+<p>The next logical step, which starts to harness Rust's abstractions, is using an <strong>optional type</strong>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">message</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String, </span><span style="color:#bf616a;">maybe_payload</span><span style="color:#c0c5ce;">: Option&lt;Vec&lt;</span><span style="color:#b48ead;">u8</span><span style="color:#c0c5ce;">&gt;&gt;) -&gt; Result&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, io::Error&gt; {
+    </span><span style="color:#65737e;">// ...
+    </span><span style="color:#b48ead;">if let </span><span style="color:#c0c5ce;">Some(payload) = maybe_payload {
+        </span><span style="color:#65737e;">// Off you go...
+    </span><span style="color:#c0c5ce;">}
+    </span><span style="color:#65737e;">// ...
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#65737e;">// Using it:
+</span><span style="color:#96b5b4;">message</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span style="color:#c0c5ce;">&quot;, Some(vec![</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">]))?;
+</span><span style="color:#96b5b4;">message</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span style="color:#c0c5ce;">&quot;, None)?;
+</span></pre>
+<p>This certainly gets the job done! Now we can have one function that can internally handle if the value is provided or not. It does clutter up the API a bit, but it seems now we have these odd feeling <code>Some(_)</code> and <code>None</code> variants loitering around.</p>
+<p>We boil the problem down with some generics, to get a better idea of what we're trying to accomplish and to support some microbenchmarks.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">value_arg</span><span style="color:#c0c5ce;">&lt;Thing&gt;(</span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: Thing) -&gt; Thing {
+    thing
+}
+
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">optional_arg</span><span style="color:#c0c5ce;">&lt;Thing&gt;(</span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: Option&lt;Thing&gt;) -&gt; Thing
+</span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Thing: Default {
+    thing.</span><span style="color:#96b5b4;">unwrap_or</span><span style="color:#c0c5ce;">(Thing::default())
+}
+</span></pre>
+<p>As you can see, these are deliberately as simple as we can possibly make them while not allowing it to be optimized away, they return their value and allow the bencher to accept their output.</p>
+<p>Let's get rid of the <code>Some(_)</code>. We can use <strong>generics</strong> via <code>impl Trait</code>, inline generic, or where clauses.</p>
+<h3 id="aside-why-i-like-impl-trait">Aside: Why I like <code>impl Trait</code></h3>
+<p>I think it enables a more succinct style, better semantics for some use cases, and helps avoid one particular usability mistake that is easy to make. Consider the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">handles_a_pair_of_stringish</span><span style="color:#c0c5ce;">&lt;Stringish&gt;(</span><span style="color:#bf616a;">first</span><span style="color:#c0c5ce;">: Stringish, </span><span style="color:#bf616a;">second</span><span style="color:#c0c5ce;">: Stringish)
+</span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Stringish: AsRef&lt;</span><span style="color:#b48ead;">str</span><span style="color:#c0c5ce;">&gt; {
+    </span><span style="color:#65737e;">// ...
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">handles_a_pair_of_varying_stringish</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">first</span><span style="color:#c0c5ce;">: impl AsRef&lt;</span><span style="color:#b48ead;">str</span><span style="color:#c0c5ce;">&gt;, </span><span style="color:#bf616a;">second</span><span style="color:#c0c5ce;">: impl AsRef&lt;</span><span style="color:#b48ead;">str</span><span style="color:#c0c5ce;">&gt;) {
+    </span><span style="color:#65737e;">// ...
+</span><span style="color:#c0c5ce;">}
+
+
+#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">send_stringishes_of_difference_type</span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#96b5b4;">handles_a_pair_of_stringish</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), &quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// This won&#39;t compile!
+    </span><span style="color:#96b5b4;">handles_a_pair_of_varying_stringish</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), &quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;);
+}
+</span></pre>
+<p>I think in these situations, <code>impl Trait</code> is an effective choice for readability and flexibility. I do <strong>not</strong> encourage you to use it everywhere, for everything. Strive for readability and understandability, not &quot;slick&quot;/arcane APIs.</p>
+<h2 id="a-generic-implementation">A Generic Implementation</h2>
+<p>In order to refine this design we can pay attention to some key trait implementations:</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/option/enum.Option.html#impl-From%3CT%3E"><code>impl&lt;T&gt; Into&lt;Option&lt;T&gt;&gt; for T</code></a></li>
+<li><a href="https://doc.rust-lang.org/std/option/enum.Option.html#impl-Default"><code>impl&lt;T&gt; Default for Option&lt;T&gt;</code></a></li>
+</ul>
+<p>This means we can do the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">optional_arg_with_into</span><span style="color:#c0c5ce;">&lt;Thing&gt;(
+    </span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: impl Into&lt;Option&lt;Thing&gt;&gt;
+) -&gt; Thing
+</span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Thing: Default {
+    thing.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap_or</span><span style="color:#c0c5ce;">(Thing::default())
+}
+
+#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">verify_assemptions</span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(Vec::&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt;::default());
+    </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(vec![</span><span style="color:#d08770;">1_</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">]);
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> out: Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt; = </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(None::&lt;Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt;&gt;); </span><span style="color:#65737e;">// Type hinting
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>In this very limited demo code we need to provide quite a bit of type hinting to the <code>None</code> argument. This is not normally the case for more projects with a non-trivial codebase.</p>
+<p>At this point, you're able to leverage a couple basic traits (<code>Default</code> and <code>From</code>) to give your users a more flexible API.</p>
+<h2 id="caveats">Caveats</h2>
+<p>As you may have noticed in the last example, in the case of very simple code this can get pretty verbose. That's because we're not doing anything with the return/argument values. As your project grows the need for the hinting will disappear, as the compiler will be able to make more inferences about the types of things.</p>
+<p>Using this technique can reduce your ability to flexibly accept things that turn into the inner argument. Eg a <code>U</code> where <code>impl From&lt;U&gt; for T</code>. You might need to jump through some hoops. Getting around this the easy way will force your users to do <code>T::from(u)</code> in the argument position when calling. Still, not too bad.</p>
+<h2 id="benchmarking">Benchmarking</h2>
+<p>Let's make sure that adding this flexibility doesn't have a huge performance impact on our code. I used Criterion and wrote a small suite for our demo code. Since the code is trivial (it basically just converts and converts back), we can explore the cost of just doing this operation. Here is the entire bench code:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">macro_use</span><span style="color:#c0c5ce;">(criterion_main, criterion_group)] </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> criterion;
+</span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">criterion::Criterion;
+
+criterion_main!(benches);
+criterion_group!(benches, optional_args::group);
+
+</span><span style="color:#b48ead;">mod </span><span style="color:#c0c5ce;">optional_args {
+    </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">criterion::Criterion;
+
+    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">value_arg</span><span style="color:#c0c5ce;">&lt;Thing&gt;(</span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: Thing) -&gt; Thing {
+        thing
+    }
+
+    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">optional_arg</span><span style="color:#c0c5ce;">&lt;Thing&gt;(</span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: Option&lt;Thing&gt;) -&gt; Thing
+    </span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Thing: Default {
+        thing.</span><span style="color:#96b5b4;">unwrap_or</span><span style="color:#c0c5ce;">(Thing::default())
+    }
+
+    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">optional_arg_with_into</span><span style="color:#c0c5ce;">&lt;Thing&gt;(
+        </span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: impl Into&lt;Option&lt;Thing&gt;&gt;
+    ) -&gt; Thing
+    </span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Thing: Default {
+        thing.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap_or</span><span style="color:#c0c5ce;">(Thing::default())
+    }
+
+    </span><span style="color:#b48ead;">pub</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">crate</span><span style="color:#c0c5ce;">) </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">group</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">c</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> Criterion) {
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">value 1_u64</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">{
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value = </span><span style="color:#96b5b4;">value_arg</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">1_</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">);
+            value + </span><span style="color:#d08770;">1
+        </span><span style="color:#c0c5ce;">}));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional Some(1_u64)</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">{
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value = </span><span style="color:#96b5b4;">optional_arg</span><span style="color:#c0c5ce;">(Some(</span><span style="color:#d08770;">1_</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">));
+            value + </span><span style="color:#d08770;">1
+        </span><span style="color:#c0c5ce;">}));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional_into 1_u64</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">{
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value = </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">1_</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">);
+            value + </span><span style="color:#d08770;">1
+        </span><span style="color:#c0c5ce;">}));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional_into Some(1_u64)</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">{
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value: </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">= </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(Some(</span><span style="color:#d08770;">1_</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">));
+            value + </span><span style="color:#d08770;">1
+        </span><span style="color:#c0c5ce;">}));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional_into (u64) None</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">{
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value: </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">= </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(None);
+            value + </span><span style="color:#d08770;">1
+        </span><span style="color:#c0c5ce;">}));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional_into 1_u8.into()</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">{
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value: </span><span style="color:#b48ead;">u64 </span><span style="color:#c0c5ce;">= </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">::from(</span><span style="color:#d08770;">1_</span><span style="color:#b48ead;">u8</span><span style="color:#c0c5ce;">));
+            value + </span><span style="color:#d08770;">1
+        </span><span style="color:#c0c5ce;">}));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional_into Vec&lt;u64&gt;::new()</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt; {
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value: Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt; = </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(Vec::&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt;::new());
+            value
+        }));
+        c.</span><span style="color:#96b5b4;">bench_function</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">optional_into (Vec&lt;u64&gt;) None</span><span style="color:#c0c5ce;">&quot;, |</span><span style="color:#bf616a;">b</span><span style="color:#c0c5ce;">| b.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">(|| -&gt; Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt; {
+            </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value: Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt; = </span><span style="color:#96b5b4;">optional_arg_with_into</span><span style="color:#c0c5ce;">(None::&lt;Vec&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt;&gt;);
+            value
+        }));
+    }
+}
+</span></pre>
+<p>It's pretty snappy, enough so I'm still not <em>entirely</em> convinced it's not getting optimized out somehow. Computers are sneaky.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">value 1_u64             time:   [264.11 ps 264.50 ps 264.97 ps]                        
+Found 15 outliers among 100 measurements (15.00%)
+  1 (1.00%) low mild
+  5 (5.00%) high mild
+  9 (9.00%) high severe
+
+optional Some(1_u64)    time:   [263.41 ps 263.86 ps 264.44 ps]                                 
+Found 18 outliers among 100 measurements (18.00%)
+  3 (3.00%) low mild
+  4 (4.00%) high mild
+  11 (11.00%) high severe
+
+optional_into 1_u64     time:   [258.67 ps 259.43 ps 260.37 ps]                                
+Found 7 outliers among 100 measurements (7.00%)
+  3 (3.00%) high mild
+  4 (4.00%) high severe
+
+optional_into Some(1_u64)                                                                            
+                        time:   [252.95 ps 253.41 ps 253.94 ps]
+Found 6 outliers among 100 measurements (6.00%)
+  2 (2.00%) high mild
+  4 (4.00%) high severe
+
+optional_into (u64) None                                                                            
+                        time:   [256.31 ps 256.89 ps 257.70 ps]
+Found 12 outliers among 100 measurements (12.00%)
+  3 (3.00%) high mild
+  9 (9.00%) high severe
+
+optional_into 1_u8.into()                                                                            
+                        time:   [255.77 ps 256.33 ps 257.04 ps]
+Found 12 outliers among 100 measurements (12.00%)
+  1 (1.00%) low mild
+  7 (7.00%) high mild
+  4 (4.00%) high severe
+
+optional_into Vec&lt;u64&gt;::new()                                                                             
+                        time:   [853.18 ps 858.14 ps 863.70 ps]
+Found 4 outliers among 100 measurements (4.00%)
+  4 (4.00%) high mild
+
+optional_into (Vec&lt;u64&gt;) None                                                                             
+                        time:   [830.59 ps 833.04 ps 835.56 ps]
+</span></pre><h1 id="what-we-learnt-takeaways">What We Learnt &amp; Takeaways</h1>
+<p>We learnt there are many options when it comes to API design with Rust. During our exploration we noted that choosing to declare our functions semantically, and/or enabling a more flexible API doesn't have to cost much.</p>
+<p>If you're interested in learning more about enabling flexible APIs in Rust, I'd reccomend exploring the <a href="https://rust-lang-nursery.github.io/api-guidelines/flexibility.html">Guidelines</a>. I'd also reccomend exploring the <a href="https://doc.rust-lang.org/1.0.0/style/ownership/builders.html">Builder Pattern</a>, since it's generally more well used in Rust.</p>
+<p>Thanks for reading! Hope to use your lovely code soon. 😉</p>
+<blockquote>
+<p><strong>P.S.</strong> If you are looking for a <strong>senior level</strong> position, are passionate about this topic, and have experience with distributed systems, safety critical systems, data structures, networking, and chaos engineering please <a href="https://hoverbear.org/blog/optional-arguments/operator@hoverbear.org">email me</a>. We can chat about the possibility of working on my team at <a href="http://pingcap.com/">PingCAP</a> doing open source ecosystem work for <a href="https://github.com/tikv/tikv">TiKV</a> and its dependencies. In the future you would get to take on mentoring new juniors, open source contributors, and community members at large. Globally remote friendly, competitive salaries, travel coverage for speaking, very minority friendly (location, race, sexuality, gender, etc).</p>
+</blockquote>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;60e40d2b2e87fbce00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cbf80a8bf17e211900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b3daf90e98e00a5000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

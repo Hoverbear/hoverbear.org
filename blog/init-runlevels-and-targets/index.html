@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Init - Runlevels and Targets</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Init - Runlevels and Targets">
+        
+        
+            <meta name="twitter:description" content="In this post, we&#x27;ll look at how runlevels work in two major init systems, systemd and OpenRC. If you&#x27;re interested in trying out systemd, I&#x27;d suggest using an Arch Linux Live ISO. For those interested in trying OpenRC, check out Funtoo. Both of these will work great in your favorite virtualization solution.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Init - Runlevels and Targets</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>In this post, we'll look at how runlevels work in two major init systems, systemd and OpenRC. If you're interested in trying out <code>systemd</code>, I'd suggest using an <a href="https://www.archlinux.org/download/">Arch Linux Live ISO</a>. For those interested in trying OpenRC, check out <a href="http://www.funtoo.org/Funtoo_Linux_Installation">Funtoo</a>. Both of these will work great in your favorite virtualization solution.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h1 id="openrc">OpenRC</h1>
+<p>OpenRC uses runlevels in very much the same way as sysvinit (or BSD init). At any given time the system is in one of the defined runlevels, there are three internal runlevels and four user defined runlevels.</p>
+<p><strong>Internal Runlevels:</strong></p>
+<ul>
+<li><code>sysinit</code>: Initialize the system.</li>
+<li><code>shutdown</code>: Power off the system.</li>
+<li><code>reboot</code>: Rebooting the system.</li>
+</ul>
+<p><strong>User Runlevels:</strong></p>
+<ul>
+<li><code>boot</code>: Starts all system-necessary services for other runlevels.
+<code>default</code>: Used for day-to-day-operations</li>
+<li><code>nonetwork</code>: Used when no network connectivity is required.</li>
+<li><code>single</code>: Single-user mode.</li>
+</ul>
+<p>A system transitions between runlevels like so:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">sysinit</span><span style="color:#c0c5ce;"> -&gt; boot -&gt; default -&gt; shutdown
+</span></pre>
+<p>The services controlled by a particular runlevel are controlled by <code>/etc/inittab</code> and via the <code>rc-update</code> command.</p>
+<p>On a modern <a href="http://www.funtoo.org/Funtoo_Hosting">Funtoo LXC Container</a>, your runlevels  might look like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">± </span><span style="color:#65737e;"># rc-update -v
+</span><span style="color:#c0c5ce;">             bootmisc | </span><span style="color:#bf616a;">boot
+         busybox-ntpd </span><span style="color:#c0c5ce;">|
+     </span><span style="color:#bf616a;">busybox-watchdog </span><span style="color:#c0c5ce;">|
+          </span><span style="color:#bf616a;">consolefont </span><span style="color:#c0c5ce;">|
+                 </span><span style="color:#bf616a;">dbus </span><span style="color:#c0c5ce;">|
+                </span><span style="color:#bf616a;">devfs </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+               dhcpcd </span><span style="color:#c0c5ce;">|
+                </span><span style="color:#bf616a;">dmesg </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+                 fsck </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+           git-daemon </span><span style="color:#c0c5ce;">|
+                  </span><span style="color:#bf616a;">gpm </span><span style="color:#c0c5ce;">|
+             </span><span style="color:#bf616a;">hostname </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+              hwclock </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+             iptables </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+              keymaps </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+            killprocs </span><span style="color:#c0c5ce;">|              </span><span style="color:#bf616a;">shutdown
+    kmod-static-nodes </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+                </span><span style="color:#b48ead;">local </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+           localmount </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+              modules </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+             mount-ro </span><span style="color:#c0c5ce;">|              </span><span style="color:#bf616a;">shutdown
+                 mtab </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+               murmur </span><span style="color:#c0c5ce;">|
+           </span><span style="color:#bf616a;">netif.eth0 </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+             netif.lo </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+           netif.tmpl </span><span style="color:#c0c5ce;">|
+             </span><span style="color:#bf616a;">netmount </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+                nginx </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+              numlock </span><span style="color:#c0c5ce;">|
+              </span><span style="color:#bf616a;">openvpn </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+              pciparm </span><span style="color:#c0c5ce;">|
+              </span><span style="color:#bf616a;">postfix </span><span style="color:#c0c5ce;">|
+               </span><span style="color:#bf616a;">procfs </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+            pydoc-2.7 </span><span style="color:#c0c5ce;">|
+            </span><span style="color:#bf616a;">pydoc-3.3 </span><span style="color:#c0c5ce;">|
+            </span><span style="color:#bf616a;">pydoc-3.4 </span><span style="color:#c0c5ce;">|
+                </span><span style="color:#bf616a;">redis </span><span style="color:#c0c5ce;">|
+                 </span><span style="color:#bf616a;">root </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+               rsyncd </span><span style="color:#c0c5ce;">|
+            </span><span style="color:#bf616a;">savecache </span><span style="color:#c0c5ce;">|              </span><span style="color:#bf616a;">shutdown
+                 sshd </span><span style="color:#c0c5ce;">|      </span><span style="color:#bf616a;">default
+                 swap </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+            swapfiles </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+              swclock </span><span style="color:#c0c5ce;">|
+               </span><span style="color:#bf616a;">sysctl </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+                sysfs </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+         termencoding </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+         tmpfiles.dev </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+       tmpfiles.setup </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+                 udev </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+           udev-mount </span><span style="color:#c0c5ce;">|                       </span><span style="color:#bf616a;">sysinit
+       udev-postmount </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+              urandom </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">boot
+</span></pre>
+<p>Services can be added to runlevels with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> add &lt;service&gt; &lt;runlevel&gt;
+</span></pre>
+<p>Or removed with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> del &lt;service&gt; &lt;runlevel&gt;
+</span></pre>
+<p>Changing between runlevels is done via the <code>rc &lt;runlevel&gt;</code> command, but most users will never need to do this as runlevels are (mostly) managed by the system.</p>
+<p>In the case where a user does want to change runlevels in this way, it is often such that they are utilizing <a href="http://www.funtoo.org/Stacked_Runlevels">Stacked Runlevels</a>.</p>
+<p>For example, if a user wanted to differentiate which services were running on their laptop when it was powered or on battery, they could create two separate runlevels stacked atop <code>default</code>. While plugged in, the laptop could be running test databases or any number of services, but after changing runlevels these services could be disabled to save on battery.</p>
+<h4 id="benefits">Benefits</h4>
+<ul>
+<li><strong>Simple:</strong> There are (normally) only 7 runlevels, and for most of it's time the system remains on the <code>default</code> runlevel.</li>
+<li><strong>Established:</strong>  <code>init</code> and <code>sysvinit</code> have been using runlevels for ages.</li>
+<li><strong>Sufficient:</strong> Runlevels have been shown to provide sufficient functionality for most applications.</li>
+</ul>
+<h4 id="downfalls">Downfalls</h4>
+<ul>
+<li><strong>Inflexible:</strong> While there are ways to create 'Stacked Runlevels', the system is not very capable of more exotic requirements.</li>
+<li><strong>Aging:</strong> Modern systems, especially desktops and laptops, frequently change their hardware (inserting a USB stick), or network settings (Changing between WiFi networks), steps have been taken by system designers to handle these stumbling blocks, but it's not longer always sufficient to scan once for hardware, for example.</li>
+</ul>
+<h1 id="systemd">systemd</h1>
+<p><code>systemd</code> uses targets instead of runlevels. Each target has a unique name, and multiple targets can be active at one time. Since most distributions using systemd have migrated from a runlevel based init system, there are targets which roughly correspond to the runlevels used by OpenRC, <code>init</code>, and <code>sysvinit</code>.</p>
+<ul>
+<li><code>poweroff</code>: Halt the system.</li>
+<li><code>rescue</code>: Single user mode.</li>
+<li><code>multi-user</code>: Multi-user, non-graphical. User-defined/Site-specific runlevels.</li>
+<li><code>graphical</code>: Multi-user, graphical. Usually multi-user + graphical login.</li>
+<li><code>reboot</code>: Reboot</li>
+<li><code>emergency</code>: Emergency Shell</li>
+</ul>
+<p>It's important to understand that these are not necessarily the only active targets. In the case of the <code>graphical</code> target, a display manager service like <code>kdm</code> might be started, this target would also activate the <code>multi-user</code> target.</p>
+<p>The <code>multi-user</code> target might also activate a service like <code>dbus</code>, and another target named <code>basic</code>. This is interesting because it allows us to cleanly compose and extend the system to suit our needs.</p>
+<p>A <code>.target</code> file resides in <code>/usr/lib/systemd/system</code> or <code>/usr/lib/systemd/system/</code> and looks like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">[Unit]
+Description=Graphical Interface
+Documentation=man:systemd.special(7)
+Requires=multi-user.target
+After=multi-user.target
+Conflicts=rescue.target
+Wants=display-manager.service
+AllowIsolate=yes
+</span></pre>
+<p>This file would be accompanied by a <code>&lt;target&gt;.wants</code> directory containing the services it should enable.</p>
+<p>Targets can be controlled very similar to systemd's <code>.service</code> unit files, you just need to add <code>.target</code> at the end.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> status graphical.target
+</span><span style="color:#bf616a;">± </span><span style="color:#c0c5ce;">% systemctl status graphical.target
+</span><span style="color:#bf616a;">graphical.target</span><span style="color:#c0c5ce;"> - Graphical Interface
+</span><span style="color:#bf616a;">Loaded:</span><span style="color:#c0c5ce;"> loaded (/lib/systemd/system/graphical.target; </span><span style="color:#bf616a;">enabled</span><span style="color:#c0c5ce;">)
+</span><span style="color:#bf616a;">Active:</span><span style="color:#c0c5ce;"> active since Thu 2014-09-25 21:21:26 PDT; </span><span style="color:#bf616a;">4</span><span style="color:#c0c5ce;"> days ago
+</span><span style="color:#bf616a;">Docs:</span><span style="color:#c0c5ce;"> man:systemd.special(7)
+
+ </span><span style="color:#bf616a;">Sep</span><span style="color:#c0c5ce;"> 25 21:21:26 aluminum systemd</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">1</span><span style="color:#b48ead;">]</span><span style="color:#c0c5ce;">: Starting Graphical Interface.
+ </span><span style="color:#bf616a;">Sep</span><span style="color:#c0c5ce;"> 25 21:21:26 aluminum systemd</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">1</span><span style="color:#b48ead;">]</span><span style="color:#c0c5ce;">: Reached target Graphical Interface.
+</span></pre>
+<p>The <code>.target</code> based approach allows for various services to be grouped in a logical manner. For example, is is the state of targets on a modern Fedora Desktop:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">± </span><span style="color:#c0c5ce;">% systemctl list-units</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;">=target</span><span style="color:#bf616a;"> --all
+UNIT</span><span style="color:#c0c5ce;">                   LOAD      ACTIVE   SUB    DESCRIPTION
+</span><span style="color:#bf616a;">basic.target</span><span style="color:#c0c5ce;">           loaded    active   active Basic System
+</span><span style="color:#bf616a;">bluetooth.target</span><span style="color:#c0c5ce;">       loaded    active   active Bluetooth
+</span><span style="color:#bf616a;">cryptsetup-pre.target</span><span style="color:#c0c5ce;">  loaded    inactive dead   Encrypted Volumes (Pre)
+</span><span style="color:#bf616a;">cryptsetup.target</span><span style="color:#c0c5ce;">      loaded    active   active Encrypted Volumes
+</span><span style="color:#bf616a;">emergency.target</span><span style="color:#c0c5ce;">       loaded    inactive dead   Emergency Mode
+</span><span style="color:#bf616a;">final.target</span><span style="color:#c0c5ce;">           loaded    inactive dead   Final Step
+</span><span style="color:#bf616a;">getty.target</span><span style="color:#c0c5ce;">           loaded    active   active Login Prompts
+</span><span style="color:#bf616a;">graphical.target</span><span style="color:#c0c5ce;">       loaded    active   active Graphical Interface
+</span><span style="color:#bf616a;">local-fs-pre.target</span><span style="color:#c0c5ce;">    loaded    active   active Local File Systems (Pre)
+</span><span style="color:#bf616a;">local-fs.target</span><span style="color:#c0c5ce;">        loaded    active   active Local File Systems
+</span><span style="color:#bf616a;">multi-user.target</span><span style="color:#c0c5ce;">      loaded    active   active Multi-User System
+</span><span style="color:#bf616a;">network-online.target</span><span style="color:#c0c5ce;">  loaded    inactive dead   Network is Online
+</span><span style="color:#bf616a;">network.target</span><span style="color:#c0c5ce;">         loaded    active   active Network
+</span><span style="color:#bf616a;">nfs.target</span><span style="color:#c0c5ce;">             loaded    active   active Network File System Server
+</span><span style="color:#bf616a;">nss-user-lookup.target</span><span style="color:#c0c5ce;"> loaded    inactive dead   User and Group Name Lookups
+</span><span style="color:#bf616a;">paths.target</span><span style="color:#c0c5ce;">           loaded    active   active Paths
+</span><span style="color:#bf616a;">remote-fs-pre.target</span><span style="color:#c0c5ce;">   loaded    inactive dead   Remote File Systems (Pre)
+</span><span style="color:#bf616a;">remote-fs.target</span><span style="color:#c0c5ce;">       loaded    active   active Remote File Systems
+</span><span style="color:#bf616a;">rescue.target</span><span style="color:#c0c5ce;">          loaded    inactive dead   Rescue Mode
+</span><span style="color:#bf616a;">shutdown.target</span><span style="color:#c0c5ce;">        loaded    inactive dead   Shutdown
+</span><span style="color:#bf616a;">sleep.target</span><span style="color:#c0c5ce;">           loaded    inactive dead   Sleep
+</span><span style="color:#bf616a;">slices.target</span><span style="color:#c0c5ce;">          loaded    active   active Slices
+</span><span style="color:#bf616a;">sockets.target</span><span style="color:#c0c5ce;">         loaded    active   active Sockets
+</span><span style="color:#bf616a;">sound.target</span><span style="color:#c0c5ce;">           loaded    active   active Sound Card
+</span><span style="color:#bf616a;">suspend.target</span><span style="color:#c0c5ce;">         loaded    active   active Suspend
+</span><span style="color:#bf616a;">swap.target</span><span style="color:#c0c5ce;">            loaded    active   active Swap
+</span><span style="color:#bf616a;">sysinit.target</span><span style="color:#c0c5ce;">         loaded    active   active System Initialization
+</span><span style="color:#bf616a;">syslog.target</span><span style="color:#c0c5ce;">          not-found inactive dead   syslog.target
+</span><span style="color:#bf616a;">time-sync.target</span><span style="color:#c0c5ce;">       loaded    inactive dead   System Time Synchronized
+</span><span style="color:#bf616a;">timers.target</span><span style="color:#c0c5ce;">          loaded    active   active Timers
+</span><span style="color:#bf616a;">umount.target</span><span style="color:#c0c5ce;">          loaded    inactive dead   Unmount All Filesystems
+
+</span><span style="color:#bf616a;">LOAD</span><span style="color:#c0c5ce;">   = Reflects whether the unit definition was properly loaded.
+</span><span style="color:#bf616a;">ACTIVE</span><span style="color:#c0c5ce;"> = The high-level unit activation state, i.e. generalization of SUB.
+</span><span style="color:#bf616a;">SUB</span><span style="color:#c0c5ce;">    = The low-level unit activation state, values depend on unit type.
+
+</span><span style="color:#bf616a;">31</span><span style="color:#c0c5ce;"> loaded units listed.
+</span><span style="color:#bf616a;">To</span><span style="color:#c0c5ce;"> show all installed unit files use &#39;</span><span style="color:#a3be8c;">systemctl list-unit-files</span><span style="color:#c0c5ce;">&#39;.
+</span></pre><h4 id="benefits-1">Benefits</h4>
+<ul>
+<li><strong>Composition</strong>: Allows for services to be composed together in logical, user-defined groups easily.</li>
+<li><strong>Configuration</strong>: It's simple to add custom targets.</li>
+<li><strong>Less Restrictive</strong>: Since multiple targets can be active at a given time, the system's behavior can be more finely defined.</li>
+</ul>
+<h4 id="downfalls-1">Downfalls</h4>
+<ul>
+<li><strong>Complexity</strong>: A sufficiently sophisticated installation could be composed of dozens of targets, and can require a deeper understanding of the system.</li>
+</ul>
+<h1 id="further-reading">Further Reading</h1>
+<ul>
+<li><a href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
+<li><a href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
+<li><a href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
+<li><a href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
+<li><a href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
+<li><a href="http://www.funtoo.org/Stacked_Runlevels">Stacked Rulevels (Funtoo Wiki)</a></li>
+</ul>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>An HTTPS Terminator Box</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;df7b7e26de89650b00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="An HTTPS Terminator Box">
+        
+        
+            <meta name="twitter:description" content="Over the last couple days at asquera we&#x27;ve been on a retreat at the Landhaus Fredenwalde. It&#x27;s really beautiful out here and it&#x27;s given me a chance to work on a few small projects which I&#x27;ve been wanting to explore for awhile now.
+Anyways, yesterday I set up a system that uses Ansible, Let&#x27;s Encrypt, nginx, and DigitalOcean to terminate HTTP and proxy requests to arbitrary hosts. The intended use case for this is to have Github Pages sites able to be dropped onto a custom domain that is SSL enabled, but there are many other use cases which I haven&#x27;t experimented with (yet).
+I was, primarily, interested in exploring using Ansible and DigitalOcean. It worked out quite well http:&#x2F;&#x2F;hoverbear.org&#x2F; is running on it at the moment!
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">An HTTPS Terminator Box</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8feb2c0a5eb56b7500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;df7b7e26de89650b00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4f5aedbc1458199700.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Over the last couple days at <a href="http://asquera.de/">asquera</a> we've been on a retreat at the <a href="http://landhaus-fredenwalde.de/">Landhaus Fredenwalde</a>. It's really beautiful out here and it's given me a chance to work on a few small projects which I've been wanting to explore for awhile now.</p>
+<p>Anyways, yesterday I set up a system that uses <a href="https://www.ansible.com/">Ansible</a>, <a href="http://letsencrypt.org/">Let's Encrypt</a>, <a href="https://hoverbear.org/blog/an-https-terminator-box/nginx.com">nginx</a>, and <a href="http://digitalocean.com/">DigitalOcean</a> to terminate HTTP and proxy requests to arbitrary hosts. The intended use case for this is to have <a href="http://pages.github.com/">Github Pages</a> sites able to be dropped onto a custom domain that is SSL enabled, but there are many other use cases which I haven't experimented with (yet).</p>
+<p>I was, primarily, interested in exploring using Ansible and DigitalOcean. It worked out quite well <a href="http://hoverbear.org/">http://hoverbear.org/</a> is running on it at the moment!</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>Without further ado, you can check out the repository <a href="https://github.com/Hoverbear/https-terminator#https-terminator">here</a>. Trying it out on a test subdomain should be quite cheap (in the order of a few cents) and it's rather interesting to poke at.</p>
+<h2 id="on-ansible">On Ansible</h2>
+<p>I've had some experience with <a href="https://puppet.com/">Puppet</a>, <a href="https://www.chef.io/">Chef</a>, and <a href="http://terraform.io/">Terraform</a> in different capacities however I had only ever played with Ansible in a minimal fashion. In particular I'd only used Ansible as part of some course work on the <a href="http://gee-project.org/">GENI Experiment Engine</a> which gives you slices of machines distributed around North America. I liked my experience and after a recent talk at the <a href="http://berlinops.de/">Berlin DevOps summit</a> I was inspired to try it more.</p>
+<p>So what's the differentiator between it and the others? Well the big differences are:</p>
+<ul>
+<li>It is agent-less. Only Python and SSH are required. Puppet and Chef both require agents.</li>
+<li>It's declarative, so there's no complex scripts happening. Chef is scriptable in Ruby, Puppet is also declarative.</li>
+<li>It's just YAML, not some custom syntax. Puppet uses it's own special syntax.</li>
+<li>It has a broad scope, doing things from creating cloud VMs to copying files. Terraform is limited to infrastructure, Puppet and Chef don't do infrastructure as part of their standard package.</li>
+<li>It isn't particularly opinionated about file structure. Chef and Puppet are a bit picky about how you organize things.</li>
+</ul>
+<p>So that's basically it! Puppet, Chef, and Ansible all <em>essentially</em> address the same problems in different fashions and they all do so in a perfectly acceptable manner. I think it's pretty much down to personal opinion and experience.</p>
+<p>As for me, I'll be using Ansible on my next few projects to learn more about it. I think I prefer it.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8feb2c0a5eb56b7500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;df7b7e26de89650b00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4f5aedbc1458199700.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

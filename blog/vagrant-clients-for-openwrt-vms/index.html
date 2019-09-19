@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Vagrant Clients for OpenWRT VMs</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Vagrant Clients for OpenWRT VMs">
+        
+        
+            <meta name="twitter:description" content="In my last post, we explored how to set up a OpenWRT VM in VirtualBox.
+Let&#x27;s give it some clients! Since the router is using a intnets we need to configure some machines to use that as their primary way to connect to the internet.
+Since Vagrant has support for multi-machine configurations and gives us minimal builds of machines, we&#x27;ll use this for our clients.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Vagrant Clients for OpenWRT VMs</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>In my <a href="/2014/11/23/openwrt-in-virtualbox/">last post</a>, we explored how to set up a OpenWRT VM in VirtualBox.</p>
+<p>Let's give it some clients! Since the router is using a <code>intnet</code>s we need to configure some machines to use that as their primary way to connect to the internet.</p>
+<p>Since <a href="http://vagrantup.com/">Vagrant</a> has support for <a href="https://docs.vagrantup.com/v2/multi-machine/index.html">multi-machine configurations</a> and gives us <a href="https://vagrantcloud.com/chef/boxes/debian-7.4">minimal builds of machines</a>, we'll use this for our clients.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="the-plan">The Plan</h2>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;90086d205aa6561e00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c38efaca1625ad1f00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ee4db8ab2f35160a00.jpg"
+              alt="Diagram." />
+    <figcaption>Diagram.</figcaption>
+</figure>
+<p>Here is (roughly) the goal. The pair of VMs <code>test1</code> and <code>test2</code> will access <code>test3</code> (and the internet) through the OpenWRT router we created. Later, we'll build in QoS and talk about the effects of various parameters.</p>
+<h2 id="getting-started-with-vagrant">Getting started with Vagrant</h2>
+<p>I'll assume you've already install <a href="http://vagrantup.com/">Vagrant</a>. Let's make a workspace and set some enviroment variables. You might want to change this.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">INTNET=&quot;openwrt&quot;
+</span><span style="color:#c0c5ce;">WORKSPACE=&quot;workspace&quot;
+</span><span style="color:#c0c5ce;">mkdir $WORKSPACE &amp;&amp; \
+</span><span style="color:#c0c5ce;">cd $WORKSPACE
+</span></pre>
+<p>Next we'll write a <code>Vagrantfile</code> to orchestrate the boxes and give them various traits.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Vagrant.configure(&quot;2&quot;) do |config|
+</span><span style="color:#c0c5ce;">    config.vm.define :test1 do |box|
+</span><span style="color:#c0c5ce;">        box.vm.box = &quot;chef/fedora-20&quot;
+</span><span style="color:#c0c5ce;">        box.vm.network &quot;private_network&quot;,
+</span><span style="color:#c0c5ce;">            type: &quot;dhcp&quot;,
+</span><span style="color:#c0c5ce;">            virtualbox__intnet: &quot;port1&quot;
+</span><span style="color:#c0c5ce;">    end
+</span><span style="color:#c0c5ce;">    config.vm.define :test2 do |box|
+</span><span style="color:#c0c5ce;">        box.vm.box = &quot;chef/fedora-20&quot;
+</span><span style="color:#c0c5ce;">        box.vm.network &quot;private_network&quot;,
+</span><span style="color:#c0c5ce;">            type: &quot;dhcp&quot;,
+</span><span style="color:#c0c5ce;">            virtualbox__intnet: &quot;port2&quot;
+</span><span style="color:#c0c5ce;">    end
+</span><span style="color:#c0c5ce;">        config.vm.define :test3 do |box|
+</span><span style="color:#c0c5ce;">        box.vm.box = &quot;chef/fedora-20&quot;
+</span><span style="color:#c0c5ce;">        box.vm.network &quot;private_network&quot;,
+</span><span style="color:#c0c5ce;">            type: &quot;dhcp&quot;,
+</span><span style="color:#c0c5ce;">            virtualbox__intnet: &quot;port3&quot;
+</span><span style="color:#c0c5ce;">    end
+</span><span style="color:#c0c5ce;">end
+</span></pre>
+<p>Now you can run it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">vagrant up
+</span></pre>
+<p>Because of how we <a href="http://www.hoverbear.org/2014/11/23/openwrt-in-virtualbox/#dhcp">configured</a> the <code>dhcp</code> service on our OpenWRT router, these machine should connect primarily to the OpenWRT router over the NAT (falling back on it if things fail).</p>
+<p>To check, access the VM's and ensure that the interface <code>enp0s8</code> exists and has an <code>inet</code> address. For example, if I use <code>vagrant ssh test1</code>, then run the following, my outputs show I am assigned <code>192.168.1.196</code> by the OpenWRT router.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">ifconfig enp0s8
+</span><span style="color:#c0c5ce;"># enp0s8: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+</span><span style="color:#c0c5ce;">#     inet 192.168.1.196  netmask 255.255.255.0  broadcast 192.168.1.255
+</span><span style="color:#c0c5ce;">#     inet6 fe80::a00:27ff:fe31:dcfe  prefixlen 64  scopeid 0x20&lt;link&gt;
+</span><span style="color:#c0c5ce;">#     inet6 fdca:27bb:4407::8a1  prefixlen 128  scopeid 0x0&lt;global&gt;
+</span><span style="color:#c0c5ce;">#     inet6 fdca:27bb:4407:0:a00:27ff:fe31:dcfe  prefixlen 128  scopeid 0x0&lt;global&gt;
+</span><span style="color:#c0c5ce;">#     ether 08:00:27:31:dc:fe  txqueuelen 1000  (Ethernet)
+</span><span style="color:#c0c5ce;">#     RX packets 16  bytes 2584 (2.5 KiB)
+</span><span style="color:#c0c5ce;">#     RX errors 0  dropped 0  overruns 0  frame 0
+</span><span style="color:#c0c5ce;">#     TX packets 29  bytes 3722 (3.6 KiB)
+</span><span style="color:#c0c5ce;">#     TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</span><span style="color:#c0c5ce;">route
+</span><span style="color:#c0c5ce;"># Kernel IP routing table
+</span><span style="color:#c0c5ce;"># Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+</span><span style="color:#c0c5ce;"># default         192.168.1.1     0.0.0.0         UG    0      0        0 enp0s8
+</span><span style="color:#c0c5ce;"># default         10.0.2.2        0.0.0.0         UG    1024   0        0 p2p1
+</span><span style="color:#c0c5ce;"># 10.0.2.0        0.0.0.0         255.255.255.0   U     0      0        0 p2p1
+</span><span style="color:#c0c5ce;"># link-local      0.0.0.0         255.255.0.0     U     1003   0        0 enp0s8
+</span><span style="color:#c0c5ce;"># 192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp0s8
+</span></pre>
+<p>I should be able to access this from another VM if I use <code>vagrant ssh test2</code> then run:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">ping 192.168.1.196
+</span></pre>
+<p>Fantastic. This means all of our machines can talk.</p>
+<p>What's more, is that these three client machines will all talk to the internet through the router. You can, for example, <code>wget</code> something and watch in <code>ifconfig enp0s8</code> as the TX and RX change.</p>
+<h2 id="configuring-a-host">Configuring a Host</h2>
+<p>In order to configure <code>test3</code> to be a proper web host for our tests, it needs two things:</p>
+<ul>
+<li>A web server.</li>
+<li>Something (large) to serve.</li>
+</ul>
+<p>Why something large? We'll be using emulated network interfaces that should be blazing fast, so having something large is key.</p>
+<p>The easiest way to accomplish this is to have a large file on your VM host which is in the <code>$WORKSPACE</code> folder, this can then be shared with <code>test3</code>, which it can serve. This is because Vagrant automatically shares anything in the current directory into the VM's <code>/vagrant</code> folder.</p>
+<p>Modify your <code>Vagrantfile</code> to match the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">$make_host = &lt;&lt;SCRIPT
+</span><span style="color:#c0c5ce;">    yum install -y nginx
+</span><span style="color:#c0c5ce;">    sed -i &#39;s/root .*/root \\/vagrant;/&#39; /etc/nginx/nginx.conf
+</span><span style="color:#c0c5ce;">    systemctl enable nginx
+</span><span style="color:#c0c5ce;">    systemctl start nginx
+</span><span style="color:#c0c5ce;">SCRIPT
+
+</span><span style="color:#c0c5ce;">Vagrant.configure(&quot;2&quot;) do |config|
+</span><span style="color:#c0c5ce;">    config.vm.define :test1 do |box|
+</span><span style="color:#c0c5ce;">        box.vm.box = &quot;chef/fedora-20&quot;
+</span><span style="color:#c0c5ce;">        box.vm.network &quot;private_network&quot;,
+</span><span style="color:#c0c5ce;">            type: &quot;dhcp&quot;,
+</span><span style="color:#c0c5ce;">            virtualbox__intnet: &quot;port1&quot;
+</span><span style="color:#c0c5ce;">    end
+</span><span style="color:#c0c5ce;">    config.vm.define :test2 do |box|
+</span><span style="color:#c0c5ce;">        box.vm.box = &quot;chef/fedora-20&quot;
+</span><span style="color:#c0c5ce;">        box.vm.network &quot;private_network&quot;,
+</span><span style="color:#c0c5ce;">            type: &quot;dhcp&quot;,
+</span><span style="color:#c0c5ce;">            virtualbox__intnet: &quot;port2&quot;
+</span><span style="color:#c0c5ce;">    end
+</span><span style="color:#c0c5ce;">    config.vm.define :test3 do |box|
+</span><span style="color:#c0c5ce;">        box.vm.box = &quot;chef/fedora-20&quot;
+</span><span style="color:#c0c5ce;">        box.vm.network &quot;private_network&quot;,
+</span><span style="color:#c0c5ce;">            type: &quot;dhcp&quot;,
+</span><span style="color:#c0c5ce;">            virtualbox__intnet: &quot;port3&quot;
+</span><span style="color:#c0c5ce;">        box.vm.provision &quot;shell&quot;, inline: $make_host
+</span><span style="color:#c0c5ce;">    end
+</span><span style="color:#c0c5ce;">end
+</span></pre>
+<p>Now you should be able to fetch the IP address of <code>test3</code> by SSH'ing into the box with <code>vagrant ssh test3</code> then running <code>ip addr show enp0s8 | grep 192.168</code>. Mine is <code>192.168.3.201</code>, yours might be different, substitute this where you see <code>$TEST3IP</code>.</p>
+<p>On your <code>test1</code> or <code>test2</code> box, you should be able to do:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">curl $TEST3IP/Vagrantfile
+</span></pre>
+<p>The output of this command should be the script we wrote. Your next step should be to find a file of sufficient size. If you're stuck on ideas, there is an hour long video of a Norwegian train trip which would be suitable.</p>
+<p>On <code>test3</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">yum install -y youtube-dl
+</span><span style="color:#c0c5ce;">youtube-dl https://www.youtube.com/watch?v=m7rWhCqsh2I  -o /vagrant/video.mp4
+</span></pre>
+<p>The resulting file is approximately 1.18GB, which is enough for our use.</p>
+<p>You can test with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">curl $TEST3IP/video.mp4
+</span></pre><h2 id="quality-of-service">Quality of Service</h2>
+<p>Now that we have a small network set up with our router, the next step is configuring the quality of service on the router. I discuss this <a href="http://www.hoverbear.org/2014/12/06/openwrt-qos/">here</a>.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

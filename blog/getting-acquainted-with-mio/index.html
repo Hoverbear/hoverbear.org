@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Getting Acquainted with MIO</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Getting Acquainted with MIO">
+        
+        
+            <meta name="twitter:description" content="One of my next goals in my Raft project is to tame the tick() with mio. In this post, we&#x27;ll explore what it is, what it can do, and why it matters. First things first: What is MIO?
+
+MIO is a lightweight IO library for Rust with a focus on adding as little overhead as possible over the OS abstractions.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Getting Acquainted with MIO</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>One of my next goals in my <a href="http://hoverbear.org/tag/raft/">Raft</a> project is to tame the <code>tick()</code> with <a href="https://github.com/carllerche/mio"><code>mio</code></a>. In this post, we'll explore what it is, what it can do, and why it matters. First things first: What is MIO?</p>
+<blockquote>
+<p>MIO is a lightweight IO library for Rust with a focus on adding as little overhead as possible over the OS abstractions.</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>Now you're probably thinking... &quot;So what? We have plenty of shiny stuff in the new <code>std::io</code>...&quot; and you're right! But hold off on judgement until you read this:</p>
+<blockquote>
+<p>Features</p>
+<ul>
+<li>Event loop backed by <code>epoll</code>, <code>kqueue</code>.</li>
+<li>Zero allocations at runtime</li>
+<li>Non-blocking TCP, UDP and Unix domain sockets</li>
+<li>High performance timer system</li>
+<li>Thread safe message channel for cross thread communication</li>
+</ul>
+</blockquote>
+<p>Okay, here it's starting to get interesting. <code>epoll</code>, and <code>kqueue</code> are event notification interfaces available in Linux, and the BSDs (Darwin included). Zero allocations are great for performance, and non-blocking sockets are insanely useful for network applications.</p>
+<p>For a Raft context, the ability to use evented timers is applicable for heartbeats and election timings.</p>
+<p>If you've used <code>node.js</code>, <code>io.js</code>, or Python's Twisted framework event loops might be familiar to you. <em>Yes I know callback hell sucks!</em> Fear not, this is Rust, not some scruffy loosely-typed, garbage-collected, non-blocking language!</p>
+<h2 id="the-general-idea">The General Idea</h2>
+<p>MIO works off this general concept:</p>
+<ul>
+<li>Make a thread for the <code>EventLoop</code>.</li>
+<li>Register interest with <code>IOHandle</code>s.</li>
+<li>Supply the loop with a <code>Handler</code>.</li>
+<li>Run your code.</li>
+</ul>
+<h2 id="hello-world">Hello, World</h2>
+<p>The following program is a nice, simple example of what MIO looks like:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">extern crate mio;
+</span><span style="color:#c0c5ce;">use mio::*;
+</span><span style="color:#c0c5ce;">use std::fmt::Debug;
+
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    // Create an event loop
+</span><span style="color:#c0c5ce;">    let mut event_loop = EventLoop::&lt;(), String&gt;::new().unwrap();
+</span><span style="color:#c0c5ce;">    let sender = event_loop.channel();
+</span><span style="color:#c0c5ce;">    sender.send(&quot;Hello&quot;.to_string()).unwrap();
+</span><span style="color:#c0c5ce;">    // Start it
+</span><span style="color:#c0c5ce;">    event_loop.run(&amp;mut BearHandler).unwrap();
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">struct BearHandler;
+
+</span><span style="color:#c0c5ce;">impl&lt;T, M: Send + Debug&gt; Handler&lt;T, M&gt; for BearHandler {
+</span><span style="color:#c0c5ce;">    /// A message has been delivered
+</span><span style="color:#c0c5ce;">    fn notify(&amp;mut self, _reactor: &amp;mut EventLoop&lt;T, M&gt;, msg: M) {
+</span><span style="color:#c0c5ce;">        println!(&quot;{:?}&quot;, msg);
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>A <strong>lot</strong> is going on here. Let's take a closer look.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">EventLoop::&lt;(), String&gt;::new();
+</span></pre>
+<p>This creates a new <code>EventLoop</code>. The Event loop uses <code>T</code> tokens of type <code>()</code>, and channels that consume and pass <code>M: Send</code> of type <code>String</code>. You can use anything that implements <code>Send</code> for messages.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">event_loop.channel();
+</span></pre>
+<p>This gives us a channel to send <code>String</code>s. When we <code>send()</code> later our <code>BearHandler</code> wakes up and invokes <code>notify</code>.</p>
+<p>From there, <code>notify</code> prints out the message. In a real application, this is where your business logic would be to determine what to do with the message.</p>
+<h2 id="getting-a-handle-r">Getting a Handle(r)</h2>
+<p>A Handler can implement some or all of the following functions:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">pub trait Handler&lt;T: Token, M: Send&gt; {
+</span><span style="color:#c0c5ce;">    /// A registered IoHandle has available data to read
+</span><span style="color:#c0c5ce;">    fn readable(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, hint: ReadHint, token: T);
+</span><span style="color:#c0c5ce;">    /// A registered IoHandle is available to write to
+</span><span style="color:#c0c5ce;">    fn writable(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, token: T);
+</span><span style="color:#c0c5ce;">    /// A registered timer has expired
+</span><span style="color:#c0c5ce;">    fn timeout(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, token: T);
+</span><span style="color:#c0c5ce;">    /// A message has been delivered
+</span><span style="color:#c0c5ce;">    fn notify(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, msg: M);
+</span><span style="color:#c0c5ce;">    /// A signal has been delivered to the process
+</span><span style="color:#c0c5ce;">    fn signal(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, info: mio::SigInfo);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>So this is a lot more then just sending some <code>String</code>s around! Did you doubt me?</p>
+<p>What's really cool is your <code>Handler</code> can have a data backing since it's just a trait that you can implement yourself! Let's do that now:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">extern crate mio;
+</span><span style="color:#c0c5ce;">use mio::*;
+
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    // Create an event loop
+</span><span style="color:#c0c5ce;">    let mut event_loop = EventLoop::&lt;(), u64&gt;::new().unwrap();
+</span><span style="color:#c0c5ce;">    let sender = event_loop.channel();
+</span><span style="color:#c0c5ce;">    for i in 0.. 5 {
+</span><span style="color:#c0c5ce;">        sender.send(i).unwrap();
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">    // Start it
+</span><span style="color:#c0c5ce;">    event_loop.run(&amp;mut BearHandler(0)).unwrap();
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">struct BearHandler(u64);
+
+</span><span style="color:#c0c5ce;">impl&lt;T&gt; Handler&lt;T, u64&gt; for BearHandler {
+</span><span style="color:#c0c5ce;">    fn notify(&amp;mut self, _reactor: &amp;mut EventLoop&lt;T, u64&gt;, msg: u64) {
+</span><span style="color:#c0c5ce;">        self.0 += msg;
+</span><span style="color:#c0c5ce;">        println!(&quot;Message: {}, Total: {}&quot;, msg, self.0);
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Output:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Message: 0, Total: 0
+</span><span style="color:#c0c5ce;">Message: 1, Total: 1
+</span><span style="color:#c0c5ce;">Message: 2, Total: 3
+</span><span style="color:#c0c5ce;">Message: 3, Total: 6
+</span><span style="color:#c0c5ce;">Message: 4, Total: 10
+</span></pre>
+<p>In this case, our <code>BearHandler</code> was a humble <code>u64</code> tuple which we mutated, but you could easily make this a more complicated <code>struct</code>.</p>
+<h2 id="registered-interest">Registered Interest</h2>
+<p>Just sending messages isn't particularly interesting, let's wire up some new interests.</p>
+<p>Alright, so let's take our humble little <code>BearHandler</code> and build it into a bit of a state mutation game:</p>
+<ul>
+<li>Each time a timer fire (every 250ms) send a UDP packet to some socket.</li>
+<li>Each time that socket gets hit decrement a <code>count</code> by 1.</li>
+<li>Each time on the channel increment it by that much.</li>
+</ul>
+<p>First, we'll modify the <code>BearHandler</code> to reflect these changes. First, we'll make it a proper <code>struct</code> and let it store a pair of sockets as well as it's <code>count</code>.</p>
+<p>Second, we'll implement the <code>readable</code>, <code>timeout</code>, and <code>notify</code>. Note in the <code>readable</code> we take care to drain the socket. Also, note how the <code>timeout</code> doesn't need to reset itself, we can clear it with <a href="https://carllerche.github.io/mio/mio/struct.EventLoop.html#method.clear_timeout"><code>clear_timeout</code></a> if we want.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">impl Handler&lt;Token, u64&gt; for BearHandler {
+</span><span style="color:#c0c5ce;">    fn readable(&amp;mut self, _reactor: &amp;mut EventLoop&lt;Token, u64&gt;, _token: Token, _hint: ReadHint) {
+</span><span style="color:#c0c5ce;">        let mut buffer = buf::RingBuf::new(1024);
+</span><span style="color:#c0c5ce;">        // Drain socket, otherwise infinite loop!
+</span><span style="color:#c0c5ce;">        net::TryRecv::recv_from(&amp;self.listener, &amp;mut buffer.writer()).unwrap();
+</span><span style="color:#c0c5ce;">        self.count -= 1;
+</span><span style="color:#c0c5ce;">        println!(&quot;Decremented, Total: {}&quot;, self.count);
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">    fn timeout(&amp;mut self, reactor: &amp;mut EventLoop&lt;Token, u64&gt;, _token: Token) {
+</span><span style="color:#c0c5ce;">        self.sender.send_to(&amp;[0], &quot;127.0.0.1:12345&quot;).unwrap();
+</span><span style="color:#c0c5ce;">        // Reset
+</span><span style="color:#c0c5ce;">        reactor.timeout(TIMEOUT, Duration::milliseconds(250)).unwrap();
+</span><span style="color:#c0c5ce;">        println!(&quot;Timeout&quot;);
+</span><span style="color:#c0c5ce;">    }
+
+</span><span style="color:#c0c5ce;">    fn notify(&amp;mut self, _reactor: &amp;mut EventLoop&lt;Token, u64&gt;, msg: u64) {
+</span><span style="color:#c0c5ce;">        self.count += msg;
+</span><span style="color:#c0c5ce;">        println!(&quot;Increment by: {}, Total: {}&quot;, msg, self.count);
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Next, registering the various events, we'll use some of MIO's <code>mio::net</code> items:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">const LISTENER: Token = Token(0);
+</span><span style="color:#c0c5ce;">const TIMEOUT:  Token = Token(1);
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    // Create an event loop
+</span><span style="color:#c0c5ce;">    let mut event_loop = EventLoop::&lt;Token, u64&gt;::new().unwrap();
+</span><span style="color:#c0c5ce;">    // Register Interest
+</span><span style="color:#c0c5ce;">    let listener = UdpSocket::bind(&quot;127.0.0.1:12345&quot;).unwrap();
+</span><span style="color:#c0c5ce;">    event_loop.register(&amp;listener, LISTENER).unwrap(); // Token lets us distinguish.
+</span><span style="color:#c0c5ce;">    // Increments
+</span><span style="color:#c0c5ce;">    let incrementer = event_loop.channel();
+</span><span style="color:#c0c5ce;">    for i in 0.. 5 {
+</span><span style="color:#c0c5ce;">        incrementer.send(i).unwrap();
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">    // Decrements
+</span><span style="color:#c0c5ce;">    event_loop.timeout(TIMEOUT, Duration::milliseconds(250)).unwrap();
+</span><span style="color:#c0c5ce;">    // Start it
+</span><span style="color:#c0c5ce;">    let sender = UdpSocket::bind(&quot;127.0.0.1:12346&quot;).unwrap();
+</span><span style="color:#c0c5ce;">    event_loop.run(&amp;mut BearHandler {
+</span><span style="color:#c0c5ce;">        count: 0,
+</span><span style="color:#c0c5ce;">        listener: listener,
+</span><span style="color:#c0c5ce;">        sender: sender
+</span><span style="color:#c0c5ce;">    }).unwrap();
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Output:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Increment by: 0, Total: 0
+</span><span style="color:#c0c5ce;">Increment by: 1, Total: 1
+</span><span style="color:#c0c5ce;">Increment by: 2, Total: 3
+</span><span style="color:#c0c5ce;">Increment by: 3, Total: 6
+</span><span style="color:#c0c5ce;">Increment by: 4, Total: 10
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 9
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 8
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 7
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 6
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 5
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 4
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 3
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 2
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 1
+</span><span style="color:#c0c5ce;">Timeout
+</span><span style="color:#c0c5ce;">Decremented, Total: 0
+</span></pre>
+<blockquote>
+<p>By the way, in our examples MIO will take over the main thread and block. In a normal application you'll want to kick it off into a new thread when you <code>start()</code> it.</p>
+</blockquote>
+<h2 id="learn-more">Learn More</h2>
+<ul>
+<li>I found Wycats' <a href="https://github.com/wycats/mio-book"><code>mio-book</code></a> repo very useful.</li>
+<li>As always, the <a href="https://carllerche.github.io/mio/mio/index.html">docs</a> were a great help.</li>
+<li>This post is <a href="https://www.reddit.com/r/rust/comments/2xvtll/getting_acquainted_with_mio/"><strong>discussed on Reddit</strong></a>.</li>
+<li>This post is also <a href="https://news.ycombinator.com/item?id=9143255"><strong>discussed on Hacker News</strong></a>!</li>
+</ul>
+<h2 id="help-out">Help Out!</h2>
+<p>We're tracking progress on integrating MIO into Raft with <a href="https://github.com/Hoverbear/raft/issues/6">this issue</a>. Feel free to weigh in or help out!</p>
+<blockquote>
+<p>A <strong>huge</strong> thanks to <a href="https://github.com/Hoverbear/raft/commits/master?author=danburkert"><strong>@danburkert</strong></a> for their contributions this week!</p>
+</blockquote>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

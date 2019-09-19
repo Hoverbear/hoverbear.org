@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Option Monads in Rust</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Option Monads in Rust">
+        
+        
+            <meta name="twitter:description" content="One common monadic structure is the Option (or Maybe in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,
+
+fn main () {
+  &#x2F;&#x2F; Parses a string into an integer.
+  from_str::&amp;lt;int&amp;gt;(&amp;quot;4&amp;quot;); &#x2F;&#x2F; A valid input.
+  from_str::&amp;lt;int&amp;gt;(&amp;quot;Potato&amp;quot;); &#x2F;&#x2F; Definitely invalid.
+}
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Option Monads in Rust</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>One common monadic structure is the <code>Option</code> (or <code>Maybe</code> in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+  </span><span style="color:#65737e;">// Parses a string into an integer.
+  </span><span style="color:#c0c5ce;">from_str::&lt;int&gt;(&quot;</span><span style="color:#a3be8c;">4</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// A valid input.
+  </span><span style="color:#c0c5ce;">from_str::&lt;int&gt;(&quot;</span><span style="color:#a3be8c;">Potato</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// Definitely invalid.
+</span><span style="color:#c0c5ce;">}
+</span></pre><p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>The <code>from_str</code> function cannot return a meaningful value for <code>&quot;Potato&quot;</code>. Rust (and many other functional languages) does not have <code>null</code>, so what should we return? This is where an <code>Option</code> type becomes useful. In our example, instead of returning an <code>int</code> type, the <code>from_str</code> function returns an <code>Option&lt;int&gt;</code> type.</p>
+<p>In Rust, the <code>Option</code> enum is represented by either <code>Some(x)</code> or <code>None</code>, where <code>x</code> is the encapsulated value. In this way, the <code>Option</code> monad can be thought of like a box. It encapsulates the value <code>x</code>, where <code>x</code> is any type. Rust defines an <code>Option</code> as such, where <code>&lt;T&gt;</code> and <code>(T)</code> denote that it handles a generic type, meaning that <code>T</code> could be an <code>int</code>, a <code>str</code>, a <code>vec</code>, or anything else, even other <code>Option</code> types.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">Option&lt;T&gt; { None, Some(T) }
+</span></pre><h3 id="value-in-value-out">Value In, Value Out</h3>
+<p>Since we can see an <code>Option</code> as a box, or encapsulation type, we need to be able to put things into the box, or take things out.</p>
+<p>Putting a value into an <code>Option</code> is delightfully simple. Simply use <code>Some(x)</code> or <code>None</code> in place of <code>x</code> or (an imaginary) <code>null</code>. Most of the time, you will receive or return an <code>Option</code> based on input, rather than just creating them directly. Here are some examples of different techniques.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#65737e;">// Ways to create an Option containing an int.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> w = Some(3i); </span><span style="color:#65737e;">// Something
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> x: Option&lt;int&gt; = None; </span><span style="color:#65737e;">// Nothing
+    // Receive from function.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> y = </span><span style="color:#96b5b4;">some_on_even</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">); </span><span style="color:#65737e;">// Something
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> z = </span><span style="color:#96b5b4;">some_on_even</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">); </span><span style="color:#65737e;">// Nothing
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">some_on_even</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: int) -&gt; Option&lt;int&gt; {
+    </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> val {
+        </span><span style="color:#65737e;">// Matches an even number.
+</span><span style="color:#c0c5ce;">        x </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> x % </span><span style="color:#d08770;">2 </span><span style="color:#c0c5ce;">== </span><span style="color:#d08770;">0 </span><span style="color:#c0c5ce;">=&gt; Some(x),
+        </span><span style="color:#65737e;">// Matches anything else.
+        </span><span style="color:#c0c5ce;">_                     =&gt; None
+    }
+}
+</span></pre>
+<p>To take something out of the <code>Option</code> we need to be able to extract, or &quot;unwrap&quot; the value. There are a number of ways to do this. Some common methods are with a <code>match</code> or <code>.expect()</code>.</p>
+<blockquote>
+<p>If you're seeking to write code that won't crash, avoid <code>.expect()</code> and it's cousin <code>.unwrap()</code> and use safer alternatives like <code>unwrap_or_default()</code> or <code>unwrap_or()</code>.</p>
+</blockquote>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#65737e;">// Create an Option containing the value 1.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> a_monad: Option&lt;int&gt; = Some(</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">);
+    </span><span style="color:#65737e;">// Extract and branch based on result.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value_from_match = </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> a_monad {
+        Some(x) =&gt; x,
+        None    =&gt; 0i </span><span style="color:#65737e;">// A fallback value.
+    </span><span style="color:#c0c5ce;">};
+    </span><span style="color:#65737e;">// Extract with failure message.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value_from_expect = a_monad.</span><span style="color:#96b5b4;">expect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">No result.</span><span style="color:#c0c5ce;">&quot;);
+    </span><span style="color:#65737e;">// Extract, or get a default value
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value_or_default = a_monad.</span><span style="color:#96b5b4;">unwrap_or_default</span><span style="color:#c0c5ce;">();
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value_or_fallback = a_monad.</span><span style="color:#96b5b4;">unwrap_or</span><span style="color:#c0c5ce;">(42i);
+}
+</span></pre><h3 id="not-just-a-null">Not Just a Null</h3>
+<p>By now, you're probably asking yourself something similar to the following:</p>
+<blockquote>
+<p>So why not just have <code>null</code>? What does an <code>Option</code> monad provide that's more?</p>
+</blockquote>
+<p>That's a very good question. What are the benefits of this paradigm?</p>
+<ul>
+<li><strong>You must handle all possible returns, or lack thereof.</strong> The compiler will emit errors if you don't appropriately handle an <code>Option</code>. You can't just <em>forget</em> to handle the <code>None</code> (or 'null') case.</li>
+<li><strong>Null doesn't exist.</strong> It's immediately apparent to readers and consumers which functions might not return a meaningful value. Attempting to use a value from an <code>Option</code> without handling it results in a compiler error.</li>
+<li><strong>Values aren't boxed.</strong> <code>Option</code> values don't wrap pointers, they wrap values. In order to have a <code>null</code>, you necessarily need a pointer. (<a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/cjrca88">Thanks cmr!</a>)</li>
+<li><strong>Composition becomes easy.</strong> The <code>Option</code> monad becomes much more powerful when it is used in composition, as its characteristics allow for pipelines to be created which don't need to explicitly handle errors at each step.</li>
+</ul>
+<p>Let's take a closer look at the composition idea...</p>
+<h3 id="composing-a-symphony-of-functions">Composing a Symphony of Functions</h3>
+<p>Nirvana is being able to compose a series of functions together without introducing a tight dependency between them, such that they could be moved or changed without needing to be concerned with how this might affect the other functions. For example, let's say we have some functions with the following signatures:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">log</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)     -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">; </span><span style="color:#65737e;">// This could fail. (log(-2) == ??)
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">sqrt</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)    -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">; </span><span style="color:#65737e;">// This could fail. (sqrt(-2) == ??)
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">square</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)  -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">double</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)  -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">inverse</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">;
+</span></pre>
+<p>Quite the little math library we have here! How about we come up with a way to turn <code>20</code> into something else, using a round-about pipeline?</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#96b5b4;">sqrt</span><span style="color:#c0c5ce;">(-</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">* (</span><span style="color:#96b5b4;">log</span><span style="color:#c0c5ce;">(-</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">* (</span><span style="color:#d08770;">20 </span><span style="color:#c0c5ce;">* </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">)))^</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">)
+</span></pre>
+<p>With our little library it'd look something like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;">// This code will not compile, it&#39;s invalid.
+// `Null` isn&#39;t a real type in Rust.
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> number: </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">20.</span><span style="color:#c0c5ce;">;
+    </span><span style="color:#b48ead;">match </span><span style="color:#96b5b4;">log</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">inverse</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">double</span><span style="color:#c0c5ce;">(number))) {
+        x =&gt; {
+            </span><span style="color:#b48ead;">match </span><span style="color:#96b5b4;">sqrt</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">square</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">inverse</span><span style="color:#c0c5ce;">(x)))) {
+                y =&gt; println!(&quot;</span><span style="color:#a3be8c;">The result is </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, y),
+                Null =&gt; println!(&quot;</span><span style="color:#a3be8c;">.sqrt failed.</span><span style="color:#c0c5ce;">&quot;)
+            }
+        },
+        Null =&gt; println!(&quot;</span><span style="color:#a3be8c;">.log failed.</span><span style="color:#c0c5ce;">&quot;)
+    }
+}
+</span></pre>
+<p>In this case, we had two functions which could fail, since we didn't have an <code>Option</code> type, the author must be aware of and handle possible <code>Null</code> values. Note that the onus was on the programmer to know when a <code>Null</code> <strong>might</strong> be returned, and <strong>remember</strong> to handle it, not on the compiler.</p>
+<p>Let's see what the same code would look like using the <code>Option</code> monad. In this example, all of the functions are appropriately defined.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> number: </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">20.</span><span style="color:#c0c5ce;">;
+    </span><span style="color:#65737e;">// Perform a pipeline of options.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = Some(number)
+        .</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(inverse) </span><span style="color:#65737e;">// Described below.
+        </span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(double)
+        .</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(inverse)
+        .</span><span style="color:#96b5b4;">and_then</span><span style="color:#c0c5ce;">(log) </span><span style="color:#65737e;">// Described below.
+        </span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(square)
+        .</span><span style="color:#96b5b4;">and_then</span><span style="color:#c0c5ce;">(sqrt);
+    </span><span style="color:#65737e;">// Extract the result.
+    </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> result {
+        Some(x) =&gt; println!(&quot;</span><span style="color:#a3be8c;">Result was </span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">.</span><span style="color:#c0c5ce;">&quot;, x),
+        None    =&gt; println!(&quot;</span><span style="color:#a3be8c;">This failed.</span><span style="color:#c0c5ce;">&quot;)
+    }
+}
+</span><span style="color:#65737e;">// You can ignore these.
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">log</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; Option&lt;</span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">&gt; {
+    </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> value.</span><span style="color:#96b5b4;">log2</span><span style="color:#c0c5ce;">() {
+        x </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> x.</span><span style="color:#96b5b4;">is_normal</span><span style="color:#c0c5ce;">() =&gt; Some(x),
+        _                  =&gt; None
+    }
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">sqrt</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; Option&lt;</span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">&gt; {
+    </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> value.</span><span style="color:#96b5b4;">sqrt</span><span style="color:#c0c5ce;">() {
+        x </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> x.</span><span style="color:#96b5b4;">is_normal</span><span style="color:#c0c5ce;">() =&gt; Some(x),
+        _                  =&gt; None
+    }
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">double</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">{
+    value * </span><span style="color:#d08770;">2.
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">square</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">{
+    value.</span><span style="color:#96b5b4;">powi</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">2 </span><span style="color:#c0c5ce;">as </span><span style="color:#b48ead;">i32</span><span style="color:#c0c5ce;">)
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">inverse</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">{
+    value * -</span><span style="color:#d08770;">1.
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>This code handles all possible result branches cleanly, and the author need not explicitly deal with each possible <code>None</code> result, they only need to handle the end result. If any of the functions which may fail (called by <code>and_then()</code>) do fail, the rest of the computation is bypassed. Additionally, it makes expressing and understanding the pipeline of computations much easier.</p>
+<p><code>map</code> and <code>and_then</code> (along with a gamut of other functions listed <a href="http://doc.rust-lang.org/std/option/type.Option.html">here</a>) provide a robust set of tools for composing functions together. Let's take a look, their signatures are below.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">map</span><span style="color:#c0c5ce;">&lt;U&gt;     (</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: |T| -&gt; U)         -&gt; Option&lt;U&gt;
+fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
+</span></pre><h3 id="functor-interface-map">Functor Interface: <code>.map()</code></h3>
+<p><code>map</code> provides a way to apply a function of the signature <code>|T| -&gt; U</code> to an <code>Option&lt;T&gt;</code>, returning an <code>Option&lt;U&gt;</code>. This is ideal for functions like <code>double()</code> which don't return an <code>Option</code>.</p>
+<p>This call corresponds to <code>fmap</code> in Haskell, which is part of a functor. Monads have this trait because every monad is a functor.</p>
+<h3 id="monad-interface-and-then">Monad Interface: <code>.and_then()</code></h3>
+<p><code>and_then</code> allows you to apply a <code>|T| -&gt; Option&lt;U&gt;</code> function to an <code>Option&lt;T&gt;</code>, returning an <code>Option&lt;U&gt;</code>. This allows for functions which may return no value, like <code>sqrt()</code>, to be applied.</p>
+<p>This call corresponds to <code>bind</code> in Haskell and theoretical Monad definitions. Meanwhile unwrapping <code>Some&lt;T&gt;</code> or <code>None</code> is the equivalent of <code>return</code>. (Thanks to <a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/cjrr48c">dirkt</a>)</p>
+<h3 id="examples">Examples</h3>
+<p><strong>Working with Options in Vectors</strong>. Parsing a vector of strings into integers. Note that Rust's iterators are lazy, so if <code>collect()</code> isn't called, the iterator itself could be composed with others.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> strings = vec!(&quot;</span><span style="color:#a3be8c;">4</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">12</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">15</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">bar</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">baz</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">1</span><span style="color:#c0c5ce;">&quot;);
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> numbers: Vec&lt;int&gt; = strings.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">()
+        </span><span style="color:#65737e;">// `filter_map` transforms `Vec&lt;&amp;&#39;static str&gt;` to `Vec&lt;int&gt;`
+        // Any `None` will be removed,
+        // while any `Some` will be unwrapped.
+        </span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">filter_map</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">| from_str::&lt;int&gt;(x))
+        </span><span style="color:#65737e;">// `collect` forces iteration through the lazy iterator.
+        </span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">collect</span><span style="color:#c0c5ce;">();
+    println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, numbers);
+}
+</span></pre>
+<p><strong>A simple pipeline</strong>. This example takes a strong and splits it into an iterator. <code>next()</code> fetches the next token, which is an <code>Option</code>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> input = &quot;</span><span style="color:#a3be8c;">15 Bear</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">split</span><span style="color:#c0c5ce;">(&#39; &#39;);
+    </span><span style="color:#65737e;">// Need to pull the number and parse it.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> number = input.</span><span style="color:#96b5b4;">next</span><span style="color:#c0c5ce;">()
+        </span><span style="color:#65737e;">// Process Option&lt;&amp;&#39;static str&gt; to Option&lt;int&gt;
+        </span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">and_then</span><span style="color:#c0c5ce;">(|</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">| from_str::&lt;int&gt;(x))
+        .</span><span style="color:#96b5b4;">expect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">Was not provided a valid number.</span><span style="color:#c0c5ce;">&quot;);
+    </span><span style="color:#65737e;">// The next token is our animal.
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> animal = input.</span><span style="color:#96b5b4;">next</span><span style="color:#c0c5ce;">()
+        .</span><span style="color:#96b5b4;">expect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">Was not provided an animal.</span><span style="color:#c0c5ce;">&quot;);
+    </span><span style="color:#65737e;">// Ouput `number` times.
+    </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> x in std::iter::range(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, number) {
+        println!(&quot;</span><span style="color:#d08770;">{} {}</span><span style="color:#a3be8c;"> says hi!</span><span style="color:#c0c5ce;">&quot;, animal, x)
+    }
+}
+</span></pre><h2 id="discussion">Discussion:</h2>
+<ul>
+<li><a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/">Reddit Post</a></li>
+<li><a href="https://news.ycombinator.com/item?id=8187106">Hacker News Post</a></li>
+</ul>
+<h2 id="further-resources">Further Resources:</h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Monad_(functional_programming)">Wikipedia's Article</a></li>
+<li><a href="http://www.intensivesystems.net/tutorials/monads_101.html">Monads 101</a></li>
+<li><a href="http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/">A Monad Tutorial for Clojure Programmers</a></li>
+<li><a href="https://github.com/clojure/algo.monads/blob/master/src/main/clojure/clojure/algo/monads.clj">Clojure.algo.monads</a></li>
+<li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, and Monads in Pictures</a></li>
+<li><a href="http://learnyouahaskell.com/a-fistful-of-monads">A fistful of monads</a></li>
+</ul>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

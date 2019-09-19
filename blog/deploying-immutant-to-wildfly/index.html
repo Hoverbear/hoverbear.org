@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Deploying Immutant to Wildfly</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Deploying Immutant to Wildfly">
+        
+        
+            <meta name="twitter:description" content="Currently, the tutorial on deploying to Wildfly with Immutant 2 is not written. Furthermore,the JBoss documentation isn&#x27;t particularly tailored towards Clojure applications.
+So, let&#x27;s take a look at how to do this using the convenient dockerfiles provided by the JBoss project. We&#x27;ll use Docker to simplify deployment and setup of Wildfly, but instructions for a non-docker application should be similar.
+Create a basic Immutant application.
+Starting from a lein new app learning command, set up your project like so:
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Deploying Immutant to Wildfly</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Currently, the <a href="http://immutant.org/tutorials/wildfly/index.html">tutorial on deploying to Wildfly with Immutant 2</a> is not written. Furthermore,the JBoss documentation isn't particularly tailored towards Clojure applications.</p>
+<p>So, let's take a look at how to do this using the convenient <a href="https://registry.hub.docker.com/u/jboss/">dockerfiles provided by the JBoss project</a>. We'll use Docker to simplify deployment and setup of Wildfly, but instructions for a non-docker application should be similar.</p>
+<h3 id="create-a-basic-immutant-application">Create a basic Immutant application.</h3>
+<p>Starting from a <code>lein new app learning</code> command, set up your project like so:</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p><strong>project.clj</strong>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">defproject </span><span style="color:#c0c5ce;">learning &quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">license </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
+            :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
+  :</span><span style="color:#d08770;">dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
+                 [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.186</span><span style="color:#c0c5ce;">&quot;]
+                 [compojure &quot;</span><span style="color:#a3be8c;">1.1.8</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
+                  &quot;</span><span style="color:#a3be8c;">http://downloads.immutant.org/incremental/</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">plugins </span><span style="color:#c0c5ce;">[[lein-immutant &quot;</span><span style="color:#a3be8c;">2.0.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">ring </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">handler </span><span style="color:#c0c5ce;">learning.core/app}
+  :</span><span style="color:#d08770;">main ^</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">skip-aot </span><span style="color:#c0c5ce;">learning.core
+  :</span><span style="color:#d08770;">target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">profiles </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">uberjar </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">aot </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">all</span><span style="color:#c0c5ce;">}})
+</span></pre>
+<p>Note how <code>lein-immutant</code> is in the <code>:plugins</code> field. This will give us access to the <code>lein immutant &lt;command&gt;</code> commands.</p>
+<p><strong>src/learning/core.clj</strong>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
+  (:use compojure.core)
+  (:require [compojure.route    :as route]
+            [immutant.web       :as immutant])
+  (:gen-class))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">handler
+  </span><span style="color:#a3be8c;">&quot;Comment&quot;
+  </span><span style="color:#c0c5ce;">[]
+  &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Hello World&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;)
+
+(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
+  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
+  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/learning/test</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">[] </span><span style="color:#c0c5ce;">(handler))
+  (route/not-found
+       &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
+  </span><span style="color:#a3be8c;">&quot;Start the server&quot;
+  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
+  (immutant/run app))
+</span></pre>
+<p>After speaking to the fine folks on the #immutant IRC channel on Freenode, we determined that Immutant seemed to have some issues with routing while running on JBoss. The route <code>/learning/test</code> <em>should</em> be just <code>/test</code> as far as I am able to tell, the problem will become apparent later.</p>
+<p><strong>Dockerfile</strong>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">FROM jboss/wildfly
+RUN /opt/wildfly/bin/add-user.sh hoverbear hunter2 --silent
+ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments/
+</span></pre><h3 id="build-the-immutant-application">Build the Immutant Application</h3>
+<p>Wildfly seems to expect <code>.war</code> files for deployment. Thankfully Immutant provides this via the plugin declared in the <code>project.clj</code>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> immutant war
+</span></pre>
+<p>The output should be similar to:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;"> lein immutant war
+</span><span style="color:#bf616a;">Compiling</span><span style="color:#c0c5ce;"> learning.core
+</span><span style="color:#bf616a;">Created</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT.jar
+</span><span style="color:#bf616a;">Created</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT-standalone.jar
+</span><span style="color:#bf616a;">Creating</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/base+system+user+dev/learning.war
+</span></pre>
+<p>Notice how the resulting <code>.war</code> file is the same which is ADDed by the <code>Dockerfile</code>.</p>
+<h3 id="building-the-docker-image">Building the Docker Image</h3>
+<p>Next, build the Docker image, make sure you're in the project directory.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> build</span><span style="color:#bf616a;"> -t</span><span style="color:#c0c5ce;"> wildfly-learning .
+</span></pre>
+<p>If you haven't pulled the <code>jboss/wildfly</code> base image before, this first command might take awhile. Future builds will be very fast as it won't need to pull the base image.</p>
+<h3 id="running-the-container">Running the Container</h3>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9990:9990 wildfly-learning
+</span></pre>
+<p>There should be a considerable log of output.</p>
+<h3 id="testing">Testing</h3>
+<p>From there, you should be able to visit <code>http://localhost:8080/learning/test</code> and see &quot;Hello World&quot; in bold text. Visiting any other <code>/learning/*</code> url should yield a bold &quot;Page not found&quot; with a smaller 404 error underneath. Visiting a URL like <code>/learn</code> will give a different 404 page.</p>
+<h3 id="visiting-the-wildfly-console">Visiting the Wildfly console</h3>
+<p>You should be able to visit <code>http://localhost:9990/console/App.html</code> and view the Wildfly admin interface, you might need to log in with details from the Dockerfile.</p>
+<p>Browsing to the &quot;Runtime &gt; Manage Deployments&quot; page will allow you to play with some settings.</p>
+<h3 id="notes">Notes</h3>
+<p>This is, obviously, not a production deployment.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

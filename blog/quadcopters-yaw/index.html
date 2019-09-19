@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Quadcopters: Yaw</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Quadcopters: Yaw">
+        
+        
+            <meta name="twitter:description" content="So, in our earlier article we talked about Yaw a little but, but we didn&#x27;t get into details. First, let&#x27;s take a look at what yaw looks like under simple circumstances, then we&#x27;ll explain the motion.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Quadcopters: Yaw</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>So, in our <a href="/2015/05/19/quadcopters-orientation/">earlier article</a> we talked about Yaw a little but, but we didn't get into details. First, let's take a look at what yaw looks like under simple circumstances, then we'll explain the motion.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<div ></div>
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/lNNAw4XgGoM"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen>
+    </iframe>
+</div>
+<blockquote>
+<p>Notice how two propellers come to a stop when yawing?</p>
+</blockquote>
+<h1 id="understanding-torque">Understanding Torque</h1>
+<p>Let's first talk about <strong>Center of Gravity</strong>, have you ever tried to balance an object on the tip of your finger? That's a center of gravity! <em>Fun Fact:</em> Your center of gravity is your belly button! The quads is, predictably, near its center.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;acec7311cefe79a500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ffd979980425c3f600.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d8caa14ccb7fc10e00.jpg"
+              alt="Center of Gravity for a Quad" />
+    <figcaption>Center of Gravity for a Quad</figcaption>
+</figure>
+<p><strong>Torque</strong> ($$ \tau $$) is a twisting force, you use it when you do things like turn a door-knob handle, use a wrench, or pedal a bicycle. Now, the torque produced by a force equals the magnitude of the <em>force</em> ($$ F $$) times the <em>radius</em> ($$ r $$), or distance from the center of gravity.</p>
+<p>$$ \tau = F*r $$</p>
+<img src="torque-3.svg" alt="Diagram of Torque">
+<h1 id="back-to-yaw">Back to Yaw</h1>
+<p>So what does torque have to do with the yaw of the quadcopter? Well, it turns out, a heck of a lot! Remember how the motors on our quadcopter spin?</p>
+<img src="quad-1.svg" alt="Quad Diagram">
+<p>Note again how motors on the diagonal travel in the same direction while motors on the same &quot;side&quot; travel in opposite directions.</p>
+<p>Now, consider the torque generated by the motors.</p>
+<img src="torque-diag-4.svg" alt="Torque Diagram for a Motor">
+<p>In the diagram, <em>blue</em> arrows represent the force of the motor pushing on the air, while <em>red</em> arrows represent the force of the air pushing back on the motors.</p>
+<blockquote>
+<p>Every action force has an equal and opposite reaction force. - Sir Isaac Newton</p>
+</blockquote>
+<p>Note that the force is drawn <em>at the centre</em> of the propeller. In this example we're using the <em>average distance and force</em> to simplify calculations. Feel encouraged to follow along and use calculus concepts (representing the force as a continuous amount), the math still works out!</p>
+<p>In our example we're only showing one motor, but recalling that two motors almost shut off while yawing, and the other motor is generating the same directional forces, it is safe to do this.</p>
+<p>Calculating the <em>net maximum torque</em> in this diagram can be done using the following equation:</p>
+<p>$$
+\tau = F(r_1)-F(r_2) = F(r_1-r_2)
+$$</p>
+<p>Where $$ r_1 $$ is the bottom (larger) radius, and $$ r_2 $$ is the top (smaller) radius. The key takeaway here is for each propeller <strong>despite the forces being equal, the radii are not</strong> and because of that, $$ \tau $$ is a positive value.</p>
+<p>What we end up with is a small amount of torque being created by each of the two active motors, these two amounts are in the same direction, and can be added together!</p>
+<blockquote>
+<p>The combination of these two torques is sufficient to cause the quadcopter to yaw (twist) in the air.</p>
+</blockquote>
+<h1 id="let-s-experiment">Let's Experiment!</h1>
+<p>In order to properly test our hypothesis, we rigged up an apparatus to demonstrate this yawing. Since the quadcopter propellers move too fast to be able to observe without specialized equipment we looked towards water.</p>
+<p>This apparatus is designed to dip it's two wooden paddles into the water, with the rest of the device sitting at the surface of the water. The two paddles rotate the same as the two propellers we talked about above.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33f1d111f538597300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;97d02f282f36874a00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c3132b1eaa09897f00.jpg"
+              alt="Apparatus" />
+    <figcaption>Apparatus</figcaption>
+</figure>
+<p>We were very impressed with the result. Note the yawing motion as we predicted. The apparatus did not hold up particularly well however, as you can observe, our eslastics were not particularly happy campers! This is because of the friction of them rubbing on one another.</p>
+<div ></div>
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/_mr9RFb55MA"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen>
+    </iframe>
+</div>
+<h1 id="observing-under-constraints">Observing under Constraints</h1>
+<p>In order to capture this in the air we tied our quadcopter up via string, then harnessed a weight on the bottom of it to help smooth out it's flight height. Doing this we found using elastics particularly useful as a harness point.</p>
+<div ></div>
+    <iframe
+        src="https://www.youtube-nocookie.com/embed/Hckv6u9C0y0"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen>
+    </iframe>
+</div>
+<blockquote>
+<p>But why didn't I see the two propellers stop?</p>
+</blockquote>
+<p>Good question! Because the Quadcopter was still trying to hover in the air and could not entirely shut them off. Although you can't see it, they are actually rotating quite a bit slower.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

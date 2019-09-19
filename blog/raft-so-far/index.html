@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Raft So Far</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Raft So Far">
+        
+        
+            <meta name="twitter:description" content="I&#x27;ve been working quite a bit on my Raft implementation over the last few days and I must say it&#x27;s been quite a pleasure to work in Rust, which recently released it&#x27;s 1.0.0-alpha.
+It takes the work out of needing to serialize and deserialize data, it enforces data safety, and it&#x27;s type checking is incredible. I&#x27;m very quickly able to make a change, build it, fix the errors the compiler catches for me, and build again, then test. So far the only times my tests have failed after a successful build was when I was accidently disgarding one of my channels.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft So Far</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>I've been working quite a bit on my Raft implementation over the last few days and I must say it's been quite a pleasure to work in Rust, which recently released it's 1.0.0-alpha.</p>
+<p>It takes the work out of needing to serialize and deserialize data, it enforces data safety, and it's type checking is incredible. I'm very quickly able to make a change, build it, fix the errors the compiler catches for me, and build again, then test. So far the only times my tests have failed after a successful build was when I was accidently disgarding one of my channels.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="client-interface">Client Interface</h2>
+<p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
+<p>I wanted to remove the complexity of having to make network requests outside of the Node. If you're participating in a Raft cluster you don't want to have to think about it, you just want to read logs and append logs. Raft's goal is to implement a replicated log, or state machine.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
+</span><span style="color:#c0c5ce;">					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
+</span><span style="color:#c0c5ce;">enum ClientRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    IndexRange {
+</span><span style="color:#c0c5ce;">        start_index: u64,
+</span><span style="color:#c0c5ce;">        end_index: u64,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">    AppendEntries {
+</span><span style="color:#c0c5ce;">        prev_log_index: u64,
+</span><span style="color:#c0c5ce;">        prev_log_term: T,
+</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">enum ClientResponse&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    Accepted {
+</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
+</span><span style="color:#c0c5ce;">        last_index: u64,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">    Rejected {
+</span><span style="color:#c0c5ce;">        reason: String,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Right now most of the data types I'm using are compound data enums, allowing for strongly typed, encapsulated data that is easy to work with via <code>match</code> statements.</p>
+<p>I am not sure if this is the <em>right</em> way to go about things, and I think that there can be some improvement, but this method of requests across a channel are, as far as I can tell, the idomatic way to communicate with a thread in Rust.</p>
+<p>One cool thing about this approach is the log entries themselves can be basically anything the programmer desires as long as it can be serialized and deserialized. I'm mostly using <code>String</code>s for testing.</p>
+<h2 id="remote-procedure-calls">Remote Procedure Calls</h2>
+<p>Inside of the <code>RaftNode</code>'s thread it binds on a UDP socket and listens for <code>RemoteProcedureCall</code> data. These requests are encoded and decoded through the <code>rustc-serialize</code> crato, but in the future <code>serde</code> will probably replace it.</p>
+<p>A <code>RemoteProcedureCall</code> looks almost identical to those dictated in the Raft paper:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span><span style="color:#c0c5ce;">pub enum RemoteProcedureCall&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    AppendEntries {
+</span><span style="color:#c0c5ce;">        term: u64,
+</span><span style="color:#c0c5ce;">        leader_id: u64,
+</span><span style="color:#c0c5ce;">        prev_log_index: u64,
+</span><span style="color:#c0c5ce;">        prev_log_term: T,
+</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
+</span><span style="color:#c0c5ce;">        leader_commit: u64,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">    RequestVote {
+</span><span style="color:#c0c5ce;">        term: u64,
+</span><span style="color:#c0c5ce;">        candidate_id: u64,
+</span><span style="color:#c0c5ce;">        last_log_index: u64,
+</span><span style="color:#c0c5ce;">        last_log_term: u64,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
+</span><span style="color:#c0c5ce;">pub enum RemoteProcedureResponse {
+</span><span style="color:#c0c5ce;">    VoteAccepted { term: u64 },
+</span><span style="color:#c0c5ce;">    VoteRejected { term: u64, current_leader: u64 },
+</span><span style="color:#c0c5ce;">    EntriesAccepted { term: u64 },
+</span><span style="color:#c0c5ce;">    EntriesRejected { term: u64 },
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>I'm not sure if the way I'm approaching the <code>RemoteProcedureResponse</code> is necessarily the right way to go about things. I think it might be better to model it after <code>ClientResponse</code>.</p>
+<h2 id="progress">Progress</h2>
+<p>Most of the work done so far is on scaffolding, and determining interfaces. I have two nodes running locally successfully passing <code>ClientRequest</code>s into one node, them communicating with a <code>RemoteProcedureCall</code> and a <code>ClientResponse</code> being emitted at the other node.</p>
+<p>I've been spending a lot of time documenting my thoughts and ideas in the code as I write it, <code>// TODO:</code> is sprinkled throughout.</p>
+<h2 id="repository">Repository</h2>
+<p>Currently the state of the code is such that I don't feel right releasing it to the public, once I have some bearance of functionality in the crate I'll be releasing it under the MIT license.</p>
+<p>If you're interested in helping out with this implementation please let me know. I'd be happy to include you in the private Github repository. I am currently working on it as part of a course project, but can accept contributions so long as I maintain a log of my work.</p>
+<p><strong>Discussion of this post was on <a href="https://www.reddit.com/r/rust/comments/2tncd1/raft_so_far_first_steps_into_implementation_in/">Reddit</a>.</strong></p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

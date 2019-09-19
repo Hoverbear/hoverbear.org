@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>A Rust Heroku Buildpack</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c7cc1999965929f900.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="A Rust Heroku Buildpack">
+        
+        
+            <meta name="twitter:description" content="I&#x27;m happy to introduce the first stable version of my Rust Heroku Buildpack!
+
+Just looking to get your hands dirty? Look here.
+
+The project was a really interesting learning experience about how Heroku does things, on bash scripting, and about multirust, which I&#x27;d not used before but now am quite a fan of! (I previously just rustup&#x27;d the newest nightly every few days.)
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">A Rust Heroku Buildpack</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f2a10c5e0684e2500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c7cc1999965929f900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8252c537f69b130500.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>I'm happy to introduce the first stable version of my Rust Heroku Buildpack!</p>
+<blockquote>
+<p>Just looking to get your hands dirty? Look <a href="https://github.com/Hoverbear/heroku-buildpack-rust"><strong>here</strong></a>.</p>
+</blockquote>
+<p>The project was a really interesting learning experience about how <a href="http://heroku.com/">Heroku</a> does things, on <code>bash</code> scripting, and about <a href="https://github.com/brson/multirust/"><code>multirust</code></a>, which I'd not used before but now am quite a fan of! (I previously just <code>rustup</code>'d the newest nightly every few days.)</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h3 id="features">Features</h3>
+<ul>
+<li>Cached <code>multirust</code>, Rust toolchain.</li>
+<li>Caching of previous build artifacts to (potentially dramatically) speed up similar builds.</li>
+<li>Configurable version selection inside of the Cargo.toml.</li>
+</ul>
+<p>It's unit tested using Heroku's official <a href="https://github.com/heroku/heroku-buildpack-testrunner">testrunner</a> every commit (using <a href="http://homu.io/">homu</a>) and includes a <code>Makefile</code> which executes a docker based test locally.</p>
+<h3 id="development-story">Development Story</h3>
+<p>I am a huge fan of Heroku, they're were I hosted my first web app, they are where <a href="http://gatheringourvoices.bcaafc.com/">Gathering Our Voices</a> hosted our website for two years, and I have several friends who work there. While I was in San Fransisco for our <a href="/2015/08/27/meetup/"><code>raft-rs</code> meetup</a> they even invited me to come visit and meet some of their team.</p>
+<p>There was, however, one sore point with Heroku for me: There were no Rust buildpacks I was happy with! There was <a href="https://github.com/emk/heroku-buildpack-rust">emk's</a> and <a href="https://github.com/chrisumbel/heroku-buildpack-rust">chrisumbel's</a> but I wasn't particularly happy with either. There wasn't a ton of flexibility with them and they were both only manually tested with <code>vagrant</code> VMs. The last update to either was in March, which was still around the time when Rust was rapidly changing and maturing. (Though, it still is, but more conservatively!)</p>
+<p>Originally my plan had been to issue a PR to one of them, but by the time I started digging into how things worked I realized <strong>I wanted to make my own buildpack</strong>. So I did. At first I used <code>rustup</code> and tried to handle detecting when to update myself, but eventually realized <code>multirust</code> was a more straightforward way to go.</p>
+<p>I made the mistake of starting it right before both exams and the holidays, so things went slower than I anticipated. Along the way I got to learn several neat lessons which I've shared below. I'm looking forward to playing more with Rust on Heroku and would some day like to see <code>raft-rs</code> based applications on their infrastructure.</p>
+<blockquote>
+<p>A special thanks to my friends at Heroku, Peter and Joe, for helping me work out a few kinks and showing me the test-runner (which showed me the <code>cedar</code> docker images as well!)</p>
+</blockquote>
+<h3 id="lessons-learned">Lessons Learned</h3>
+<ul>
+<li>
+<p><strong>Rust has no posted version strings for <code>nightly</code> and <code>beta</code></strong>, unlike stable which you can get the current versions with <code>curl https://static.rust-lang.org/dist/channel-rust-stable</code>, you cannot use a similar method to detect for <code>beta</code> and <code>nightly</code>. While I was using <code>rustup</code> at one point I resorted to using <code>curl -s https://doc.rust-lang.org/$RUSTC_CHANNEL/index.html | grep -hE &quot;class=\&quot;hash&quot; | grep -ohE &quot;\w{9}&quot;</code> to detect the version! I didn't like that, it was dirty.</p>
+</li>
+<li>
+<p><strong>Heroku doesn't let buildpacks do anything more than applications really.</strong> Really, thinking about it, this makes sense, but I was initially really surprised that I couldn't (easily) use tools like <code>apt-get</code> to fetch packages.</p>
+</li>
+<li>
+<p><strong><code>grep</code>'s options are vaster in number than I first realized.</strong> I love <code>grep</code> and use it with regexs all the time, but in my exploration I actually found some really interesting flags, including one that <code>null</code>s out newlines for multiline matching. Crazy stuff!</p>
+</li>
+<li>
+<p><strong><code>multirust</code> doesn't seem to allow you to configure where it puts the <code>.multirust</code> directory.</strong> While I tried several promising sounding flags (<code>--prefix</code>, <code>--destdir</code>) I didn't find anything of the sort. I ended up just setting <code>$HOME</code> myself, but I don't think this is the best idea.</p>
+</li>
+</ul>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f2a10c5e0684e2500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c7cc1999965929f900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8252c537f69b130500.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

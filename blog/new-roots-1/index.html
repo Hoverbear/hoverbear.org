@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>New Roots part 1, Choosing a Server</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b87a49ca73cb6fe00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="New Roots part 1, Choosing a Server">
+        
+        
+            <meta name="twitter:description" content="This is the first in a series of posts where we&#x27;ll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we&#x27;ll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.
+In this post, We&#x27;ll discuss things to keep in mind when searching for your own hosting, things to look for, and the differences between distinctions.
+This series is not intended to be a comprehensive guide. These are just the notes and rambling of a hobbyist server admin who&#x27;s loved tinkering for over a decade. I&#x27;m writing these both for my own future reference, and so my readers can suggest improvements! As always, comments are welcome via email.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 1, Choosing a Server</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;985b1777cd28cc0300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b87a49ca73cb6fe00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9c47808ab51a525c00.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>This is the first in a series of posts where we'll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we'll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.</p>
+<p>In this post, We'll discuss things to keep in mind when searching for your own hosting, things to look for, and the differences between distinctions.</p>
+<p>This series is not intended to be a comprehensive guide. These are just the notes and rambling of a hobbyist server admin who's loved tinkering for over a decade. I'm writing these both for my own future reference, and so my readers can suggest improvements! As always, comments are welcome via <a href="mailto:ana@hoverbear.org">email</a>.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="background-and-goals">Background and Goals</h2>
+<p>I recently obtained a new <a href="https://www.hetzner.de/de/hosting/produkte_rootserver/ex41sssd">server from Hetzner</a> and wanted to take time to document how I setup and configure it. I like writing too, so I figured a blog series is really the best option! Perhaps I'll help someone else as well.</p>
+<p>In starting this process I realized that many people aren't really sure where to start. The process can actually be pretty overwhelming. Just what is a 'server' anyways? What is most appropriate for your application, <a href="http://www.ethicalhost.ca/ethical-webhosting-plans.html">Ethical Hosting</a>, <a href="http://www.funtoo.org/Funtoo_Containers">Funtoo Containers</a>, or something like mine? What's it like to have a server? How do we interact with it? How do we shop for one?</p>
+<h2 id="what-s-a-server">What's a Server?</h2>
+<p>The word conjures up many fantastical images in our heads. But let's face it, at it's core a server is just a computer. Sure, it's a lot different than the ones in your fridge, but it's not all that much different from your phone in many respects.</p>
+<p>Generally, when we speak of servers we're referring to them that way because they <strong>receive</strong> requests and <strong>serve</strong> them. For most of us, this concept works best by going &quot;Okay say you visit a website,&quot; and that diagram has these two (very simplified) steps:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">You -&gt; Internet -&gt; Server
+You &lt;- Internet &lt;- Server
+</span></pre>
+<p>The 'server' is always located on a physical machine running somewhere in the world, this is the <strong>metal</strong> which we're running on. A server could be a whole machine, a virtualized machine, or they could just be a simple daemon process. They can be roughly anologized as real estate. Each has different qualities to observe.</p>
+<h3 id="the-dedicated-server">The Dedicated Server</h3>
+<blockquote>
+<p>The single-family home.</p>
+</blockquote>
+<p>It's possible to obtain use of an entire 'server' machine for yourself. These are typically either homebrew servers, servers purchased and co-located in datacenters, or rented units owned by a provider. Typically dedicated servers are (by far) the most powerful, and typically have a great bang for your buck since they're mostly DIY.</p>
+<p>These units are great for people who like to experiment, tinker, and manage their own space. Expect to be responsible for your own backups, your own system configuration, and your own troubleshooting. In return, you get absolute freedom. Install anything you want, break anything you want, do anything you want.</p>
+<p>Most dedicated server providers are data center operators or companies who have partnerships with them. Example providers are <a href="https://www.1984.is/">1984</a> and <a href="http://hetzner.de/">Hetzner</a>, both recommended by persons I respect.</p>
+<p>As a computer scientist, I treat my personal server like a laboratory, and I'm opting for this choice.</p>
+<h3 id="the-virtual-private-server">The Virtual Private Server</h3>
+<blockquote>
+<p>The condo.</p>
+</blockquote>
+<p>Often it's not necessary to have all the raw power a dedicated server can offer. You may only need a couple GB of RAM, or want to keep costs low. Virtual Private Servers, or VPS are in a good space this way. It's entirely possible to spend under $20 USD a month on hosting.</p>
+<p>These units are part of multi-tenant dedicated servers, and you get a fair 'slice' of the server for your monthly cost. In most cases you don't even notice your neighbors, but rarely you get bad luck and have to share space with a bad neighbor.</p>
+<p>VPS come in a few varieties: KVM, container, and other. KVM based VPS still allow you to run container systems (such as Docker and Rkt), while a container based VPS actually places you inside one of these. It's also possible to find exotic or esoteric hosting, such as being a Windows Server guest, they might not be the best choice.</p>
+<p>The VPS space is filled with great providers. I've personally used <a href="http://www.funtoo.org/Funtoo_Containers">Funtoo Containers</a> for years and always really enjoyed them. <a href="http://linode.com/">Linode</a> and <a href="http://digitalocean.com/">Digital Ocean</a> are also very well known, and both feature locations outside of the US!</p>
+<p>Many VPS operators also offer additional features such as snapshot backups and things that dedicated servers leave up to the user.</p>
+<p>If you're going to be exploring your first server a VPS is a great way to go, both for cost and abilities.</p>
+<h3 id="the-web-host">The Web host</h3>
+<blockquote>
+<p>The hotel.</p>
+</blockquote>
+<p>Perhaps the most popular offering of hosting, simple web hosting typically involves you recieving an <code>sftp</code> account on a server and having access to some of the folder structure. These services are preconfigured with access to PostgresSQL and PHP configured. The service is very similar to what one would experience on <a href="http://pages.gitlab.io/">Gitlab</a> or <a href="https://pages.github.com/">Github</a> pages.</p>
+<p>These services are typically very inexpensive, however they offer very little in the way of control or flexibility. However if your only interest is hosting a Wordpress site this is a great choice. Not only do most of these services offer automated configuration of things like Wordpress, they also do all the hard work of securing and maintaining it.</p>
+<p>At places I've worked we've had great success with the Canadian provider <a href="http://ethicalhost.ca/">Ethical Host</a>. Don't be fooled by the dated website, John (the owner) is extremely competent and very responsive to support.</p>
+<p>If your dreams are to have a web presence and tinker around with PHP or themes, this is a great choice.</p>
+<h2 id="things-to-look-for">Things to look for</h2>
+<p>There are a few things to be looking for in a server, these points only (really) apply to Dedicated and VPS servers. Web Hosts typically you aren't even told these specifics.</p>
+<ul>
+<li><strong>Multiple Cores:</strong> Server processors are amazing and if you're investing in a server you likely want the features and power of a proper Xeon core. Prefer a Xeon (or equivalent) over a consumer grade chip. These are generally 4-8 core and offer hyperthreading. If you're not using a dedicated host you likely will only share this processor. That's quite ok.</li>
+<li><strong>Lots of RAM:</strong> These days it's entirely practical to find dedicated machines with 32+GB of RAM. Virtual Servers typically have very affordable 4GB variants. Remember that RAM won't 'add' speed to your services magically, but if you're running lots of things it will definitely make an improvement.</li>
+<li><strong>Solid State Drives:</strong> There's an argument for spinning rust, but for most uses you will not need more than perhaps 100GB of storage. Instead of opting for a big disk, opt for a fast disk. If you need bulk storage consider looking for a dedicated storage box or bucket, which are very economical.</li>
+<li><strong>Reasonable Bandwidth Capacity:</strong> Having fluctuating costs really sucks, so does getting charged for bandwidth. Consider your use case and expected traffic, also consider scaling.</li>
+<li><strong>Remote Access:</strong> Your server shuts down. How do you turn it back on? How can you get into the bootloader? How can you request USB sticks to be plugged in? These are all questions you need to be able to answer.</li>
+<li><strong>Data Location:</strong> How does your provider treat your data? What level of privacy can you expect? If you're providing services to minors, marginalized or threatened people, or collecting any personal information you should be aware of the host country's laws. I'd highly suggest staying out of the USA for your hosting options, observing the current saga unfolding around privacy and data ownership.</li>
+</ul>
+<p>For all storage and bandwidth related estimations you can consider pictures, songs, presentations/documents as all roughly 5MB. This is generous but you'll be thankful later.</p>
+<p><a href="/2016/05/06/new-roots-2/">Next post</a> we'll discuss how to install a dedicated host.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;985b1777cd28cc0300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b87a49ca73cb6fe00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9c47808ab51a525c00.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

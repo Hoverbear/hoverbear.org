@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Raft: Tooling &amp; Infra Update</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Raft: Tooling &amp; Infra Update">
+        
+        
+            <meta name="twitter:description" content="In preparation for the forthcoming 0.0.1 release of Raft we&#x27;ve taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I&#x27;d be more than happy to help. You can find our .travis.yml here.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: Tooling &amp; Infra Update</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our <a href="https://github.com/Hoverbear/raft/blob/master/.travis.yml"><code>.travis.yml</code> here</a>.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="sudo-less"><code>sudo</code>-less</h2>
+<p>Travis CI released <a href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
+<p>In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">addons</span><span style="color:#c0c5ce;">:
+  </span><span style="color:#bf616a;">apt</span><span style="color:#c0c5ce;">:
+    </span><span style="color:#bf616a;">sources</span><span style="color:#c0c5ce;">:
+      - </span><span style="color:#bf616a;">ubuntu-toolchain-r-test
+    packages</span><span style="color:#c0c5ce;">:
+        </span><span style="color:#65737e;"># Needed for building Cap&#39;n Proto.
+      </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">gcc-4.8
+      </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">g++-4.8
+
+</span><span style="color:#65737e;"># We need to install Cap&#39;n Proto.
+</span><span style="color:#bf616a;">install</span><span style="color:#c0c5ce;">:
+    - </span><span style="color:#a3be8c;">git clone https://github.com/kentonv/capnproto.git
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">cd capnproto/c++
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">./setup-autotools.sh
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">autoreconf -i
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">./configure --disable-shared
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">make -j5
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">export PATH=&quot;$PATH:$(pwd)&quot;
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
+    </span><span style="color:#c0c5ce;">-  </span><span style="color:#a3be8c;">cd ../..
+</span></pre>
+<p>Now that we've flagged <code>sudo: false</code> in our <code>.travis.yml</code> our Travis <em>wait time</em> for a build have significantly decreased. Some of our test builds take under 1:45 minutes!</p>
+<h2 id="moved-to-travis-cargo">Moved to <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
+<p>Huon created the fantastic <code>travis-cargo</code> crate and we recently moved over to it! This helped clean up the <code>.travis.yml</code> a bit and opened the door for us to utilize future improvements. This took our <code>.travis.yml</code> script section from this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># Generate Docs
+</span><span style="color:#a3be8c;">after_success = &quot;|&quot;
+  </span><span style="color:#c0c5ce;">[ </span><span style="color:#a3be8c;">$TRAVIS_BRANCH = master </span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">&amp;</span><span style="color:#c0c5ce;">&amp;
+  [ </span><span style="color:#a3be8c;">$TRAVIS_PULL_REQUEST = false </span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">&amp;</span><span style="color:#c0c5ce;">&amp;
+  </span><span style="color:#a3be8c;">cargo doc &amp;&amp;
+  echo &#39;&lt;meta http-equiv=refresh content=0;url=raft/index.html&gt;&#39; &gt; target/doc/index.html &amp;&amp;
+  sudo pip install ghp-import &amp;&amp;
+  ghp-import -n target/doc &amp;&amp;
+  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+</span></pre>
+<p>To this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># Load `travis-cargo`
+</span><span style="color:#bf616a;">before_script</span><span style="color:#c0c5ce;">:
+    - </span><span style="color:#bf616a;">pip install &#39;travis-cargo&#39; --user
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#bf616a;">export PATH=$HOME/.local/bin:$PATH
+
+script</span><span style="color:#c0c5ce;">:
+    - </span><span style="color:#a3be8c;">travis-cargo build
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo test
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo bench
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo doc
+
+</span><span style="color:#65737e;"># Generate Docs and coverage
+</span><span style="color:#bf616a;">after_success</span><span style="color:#c0c5ce;">:
+    - </span><span style="color:#a3be8c;">travis-cargo doc-upload
+    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo coveralls --no-sudo
+</span></pre>
+<p>With <code>travis-cargo</code> our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.</p>
+<h2 id="code-coverage">Code Coverage</h2>
+<p>You may have noticed the <code>travis-cargo coveralls --no-sudo</code> above and wondered what that was. <a href="http://coveralls.io/"><code>http://coveralls.io/</code></a> offers free code coverage analysis to open source projects. You can see what ours looks like <a href="https://coveralls.io/github/Hoverbear/raft">here</a>.</p>
+<p>We're currently sitting at:</p>
+<p><a href="https://coveralls.io/github/Hoverbear/raft"><img src="https://img.shields.io/coveralls/Hoverbear/raft/master.svg" alt="Coverage Status" /></a></p>
+<p>Code coverage. Wow! That's not bad! We hope to improve this as we go.</p>
+<h2 id="homu"><a href="http://homu.io/">@homu</a></h2>
+<p>We also adopted the friendly robot homu to be our repository gatekeeper. If you've been around Rust or Servo you probably know bors, homu is a rewrite of bors.</p>
+<p>homu acts sort of like a pre-commit hook, testing pull requests <em>just before</em> they're merged. Much of the work to get <code>sudo</code>-less builds was in preparation for homu since we wanted it to be <em>fast!</em></p>
+<p>With homu guarding the <code>master</code> branch we can be sure that Raft will stay &quot;green&quot; on tests unless I manage to accidently push to master, or one of our dependencies breaks.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

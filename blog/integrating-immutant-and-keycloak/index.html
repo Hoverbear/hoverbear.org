@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Integrating Immutant and Keycloak</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Integrating Immutant and Keycloak">
+        
+        
+            <meta name="twitter:description" content="In my past two posts, we took a surface level look at Immutant then took a look at deploying immutant applications to the Wildfly application server. This time, we&#x27;ll take a look at how to integrate Keycloak with an Immutant app, again using Docker heavily.
+
+If you haven&#x27;t read the previous few articles, it might be useful to give them a quick glance over.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Integrating Immutant and Keycloak</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>In my past two posts, we took a <a href="/2014/07/14/starting-with-immutant/">surface level look at Immutant</a> then took a look at <a href="/2014/07/22/deploying-immutant-to-wildfly/">deploying immutant applications to the Wildfly application server.</a> This time, we'll take a look at how to integrate Keycloak with an Immutant app, again using Docker heavily.</p>
+<blockquote>
+<p>If you haven't read the previous few articles, it might be useful to give them a quick glance over.</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="keycloak">Keycloak</h2>
+<h3 id="erecting-keycloak">Erecting Keycloak</h3>
+<p><a href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
+<p>To pull the Keycloak image:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> pull jboss/keycloak
+</span></pre>
+<p>Then, to erect the container (<a href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -it --name</span><span style="color:#c0c5ce;"> keycloak</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9090:9090 jboss/keycloak
+</span></pre>
+<blockquote>
+<p>Use the  <code>-d</code> flag to daemonize the service so it doesn't die with the tty. You can check the logs later with <code>docker logs -f keycloak</code></p>
+</blockquote>
+<p>Finally, you should be able to browse to <a href="http://localhost:8080/">http://localhost:8080/</a> and see the friendly Wildfly logo and welcome screen. Visiting <a href="http://localhost:8080/auth/">http://localhost:8080/auth/</a> should yield a Keycloak welcome screen.</p>
+<h3 id="getting-into-keycloak">Getting into Keycloak</h3>
+<p>Visiting <a href="http://localhost:8080/auth/admin/">http://localhost:8080/auth/admin/</a> should bring you to a very <em>blue</em> login screen. The Keycloak docker image starts with a pre-created <code>admin</code> account for you to log in with.</p>
+<p><strong>Username:</strong> admin</p>
+<p><strong>Password:</strong> admin</p>
+<p>After logging in, Keycloak should prompt for a password change.</p>
+<h3 id="creating-an-application">Creating an Application</h3>
+<p>Browse to the <strong>Applications</strong> menu and hit the blue <strong>Add Application</strong> button. For this exploration, I'm creating a <code>learning</code> application.</p>
+<p><strong>Name:</strong> learning</p>
+<p><strong>Enabled:</strong> ON</p>
+<p><strong>Access Type:</strong> confidential</p>
+<p><strong>Redirect URI:</strong> http://localhost:8081/*</p>
+<p>After hitting save, you'll have the opportunity to add more information. For this exploration, we don't need to add any more information here.</p>
+<p>Visiting the <strong>Roles</strong> tab at the top, hit <strong>Add Role</strong> and create a pair of roles:</p>
+<ul>
+<li><code>user</code></li>
+<li><code>admin</code></li>
+</ul>
+<p>There are several other tabs which contain many more interesting configuration options, but we'll leave these alone for now.</p>
+<h3 id="creating-some-users">Creating Some Users</h3>
+<p>In our exploration, we'll utilize both of the scopes above to see how to allow different roles to access different parts of the site.</p>
+<p>Browse over to the <strong>Users</strong> menu. Beside the search box, hit <strong>View all Users</strong>. You should see <code>admin</code> already created. Create a <code>user</code> user, the rest of the information you can use anything, or nothing.</p>
+<p>Going back to the user listing. Select the <code>admin</code> user and go to the <strong>Role Mappings</strong> tab. At the bottom in &quot;Application Roles&quot; select <code>learning</code> from the dropdown. Add the <code>admin</code> role for the admin user. Then, repeat the steps for the <code>user</code> user, but only assign them the <code>user</code> role, not <code>admin</code>.</p>
+<p><em>What does this all mean?</em> The <code>admin</code> user should be able to access every page the <code>admin</code> role can. The <code>user</code> user should <em>not</em> be able to access the <code>admin</code> role's pages.</p>
+<h2 id="immutant">Immutant</h2>
+<h3 id="setting-up-the-immutant-application">Setting Up the Immutant Application</h3>
+<p>Start up a new lein project with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
+</span></pre>
+<p>Your <code>learning/project.clj</code> needs to be modified to look similar to this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">defproject </span><span style="color:#c0c5ce;">learning &quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">license </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
+            :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
+  :</span><span style="color:#d08770;">dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
+                 [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.191</span><span style="color:#c0c5ce;">&quot;]
+                 [compojure &quot;</span><span style="color:#a3be8c;">1.1.8</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
+                  &quot;</span><span style="color:#a3be8c;">http://downloads.immutant.org/incremental/</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">plugins </span><span style="color:#c0c5ce;">[[lein-immutant &quot;</span><span style="color:#a3be8c;">2.0.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">main ^</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">skip-aot </span><span style="color:#c0c5ce;">learning.core
+  :</span><span style="color:#d08770;">target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">profiles </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">uberjar </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">aot </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">all</span><span style="color:#c0c5ce;">}}
+  </span><span style="color:#65737e;">; Plugin configuration.
+  </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">ring </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">handler </span><span style="color:#c0c5ce;">learning.core/app}
+  :</span><span style="color:#d08770;">immutant </span><span style="color:#c0c5ce;">{
+     :</span><span style="color:#d08770;">war </span><span style="color:#c0c5ce;">{
+        :</span><span style="color:#d08770;">dev</span><span style="color:#b48ead;">? </span><span style="color:#d08770;">false
+        </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">resource-paths </span><span style="color:#c0c5ce;">[&quot;</span><span style="color:#a3be8c;">resources</span><span style="color:#c0c5ce;">&quot;]
+        :</span><span style="color:#d08770;">nrepl </span><span style="color:#c0c5ce;">{
+          :</span><span style="color:#d08770;">port 8888
+          </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">start</span><span style="color:#b48ead;">? </span><span style="color:#d08770;">true</span><span style="color:#c0c5ce;">}}})
+</span></pre>
+<p>Now change your <code>learning/src/learning/core.clj</code> file to contain the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
+  (:use compojure.core)
+  (:require [compojure.route       :as route]
+            [immutant.web          :as web]
+            [immutant.web.servlet  :as servlet])
+  (:gen-class))
+
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-token
+  </span><span style="color:#a3be8c;">&quot;Gets the session for the user&quot;
+  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
+  (</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[{</span><span style="color:#bf616a;">servlet-request </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">servlet-request</span><span style="color:#c0c5ce;">} request
+        </span><span style="color:#bf616a;">security-context </span><span style="color:#c0c5ce;">(.getAttribute servlet-request &quot;</span><span style="color:#a3be8c;">org.keycloak.KeycloakSecurityContext</span><span style="color:#c0c5ce;">&quot;)
+        </span><span style="color:#bf616a;">id-token </span><span style="color:#c0c5ce;">(.getIdToken security-context)]
+    id-token))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">show-profile
+  </span><span style="color:#a3be8c;">&quot;Shows the profile of the user&quot;
+  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
+  (</span><span style="color:#b48ead;">try
+    </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">token </span><span style="color:#c0c5ce;">(get-token request)]
+      </span><span style="color:#65737e;">; The token is a Java Object, don&#39;t expect more then a reference.
+      </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;p&gt;Token is: &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; token &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;
+           </span><span style="color:#65737e;">; This should show the users name.
+           ; Reference: https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html
+           </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;p&gt;User is: &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; (.getPreferredUsername token) &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;))
+    (</span><span style="color:#b48ead;">catch </span><span style="color:#a3be8c;">Exception </span><span style="color:#bf616a;">e
+      </span><span style="color:#65737e;">; There is no token.
+      </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;p&gt;No user found.&lt;/p&gt;&lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; e &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;</span><span style="color:#c0c5ce;">&quot;))))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">test-handler
+  </span><span style="color:#a3be8c;">&quot;A very versatile test route handler&quot;
+  </span><span style="color:#65737e;">; Handled different arities.
+  </span><span style="color:#c0c5ce;">([</span><span style="color:#bf616a;">request base</span><span style="color:#c0c5ce;">]
+   (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Base: </span><span style="color:#c0c5ce;">&quot; base &quot;</span><span style="color:#a3be8c;">&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;
+        &quot;</span><span style="color:#a3be8c;">&lt;p&gt;</span><span style="color:#c0c5ce;">&quot; (show-profile request) &quot;</span><span style="color:#a3be8c;">&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;))
+  ([</span><span style="color:#bf616a;">request base sub</span><span style="color:#c0c5ce;">]
+   (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Base: </span><span style="color:#c0c5ce;">&quot; base &quot;</span><span style="color:#a3be8c;"> Sub: </span><span style="color:#c0c5ce;">&quot; sub &quot;</span><span style="color:#a3be8c;">&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;
+        &quot;</span><span style="color:#a3be8c;">&lt;p&gt;</span><span style="color:#c0c5ce;">&quot; (show-profile request) &quot;</span><span style="color:#a3be8c;">&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;))
+  ([</span><span style="color:#bf616a;">request base sub subsub</span><span style="color:#c0c5ce;">]
+   (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Base: </span><span style="color:#c0c5ce;">&quot; base &quot;</span><span style="color:#a3be8c;"> Sub: </span><span style="color:#c0c5ce;">&quot; sub &quot;</span><span style="color:#a3be8c;"> Subsub: </span><span style="color:#c0c5ce;">&quot; subsub &quot;</span><span style="color:#a3be8c;">&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;
+        &quot;</span><span style="color:#a3be8c;">&lt;p&gt;</span><span style="color:#c0c5ce;">&quot; (show-profile request) &quot;</span><span style="color:#a3be8c;">&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;)))
+
+(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
+  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#65737e;">; Logout
+  ; Doesn&#39;t currently work: https://issues.jboss.org/browse/KEYCLOAK-478
+  </span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/logout</span><span style="color:#c0c5ce;">&quot; [:</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+    (</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[{</span><span style="color:#bf616a;">servlet-request </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">servlet-request</span><span style="color:#c0c5ce;">} request]
+      (.logout servlet-request)
+      (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Logged out</span><span style="color:#c0c5ce;">&quot;)))
+  </span><span style="color:#65737e;">; Rest of the routes.
+  </span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot; [:</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+       (test-handler request &quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;))
+  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/:base</span><span style="color:#c0c5ce;">&quot; [base :</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+       (test-handler request base))
+  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/:base/:sub</span><span style="color:#c0c5ce;">&quot; [base sub :</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+       (test-handler request base sub))
+  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/:base/:sub/:subsub</span><span style="color:#c0c5ce;">&quot; [base sub subsub :</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+       (test-handler request base sub subsub))
+  (route/not-found &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
+  </span><span style="color:#a3be8c;">&quot;Start the server&quot;
+  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
+  </span><span style="color:#65737e;">; Start the server.
+  </span><span style="color:#c0c5ce;">(web/run (servlet/create-servlet app) :</span><span style="color:#d08770;">port 8081</span><span style="color:#c0c5ce;">))
+</span></pre>
+<p>The <code>get-token</code> function returns an object that you can run things like <code>(.getPreferredUsername token)</code>. <a href="https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html">This</a> documents the different methods you can use.</p>
+<h3 id="planning-the-routes">Planning the Routes</h3>
+<p>The routes are specifically very, very general so that we can test various routes. In our exploration we'll be paying attention to the following routes:</p>
+<ul>
+<li><code>/logout</code> - Logs out the user. (Note: <a href="https://issues.jboss.org/browse/KEYCLOAK-478">This is currently broken in Keycloak-1.0.0-beta-3</a>)</li>
+<li><code>/test</code> and <code>/test/foo</code> - General routes available to all visitors.</li>
+<li><code>/locked</code> and <code>/locked/foo</code> - Routes available to all <code>user</code> and <code>admin</code> roles.</li>
+<li><code>/admin</code> and <code>/admin/foo</code> - Routes available to only administrators.</li>
+</ul>
+<p>The routes in our code above covers much, much more then those, but you can play with those on your own.</p>
+<h3 id="integrating-keycloak">Integrating Keycloak</h3>
+<p><a href="http://keycloak.jboss.org/docs.html">Keycloak's User Guide</a> specifies how to secure the application via the <code>web.xml</code>. If you're familiar with JBoss (I'm not) this is apparently a fairly standard way of securing the application.</p>
+<p>However, Immutant does not currently provide an easy way to modify the <code>web.xml</code> in the war files it builds. Thankfully, since a war is a jar, and a jar is a zip, we can just add it in after.</p>
+<p>First, lets make a folder for this type of data in <code>/learning/resources</code>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> resources/WEB-INF
+</span></pre>
+<p>Then, create a <code>learning/resources/WEB-INF/web.xml</code> with the following XML:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">web-app </span><span style="color:#d08770;">xmlns</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xmlns:xsi</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://www.w3.org/2001/XMLSchema-instance</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xsi:schemaLocation</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">version</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">3.0</span><span style="color:#c0c5ce;">&quot;&gt;
+	&lt;</span><span style="color:#bf616a;">distributable</span><span style="color:#c0c5ce;">/&gt;
+	&lt;</span><span style="color:#bf616a;">listener</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">listener-class</span><span style="color:#c0c5ce;">&gt;org.projectodd.wunderboss.wildfly.ServletListener&lt;/</span><span style="color:#bf616a;">listener-class</span><span style="color:#c0c5ce;">&gt;
+	&lt;/</span><span style="color:#bf616a;">listener</span><span style="color:#c0c5ce;">&gt;
+
+	</span><span style="color:#65737e;">&lt;!-- Anyone --&gt;
+	</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;test&lt;/</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/test&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/test/*&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+	&lt;/</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+
+	</span><span style="color:#65737e;">&lt;!-- Users and Admins --&gt;
+	</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">auth-constraint</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;user&lt;/</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;admin&lt;/</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">auth-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;locked&lt;/</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/locked&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+			</span><span style="color:#65737e;">&lt;!-- Wildcard. Covers /locked/foo, /locked/foo/bar, etc --&gt;
+			</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/locked/*&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+	&lt;/</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+
+	</span><span style="color:#65737e;">&lt;!-- Admins --&gt;
+	</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">auth-constraint</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;admin&lt;/</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">auth-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;admin&lt;/</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/admin&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+			</span><span style="color:#65737e;">&lt;!-- Wildcard. Covers /admin/foo, /admin/foo/bar, etc --&gt;
+			</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/admin/*&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+	&lt;/</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+
+	</span><span style="color:#65737e;">&lt;!-- Logout Route --&gt;
+	</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">auth-constraint</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;admin&lt;/</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;user&lt;/</span><span style="color:#bf616a;">role-name</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">auth-constraint</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;logout&lt;/</span><span style="color:#bf616a;">web-resource-name</span><span style="color:#c0c5ce;">&gt;
+			&lt;</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;/logout&lt;/</span><span style="color:#bf616a;">url-pattern</span><span style="color:#c0c5ce;">&gt;
+		&lt;/</span><span style="color:#bf616a;">web-resource-collection</span><span style="color:#c0c5ce;">&gt;
+	&lt;/</span><span style="color:#bf616a;">security-constraint</span><span style="color:#c0c5ce;">&gt;
+
+	</span><span style="color:#65737e;">&lt;!-- Keycloak conf --&gt;
+	</span><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">login-config</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">auth-method</span><span style="color:#c0c5ce;">&gt;KEYCLOAK&lt;/</span><span style="color:#bf616a;">auth-method</span><span style="color:#c0c5ce;">&gt;
+		&lt;</span><span style="color:#bf616a;">realm-name</span><span style="color:#c0c5ce;">&gt;master&lt;/</span><span style="color:#bf616a;">realm-name</span><span style="color:#c0c5ce;">&gt;
+	&lt;/</span><span style="color:#bf616a;">login-config</span><span style="color:#c0c5ce;">&gt;
+
+&lt;/</span><span style="color:#bf616a;">web-app</span><span style="color:#c0c5ce;">&gt;
+</span></pre>
+<p>Now, navigate back to your <a href="https://localhost:8080/auth">Keycloak container</a>, log in, and go to the <strong>Applications</strong> menu, hit <strong>learning</strong>, and go to the <strong>Installation</strong> tab. Select the <code>keycloak.json</code> from the dropdown. Finally, <strong>Download</strong> the output and save it as <code>learning/WEB-INF/keycloak.json</code>.</p>
+<h3 id="building-the-container">Building the container</h3>
+<p>Since we'll be using a Docker container for the application, create a <code>learning/Dockerfile</code> with the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">FROM jboss/keycloak-adapter-wildfly
+RUN /opt/wildfly/bin/add-user.sh admin hunter2 --silent
+ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments/ROOT.war
+</span></pre>
+<p>Then a <code>learning/Makefile</code> to (optionally) make things a bit smoother:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">all</span><span style="color:#c0c5ce;">:
+	</span><span style="color:#a3be8c;">docker rm -f immut-test || true
+	</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> rmi immut-learning || </span><span style="color:#bf616a;">true
+	lein</span><span style="color:#c0c5ce;"> immutant war
+	</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> build</span><span style="color:#bf616a;"> -t</span><span style="color:#c0c5ce;"> immut-learning .
+
+</span><span style="color:#8fa1b3;">run</span><span style="color:#c0c5ce;">:
+	</span><span style="color:#a3be8c;">docker run --name immut-test --rm -t -i -p 127.0.0.1:8081:8080 -p 127.0.0.1:9991:9990 --link keycloak:auth immut-learning
+</span></pre>
+<p><strong>Just one more thing:</strong> Due to the linking between containers, you may need to add a line to your <code>/etc/hosts</code> so that the application will appropriately talk to the Keycloak server. The line should look like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">127.0.0.1 auth
+</span></pre>
+<p>Then, edit your <code>keycloak.json</code> and set the <code>auth-server-url</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">auth-server-url</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">http://auth:8080/auth</span><span style="color:#c0c5ce;">&quot;,
+</span></pre><h2 id="running">Running</h2>
+<p>You should now be able to build <strong>and start</strong> the application with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">make </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> run
+</span></pre>
+<p>After waiting for boot, browsing to <a href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Base = &quot;test&quot;
+
+No user found.
+
+java.lang.NullPointerException
+</span></pre><h2 id="exploring">Exploring</h2>
+<h3 id="user-routes">User routes</h3>
+<p>Now, try visiting <a href="http://localhost:8081/locked">http://localhost:8081/locked</a>. You should get redirected to the familiar Keycloak login screen. Log in with the <code>user</code> account. You should see something roughly like:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Base = &quot;locked Sub: test&quot;
+
+Token is:
+
+org.keycloak.representations.IDToken@7f55bb4f
+
+User is:
+
+user
+
+</span></pre>
+<p><em>Fantastic</em>. Now, try navigating to the admin route at <a href="http://localhost:8081/admin">http://localhost:8081/admin</a>. You should see the helpful <code>Forbidden</code> error. This is exactly what we want!</p>
+<h3 id="admin-routes">Admin routes</h3>
+<p>In order to change accounts, you, unfortunately, can't browse to <a href="http://localhost:8081/logout">http://localhost:8081/logout</a>. This seems to be a bug to be squashed in the next version of Keycloak (<a href="https://issues.jboss.org/browse/KEYCLOAK-478">Bug</a>), but I'll leave it here for posterity. For now, navigate to <a href="http://localhost:8080/auth">http://localhost:8080/auth</a>, log in as <code>admin</code>, navigate to the <strong>Sessions and Tokens</strong> and click the blue <strong>Logout All</strong> button.</p>
+<p>Browse back to <a href="http://localhost:8081/admin">http://localhost:8081/admin</a> and log in as <code>admin</code>. You should see:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Base = &quot;admin&quot;
+
+Token is:
+
+org.keycloak.representations.IDToken@4a8ca873
+
+User is:
+
+admin
+</span></pre>
+<p>You should also be able to hit all other routes as the admin. Be sure to explore Keycloak, as it has many features regarding roles, permissions, and other things not covered here.</p>
+<p><strong>Special thanks to all the folks on #immutant, especially bbrowning, tcrawley, and jcrossley3 for their help!</strong></p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

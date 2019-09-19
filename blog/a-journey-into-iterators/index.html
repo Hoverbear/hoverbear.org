@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>A Journey into Iterators</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a69517729008152b00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="A Journey into Iterators">
+        
+        
+            <meta name="twitter:description" content="One of my favorite features of Rust is iterators. They are a fast, safe, &#x27;lazy&#x27; way of working with data structures, streams, and other more creative applications.
+
+You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing here. This article is not a subtitute for the documentation or experience.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">A Journey into Iterators</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;009b83a09382684900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a69517729008152b00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;86fadbadd160e7b200.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>One of my favorite features of Rust is iterators. They are a fast, safe, 'lazy' way of working with data structures, streams, and other more creative applications.</p>
+<blockquote>
+<p>You can play along on http://play.rust-lang.org/ and by browsing <a href="http://doc.rust-lang.org/core/iter/index.html">here</a>. This article is not a subtitute for the documentation or experience.</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="our-first-iterator">Our First Iterator</h2>
+<p>Having everything twice as much is great, right? Let's take a set of values and double it!</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">	// First, we get a set of values.
+</span><span style="color:#c0c5ce;">    let input = [1, 2, 3];
+</span><span style="color:#c0c5ce;">    // Create an iterator over them.
+</span><span style="color:#c0c5ce;">    let iterator = input.iter();
+</span><span style="color:#c0c5ce;">    // Specify things to do along the chain.
+</span><span style="color:#c0c5ce;">    let mapped = iterator.map(|&amp;x| x * 2);
+</span><span style="color:#c0c5ce;">    // Do something with the output.
+</span><span style="color:#c0c5ce;">    let output = mapped.collect::&lt;Vec&lt;usize&gt;&gt;();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Okay first some important things to note, even from this simple example:</p>
+<ul>
+<li><code>.iter()</code> can be used on many different types.</li>
+<li>Declare a value, <strong>then</strong> create an iterator over it. Otherwise, the value will not live long enough to be iterated over. (Iterators are lazy, and do not necessarily own their data.)</li>
+<li><code>.collect::&lt;Vec&lt;usize&gt;&gt;()</code> iterates over the entire iterator and places their values into the type of data collection we specify. (If you feel like writing your own data structure, have a look at <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html#tymethod.from_iter">this</a>.)</li>
+<li>It can be used and chained! You don't necessarily need to <code>.collect()</code> values at the end of a <code>.map()</code> call.</li>
+</ul>
+<h2 id="n-at-a-time"><code>n</code> at a Time</h2>
+<p>You can access the next element in an iterator with <code>.next()</code>. If you'd like a batch you can use <code>.take(n)</code> to create a new iterator that goes over the next <code>n</code> elements. Have a few you don't care about? Use <code>.skip(n)</code> to discard <code>n</code> elements.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let vals = [ 1, 2, 3, 4, 5];
+</span><span style="color:#c0c5ce;">    let mut iter = vals.iter();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, iter.next());
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, iter.skip(2).take(2)
+</span><span style="color:#c0c5ce;">        .collect::&lt;Vec&lt;_&gt;&gt;());
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Ouputs:
+</span><span style="color:#c0c5ce;">// Some(1)
+</span><span style="color:#c0c5ce;">// [4, 5]
+</span></pre><h2 id="observing-laziness">Observing Laziness</h2>
+<p>We talked about how Iterators are lazy, but our first example didn't really demonstrate that. Let's use <code>.inspect()</code> calls to observe evaluation.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let input = [1, 2, 3];
+</span><span style="color:#c0c5ce;">    let iterator = input.iter();
+</span><span style="color:#c0c5ce;">    let mapped = iterator
+</span><span style="color:#c0c5ce;">        .inspect(|&amp;x| println!(&quot;Pre map:\t{}&quot;, x))
+</span><span style="color:#c0c5ce;">        .map(|&amp;x| x * 10) // This gets fed into...
+</span><span style="color:#c0c5ce;">        .inspect(|&amp;x| println!(&quot;First map:\t{}&quot;, x))
+</span><span style="color:#c0c5ce;">        .map(|x| x + 5)   // ... This.
+</span><span style="color:#c0c5ce;">        .inspect(|&amp;x| println!(&quot;Second map:\t{}&quot;, x));
+</span><span style="color:#c0c5ce;">    mapped.collect::&lt;Vec&lt;usize&gt;&gt;();
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>The output is:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Pre map:    1
+</span><span style="color:#c0c5ce;">First map:  10
+</span><span style="color:#c0c5ce;">Second map: 15
+</span><span style="color:#c0c5ce;">Pre map:    2
+</span><span style="color:#c0c5ce;">First map:  20
+</span><span style="color:#c0c5ce;">Second map: 25
+</span><span style="color:#c0c5ce;">Pre map:    3
+</span><span style="color:#c0c5ce;">First map:  30
+</span><span style="color:#c0c5ce;">Second map: 35
+</span></pre>
+<p>As you can see, the map functions are only evaluated as the iterator is moved through. (Otherwise we would see <code>1</code>, <code>2</code>, <code>3</code>, <code>10</code>, ...)</p>
+<blockquote>
+<p>Note how <code>.inspect()</code> only provides its function a <code>&amp;x</code> instead of a <code>&amp;mut</code> or the value itself. This prevents mutation and ensures that your inspection won't disturb the data pipeline.</p>
+</blockquote>
+<p>This has some really cool implications, for example, we can have infinite or cycling iterators.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let input = [1, 2, 3];
+</span><span style="color:#c0c5ce;">    // This tells the iterator to cycle over itself.
+</span><span style="color:#c0c5ce;">    let cycled = input.iter().cycle();
+</span><span style="color:#c0c5ce;">    let output = cycled.take(9)
+</span><span style="color:#c0c5ce;">        .collect::&lt;Vec&lt;&amp;usize&gt;&gt;();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs [1, 2, 3, 1, 2, 3, 1, 2, 3]
+</span></pre><h2 id="something-in-common">Something In Common</h2>
+<p>Don't get hung up thinking that <code>[1, 2, 3]</code> and it's ilk are the only things you can use iterators on.</p>
+<p>Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement <a href="http://doc.rust-lang.org/std/?search=iter%28%29"><code>iter()</code></a>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">std::collections::VecDeque;
+
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">	// Create a Vector of values.
+</span><span style="color:#c0c5ce;">    let input = vec![1, 2, 3];
+</span><span style="color:#c0c5ce;">    let iterator = input.iter();
+</span><span style="color:#c0c5ce;">    let mapped = iterator.map(|&amp;x| {
+</span><span style="color:#c0c5ce;">            return x * 2;
+</span><span style="color:#c0c5ce;">        });
+</span><span style="color:#c0c5ce;">    // Gather the result in a RingBuf.
+</span><span style="color:#c0c5ce;">    let output = mapped.collect::&lt;VecDeque&lt;_&gt;&gt;();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs [2, 4, 6]
+</span></pre>
+<p>Notice how here we collect into a VecDeque? That's because it implements <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>.</p>
+<p>Now you're probably thinking, <em>&quot;Ah hah! I bet you can't use a HashMap or tree or something, Hoverbear!&quot;</em> Well, you're wrong! You can!</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">use std::collections::HashMap;
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    // Initialize an input map.
+</span><span style="color:#c0c5ce;">    let mut input = HashMap::&lt;u64, u64&gt;::new();
+</span><span style="color:#c0c5ce;">    input.insert(1, 10); // Type inferred here.
+</span><span style="color:#c0c5ce;">    input.insert(2, 20);
+</span><span style="color:#c0c5ce;">    input.insert(3, 30);
+</span><span style="color:#c0c5ce;">    // Continue...
+</span><span style="color:#c0c5ce;">    let iterator = input.iter();
+</span><span style="color:#c0c5ce;">    let mapped = iterator.map(|(&amp;key, &amp;value)| {
+</span><span style="color:#c0c5ce;">            return (key, value * 10);
+</span><span style="color:#c0c5ce;">        });
+</span><span style="color:#c0c5ce;">    let output = mapped.collect::&lt;Vec&lt;_&gt;&gt;();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// [(1, 100), (3, 300), (2, 200)]
+</span></pre>
+<p>When we're iterating over a HashMap the <code>.map()</code> function changes to accept a tuple, and <code>.collect()</code> recieves tuples. Of course, you can collect back into a HashMap (or whatever), too.</p>
+<p>Did you notice how the ordering changed? HashMap's aren't necessarily in order. Be aware of this!</p>
+<blockquote>
+<p>Try changing the code to build a <code>Vec&lt;(u64, u64)&gt;</code> into a <code>HashMap</code>.</p>
+</blockquote>
+<h2 id="writing-an-iterator">Writing an Iterator</h2>
+<p>Okay so we've seen a taste of the kind of things that might offer iterators, but we can also make our own. What about an iterator that counts up indefinitely?</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">struct CountUp {
+</span><span style="color:#c0c5ce;">    current: usize,
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">impl Iterator for CountUp {
+</span><span style="color:#c0c5ce;">    type Item = usize;
+</span><span style="color:#c0c5ce;">    // The only fn we need to provide for a basic iterator.
+</span><span style="color:#c0c5ce;">    fn next(&amp;mut self) -&gt; Option&lt;usize&gt; {
+</span><span style="color:#c0c5ce;">        self.current += 1;
+</span><span style="color:#c0c5ce;">        Some(self.current)
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    // In more sophisticated code use `::new()` from `impl CountUp`
+</span><span style="color:#c0c5ce;">    let iterator = CountUp { current: 0 };
+</span><span style="color:#c0c5ce;">    // This is an infinite iterator, only take so many.
+</span><span style="color:#c0c5ce;">    let output = iterator.take(20).collect::&lt;Vec&lt;_&gt;&gt;();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+</span></pre>
+<p>We didn't have to call <code>.iter()</code> here, and that makes sense, since we're actually implementing an iterator. (Not transforming something into an iterator like before.)</p>
+<blockquote>
+<p>Try changing the <code>current</code> and <code>.take()</code> values.</p>
+</blockquote>
+<p>See how we could use <code>.take()</code> and other functions without having to implement them separately for our new iterator? If you look at <a href="http://doc.rust-lang.org/core/iter/index.html#traits">the docs</a> of for <code>iter</code> you'll see that there are various traits like <a href="http://doc.rust-lang.org/core/iter/trait.Iterator.html"><code>Iterator</code></a>, <a href="http://doc.rust-lang.org/core/iter/trait.RandomAccessIterator.html"><code>RandomAccessIterator</code></a>.</p>
+<h2 id="out-on-the-range-with-ranges">Out on the Range with Ranges</h2>
+<p>Throughout the following examples you'll see use of the <code>x..y</code> syntax. This creates a <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a>. They implement <code>Iterator</code>	so we don't need to call <code>.iter()</code> on them. You can also use <code>(0..100).step_by(2)</code> if you want to use specific step increments if you're using them as <code>Iterator</code>s.</p>
+<p>Note that they are open ended, and not inclusive.</p>
+<ol start="0">
+<li>.5 == [ 0, 1, 2, 3, 4, ]
+2..6 == [ 2, 3, 4, 5, ]</li>
+</ol>
+<p>We can also index into our collections.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let range = (0..10).collect::&lt;Vec&lt;usize&gt;&gt;();
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, &amp;range[..5]);
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, &amp;range[2..5]);
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, &amp;range[7..]);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs:
+</span><span style="color:#c0c5ce;">// [0, 1, 2, 3, 4]
+</span><span style="color:#c0c5ce;">// [2, 3, 4]
+</span><span style="color:#c0c5ce;">// [7, 8, 9]
+</span></pre>
+<blockquote>
+<p>Gotcha: Using <code>.step_by()</code> doesn't work this way since <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/struct.StepBy.html"><code>StepBy</code></a> doesn't implement <code>Idx</code> and <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a> does.</p>
+</blockquote>
+<h2 id="chaining-and-zipping">Chaining and Zipping</h2>
+<p>Putting together interators in various ways allows for some very nice, expressive code.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    // Demonstrate Chain
+</span><span style="color:#c0c5ce;">    let first = 0..5;
+</span><span style="color:#c0c5ce;">    let second = 5..10;
+</span><span style="color:#c0c5ce;">    let chained = first.chain(second);
+</span><span style="color:#c0c5ce;">    println!(&quot;Chained: {:?}&quot;, chained.collect::&lt;Vec&lt;_&gt;&gt;());
+</span><span style="color:#c0c5ce;">    // Demonstrate Zip
+</span><span style="color:#c0c5ce;">    let first = 0..5;
+</span><span style="color:#c0c5ce;">    let second = 5..10;
+</span><span style="color:#c0c5ce;">    let zipped = first.zip(second);
+</span><span style="color:#c0c5ce;">    println!(&quot;Zipped: {:?}&quot;, zipped.collect::&lt;Vec&lt;_&gt;&gt;());
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Chained: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span><span style="color:#c0c5ce;">// Zipped: [(0, 5), (1, 6), (2, 7), (3, 8), (4, 9)]
+</span></pre>
+<p><code>.zip()</code> allows you to merge iterators, while <code>.chain()</code> effectively creates an &quot;extended&quot; iterator. Yes, there is an <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.Iterator.html#method.unzip"><code>.unzip()</code></a>.</p>
+<blockquote>
+<p>Try using <code>.zip()</code> on two <code>usize</code> slices then <code>.collect()</code> the resulting tuples to build up a HashMap.</p>
+</blockquote>
+<h2 id="getting-inquisistive">Getting Inquisistive</h2>
+<p><code>.count()</code>, <code>.max_by()</code>, <code>.min_by()</code>, <code>.all()</code>, and <code>.any()</code>, are common ways to inquire into an iterator.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#![feature(core)] // Must be run on nightly at time of publishing.
+</span><span style="color:#c0c5ce;">#[derive(Eq, PartialEq, Debug)]
+</span><span style="color:#c0c5ce;">enum BearSpecies { Brown, Black, Polar, Grizzly }
+
+</span><span style="color:#c0c5ce;">#[derive(Debug)]
+</span><span style="color:#c0c5ce;">struct Bear {
+</span><span style="color:#c0c5ce;">    species: BearSpecies,
+</span><span style="color:#c0c5ce;">    age: usize
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let bears = [
+</span><span style="color:#c0c5ce;">        Bear { species: BearSpecies::Brown, age: 5 },
+</span><span style="color:#c0c5ce;">        Bear { species: BearSpecies::Black, age: 12 },
+</span><span style="color:#c0c5ce;">        Bear { species: BearSpecies::Polar, age: 15 },
+</span><span style="color:#c0c5ce;">        Bear { species: BearSpecies::Grizzly, age: 16 },
+</span><span style="color:#c0c5ce;">    ];
+</span><span style="color:#c0c5ce;">    // Max/Min of a set.
+</span><span style="color:#c0c5ce;">    let oldest = bears.iter().max_by(|x| x.age);
+</span><span style="color:#c0c5ce;">    let youngest = bears.iter().min_by(|x| x.age);
+</span><span style="color:#c0c5ce;">    println!(&quot;Oldest: {:?}\nYoungest: {:?}&quot;, oldest, youngest);
+</span><span style="color:#c0c5ce;">    // Any/All
+</span><span style="color:#c0c5ce;">    let has_polarbear = bears.iter().any(|x| {
+</span><span style="color:#c0c5ce;">        x.species == BearSpecies::Polar
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">    let all_minors = bears.iter().all(|x| {
+</span><span style="color:#c0c5ce;">        x.age &lt;= 18
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">    println!(&quot;At least one polarbear?: {:?}&quot;, has_polarbear);
+</span><span style="color:#c0c5ce;">    println!(&quot;Are they all minors? (&lt;18): {:?}&quot;, all_minors);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs:
+</span><span style="color:#c0c5ce;">// Oldest: Some(Bear { species: Grizzly, age: 16 })
+</span><span style="color:#c0c5ce;">// Youngest: Some(Bear { species: Brown, age: 5 })
+</span><span style="color:#c0c5ce;">// At least one polarbear?: true
+</span><span style="color:#c0c5ce;">// Are they all minors? (&lt;18): true
+</span></pre>
+<blockquote>
+<p>Try using the same iterator all of the above calls. <code>.any()</code> is the only one that borrows mutably, and won't work the same as the others. This is because it might not necessarily consume the entire iterator.</p>
+</blockquote>
+<h2 id="filter-map-red-wait-fold">Filter, Map, Red... Wait... Fold</h2>
+<p>If you're used to Javascript like me, you probably expect the holy trinity of <code>.filter()</code>, <code>.map()</code>, <code>.reduce()</code>. Well, they're all there in Rust too, but <code>.reduce()</code> is called <code>.fold()</code> which I kind of prefer.</p>
+<p>A basic example:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">	let input = 1..10;
+</span><span style="color:#c0c5ce;">	let output = input
+</span><span style="color:#c0c5ce;">    	.filter(|&amp;item| item % 2 == 0) // Keep Evens
+</span><span style="color:#c0c5ce;">    	.map(|item| item * 2) // Multiply by two.
+</span><span style="color:#c0c5ce;">    	.fold(0, |accumulator, item| accumulator + item);
+</span><span style="color:#c0c5ce;">	println!(&quot;{}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Of course, don't start trying to be too clever, the above could simply be:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let input = 1..10;
+</span><span style="color:#c0c5ce;">    let output = input
+</span><span style="color:#c0c5ce;">        .fold(0, |acc, item| {
+</span><span style="color:#c0c5ce;">            if b % 2 == 0 {
+</span><span style="color:#c0c5ce;">                acc + (item*2)
+</span><span style="color:#c0c5ce;">            } else {
+</span><span style="color:#c0c5ce;">                acc
+</span><span style="color:#c0c5ce;">            }
+</span><span style="color:#c0c5ce;">        });
+</span><span style="color:#c0c5ce;">    println!(&quot;{}&quot;, output);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>The ability to approach problems like this in multiple ways allows Rust to be quite flexible and expressive.</p>
+<h2 id="split-scan">Split &amp; Scan</h2>
+<p>There is also <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.scan"><code>scan</code></a> if you need a variation of folding which yeilds the result each time. This is useful if you're waiting for a certain accumulated amount and wish to check on each iteration.</p>
+<p>Splitting an iterator up into two parts is possible. You can just use a simple grouping function that returns a boolean with <a href="https://doc.rust-lang.org/std/iter/trait.aIterator.html#method.partition"><code>partition</code></a>.</p>
+<p>Let's use the two concepts to split up a big slice, group it be evens and odds, then progressively sum them up and make sure that the some of the evens is always less than the sum of the odds. (This is because <code>even</code> starts at 0.)</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let set = 0..1000;
+</span><span style="color:#c0c5ce;">    let (even, odd): (Vec&lt;_&gt;, Vec&lt;_&gt;) = set.partition(|&amp;n| n % 2 == 0);
+</span><span style="color:#c0c5ce;">    let even_scanner = even.iter().scan(0, |acc, &amp;x| { *acc += x; Some(*acc) });
+</span><span style="color:#c0c5ce;">    let odd_scanner  = odd.iter().scan(0, |acc, &amp;x| { *acc += x; Some(*acc) });
+</span><span style="color:#c0c5ce;">    let even_always_less = even_scanner.zip(odd_scanner)
+</span><span style="color:#c0c5ce;">        .all(|(e, o)| e &lt;= o);
+</span><span style="color:#c0c5ce;">    println!(&quot;Even was always less: {}&quot;, even_always_less);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs:
+</span><span style="color:#c0c5ce;">// Even was always less: true
+</span></pre>
+<p>Scanning can be used to provide things like a moving average. This is useful when reading through files, data, and sensors. Partitioning is a common task when shuffling through data.</p>
+<p>Another common goal is to group elements together based on a specific value. Now, if you're expecting something like <a href="https://lodash.com/docs#groupBy"><code>_.groupBy()</code></a> from Lodash it's not quite that simple. Consider: Rust has <code>BTreeMap</code>, <code>HashMap</code>, <code>VecMap</code>, and other data types, our grouping method should not be opinionated.</p>
+<p>To use a simple example, let's make an infinite iterator that cycles from 0 to 5 inclusively. In your own code these could be complex structs or tuples, but for now, simple integers are fine. We'll group them into into three categories, 0s, 5s, and the rest.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">use std::collections::HashMap;
+
+</span><span style="color:#c0c5ce;">#[derive(Debug, PartialEq, Eq, Hash)]
+</span><span style="color:#c0c5ce;">enum Kind { Zero, Five, Other }
+
+</span><span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let values = 0..6; // Not inclusive.
+</span><span style="color:#c0c5ce;">    let cycling = values.cycle();
+</span><span style="color:#c0c5ce;">    // Group them into a HashMap.
+</span><span style="color:#c0c5ce;">    let grouped = cycling.take(20).map(|x| {
+</span><span style="color:#c0c5ce;">        // Return a tuple matching the (key, value) desired.
+</span><span style="color:#c0c5ce;">        match x {
+</span><span style="color:#c0c5ce;">            x if x == 5 =&gt; (Kind::Five, 5),
+</span><span style="color:#c0c5ce;">            x if x == 0 =&gt; (Kind::Zero, 0),
+</span><span style="color:#c0c5ce;">            x =&gt; (Kind::Other, x),
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    // Accumulate the values
+</span><span style="color:#c0c5ce;">    }).fold(HashMap::&lt;Kind, Vec&lt;_&gt;&gt;::new(), |mut acc, (k, x)| {
+</span><span style="color:#c0c5ce;">        acc.entry(k).or_insert(vec![]).push(x);
+</span><span style="color:#c0c5ce;">        acc
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, grouped);
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Outputs: {Zero: [0, 0, 0, 0], Five: [5, 5, 5], Other: [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1]}
+</span></pre>
+<blockquote>
+<p>It's kind of pointless to store all those replicated values. Try having this example return the number of occurances instead of the values. As a further exploration try using this method on a more complex value like a <code>struct</code>, you can also change what keys are used.</p>
+</blockquote>
+<h2 id="flanked">Flanked</h2>
+<p>The <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> trait is useful for certain purposes. For example, when you need the behavior of both of queue and a stack.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn main() {
+</span><span style="color:#c0c5ce;">    let mut vals = 0..10;
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, vals.next());
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, vals.next_back());
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, vals.next());
+</span><span style="color:#c0c5ce;">    println!(&quot;{:?}&quot;, vals.next_back());
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">// Some(0)
+</span><span style="color:#c0c5ce;">// Some(9)
+</span><span style="color:#c0c5ce;">// Some(1)
+</span><span style="color:#c0c5ce;">// Some(8)
+</span></pre><h1 id="play-on-your-own">Play on your own!</h1>
+<p>This is a good time for you to take a break, get some tea, and crack open the <a href="https://play.rust-lang.org/">Playpen</a>. Try changing one of the above examples, fiddle with some new things in the API docs below, and generally have a good time.</p>
+<ul>
+<li><a href="http://doc.rust-lang.org/1.0.0-beta.3/std/collections/"><code>std::collections</code></a></li>
+<li><a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/index.html"><code>std::iter</code></a></li>
+</ul>
+<p>If you get stuck, don't panic! Try googling the error if it befuddles you, Rust has activity on the <code>*.rust-lang.org</code> domain as well as Github and Stack Exchange. You are also welcome to email me or visit us on <a href="https://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a>.</p>
+<p>We're just scratching the surface... A vast world awaits us.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;009b83a09382684900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a69517729008152b00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;86fadbadd160e7b200.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

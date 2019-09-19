@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Why Benchmarking Distributed Databases Is So Hard</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9498048c0c78516e00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Why Benchmarking Distributed Databases Is So Hard">
+        
+        
+            <meta name="twitter:description" content="If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.
+So why do it at all? Let’s take a look at some of the motivations of benchmarking, the common tools, and discuss a few things to keep in mind when benchmarking.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Why Benchmarking Distributed Databases Is So Hard</a></h1>
+                <p class="description">Exploring the complexities of benchmarking distributed systems.</h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8d5d5fafc2ce50d900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9498048c0c78516e00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;92a0ae7cb766e3d400.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.</p>
+<p>So why do it at all? Let’s take a look at some of the motivations of benchmarking, the common tools, and discuss a few things to keep in mind when benchmarking.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="why-benchmark-at-all">Why benchmark at all?</h2>
+<p>If you don't have reproducible, fair benchmarking, you can be blinded by your own hubris. Our contributors and maintainers of depend on benchmarks to ensure we don't negatively impact its performance. Often not having benchmarks is like not having logging or metrics.</p>
+<p>For our business, benchmarks give us tangible, real data we can share with both potential and existing users:</p>
+<p><em>How will new feature X impact the performance of workload Y that customer Z uses?</em></p>
+<p>Being able to benchmark against these workloads can inform our development, and positively impact all users — not just the originating benchmarker.</p>
+<p>While benchmarks can be used for these noble purposes, they can also be used for evil. They can be used for <em>benchmarketing</em>, which skews the results in favor of a particular deployment. Sometimes it's hard to spot, and for some readers, the easiest way to understand if something is or isn't <em>benchmarketing</em> is to look in the comments.</p>
+<h2 id="what-makes-it-so-hard">What makes it so hard?</h2>
+<p>On the surface, benchmarking sounds pretty easy. You turn on the service, you make a bunch of requests, and you measure the time it takes.</p>
+<p>But as you start to dive in, the story changes. Computers aren't the same, and distributed systems are even less so.</p>
+<p>Different RAM configurations, CPU sockets, motherboards, virtualization tools, and network interfaces can all impact the performance of a single node. Across a set of nodes, things such as routers, firewalls, and other services can also interact with metrics.</p>
+<p>Heck, even processing architectures aren't even all the same! For example, our software (TiKV) uses Streaming SIMD Extensions 3 (SSE3), a feature that isn't available on all processors. This could mean huge performance differences between otherwise similarly-specced machines.</p>
+<p>So instead of worrying too much about the specifics of how workloads perform on a particular machine, it's fairly common to focus on relative benchmarks between different versions of the same product, or different products, on the same hardware.</p>
+<p>While <strong>everyone wants to be incomparable, it's very important to compare yourself to something</strong>. Knowing relative numbers gives us the ability to understand how a new change might impact our product, or to learn our weaknesses based on the results of another product.</p>
+<h3 id="the-status-quo">The status quo</h3>
+<p>It's fairly common to see articles touting benchmarks gathered off big cloud machines in fairly small deployments. The author will go over the deployment specifications, then run a few tools like Yahoo! Cloud Serving Benchmark (YCSB) and Transaction Processing Performance Council Benchmark C (TPC-C), and show off some graphs comparing the outcomes to either other versions or other products.</p>
+<p>This is pretty awesome, actually.</p>
+<p>Being able to (mostly) replicate their deployment, readers should be able to replicate their results. It also gives readers a chance to see any configuration the author might have done to favor results.</p>
+<p>For example, it would be hardly fair to test key-value store TiKV 2.1 with sync-log off vs TiKV 3.0 with sync-log on. There are big performance (and safety) characteristics between the two settings.</p>
+<p>Comparing products can be even worse. Products with different features and configurations are hard to compare — especially if the author is an expert in one system and a novice in another.</p>
+<p>If you're like some of our contributors, you might have smirked at a few benchmarks before as you saw configurations that clearly favored one product or another. They're as subtle as possible, of course, but they're often the key to understanding a surprising result.</p>
+<h3 id="distributed-systems-are-complex">Distributed systems are complex!</h3>
+<p>When you consider a distributed system, it's important to choose a realistic topology. We doubt a user will ever deploy  six stateless query layers (like TiDB) to talk to two key-value store (TiKV) services and one Placement Driver (PD) service, so why would we benchmark that?</p>
+<p>Choosing the right machines is important too. Production deployments of distributed systems often suggest (or require) certain configurations. For example, we suggest you use your fastest storage and memory nodes to serve TiKV. If most TiKV nodes were running on a spinning disk machine, it's likely system performance would be heavily degraded, and benchmarks would be skewed.</p>
+<p>We maintain a dedicated cluster of machines that our maintainers can use for benchmarking and testing. This gives us consistent, reliable benchmarks, because the topology is stable, and the machines do not run other noisy VMs or services.</p>
+<p>Also, distributed systems like TiDB are often flexible, and tuning can dramatically impact the metrics for specific workloads. Tuning the database properly to the workload can help us properly test features, and inform our users of possible easy-gains for their use cases.</p>
+<h3 id="different-scenarios-different-standards">Different scenarios, different standards</h3>
+<p>Databases have an incredible variety of use cases and workloads. Understandably, there is no universal, all-encompassing benchmark. Instead, we have a variety of tools at our disposal.</p>
+<h4 id="tpc-c">TPC-C</h4>
+<p>The <a href="http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-c_v5.11.0.pdf">TPC-C benchmark</a> is an Online Transactional Processing (OLTP) standard that takes the perspective of distributing orders to customers. The metric it measures is the number of orders processed by the benchmark per minute.</p>
+<p>The TPC-C tries to measure the essential performance characteristics of some operations portrayed through the lens of a company distributing products to warehouses and districts, and then on to customers.</p>
+<p>The benchmark doesn't attempt to measure the impact or cost of ad-hoc operational or analytical queries, such as the effect of decision support or auditing requests.</p>
+<p>It uses fixed, scaling, and growing tables, and has a number of operations, such as creating new orders, paying for orders, checking the status of orders, and inquiring into the stock level of items.</p>
+<p>The benchmark defines strict requirements for response time and consistency, and it uses multiple client connections to do this. (An example of a multiple client connection is creating an order with one client, and checking for it with another.)</p>
+<p>The TPC-C has been one of the more popular OLTP benchmarks for a couple of decades, and it is commonly used to determine a system's cost or power efficiency. It's useful for determining the common, day-to-day performance of an OLTP database.</p>
+<h4 id="tpc-h">TPC-H</h4>
+<p>The <a href="http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.18.0.pdf">TPC-H benchmark</a> is a decision-support benchmark. It operates over a minimum dataset size of about 1 gigabyte, though it's commonly run on larger populations. It measures metrics through composite queries per hour. (The standard discourages comparing between sizes, which is misleading.)</p>
+<p>The TPC-H tries to measure the ability of a database to handle complex, large, ad-hoc queries. It functions similar to how a data lake functions in an extract, transform, load (ETL) pipeline, staying closely synchronized with an online transactional database. Complex queries are run over the dataset ad-hoc, and at varied intervals.</p>
+<p>In many ways, TPC-H complements TPC-C. TPC-H represents the analytical database which handles the queries the TPC-C doesn't.</p>
+<h4 id="sysbench">Sysbench</h4>
+<p>Unlike the TPC benchmarks, <a href="https://github.com/akopytov/sysbench">sysbench</a> is a scriptable benchmarking system in C and Lua. It offers a number of simple tests, and allows them to define subcommands (for example prepare and cleanup).</p>
+<p>Because it's scriptable, you can use sysbench to create your own benchmarks, and also use the included benchmarks like <code>oltp_read</code> and <code>oltp_point_select</code>.</p>
+<p>Sysbench is useful when you're trying to isolate problem cases, or want specific workload metrics.</p>
+<h4 id="ycsb">YCSB</h4>
+<p>The <a href="https://github.com/brianfrankcooper/YCSB">YCSB</a> is a framework and common set of workloads for evaluating databases. Unlike the TPC benchmarks, it supports key-value stores, such as TiKV or redis. It reports in operations/sec.</p>
+<p>YCSB is  not as complex as the TPC benchmarks, but it has a number of fairly simple core workloads that you can use to evaluate system performance. Workloads A through F each offer a simplified workload of situations such as photo tagging, session stores, news, conversations, and user settings management.</p>
+<p>PingCAP maintains a <a href="https://github.com/pingcap/go-ycsb">Go fork of YCSB</a> that we regularly use to test our own database and those of our respected colleagues.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e0629cec165d048b00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;18c93a55e785e86e00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5436dfebc960045f00.jpg"
+              alt="Cables -- Taylor Vick; @tvick on Unsplash" />
+    <figcaption>Cables -- Taylor Vick; @tvick on Unsplash</figcaption>
+</figure>
+<h2 id="what-makes-a-good-benchmark">What makes a good benchmark?</h2>
+<p>The best benchmark has two things going for it: It is <strong>reproducible</strong> and <strong>convincing</strong>.</p>
+<p>As we discussed earlier, when you benchmark a distributed system there are a wide variety of variables. Choosing and detailing the topology, hardware, and configuration of the deployment is key for reproducibility. If you're testing multiple products, make their configurations as equivalent as possible.</p>
+<p>It's not fair to compare an in-memory, single-node service against a persisted, redundant service. Pay attention to consistency guarantees in the documentation. If one database uses snapshot isolation by default, and the other requires you to enable it, make sure to make the configurations consistent so the comparison is fair.</p>
+<p>Being convincing also involves accepting your weaknesses. A benchmark result where your preferred database clearly outperforms all the others in every result <em><em>feels</em></em> a lot like benchmarketing. Including outcomes that don't favor your preferred database can help keep you honest, and show folks you aren't trying to be evil.</p>
+<h2 id="how-to-make-a-decent-benchmark">How to make a decent benchmark</h2>
+<p>Before we even get started on making a benchmark, we need to Read Those Fricking Manuals™ for each of the databases we'd like to benchmark, as well as each of the tools or workloads we want to benchmark. Understand what the tools are good at, and what they're bad at.</p>
+<p>Numbers that are just numbers mean nothing  — you must have an understanding of what you have benchmarked, and what the results mean. You should ensure that the benchmark configurations, specs, and topologies are all realistic and appropriate for the situation.</p>
+<p>Pay attention to tuning guides or recommended deployment options. If possible, use official deployment tools like <a href="https://github.com/pingcap/tidb-ansible">TiDB Ansible</a> or <a href="https://github.com/pingcap/tidb-operator/">TiDB Operator</a>, because they often are built to handle things like essential OS configuration.</p>
+<p>If you're looking for a model to start from, our friends at Percona do a great job with their benchmarking articles like <a href="https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/">PostgreSQL and MySQL: Millions of Queries per Second</a>.</p>
+<h3 id="focus-on-a-realistic-metric">Focus on a realistic metric</h3>
+<p>The TPC-C and TPC-H don't focus on just plain operations/second. TPC-H only measures <em>complex</em> queries. In contrast, TPC-C doesn't consider ad-hoc or complex queries, it just measures how many orders can be processed. Consider the use cases that you need to evaluate, and find or create a benchmark that is an appropriate match.</p>
+<p>Since you're considering a <em>distributed system</em>, you should also consider testing the database over different latencies or failure cases. You can use tools like traffic control (<code>tc</code>) to introduce delays or unreliability in a controlled way.</p>
+<p>You should also consider what percentiles you're interested in, and how much outliers mean to you. Measuring only the 99th percentile of requests can be misleading if one system has some possibly problematic outliers.</p>
+<p>Stutter can affect high-load databases just like other performance games. You can learn more about percentiles and stutter in <a href="https://developer.nvidia.com/content/analysing-stutter-%E2%80%93-mining-more-percentiles-0">Iain's (NVIDIA) excellent stutter article</a>.</p>
+<h3 id="distribute-the-workload">Distribute the workload</h3>
+<p>A naive approach to writing a benchmark might involve a single client interacting with a distributed database and running a workload.</p>
+<p>However this is rarely a realistic situation. It's much more likely that a large number of clients will be interacting with the database. Consider the TPC-C. It's unlikely that all of the warehouses and districts would connect over the same connection, or wait to take turns running their queries!</p>
+<p>When you benchmark a distributed system intended to handle a high volume of traffic, like TiDB, using only one connection will almost certainly result in your benchmarking tool becoming bottlenecked. Instead of benchmarking the database, you're actually benchmarking the tool!</p>
+<p>Instead, it's better to use multiple connections like TPC-C and sysbench do. Not only is this more realistic, in many cases it will result in more accurate performance numbers. This is because distributed algorithms like 2PC are impacted by network round trips, and the overall throughput of the system will be higher, despite the average latency being possibly higher too.</p>
+<h3 id="dig-into-the-why">Dig into the why</h3>
+<p>A good benchmark report doesn't just show off numbers and state “X is faster” — that's not interesting! <em>Why</em> is X faster? Is it because of mistakes? Or is it the result of deliberate choices that had consequences?</p>
+<p>Talking about why one test subject is faster not only makes the results more interesting, it also makes them more legitimate. If an author can explain why results differ, it demonstrates that they performed the necessary research to make an accurate benchmark.</p>
+<h3 id="consult-the-experts">Consult the experts</h3>
+<p>If you're surprised or puzzled by your initial results, sometimes it's a good idea to email or call the database vendor. It's very likely they can help you find a tuning option or implementation detail that might be causing these results.</p>
+<p>It's common for proprietary databases to have restrictive clauses against publishing benchmarks. We don't. At PingCAP, we love reading the benchmarks folks do on our database, and we try to help them set up fair, realistic scenarios for their benchmarks.</p>
+<p>After all, talk is cheap — show us the code!</p>
+<blockquote>
+<p>This article was originally published on <a href="https://pingcap.com/blog/why-benchmarking-distributed-databases-is-so-hard/">PingCAP's blog</a>, it has been edited to fit the aesthetic and tone of this blog.</p>
+</blockquote>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8d5d5fafc2ce50d900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9498048c0c78516e00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;92a0ae7cb766e3d400.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

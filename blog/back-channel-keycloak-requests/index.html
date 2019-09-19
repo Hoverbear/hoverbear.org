@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Back Channel Keycloak Requests</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Back Channel Keycloak Requests">
+        
+        
+            <meta name="twitter:description" content="While using Keycloak you may need to make authenticated requests between various services. How can this be accomplished with Immutant?
+
+You may want to check this link to learn how to use Immutant with Keycloak.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Back Channel Keycloak Requests</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>While using <a href="http://keycloak.jboss.org/">Keycloak</a> you may need to make authenticated requests between various services. How can this be accomplished with <a href="http://immutant.org/">Immutant</a>?</p>
+<blockquote>
+<p>You may want to check <a href="/2014/07/25/integrating-immutant-and-keycloak/">this</a> link to learn how to use Immutant with Keycloak.</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="concept">Concept</h2>
+<p>In this deployment, there are three components to the deployment, a <strong>Consumer</strong>, a <strong>Provider</strong>, and <strong>Keycloak</strong>. The <strong>Consumer</strong> makes a request of the <strong>Provider</strong> using authentication through <strong>Keycloak</strong>.</p>
+<p><strong>Workflow:</strong></p>
+<ul>
+<li><strong>User</strong> visits <strong>Consumer</strong>, gets redirected to <strong>Keycloak</strong>.</li>
+<li><strong>User</strong> authenticates with <strong>Keycloak</strong>, gets redirected back to <strong>Consumer</strong>.</li>
+<li><strong>Consumer</strong> uses the <strong>User</strong>'s &quot;Bearer&quot; token in a back channel request to the <strong>Provider</strong>.</li>
+<li><strong>Provider</strong> verifies the <strong>User</strong>'s &quot;Bearer&quot; token with <strong>Keycloak</strong>.</li>
+<li><strong>Provider</strong> returns data to <strong>Consumer</strong> which returns it to the <strong>User</strong> after performing arbitrary computations.</li>
+</ul>
+<h2 id="preparation">Preparation</h2>
+<p>Deploy out a Keycloak container, and scaffold a pair of Immutant applications. In Keycloak, create a <strong>Consumer</strong> application, and a <strong>Provider</strong> application with <strong>User</strong> roles for both. In the <strong>Consumer</strong>'s <code>web.xml</code>, restrict the <code>/backchannel</code> route to only authenticated <strong>User</strong> roles. Do the same thing with <code>/locked</code> on the <strong>Provider</strong>.</p>
+<h2 id="setting-up-keycloak">Setting Up Keycloak</h2>
+<p>As of the 1.0.0-3 BETA version Keycloak currently requires you to declare the scopes necessary for your application. <strong>In 1.0.0-4 BETA, applications will have full role access by default, so this section is not applicable.</strong></p>
+<p>Currently, Keycloak does not grant applications any &quot;Scopes&quot; with other applications, scopes allow you to restrict which role mappings are studded into an access token. In Keycloak, go to the prepared appliactions and under the &quot;Scopes&quot; tab, select the <em>other</em> application and give it the <strong>User</strong> scope.</p>
+<h2 id="making-a-request">Making a Request</h2>
+<p>The <strong>User</strong> will browse to the <strong>Consumer</strong> and authenticate with <strong>Keycloak</strong>, then return to the <code>/backchannel</code> route. Since at this point they will be authenticated, you can get their session and utilize the Token it provides.</p>
+<p>The <code>get-session</code> function produces a session which can be utilized.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-session
+  </span><span style="color:#a3be8c;">&quot;Gets the session, get the object with `.getToken` or the access token itself with `.getTokenString`&quot;
+  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
+  (</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[{</span><span style="color:#bf616a;">servlet-request </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">servlet-request</span><span style="color:#c0c5ce;">} request
+        </span><span style="color:#bf616a;">session </span><span style="color:#c0c5ce;">(.getAttribute servlet-request &quot;</span><span style="color:#a3be8c;">org.keycloak.KeycloakSecurityContext</span><span style="color:#c0c5ce;">&quot;)]
+    session))
+</span></pre>
+<p><code>back-channel-handler</code>, which is bound to the <code>/backchannel</code> route, responds to the request with information regarding the users resource access, as well as the data sent from the provider.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">back-channel-handler
+  </span><span style="color:#a3be8c;">&quot;A back channel request handler&quot;
+  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
+  (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The back call resulted in:&lt;br&gt;</span><span style="color:#c0c5ce;">&quot;
+    (.getResourceAccess (.getToken (get-session request)))
+    &quot;</span><span style="color:#a3be8c;">&lt;br&gt;</span><span style="color:#c0c5ce;">&quot;
+    (</span><span style="color:#b48ead;">try
+      </span><span style="color:#c0c5ce;">(client/</span><span style="color:#96b5b4;">get </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://provider:8080/locked</span><span style="color:#c0c5ce;">&quot;
+        {:</span><span style="color:#d08770;">headers </span><span style="color:#c0c5ce;">{
+          &quot;</span><span style="color:#a3be8c;">Authorization</span><span style="color:#c0c5ce;">&quot; (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Bearer </span><span style="color:#c0c5ce;">&quot; (.getTokenString (get-session request)))
+        }})
+      (</span><span style="color:#b48ead;">catch </span><span style="color:#a3be8c;">Exception </span><span style="color:#bf616a;">e
+        </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exception occured... &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; e &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;</span><span style="color:#c0c5ce;">&quot;)))))
+
+(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
+  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
+  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/backchannel</span><span style="color:#c0c5ce;">&quot; [:</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request] (back-channel-handler request)))
+</span></pre><h2 id="handling-a-request">Handling a Request</h2>
+<p>On the <strong>Provider</strong>, lock down the <code>/locked</code> route in the <code>web.xml</code> file. Then, Keycloak provides all of the necessary facilities to handle and verify the request. By the time the request reaches the <strong>Provider</strong>, it's already verified that the user has access.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

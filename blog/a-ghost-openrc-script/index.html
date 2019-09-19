@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>A Ghost OpenRC Script</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="A Ghost OpenRC Script">
+        
+        
+            <meta name="twitter:description" content="Whipped up an OpenRC script for Ghost. Feel free to use it for yourself.
+Things to be aware of:
+
+The script was designed for Funtoo.
+The script expects Ghost to be in $GHOST_ROOT.
+The script runs Ghost as $GHOST_USER:$GHOST_GROUP.
+The script exports the $NODE_ENV to production.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">A Ghost OpenRC Script</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Whipped up an OpenRC script for <a href="https://ghost.org/">Ghost</a>. Feel free to use it for yourself.</p>
+<p>Things to be aware of:</p>
+<ul>
+<li>The script was designed for <a href="http://www.funtoo.org/Welcome">Funtoo</a>.</li>
+<li>The script expects Ghost to be in <code>$GHOST_ROOT</code>.</li>
+<li>The script runs Ghost as <code>$GHOST_USER:$GHOST_GROUP</code>.</li>
+<li>The script exports the <code>$NODE_ENV</code> to <code>production</code>.</li>
+</ul>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;">#!/sbin/runscript
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+</span><span style="color:#bf616a;">PATH</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/sbin:/usr/sbin:/bin:/usr/bin
+</span><span style="color:#bf616a;">DESC</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Ghost</span><span style="color:#c0c5ce;">&quot;
+</span><span style="color:#bf616a;">NAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ghost
+</span><span style="color:#bf616a;">GHOST_ROOT</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/var/ghost
+</span><span style="color:#bf616a;">GHOST_GROUP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ghost
+</span><span style="color:#bf616a;">GHOST_USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ghost
+</span><span style="color:#bf616a;">DAEMON</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/usr/bin/node
+</span><span style="color:#bf616a;">DAEMON_ARGS</span><span style="color:#c0c5ce;">=&quot;$</span><span style="color:#bf616a;">GHOST_ROOT</span><span style="color:#a3be8c;">/index.js</span><span style="color:#c0c5ce;">&quot;
+</span><span style="color:#bf616a;">PIDFILE</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/var/run/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">NAME</span><span style="color:#a3be8c;">.pid
+</span><span style="color:#bf616a;">SCRIPTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/etc/init.d/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">NAME
+</span><span style="color:#b48ead;">export </span><span style="color:#bf616a;">NODE_ENV</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">production
+</span><span style="color:#96b5b4;">source</span><span style="color:#c0c5ce;"> /lib64/rc/sh/functions.sh
+
+</span><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
+  </span><span style="color:#bf616a;">use</span><span style="color:#c0c5ce;"> logger dns
+  </span><span style="color:#bf616a;">need</span><span style="color:#c0c5ce;"> net
+}
+
+</span><span style="color:#8fa1b3;">start</span><span style="color:#c0c5ce;">() {
+  </span><span style="color:#bf616a;">ebegin </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Starting </span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">{</span><span style="color:#bf616a;">DESC</span><span style="color:#a3be8c;">}</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#bf616a;">start-stop-daemon --start --quiet   </span><span style="color:#c0c5ce;">\
+</span><span style="color:#bf616a;">    --user </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">GHOST_USER</span><span style="color:#c0c5ce;">:$</span><span style="color:#bf616a;">GHOST_GROUP   </span><span style="color:#c0c5ce;">\
+</span><span style="color:#bf616a;">    --chdir </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">GHOST_ROOT --background  </span><span style="color:#c0c5ce;">\
+</span><span style="color:#bf616a;">    --make-pidfile --pidfile </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">PIDFILE </span><span style="color:#c0c5ce;">\
+</span><span style="color:#bf616a;">    --exec </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">DAEMON</span><span style="color:#c0c5ce;"> -- $</span><span style="color:#bf616a;">DAEMON_ARGS
+  eend </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">?
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#8fa1b3;">stop</span><span style="color:#c0c5ce;">() {
+  </span><span style="color:#bf616a;">ebegin </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Stopping </span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">{</span><span style="color:#bf616a;">DESC</span><span style="color:#a3be8c;">}</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#bf616a;">start-stop-daemon --stop --quiet     </span><span style="color:#c0c5ce;">\
+</span><span style="color:#bf616a;">  	--retry</span><span style="color:#c0c5ce;">=TERM/30/KILL/5</span><span style="color:#bf616a;"> --pidfile </span><span style="color:#c0c5ce;">\
+    $</span><span style="color:#bf616a;">PIDFILE --exec </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">DAEMON
+  eend </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">?
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>On C-51</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="On C-51">
+        
+        
+            <meta name="twitter:description" content="I&#x27;ve been following the story about the proposed bill C-51 for a couple weeks now. When the Conservatives introduced the bill I was quite unimpressed with it&#x27;s lack of oversight, among other things I heard and read about it. I expected it would change due to opposition, so I did not look much further into it.
+When the Liberals decided they would support the bill I was suprised, but was busy with midterms, so did not get a chance to look more deeply into the content of the bill. But I couldn&#x27;t help but be reminded of what Trudeau said about the attack on Parliment months ago:
+
+We are a proud democracy, a welcoming and peaceful nation and a country of open arms and open hearts. We are a nation of fairness, of justice and of the rule of law. We will not be intimidated into changing that. If anything, these are the values and principles to which we must hold on even tighter.
+Our dedication to democracy and to the institutions we have built is the foundation of our society and a continued belief in both will guide us correctly into the future. Staying true to our values in a time of crisis will make us an example to the world.
+Criminals cannot and will not dictate to us how we act as a nation, how we govern ourselves or how we treat each other. They cannot and will not dictate our values, and they do not get to decide how we use our shared public spaces.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">On C-51</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>I've been following the story about the proposed <a href="https://www.documentcloud.org/documents/1513457-bill-c-51.html">bill C-51</a> for a couple weeks now. When the Conservatives <a href="http://www.cbc.ca/news/politics/stephen-harper-to-unveil-new-anti-terror-bill-in-richmond-hill-1.2937477">introduced the bill</a> I was quite unimpressed with it's lack of oversight, among other things I heard and read about it. I expected it would change due to opposition, so I did not look much further into it.</p>
+<p>When the Liberals decided <a href="http://www.cbc.ca/news/politics/anti-terrorism-bill-to-be-supported-by-liberals-justin-trudeau-says-1.2945187">they would support the bill</a> I was suprised, but was busy with midterms, so did not get a chance to look more deeply into the content of the bill. But I couldn't help but be reminded of what <a href="http://www.cbc.ca/news/politics/ottawa-shooting-harper-mulcair-trudeau-speak-about-attack-1.2809530">Trudeau said</a> about the attack on Parliment months ago:</p>
+<blockquote>
+<p>We are a proud democracy, a welcoming and peaceful nation and a country of open arms and open hearts. We are a nation of fairness, of justice and of the rule of law. We will not be intimidated into changing that. If anything, these are the values and principles to which we must hold on even tighter.</p>
+<p>Our dedication to democracy and to the institutions we have built is the foundation of our society and a continued belief in both will guide us correctly into the future. Staying true to our values in a time of crisis will make us an example to the world.</p>
+<p>Criminals cannot and will not dictate to us how we act as a nation, how we govern ourselves or how we treat each other. They cannot and will not dictate our values, and they do not get to decide how we use our shared public spaces.</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>Midterms are over now and I've been thinking a bit more about the bill. Today I read this <a href="http://www.timescolonist.com/opinion/op-ed/comment-why-anti-terror-bill-is-unnecessary-and-dangerous-1.1774500">op-ed in the Times Colonist</a> from one of our local MPs, Murray Rankin. I agree with many of his opinions on the matter.</p>
+<p><a href="https://en.wikipedia.org/wiki/Canadian_Security_Intelligence_Service">CSIS</a>, and it's cousin <a href="https://en.wikipedia.org/wiki/Communications_Security_Establishment">CSEC</a> already carry out and support considerable signals and cryptographic intelligence. In fact, Canada is one of the <a href="http://opencanada.org/features/the-think-tank/essays/canada-and-the-five-eyes-intelligence-community/">&quot;Five Eyes&quot;</a>, the largest and most powerful signals intelligence group in the world.</p>
+<p>One prominent former NSA official has [warned us](](http://www.theglobeandmail.com/news/politics/edward-snowden-urges-caution-over-ottawas-proposed-security-law/article22755515/) against the government using &quot;Fear and Panic&quot; to set up secret powers. We saw similar measures in the US with the Patriot Act, and it's affects are still being felt by everyone, not just activists, through the various NSA spying programs violating everyone's right to privacy.</p>
+<p>The Anishinabek First Nation <a href="http://www.nugget.ca/2015/02/25/anishinabek-concerned-with-bill-c-51-the-anti-terrorism-ac">has expressed concerns over the bill</a>. Grand Chief Terrance Nelson has cited <a href="http://www.cbc.ca/news/canada/manitoba/bill-c-51-dangerous-legislation-says-manitoba-first-nations-leader-1.2966795">that he is worried</a> that under these new laws  peaceful protests like &quot;Idle No More&quot; could be targetted and &quot;disrupted.&quot;</p>
+<p>With luck, this will become an <a href="http://www.cbc.ca/news/politics/bill-c-51-political-battle-lines-drawn-over-anti-terror-bill-as-election-nears-1.2962764">election issue</a> and we will get a chance for a meaningful, public debate about spying and cybersecurity.</p>
+<blockquote>
+<p>There is a Town Hall with Victoria MP Murray Rankin and Esquimalt-Juan de Fuca MP Randall Garrison tomorrow. I think it will be an interesting discussion and I'd invite you to come.</p>
+<ul>
+<li>Where: First Metropolitan United Church, 932 Balmoral Rd.</li>
+<li>When: 7-8:30 p.m Friday, February 26th</li>
+<li>Source: <a href="http://www.timescolonist.com/news/local/ndp-mps-plan-victoria-forum-on-terror-bill-1.1775097">Times Colonist - NDP MPs plan Victoria forum on terror bill</a></li>
+</ul>
+</blockquote>
+<p>If you have any interests in learning more about what <em>Signals Intelligence</em> is, how to defend yourself, or about cybersecurity in general, please get in touch. I'd be happy to share my knowledge.</p>
+<h2 id="updates">Updates</h2>
+<ul>
+<li>
+<p><a href="http://www.reddit.com/r/protestcanada/comments/2xav5a/what_exactly_is_in_bill_c51/coyrgse">This post on Reddit</a> does a great job of explaining the bill succinctly.</p>
+</li>
+<li>
+<p>The town hall was standing room only, it was very interesting.</p>
+</li>
+<li>
+<p><a href="http://www.quirksandquiddities.ca/a-collection-of-resources-concerning-bill-c-51-the-anti-terrorism-act/">This</a> is a nice collection of resources regarding C-51.</p>
+</li>
+</ul>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Raft Experiences and Repo Made Public!</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Raft Experiences and Repo Made Public!">
+        
+        
+            <meta name="twitter:description" content="
+TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still not ready)! Feel encouraged to contribute feedback or code via Github or email!
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft Experiences and Repo Made Public!</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <blockquote>
+<p>TL;DR: I've made <a href="https://github.com/Hoverbear/raft">Hoverbear/raft</a> publicly available <em>(It's still not ready)</em>! Feel encouraged to contribute feedback or code via Github or email!</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="progress">Progress</h2>
+<p>I've been working hard on building a sane, reasonable scaffolding for the codebase. <a href="/2015/01/25/raft-so-far/">Last post</a> I talked about my first 'go' at designing the data structures and interfaces for the library, here I'll talk a bit about what's changed and why.</p>
+<h3 id="data-interchange">Data Interchange</h3>
+<p>Probably one of the most interesting (and meaningful) changes I've made was moving my previous enum structs into seperate enums and structs.</p>
+<p>Simply, this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">enum ClientRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    IndexRange {
+</span><span style="color:#c0c5ce;">        start_index: u64,
+</span><span style="color:#c0c5ce;">        end_index: u64,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">    AppendEntries {
+</span><span style="color:#c0c5ce;">        prev_log_index: u64,
+</span><span style="color:#c0c5ce;">        prev_log_term: T,
+</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Became this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span><span style="color:#c0c5ce;">pub enum ClientRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    /// Gets the log entries from start to end.
+</span><span style="color:#c0c5ce;">    IndexRange(IndexRange),
+</span><span style="color:#c0c5ce;">    /// Asks the node to append an entry after a given entry.
+</span><span style="color:#c0c5ce;">    AppendRequest(AppendRequest&lt;T&gt;),
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Clone, Copy)]
+</span><span style="color:#c0c5ce;">pub struct IndexRange {
+</span><span style="color:#c0c5ce;">    pub start_index: u64,
+</span><span style="color:#c0c5ce;">    pub end_index: u64,
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span><span style="color:#c0c5ce;">pub struct AppendRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    pub prev_log_index: u64,
+</span><span style="color:#c0c5ce;">    pub prev_log_term: T,
+</span><span style="color:#c0c5ce;">    pub entries: Vec&lt;T&gt;,
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>So... <em>Why?</em> A couple of reasons actually:</p>
+<ol>
+<li>~~<strong>Enum structs take the memory of their biggest variant.</strong> This is a minor concern to me as most of my structs are just a few values large, but I understand how this can have an effect and I'd like to follow best practices.~~ <a href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/cocqx4d">(The change made did not benefit from this. See this comment by Quxxy)</a></li>
+<li><strong>You lose type safety.</strong> There is no way to create a function that will only accept a single variant of an enum. You can't, for example, say <code>fn foo(bar: Option::None) {}</code>. Moving to seperate structs means that the compiler can check to make sure the right data is being passed into the right functions.</li>
+</ol>
+<p><em>What's the downside?</em> Creating a new <code>AppendRequest</code> without the use of a helper function can look a little gross: <code>ClientRequest::AppendRequest(AppendRequest { ... })</code></p>
+<p>But a helper can mask this grossness:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">impl&lt;T&gt; ClientRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">    /// Returns (term, success)
+</span><span style="color:#c0c5ce;">    pub fn index_range(start: u64, end: u64) -&gt; ClientRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">        ClientRequest::IndexRange(IndexRange {
+</span><span style="color:#c0c5ce;">            start_index: start,
+</span><span style="color:#c0c5ce;">            end_index: end,
+</span><span style="color:#c0c5ce;">        })
+</span><span style="color:#c0c5ce;">    }
+
+</span><span style="color:#c0c5ce;">    /// Returns (term, voteGranted)
+</span><span style="color:#c0c5ce;">    pub fn append_request(prev_log_index: u64, prev_log_term: T, entries: Vec&lt;T&gt;) -&gt; ClientRequest&lt;T&gt; {
+</span><span style="color:#c0c5ce;">        ClientRequest::AppendRequest(AppendRequest {
+</span><span style="color:#c0c5ce;">            prev_log_index: prev_log_index,
+</span><span style="color:#c0c5ce;">            prev_log_term: prev_log_term,
+</span><span style="color:#c0c5ce;">            entries: entries
+</span><span style="color:#c0c5ce;">        })
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+</span></pre><h3 id="interfacing">Interfacing</h3>
+<p>A <code>RaftNode</code> now is spawned via the following function</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
+</span><span style="color:#c0c5ce;">(Sender&lt;ClientRequest&lt;T&gt;&gt;, Receiver&lt;Result&lt;Vec&lt;T&gt;, String&gt;&gt;)
+</span></pre>
+<p>Well isn't that a long function signature? Basically, once you spawn a RaftNode it gets <em>immediately</em> moved into it's own thread and you are given a pair of channels to talk to it over. You send <code>ClientRequest</code>s and get back the rather familiar <code>Result</code> type. In the future it might be beneficial to expose something other than channels, but currently I think that's the best choice.</p>
+<blockquote>
+<p>I'm still wrangling ownership and borrowing, as I think many Rust users are, and some of my design choices are specifically because I wanted to avoid friction for now.</p>
+</blockquote>
+<p>Since I've not been a user of any of the other Raft implementations out there (other than a bit of playing with <a href="https://github.com/coreos/etcd"><code>etcd</code></a>) I don't have much of a basis to go off what's a &quot;nice&quot; interface. My goal is to remove as much of the complexities and management of the library from the user as possible. Ideally once they start their <code>RaftNode</code>s they'll only need to worry about sending requests and getting responses.</p>
+<h3 id="event-loop">Event Loop</h3>
+<p>I took a look at <a href="https://github.com/carllerche/mio"><code>mio</code></a> which looks fantastic, however for the time being I'm still just doing an infinite <code>loop</code> as I'd like to keep dependencies <em>down</em> until Rust stabilizes a bit more. In the future using some sort of evented system would definitely be ideal.</p>
+<h2 id="experience">Experience</h2>
+<h3 id="decoding-socket-data">Decoding Socket Data</h3>
+<p>I had all sorts of fun implementing the following code in the loop's main <code>tick()</code> function:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">match self.socket.recv_from(&amp;mut read_buffer) {
+</span><span style="color:#c0c5ce;">    Ok((num_read, source)) =&gt; { // Something on the socket.
+</span><span style="color:#c0c5ce;">        // This is possibly an RPC from another node. Try to parse it out
+</span><span style="color:#c0c5ce;">        // and determine what to do based on it&#39;s variant.
+</span><span style="color:#c0c5ce;">        let data = str::from_utf8(&amp;mut read_buffer[.. num_read])
+</span><span style="color:#c0c5ce;">            .unwrap();
+</span><span style="color:#c0c5ce;">        if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
+</span><span style="color:#c0c5ce;">            match rpc {
+</span><span style="color:#c0c5ce;">                RemoteProcedureCall::RequestVote(call) =&gt;
+</span><span style="color:#c0c5ce;">                    self.handle_request_vote(call, source),
+</span><span style="color:#c0c5ce;">                RemoteProcedureCall::AppendEntries(call) =&gt;
+</span><span style="color:#c0c5ce;">                    self.handle_append_entries(call, source),
+</span><span style="color:#c0c5ce;">            }
+</span><span style="color:#c0c5ce;">        } else if let Ok(rpr) = json::decode::&lt;RemoteProcedureResponse&gt;(data) {
+</span><span style="color:#c0c5ce;">            match rpr {
+</span><span style="color:#c0c5ce;">                RemoteProcedureResponse::Accepted { .. } =&gt;
+</span><span style="color:#c0c5ce;">                    self.handle_accepted(rpr, source),
+</span><span style="color:#c0c5ce;">                RemoteProcedureResponse::Rejected { .. } =&gt;
+</span><span style="color:#c0c5ce;">                    self.handle_rejected(rpr, source),
+</span><span style="color:#c0c5ce;">            }
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    },
+</span><span style="color:#c0c5ce;">    Err(_) =&gt; (),                 // Nothing on the socket.
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>This was the first time I used <code>if let</code> and it was very useful for destructuring in control flow. I'm looking forward to using <code>while let</code> soon.</p>
+<p><em>What does that code do... exactly?</em> When we recieve data from the network, it's either going to be a <code>RemoteProcedureCall</code>, a <code>RemoteProcedureResponse</code>, or something else entirely. Currently, I only account for the valid cases, the third case is outright ignored.</p>
+<h3 id="dealing-with-the-state-machine">Dealing with the State (Machine)</h3>
+<p>I read <a href="https://gist.github.com/bvssvni/8970459">this gist</a> with great interest, however I've yet to determine how to go about implementing a truly type-safe state machine for Raft right now. I'd like to do this in the future, and I'd be thrilled if someone could help with advice, mentorship, or pull requests on how to accomplish this.</p>
+<p>Currently, all of the data event handlers look roughly like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
+</span><span style="color:#c0c5ce;">    match self.state {
+</span><span style="color:#c0c5ce;">        Leader(ref state) =&gt; {
+</span><span style="color:#c0c5ce;">            unimplemented!();
+</span><span style="color:#c0c5ce;">        },
+</span><span style="color:#c0c5ce;">        Follower =&gt; {
+</span><span style="color:#c0c5ce;">            unimplemented!();
+</span><span style="color:#c0c5ce;">        },
+</span><span style="color:#c0c5ce;">        Candidate =&gt; {
+</span><span style="color:#c0c5ce;">            unimplemented!();
+</span><span style="color:#c0c5ce;">        },
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+</span></pre><h3 id="dealing-with-non-pollables">Dealing with Non-Pollables</h3>
+<p>One thing I noticed while working with Rust's <code>UdpSocket</code> imeplementation is there is no way to <code>poll()</code> the socket to see if there is data, so any time the socket is checked you <em>must</em> handle the data immediately. I'm currently avoiding having FIFO queues for the various data but that might end up being a requirement.</p>
+<p>For those wondering, you can make a socket non-blocking by using this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">let mut socket = UdpSocket::bind(own_socket_addr)
+</span><span style="color:#c0c5ce;">    .unwrap();
+</span><span style="color:#c0c5ce;">socket.set_read_timeout(Some(0));
+</span></pre><h2 id="thoughts">Thoughts</h2>
+<p>Working with Rust has been <strong>really fun</strong>. <em>(Except when there is a breaking change which cascades through libraries and means you lose productivity.)</em></p>
+<p><strong><code>match</code> expressions</strong> are incredible things. If you haven't played around with Rust yet, they're so much more than a <code>switch</code> statement in your run of the mill language.</p>
+<p><strong>API design</strong> in Rust is very versatile and interesting. The strong typing and ownership system encourage you to work with data in sane and creative ways.</p>
+<p><strong>Understanding your code</strong> is emphasized in Rust far more than a language like Javascript. Understanding where your borrows come from, what lifetimes are applicable, etc are all valuable to you.</p>
+<p><strong>Smart data structures and dumb code are better than vice versa...</strong> and I think that Rust really helps with that.</p>
+<h2 id="explore-and-help">Explore and Help!</h2>
+<blockquote>
+<p>https://github.com/Hoverbear/raft</p>
+</blockquote>
+<p>Would you like to explore, give feedback, or contribute? Please do! Publicly you can just make an issue on Github, or privately just shoot me an email. (I'm <em>sure</em> you can find it on Github or here...)</p>
+<p><strong>Discussion of this post is on <a href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/">Reddit</a>.</strong></p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

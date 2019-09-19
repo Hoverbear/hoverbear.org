@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>New Roots part 2, On the Metal</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;519c4fd433fff41d00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="New Roots part 2, On the Metal">
+        
+        
+            <meta name="twitter:description" content="This is the second post of a series on settling into new servers. The first was about choosing a server. This post is specifically targetted at newly acquired VPS and Dedicated servers. We&#x27;ll talk about installing our chosen distribution, configuring its basics, and familiarizing ourselves with the new metal.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 2, On the Metal</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c09a9ef4ed42ccdb00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;519c4fd433fff41d00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8ebb722ab1e6c23900.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>This is the second post of a series on settling into new servers. The first was about <a href="/2016/05/06/new-roots-1/">choosing a server</a>. This post is specifically targetted at newly acquired VPS and Dedicated servers. We'll talk about installing our chosen distribution, configuring its basics, and familiarizing ourselves with the new metal.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="what-distribution">What Distribution?</h2>
+<p>This choice is entirely dependent on your personal tastes and use case. Different distributions are catered well to different things, even different installation media of specific distributions are different enough to warrant considering.</p>
+<p>You might be interested in <a href="http://www.ubuntu.com/server">Ubuntu</a> if you're new to Linux or interested in doing things the 'Official' way the majority of the time. <a href="https://www.centos.org/">CentOS</a> is another fantastic choice, particularly if you're seeking to learn more about the enterprise space. You'll find these two options on virtually every provider you work with, and should familiarize yourself with at least one.</p>
+<p>Out of the others, <a href="https://wiki.archlinux.org/index.php/Server">Arch Linux</a> is my particular favorite. To me, it's an <strong>umami</strong> distribution with (lots of) up-to-date signed packages, a simple core, amazing documentation, and a rolling release schedule. I've been using it for years and the original creator actually attended the same University I did. You may also have a distribution which you are very comfortable with, and you may choose to use it.</p>
+<p>Servers do, though, have different requirements. You will not want to install a GUI specific distribution onto a headless server. Additionally, many providers will limit what can be installed on their machines. In some cases they offer a LARA, a direct console to the machine, for installation, but you'll need to verify this is possible.</p>
+<p>Much to my joy, Hetzner offers Arch Linux as part of their <a href="https://wiki.hetzner.de/index.php/Installimage">Install Image</a>. Their install scripts are very general though, and installing a different choice is a similar process.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;05a7cc50c7168c8200.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;79774695e05d898900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0085c375a382308800.jpg"
+              alt="Several Options" />
+    <figcaption>Several Options</figcaption>
+</figure>
+<h2 id="rescue-me">Rescue Me!</h2>
+<p>All providers are different in how this process will work. Some will have more options, some will be graphical, others will be more buggy. It's very important you become familiar with this process and understand what you're doing. You don't want to accidently wipe your machine, or find yourself in an emergency reinstall situation then realize you don't know how to set things up.</p>
+<p>With Hetzner you can select a rescue image from their web UI allows you to SSH in using your pre-provided key. You can also generally choose premade images from a similar panel of the web UI, in Hetzner's UI has this under the &quot;Linux&quot; tab.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;493a586fbc69212a00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9a0c62dd342c79f000.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;462303ec62ef6abb00.jpg"
+              alt="The rescue web UI" />
+    <figcaption>The rescue web UI</figcaption>
+</figure>
+<p>From this system, you can either run something like the provided <code>installimage</code> or install your own system. Since we want to experiment let's just install our own! If you choose to use <code>installimage</code> you'll find it to be very painless.</p>
+<h2 id="getting-the-image">Getting the Image</h2>
+<p>First, we'll pull down our ISO image. This snippet will discover, fetch, and verify the latest Arch Linux chroot bootstrap. You're able to just paste it into your <code>ssh</code> session.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">=$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">curl</span><span style="color:#a3be8c;"> https://mirrors.kernel.org/archlinux/iso/latest/ </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">grep -Poh </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">(?&lt;=archlinux-bootstrap-)\d*\.\d*\.\d*(?=\-x86_64)</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">head -n</span><span style="color:#a3be8c;"> 1)
+</span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz</span><span style="color:#bf616a;"> -o</span><span style="color:#c0c5ce;"> /tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz
+</span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz.sig</span><span style="color:#bf616a;"> -o</span><span style="color:#c0c5ce;"> /tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz.sig
+</span><span style="color:#65737e;"># Pull Pierre Schmitz PGP Key.
+# https://www.archlinux.org/people/developers/#pierre
+# http://pgp.mit.edu:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;exact=on&amp;search=0x4AA4767BBC9C4B1D18AE28B77F2D434B9741E8AC
+</span><span style="color:#c0c5ce;">gpg</span><span style="color:#bf616a;"> --keyserver</span><span style="color:#c0c5ce;"> pgp.mit.edu</span><span style="color:#bf616a;"> --recv-keys</span><span style="color:#c0c5ce;"> 9741E8AC
+</span><span style="color:#65737e;"># Verify its integrity.
+</span><span style="color:#c0c5ce;">gpg</span><span style="color:#bf616a;"> --verify</span><span style="color:#c0c5ce;"> /tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz.sig
+</span></pre>
+<p>You should get some output saying the signature was good. That means we can use it! We know this image is legitimate because we:</p>
+<ul>
+<li>Know Pierre is an Arch Linux developer.</li>
+<li>Know that we have his key from a trusted server at MIT.</li>
+<li>Downloaded the archive and the signature from an <code>https</code> source.</li>
+<li>Verified the archive.</li>
+</ul>
+<p>Wasn't that hard? No, no it wasn't. It took us barely any time at all.</p>
+<h2 id="foundational-file-systems">Foundational File Systems</h2>
+<p>You can review your available drives with this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">lsblk --paths --scsi
+</span></pre>
+<p>And you should see some output like so:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">NAME       SIZE OWNER GROUP MODE       NAME     HCTL       TYPE VENDOR   MODEL             REV TRAN
+/dev/sda 232.9G root  disk  brw-rw+++- /dev/sda 1:0:0:0    disk ATA      Crucial_CT250MX2 MU03 sata
+/dev/sdb 232.9G root  disk  brw-rw+++- /dev/sdb 2:0:0:0    disk ATA      Crucial_CT250MX2 MU03 sata
+</span></pre>
+<p>For our configuration, we'll use the <code>btrfs</code> filesystem which supports <a href="https://btrfs.wiki.kernel.org/index.php/Using_Btrfs_with_Multiple_Devices">multiple devices</a>. You may wish to review the <a href="https://wiki.archlinux.org/index.php/Btrfs">Arch wiki page</a> as well.</p>
+<p>I'm choosing to map both my whole disks into a <code>btrfs</code> volume with mirroring across disks. This should give me consistency against disk failures.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
+</span><span style="color:#bf616a;">mkfs.btrfs -f -L </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">HOSTNAME -d</span><span style="color:#c0c5ce;"> raid1</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> raid1 /dev/sda /dev/sdb
+</span></pre>
+<p>If your drives are solid state this process will also issue full TRIM commands to them which is good.</p>
+<p>You can test that the RAID is working by doing this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># Make folders for them.
+</span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/sda
+</span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/sdb
+</span><span style="color:#65737e;"># Make a test write.
+</span><span style="color:#c0c5ce;">mount /dev/sda /mnt/sda
+</span><span style="color:#96b5b4;">echo </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Hello World</span><span style="color:#c0c5ce;">&quot; &gt; /mnt/sda/hello
+</span><span style="color:#bf616a;">umount</span><span style="color:#c0c5ce;"> /mnt/sda
+</span><span style="color:#65737e;"># Make a test read.
+</span><span style="color:#c0c5ce;">mount /dev/sdb /mnt/sdb
+</span><span style="color:#bf616a;">cat</span><span style="color:#c0c5ce;"> /mnt/sdb/hello
+</span><span style="color:#65737e;"># Returns &quot;Hello World&quot; from the file.
+</span><span style="color:#c0c5ce;">rm /mnt/sdb/hello
+</span><span style="color:#bf616a;">umount</span><span style="color:#c0c5ce;"> /mnt/sdb
+</span></pre>
+<p>Cool huh? So if your one drives ever dies the other should continue to function. It's like a backup! But it isn't. This won't protect you from stupidity or attacks. If you'd prefer to have more space use <code>-d raid0</code> to enable striping instead when running <code>mkfs.btrfs</code>.</p>
+<p>If you need to sync the raid mirroring because you have a new disk you can do <code>btrfs balance start</code>. I've never actually had a case where I've <em>used</em> this failsafe, so if anyone has experience with it I'd definitely appreciate your feedback.</p>
+<p>Next we'll set up some initial mountpoints and subvolumes.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> compress=lzo /dev/sda /mnt
+</span><span style="color:#65737e;"># Will go on /
+</span><span style="color:#c0c5ce;">btrfs subvolume create /mnt/root
+</span><span style="color:#65737e;"># Will go on /home
+</span><span style="color:#c0c5ce;">btrfs subvolume create /mnt/home
+</span><span style="color:#65737e;"># Will go on /var/cache/pacman
+</span><span style="color:#c0c5ce;">btrfs subvolume create /mnt/pacman-cache
+</span><span style="color:#65737e;"># Will go on /var/cache/abs
+</span><span style="color:#c0c5ce;">btrfs subvolume create /mnt/abs-cache
+</span></pre>
+<p>BTRFS is a 'Copy-on-Write' filesystem and we can use these subvolumes like we would partitions. We get a few other cool features though, we can take (basically) free snapshots of them whenever we want, and we can easily send and recieve them. These snapshots behave just like folders for everyday use.</p>
+<p>Creating seperate <code>root</code>, <code>home</code> and <code>*-cache</code> filesystems is done for a few reasons.</p>
+<ul>
+<li><code>root</code> will be the core of our system, and what runs day-to-day. We make this a subvolume so we can take snapshots of our running system and use them later in case something goes wrong. It's fairly cheap to make snapshots of this since the only things that will change are updated packages and configurations.</li>
+<li><code>home</code> is where you store all of the user data. This data is, generally, <em>version independent</em> of what's running on your system. It's unlikely if you roll back <code>root</code> you'll also want to lose your latest changes to <code>home</code>.</li>
+<li><code>pacman-cache</code> is where we'll store the Arch Linux official repository caches. It stores previous and current versions of packages installed. Along with the <code>abs-cache</code> these are likely things you'll want to share between all snapshots.</li>
+<li><code>abs-cache</code> is where we'll store our ABS tree cache. It stores builds from the <a href="http://aur.archlinux.org/">AUR</a>.</li>
+</ul>
+<p>You may be asking &quot;Why not a seperate <code>boot</code>?&quot; and that's an extremely good question! From my experience, one thing that happens when you use a seperate <code>boot</code> is your kernel version starts to conflict with various modules (such as <code>ntfs-3g</code>) when the kernel is new but the <code>root</code> is old. This is a new strategy I'm trying. Another reason no <code>boot</code> was made is because we're not encrypting the disk, so there is no need.</p>
+<p>Now let's mount things in their destined paths:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">umount</span><span style="color:#c0c5ce;"> /dev/sda
+</span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> subvol=root /dev/sda /mnt
+</span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/home
+</span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> subvol=home /dev/sda /mnt/home
+</span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/var/cache/pacman
+</span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> subvol=pacman-cache /dev/sda /mnt/var/cache/pacman
+</span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/var/cache/abs
+</span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> subvol=abs-cache /dev/sda /mnt/var/cache/abs
+</span></pre><h2 id="bootstrapping-to-base">Bootstrapping to Base</h2>
+<p>With our filesystem and subvolumes mounted, it's time to install Arch Linux.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> /mnt
+</span><span style="color:#bf616a;">tar --strip-components</span><span style="color:#c0c5ce;"> 1</span><span style="color:#bf616a;"> --extract --preserve-permissions --gzip --file</span><span style="color:#c0c5ce;">=/tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz
+</span></pre>
+<p>If you issue an <code>ls</code> things should now look like a normal happy Linux installation. From here you can <code>chroot</code> in with the following command:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">./bin/arch-chroot</span><span style="color:#c0c5ce;"> .
+</span></pre>
+<p>The environment we find ourself in is very minimal, it doesn't even contain a full copy of <code>base</code>! But from here, we can do everything! You should see something like <code>sh-4.3#</code> as your prompt.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># Setup a mirror.
+</span><span style="color:#bf616a;">MIRRORLIST</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/etc/pacman.d/mirrorlist
+</span><span style="color:#96b5b4;">echo </span><span style="color:#bf616a;">-e </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Server = https://mirrors.kernel.org/archlinux/</span><span style="color:#96b5b4;">\$</span><span style="color:#a3be8c;">repo/os/</span><span style="color:#96b5b4;">\$</span><span style="color:#a3be8c;">arch\n`</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">MIRRORLIST</span><span style="color:#a3be8c;">`</span><span style="color:#c0c5ce;">&quot; &gt; $</span><span style="color:#bf616a;">MIRRORLIST
+</span><span style="color:#65737e;"># Setup Keys
+</span><span style="color:#c0c5ce;">pacman-key --init
+</span><span style="color:#bf616a;">pacman-key --populate</span><span style="color:#c0c5ce;"> archlinux
+</span><span style="color:#65737e;"># Install base, must do this before locales since we don&#39;t have sed installed!
+</span><span style="color:#c0c5ce;">pacman</span><span style="color:#bf616a;"> -Syu --noconfirm</span><span style="color:#c0c5ce;"> base btrfs-progs
+</span><span style="color:#65737e;"># Configure Locales
+</span><span style="color:#c0c5ce;">LOCALES=/etc/locale.gen
+</span><span style="color:#96b5b4;">echo </span><span style="color:#bf616a;">-e </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">en_CA.UTF-8 UTF-8\nde_DE.UTF-8 UTF-8\n`</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">LOCALES</span><span style="color:#a3be8c;">`</span><span style="color:#c0c5ce;">&quot; &gt; $</span><span style="color:#bf616a;">LOCALES
+locale-gen
+</span></pre>
+<p>Next we need to configure the <code>/etc/fstab</code> file to make sure the boot process is able to understand what's happening. At this point you're likely noticing you don't have a text editor. Let's keep it that way for now, just for fun. You can review the syntax with <code>cat /etc/fstab</code>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/fstab</span><span style="color:#a3be8c;">
+/dev/sda    /                   btrfs   subvol=root,rw,relatime,ssd,space_cache,compress=lzo            0   0
+/dev/sda    /home               btrfs   subvol=home,rw,relatime,ssd,space_cache,compress=lzo            0   0
+/dev/sda    /var/cache/pacman   btrfs   subvol=pacman-cache,rw,relatime,ssd,space_cache,compress=lzo    0   0
+/dev/sda    /var/cache/abs      btrfs   subvol=abs-cache,rw,relatime,ssd,space_cache,compress=lzo       0   0
+</span><span style="color:#b48ead;">EOF
+</span></pre>
+<p>At this point, we're almost done our base installation.</p>
+<h2 id="user-creation">User Creation</h2>
+<p>Since you don't want to normally operate as <code>root</code> on your server it's a good idea to create a new user. Let's quickly configure <code>sudo</code> first so when we get our new user working we can still do fun things.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> sudo
+</span><span style="color:#bf616a;">EDITOR</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">nvim </span><span style="color:#bf616a;">visudo
+</span></pre>
+<p>In here you want to enable users in the <code>sudo</code> group to utilize <code>sudo</code>, uncomment the following line:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">%sudo   ALL=(ALL) ALL
+</span></pre>
+<p>Then you can create the group:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">groupadd</span><span style="color:#c0c5ce;"> sudo
+</span></pre>
+<p>Finally, create your new user:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">hoverbear
+</span><span style="color:#bf616a;">useradd -m -G</span><span style="color:#c0c5ce;"> sudo $</span><span style="color:#bf616a;">USER
+passwd</span><span style="color:#c0c5ce;"> hoverbear
+</span></pre>
+<p>Finally, grab your public keys and set up for your user.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">GITHUB_USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">hoverbear
+</span><span style="color:#bf616a;">su </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">mkdir -p /home/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#a3be8c;">/.ssh &amp;&amp; curl -o /home/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#a3be8c;">/.ssh/authorized_keys https://github.com/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">GITHUB_USER</span><span style="color:#a3be8c;">.keys &amp;&amp; chmod 600 /home/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#a3be8c;">/.ssh/authorized_keys</span><span style="color:#c0c5ce;">&quot;
+</span></pre><h2 id="ssh">SSH</h2>
+<p>Obviously we need to run SSH to access our new install. At this point, let's finally install our editor. I like <code>neovim</code> for strange reason, but you can pick other things.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">EDITOR</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">neovim
+</span><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> openssh $</span><span style="color:#bf616a;">EDITOR
+</span></pre>
+<p>Now you can open <code>/etc/ssh/sshd_config</code>. Read through everything here! I'm going to tweak the following knobs:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">PermitRootLogin no
+# Only let specific users log in.
+AllowUsers hoverbear
+# Use a big key.
+ServerKeyBits 4096
+# We&#39;ll use SSH keys only.
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+</span></pre>
+<p>We'll enable both <code>sshd</code> which will give us remote access when we reboot:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable sshd
+</span></pre><h2 id="networking">Networking</h2>
+<p>We'll just quickly set up a basic networking configuration for now which we can build on later. First we'll enable the two services needed:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable systemd-networkd
+</span><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable systemd-resolved
+</span><span style="color:#bf616a;">ln -s</span><span style="color:#c0c5ce;"> /run/systemd/resolve/resolv.conf /etc/resolv.conf
+</span></pre>
+<p>Then we'll create the necessary files.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/network/physical.network</span><span style="color:#a3be8c;">
+[Match]
+# Make sure this matches your adapter from the ip addr command
+Name=enp*
+
+[Network]
+DHCP=ipv4
+</span><span style="color:#b48ead;">EOF
+</span></pre><h2 id="booting">Booting</h2>
+<p>Dealing with bootloaders is usually fairly arcane in my experience, and debugging a remote boot sounds just awful. We want something basically failsafe. If something <em>does</em> go wrong, we want to be able to fix it from the rescue system. Let's take the recommended solution of Arch, Grub.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">pacman -S --noconfirm</span><span style="color:#c0c5ce;"> grub
+</span><span style="color:#bf616a;">grub-mkconfig -o</span><span style="color:#c0c5ce;"> /boot/grub/grub.cfg
+</span><span style="color:#bf616a;">grub-install</span><span style="color:#c0c5ce;"> /dev/sda
+</span></pre><h2 id="the-moment-of-truth">The Moment of Truth!</h2>
+<p>You can get out of your chroot with <code>exit</code>, then reboot the machine.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">reboot
+</span></pre>
+<p>With any luck, in a few minutes you'll be able to <code>ssh</code> in again. I found with Hetzner you may need to issue an automatic reset from their online console, you might need to as well.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;43499cb7f7dd478800.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8d2e54259b1a041300.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;24ddefb576fde24a00.jpg"
+              alt="Mine works! :)" />
+    <figcaption>Mine works! :)</figcaption>
+</figure>
+<p>In our next post we'll talk about <a href="/2016/05/07/new-roots-3/">configuring your server's services and doing some hardening</a>.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c09a9ef4ed42ccdb00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;519c4fd433fff41d00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8ebb722ab1e6c23900.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

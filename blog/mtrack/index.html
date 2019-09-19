@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Trackpad Drivers for Linux on a Mac</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Trackpad Drivers for Linux on a Mac">
+        
+        
+            <meta name="twitter:description" content="If you&#x27;re like me and have Mac hardware but run Linux you might also run into the slight annoyance with the trackpad drivers X.org defaults to.
+If you haven&#x27;t explored, there is a fantastic replacement called mtrack that I&#x27;ve had great luck with.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Trackpad Drivers for Linux on a Mac</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>If you're like me and have Mac hardware but run Linux you might also run into the slight annoyance with the trackpad drivers X.org defaults to.</p>
+<p>If you haven't explored, there is a fantastic replacement called <a href="https://github.com/BlueDragonX/xf86-input-mtrack"><code>mtrack</code></a> that I've had great luck with.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>Here's an example of my configuration in <code>vim /etc/X11/xorg.conf.d/10-mtrack.conf</code></p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Section &quot;InputClass&quot;
+    MatchIsTouchpad &quot;on&quot;
+    Identifier &quot;Touchpads&quot;
+    Driver &quot;mtrack&quot;
+    Option &quot;Sensitivity&quot; &quot;0.5&quot;
+    Option &quot;IgnorePalm&quot; &quot;on&quot;
+    Option &quot;IgnoreThumb&quot; &quot;on&quot;
+    Option &quot;FingerHigh&quot; &quot;15&quot;
+    Option &quot;ClickFinger1&quot; &quot;3&quot;
+    Option &quot;ClickFinger2&quot; &quot;2&quot;
+    Option &quot;ClickFinger3&quot; &quot;0&quot;
+    Option &quot;TapButton1&quot; &quot;1&quot;
+    Option &quot;TapButton2&quot; &quot;3&quot;
+    Option &quot;TapButton3&quot; &quot;2&quot;
+    Option &quot;SwipeDistance&quot; &quot;1400&quot;
+    Option &quot;Swipe4Distance&quot; &quot;1400&quot;
+    Option &quot;SwipeLeftButton&quot; &quot;9&quot;
+    Option &quot;Swipe4LeftButton&quot; &quot;9&quot;
+    Option &quot;SwipeRightButton&quot; &quot;8&quot;
+    Option &quot;Swipe4RightButton&quot; &quot;8&quot;
+    Option &quot;SwipeUpButton&quot; &quot;10&quot;
+    Option &quot;Swipe4UpButton&quot; &quot;10&quot;
+    Option &quot;SwipeDownButton&quot; &quot;11&quot;
+    Option &quot;Swipe4DownButton&quot; &quot;11&quot;
+EndSection
+</span></pre>
+<p>It works decently! I like how in Firefox I can even use it to go back/forward with a swipe just like on Mac!</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

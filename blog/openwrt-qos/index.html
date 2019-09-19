@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>OpenWRT QoS</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="OpenWRT QoS">
+        
+        
+            <meta name="twitter:description" content="Using the setup from my last two posts, let&#x27;s play with some QoS parameters and observe the results.
+
+The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encouraged to improve it as you go!
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">OpenWRT QoS</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
+<blockquote>
+<p>The <a href="http://wiki.openwrt.org/doc/uci/qos">documentation</a> for OpenWRT's QoS is rather lacking, please feel encouraged to improve it as you go!</p>
+</blockquote>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Documented <a href="http://wiki.openwrt.org/doc/uci/qos">here</a>, the <code>qos-scripts</code> package offers a simple configuration that integrates well with the rest of OpenWRT's UCI (Unified Configuration Interface).</p>
+<p>On the router:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">opkg install qos-scripts
+</span></pre>
+<p>As an added side benefit, <code>qos-scripts</code> will pull in several dependencies that can be used to further tune our QoS.</p>
+<h2 id="overview">Overview</h2>
+<p>You can look into <code>/etc/config/qos</code> to see the default configuration.</p>
+<p>You'll see several <code>config</code> block types. Let's take a look at samples.</p>
+<h3 id="interfaces">Interfaces</h3>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config interface wan
+</span><span style="color:#c0c5ce;">    option classgroup  &quot;Default&quot;
+</span><span style="color:#c0c5ce;">    option enabled      0
+</span><span style="color:#c0c5ce;">    option upload       128
+</span><span style="color:#c0c5ce;">    option download     1024
+</span></pre>
+<p>This is an <strong>interface</strong> definition for <code>wan</code>. <code>wan</code> is defined in <code>/etc/config/network</code>.</p>
+<ul>
+<li><code>option classgroup &quot;Default&quot;</code> defines that we'll use the classes defined in the <code>config classgroup &quot;Default&quot;</code> block also in the configuration file.</li>
+<li><code>option enabled 0</code> defines that QoS is currently <strong>not</strong> enabled for the <code>wan</code> interface. Meaning this configuration currently doesn't do anything. If it's value was <code>1</code> it would be enabled.</li>
+<li><code>option upload 128</code> defines that this interface should only be able to upload at a rate of <code>128</code> kilobits/second. (Only for TCP)</li>
+<li><code>option download 1024</code> defines that this interface should only be able to download at a rate of <code>1024</code> kilobits/second.</li>
+</ul>
+<h3 id="rules">Rules</h3>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config classify
+</span><span style="color:#c0c5ce;">    option target       &quot;Priority&quot;
+</span><span style="color:#c0c5ce;">    option ports        &quot;22,53&quot;
+</span><span style="color:#c0c5ce;">    option comment      &quot;ssh, dns&quot;
+</span><span style="color:#c0c5ce;">config classify
+</span><span style="color:#c0c5ce;">    option target       &quot;Normal&quot;
+</span><span style="color:#c0c5ce;">    option proto        &quot;tcp&quot;
+</span><span style="color:#c0c5ce;">    option ports        &quot;20,21,25,80,110,443,993,995&quot;
+</span><span style="color:#c0c5ce;">    option comment      &quot;ftp, smtp, http(s), imap&quot;
+</span><span style="color:#c0c5ce;">config reclassify
+</span><span style="color:#c0c5ce;">    option target       &quot;Priority&quot;
+</span><span style="color:#c0c5ce;">    option proto        &quot;icmp&quot;
+</span><span style="color:#c0c5ce;">config default
+</span><span style="color:#c0c5ce;">    option target       &quot;Bulk&quot;
+</span><span style="color:#c0c5ce;">    option portrange    &quot;1024-65535&quot;
+</span></pre>
+<p><code>classify</code> blocks are an <em>initial, connection-tracked classification</em>. They are only run on connections which have not been assigned a traffic class already.</p>
+<p><code>reclassify</code> blocks can <em>override</em> the class on a <em>per packet</em> basis without altering the connection's classification.</p>
+<p><code>default</code> blocks are fallbacks for everything that has not been marked by a <code>classify</code> or <code>reclassify</code>.</p>
+<ul>
+<li><code>option target &quot;Priority&quot;</code> means that any connections or packets under this block are placed in the specified class (in the interface's <code>classgroup</code>).</li>
+<li><code>option ports &quot;22,53&quot;</code> means that this classifier will only work for connections on port 22 and 53.</li>
+<li><code>option comment &quot;ssh,dns&quot;</code> is a comment about the purpose of the classifier.</li>
+<li><code>option proto &quot;tcp&quot;</code> defines the protocol (<code>tcp</code>, <code>udp</code>, <code>icmp</code>, etc) that this classifier matches.</li>
+<li><code>option pktsize &quot;-500&quot;</code> allows us to define a packetsize to match.</li>
+</ul>
+<p>If you're wondering, the <code>-</code> in <code>-500</code> operates <em>I think</em>, on the definition of the corresponding <code>class</code>.</p>
+<h2 id="classgroups">Classgroups</h2>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config classgroup &quot;Default&quot;
+</span><span style="color:#c0c5ce;">	option classes      &quot;Priority Express Normal Bulk&quot;
+</span><span style="color:#c0c5ce;">    option default      &quot;Normal&quot;
+</span></pre>
+<p><code>classgroup</code> blocks are used to define different class groupings. This is only really useful if you wish to have multiple interfaces with different class considerations, for example, you might want <code>eth1</code> to have an <code>ultrapriority</code> class or something.</p>
+<h3 id="classes">Classes</h3>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config class &quot;Priority&quot;
+</span><span style="color:#c0c5ce;">    option packetsize  400
+</span><span style="color:#c0c5ce;">    option avgrate     10
+</span><span style="color:#c0c5ce;">    option priority    20
+</span><span style="color:#c0c5ce;">config class &quot;Express&quot;
+</span><span style="color:#c0c5ce;">    option packetsize  1000
+</span><span style="color:#c0c5ce;">    option avgrate     50
+</span><span style="color:#c0c5ce;">    option priority    10
+</span><span style="color:#c0c5ce;">config class &quot;Normal&quot;
+</span><span style="color:#c0c5ce;">    option packetsize  1500
+</span><span style="color:#c0c5ce;">    option packetdelay 100
+</span><span style="color:#c0c5ce;">    option avgrate     10
+</span><span style="color:#c0c5ce;">    option priority    5
+</span><span style="color:#c0c5ce;">config class &quot;Bulk&quot;
+</span><span style="color:#c0c5ce;">    option avgrate     1
+</span><span style="color:#c0c5ce;">    option packetdelay 200
+</span></pre>
+<p><code>class</code> blocks are used to define packet classes. Each class is placed inside of a seperate <a href="https://en.wikipedia.org/wiki/Leaky_bucket">bucket</a>.</p>
+<ul>
+<li><code>option packetsize 400</code> defines the size of packets within the bucket.</li>
+<li><code>option maxsize 1000</code> defines the maximum size of the bucket. <em>(Probably, this isn't specified.)</em></li>
+<li><code>option packetdelay 100</code> defines the delay of the packet, in ms.</li>
+<li><code>option avgrate 50</code> defines <em>some undocumented</em> parameter in %.</li>
+<li><code>option priority 20</code> is a percentile value specifying the bucket's priority.</li>
+</ul>
+<h1 id="initial-configuration">Initial Configuration</h1>
+<p>As a reminder, here is the configuration of our setup.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;530a4755db2b4b2300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c4c34e5c8235978400.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f615cb8d93d4a85900.jpg"
+              alt="Our setup." />
+    <figcaption>Our setup.</figcaption>
+</figure>
+<p>First, we need to pull in <code>xt_connmark</code>, which is a depedency for some features of <code>qos-scripts</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">modprobe xt_connmark
+</span></pre>
+<p>Then, in <code>/etc/config/qos</code> replace the <code>wan</code> interface with our various defined interfaces with some modest and determinable differences to test that it works.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;"># INTERFACES:
+</span><span style="color:#c0c5ce;"># Fast client.
+</span><span style="color:#c0c5ce;">config interface lan1
+</span><span style="color:#c0c5ce;">        option classgroup  &quot;Default&quot;
+</span><span style="color:#c0c5ce;">        option enabled      1
+</span><span style="color:#c0c5ce;">        option upload       256
+</span><span style="color:#c0c5ce;">        option download     2048
+</span><span style="color:#c0c5ce;"># Slow client. (1/2 speed)
+</span><span style="color:#c0c5ce;">config interface lan2
+</span><span style="color:#c0c5ce;">        option classgroup  &quot;Default&quot;
+</span><span style="color:#c0c5ce;">        option enabled      1
+</span><span style="color:#c0c5ce;">        option upload       128
+</span><span style="color:#c0c5ce;">        option download     1024
+</span><span style="color:#c0c5ce;"># The Host. (Big pipes)
+</span><span style="color:#c0c5ce;">config interface lan3
+</span><span style="color:#c0c5ce;">        option classgroup  &quot;Default&quot;
+</span><span style="color:#c0c5ce;">        option enabled      1
+</span><span style="color:#c0c5ce;">        option upload       4096
+</span><span style="color:#c0c5ce;">        option download     4096
+</span></pre>
+<p>To enable QoS and start it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/etc/init.d/qos enable
+</span><span style="color:#c0c5ce;">/etc/init.d/qos start
+</span></pre>
+<p>Later, to restart it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/etc/init.d/qos restart
+</span></pre><h4 id="aside-an-resolved-issue">Aside: An Resolved Issue</h4>
+<blockquote>
+<p>When I attempted to use the <code>pktsize</code> option in a classifier I recieved yet unresolved errors.</p>
+</blockquote>
+<p>The error was:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">iptables: No chain/target/match by that name.
+</span></pre>
+<p>Inspecting the generated config:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/usr/lib/qos/generate.sh all
+</span></pre>
+<p>See the script executed along with output (for diagnosing errors):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/usr/lib/qos/generate.sh all | sh -x
+</span></pre>
+<p>Resulted in:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;"># ...
+</span><span style="color:#c0c5ce;">+ iptables -t mangle -A qos_Default -m mark --mark 0/0xf0 -p udp -m length --length 500 -j MARK --set-mark 34/0xff
+</span><span style="color:#c0c5ce;">iptables: No chain/target/match by that name.
+</span><span style="color:#c0c5ce;"># ...
+</span></pre>
+<p>I was only able to resolve this by removing the use of <code>pktsize</code> in classifiers then restarting the service.</p>
+<h2 id="testing-it">Testing It</h2>
+<p>Open up a terminal to use <code>vagrant ssh test1</code> and <code>test2</code> then, run the following command at approximately the same time (remember to sub in <code>$TEST3IP</code>):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">wget $TEST3IP/video.mp4
+</span></pre>
+<p>You should see something like the following:</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;438d6f6f685dc09400.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f9d96a4f1aa997f00.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e0460f0911a7f28200.png"
+              alt="In action." />
+    <figcaption>In action.</figcaption>
+</figure>
+<p>Feel free to cancel them at any time. We only care about the rate right now.</p>
+<p>As you can see, <code>test1</code> recieved approximately twice the bandwidth of <code>test2</code>. Perfect, that's exactly what we wanted.</p>
+<blockquote>
+<p>Things will not always be exact as there are protocol overheads and other factors in our simulation.</p>
+</blockquote>
+<p>Before going on to more complicated experiments you may want to ensure that the rates are more fair.</p>
+<h1 id="experimentation">Experimentation</h1>
+<p>With our QoS system in place, what kind of experiments can we do to the network?</p>
+<h2 id="favoring-ports">Favoring Ports</h2>
+<p>Looking over the default configuration you can see the following config block:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config classify
+</span><span style="color:#c0c5ce;">    option target       &quot;Priority&quot;
+</span><span style="color:#c0c5ce;">    option ports        &quot;22,53&quot;
+</span><span style="color:#c0c5ce;">    option comment      &quot;ssh, dns&quot;
+</span></pre>
+<p>Which match to the following class:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config class &quot;Priority&quot;
+</span><span style="color:#c0c5ce;">    option packetsize  400
+</span><span style="color:#c0c5ce;">    option avgrate     10
+</span><span style="color:#c0c5ce;">    option priority    20
+</span></pre>
+<p>This suggests that all traffic over port 22 (The standard <code>ssh</code> default) will prioritized as it has the highest priority in the default configuration.</p>
+<p>But what if you don't use port 22 for <code>ssh</code>? Then this is a silly rule.  You can easily just remap the ports option to <code>&quot;2222,53&quot;</code> or something else.</p>
+<h2 id="limiting-a-class-rate">Limiting a Class Rate</h2>
+<p>Say we'd like to gaurentee that one class of packets can only take up so much of the total limit of the connection.</p>
+<p>First, lets get our <code>test3</code> VM serving off multiple ports so we can classify them differently.</p>
+<p>In <code>/etc/nginx/nginx.conf</code> modify your listen block:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">    server {
+</span><span style="color:#c0c5ce;">      listen       80 default_server;
+</span><span style="color:#c0c5ce;">      listen       8080; # Add this.
+</span><span style="color:#c0c5ce;">      server_name  localhost;
+</span><span style="color:#c0c5ce;">      root /vagrant;
+</span><span style="color:#c0c5ce;">      # ...
+</span></pre>
+<p>Then run <code>sudo systemctl restart nginx</code>.</p>
+<p>Back on the router, edit <code>/etc/config/qos</code> to add two new blocks, a <code>classify</code> block and a <code>class</code> block. Also make sure that your <code>lan1</code> and <code>lan2</code> interfaces have the same upload and download so we can use them to test.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config classify
+</span><span style="color:#c0c5ce;">	option target  &quot;httpdev&quot;
+</span><span style="color:#c0c5ce;">    option ports   &quot;8080&quot;
+</span><span style="color:#c0c5ce;">    option comment &quot;httpdev&quot;
+</span><span style="color:#c0c5ce;">config class &quot;httpdev&quot;
+</span><span style="color:#c0c5ce;">	option packetsize  1500
+</span><span style="color:#c0c5ce;">    option packetdelay 100
+</span><span style="color:#c0c5ce;">    option limitrate   10
+</span><span style="color:#c0c5ce;">    option priority    5
+</span></pre>
+<p>Then in the <code>classroup &quot;Default&quot;</code> add <code>httpdev</code> to the classes.</p>
+<p>Finally, restart the QoS:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/etc/init.d/qos reload
+</span></pre>
+<p>Then get <code>test1</code> to download from port 80, and <code>test2</code> to download from port 8080.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e7301bb625d15f4500.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc0ea0d8c7c1a0c900.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d73592f6519aa9db00.png"
+              alt="httpdev" />
+    <figcaption>httpdev</figcaption>
+</figure>
+<p>Attempting to download on port 8080 only resulted in recieving 10% of the available bandwidth, where on port 80 it was able to use the entire link.</p>
+<h2 id="priorities">Priorities</h2>
+<p>Instead of placing a hard limit on the rate a class can achieve, let's instead change the priority it recieves.</p>
+<p>On the router, edit <code>/etc/config/qos</code>, change the <code>Normal</code> class to have a <code>50</code> priority, while leaving <code>httpdev</code> on <code>5</code>.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">config class &quot;Normal&quot;
+</span><span style="color:#c0c5ce;">    option packetsize  1500
+</span><span style="color:#c0c5ce;">    option packetdelay 100
+</span><span style="color:#c0c5ce;">    option avgrate     10
+</span><span style="color:#c0c5ce;">    option priority    50
+</span></pre>
+<p>Then issue <code>/etc/init.d/qos reload</code>. To test this, <strong>on one of the <code>test1</code> or <code>test2</code></strong> open two connections and attempt to download from both ports.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fa789553a1077fe900.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1261848654708b8e00.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c5444d4aa9891e2e00.png"
+              alt="Priorities." />
+    <figcaption>Priorities.</figcaption>
+</figure>
+<p>Here I ran two tests, one with downloads on different ports, one with them on the same. Notice how the <code>8080</code> download is much slower while there is a download on port <code>80</code> happening, but while both at on port <code>80</code> they're nearly the same <em>(except that I couldn't stop both at the same time so the second one I stopped was reading higher then before, they were both in the teens).</em></p>
+<p>A lone download on port <code>8080</code> (and thus of the <code>httpdev</code> class) would still be fast if there is no other traffic in the <code>normal</code> class, though.</p>
+<h1 id="further-configuration">Further Configuration</h1>
+<p>While <code>qos-scripts</code> provides many simplier facilities for configuring Quality-of-Service in OpenWRT, it is certainly not the be all, end all.</p>
+<p>You can also take a much more low-level and fine grained control of how things behave using standard Linux tools. After all, everything in <code>qos-scripts</code> is built off <code>iptables</code>, <code>tc</code>, and other standard tools.</p>
+<p>Here are some links to explore further:</p>
+<ul>
+<li><a href="http://wiki.openwrt.org/doc/howto/packet.scheduler/packet.scheduler">Network Traffic Control</a> - Configuring your kernel scheduler.</li>
+<li><a href="http://wiki.openwrt.org/doc/howto/netfilter">Netfilter</a> - Configuring <code>iptables</code> and other things.</li>
+<li><a href="http://wiki.openwrt.org/doc/howto/bwmon">Bandwidth Monitoring</a> - Keeping tabs on things.</li>
+</ul>
+<p><em>A special thanks to the Bergens Banen train for our test material. The cover image of this article is from the video.</em></p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

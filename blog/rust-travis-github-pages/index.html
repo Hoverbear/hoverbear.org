@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Rust, Travis, and Github Pages</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Rust, Travis, and Github Pages">
+        
+        
+            <meta name="twitter:description" content="Rust is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They&#x27;re pursuing the trifecta: Safe, Fast, Concurrent. It&#x27;s been a great learning journey for me so far and I learnt to write better code in all languages.
+Github Pages is Github&#x27;s very generous offering of web hosting to your projects. Basically, you create a branch gh-pages and push it to Github, then browse to https:&#x2F;&#x2F;$USERNAME.github.io&#x2F;$REPOSITORY.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Rust, Travis, and Github Pages</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p><a href="http://rust-lang.org/">Rust</a> is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They're pursuing the trifecta: <em>Safe, Fast, Concurrent.</em> It's been a great learning journey for me so far and I learnt to write better code in <strong>all</strong> languages.</p>
+<p><a href="https://pages.github.com/">Github Pages</a> is Github's very generous offering of web hosting to your projects. Basically, you create a branch <code>gh-pages</code> and push it to Github, then browse to <a href="https://hoverbear.github.io/raft"><code>https://$USERNAME.github.io/$REPOSITORY</code></a>.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p><a href="https://travis-ci.org/">TravisCI</a> offers free continuous integration for open-source projects. It's even integrated with <a href="http://www.rust-ci.org/">rust-ci</a>. I've had a great experience with the service. They're also the source of the little build status buttons like this one <a href="https://travis-ci.org/Hoverbear/raft"><img src="https://travis-ci.org/Hoverbear/raft.svg?branch=master" alt="Build Status" /></a>.</p>
+<p>Today, we'll talk about how to set up your very own Rust project to:</p>
+<ul>
+<li>Automagically build and test your project.</li>
+<li>On a successful test push a new version of your documentation onto a <code>gh-pages</code> branch, as provided by <code>rustdoc</code>.</li>
+</ul>
+<h2 id="making-a-demo-project">Making a Demo Project</h2>
+<p>Let's make a demo repository to play.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">cargo new travis-demo
+</span><span style="color:#c0c5ce;">cd travis-demo
+</span></pre>
+<p>For simplicity, we'll replace the contents of <code>src/lib.rs</code> with the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#![crate_name = &quot;travis-demo&quot;]
+</span><span style="color:#c0c5ce;">#![crate_type = &quot;lib&quot;]
+
+</span><span style="color:#c0c5ce;">//! This is a comment.
+
+</span><span style="color:#c0c5ce;">/// This function always returns true. It&#39;s very useful!
+</span><span style="color:#c0c5ce;">pub fn always_true() -&gt; bool { true }
+
+</span><span style="color:#c0c5ce;">#[test]
+</span><span style="color:#c0c5ce;">fn it_works() {
+</span><span style="color:#c0c5ce;">    assert_eq!(always_true(), true);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<blockquote>
+<p>If you haven't had a chance to learn about <code>rustdoc</code> you can read about it <a href="http://doc.rust-lang.org/book/documentation.html">here</a>.</p>
+</blockquote>
+<p>Now you can run <code>cargo doc</code> and visit a url like <code>file:///Users/hoverbear/travis-demo/target/doc/travis-demo/</code> to view the generated documentation.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3ec1b6f4424fc84700.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6fe4df08c0b5b12000.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c44ee1c40b7ffe6c00.png"
+              alt="Our Documentation" />
+    <figcaption>Our Documentation</figcaption>
+</figure>
+<p>Finally, push this project up to Github (You'll need to make it on Github!):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">git add Cargo.toml src .gitignore
+</span><span style="color:#c0c5ce;">git commit -m &quot;Initial commit.&quot;
+</span><span style="color:#c0c5ce;">git remote add origin git@github.com:Hoverbear/travis-demo.git
+</span><span style="color:#c0c5ce;">git push -u origin master
+</span></pre><h2 id="starting-with-travis">Starting with Travis</h2>
+<p>First, you'll need to sign up with Travis. This is trivially done by visiting <a href="https://travis-ci.org/">TravisCI</a> and signing in with Github.</p>
+<p>Then, visit your profile by clicking on your name in the top right corner.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ac646c37373f8e8f00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;45f1ce1da08280e400.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3e0d308eb70f52c900.png"
+              alt="How to get to your profile." />
+    <figcaption>How to get to your profile.</figcaption>
+</figure>
+<p>On this page, in the &quot;Repositories&quot; tab, you'll see a list of all your public repositories. If you <em>just</em> made your repository you might need to tell Travis to <strong>Sync Now</strong>.</p>
+<blockquote>
+<p>Travis has a <code>.com</code> for your private repositories.</p>
+</blockquote>
+<p>Now enable our demo repository by flipping the switch.</p>
+<p>Feel encouraged to take a moment to click on the wrench and explore the options Travis offers. We'll play with them in a minute!</p>
+<h2 id="set-up-your-repository">Set up your Repository</h2>
+<blockquote>
+<p>KMC offers us a <a href="https://github.com/kmcallister/travis-doc-upload/blob/master/README.md">more secure approach</a> for users who do not wish to permit Travis to push to their repositories.</p>
+</blockquote>
+<p>Travis uses a <code>.travis.yml</code> to configure how it works. You can read more about it <a href="http://docs.travis-ci.com/user/build-configuration/">here</a>.</p>
+<p>We can add the following to ours:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">language: rust
+</span><span style="color:#c0c5ce;">after_success: |
+</span><span style="color:#c0c5ce;">  [ $TRAVIS_BRANCH = master ] &amp;&amp;
+</span><span style="color:#c0c5ce;">  [ $TRAVIS_PULL_REQUEST = false ] &amp;&amp;
+</span><span style="color:#c0c5ce;">  cargo doc &amp;&amp;
+</span><span style="color:#c0c5ce;">  echo &quot;&lt;meta http-equiv=refresh content=0;url=`echo $TRAVIS_REPO_SLUG | cut -d &#39;/&#39; -f 2`/index.html&gt;&quot; &gt; target/doc/index.html &amp;&amp;
+</span><span style="color:#c0c5ce;">  sudo pip install ghp-import &amp;&amp;
+</span><span style="color:#c0c5ce;">  ghp-import -n target/doc &amp;&amp;
+</span><span style="color:#c0c5ce;">  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+</span></pre>
+<p><code>language:</code> lets us specify <code>rust</code>, which for now defaults to the latest nightly.</p>
+<p><code>after_success:</code> lets us declare a script to run after a successful build. I found this series of steps <em>somewhere</em>, modified them a bit, and they work fantastic. The script basically does the following:</p>
+<ul>
+<li>If it's <em>not</em> a push to <code>master</code> finish.</li>
+<li>Otherwise, run <code>cargo doc</code></li>
+<li>Make a redirect in the <code>index.html</code> to the proper location. (This assumes your repository name is the same as your crate, feel free to change it.)</li>
+<li>Pushes the new copy of documentation to Github using a secure token. (More on that in a second.)</li>
+</ul>
+<p><strong>But wait!</strong> Where do we get the Token?</p>
+<h2 id="giving-travis-permissions">Giving Travis Permissions</h2>
+<p>Since it would be positively outrageous to give Travis your Github password or private key, we'll use what's called an &quot;access token&quot;. To get one of these, go to your Github settings and hit the &quot;Applictions&quot; tab.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33310b58635b18aa00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;343307d873465f4000.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1c69649043e246fc00.png"
+              alt="Getting a token" />
+    <figcaption>Getting a token</figcaption>
+</figure>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fb6cf092cf65e36300.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;26187baabb75c6f600.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1c6fc861e613d35400.png"
+              alt="Token Creation Screen" />
+    <figcaption>Token Creation Screen</figcaption>
+</figure>
+<p>Once you hit &quot;Generate Token&quot; you'll return to the previous page and see a green highlighted key. <strong>Copy that, you won't see it again!</strong></p>
+<p>Now, install the <a href="https://github.com/travis-ci/travis.rb#installation">Travis Gem</a>. Then you need to authenticate using <code>travis login</code> using your Github credentials.</p>
+<p>Once Travis is installed and logged in, you can run this, where <code>$YOUR_TOKEN</code> is the one we copied earlier.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
+</span></pre>
+<p>This command should automatically add a few lines to your <code>.travis.yml</code>.</p>
+<blockquote>
+<p><strong>Why encrypt?</strong> Because it's probably a bad idea to store an access token for your Github account in the clear.</p>
+</blockquote>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">git add .travis.yml
+</span><span style="color:#c0c5ce;">git commit -m &quot;Add Travis&quot;
+</span><span style="color:#c0c5ce;">git push
+</span></pre>
+<p>Now if you visit <a href="https://travis-ci.org/repositories"><code>https://travis-ci.org/repositories</code></a> you should, eventually, see your build pop up! Note that Travis can take a moment to start a build.</p>
+<p>Your build should look similar to the following:</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d459ac2149621cdf00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f484cda088ccee1c00.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;385d841b2029d92e00.png"
+              alt="Example Build" />
+    <figcaption>Example Build</figcaption>
+</figure>
+<h2 id="tinkering-with-the-crate">Tinkering with the Crate</h2>
+<p>Unfortunately, the first build of a <code>gh-pages</code> branch can take awhile to become available. <em>So just relax, and lets tinker with things a bit.</em></p>
+<p>Let's go back to your <code>src/lib.rs</code> and add a couple more declarations.</p>
+<p><strong>To set a base URL</strong> you can add this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#![doc(html_root_url = &quot;https://hoverbear.github.io/travis-demo/&quot;)]
+</span></pre>
+<p><strong>To set an image for the documentation</strong> you can add an image to your Github repository and do something like the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#![doc(html_logo_url = &quot;https://raw.githubusercontent.com/Hoverbear/travis-demo/master/demo.png&quot;)]
+</span></pre>
+<p>Once you change those, commit them, push it to <code>origin master</code>, and visit Travis again. You can see Travis will take the new revision and test it as well. (You can see there is even a &quot;Build Log&quot;) Once the test succeeds you'll see, again, how it builds docs and sets them up.</p>
+<blockquote>
+<p>If you create a pull request or branch, you'll notice that the Travis builds don't push new documentation except to commits on <code>master</code>.</p>
+</blockquote>
+<h2 id="tinkering-with-travis">Tinkering with Travis</h2>
+<p>Travis offers us some great options for configuring our output during tests.</p>
+<p>The first is <code>RUST_BACKTRACE</code>, we can set it to <code>1</code> to make Rust print out a stacktrace on a panic. This is particularly useful combined with <code>panic!()</code>, <code>unreachable!()</code> and <code>unimplemented!()</code> which you can use to structure failure modes in your programs.</p>
+<p>If you use <a href="https://github.com/rust-lang/log"><code>log</code> and <code>env-logger</code></a> you also might want to set <code>RUST_LOG</code>. I would definitely suggest limiting the logging to a specific crate as otherwise <code>rustc</code> and other libs will spout a considerable amount of output.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a61dfdc13d2dcdb700.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;008aeafeaf2e03cc00.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;67bec8aaee58563a00.png"
+              alt="Setting ENV Variables" />
+    <figcaption>Setting ENV Variables</figcaption>
+</figure>
+<h2 id="a-while-later">A While Later...</h2>
+<p>Try visiting <a href="https://hoverbear.github.io/raft/"><code>https://$YOUR_GITHUB_USER.github.io/$YOUR_REPO</code></a>. Did it work? Awesome!</p>
+<p>Don't forget to add it to the repository page on Github!</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2905129e1421659900.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a134547c958478f300.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae0c40bd948b354c00.png"
+              alt="Our new Repo" />
+    <figcaption>Our new Repo</figcaption>
+</figure>
+<p>Enjoy your new documentation! Your users will appreciate your documentation being up to date, you don't need to do it yourself, and later on you can hack this method to only handle commits to <code>stable</code> or other tags.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Starting with Immutant</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Starting with Immutant">
+        
+        
+            <meta name="twitter:description" content="Immutant is suite of Clojure libraries that is part of the JBossAS&#x2F;Wildfly ecosystem. Great, fantastic! Clojure is a lisp that runs on the JVM, the CLR, and compiles to Javascript. Lets get started!
+Some links we&#x27;ll need:
+
+Immutant - The framework.
+Clojure - The language.
+Leiningen - The package manager.
+
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Starting with Immutant</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Immutant is suite of <strong>Clojure</strong> libraries that is part of the JBossAS/Wildfly ecosystem. Great, fantastic! Clojure is a lisp that runs on the JVM, the CLR, and compiles to Javascript. Lets get started!</p>
+<p>Some links we'll need:</p>
+<ul>
+<li><a href="http://immutant.org/">Immutant</a> - The framework.</li>
+<li><a href="http://clojure.org/">Clojure</a> - The language.</li>
+<li><a href="http://leiningen.org/">Leiningen</a> - The package manager.</li>
+</ul>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h3 id="getting-leiningen">Getting Leiningen</h3>
+<p>Assuming <code>~/bin/</code> is a folder in your <code>$PATH</code></p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">DEST</span><span style="color:#c0c5ce;">=</span><span style="color:#bf616a;">~</span><span style="color:#a3be8c;">/bin/lein
+</span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein &gt; $</span><span style="color:#bf616a;">DEST
+chmod</span><span style="color:#c0c5ce;"> +x $</span><span style="color:#bf616a;">DEST
+</span></pre><h3 id="getting-clojure">Getting Clojure</h3>
+<p>You get Clojure (oddly) through <code>lein</code>. Just run it, and it'll download everything it needs.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">lein
+</span></pre>
+<p>That was easy!</p>
+<h3 id="setting-up-an-immutant-project">Setting up an Immutant Project</h3>
+<p><em>This is a lightly expanded version of <a href="http://immutant.org/tutorials/installation/index.html">this page</a>.</em></p>
+<p>Use <code>lein</code> to initialize a new project.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
+</span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> learning
+</span></pre>
+<p>The folder <code>learning/</code> should have a file <code>project.clj</code> which you should edit to look like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">defproject </span><span style="color:#c0c5ce;">learning &quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">license </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
+            :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
+  :</span><span style="color:#d08770;">dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
+                 [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.186</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
+                  &quot;</span><span style="color:#a3be8c;">http://downloads.immutant.org/incremental/</span><span style="color:#c0c5ce;">&quot;]]
+  :</span><span style="color:#d08770;">main ^</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">skip-aot </span><span style="color:#c0c5ce;">learning.core
+  :</span><span style="color:#d08770;">target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
+  :</span><span style="color:#d08770;">profiles </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">uberjar </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">aot </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">all</span><span style="color:#c0c5ce;">}})
+</span></pre>
+<p>Note how the dependencies and repositories now contain references to immutant. You should change <code>186</code> to the latest incremental build at <a href="http://immutant.org/builds/2x/">this page</a>.</p>
+<p>The <code>project.clj</code> file is similar to a <code>package.json</code> in Node.js or <code>Cargo.toml</code> in Rust.</p>
+<h3 id="your-first-route">Your First Route</h3>
+<p><em>This is a lightly expanded version of <a href="http://immutant.org/tutorials/web/index.html">this page</a>.</em></p>
+<p>In order to have a route (and thus a real web server) you need to add a <code>require</code> for immutant to your <code>src/learning/core.clj</code>. Then, define the <code>app</code> function like so and use <code>run</code> to start it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
+  (:use compojure.core)
+  (:require [compojure.route :as route]
+             [immutant.web :as immutant])
+  (:gen-class))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">app </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
+  &quot;</span><span style="color:#a3be8c;">A basic route for learning.</span><span style="color:#c0c5ce;">&quot;
+  {:</span><span style="color:#d08770;">status 200
+   </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">body </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Hello world!</span><span style="color:#c0c5ce;">&quot;})
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
+  </span><span style="color:#a3be8c;">&quot;Start the server.&quot;
+  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
+  (immutant/run app {:</span><span style="color:#d08770;">host </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">localhost</span><span style="color:#c0c5ce;">&quot; :</span><span style="color:#d08770;">port 8080 </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;}))
+</span></pre>
+<p>To start the server with <code>lein run</code> in the folder.</p>
+<p>Now browse to <a href="http://localhost:8080">http://localhost:8080</a> and you should see something like:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">Hello world!
+</span></pre><h3 id="more-routes">More Routes</h3>
+<p>You're probably thinking &quot;Well that's great, an app with one route, how useless.&quot; You'd be quite right, unless you're implementing <a href="http://www.justyo.co/">Yo</a> or something.</p>
+<p>If you're reading along the <a href="http://immutant.org/tutorials/web/index.html">Immutant web tutorial</a> you may have noticed in &quot;Advanced Usage&quot; they use multiple <code>run</code> functions to serve multiple routes.</p>
+<p>To quote:</p>
+<blockquote>
+<p>...actually creates two Undertow web server instances: one serving requests for the hello and howdy handlers on port 8080, and one serving ola responses on port 8081.</p>
+</blockquote>
+<p>Not the most desirable option. Looking back up under &quot;Common Usage&quot;:</p>
+<blockquote>
+<p>First, you'll need a Ring handler. If you generated your app using a template from Compojure, Luminus, Caribou or some other Ring-based library, yours will be associated with the :handler key of your :ring map in your project.clj file.</p>
+</blockquote>
+<p>That sounds certainly more desirable. Let's use <a href="https://github.com/weavejester/compojure/">Compojure</a>.</p>
+<p>Change your <code>project.clj</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">:dependencies [[org.clojure/clojure &quot;1.6.0&quot;]
+               [org.immutant/immutant &quot;2.x.incremental.186&quot;]
+               [compojure &quot;1.1.8&quot;]]
+</span></pre>
+<p>And then extend your source file.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
+  (:use compojure.core)
+  (:require [compojure.route :as route]
+             [immutant.web :as immutant])
+  (:gen-class))
+
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">handler
+  </span><span style="color:#a3be8c;">&quot;Comment&quot;
+  </span><span style="color:#c0c5ce;">[]
+  &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Hello World&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;)
+
+(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
+  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
+  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">[] </span><span style="color:#c0c5ce;">(handler))
+  (route/not-found
+       &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
+
+(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
+  </span><span style="color:#a3be8c;">&quot;Start the server&quot;
+  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
+  (immutant/run app {:</span><span style="color:#d08770;">host </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">localhost</span><span style="color:#c0c5ce;">&quot; :</span><span style="color:#d08770;">port 8080 </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;}))
+</span></pre>
+<p>Now you should have multiple routes.</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

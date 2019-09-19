@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Raft: New Crates!</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Raft: New Crates!">
+        
+        
+            <meta name="twitter:description" content="We&#x27;ve been resoundingly busy with our Raft implementation after a brief period of calm in the early summer! I&#x27;ll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!
+As a result of Raft development two new crates have been put together for general consumption! Both of these are macro-centric and lead mainly by James.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: New Crates!</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>We've been resoundingly busy with our <a href="http://raftconsensus.github.io/">Raft</a> implementation after a brief period of calm in the early summer! I'll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!</p>
+<p>As a result of Raft development two new crates have been put together for general consumption! Both of these are macro-centric and lead mainly by James.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="a-useful-error-pattern">A Useful Error Pattern</h2>
+<p>Working with Raft we discovered a useful error pattern for making use of things like <code>try!()</code>. Let's quickly recap on why error handling can be a pain sometimes.</p>
+<p>Let's say you're off happily using <code>.read()</code> on some file descriptor (maybe a <code>TcpStream</code>) and than performing some action which may also result in an error. So you write a function like so:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Read;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">read_and_action</span><span style="color:#c0c5ce;">&lt;R: Read&gt;(</span><span style="color:#bf616a;">reader</span><span style="color:#c0c5ce;">: R) -&gt; Result&lt;String, _&gt; {
+	</span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> buf = Vec::with_capacity(</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">);
+    try!(reader.</span><span style="color:#96b5b4;">read</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> buf));
+    try!(String::from_utf8(buf))
+}
+</span></pre>
+<p>But wait! There is a problem here! The first <code>try!()</code> and the second <code>try!()</code> have <em>different errors</em> that they might return. <strong>This won't work.</strong> Even worse, in a sufficiently complex library or application there can be many <code>Error</code> types in play!</p>
+<p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;">/// A simple convienence type.
+</span><span style="color:#b48ead;">pub type </span><span style="color:#c0c5ce;">Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
+
+</span><span style="color:#65737e;">// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
+</span><span style="color:#c0c5ce;">wrapped_enum!{
+    #[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Debug)]
+    </span><span style="color:#b48ead;">pub enum </span><span style="color:#c0c5ce;">Error {
+    	</span><span style="color:#65737e;">// Cap&#39;n Proto Errors
+</span><span style="color:#c0c5ce;">        CapnProto(capnp::Error),
+        </span><span style="color:#65737e;">// Cap&#39;n Proto schema errors
+</span><span style="color:#c0c5ce;">        SchemaError(capnp::NotInSchema),
+        </span><span style="color:#65737e;">// std::io errors
+</span><span style="color:#c0c5ce;">        Io(io::Error),
+        </span><span style="color:#65737e;">// Our very own!
+</span><span style="color:#c0c5ce;">        Raft(RaftError),
+    }
+}
+
+</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">fmt::Display </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Error {
+    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">fmt</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut </span><span style="color:#c0c5ce;">fmt::Formatter) -&gt; fmt::Result {
+        </span><span style="color:#b48ead;">match </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">self </span><span style="color:#c0c5ce;">{
+            Error::CapnProto(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Display::fmt(error, f),
+            Error::SchemaError(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Display::fmt(error, f),
+            Error::Io(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Display::fmt(error, f),
+            Error::Raft(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Debug::fmt(error, f),
+        }
+    }
+}
+</span></pre>
+<p>With this machinery in place our previous example starts to work, fantastic! This has saved us so much headache and complication in our code. Want it? Click one of the badges below!</p>
+<p><a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/v/wrapped_enum.svg" alt="" /></a>
+<a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/d/wrapped_enum.svg" alt="" /></a></p>
+<h2 id="scoped-logging">Scoped Logging</h2>
+<p>Okay, let's take a minute to remember how frigging awesome the <a href="https://crates.io/crates/log"><code>log</code></a> crate is. If you've got a project, large or small, this crate is super handy for helping trace, debug, and log whatever you need and to do it only when needed! The best part about the log crate is that when logs are off it's a simple <code>noop</code>.</p>
+<p>One problem we identified, however, was that sometimes it was very difficult to identify the source of a log message. Asking &quot;Did it come from <code>foo</code> or <code>bar</code>?&quot; is only fun so many times.</p>
+<p>James and Dan put together the <a href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
+<p>When we use this crate with tests (which makes it all that much more awesome!) we use the following macro.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;">/// Prepares the environment testing. Should be called as the first line of every test with the
+/// name of the test as the only argument.
+</span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">cfg</span><span style="color:#c0c5ce;">(test)]
+</span><span style="color:#96b5b4;">macro_rules! </span><span style="color:#c0c5ce;">setup_test {
+    (</span><span style="color:#bf616a;">$test_name</span><span style="color:#c0c5ce;">:</span><span style="color:#b48ead;">expr</span><span style="color:#c0c5ce;">) =&gt; (
+        </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">_ = env_logger::init();
+        push_log_scope!(</span><span style="color:#bf616a;">$test_name</span><span style="color:#c0c5ce;">);
+    );
+}
+</span></pre>
+<p>Now our logs look like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">INFO:raft::replica: test_apply_client_message: ElectionTimeout
+INFO:raft::replica: test_election_3: ElectionTimeout
+INFO:raft::replica: test_election_2: ElectionTimeout
+INFO:raft::replica: test_apply_client_message: transitioning to Leader
+INFO:raft::replica: test_election_5: ElectionTimeout
+INFO:raft::replica: test_election_5: transitioning to Candidate
+DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
+</span></pre>
+<p>Much more context that we <em>barely</em> have to tool. Fantastic! This crate even maintains the same <code>noop</code> characteristic of the <code>log</code> crate which it heavily relies on. Want it?</p>
+<p><a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/v/scoped_log.svg" alt="" /></a>
+<a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/d/scoped_log.svg" alt="" /></a></p>
+<h2 id="travis-cargo">Travis &amp; Cargo!</h2>
+<p>If you've read any of my other articles you probably know I <strong>love</strong> tooling and automation. After my <a href="http://hoverbear.org/2015/03/07/rust-travis-github-pages/">Rust, Travis, and Github Pages</a> article <a href="https://github.com/huonw">Huon</a> created the fantastic <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a> tool! It's incredible!</p>
+<p>With its help we've moved to a <code>sudo</code>-less build and overall things work much better. I'll talk more about out tooling and infrastructure in a later post!</p>
+<h1 id="aside-contributors">Aside: Contributors!!!</h1>
+<p>We now have 3 whole code contributors to Raft! This includes <a href="https://github.com/danburkert">Dan Burkert</a>, <a href="https://github.com/james-darkfox">James McGlashan</a>, and <a href="https://github.com/hoverbear/">myself</a> (Ana Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

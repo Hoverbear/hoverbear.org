@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>A First Look at DACS</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="A First Look at DACS">
+        
+        
+            <meta name="twitter:description" content="At Simbioses Lab, we&#x27;ve been recently looking at the federated authentication DACS as well as Keycloak. I&#x27;ve previously written about Keycloak, so let&#x27;s take a look at DACS.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">A First Look at DACS</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>At Simbioses Lab, we've been recently looking at the federated authentication <a href="http://dacs.dss.ca/">DACS</a> as well as <a href="http://keycloak.jboss.org/">Keycloak</a>. I've previously written about Keycloak, so let's take a look at DACS.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Keycloak</th>
+      <th>DACS</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr>
+    	<td>Author</td>
+        <td><a href="http://www.redhat.com/en">Red Hat</a></td>
+        <td><a href="http://www.dss.ca/">Distributed Systems Software</a></td>
+    </tr>
+    <tr>
+      <td>License</td>
+      <td><a href="https://www.apache.org/licenses/LICENSE-2.0" rel="noreferrer">ASL v2</a></td>
+      <td><a href="http://dacs.dss.ca/licensing.html" rel="noreferrer">Sleepycat</a></td>
+    </tr>
+    <tr>
+      <td>Implementation Language</td>
+      <td>Java</td>
+      <td>C/C++</td>
+    </tr>
+    <tr>
+      <td>Authentication</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Authorization</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Access Control Type</td>
+      <td>Role-based</td>
+      <td>Role-based, Context Based</td>
+    </tr>
+    <tr>
+      <td>Supported Languages</td>
+      <td>Java, Clojure (More planned)</td>
+      <td>Virtually Any (C/C++ API, Apache CGI, Java, Command Line), REST</td>
+    </tr>
+    <tr>
+      <td>Single Sign-On</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Supported Authentication Types</td>
+      <td>Password, TOTP, LDAP</td>
+      <td>Unix, Password, NTLM, X.509. LDAP, CAS, TOTP</td>
+    </tr>
+    <tr>
+      <td>Multi-Factor Authentication</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>Federation</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>OAuth Consumer/Client</td>
+      <td>True</td>
+      <td>Partial</td>
+    </tr>
+    <tr>
+      <td>OAuth Provider/Server</td>
+      <td>False</td>
+      <td>Planned</td>
+    </tr>
+    <tr>
+      <td>Stateless (Cookie-free) Operation</td>
+      <td>False</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>OpenID Support</td>
+      <td>True</td>
+      <td>Planned</td>
+    </tr>
+    <tr>
+      <td>Browser Based Administration</td>
+      <td>False</td>
+      <td>Partial</td>
+    </tr>
+    <tr>
+      <td>Command Line Interface</td>
+      <td>Partial</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="dacs-sample-deployments">DACS Sample Deployments</h2>
+<ul>
+<li><a href="http://www.nfis.org/">National Forest Information System</a></li>
+<li><a href="https://wiki.debian.org/DebianSingleSignOn">Debian Single Sign-On</a></li>
+</ul>
+<h2 id="dacs-install">DACS Install</h2>
+<p>We'll try using <a href="https://launchpad.net/ubuntu/+source/dacs">Ubuntu's stable package</a> available in the repositories.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">sudo apt-get install dacs
+</span></pre>
+<p>A quick test reveals several <code>dacs</code> related binaries are now available.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsacl        dacs_acs
+</span><span style="color:#c0c5ce;">dacsauth       dacscheck
+</span><span style="color:#c0c5ce;">dacsconf       dacscookie
+</span><span style="color:#c0c5ce;">dacscred       dacsemail
+</span><span style="color:#c0c5ce;">dacsexpr       dacsgrid
+</span><span style="color:#c0c5ce;">dacshttp       dacsinfocard
+</span><span style="color:#c0c5ce;">dacskey        dacslist
+</span><span style="color:#c0c5ce;">dacspasswd     dacsrlink
+</span><span style="color:#c0c5ce;">dacssched      dacstoken
+</span><span style="color:#c0c5ce;">dacstransform  dacsversion
+</span><span style="color:#c0c5ce;">dacsvfs
+</span></pre>
+<p>Since <code>dacsinit</code> is not available in this package, we'll need to configure the system manually. By default this package installs the configuration directories to <code>/etc/dacs</code> with <code>root:root</code> permissions.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsgroup=root
+</span><span style="color:#c0c5ce;">dacs=/etc/dacs
+</span><span style="color:#c0c5ce;">feds=$dacs/federations
+</span><span style="color:#c0c5ce;">la=$feds/dacstest.dss.ca/LA
+</span><span style="color:#c0c5ce;">install -c -g $dacsgroup -m 0640 $feds/site.conf-std $feds.site.conf
+</span><span style="color:#c0c5ce;">install -c -g $dacsgroup -m 0660 /dev/null $feds/dacs.conf
+</span><span style="color:#c0c5ce;">install -d -g $dacsgroup -m 0770 $feds/dacstest.dss.ca
+</span><span style="color:#c0c5ce;">install -d -g $dacsgroup -m 0770 $la
+</span><span style="color:#c0c5ce;">install -d -g $dacsgroup -m 0770 $la/acls
+</span><span style="color:#c0c5ce;">install -c -g $dacsgroup -m 6660 /dev/null $la/acls/revocations
+</span><span style="color:#c0c5ce;">install -d -g $dacsgroup -m 0770 $la/groups $la/groups/LA $la/groups/DACS
+</span><span style="color:#c0c5ce;">install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
+</span></pre>
+<p>In the <code>$la/groups/DACS/jurisdictions.grp</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&lt;groups xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
+</span><span style="color:#c0c5ce;"> &lt;group_definition jurisdiction=&quot;LA&quot; name=&quot;jurisdictions&quot;
+</span><span style="color:#c0c5ce;">     mod_date=&quot;Tue, 14-Jun-2005 16:06:00 GMT&quot; type=&quot;public&quot;&gt;
+</span><span style="color:#c0c5ce;">   &lt;group_member jurisdiction=&quot;LA&quot; name=&quot;LA Jurisdiction&quot; type=&quot;meta&quot;
+</span><span style="color:#c0c5ce;">     alt_name=&quot;Test Jurisdiction for the LA Dodgers&quot;
+</span><span style="color:#c0c5ce;">     dacs_url=&quot;http://dodgers.dacstest.dss.ca:18123/cgi-bin/dacs&quot;
+</span><span style="color:#c0c5ce;">     authenticates=&quot;yes&quot; prompts=&quot;no&quot;/&gt;
+</span><span style="color:#c0c5ce;"> &lt;/group_definition&gt;
+</span><span style="color:#c0c5ce;">&lt;/groups&gt;
+</span></pre>
+<p>In <code>$feds/dacs.conf</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&lt;Configuration xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
+
+</span><span style="color:#c0c5ce;"> &lt;Default&gt;
+</span><span style="color:#c0c5ce;">   FEDERATION_DOMAIN &quot;dacstest.dss.ca&quot;
+</span><span style="color:#c0c5ce;">   FEDERATION_NAME &quot;DACSTEST&quot;
+</span><span style="color:#c0c5ce;">   LOG_LEVEL &quot;info&quot;
+</span><span style="color:#c0c5ce;"> &lt;/Default&gt;
+
+</span><span style="color:#c0c5ce;"> &lt;Jurisdiction uri=&quot;dodgers.dacstest.dss.ca&quot;&gt;
+</span><span style="color:#c0c5ce;">   JURISDICTION_NAME &quot;LA&quot;
+</span><span style="color:#c0c5ce;"> &lt;/Jurisdiction&gt;
+
+</span><span style="color:#c0c5ce;">&lt;/Configuration&gt;
+</span></pre>
+<p>Then set the configuration:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">rm -f $la/dacs.conf
+</span><span style="color:#c0c5ce;">ln -s $feds/dacs.conf $la/dacs.conf
+</span></pre>
+<p>Next we can check the configuration with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsconf -uj LA -q
+</span></pre>
+<p>It should output a set of variables like so:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">…
+</span><span style="color:#c0c5ce;">ALLOW_HTTP_COOKIE &quot;no&quot;
+</span><span style="color:#c0c5ce;">AUTH_FAIL_DELAY_SECS &quot;2&quot;
+</span><span style="color:#c0c5ce;">ACS_ERROR_HANDLER &quot;* /handlers/acs_failed.html&quot;
+</span><span style="color:#c0c5ce;">SECURE_MODE &quot;on&quot;
+</span><span style="color:#c0c5ce;">COOKIE_PATH &quot;/&quot;
+</span><span style="color:#c0c5ce;">…
+</span></pre>
+<p>Next, we need to set up the federation keys.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">install -c -g $dacsgroup -m 0640 /dev/null $feds/dacstest.dss.ca/federation_keyfile
+</span><span style="color:#c0c5ce;">dacskey -uj LA -q $feds/dacstest.dss.ca/federation_keyfile
+</span></pre><h2 id="dacs-authentication">DACS Authentication</h2>
+<blockquote>
+<p>If you're following along with me, these commands may require <code>sudo</code> because of how we set up permissions.</p>
+</blockquote>
+<p>First, lets add a <code>passwd</code> file. The identities managed by this file are not related to the local UNIX users.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">install -c -g $dacsgroup -m 0660 /dev/null $la/passwd
+</span><span style="color:#c0c5ce;">dacspasswd -uj LA -q -a bear
+</span><span style="color:#c0c5ce;"># Give them password `bear`
+</span></pre>
+<p>Then add to the <strong>Jurisdiction</strong> section of <code>$la/dacs.conf</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&lt;Auth id=&quot;passwd&quot;&gt;
+</span><span style="color:#c0c5ce;">   URL &quot;http://dodgers.dacstest.dss.ca:18123/cgi-bin/dacs/local_passwd_authenticate&quot;
+</span><span style="color:#c0c5ce;">   STYLE &quot;pass&quot;
+</span><span style="color:#c0c5ce;">   CONTROL &quot;sufficient&quot;
+</span><span style="color:#c0c5ce;">&lt;/Auth&gt;
+</span></pre>
+<p>Now try authenticating with:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bear
+</span><span style="color:#c0c5ce;">echo $?
+</span><span style="color:#c0c5ce;"># 0 means success.
+</span></pre>
+<p>Now lets make it fail:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bears
+</span><span style="color:#c0c5ce;">echo $?
+</span><span style="color:#c0c5ce;"># 1 means failure.
+</span></pre>
+<blockquote>
+<p>The <code>-vfs</code> flag is important, it tells DACS where to look for the respective files.</p>
+</blockquote>
+<p>Authenticating as a UNIX user:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">useradd bear
+</span><span style="color:#c0c5ce;">passwd bear # Set it to foo
+</span><span style="color:#c0c5ce;">dacsauth -m unix passwd required -u bear -p foo
+</span><span style="color:#c0c5ce;">echo $? # 0 means success.
+</span><span style="color:#c0c5ce;">dacsauth -m unix passwd required -u bear -p bar
+</span><span style="color:#c0c5ce;">echo $? # 1 means failure.
+</span></pre><h2 id="dacs-roles">DACS Roles</h2>
+<p>If authenticating as a UNIX user, roles in DACS are based upon the groups the user is in. For example:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsauth -r unix -u bear
+</span><span style="color:#c0c5ce;"># Outputs &#39;bear&#39;
+
+</span><span style="color:#c0c5ce;">gpasswd -a users bear
+
+</span><span style="color:#c0c5ce;">dacsauth -r unix -u bear
+</span><span style="color:#c0c5ce;"># Outputs &#39;bear,users&#39;
+</span></pre>
+<p>To add roles to a DACS user, we can consult <a href="http://dacs.dss.ca/man/dacs_authenticate.8.html#local_roles">the relevant documentation</a> which directs us to create a <code>/etc/dacs/federations/roles</code> file with contents like the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">bear:animals,mammals
+</span></pre>
+<p>Now we can check DACS for the roles of our user:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">dacsauth -r roles -vfs &quot;[roles]dacs-kwv-fs:/etc/dacs/federations/roles&quot; -u bear
+</span><span style="color:#c0c5ce;"># animals,mammals
+</span></pre>
+<p>You may notice other output when issuing these commands, but note they are on <code>stderr</code>, not <code>stdout</code>.</p>
+<h1 id="interfacing-with-dacs">Interfacing with DACS</h1>
+<p>Since we've explored two common use cases for DACS, authentication and role checking. Lets look like how doing this would look from two languages, Javascript (Node) and Rust.</p>
+<h2 id="authentication">Authentication</h2>
+<p>In Javascript, it's easy to just use the <code>child_process</code> built-in library. These examples are structured such that they would fit nicely into a middleware based system like used in <code>express</code>:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/**
+</span><span style="color:#c0c5ce;"> * Uses DACS&#39; local module.
+</span><span style="color:#c0c5ce;"> * Determines whether the login details are valid.
+</span><span style="color:#c0c5ce;"> * @param  {String}   user The username string.
+</span><span style="color:#c0c5ce;"> * @param  {String}   pass The password string.
+</span><span style="color:#c0c5ce;"> * @param  {Function} next The callback, signature (error, worked).
+</span><span style="color:#c0c5ce;"> */
+</span><span style="color:#c0c5ce;">function localAuth(user, pass, next) {
+</span><span style="color:#c0c5ce;">    var exec = require(&#39;child_process&#39;).exec,
+</span><span style="color:#c0c5ce;">        module_opts = &#39;-m passwd passwd required&#39;,
+</span><span style="color:#c0c5ce;">        vfs_opts = &#39;-vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot;&#39;,
+</span><span style="color:#c0c5ce;">        login_opts = &#39;-u &#39; + user + &#39; -p &#39; + pass,
+</span><span style="color:#c0c5ce;">        command = [&#39;dacsauth&#39;, module_opts, vfs_opts, login_opts].join(&#39; &#39;);
+
+</span><span style="color:#c0c5ce;">    var dacsauth = exec(command, function (err, stdout, stderr) {
+</span><span style="color:#c0c5ce;">        if (err !== null) {
+</span><span style="color:#c0c5ce;">            // The status code is not 0.
+</span><span style="color:#c0c5ce;">            next(err, false);
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            next(null, true);
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">(function testLocalAuth() {
+</span><span style="color:#c0c5ce;">    localAuth(&#39;bear&#39;, &#39;bear&#39;, function output(err, worked) {
+</span><span style="color:#c0c5ce;">        if (worked) {
+</span><span style="color:#c0c5ce;">            console.log(&#39;LOCAL: Successfully authenticated as `bear`&#39;);
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            console.log(&#39;LOCAL: Failed to authenticate&#39;);
+</span><span style="color:#c0c5ce;">            console.error(err);
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}());
+
+</span><span style="color:#c0c5ce;">/**
+</span><span style="color:#c0c5ce;"> * Uses the `unix` module.
+</span><span style="color:#c0c5ce;"> * Determines whether the login details are valid.
+</span><span style="color:#c0c5ce;"> * @param  {String}   user The username string.
+</span><span style="color:#c0c5ce;"> * @param  {String}   pass The password string.
+</span><span style="color:#c0c5ce;"> * @param  {Function} next The callback, signature (error, worked).
+</span><span style="color:#c0c5ce;"> */
+</span><span style="color:#c0c5ce;">function unixAuth(user, pass, next) {
+</span><span style="color:#c0c5ce;">    var exec = require(&#39;child_process&#39;).exec,
+</span><span style="color:#c0c5ce;">        module_opts = &#39;-m unix passwd required&#39;,
+</span><span style="color:#c0c5ce;">        login_opts = &#39;-u &#39; + user + &#39; -p &#39; + pass,
+</span><span style="color:#c0c5ce;">        command = [&#39;dacsauth&#39;, module_opts, login_opts].join(&#39; &#39;);
+
+</span><span style="color:#c0c5ce;">    var dacsauth = exec(command, function (err, stdout, stderr) {
+</span><span style="color:#c0c5ce;">        if (err !== null) {
+</span><span style="color:#c0c5ce;">            // The status code is not 0.
+</span><span style="color:#c0c5ce;">            next(err, false);
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            next(null, true);
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">(function testUnixAuth() {
+</span><span style="color:#c0c5ce;">    unixAuth(&#39;bear&#39;, &#39;foo&#39;, function output(err, worked) {
+</span><span style="color:#c0c5ce;">        if (worked) {
+</span><span style="color:#c0c5ce;">            console.log(&#39;UNIX: Successfully authenticated as `bear`&#39;);
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            console.log(&#39;UNIX: Failed to authenticate&#39;);
+</span><span style="color:#c0c5ce;">            console.error(err);
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}());
+</span></pre>
+<p>Running it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">node test.js
+</span><span style="color:#c0c5ce;"># LOCAL: Successfully authenticated as `bear`
+</span><span style="color:#c0c5ce;"># UNIX: Successfully authenticated as `bear`
+</span></pre>
+<p>In Rust, this task is also simple enough by using <code>Command</code>, which I've written about <a href="http://www.hoverbear.org/2014/09/07/command-execution-in-rust/">here</a> (Note it is slightly out of date):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">use std::io::Command;
+</span><span style="color:#c0c5ce;">use std::io::process::ProcessExit::ExitStatus;
+
+</span><span style="color:#c0c5ce;">/// Uses DACS&#39; local module.
+</span><span style="color:#c0c5ce;">/// Determines whether the login details are valid.
+</span><span style="color:#c0c5ce;">fn local_auth(user: &amp;str, pass: &amp;str) -&gt; bool {
+</span><span style="color:#c0c5ce;">    let opts = [
+</span><span style="color:#c0c5ce;">        // Module Opts
+</span><span style="color:#c0c5ce;">        &quot;-m&quot;, &quot;passwd&quot;, &quot;passwd&quot;, &quot;required&quot;,
+</span><span style="color:#c0c5ce;">        // VFS Opts
+</span><span style="color:#c0c5ce;">        &quot;-vfs&quot;, &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot;,
+</span><span style="color:#c0c5ce;">        // Login Opts
+</span><span style="color:#c0c5ce;">        &quot;-u&quot;, user, &quot;-p&quot;, pass,
+</span><span style="color:#c0c5ce;">    ];
+</span><span style="color:#c0c5ce;">    let status = Command::new(&quot;dacsauth&quot;).args(&amp;opts).status();
+</span><span style="color:#c0c5ce;">    match status {
+</span><span style="color:#c0c5ce;">        Ok(ExitStatus(code)) if code == 0 =&gt; true,
+</span><span style="color:#c0c5ce;">        _ =&gt; false
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[test]
+</span><span style="color:#c0c5ce;">fn test_local_auth() {
+</span><span style="color:#c0c5ce;">    assert!(local_auth(&quot;bear&quot;, &quot;bear&quot;) == true);
+</span><span style="color:#c0c5ce;">    assert!(local_auth(&quot;bear&quot;, &quot;bears&quot;) == false);
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">/// Uses the `unix` module.
+</span><span style="color:#c0c5ce;">/// Determines whether the login details are valid.
+</span><span style="color:#c0c5ce;">fn unix_auth(user: &amp;str, pass: &amp;str) -&gt; bool {
+</span><span style="color:#c0c5ce;">    let opts = [
+</span><span style="color:#c0c5ce;">        // Module Opts
+</span><span style="color:#c0c5ce;">        &quot;-m&quot;, &quot;unix&quot;, &quot;passwd&quot;, &quot;required&quot;,
+</span><span style="color:#c0c5ce;">        // Login Opts
+</span><span style="color:#c0c5ce;">        &quot;-u&quot;, user, &quot;-p&quot;, pass,
+</span><span style="color:#c0c5ce;">    ];
+</span><span style="color:#c0c5ce;">    let status = Command::new(&quot;dacsauth&quot;).args(&amp;opts).status();
+</span><span style="color:#c0c5ce;">    match status {
+</span><span style="color:#c0c5ce;">        Ok(ExitStatus(status)) if status == 0 =&gt; true,
+</span><span style="color:#c0c5ce;">        _ =&gt; false
+</span><span style="color:#c0c5ce;">    }
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[test]
+</span><span style="color:#c0c5ce;">fn test_unix_auth() {
+</span><span style="color:#c0c5ce;">    assert!(unix_auth(&quot;bear&quot;, &quot;foo&quot;) == true);
+</span><span style="color:#c0c5ce;">    assert!(unix_auth(&quot;bear&quot;, &quot;bar&quot;) == false);
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Running it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">rustc test.rs --test
+</span><span style="color:#c0c5ce;">./test
+</span><span style="color:#c0c5ce;"># running 2 tests
+</span><span style="color:#c0c5ce;"># test test_local_auth ... ok
+</span><span style="color:#c0c5ce;"># test test_unix_auth ... ok
+</span><span style="color:#c0c5ce;">#
+</span><span style="color:#c0c5ce;"># test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
+</span></pre><h2 id="roles">Roles</h2>
+<p>Using a similar style of code, we can get the roles for a user like so:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">/**
+</span><span style="color:#c0c5ce;">* Uses DACS&#39; local module.
+</span><span style="color:#c0c5ce;">* Determines the user&#39;s roles.
+</span><span style="color:#c0c5ce;">* @param  {String}   user The username string.
+</span><span style="color:#c0c5ce;">* @param  {Function} next The callback, signature (error, roles).
+</span><span style="color:#c0c5ce;">*/
+</span><span style="color:#c0c5ce;">function localRoles(user, next) {
+</span><span style="color:#c0c5ce;">    var exec = require(&#39;child_process&#39;).exec,
+</span><span style="color:#c0c5ce;">    module_opts = &#39;-r roles&#39;,
+</span><span style="color:#c0c5ce;">    vfs_opts = &#39;-vfs &quot;[roles]dacs-kwv-fs:/etc/dacs/federations/roles&quot;&#39;,
+</span><span style="color:#c0c5ce;">    login_opts = &#39;-u &#39; + user,
+</span><span style="color:#c0c5ce;">    command = [&#39;dacsauth&#39;, module_opts, vfs_opts, login_opts].join(&#39; &#39;);
+
+</span><span style="color:#c0c5ce;">    var dacsauth = exec(command, function (err, stdout, stderr) {
+</span><span style="color:#c0c5ce;">        if (err !== null) {
+</span><span style="color:#c0c5ce;">            // The status code is not 0.
+</span><span style="color:#c0c5ce;">            next(err, stdout.trim().split(&#39;,&#39;));
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            next(null, stdout.trim().split(&#39;,&#39;));
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">(function testLocalRoles() {
+</span><span style="color:#c0c5ce;">    localRoles(&#39;bear&#39;, function output(err, roles) {
+</span><span style="color:#c0c5ce;">        if (roles) {
+</span><span style="color:#c0c5ce;">            console.log(&#39;LOCAL: `bear` has roles &#39; + roles);
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            console.log(&#39;LOCAL: Failed to get roles&#39;);
+</span><span style="color:#c0c5ce;">            console.error(err);
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}());
+
+</span><span style="color:#c0c5ce;">/**
+</span><span style="color:#c0c5ce;">* Uses the `unix` module.
+</span><span style="color:#c0c5ce;">* Determines the user&#39;s roles.
+</span><span style="color:#c0c5ce;">* @param  {String}   user The username string.
+</span><span style="color:#c0c5ce;">* @param  {Function} next The callback, signature (error, roles).
+</span><span style="color:#c0c5ce;">*/
+</span><span style="color:#c0c5ce;">function unixRoles(user, next) {
+</span><span style="color:#c0c5ce;">    var exec = require(&#39;child_process&#39;).exec,
+</span><span style="color:#c0c5ce;">    module_opts = &#39;-r unix&#39;,
+</span><span style="color:#c0c5ce;">    login_opts = &#39;-u &#39; + user,
+</span><span style="color:#c0c5ce;">    command = [&#39;dacsauth&#39;, module_opts, login_opts].join(&#39; &#39;);
+
+</span><span style="color:#c0c5ce;">    var dacsauth = exec(command, function (err, stdout, stderr) {
+</span><span style="color:#c0c5ce;">        if (err !== null) {
+</span><span style="color:#c0c5ce;">            // The status code is not 0.
+</span><span style="color:#c0c5ce;">            next(err, stdout.trim().split(&#39;,&#39;));
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            next(null, stdout.trim().split(&#39;,&#39;));
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">(function testUnixRoles() {
+</span><span style="color:#c0c5ce;">    unixRoles(&#39;bear&#39;, function output(err, roles) {
+</span><span style="color:#c0c5ce;">        if (roles) {
+</span><span style="color:#c0c5ce;">            console.log(&#39;UNIX: `bear` has roles &#39; + roles);
+</span><span style="color:#c0c5ce;">        } else {
+</span><span style="color:#c0c5ce;">            console.log(&#39;UNIX: Failed to get roles&#39;);
+</span><span style="color:#c0c5ce;">            console.error(err);
+</span><span style="color:#c0c5ce;">        }
+</span><span style="color:#c0c5ce;">    });
+</span><span style="color:#c0c5ce;">}());
+</span></pre>
+<p>Running it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">nodejs test.js
+</span><span style="color:#c0c5ce;"># LOCAL: `bear` has roles animals,mammals
+</span><span style="color:#c0c5ce;"># UNIX: `bear` has roles bear,users
+</span></pre>
+<p>And in Rust:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">use std::io::Command;
+</span><span style="color:#c0c5ce;">use std::str;
+
+</span><span style="color:#c0c5ce;">/// Uses DACS&#39; local module.
+</span><span style="color:#c0c5ce;">/// Determines the user&#39;s roles.
+</span><span style="color:#c0c5ce;">fn local_roles(user: &amp;str) -&gt; Vec&lt;String&gt; {
+</span><span style="color:#c0c5ce;">    let opts = [
+</span><span style="color:#c0c5ce;">        // Module Opts
+</span><span style="color:#c0c5ce;">        &quot;-r&quot;, &quot;roles&quot;,
+</span><span style="color:#c0c5ce;">        // VFS Opts
+</span><span style="color:#c0c5ce;">        &quot;-vfs&quot;, &quot;[roles]dacs-kwv-fs:/etc/dacs/federations/roles&quot;,
+</span><span style="color:#c0c5ce;">        // Login Opts
+</span><span style="color:#c0c5ce;">        &quot;-u&quot;, user
+</span><span style="color:#c0c5ce;">    ];
+</span><span style="color:#c0c5ce;">    let result = Command::new(&quot;dacsauth&quot;).args(&amp;opts).output()
+</span><span style="color:#c0c5ce;">        .ok().expect(&quot;Could not get output.&quot;);
+</span><span style="color:#c0c5ce;">    let stdout = str::from_utf8(result.output.as_slice())
+</span><span style="color:#c0c5ce;">        .expect(&quot;Could not parse stdout.&quot;);
+</span><span style="color:#c0c5ce;">    stdout.trim_chars(&#39;\n&#39;).split(&#39;,&#39;)
+</span><span style="color:#c0c5ce;">        .map(|x| String::from_str(x))
+</span><span style="color:#c0c5ce;">        .filter(|x| x.len() != 0) // Handle the empty string.
+</span><span style="color:#c0c5ce;">        .collect()
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[test]
+</span><span style="color:#c0c5ce;">fn test_local_roles() {
+</span><span style="color:#c0c5ce;">    assert!(local_roles(&quot;bear&quot;) == vec![&quot;animals&quot;.to_string(), &quot;mammals&quot;.to_string()]);
+</span><span style="color:#c0c5ce;">    assert!(local_roles(&quot;invalid&quot;) == Vec::&lt;String&gt;::new());
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">/// Uses the `unix` module.
+</span><span style="color:#c0c5ce;">/// Determines the user&#39;s roles.
+</span><span style="color:#c0c5ce;">fn unix_roles(user: &amp;str) -&gt; Vec&lt;String&gt; {
+</span><span style="color:#c0c5ce;">    let opts = [
+</span><span style="color:#c0c5ce;">        // Module Opts
+</span><span style="color:#c0c5ce;">        &quot;-r&quot;, &quot;unix&quot;,
+</span><span style="color:#c0c5ce;">        // Login Opts
+</span><span style="color:#c0c5ce;">        &quot;-u&quot;, user
+</span><span style="color:#c0c5ce;">    ];
+</span><span style="color:#c0c5ce;">    let result = Command::new(&quot;dacsauth&quot;).args(&amp;opts).output()
+</span><span style="color:#c0c5ce;">        .ok().expect(&quot;Could not get output.&quot;);
+</span><span style="color:#c0c5ce;">    let stdout = str::from_utf8(result.output.as_slice())
+</span><span style="color:#c0c5ce;">        .expect(&quot;Could not parse stdout.&quot;);
+</span><span style="color:#c0c5ce;">    stdout.trim_chars(&#39;\n&#39;).split(&#39;,&#39;)
+</span><span style="color:#c0c5ce;">        .map(|x| String::from_str(x))
+</span><span style="color:#c0c5ce;">        .filter(|x| x.len() != 0) // Handle the empty string.
+</span><span style="color:#c0c5ce;">        .collect()
+</span><span style="color:#c0c5ce;">}
+
+</span><span style="color:#c0c5ce;">#[test]
+</span><span style="color:#c0c5ce;">fn test_unix_roles() {
+</span><span style="color:#c0c5ce;">    assert!(unix_roles(&quot;bear&quot;) == vec![&quot;bear&quot;.to_string(), &quot;users&quot;.to_string()]);
+</span><span style="color:#c0c5ce;">    assert!(unix_roles(&quot;invalid&quot;) == Vec::&lt;String&gt;::new());
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>Running it:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">rustc test.rs --test
+</span><span style="color:#c0c5ce;">./test
+</span><span style="color:#c0c5ce;"># running 2 tests
+</span><span style="color:#c0c5ce;"># test test_local_roles ... ok
+</span><span style="color:#c0c5ce;"># test test_unix_roles ... ok
+</span><span style="color:#c0c5ce;">#
+</span><span style="color:#c0c5ce;"># test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
+</span></pre><h2 id="thoughts-on-dacs">Thoughts on DACS</h2>
+<p>DACS is, overall, effective at the tasks it claims to accomplish. It is flexible with where it's configuration is stored, how it is invoked, and which components it is compiled with.</p>
+<p>When I was first compiling this article, I attempted to compile DACS from source (as suggested in both the <a href="http://dacs.dss.ca/man/dacs.install.7.html">Install</a> and <a href="http://dacs.dss.ca/man/dacs.quick.7.html">Quick Install</a> guides). I was concerned with the fact that the guide suggests you do things like compile your own versions of things like OpenSSL and Apache from source instead of from your distributions packages. OpenSSL and Apache are both critical packages for a server, and should be handled with care. Recall things like <a href="http://en.wikipedia.org/wiki/Shellshock_%28software_bug%29">Shellshock</a> (which effected Apache's CGI) and <a href="http://en.wikipedia.org/wiki/Heartbleed">Heartbleed</a> (which effected <a href="http://opensslrampage.org/">OpenSSL</a> and prompted the creation of <a href="http://www.libressl.org/">LibreSSL</a>). I ended up using the packages available on <a href="http://packages.ubuntu.com/trusty/dacs">Ubuntu</a> as the <a href="https://packages.debian.org/sid/dacs">Debian</a> packages were quite out of date in stable.</p>
+<p>The DACS documentation is quite complete and covers a wide range of topics, which makes sense given DACS's wide scope. For a newcomer to DACS, however, they are quite opaque due to their self referencing and assumption of inherant knowledge regarding the application. Questions like &quot;Where is the normal place to store a roles file?&quot; and &quot;What are the various <code>[foo]</code> fields for the <code>-vfs</code> flag?&quot; were challenging to find answers to. This is understandable for a complex system that has limited usage, but at some points it felt like th documentation was written by DACS programmers, for DACS programmers, instead of DACS users.</p>
+<h2 id="further-exploration">Further Exploration</h2>
+<p>DACS has a variety of features, such Apache integration (for CGI applications), Federation support, Groups, adapters for LDAP, etc.  I haven't dug into them here because they're more involved and will only be applicable in more complex scenarios, in which case, the implementor should become familiar with the documentation of DACS itself, rather then a whirlwind tour like this article.</p>
+<h2 id="dacs-documentation">DACS Documentation</h2>
+<ul>
+<li><a href="dacs.dss.ca/man/dacsauth.1.html">dacsauth</a></li>
+<li><a href="http://dacs.dss.ca/man/dacs.install.7.html">Installing DACS</a> <em>(Note this is from source)</em></li>
+<li><a href="http://dacs.dss.ca/man/dacs.vfs.5.html">DACS VFS</a></li>
+</ul>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

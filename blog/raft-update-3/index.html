@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Raft: A First Prototype</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Raft: A First Prototype">
+        
+        
+            <meta name="twitter:description" content="As you may have previously read, I&#x27;ve been working on implementing the Raft Distributed Consensus Algorithm in Rust for my classes (and fun!).
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: A First Prototype</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>As you may have <a href="/2015/02/05/raft-update-1/">previously</a> <a href="/2015/02/18/raft-update-2/">read</a>, I've been working on implementing the <a href="https://raftconsensus.github.io/">Raft Distributed Consensus Algorithm</a> in <a href="http://rust-lang.org/">Rust</a> for my classes (and fun!).</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h2 id="current-status">Current Status</h2>
+<p>I'm proud to say I have the first <em>(fragile)</em> prototype of the library working <em>(most of the time)</em> as I type this. But with that said, the work has only really just begun.</p>
+<p>Currently:</p>
+<ul>
+<li><strong>Elections:</strong> <em>Works (most of the time)!</em>
+<ul>
+<li>There are corner cases where two nodes will contend for votes and occasionally lock up. I haven't managed to track this down yet.</li>
+</ul>
+</li>
+<li><strong>Replicating Logs:</strong> <em>Works, but isn't ideal!</em>
+<ul>
+<li>As I wrote about in my <a href="/2015/02/18/raft-update-2/">last article</a> the current scheme isn't very intelligent.</li>
+<li><a href="https://github.com/Hoverbear/raft/issues/4">This issue</a> is tracking possible improvements.</li>
+</ul>
+</li>
+<li><strong>Handling Commits</strong>: <em>Works!</em></li>
+<li><strong>Interfacing with Consumers:</strong> <em>Works, but needs more love!</em>
+<ul>
+<li>The API simply isn't very nice. Since I haven't gotten around to actually <strong>using</strong> Raft for anything serious I don't have a great idea about the desired interface.</li>
+</ul>
+</li>
+<li><strong>Safety:</strong> <em>Sort of!</em>
+<ul>
+<li>There is (predictably) no <code>unsafe</code> code in Raft.</li>
+<li>There are several <code>.unwrap()</code> statements in places were, for now, I just want the code to panic.</li>
+<li>Overflows aren't handled gracefully.</li>
+</ul>
+</li>
+<li><strong>Efficiency:</strong> <em>Needs love!</em></li>
+<li><strong>Testing::</strong> <em>In progress!</em></li>
+<li><strong>Tooling:</strong> <em>Rocks!</em>
+<ul>
+<li><a href="https://travis-ci.org/Hoverbear/raft">Travis CI Builds</a></li>
+<li><a href="https://hoverbear.github.io/raft/raft/index.html">Generated Docs</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="architecture-so-far">Architecture So Far</h2>
+<p>{&lt;1&gt;}<img src="/content/images/2015/02/raft.png" alt="RaftNode Architecture" /></p>
+<p>Each <code>RaftNode</code> runs on it's own thread alongside of the consuming program. The consumer program communicates along channels, sending <code>ClientRequest&lt;T&gt;</code> and recieving (at the moment) <code>io::Result&lt;T&gt;</code>.</p>
+<p>A <code>RaftNode</code> talks to other <code>RaftNode</code>s via <code>UdpSocket</code>s using <code>RemoteProcedureCall&lt;T&gt;</code> and <code>RemoteProcedureResponse</code> messages.</p>
+<blockquote>
+<p>Note: I'm going to avoid talking about things I have already talked about in previous writings.</p>
+</blockquote>
+<h3 id="current-dependencies">Current Dependencies</h3>
+<p>With Rust still pre-beta, and my deadline for this prototype short, I wanted to reduce the number of dependencies to a minimum to avoid deadlocking. Please keep this in mind as you read forward as it was a primary consideration for some functionality like RPC.</p>
+<ul>
+<li><a href="http://doc.rust-lang.org/std/index.html"><code>std</code></a> - The stdlib.</li>
+<li><a href="https://github.com/rust-lang/rustc-serialize"><code>rustc-serialize</code></a> - Generic serialization/deserialization support.</li>
+<li><a href="https://github.com/rust-lang/uuid"><code>uuid</code></a> - Unique Universal Identifiers.</li>
+<li><a href="https://github.com/rust-lang/rand"><code>rand</code></a> - Random number generators.</li>
+<li><a href="https://github.com/rust-lang/log"><code>log</code></a> - Configurable logging.</li>
+<li><a href="https://github.com/rust-lang/log"><code>env_logger</code></a> - For <code>log</code>.</li>
+</ul>
+<h3 id="states">States</h3>
+<p>Nodes can either be:</p>
+<ul>
+<li>A <code>Follower</code>, which replicates <code>AppendEntries</code> requests and votes for it's leader.
+<ul>
+<li>Stores a log of it's recent requests of the <code>Leader</code> on behalf of the consumer.</li>
+</ul>
+</li>
+<li>A <code>Leader</code>, which leads the cluster by serving incoming requests, ensuring data is replicated, and issuing heartbeats.
+<ul>
+<li>Stores <code>match_index</code> and <code>next_index</code> which are both <code>Vec&lt;u64&gt;</code> and specified by the Raft paper.</li>
+</ul>
+</li>
+<li>A <code>Candidate</code>, which campaigns in an election and may become a <code>Leader</code> (if it gets enough votes) or a <code>Follower</code>, if it hears from a <code>Leader</code>.
+<ul>
+<li>Stores a <code>Vec&lt;Transcation&gt;</code> to keep track of it's <code>RequestVote</code> requests.</li>
+</ul>
+</li>
+</ul>
+<p>The resulting enum looks like:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#[derive(PartialEq, Eq, Clone)]
+</span><span style="color:#c0c5ce;">pub enum NodeState {
+</span><span style="color:#c0c5ce;">    Follower(VecDeque&lt;Transaction&gt;),
+</span><span style="color:#c0c5ce;">    Leader(LeaderState),
+</span><span style="color:#c0c5ce;">    Candidate(Vec&lt;Transaction&gt;),
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>These variants all store their one specific data needed for <em>only</em> their operation. Changing between state clears all of the data.</p>
+<h3 id="transactions">Transactions</h3>
+<p><code>Transaction</code>s are used to track the state of a variety of things in the library. They look like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">#[derive(PartialEq, Eq, Clone)]
+</span><span style="color:#c0c5ce;">pub struct Transaction {
+</span><span style="color:#c0c5ce;">    pub uuid: Uuid,
+</span><span style="color:#c0c5ce;">    pub state: TransactionState,
+</span><span style="color:#c0c5ce;">}
+</span><span style="color:#c0c5ce;">#[derive(PartialEq, Eq, Copy, Clone)]
+</span><span style="color:#c0c5ce;">pub enum TransactionState {
+</span><span style="color:#c0c5ce;">    Polling,
+</span><span style="color:#c0c5ce;">    Accepted,
+</span><span style="color:#c0c5ce;">    Rejected,
+</span><span style="color:#c0c5ce;">}
+</span></pre>
+<p>The idea is that when a <code>RemoteProcedureRequest</code> is made it generates a UUID which the <code>RaftNode</code> (particularly it's <code>node.state</code>) stores and uses to verify and identify responses.</p>
+<p>In the case of <code>AppendEntries</code> there is no need for the <code>Leader(_)</code> to track UUIDs. They are mostly used for <code>Candidate(_)</code> elections and for the <code>Follower(_)</code> when it makes a request of the leader.</p>
+<p>I'm not entirely happy with this approach, and I think that in the future moving to some form of RPC approach like <a href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/">Cap'n Proto</a> would be safer and faster.</p>
+<blockquote>
+<p>Moving to Cap'n Proto might serve two additional purposes: Increased compatability with other implementations, and providing examples (which are currently lacking for Rust!)</p>
+</blockquote>
+<h3 id="the-tick">The Tick</h3>
+<p>Currently, most of the work done by <code>tick()</code> which runs a loop.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">loop { raft_node.tick(); }
+</span></pre>
+<p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
+<p>If you have any advice on this, let me know <a href="https://github.com/Hoverbear/raft/issues/6">here</a>.</p>
+<h3 id="main-events">Main Events</h3>
+<p>There are three main events which can occur:</p>
+<ul>
+<li><strong>The socket has data:</strong> Parse the data into a <code>RemoteProcedureCall</code> or a <code>RemoteProcedureResponse</code> and handles it appropriately.</li>
+<li><strong>The timer has fired:</strong> (Re)Start an election or heartbeat.</li>
+<li><strong>The channel has data:</strong> Act on the clients command if there is a known leader.</li>
+</ul>
+<blockquote>
+<p>Gotcha: Only the <code>Leader(_)</code> or a <code>Follower(_)</code> (with a known leader) will retrieve from a channel for now.</p>
+</blockquote>
+<h3 id="logging">Logging</h3>
+<p>I just started migrating over to the <strong>fantastic</strong> <a href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
+<p>Using it, you end up with something like this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
+</span><span style="color:#c0c5ce;">    debug!(&quot;ID {}: FROM {:?} RECIEVED {:?}&quot;, self.own_id, source, rpc);
+</span><span style="color:#c0c5ce;">      // ..
+</span><span style="color:#c0c5ce;">    }
+</span></pre>
+<p>And this:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">match checks.iter().all(|&amp;x| x) {
+</span><span style="color:#c0c5ce;">    true  =&gt; {
+</span><span style="color:#c0c5ce;">        self.persistent_state.set_voted_for(Some(source_id)).unwrap();
+</span><span style="color:#c0c5ce;">        self.reset_timer();
+</span><span style="color:#c0c5ce;">        info!(&quot;ID {}:F: TO {} ACCEPT request_vote&quot;, self.own_id, source_id);
+</span><span style="color:#c0c5ce;">        RemoteProcedureResponse::accept(call.uuid, current_term,
+</span><span style="color:#c0c5ce;">            last_index, self.volatile_state.commit_index)
+</span><span style="color:#c0c5ce;">    },
+</span></pre>
+<p>And the user is able to toggle directives at runtime, which is awesome! So set the logging level while testing a crate you can use:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">RUST_LOG=raft=debug cargo test -- --nocapture
+</span></pre>
+<p>Or use the same environment variable at runtime. You can even specifiy different log levels per crate. It's kind of neat to use a wildcard like <code>RUST_LOG=debug</code> with cargo because you actually see a considerable amount of compiler output.</p>
+<p>Here's what the test output looks like with the highest level of logging:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">running 1 test
+</span><span style="color:#c0c5ce;">INFO:raft: ID 2: HANDLE timer
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 2: FOLLOWER -&gt; CANDIDATE: Term 0
+</span><span style="color:#c0c5ce;">DEBUG:raft: Node 2 timer RESET
+</span><span style="color:#c0c5ce;">DEBUG:raft: Node 2 timer RESET
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 2: SEND RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] } })
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 2: SEND RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] } })
+</span><span style="color:#c0c5ce;">DEBUG:raft: Node 2 timer RESET
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 0: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RECIEVED RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] } })
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 1: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RECIEVED RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] } })
+</span><span style="color:#c0c5ce;">INFO:raft: ID 0: FROM 2 HANDLE request_vote
+</span><span style="color:#c0c5ce;">INFO:raft: ID 1: FROM 2 HANDLE request_vote
+</span><span style="color:#c0c5ce;">DEBUG:raft: Node 0 timer RESET
+</span><span style="color:#c0c5ce;">INFO:raft: ID 0:F: TO 2 ACCEPT request_vote
+</span><span style="color:#c0c5ce;">DEBUG:raft: Node 1 timer RESET
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 0: TO SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RESPONDS Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
+</span><span style="color:#c0c5ce;">INFO:raft: ID 1:F: TO 2 ACCEPT request_vote
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 0: RESPOND Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 1: TO SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RESPONDS Accepted(Accepted { uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] }, term: 0, match_index: 0, next_index: 0 })
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 1: RESPOND Accepted(Accepted { uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] }, term: 0, match_index: 0, next_index: 0 })
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 2: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 } RECIEVED Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
+</span><span style="color:#c0c5ce;">INFO:raft: ID 2: FROM 0 HANDLE accepted
+</span><span style="color:#c0c5ce;">DEBUG:raft: ID 2:C: FROM 0 MATCHED
+</span><span style="color:#c0c5ce;">// ...
+</span></pre>
+<p>On the normal level:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">     Running target/lib-800267e679b6e5c6
+
+</span><span style="color:#c0c5ce;">running 1 test
+</span><span style="color:#c0c5ce;">test basic_test ... ok
+
+</span><span style="color:#c0c5ce;">test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
+</span></pre><h3 id="dealing-with-failures">Dealing with Failures</h3>
+<p>Most failure modes are defined by the Raft paper, and I'm attempting to implement them the best I can. Currently there is an <code>unimplemented!()</code> section of the code I'm still working on figuring out the correct course of action.</p>
+<h2 id="the-demo">The 'Demo'</h2>
+<blockquote>
+<p>As I mentioned, the interface with the consuming library is in need of rework, so it's not very clean.</p>
+</blockquote>
+<p>Here is the current most basic possible functioning hunk of code to fire up a cluster:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">let nodes = vec![
+</span><span style="color:#c0c5ce;">    (0, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 }),
+</span><span style="color:#c0c5ce;">    (1, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11111 }),
+</span><span style="color:#c0c5ce;">    (2, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 }),
+</span><span style="color:#c0c5ce;">];
+</span><span style="color:#c0c5ce;">// Create the nodes.
+</span><span style="color:#c0c5ce;">let (log_0_sender, log_0_reciever) = RaftNode::&lt;String&gt;::start(
+</span><span style="color:#c0c5ce;">    0,
+</span><span style="color:#c0c5ce;">    nodes.clone(),
+</span><span style="color:#c0c5ce;">    Path::new(&quot;/tmp/test0&quot;)
+</span><span style="color:#c0c5ce;">);
+</span><span style="color:#c0c5ce;">let (log_1_sender, log_1_reciever) = RaftNode::&lt;String&gt;::start(
+</span><span style="color:#c0c5ce;">    1,
+</span><span style="color:#c0c5ce;">    nodes.clone(),
+</span><span style="color:#c0c5ce;">    Path::new(&quot;/tmp/test1&quot;)
+</span><span style="color:#c0c5ce;">);
+</span><span style="color:#c0c5ce;">let (log_2_sender, log_2_reciever) = RaftNode::&lt;String&gt;::start(
+</span><span style="color:#c0c5ce;">    2,
+</span><span style="color:#c0c5ce;">    nodes.clone(),
+</span><span style="color:#c0c5ce;">    Path::new(&quot;/tmp/test2&quot;)
+</span><span style="color:#c0c5ce;">);
+</span></pre>
+<p>Here is the current code to make an append request and check that it at least got to the leader:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">// Make a test send to that port.
+</span><span style="color:#c0c5ce;">let test_command = ClientRequest::AppendRequest(AppendRequest {
+</span><span style="color:#c0c5ce;">    entries: vec![&quot;foo&quot;.to_string()],
+</span><span style="color:#c0c5ce;">    prev_log_index: 0,
+</span><span style="color:#c0c5ce;">    prev_log_term: 0,
+</span><span style="color:#c0c5ce;">});
+</span><span style="color:#c0c5ce;">log_0_sender.send(test_command.clone()).unwrap();
+</span><span style="color:#c0c5ce;">// Get the result.
+</span><span style="color:#c0c5ce;">wait_a_second();
+</span><span style="color:#c0c5ce;">let event = log_0_reciever.try_recv()
+</span><span style="color:#c0c5ce;">    .ok().expect(&quot;Didn&#39;t recieve in a reasonable time.&quot;);
+</span><span style="color:#c0c5ce;">assert!(event.is_ok()); // Workaround until we build a proper stream.
+</span></pre>
+<p>Here is the how to check an for items in an index, notice the graceful failing of &quot;overasking&quot;:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">// Test Index.
+</span><span style="color:#c0c5ce;">let test_index = ClientRequest::IndexRange(IndexRange {
+</span><span style="color:#c0c5ce;">        start_index: 0,
+</span><span style="color:#c0c5ce;">        end_index: 5,
+</span><span style="color:#c0c5ce;">});
+</span><span style="color:#c0c5ce;">log_0_sender.send(test_index.clone()).unwrap();
+</span><span style="color:#c0c5ce;">wait_a_second();
+</span><span style="color:#c0c5ce;">let result = log_0_reciever.try_recv()
+</span><span style="color:#c0c5ce;">    .ok().expect(&quot;Didn&#39;t recieve in a reasonable time.&quot;).unwrap();
+</span><span style="color:#c0c5ce;">// We don&#39;t know what the term will be.
+</span><span style="color:#c0c5ce;">assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
+</span></pre><h2 id="further-work">Further Work</h2>
+<p>A <strong>lot</strong> of further work is needed to make this library ready for action. Here is a brief summary:</p>
+<ul>
+<li><a href="https://github.com/Hoverbear/raft/issues/6">Tame the Tick!</a></li>
+<li><a href="https://github.com/Hoverbear/raft/issues/4">Use a Better Log!</a></li>
+<li>Use a more established RPC paradigm like Cap'n Proto.</li>
+<li>Improve consumer interface. (Possibly through facade functions?)</li>
+<li>Membership Changes</li>
+<li>Snapshotting</li>
+</ul>
+<h2 id="explore-and-help">Explore and Help!</h2>
+<blockquote>
+<p>https://github.com/Hoverbear/raft</p>
+</blockquote>
+<p>Would you like to explore, give feedback, or contribute? Please do! Publicly you can just make an issue on Github, or privately just shoot me an email. (I'm sure you can find it on Github or here...)</p>
+<p><strong>Discussion of this post is on <a href="https://www.reddit.com/r/rust/comments/2wyq2e/raft_a_first_prototype/">Reddit</a>.</strong></p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>

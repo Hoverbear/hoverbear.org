@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Raft: Status Update</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Raft: Status Update">
+        
+        
+            <meta name="twitter:description" content="In order to celebrate the new beta release of Rust, and as part of reporting requirements for my class, I&#x27;m happy to write to you regarding hoverbear&#x2F;raft!
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: Status Update</a></h1>
+                <p class="description"></h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>In order to celebrate the new <a href="http://blog.rust-lang.org/2015/04/03/Rust-1.0-beta.html">beta</a> release of Rust, and as part of reporting requirements for my class, I'm happy to write to you regarding <a href="https://github.com/hoverbear/raft">hoverbear/raft</a>!</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<h1 id="a-recap">A Recap</h1>
+<p>In January, 2015, a undergraduate (me) at the University of Victoria set out on a quest to implement the <a href="http://raftconsensus.github.io/">Raft Consensus Algorithm</a> in Rust, an experimental language in shepherded by Mozilla Research.</p>
+<p>If you don't know what Raft is, please take a look at <a href="http://thesecretlivesofdata.com/raft/">the secret lives of data</a>. If you don't know what Rust is, please feel encouraged to follow along at <a href="http://doc.rust-lang.org/nightly/intro.html">the intro</a>.</p>
+<p>Back in february I had a <a href="http://hoverbear.org/2015/02/24/raft-update-3/">first prototype</a> working. It was a partial implementation and some subtle logic flaws have been found in the reworking of the code.</p>
+<blockquote>
+<p>You can play with the very first prototype <a href="https://github.com/hoverbear/raft/tree/first-prototype">here</a> updated for a recent nightly.</p>
+</blockquote>
+<h1 id="where-we-re-heading">Where We're Heading</h1>
+<p>With the help of <a href="https://github.com/danburkert/">Dan Burkert</a> several dramatic architecture changes have occured.</p>
+<p>Summarily, the second prototype builds from the first in the following ways:</p>
+<ul>
+<li>The <a href="https://github.com/carllerche/mio">mio</a> <strong>Asynchronous Event Loop</strong> backs the library, providing
+it with event driven sockets and timers. This removes the <code>loop {}</code> and
+reduces demands on the system by using things like <code>epoll</code>.</li>
+<li><strong>Communication is over TCP</strong>, as opposed to UDP in the first prototype. It
+was determined that the additional costs of TCP were worth its benefits
+provided connections to other nodes could be maintained for multiple
+communications. This improves reliability of communication, ease of
+understanding, and opens the door for encrypted communication at a later date.</li>
+<li>For more efficient communication, <strong>Cap'n Proto is used</strong> to facilitate
+communication between nodes. This dramatically reduces the amount of data
+which needs to be sent compared to the first prototype, which uses JSON.</li>
+<li>The <strong>Replicated Log is abstracted from the library</strong> allowing the client to
+provide their own backing storage for the log in the fashion of their choosing.</li>
+<li>A <strong><code>Raft</code> type is now provided to the consuming application</strong> which
+dramatically simplifies client communication with the cluster. As a result of
+this, all client requests require a network trip, but in the vast majority of
+cases, this was required regardless, since all client requests must go to the
+leader.</li>
+<li>The <strong>State Machine abstraction has been improved</strong> in order to facilitate
+more useful consumption of the library. The first prototype's interface was
+determined to be insufficient to provide things like <em>Log Compaction</em>, an
+optional feature of Raft, in the future.</li>
+</ul>
+<p>This changes <em>are still not done</em>, as they have required a considerable amount of work, both on our code and on upstream libraries.</p>
+<p>As a result of this project, several pull requests to upstream projects have
+been created and merged.</p>
+<p>Merged pull requests by Dan Burkert:</p>
+<ul>
+<li><a href="https://github.com/dwrensha/capnproto-rust/pull/30">impl <code>::std::error::Error</code> for <code>capnp::Error</code></a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/23125">Implement <code>std::error::Error</code> for <code>std::sync::mpsc</code> error types</a></li>
+</ul>
+<p>Merged pull requests by Ana Hobden:</p>
+<ul>
+<li><a href="https://github.com/dwrensha/capnproto-rust/pull/35">Move to <code>&amp;mut s[..]</code> syntax</a></li>
+<li><a href="https://github.com/rust-lang/rust/pull/23836">Update <code>std::error</code> example</a></li>
+<li><a href="https://github.com/carllerche/bytes/pull/12">Add <code>Read</code> and <code>Write</code> to <code>RingBuf</code></a></li>
+<li><a href="https://github.com/carllerche/mio/pull/144">Add docs for <code>NonBlock&lt;TcpListener&gt;::accept()</code></a></li>
+<li><a href="https://github.com/carllerche/syncbox/pull/13">Implement <code>collect()</code></a></li>
+<li><a href="https://github.com/rust-lang/rustc-serialize/pull/30">Derive not Deriving</a></li>
+</ul>
+<h1 id="thanks">Thanks</h1>
+<p>At this time I'd like to personally extend thanks to the following people:</p>
+<ul>
+<li>David Renshaw (<a href="https://github.com/dwrensha/">@dwrensha</a>)</li>
+<li>Carl Lerche (<a href="https://github.com/carllerche/">@carllerche</a>)</li>
+<li>Dan Burkert (<a href="https://github.com/danburkert/">@danburkert</a>)</li>
+</ul>
+<p>For their professionalism, mentorship, and community involvement. One of my favorite things about the Rust community is just how great it is. Stop by on <a href="https://client01.chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a> sometime!</p>
+<p>I'm having a tremendous amount of fun on this project and I'm learning so much. I can't wait to wrap up my semester to get back to work on Raft!</p>
+<blockquote>
+<p>You can get involved with Raft <a href="http://github.com/hoverbear/raft">here</a>. Or join the Reddit discussion here.</p>
+</blockquote>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4bec88b6fefd17ed4da4f764e834842115e4ba7b
+"><code>4bec88b6fefd17ed4da4f764e834842115e4ba7b
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>
