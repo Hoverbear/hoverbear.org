@@ -5,7 +5,7 @@ aliases = ["2018/11/04/optional-arguments/"]
 layout = "blog/single.html"
 [taxonomies]
 tags = [
-    "infrastructure"
+    "Infrastructure"
 ]
 [extra]
 image = "cover.jpg"

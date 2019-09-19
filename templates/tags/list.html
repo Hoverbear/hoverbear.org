@@ -6,12 +6,17 @@
     {% for term in terms  %}
         <section>
             <h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2>
-            {% for post in term.pages  %}
-                {{ post::metadata(post=post) }}
-                {% if loop.last != true %}
-                    <hr>
-                {% endif %}
-            {% endfor %}
+            <ul>
+                {%- for post in term.pages  -%}
+                    <li><a href="{{ post.permalink }}">
+                        <strong>{{ post.title }}</strong>
+                    </a>{% if post.description %}: {{ post.description }}{%- endif -%}
+                </li>
+                {% endfor %}
+            </ul>
         </section>
+        {% if loop.last != true %}
+            <hr>
+        {% endif %}
     {% endfor %}
 {% endblock content %}
