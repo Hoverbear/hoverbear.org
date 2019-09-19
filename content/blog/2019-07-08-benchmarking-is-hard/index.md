@@ -1,7 +1,6 @@
 +++
 title = "Why Benchmarking Distributed Databases Is So Hard"
 description = "Exploring the complexities of benchmarking distributed systems."
-aliases = ["2018/11/04/optional-arguments/"]
 layout = "blog/single.html"
 [taxonomies]
 tags = [
