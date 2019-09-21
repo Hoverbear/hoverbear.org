@@ -23,7 +23,7 @@ jobs:
         git fetch --depth 1 origin master
         git checkout master
     - name: Fetch gh-pages branch
-      run:
+      run: |
         mkdir public
         cd public
         git init .
@@ -32,9 +32,11 @@ jobs:
         git fetch --depth 1 origin gh-pages
         git checkout gh-pages
     - name: Install Zola
-      run: sudo snap install --edge zola
+      run: |
+        sudo snap install --edge zola
     - name: Build site
-      run: zola build
+      run: |
+        zola build
     - name: Commit changes to gh-pages branch
       working-directory: public
       run: |
