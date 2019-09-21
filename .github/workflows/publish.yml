@@ -15,24 +15,32 @@ jobs:
         git config --global user.email "github-actions-bot@users.noreply.github.com"
         git config --global url."https://".insteadOf git://
         git config --global url."https://github.com/".insteadOf "git@github.com:"
-    - name: Fetch site
+    - name: Fetch master branch
       run: |
         git init .
         git remote add origin https://github.com/Hoverbear/hoverbear.org
         git config gc.auto 0
         git fetch --depth 1 origin master
-    - name: Checkout
-      run:
         git checkout master
+    - name: Fetch gh-pages branch
+      run:
+        mkdir public
+        cd public
+        git init .
+        git remote add origin https://github.com/Hoverbear/hoverbear.org
+        git config gc.auto 0
+        git fetch --depth 1 origin gh-pages
+        git checkout gh-pages
     - name: Install Zola
       run: sudo snap install --edge zola
     - name: Build site
-      run: zola build --output-dir docs
-    - name: Commit changes
+      run: zola build
+    - name: Commit changes to gh-pages branch
+      working-directory: public
       run: |
-        git add docs
+        git add .
         git commit -s -m "Deploy ${GITHUB_SHA}."
-    - name: Deploy site
+    - name: Deploy site through gh-pages branch
       env:
         # Seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work
         TOKEN: ${{ secrets.TOKEN }}
