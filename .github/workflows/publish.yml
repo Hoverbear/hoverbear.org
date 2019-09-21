@@ -49,4 +49,5 @@ jobs:
         # Seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work
         TOKEN: ${{ secrets.TOKEN }}
       run: |
+        cd gh-pages
         git push "https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
