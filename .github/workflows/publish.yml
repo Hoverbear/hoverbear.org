@@ -36,12 +36,12 @@ jobs:
         sudo snap install --edge zola
     - name: Build site
       run: |
-        zola build
+        zola build 
     - name: Commit changes to gh-pages branch
       working-directory: public
       run: |
         git add .
-        git commit -s -m "Deploy ${GITHUB_SHA}."
+        git commit -s -m "Deploy ${GITHUB_SHA}." --allow-empty
     - name: Deploy site through gh-pages branch
       env:
         # Seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work
