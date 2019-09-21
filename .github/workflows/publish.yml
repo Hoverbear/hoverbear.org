@@ -15,10 +15,15 @@ jobs:
         git config --global user.email "github-actions-bot@users.noreply.github.com"
         git config --global url."https://".insteadOf git://
         git config --global url."https://github.com/".insteadOf "git@github.com:"
-    - name: Checkout site
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
+    - name: Fetch site
+      run:
+        git init hoverbear.org
+        git remote add origin https://github.com/Hoverbear/hoverbear.org
+        git config gc.auto 0
+        git fetch --depth 1 "https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" master
+    - name: Checkout
+      run:
+        git checkout master
     - name: Install Zola
       run: sudo snap install --edge zola
     - name: Build site
