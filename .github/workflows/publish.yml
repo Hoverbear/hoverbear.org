@@ -14,7 +14,7 @@ jobs:
         git config --global user.name "GitHub Actions"
         git config --global user.email "github-actions-bot@users.noreply.github.com"
         git config --global url."https://".insteadOf git://
-        git config --global url."https://github.com/".insteadOf git@github.com:
+        git config --global url."https://github.com/".insteadOf "git@github.com:"
     - name: Checkout site
       uses: actions/checkout@v1
       with:
@@ -22,15 +22,14 @@ jobs:
     - name: Install Zola
       run: sudo snap install --edge zola
     - name: Build site
-      run: zola build
+      run: zola build --output-dir docs
+    - name: Commit changes
+      run: |
+        git add docs
+        git commit -s -m "Deploy ${GITHUB_SHA}."
     - name: Deploy site
       env:
         # Seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work
         TOKEN: ${{ secrets.TOKEN }}
       run: |
-        cd public
-        git init
-        git submodule update --init --recursive
-        git add .
-        git commit -s -m "Deploy ${GITHUB_SHA}."
-        git push --force "https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" master:gh-pages
+        git push "https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
