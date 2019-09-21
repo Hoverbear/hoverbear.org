@@ -18,6 +18,7 @@ jobs:
     - name: Fetch site
       run: |
         git init hoverbear.org
+        cd hoverbear.org
         git remote add origin https://github.com/Hoverbear/hoverbear.org
         git config gc.auto 0
         git fetch --depth 1 "https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" master
