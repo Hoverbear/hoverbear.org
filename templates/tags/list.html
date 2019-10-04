@@ -11,6 +11,7 @@
                     <li><a href="{{ post.permalink }}">
                         <strong>{{ post.title }}</strong>
                     </a>{% if post.description %}: {{ post.description }}{%- endif -%}
+                    &nbsp;(posted <time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>)
                 </li>
                 {% endfor %}
             </ul>
