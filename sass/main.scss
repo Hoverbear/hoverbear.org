@@ -165,18 +165,45 @@ html {
                 }
                   
             }
+            
+            .continue-reading {
+                text-align: center;
+                margin-bottom: 2vh;
+                display: block;
+            }
 
             .post-meta {
-                color: rgba(0,0,0,.5);
                 font-style: italic;
+                color: #666666;
+                .meta-box {
+                    display: flex;
+                    align-content: center;
+                    > div {
+                        flex-basis: 30vw;
+                        text-align: center;
+                    }
+                    .reading-time {
+                        &::before {
+                            content: "Reading Time:"
+                        }
+                    }
+                    .posted-on {
+                        &::before {
+                            content: "Posted On:"
+                        }
+                    }
+                    .tags {
+                        &::before {
+                            content: "Tagged:"
+                        }
+                    }
+                }
             }
 
             hr {
                 width: 60%;
                 border: none;
                 height: 1px;
-                margin-top: 2vh;
-                margin-bottom: 2vh;
                 background-color: rgba(0,0,0,.3);
             }
 
