@@ -1,13 +1,30 @@
+$background: ("light": #FFFFFF, "dark": #000000);
+$main-text: ("light": #000000, "dark": #FFFFFF);
+$unvisited-link: ("light": #333333, "dark": #CCCCCC);
+$visited-link: ("light": #555555, "dark": #AAAAAA);
+$font: ("normal": "Fira Sans", "code": "Fira Code");
+
+
+@mixin color-scheme($property, $setting) {
+    #{$property}: map-get($setting, "light");
+    @media (prefers-color-scheme: dark) {
+        #{$property}: map-get($setting, "dark");
+    }
+}
+
 html {
-    background-color: black;
-    font-family: 'Fira Sans';
+    background: black;
+    font-family: map-get($font, "normal");
     text-rendering: optimizeLegibility;
-    font-feature-settings: "calt" 1; /* For IE/Edge */
+    font-feature-settings: "calt" 1; /* For IE/Edgee*/
 
     body {
         margin: auto;
         padding: 0;
-        background: white;
+
+        @include color-scheme(background, $background);
+        @include color-scheme(color, $main-text);
+
         // A nice fade in.
         opacity: 0;
         animation: .5s fade-in ease-in 0s 1 forwards;
@@ -122,7 +139,6 @@ html {
             }
 
             &#pagination {
-
                 & > a[href="#"] {
                     color: #CCCCCC;
                     text-decoration: none;
@@ -142,10 +158,10 @@ html {
                     height: 5px;
                     position: relative;
                     display: flex;
-                    background: #999999;
                     height: 1px;
                     margin-top: 3vh;
                     margin-bottom: 3vh;
+                    background: #999999;
                 }
 
                 & > h2 {
@@ -153,12 +169,12 @@ html {
                 }
 
                 & > h3:before {
+                    @include color-scheme(background, $main-text);
                     content: "";
                     width: 25vw;
                     height: 5px;
                     position: relative;
                     display: flex;
-                    background: #999999;
                     height: 1px;
                     margin-top: 3vh;
                     margin-bottom: 3vh;
@@ -174,7 +190,7 @@ html {
 
             .post-meta {
                 font-style: italic;
-                color: #666666;
+                @include color-scheme(color, $main-text);
                 .meta-box {
                     display: flex;
                     align-content: center;
@@ -204,7 +220,7 @@ html {
                 width: 60%;
                 border: none;
                 height: 1px;
-                background-color: rgba(0,0,0,.3);
+                @include color-scheme(background, $main-text);
             }
 
             
@@ -230,11 +246,11 @@ html {
             }
 
             a {
-                color: #333333;
+                @include color-scheme(color, $unvisited-link);
             }
                 
             a:visited {
-                color: #555555;
+                @include color-scheme(color, $visited-link);
             }
 
             // Make a nice border around code.
@@ -242,7 +258,7 @@ html {
                 font-family: 'Fira Code' !important;
                 padding: 5px;
                 border: 1px solid #DDDDDD;
-                overflow-x: scroll;
+                overflow-x: auto;
                 border-radius: 5px;
             }
 
