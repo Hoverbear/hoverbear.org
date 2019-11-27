@@ -2,6 +2,7 @@ $background: ("light": #FFFFFF, "dark": #000000);
 $main-text: ("light": #000000, "dark": #FFFFFF);
 $unvisited-link: ("light": #333333, "dark": #CCCCCC);
 $visited-link: ("light": #555555, "dark": #AAAAAA);
+$code-background: ("light": #DDDDDD, "dark": #2b303b);
 $font: ("normal": "Fira Sans", "code": "Fira Code");
 
 
@@ -183,7 +184,6 @@ html {
             }
             
             .continue-reading {
-                text-align: center;
                 margin-bottom: 2vh;
                 display: block;
             }
@@ -255,7 +255,7 @@ html {
 
             // Make a nice border around code.
             pre {
-                font-family: 'Fira Code' !important;
+                font-family: map-get($font, "code") !important;
                 padding: 5px;
                 border: 1px solid #DDDDDD;
                 overflow-x: auto;
@@ -263,11 +263,11 @@ html {
             }
 
             :not(pre) > code {
+                @include color-scheme(background, $code-background);
                 padding-left: 2px;
                 padding-right: 2px;
                 border: 1px solid #DDDDDD;
-                color:#2b303b;
-                font-family: 'Fira Code' !important;
+                font-family: map-get($font, "code") !important;
                 background: #DDDDDD;
                 border-radius: 5px;
             }
