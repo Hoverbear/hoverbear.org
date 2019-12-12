@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Getting the most of WSL</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ebbfb50cd92904f500.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Getting the most of WSL">
+        
+        
+            <meta name="twitter:description" content="Not long ago, Microsoft started iterating more heavily on their long-existing &amp;quot;Windows Subsystem for Linux&amp;quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.
+In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won&#x27;t present anything new here, just providing a single place for how I or someone else could get things set up.
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Getting the most of WSL</a></h1>
+                <p class="description">Some tricks for getting more mileage from your Linux subsystem</h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                    <li><a href="/about/">About</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4cfc9183f7fd393700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ebbfb50cd92904f500.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3b9bea67a875224e00.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            <article>
+                
+    <p>Not long ago, Microsoft started iterating more heavily on their long-existing &quot;Windows Subsystem for Linux&quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.</p>
+<p>In this post, we'll investigate some ways to get the most out of WSL. I won't present anything new here, just providing a single place for how I or someone else <strong>could</strong> get things set up.</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<blockquote>
+<p>This guide was written on Windows 10 Pro, Insiders build 18985, targetting Ubuntu. Your mileage may vary on older/newer builds or different distros.</p>
+</blockquote>
+<h2 id="getting-it-set-up">Getting it set up</h2>
+<p>Getting WSL set up has a few steps, first you'll need to add some Windows optional Features.</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># In an administrator powershell
+</span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><span style="color:#c0c5ce;">-Online -FeatureName &quot;</span><span style="color:#a3be8c;">Microsoft-Windows-Subsystem-Linux</span><span style="color:#c0c5ce;">&quot;
+</span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><span style="color:#c0c5ce;">-Online -FeatureName &quot;</span><span style="color:#a3be8c;">VirtualMachinePlatform</span><span style="color:#c0c5ce;">&quot; 
+wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#c0c5ce;">-version </span><span style="color:#d08770;">2
+</span></pre>
+<p>Next, head on over to the Windows Store and install <a href="https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab">'Ubuntu'</a>. Once it's downloaded you should launch it and do the first time setup. It'll ask you to put a username and password.</p>
+<p>At the point, you have a WSL2 installation of Ubuntu. To verify:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">$ wsl -l -v
+  NAME      STATE           VERSION
+* Ubuntu    Running         </span><span style="color:#d08770;">2
+</span></pre>
+<p>To access Ubuntu type <code>wsl</code> from Powershell, or open the 'Ubuntu' app in your Start Menu.</p>
+<h2 id="updating-ubuntu">Updating Ubuntu</h2>
+<p>The Ubuntu version you should have is Ubuntu 18.04. (Check with <code>lsb_release -r</code>) In order to upgrade it to Ubuntu 19.04 </p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">wsl</span><span style="color:#c0c5ce;"> sudo sed</span><span style="color:#bf616a;"> -i </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">s/Prompt=lts/Prompt=normal/g</span><span style="color:#c0c5ce;">&#39; /etc/update-manager/release-upgrades
+</span><span style="color:#bf616a;">wsl</span><span style="color:#c0c5ce;"> sudo do-release-upgrade
+</span></pre>
+<p>If the process asks you about &quot;restart services during package upgrades without asking&quot; you should pick <strong>no</strong>! If it asks you for a list of services to restart, just have it empty.</p>
+<blockquote>
+<p>Our Ubuntu isn't running <code>systemd</code> (yet) so we don't have to restart the services.</p>
+</blockquote>
+<p>If the process asks you about lxd and the snap store, you can select <strong>skip</strong>. Since we're not running <code>lxd</code> and <code>snapd</code> (yet) we don't need it.</p>
+<p>For any new configuration files (such as <code>sshd</code>) select <strong>install the package maintainer's version</strong>.</p>
+<p>Then, let it 'restart', restart the WSL machine with <code>wsl --shutdown</code> from a Powershell.</p>
+<p>Open up a Ubuntu shell and check <code>lsb_release -r</code> again. For me it says 19.04. This means I need to upgrade again to get to 19.10!</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">wsl</span><span style="color:#c0c5ce;"> sudo do-release-upgrade
+</span></pre>
+<p>Following the same procedure, <code>lsb_release -r</code> for me now shows 19.10.</p>
+<h2 id="better-terminals">Better terminals</h2>
+<p>The <a href="https://www.microsoft.com/en-ca/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab">'Windows Terminal'</a> app provides a nicer terminal experience.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;99e2a3e45b610d0800.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;61c0b7c68365dea900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;db8e8a96ebe3931e00.jpg"
+              alt="Windows Terminal chooser" />
+    <figcaption>Windows Terminal chooser</figcaption>
+</figure>
+<p>You can also install <a href="https://code.visualstudio.com/insiders/">VS Code Insiders</a> and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL</a> extension to get a full featured editor/explorer.</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cc2a2a5be1a6cfde00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f46371f8f5d54d7800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4ab15293f33f6ac000.jpg"
+              alt="VS Code chooser" />
+    <figcaption>VS Code chooser</figcaption>
+</figure>
+<p>Occasionally VS Code, the extension, or something else will update and render it unable to connect. Opening a local VS Code window, closing it, then restarting the computer should fix it.</p>
+<h2 id="configuring-wsl">Configuring WSL</h2>
+<p>Typically, you won't want your WSL instance to be able to consume all your resources. You may also want to disable things like swap.</p>
+<p>Save a file to <code>%UserProfile%/.wslconfig</code> with contents like the following:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">[wsl2]
+</span><span style="color:#bf616a;">memory</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">12GB
+</span><span style="color:#bf616a;">swap</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">0
+</span></pre>
+<p>To apply these changes, run <code>wsl --shutdown</code> and open up a new Ubuntu terminal.</p>
+<h2 id="passwordless-sudo">Passwordless <code>sudo</code></h2>
+<p>Having to deal with passwords in a dev VM is kind of annoying. Let's turn that off in Ubuntu:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /etc/sudoers.d/sudo</span><span style="color:#a3be8c;">
+%sudo         ALL = (ALL) NOPASSWD: ALL
+</span><span style="color:#b48ead;">EOF
+</span></pre><h2 id="set-up-ssh-keys">Set up SSH keys</h2>
+<p>If you've already rolled keys with Window's built-in <code>ssh-keygen</code> you should copy over your existing key.</p>
+<p>In your Ubuntu shell (change your user if it's different between Windows and Linux):</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">mkdir -p ~</span><span style="color:#c0c5ce;">/.ssh
+</span><span style="color:#bf616a;">cp -r</span><span style="color:#c0c5ce;"> /mnt/c/Users/$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/.ssh/* </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/.ssh/
+</span><span style="color:#bf616a;">chmod -R</span><span style="color:#c0c5ce;"> o-rwx,g-rwx </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/.ssh/*
+</span></pre>
+<p>If you haven't already, roll some keys in Linux and copy them the other way:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/c/Users/$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/.ssh/
+</span><span style="color:#bf616a;">cp -r ~</span><span style="color:#c0c5ce;">/.ssh/* /mnt/c/Users/$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/.ssh/
+</span></pre>
+<p>Unfortunately we can't easily link them since they're on different devices.</p>
+<h2 id="get-systemd-functional">Get <code>systemd</code> functional</h2>
+<p>At this stage of WSL2's development, we don't get a true <code>systemd</code> <em>yet</em>. That is, by default, you can't do things like <code>systemctl start sshd</code> or <code>systemctl start docker</code>.</p>
+<p>Thankfully, a wonderful person in the Snapcraft project got an <a href="https://forum.snapcraft.io/t/running-snaps-on-wsl2-insiders-only-for-now/13033">amazingly convienent hack working</a>! While you may want to fully review the linked article, here's a quick and dirty breakdown.</p>
+<p>In your Ubuntu shell:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> apt-get install</span><span style="color:#bf616a;"> -yqq</span><span style="color:#c0c5ce;"> daemonize dbus-user-session
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /usr/sbin/start-systemd-namespace &gt; /dev/null
+</span><span style="color:#65737e;">#!/bin/bash
+</span><span style="color:#a3be8c;">
+SYSTEMD_PID=$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)
+if [ -z &quot;$SYSTEMD_PID&quot; ] || [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
+    export PRE_NAMESPACE_PATH=&quot;$PATH&quot;
+    (set -o posix; set) | \
+        grep -v &quot;^BASH&quot; | \
+        grep -v &quot;^DIRSTACK=&quot; | \
+        grep -v &quot;^EUID=&quot; | \
+        grep -v &quot;^GROUPS=&quot; | \
+        grep -v &quot;^HOME=&quot; | \
+        grep -v &quot;^HOSTNAME=&quot; | \
+        grep -v &quot;^HOSTTYPE=&quot; | \
+        grep -v &quot;^IFS=&#39;.*&quot;$&#39;\n&#39;&quot;&#39;&quot; | \
+        grep -v &quot;^LANG=&quot; | \
+        grep -v &quot;^LOGNAME=&quot; | \
+        grep -v &quot;^MACHTYPE=&quot; | \
+        grep -v &quot;^NAME=&quot; | \
+        grep -v &quot;^OPTERR=&quot; | \
+        grep -v &quot;^OPTIND=&quot; | \
+        grep -v &quot;^OSTYPE=&quot; | \
+        grep -v &quot;^PIPESTATUS=&quot; | \
+        grep -v &quot;^POSIXLY_CORRECT=&quot; | \
+        grep -v &quot;^PPID=&quot; | \
+        grep -v &quot;^PS1=&quot; | \
+        grep -v &quot;^PS4=&quot; | \
+        grep -v &quot;^SHELL=&quot; | \
+        grep -v &quot;^SHELLOPTS=&quot; | \
+        grep -v &quot;^SHLVL=&quot; | \
+        grep -v &quot;^SYSTEMD_PID=&quot; | \
+        grep -v &quot;^UID=&quot; | \
+        grep -v &quot;^USER=&quot; | \
+        grep -v &quot;^_=&quot; | \
+        cat - &gt; &quot;$HOME/.systemd-env&quot;
+    echo &quot;PATH=&#39;$PATH&#39;&quot; &gt;&gt; &quot;$HOME/.systemd-env&quot;
+    exec sudo /usr/sbin/enter-systemd-namespace &quot;$BASH_EXECUTION_STRING&quot;
+fi
+if [ -n &quot;$PRE_NAMESPACE_PATH&quot; ]; then
+    export PATH=&quot;$PRE_NAMESPACE_PATH&quot;
+fi
+</span><span style="color:#b48ead;">EOF
+</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> chmod +x /usr/sbin/start-systemd-namespace
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /usr/sbin/enter-systemd-namespace &gt; /dev/null
+</span><span style="color:#65737e;">#!/bin/bash
+</span><span style="color:#a3be8c;">
+if [ &quot;$UID&quot; != 0 ]; then
+    echo &quot;You need to run $0 through sudo&quot;
+    exit 1
+fi
+
+SYSTEMD_PID=&quot;$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)&quot;
+if [ -z &quot;$SYSTEMD_PID&quot; ]; then
+    /usr/sbin/daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
+    while [ -z &quot;$SYSTEMD_PID&quot; ]; do
+        SYSTEMD_PID=&quot;$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)&quot;
+    done
+fi
+
+if [ -n &quot;$SYSTEMD_PID&quot; ] &amp;&amp; [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
+    if [ -n &quot;$1&quot; ] &amp;&amp; [ &quot;$1&quot; != &quot;bash --login&quot; ] &amp;&amp; [ &quot;$1&quot; != &quot;/bin/bash --login&quot; ]; then
+        exec /usr/bin/nsenter -t &quot;$SYSTEMD_PID&quot; -a \
+            /usr/bin/sudo -H -u &quot;$SUDO_USER&quot; \
+            /bin/bash -c &#39;set -a; source &quot;$HOME/.systemd-env&quot;; set +a; exec bash -c &#39;&quot;$(printf &quot;%q&quot; &quot;$@&quot;)&quot;
+    else
+        exec /usr/bin/nsenter -t &quot;$SYSTEMD_PID&quot; -a \
+            /bin/login -p -f &quot;$SUDO_USER&quot; \
+            $(/bin/cat &quot;$HOME/.systemd-env&quot; | grep -v &quot;^PATH=&quot;)
+    fi
+    echo &quot;Existential crisis&quot;
+fi
+</span><span style="color:#b48ead;">EOF
+</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> chmod +x /usr/sbin/enter-systemd-namespace
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /etc/sudoers.d/wsl &gt; /dev/null</span><span style="color:#a3be8c;">
+Defaults        env_keep += WSLPATH
+Defaults        env_keep += WSLENV
+Defaults        env_keep += WSL_INTEROP
+Defaults        env_keep += WSL_DISTRO_NAME
+Defaults        env_keep += PRE_NAMESPACE_PATH
+%sudo ALL=(ALL) NOPASSWD: /usr/sbin/enter-systemd-namespace
+</span><span style="color:#b48ead;">EOF
+</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> sed</span><span style="color:#bf616a;"> -i</span><span style="color:#c0c5ce;"> 2a&quot;</span><span style="color:#a3be8c;"># Start or enter a PID namespace in WSL2\nsource /usr/sbin/start-systemd-namespace\n</span><span style="color:#c0c5ce;">&quot; /etc/bash.bashrc
+</span></pre>
+<p>In Powershell, set some final knobs then restart WSL:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#96b5b4;">cmd.exe </span><span style="color:#c0c5ce;">/C setx WSLENV BASH_ENV/u
+</span><span style="color:#96b5b4;">cmd.exe </span><span style="color:#c0c5ce;">/C setx BASH_ENV /etc/bash.bashrc
+wsl --shutdown
+</span></pre>
+<p>Finally, install <code>docker.io</code> with <code>apt</code> and have a try:</p>
+<figure>
+    <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cf9c51ac6f39ca6d00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab8d5a02c313153d00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b6134390e34a52f00.jpg"
+              alt="Docker running in Sytemd" />
+    <figcaption>Docker running in Sytemd</figcaption>
+</figure>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4cfc9183f7fd393700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ebbfb50cd92904f500.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3b9bea67a875224e00.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4>
+        
+            <p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/ref: refs&#x2F;heads&#x2F;master
+"><code>ref: refs&#x2F;heads&#x2F;master
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>
