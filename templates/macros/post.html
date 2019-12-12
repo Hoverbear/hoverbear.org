@@ -20,7 +20,7 @@
 						{%- for tag in post.taxonomies.tags -%}
 							{%- if loop.first != true and post.taxonomies.tags | length > 2 -%},{%- endif -%}
 							{%- if loop.last and post.taxonomies.tags | length > 1 -%}&nbsp;and{%- endif -%}
-							&nbsp;<a href="{{ config.base_url }}/tags/{{ tag }}">{{ tag }}</a>
+							&nbsp;<a href="{{ config.base_url }}/tags/{{ tag | lower }}">{{ tag }}</a>
 						{%- endfor -%}
 					{%- endif -%}
 				</div>
