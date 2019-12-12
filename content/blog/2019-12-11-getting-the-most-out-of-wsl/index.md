@@ -131,7 +131,7 @@ Unfortunately we can't easily link them since they're on different devices.
 
 At this stage of WSL2's development, we don't get a true `systemd` *yet*. That is, by default, you can't do things like `systemctl start sshd` or `systemctl start docker`.
 
-Thankfully, a wonderful person in the Snapcraft project got an [amazingly convienent hack working](https://forum.snapcraft.io/t/running-snaps-on-wsl2-insiders-only-for-now/13033)! While you may want to fully review the linked article, here's a quick and dirty breakdown.
+Thankfully, a wonderful person in the Snapcraft project, [Daniel](https://forum.snapcraft.io/u/daniel/summary), got an [amazingly convienent hack working](https://forum.snapcraft.io/t/running-snaps-on-wsl2-insiders-only-for-now/13033)! While you may want to fully review the linked article, here's a quick and dirty breakdown.
 
 In your Ubuntu shell:
 
