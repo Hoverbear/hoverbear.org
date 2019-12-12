@@ -1,6 +1,6 @@
 +++
 title = "Getting the most of WSL"
-description = "Some tricks for getting more milage from your Linux subsystem"
+description = "Some tricks for getting more mileage from your Linux subsystem"
 layout = "blog/single.html"
 [taxonomies]
 tags = [
