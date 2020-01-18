@@ -4,12 +4,19 @@ $unvisited-link: ("light": #333333, "dark": #CCCCCC);
 $visited-link: ("light": #555555, "dark": #AAAAAA);
 $code-background: ("light": #DDDDDD, "dark": #2b303b);
 $font: ("normal": "Fira Sans", "code": "Fira Code");
-
+$responsive-margin-vertical: ("normal": 5vw, "widescreen": 15vw);
 
 @mixin color-scheme($property, $setting) {
     #{$property}: map-get($setting, "light");
     @media (prefers-color-scheme: dark) {
         #{$property}: map-get($setting, "dark");
+    }
+}
+
+@mixin responsive($property, $setting) {
+    #{$property}: map-get($setting, "normal");
+    @media (min-width: 1600px) {
+        #{$property}: map-get($setting, "widescreen");
     }
 }
 
@@ -97,21 +104,11 @@ html {
         }
 
         p, h2, h1, h3, h4, ul, ol,
-        .post-meta, section > .excerpt > a, section, pre, figcaption, #hero-wrapper .content {
+        .post-meta, section > .excerpt > a, section, pre, figcaption, #hero-wrapper .content, nav#toc {
+            @include responsive(margin-left, $responsive-margin-vertical);
+            @include responsive(margin-right, $responsive-margin-vertical);
             margin-top: 2vh;
             margin-bottom: 2vh;
-            margin-left: 5vw;
-            margin-right: 5vw;
-        }
-
-        @media (min-width: 1600px) {
-            p, h2, h1, h3, h4, ul, ol,
-            .post-meta, section > .excerpt > a, section, pre, figcaption, #hero-wrapper .content {
-                margin-top: 2vh;
-                margin-bottom: 2vh;
-                margin-left: 15vw;
-                margin-right: 15vw;
-            }
         }
 
         ul *, ul *, ol *, ol * {
@@ -122,6 +119,22 @@ html {
         }
 
         nav {
+            &#toc {
+                &:first-child::before {
+                    content: "Table of Contents";
+                    font-size: 16pt;
+                }
+                ol {
+                    margin-left: 0;
+                    margin-right: 0;
+                    counter-reset: section;
+                    list-style-type: none;
+                    li:before {
+                        counter-increment: section;
+                        content: counters(section, ".") " ";
+                    }
+                }
+            }
 
             &#pages > ul {
                 padding-left: 0;
@@ -150,10 +163,9 @@ html {
         main {
             margin: auto;
             line-height: 1.4;
-            
             // Create nice article breaks.
             article {
-                & > h1:before,article > h2:before {
+                & > h1:before,article > h2:before,article > h3:before {
                     content: "";
                     width: 45vw;
                     height: 5px;
@@ -164,7 +176,6 @@ html {
                     margin-bottom: 3vh;
                     background: #999999;
                 }
-
                 & > h2 {
                     margin-top: 0px;
                 }

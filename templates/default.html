@@ -8,6 +8,26 @@
         {% include "partials/header.html" %}
 
         <main>
+            {% if toc %}
+                <nav id=toc>
+                    <ol>
+                        {% for h1 in toc %}
+                            <li>
+                                <a href="{{h1.permalink | safe}}">{{ h1.title }}</a>
+                                {% if h1.children %}
+                                    <ol>
+                                        {% for heading in h1.children %}
+                                            <li>
+                                                <a href="{{heading.permalink | safe}}">{{ heading.title }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </nav>
+            {% endif %}
             <article>
                 {% block content %}
                 {% endblock content %}
