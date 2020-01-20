@@ -9,7 +9,7 @@ tags = [
 ]
 [extra]
 image = "cover.jpg"
-image-credit = "A Hobden"
+image_credit = "A Hobden"
 +++
 
 In the time since my last writing life has been nothing short of a whirlwind. It's been good though. I've relocated, started at PingCAP, found a new apartment, bought furniture(!!!), traveled, travelled more, and been working on a few other bit things.

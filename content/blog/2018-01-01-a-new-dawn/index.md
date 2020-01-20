@@ -9,7 +9,7 @@ tags = [
 ]
 [extra]
 image = "cover.jpg"
-image-credit = "Ana Hobden @ 34c3"
+image_credit = "Ana Hobden @ 34c3"
 +++
 
 First of all, **happy new year!**

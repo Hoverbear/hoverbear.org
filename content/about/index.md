@@ -4,7 +4,7 @@ title = "About"
 description = "I have been many things, and I shall be many more, but what I shall always be, is me."
 [extra]
 image = "about.jpg"
-image-credit = "Ana Hobden"
+image_credit = "Ana Hobden"
 +++
 
 Hello,

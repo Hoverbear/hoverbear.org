@@ -8,7 +8,7 @@ tags = [
 ]
 [extra]
 image = "cover.jpg"
-image-credit = "Ethan Dow"
+image_credit = "Ethan Dow"
 +++
 
 This is the fifth part of an ongoing series on configuring a new server. In our [last post](/2016/05/09/new-roots-4/) we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.

@@ -10,7 +10,7 @@ tags = [
 ]
 [extra]
 image = "cover.jpg"
-image-credit = "Eric Parks"
+image_credit = "Eric Parks"
 +++
 
 In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:

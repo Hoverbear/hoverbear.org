@@ -9,7 +9,7 @@ tags = [
 ]
 [extra]
 image = "cover.jpg"
-image-credit = "Olivier Guillard"
+image_credit = "Olivier Guillard"
 +++
 
 This is the fourth of a series on taking up residence on a new server. In our [last post](/2016/05/07/new-roots-3/) we talked about how to set up some basic network services like `ssh` and configure `iptables`, our firewall. In this post we'll talk about making your server feel like home.

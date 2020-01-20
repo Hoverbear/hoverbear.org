@@ -8,7 +8,7 @@ tags = [
 ]
 [extra]
 image = "gov-21-1.jpg"
-image-credit = "(All) Geoff Howe"
+image_credit = "(All) Geoff Howe"
 +++
 
 This year helped again with Gathering Our Voices. I worked in the same capacity as previous years and had a similarly great time.
