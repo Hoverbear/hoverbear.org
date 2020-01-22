@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Hierarchical Structures in PostgreSQL</title>
+        <meta name="description" content="Musings of a distributed systems engineer working remotely in western Canada." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bcd8060a2fec229f00.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Hierarchical Structures in PostgreSQL">
+        
+        
+            <meta name="twitter:description" content="It&#x27;s a common pattern: a database developer at a startup is probably on the Product subteam of the Engineering team at their company. In a department store, shoes are a subcategory of clothing, while your favorite thermos is probably in the travel department.
+In any Github organization, there are teams within teams within teams. In any large department store there are categories deeply nested. In any recipe book, there are many ways to classify food.
+So how can we model them?
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/feed.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+    <body>
+        <header><div id="hero-wrapper">
+        <div class="content"><h1><a href="https:&#x2F;&#x2F;hoverbear.org">Hierarchical Structures in PostgreSQL</a></h1>
+                <p class="description">Modelling hierarchical&#x2F;team&#x2F;categorical&#x2F;tag data with arbitrary depths.</h1><nav id="pages">
+                <ul>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/tags/">Tags</a></li>
+                    <li><a href="/about/">About</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7af41ef30c2eb1c300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bcd8060a2fec229f00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9102ec7ae89dc56100.jpg"
+              alt="" />
+    </div>
+</header>
+      
+
+        <main>
+            
+                <nav id=toc>
+                    <ol>
+                        
+                            <li>
+                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#core-problem">Core Problem</a>
+                                
+                            </li>
+                        
+                            <li>
+                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#concepts">Concepts</a>
+                                
+                            </li>
+                        
+                            <li>
+                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#implementation">Implementation</a>
+                                
+                            </li>
+                        
+                            <li>
+                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#testing">Testing</a>
+                                
+                            </li>
+                        
+                    </ol>
+                </nav>
+            
+            <article>
+                
+    <p>It's a common pattern: a database developer at a startup is probably on the Product subteam of the Engineering team at their company. In a department store, shoes are a subcategory of clothing, while your favorite thermos is probably in the travel department.</p>
+<p>In any Github organization, there are teams within teams within teams. In any large department store there are categories deeply nested. In any recipe book, there are many ways to classify food.</p>
+<p>So how can we model them?</p>
+<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<p>Jake (my boyfriend) and I have been exploring relational database concepts out of interest and pure geekery. This was a fun problem that I gave him and we got to work it out together. It was so fun we wanted to share! We won't beat the bush around with PostgreSQL installation, security, setup, blah blah at this time, let's just have some pure database fun for a few minutes!</p>
+<h2 id="core-problem">Core Problem</h2>
+<p>Handle a high amount of reads and a small amount of writes over a small to medium amount of keys (in this case, a text field), each of which <em>possibly</em> has a reference to a parent key.</p>
+<p>In this concrete example, we will replicate team structures. Start with the teams existing inside some small organization, each with a <code>name</code> and possibly a <code>parent</code>:</p>
+<table><thead><tr><th align="left">name</th><th align="left">parent</th></tr></thead><tbody>
+<tr><td align="left">Engineering</td><td align="left">NULL</td></tr>
+<tr><td align="left">Operations</td><td align="left">Engineering</td></tr>
+<tr><td align="left">Product</td><td align="left">Engineering</td></tr>
+<tr><td align="left">Interns</td><td align="left">Product</td></tr>
+<tr><td align="left">Administration</td><td align="left">NULL</td></tr>
+<tr><td align="left">Human Resources</td><td align="left">Administration</td></tr>
+<tr><td align="left">Finance</td><td align="left">Administration</td></tr>
+<tr><td align="left">Marketing</td><td align="left">NULL</td></tr>
+<tr><td align="left">Logistics</td><td align="left">NULL</td></tr>
+</tbody></table>
+<p>Then somehow mixin the <code>path</code> which shows the datum's place in the hierarchy.</p>
+<table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
+<tr><td align="left">Administration</td><td align="left">NULL</td><td align="left">{Administration}</td></tr>
+<tr><td align="left">Finance</td><td align="left">Administration</td><td align="left">{Administration,Finance}</td></tr>
+<tr><td align="left">Human Resources</td><td align="left">Administration</td><td align="left">{Administration,Human Resources}</td></tr>
+<tr><td align="left">Engineering</td><td align="left">NULL</td><td align="left">{Engineering}</td></tr>
+<tr><td align="left">Operations</td><td align="left">Engineering</td><td align="left">{Engineering,Operations}</td></tr>
+<tr><td align="left">Product</td><td align="left">Engineering</td><td align="left">{Engineering,Product}</td></tr>
+<tr><td align="left">Interns</td><td align="left">Product</td><td align="left">{Engineering,Product,Interns}</td></tr>
+<tr><td align="left">Logistics</td><td align="left">NULL</td><td align="left">{Logistics}</td></tr>
+<tr><td align="left">Marketing</td><td align="left">NULL</td><td align="left">{Marketing}</td></tr>
+</tbody></table>
+<p>For this exercise, the exact format of the <code>path</code> is not important. An HTML string, a comma separated list, or any ordered collection is acceptable.</p>
+<h2 id="concepts">Concepts</h2>
+<p>Solving this problem involves a few core concepts!</p>
+<p>Ensure you're familiar with the ideas of <a href="https://www.postgresql.org/docs/current/functions-comparison.html"><strong><code>NULL</code></strong></a>, <a href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"><strong>Primary Keys</strong></a>, and <a href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK"><strong>Foreign Keys</strong></a>. We'll need these for building safe, efficient linking between teams and their parents.</p>
+<p>We'll then use a <a href="https://www.postgresql.org/docs/12/sql-creatematerializedview.html"><strong>Materialized View</strong></a> to create a sort of <em>cache</em> of the point-in-time team structure. We'll refresh this using a <a href="https://www.postgresql.org/docs/12/plpgsql-trigger.html"><strong>Function</strong></a> that is <a href="https://www.postgresql.org/docs/12/trigger-definition.html"><strong>Triggered</strong></a> whenever the original table is written to.</p>
+<h2 id="implementation">Implementation</h2>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">BEGIN</span><span style="color:#c0c5ce;">;
+</span><span style="color:#b48ead;">CREATE TABLE </span><span style="color:#8fa1b3;">teams</span><span style="color:#c0c5ce;"> (
+    name   </span><span style="color:#b48ead;">TEXT</span><span style="color:#c0c5ce;">
+           UNIQUE </span><span style="color:#b48ead;">NOT NULL
+           PRIMARY KEY</span><span style="color:#c0c5ce;">,
+    parent </span><span style="color:#b48ead;">TEXT
+           REFERENCES</span><span style="color:#c0c5ce;"> teams (name)
+);
+
+CREATE MATERIALIZED VIEW team_structure </span><span style="color:#b48ead;">AS
+    WITH</span><span style="color:#c0c5ce;"> RECURSIVE teams_cte(name, parent, </span><span style="color:#b48ead;">path</span><span style="color:#c0c5ce;">) </span><span style="color:#b48ead;">AS</span><span style="color:#c0c5ce;"> (
+        </span><span style="color:#b48ead;">SELECT </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">name</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">parent</span><span style="color:#c0c5ce;">, ARRAY [</span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">name</span><span style="color:#c0c5ce;">]
+            </span><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> teams
+            </span><span style="color:#b48ead;">WHERE </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">parent</span><span style="color:#c0c5ce;"> IS </span><span style="color:#b48ead;">NULL
+        UNION ALL
+        SELECT </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">name</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">parent</span><span style="color:#c0c5ce;">, array_append(</span><span style="color:#d08770;">teams_cte</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">path</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">name</span><span style="color:#c0c5ce;">)
+            </span><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> teams_cte,
+                 teams
+            </span><span style="color:#b48ead;">WHERE </span><span style="color:#d08770;">teams</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">parent </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">teams_cte</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">name</span><span style="color:#c0c5ce;">
+    )
+    </span><span style="color:#b48ead;">SELECT </span><span style="color:#c0c5ce;">*
+        </span><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> teams_cte;
+
+</span><span style="color:#b48ead;">CREATE FUNCTION </span><span style="color:#8fa1b3;">refresh_team_structure</span><span style="color:#c0c5ce;">() RETURNS TRIGGER
+    LANGUAGE plpgsql </span><span style="color:#b48ead;">AS</span><span style="color:#c0c5ce;">
+$$
+</span><span style="color:#b48ead;">BEGIN</span><span style="color:#c0c5ce;">
+    REFRESH MATERIALIZED VIEW team_structure;
+    RETURN new;
+</span><span style="color:#b48ead;">END</span><span style="color:#c0c5ce;">;
+$$;
+
+</span><span style="color:#b48ead;">CREATE TRIGGER </span><span style="color:#8fa1b3;">trigger_update_team_structure</span><span style="color:#c0c5ce;">
+    AFTER </span><span style="color:#b48ead;">UPDATE OR INSERT OR DELETE OR</span><span style="color:#c0c5ce;"> TRUNCATE
+    </span><span style="color:#b48ead;">ON</span><span style="color:#c0c5ce;"> teams
+EXECUTE PROCEDURE refresh_team_structure();
+</span><span style="color:#b48ead;">COMMIT</span><span style="color:#c0c5ce;">;
+</span></pre><h2 id="testing">Testing</h2>
+<p>Loading the example data:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">INSERT INTO</span><span style="color:#c0c5ce;"> teams (name, parent)
+    </span><span style="color:#b48ead;">VALUES</span><span style="color:#c0c5ce;"> (&#39;</span><span style="color:#a3be8c;">Engineering</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">NULL</span><span style="color:#c0c5ce;">),
+           (&#39;</span><span style="color:#a3be8c;">Operations</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">Engineering</span><span style="color:#c0c5ce;">&#39;),
+           (&#39;</span><span style="color:#a3be8c;">Product</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">Engineering</span><span style="color:#c0c5ce;">&#39;),
+           (&#39;</span><span style="color:#a3be8c;">Interns</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">Product</span><span style="color:#c0c5ce;">&#39;),
+           (&#39;</span><span style="color:#a3be8c;">Administration</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">NULL</span><span style="color:#c0c5ce;">),
+           (&#39;</span><span style="color:#a3be8c;">Human Resources</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">Administration</span><span style="color:#c0c5ce;">&#39;),
+           (&#39;</span><span style="color:#a3be8c;">Finance</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">Administration</span><span style="color:#c0c5ce;">&#39;),
+           (&#39;</span><span style="color:#a3be8c;">Marketing</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">NULL</span><span style="color:#c0c5ce;">),
+           (&#39;</span><span style="color:#a3be8c;">Logistics</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">NULL</span><span style="color:#c0c5ce;">);
+</span></pre>
+<p>Listing all of them:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&gt; </span><span style="color:#b48ead;">SELECT </span><span style="color:#c0c5ce;">* </span><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> team_structure </span><span style="color:#b48ead;">ORDER BY path</span><span style="color:#c0c5ce;">;
+      name       |     parent     |                </span><span style="color:#b48ead;">path
+</span><span style="color:#65737e;">-----------------+----------------+------------------------------------
+</span><span style="color:#c0c5ce;"> Administration  |                | {Administration}
+ Finance         | Administration | {Administration,Finance}
+ Human Resources | Administration | {Administration,&quot;</span><span style="color:#a3be8c;">Human Resources</span><span style="color:#c0c5ce;">&quot;}
+ Engineering     |                | {Engineering}
+ Operations      | Engineering    | {Engineering,Operations}
+ Product         | Engineering    | {Engineering,Product}
+ Interns         | Product        | {Engineering,Product,Interns}
+ Logistics       |                | {Logistics}
+ Marketing       |                | {Marketing}
+(</span><span style="color:#d08770;">9</span><span style="color:#c0c5ce;"> rows)
+</span></pre>
+<p>A specific one:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&gt; </span><span style="color:#b48ead;">SELECT </span><span style="color:#c0c5ce;">* </span><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> team_structure </span><span style="color:#b48ead;">WHERE</span><span style="color:#c0c5ce;"> name = &#39;</span><span style="color:#a3be8c;">Finance</span><span style="color:#c0c5ce;">&#39;;
+  name   |     parent     |           </span><span style="color:#b48ead;">path
+</span><span style="color:#65737e;">---------+----------------+--------------------------
+</span><span style="color:#c0c5ce;"> Finance | Administration | {Administration,Finance}
+(</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;"> row)
+
+</span></pre>
+<p>Finding all subteams (deep) of a team:</p>
+<pre style="background-color:#2b303b;">
+<span style="color:#c0c5ce;">&gt;  </span><span style="color:#b48ead;">SELECT </span><span style="color:#c0c5ce;">* </span><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> team_structure </span><span style="color:#b48ead;">WHERE </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">Product</span><span style="color:#c0c5ce;">&#39; = ANY(</span><span style="color:#b48ead;">path</span><span style="color:#c0c5ce;">);
+  name   |   parent    |             </span><span style="color:#b48ead;">path
+</span><span style="color:#65737e;">---------+-------------+-------------------------------
+</span><span style="color:#c0c5ce;"> Product | Engineering | {Engineering,Product}
+ Interns | Product     | {Engineering,Product,Interns}
+(</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;"> rows)
+</span></pre>
+<p>As you can see, this problem can be tackled deftly with some basic SQL concepts used together! I hope this have given you some ideas about new things you can do with your database!</p>
+
+
+            </article>
+        </main>
+        
+        <footer class="post-footer">
+    <div id="hero-wrapper"><img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7af41ef30c2eb1c300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bcd8060a2fec229f00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9102ec7ae89dc56100.jpg"
+              alt="" /><div class="content">
+            <h4><a href=/>← Back to top of index</a></h4>
+        
+            <h4>By Ana Hobden</h4><h4>Cover image by Javier Allegue Barros; @soymeraki on Unsplash</h4><p>
+                Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+                or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+            </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/ref: refs&#x2F;heads&#x2F;master
+"><code>ref: refs&#x2F;heads&#x2F;master
+</code></a></p>
+        </div>
+    </div>
+</footer>
+            
+    </body>
+
+</html>
