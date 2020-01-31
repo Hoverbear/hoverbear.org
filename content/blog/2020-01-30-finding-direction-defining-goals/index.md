@@ -37,7 +37,7 @@ As for the TiKV community, I plan to bring my involvement to an end in a good wa
 
 {{ figure(path="forge.jpg", alt="A forge - [@neonbrand](https://unsplash.com/@neonbrand)", colocated=true) }}
 
-During university, I worked as an employeee as part of a number of organizations, like the [BCAAFC](https://bcaafc.com/), a couple research labs, and [Science Venture](https://www.scienceventure.ca/). Often at the same time. After, I worked in German as part of the software consultancy [Asquera](asquera.de/) with some really incredible organizations, including my favorite, the [Wheelmap](https://wheelmap.org). For [PingCAP](pingcap.com/), I operated again as an employee.
+During university, I worked as an employeee as part of a number of organizations, like the [BCAAFC](https://bcaafc.com/), a couple research labs, and [Science Venture](https://www.scienceventure.ca/). Often at the same time. After, I worked in Germany as part of the software consultancy [Asquera](asquera.de/) with some really incredible organizations, including my favorite, the [Wheelmap](https://wheelmap.org). For [PingCAP](pingcap.com/), I operated again as an employee.
 
 This always provided a certain level of comfort and safety. Back then, I was a bit less confident in myself. I didn't have the same experiences. I didn't have the same knowledge. I didn't have such an incredible network of friends and organizational contacts.
 
