@@ -65,7 +65,7 @@ I'm really excited to start working on [Vector](https://vector.dev/)! It solves 
 
 Vector isn't trying to reinvent the world, it's not trying to eliminate existing services in your infrastructure, and it's not trying to push an agenda on you. It gives you the power to connect, manipulate, structure, split, and merge various parts of your observability pipelines.
 
-Over the past few days I've been having a lot of discussions with the team about their vision for the project and how I can best help them get there. So far it's been a nice change of pace to move from a specialized service like [TiKV](https://tikv.org/) to a sort of 'swiss-army-glue' between various pieces of infrastructure like [Vector]https://vector.dev/).
+Over the past few days I've been having a lot of discussions with the team about their vision for the project and how I can best help them get there. So far it's been a nice change of pace to move from a specialized service like [TiKV](https://tikv.org/) to a sort of 'swiss-army-glue' between various pieces of infrastructure like [Vector](https://vector.dev/).
 
 So what kinds of things will I be helping Timber and Vector achieve? To start, we've been discussing how I can assist them with the road to 1.0, packaging, testing, documentation, new features, and their various technical processes. I'll also be contributing to their technical content, articles which will eventually reflect back here. Best of all, I'll be a proud member of the Vector community, working to give folks the best experience possible when contributing to Vector.
 
