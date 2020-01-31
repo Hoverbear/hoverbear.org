@@ -17,7 +17,7 @@ My life is unrecognizable compared to even two years ago, and with these changes
 
 <!-- more -->
 
-In the past weeks, this has spurned a catalyst. I've shifted my professional gears and am now embarking on the adventure of sole proprietorship, **Hoverbear Consulting**! As part of this shift, [PingCAP](pingcap.com/) and I are taking separate paths and I'll be working with new organizations to build their capacity. The first organization I'll be working with is [Timber](timber.io/) on a long term contract to grow the [Vector](vector.dev/) ecosystem. More below!
+In the past weeks, this has spurned a catalyst. I've shifted my professional gears and am now embarking on the adventure of sole proprietorship, **Hoverbear Consulting**! As part of this shift, [PingCAP](https://pingcap.com/) and I are taking separate paths and I'll be working with new organizations to build their capacity. The first organization I'll be working with is [Timber](https://timber.io/) on a long term contract to grow the [Vector](https://vector.dev/) ecosystem. More below!
 
 ## A heavy-hearted, but necessary goodbye
 
@@ -37,7 +37,7 @@ As for the TiKV community, I plan to bring my involvement to an end in a good wa
 
 {{ figure(path="forge.jpg", alt="A forge - [@neonbrand](https://unsplash.com/@neonbrand)", colocated=true) }}
 
-During university, I worked as an employeee as part of a number of organizations, like the [BCAAFC](https://bcaafc.com/), a couple research labs, and [Science Venture](https://www.scienceventure.ca/). Often at the same time. After, I worked in Germany as part of the software consultancy [Asquera](asquera.de/) with some really incredible organizations, including my favorite, the [Wheelmap](https://wheelmap.org). For [PingCAP](pingcap.com/), I operated again as an employee.
+During university, I worked as an employeee as part of a number of organizations, like the [BCAAFC](https://bcaafc.com/), a couple research labs, and [Science Venture](https://www.scienceventure.ca/). Often at the same time. After, I worked in Germany as part of the software consultancy [Asquera](https://asquera.de/) with some really incredible organizations, including my favorite, the [Wheelmap](https://wheelmap.org). For [PingCAP](https://pingcap.com/), I operated again as an employee.
 
 This always provided a certain level of comfort and safety. Back then, I was a bit less confident in myself. I didn't have the same experiences. I didn't have the same knowledge. I didn't have such an incredible network of friends and organizational contacts.
 
@@ -45,11 +45,11 @@ Over the past year, my partner has been learning how to run the books for a smal
 
 During my initial conversations with possible new opportunities after PingCAP, we started to talk. What if I made a consultancy? What if we could experience the process of doing the books for a sole proprietorship?
 
-After preliminary contract discussions with the folks at [Timber](timber.io/), I decided I wanted to do it. Timber would be my first contract, and I'd spend a small part of my time cooperating with non-profits I consider impactful, at a very reduced rate.
+After preliminary contract discussions with the folks at [Timber](https://timber.io/), I decided I wanted to do it. Timber would be my first contract, and I'd spend a small part of my time cooperating with non-profits I consider impactful, at a very reduced rate.
 
 After discussing with some contacts who knew more than me, and investigating the [CRA Information Technology Guidelines](https://www.canada.ca/en/revenue-agency/services/tax/canada-pension-plan-cpp-employment-insurance-ei-rulings/cpp-ei-explained/canada-pension-plan-employment-insurance-explained-information-technology-consultants-employees-self-employed-workers.html) page, I ended up visiting the [**surprisingly amazing and really honestly incredible BC Onestop site**](https://onestop.gov.bc.ca/) which helped me complete the entire process in about 5 hours and under $150 CAD. It just took months of planning and talking to folks to figure out where to go, and which buttons to push when.
 
-My company **Hoverbear Consulting**, began operating on Tuesday and I couldn't be happier! Shortly after, I signed my first contract with the company [Timber](timber.io/). Over the next couple months I'll be trying to find my second, non-profit, organizational engagement, and I'm looking right here on Vancouver Island!
+My company **Hoverbear Consulting**, began operating on Tuesday and I couldn't be happier! Shortly after, I signed my first contract with the company [Timber](https://timber.io/). Over the next couple months I'll be trying to find my second, non-profit, organizational engagement, and I'm looking right here on Vancouver Island!
 
 If you're a non-profit or not-for-profit in the area and interested working with me a few hours a month, I invite you to visit [consulting page](/consulting/) of this site. 
 
@@ -61,11 +61,11 @@ You can find a rough plan of my business goals on the [consulting page](/consult
 
 {{ figure(path="timber.jpg", alt="Chopped Timber - [@scutal](https://unsplash.com/@scutal)", colocated=true) }}
 
-I'm really excited to start working on [Vector](vector.dev/)! It solves such a common problem that plagues infrastructure large and small.
+I'm really excited to start working on [Vector](https://vector.dev/)! It solves such a common problem that plagues infrastructure large and small.
 
 Vector isn't trying to reinvent the world, it's not trying to eliminate existing services in your infrastructure, and it's not trying to push an agenda on you. It gives you the power to connect, manipulate, structure, split, and merge various parts of your observability pipelines.
 
-Over the past few days I've been having a lot of discussions with the team about their vision for the project and how I can best help them get there. So far it's been a nice change of pace to move from a specialized service like [TiKV](tikv.org/) to a sort of 'swiss-army-glue' between various pieces of infrastructure like [Vector](vector.dev/).
+Over the past few days I've been having a lot of discussions with the team about their vision for the project and how I can best help them get there. So far it's been a nice change of pace to move from a specialized service like [TiKV](https://tikv.org/) to a sort of 'swiss-army-glue' between various pieces of infrastructure like [Vector]https://vector.dev/).
 
 So what kinds of things will I be helping Timber and Vector achieve? To start, we've been discussing how I can assist them with the road to 1.0, packaging, testing, documentation, new features, and their various technical processes. I'll also be contributing to their technical content, articles which will eventually reflect back here. Best of all, I'll be a proud member of the Vector community, working to give folks the best experience possible when contributing to Vector.
 
