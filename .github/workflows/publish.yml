@@ -39,7 +39,7 @@ jobs:
         git checkout gh-pages
     - name: Commit changes to gh-pages branch
       run: |
-        rm -rf gh-pages/*
+        rm -rf gh-pages/* gh-pages/.well-known gh-pages/.nojekyll
         mv public/* .nojekyll public/.well-known gh-pages/
         cd gh-pages
         git add .
