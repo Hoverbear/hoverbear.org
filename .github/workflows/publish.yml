@@ -40,7 +40,7 @@ jobs:
     - name: Commit changes to gh-pages branch
       run: |
         rm -rf gh-pages/*
-        mv public/* public/.well-known gh-pages/
+        mv public/* .nojekyll public/.well-known gh-pages/
         cd gh-pages
         git add .
         git commit -s -m "Deploy ${GITHUB_SHA}." --allow-empty
