@@ -75,104 +75,12 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#why-is-jepsen-so-important-to-our-industry">Why is Jepsen so important to our industry?</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#how-does-jepsen-work">How does Jepsen work?</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#jepsen-the-framework">Jepsen (the framework)</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#jepsen-the-analysis">Jepsen (the analysis)</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#commonly-found-problems">Commonly found problems</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#responding-too-early">Responding too early</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#membership-changes-are-hard">Membership Changes are hard</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#split-brains-from-a-bridge">Split brains from a bridge</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#poor-behavior-on-failed-connections">Poor behavior on failed connections</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#inappropriate-retries">Inappropriate retries</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#misleading-or-incorrect-advertising">Misleading or incorrect advertising</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#incorrect-claims-by-developers">Incorrect claims by developers</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#interesting-notes">Interesting notes</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#serializability-vs-strict-serializability-casual-reverse">Serializability vs strict serializability: casual reverse</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#error-message-compatibility">Error message compatibility</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#how-we-use-jepsen-with-tidb">How we use Jepsen with TiDB</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#appendix-i">Appendix I</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>When <a href="https://jepsen.io/">Jepsen</a> appeared in the industry several years ago our team at PingCAP couldn't have been happier. Finally, an approachable, understandable reliability testing framework along with an enjoyable and rigorous library of analyses of popular databases.</p>
 <p>Jepsen is an umbrella term for the software library, collection of articles, and service of the same name. Together, the project pushes distributed systems to be more accurate in their claims and more thorough in their testing.</p>
 <p>It's been indispensable for battle-testing TiDB and TiKV, our distributed databases, as we deploy them in some of the largest technology companies in the world.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<span id="continue-reading"></span>
 <p>This article is, in many ways, a love letter to one of our favorite projects. We'll talk about <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#why-is-jepsen-so-important-to-our-industry">why it's important</a>, <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#how-does-jepsen-work">how it works</a>, <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#commonly-found-problems">common issues found</a>, <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#how-we-use-jepsen-with-tidb">how we use Jepsen</a>, and finally we included a really <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#appendix-i">short summary of all the problems Jepsen has found</a>.</p>
 <p>In the rest of this article, and in any Jepsen analyses you might find, you're going to find a lot of database jargon. Jepsen has our back! <a href="https://jepsen.io/consistency">Located here</a> you can see definitions and explanations of many of these terms.</p>
 <p>We'll refer to <a href="https://jepsen.io/consistency/models/serializable"><em>serializability</em></a> and <a href="https://jepsen.io/consistency/models/linearizable"><em>linearizability</em></a> often below, so you may benefit from quickly (re)familiarizing yourself with them.</p>

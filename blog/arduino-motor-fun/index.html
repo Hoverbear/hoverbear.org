@@ -74,76 +74,11 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#on-and-off">On and Off</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#parts-list">Parts List</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#breadboard">Breadboard</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#code">Code</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#pulse-width-modulation">Pulse Width Modulation</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#supplies-breadboard">Supplies &amp; Breadboard</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#code-1">Code</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#reacting-to-input">Reacting to Input</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#parts-list-1">Parts List</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#breadboard-1">Breadboard</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/arduino-motor-fun/#code-2">Code</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>Lately we've been playing with Quadcopters a lot, one of the key components of any copter is it's motors! I'll be writing about motors next, but before that I wanted to share some small, short Arduino 'labs' that you can do either on your own or with your cohort!</p>
 <p>All of these 'labs' are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<span id="continue-reading"></span>
 <blockquote>
 <p>You're welcome to print, distribute, and modify all of these to meet your needs. You can <a href="mailto:ana+blog@hoverbear.org">email me</a> if you'd like the source files. We use <a href="http://www.fritzing.org/">Fritzing</a> for breadboard layouts.</p>
 </blockquote>
@@ -177,53 +112,53 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 </figure>
 <h3 id="code">Code</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">const int motor = 3;
+const int motor = 3;
 
-</span><span style="color:#c0c5ce;">void setup() {
-</span><span style="color:#c0c5ce;">  pinMode(motor, OUTPUT);
-</span><span style="color:#c0c5ce;">}
+void setup() {
+  pinMode(motor, OUTPUT);
+}
 
-</span><span style="color:#c0c5ce;">void loop() {
-</span><span style="color:#c0c5ce;">  // Motor on.
-</span><span style="color:#c0c5ce;">  digitalWrite(motor, HIGH);
+void loop() {
+  // Motor on.
+  digitalWrite(motor, HIGH);
 
-</span><span style="color:#c0c5ce;">  delay(2000);
+  delay(2000);
 
-</span><span style="color:#c0c5ce;">  // Motor off.
-</span><span style="color:#c0c5ce;">  digitalWrite(motor, LOW);
+  // Motor off.
+  digitalWrite(motor, LOW);
 
-</span><span style="color:#c0c5ce;">  delay(2000);
-</span><span style="color:#c0c5ce;">}
-</span></pre><h1 id="pulse-width-modulation">Pulse Width Modulation</h1>
+  delay(2000);
+}
+</pre><h1 id="pulse-width-modulation">Pulse Width Modulation</h1>
 <p>If you haven't used Pulse Width Modulation before, it's a way to use certain digital pins on the Arduino to mimic the behaivor of an analog pin, sorta. Essentially PWM makes the pin <strong>pulse</strong> at specific <strong>widths</strong> to <strong>modulate</strong> the signal. This can be used to provide varying amounts of power to something like a motor.</p>
 <p><strong>You should see</strong> the motor slowly speed up and then back down again.</p>
 <h3 id="supplies-breadboard">Supplies &amp; Breadboard</h3>
 <p>Same as above.</p>
 <h3 id="code-1">Code</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">const int motor = 3;
-</span><span style="color:#c0c5ce;">int speed = 0;
-</span><span style="color:#c0c5ce;">int amount = 5;
+const int motor = 3;
+int speed = 0;
+int amount = 5;
 
-</span><span style="color:#c0c5ce;">void setup() {
-</span><span style="color:#c0c5ce;">  pinMode(motor, OUTPUT);
-</span><span style="color:#c0c5ce;">}
+void setup() {
+  pinMode(motor, OUTPUT);
+}
 
-</span><span style="color:#c0c5ce;">void loop() {
-</span><span style="color:#c0c5ce;">  // Use PWM
-</span><span style="color:#c0c5ce;">  analogWrite(motor, speed);
+void loop() {
+  // Use PWM
+  analogWrite(motor, speed);
 
-</span><span style="color:#c0c5ce;">  // Amount will either be + or -
-</span><span style="color:#c0c5ce;">  speed = speed + amount;
+  // Amount will either be + or -
+  speed = speed + amount;
 
-</span><span style="color:#c0c5ce;">  if (speed == 0 || speed == 255) {
-</span><span style="color:#c0c5ce;">    // At a boundary, swap +/- on amount
-</span><span style="color:#c0c5ce;">    amount = -amount;
-</span><span style="color:#c0c5ce;">  }
+  if (speed == 0 || speed == 255) {
+    // At a boundary, swap +/- on amount
+    amount = -amount;
+  }
 
-</span><span style="color:#c0c5ce;">  delay(30);
-</span><span style="color:#c0c5ce;">}
-</span></pre><h1 id="reacting-to-input">Reacting to Input</h1>
+  delay(30);
+}
+</pre><h1 id="reacting-to-input">Reacting to Input</h1>
 <p>The last few experiments we just used code to change the speed of the motor, however this isn't quite what a quadcopter does. <strong>A quadcopter has to take input from sensors and alter the amount of power to the motors accordingly.</strong></p>
 <p><strong>You should see</strong> the motor's speed change as you turn the potentiometer.</p>
 <h2 id="parts-list-1">Parts List</h2>
@@ -247,20 +182,20 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 </figure>
 <h2 id="code-2">Code</h2>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">const int motor = 3;
-</span><span style="color:#c0c5ce;">const int turnpot = A0;
+const int motor = 3;
+const int turnpot = A0;
 
-</span><span style="color:#c0c5ce;">void setup() {
-</span><span style="color:#c0c5ce;">  pinMode(motor, OUTPUT);
-</span><span style="color:#c0c5ce;">  pinMode(turnpot, INPUT);
-</span><span style="color:#c0c5ce;">}
+void setup() {
+  pinMode(motor, OUTPUT);
+  pinMode(turnpot, INPUT);
+}
 
-</span><span style="color:#c0c5ce;">void loop() {
-</span><span style="color:#c0c5ce;">  int value = analogRead(turnpot);
-</span><span style="color:#c0c5ce;">  analogWrite(motor, value);
-</span><span style="color:#c0c5ce;">  delay(30);
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+void loop() {
+  int value = analogRead(turnpot);
+  analogWrite(motor, value);
+  delay(30);
+}
+</pre>
 <p>I hope you had some fun exploring these basic motor circuits with your Arduino! If you have any other sensor wirings or circuits you'd like to share please just email me and I'll put them here too!</p>
 
 

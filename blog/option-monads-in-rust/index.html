@@ -79,52 +79,6 @@ fn main () {
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#value-in-value-out">Value In, Value Out</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#not-just-a-null">Not Just a Null</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#composing-a-symphony-of-functions">Composing a Symphony of Functions</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#functor-interface-map">Functor Interface: .map()</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#monad-interface-and-then">Monad Interface: .and_then()</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#examples">Examples</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#discussion">Discussion:</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/option-monads-in-rust/#further-resources">Further Resources:</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>One common monadic structure is the <code>Option</code> (or <code>Maybe</code> in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,</p>
@@ -134,7 +88,7 @@ fn main () {
   </span><span style="color:#c0c5ce;">from_str::&lt;int&gt;(&quot;</span><span style="color:#a3be8c;">4</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// A valid input.
   </span><span style="color:#c0c5ce;">from_str::&lt;int&gt;(&quot;</span><span style="color:#a3be8c;">Potato</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// Definitely invalid.
 </span><span style="color:#c0c5ce;">}
-</span></pre><p id="zola-continue-reading"><a name="continue-reading"></a></p>
+</span></pre><span id="continue-reading"></span>
 <p>The <code>from_str</code> function cannot return a meaningful value for <code>&quot;Potato&quot;</code>. Rust (and many other functional languages) does not have <code>null</code>, so what should we return? This is where an <code>Option</code> type becomes useful. In our example, instead of returning an <code>int</code> type, the <code>from_str</code> function returns an <code>Option&lt;int&gt;</code> type.</p>
 <p>In Rust, the <code>Option</code> enum is represented by either <code>Some(x)</code> or <code>None</code>, where <code>x</code> is the encapsulated value. In this way, the <code>Option</code> monad can be thought of like a box. It encapsulates the value <code>x</code>, where <code>x</code> is any type. Rust defines an <code>Option</code> as such, where <code>&lt;T&gt;</code> and <code>(T)</code> denote that it handles a generic type, meaning that <code>T</code> could be an <code>int</code>, a <code>str</code>, a <code>vec</code>, or anything else, even other <code>Option</code> types.</p>
 <pre style="background-color:#2b303b;">

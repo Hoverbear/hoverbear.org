@@ -74,53 +74,11 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#what-are-futures-and-async">What are Futures and Async?</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#how-we-got-here">How We Got Here</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#getting-started">Getting Started</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#dipping-our-toes-into-the-cpu-pool">Dipping Our Toes Into the CPU Pool</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#visiting-tokio-s-core">Visiting Tokio&#x27;s Core</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#services-and-protocols">Services and Protocols</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-future-with-futures/#complete-tokio-example">Complete Tokio Example</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>Recently there has been a lot of progress in the Rust language towards a robust asynchronous stack. In this article we'll take a look at what these things are, take a tour of what's available, play with some examples, and talk about how the pieces fit together.</p>
 <p>We'll get started with the <code>futures</code> crate to start, move on to <code>futures_cpupool</code>, and then eventually to <code>tokio</code>. We will assume you have some knowledge of programming, and have at least thought about trying Rust before.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h2 id="what-are-futures-and-async">What are Futures and Async?</h2>
+<span id="continue-reading"></span><h2 id="what-are-futures-and-async">What are Futures and Async?</h2>
 <p>When writing code to do some action which may take some time, such as requesting a resource from a remote host, it is not always desirable to block further execution of our program. This is particularly true in the case where we are writing a web server, or performing a large number of complex calculations.</p>
 <p>One way of handling this is to spawn threads and discretely slice up tasks to be distributed across threads. This is not always as convienent or as easy as it may sound. Suddenly we are forced to figure out how tasks are best split, how to allocate resources, to program against race conditions, and manage interthread communication.</p>
 <p>As a community we've learnt some techniques over the years, such as CPU pools which allow a number of threads to cooperate on a task, and 'future' values which resolve to their intended value after they are finished some computation. These provide us useful and powerful tools that makes it easier, safer, and more fun to write such code.</p>

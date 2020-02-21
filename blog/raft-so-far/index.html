@@ -74,65 +74,38 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/raft-so-far/#client-interface">Client Interface</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/raft-so-far/#remote-procedure-calls">Remote Procedure Calls</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/raft-so-far/#progress">Progress</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/raft-so-far/#repository">Repository</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>I've been working quite a bit on my Raft implementation over the last few days and I must say it's been quite a pleasure to work in Rust, which recently released it's 1.0.0-alpha.</p>
 <p>It takes the work out of needing to serialize and deserialize data, it enforces data safety, and it's type checking is incredible. I'm very quickly able to make a change, build it, fix the errors the compiler catches for me, and build again, then test. So far the only times my tests have failed after a successful build was when I was accidently disgarding one of my channels.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h2 id="client-interface">Client Interface</h2>
+<span id="continue-reading"></span><h2 id="client-interface">Client Interface</h2>
 <p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
 <p>I wanted to remove the complexity of having to make network requests outside of the Node. If you're participating in a Raft cluster you don't want to have to think about it, you just want to read logs and append logs. Raft's goal is to implement a replicated log, or state machine.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
-</span><span style="color:#c0c5ce;">					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
-</span><span style="color:#c0c5ce;">enum ClientRequest&lt;T&gt; {
-</span><span style="color:#c0c5ce;">    IndexRange {
-</span><span style="color:#c0c5ce;">        start_index: u64,
-</span><span style="color:#c0c5ce;">        end_index: u64,
-</span><span style="color:#c0c5ce;">    },
-</span><span style="color:#c0c5ce;">    AppendEntries {
-</span><span style="color:#c0c5ce;">        prev_log_index: u64,
-</span><span style="color:#c0c5ce;">        prev_log_term: T,
-</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
-</span><span style="color:#c0c5ce;">    },
-</span><span style="color:#c0c5ce;">}
+fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
+					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
+enum ClientRequest&lt;T&gt; {
+    IndexRange {
+        start_index: u64,
+        end_index: u64,
+    },
+    AppendEntries {
+        prev_log_index: u64,
+        prev_log_term: T,
+        entries: Vec&lt;T&gt;,
+    },
+}
 
-</span><span style="color:#c0c5ce;">enum ClientResponse&lt;T&gt; {
-</span><span style="color:#c0c5ce;">    Accepted {
-</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
-</span><span style="color:#c0c5ce;">        last_index: u64,
-</span><span style="color:#c0c5ce;">    },
-</span><span style="color:#c0c5ce;">    Rejected {
-</span><span style="color:#c0c5ce;">        reason: String,
-</span><span style="color:#c0c5ce;">    },
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+enum ClientResponse&lt;T&gt; {
+    Accepted {
+        entries: Vec&lt;T&gt;,
+        last_index: u64,
+    },
+    Rejected {
+        reason: String,
+    },
+}
+</pre>
 <p>Right now most of the data types I'm using are compound data enums, allowing for strongly typed, encapsulated data that is easy to work with via <code>match</code> statements.</p>
 <p>I am not sure if this is the <em>right</em> way to go about things, and I think that there can be some improvement, but this method of requests across a channel are, as far as I can tell, the idomatic way to communicate with a thread in Rust.</p>
 <p>One cool thing about this approach is the log entries themselves can be basically anything the programmer desires as long as it can be serialized and deserialized. I'm mostly using <code>String</code>s for testing.</p>
@@ -140,32 +113,32 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 <p>Inside of the <code>RaftNode</code>'s thread it binds on a UDP socket and listens for <code>RemoteProcedureCall</code> data. These requests are encoded and decoded through the <code>rustc-serialize</code> crato, but in the future <code>serde</code> will probably replace it.</p>
 <p>A <code>RemoteProcedureCall</code> looks almost identical to those dictated in the Raft paper:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
-</span><span style="color:#c0c5ce;">pub enum RemoteProcedureCall&lt;T&gt; {
-</span><span style="color:#c0c5ce;">    AppendEntries {
-</span><span style="color:#c0c5ce;">        term: u64,
-</span><span style="color:#c0c5ce;">        leader_id: u64,
-</span><span style="color:#c0c5ce;">        prev_log_index: u64,
-</span><span style="color:#c0c5ce;">        prev_log_term: T,
-</span><span style="color:#c0c5ce;">        entries: Vec&lt;T&gt;,
-</span><span style="color:#c0c5ce;">        leader_commit: u64,
-</span><span style="color:#c0c5ce;">    },
-</span><span style="color:#c0c5ce;">    RequestVote {
-</span><span style="color:#c0c5ce;">        term: u64,
-</span><span style="color:#c0c5ce;">        candidate_id: u64,
-</span><span style="color:#c0c5ce;">        last_log_index: u64,
-</span><span style="color:#c0c5ce;">        last_log_term: u64,
-</span><span style="color:#c0c5ce;">    },
-</span><span style="color:#c0c5ce;">}
+#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+pub enum RemoteProcedureCall&lt;T&gt; {
+    AppendEntries {
+        term: u64,
+        leader_id: u64,
+        prev_log_index: u64,
+        prev_log_term: T,
+        entries: Vec&lt;T&gt;,
+        leader_commit: u64,
+    },
+    RequestVote {
+        term: u64,
+        candidate_id: u64,
+        last_log_index: u64,
+        last_log_term: u64,
+    },
+}
 
-</span><span style="color:#c0c5ce;">#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
-</span><span style="color:#c0c5ce;">pub enum RemoteProcedureResponse {
-</span><span style="color:#c0c5ce;">    VoteAccepted { term: u64 },
-</span><span style="color:#c0c5ce;">    VoteRejected { term: u64, current_leader: u64 },
-</span><span style="color:#c0c5ce;">    EntriesAccepted { term: u64 },
-</span><span style="color:#c0c5ce;">    EntriesRejected { term: u64 },
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
+pub enum RemoteProcedureResponse {
+    VoteAccepted { term: u64 },
+    VoteRejected { term: u64, current_leader: u64 },
+    EntriesAccepted { term: u64 },
+    EntriesRejected { term: u64 },
+}
+</pre>
 <p>I'm not sure if the way I'm approaching the <code>RemoteProcedureResponse</code> is necessarily the right way to go about things. I think it might be better to model it after <code>ClientResponse</code>.</p>
 <h2 id="progress">Progress</h2>
 <p>Most of the work done so far is on scaffolding, and determining interfaces. I have two nodes running locally successfully passing <code>ClientRequest</code>s into one node, them communicating with a <code>RemoteProcedureCall</code> and a <code>ClientResponse</code> being emitted at the other node.</p>

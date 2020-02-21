@@ -76,115 +76,30 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#prerequisites">Prerequisites</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#overview">Overview</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#interfaces">Interfaces</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#rules">Rules</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#classgroups">Classgroups</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#classes">Classes</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#initial-configuration">Initial Configuration</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#aside-an-resolved-issue">Aside: An Resolved Issue</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#testing-it">Testing It</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#experimentation">Experimentation</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#favoring-ports">Favoring Ports</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#limiting-a-class-rate">Limiting a Class Rate</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#priorities">Priorities</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#further-configuration">Further Configuration</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
 <blockquote>
 <p>The <a href="http://wiki.openwrt.org/doc/uci/qos">documentation</a> for OpenWRT's QoS is rather lacking, please feel encouraged to improve it as you go!</p>
 </blockquote>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h2 id="prerequisites">Prerequisites</h2>
+<span id="continue-reading"></span><h2 id="prerequisites">Prerequisites</h2>
 <p>Documented <a href="http://wiki.openwrt.org/doc/uci/qos">here</a>, the <code>qos-scripts</code> package offers a simple configuration that integrates well with the rest of OpenWRT's UCI (Unified Configuration Interface).</p>
 <p>On the router:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">opkg install qos-scripts
-</span></pre>
+opkg install qos-scripts
+</pre>
 <p>As an added side benefit, <code>qos-scripts</code> will pull in several dependencies that can be used to further tune our QoS.</p>
 <h2 id="overview">Overview</h2>
 <p>You can look into <code>/etc/config/qos</code> to see the default configuration.</p>
 <p>You'll see several <code>config</code> block types. Let's take a look at samples.</p>
 <h3 id="interfaces">Interfaces</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config interface wan
-</span><span style="color:#c0c5ce;">    option classgroup  &quot;Default&quot;
-</span><span style="color:#c0c5ce;">    option enabled      0
-</span><span style="color:#c0c5ce;">    option upload       128
-</span><span style="color:#c0c5ce;">    option download     1024
-</span></pre>
+config interface wan
+    option classgroup  &quot;Default&quot;
+    option enabled      0
+    option upload       128
+    option download     1024
+</pre>
 <p>This is an <strong>interface</strong> definition for <code>wan</code>. <code>wan</code> is defined in <code>/etc/config/network</code>.</p>
 <ul>
 <li><code>option classgroup &quot;Default&quot;</code> defines that we'll use the classes defined in the <code>config classgroup &quot;Default&quot;</code> block also in the configuration file.</li>
@@ -194,22 +109,22 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </ul>
 <h3 id="rules">Rules</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config classify
-</span><span style="color:#c0c5ce;">    option target       &quot;Priority&quot;
-</span><span style="color:#c0c5ce;">    option ports        &quot;22,53&quot;
-</span><span style="color:#c0c5ce;">    option comment      &quot;ssh, dns&quot;
-</span><span style="color:#c0c5ce;">config classify
-</span><span style="color:#c0c5ce;">    option target       &quot;Normal&quot;
-</span><span style="color:#c0c5ce;">    option proto        &quot;tcp&quot;
-</span><span style="color:#c0c5ce;">    option ports        &quot;20,21,25,80,110,443,993,995&quot;
-</span><span style="color:#c0c5ce;">    option comment      &quot;ftp, smtp, http(s), imap&quot;
-</span><span style="color:#c0c5ce;">config reclassify
-</span><span style="color:#c0c5ce;">    option target       &quot;Priority&quot;
-</span><span style="color:#c0c5ce;">    option proto        &quot;icmp&quot;
-</span><span style="color:#c0c5ce;">config default
-</span><span style="color:#c0c5ce;">    option target       &quot;Bulk&quot;
-</span><span style="color:#c0c5ce;">    option portrange    &quot;1024-65535&quot;
-</span></pre>
+config classify
+    option target       &quot;Priority&quot;
+    option ports        &quot;22,53&quot;
+    option comment      &quot;ssh, dns&quot;
+config classify
+    option target       &quot;Normal&quot;
+    option proto        &quot;tcp&quot;
+    option ports        &quot;20,21,25,80,110,443,993,995&quot;
+    option comment      &quot;ftp, smtp, http(s), imap&quot;
+config reclassify
+    option target       &quot;Priority&quot;
+    option proto        &quot;icmp&quot;
+config default
+    option target       &quot;Bulk&quot;
+    option portrange    &quot;1024-65535&quot;
+</pre>
 <p><code>classify</code> blocks are an <em>initial, connection-tracked classification</em>. They are only run on connections which have not been assigned a traffic class already.</p>
 <p><code>reclassify</code> blocks can <em>override</em> the class on a <em>per packet</em> basis without altering the connection's classification.</p>
 <p><code>default</code> blocks are fallbacks for everything that has not been marked by a <code>classify</code> or <code>reclassify</code>.</p>
@@ -223,30 +138,30 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 <p>If you're wondering, the <code>-</code> in <code>-500</code> operates <em>I think</em>, on the definition of the corresponding <code>class</code>.</p>
 <h2 id="classgroups">Classgroups</h2>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config classgroup &quot;Default&quot;
-</span><span style="color:#c0c5ce;">	option classes      &quot;Priority Express Normal Bulk&quot;
-</span><span style="color:#c0c5ce;">    option default      &quot;Normal&quot;
-</span></pre>
+config classgroup &quot;Default&quot;
+	option classes      &quot;Priority Express Normal Bulk&quot;
+    option default      &quot;Normal&quot;
+</pre>
 <p><code>classgroup</code> blocks are used to define different class groupings. This is only really useful if you wish to have multiple interfaces with different class considerations, for example, you might want <code>eth1</code> to have an <code>ultrapriority</code> class or something.</p>
 <h3 id="classes">Classes</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config class &quot;Priority&quot;
-</span><span style="color:#c0c5ce;">    option packetsize  400
-</span><span style="color:#c0c5ce;">    option avgrate     10
-</span><span style="color:#c0c5ce;">    option priority    20
-</span><span style="color:#c0c5ce;">config class &quot;Express&quot;
-</span><span style="color:#c0c5ce;">    option packetsize  1000
-</span><span style="color:#c0c5ce;">    option avgrate     50
-</span><span style="color:#c0c5ce;">    option priority    10
-</span><span style="color:#c0c5ce;">config class &quot;Normal&quot;
-</span><span style="color:#c0c5ce;">    option packetsize  1500
-</span><span style="color:#c0c5ce;">    option packetdelay 100
-</span><span style="color:#c0c5ce;">    option avgrate     10
-</span><span style="color:#c0c5ce;">    option priority    5
-</span><span style="color:#c0c5ce;">config class &quot;Bulk&quot;
-</span><span style="color:#c0c5ce;">    option avgrate     1
-</span><span style="color:#c0c5ce;">    option packetdelay 200
-</span></pre>
+config class &quot;Priority&quot;
+    option packetsize  400
+    option avgrate     10
+    option priority    20
+config class &quot;Express&quot;
+    option packetsize  1000
+    option avgrate     50
+    option priority    10
+config class &quot;Normal&quot;
+    option packetsize  1500
+    option packetdelay 100
+    option avgrate     10
+    option priority    5
+config class &quot;Bulk&quot;
+    option avgrate     1
+    option packetdelay 200
+</pre>
 <p><code>class</code> blocks are used to define packet classes. Each class is placed inside of a seperate <a href="https://en.wikipedia.org/wiki/Leaky_bucket">bucket</a>.</p>
 <ul>
 <li><code>option packetsize 400</code> defines the size of packets within the bucket.</li>
@@ -272,67 +187,67 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </figure>
 <p>First, we need to pull in <code>xt_connmark</code>, which is a depedency for some features of <code>qos-scripts</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">modprobe xt_connmark
-</span></pre>
+modprobe xt_connmark
+</pre>
 <p>Then, in <code>/etc/config/qos</code> replace the <code>wan</code> interface with our various defined interfaces with some modest and determinable differences to test that it works.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;"># INTERFACES:
-</span><span style="color:#c0c5ce;"># Fast client.
-</span><span style="color:#c0c5ce;">config interface lan1
-</span><span style="color:#c0c5ce;">        option classgroup  &quot;Default&quot;
-</span><span style="color:#c0c5ce;">        option enabled      1
-</span><span style="color:#c0c5ce;">        option upload       256
-</span><span style="color:#c0c5ce;">        option download     2048
-</span><span style="color:#c0c5ce;"># Slow client. (1/2 speed)
-</span><span style="color:#c0c5ce;">config interface lan2
-</span><span style="color:#c0c5ce;">        option classgroup  &quot;Default&quot;
-</span><span style="color:#c0c5ce;">        option enabled      1
-</span><span style="color:#c0c5ce;">        option upload       128
-</span><span style="color:#c0c5ce;">        option download     1024
-</span><span style="color:#c0c5ce;"># The Host. (Big pipes)
-</span><span style="color:#c0c5ce;">config interface lan3
-</span><span style="color:#c0c5ce;">        option classgroup  &quot;Default&quot;
-</span><span style="color:#c0c5ce;">        option enabled      1
-</span><span style="color:#c0c5ce;">        option upload       4096
-</span><span style="color:#c0c5ce;">        option download     4096
-</span></pre>
+# INTERFACES:
+# Fast client.
+config interface lan1
+        option classgroup  &quot;Default&quot;
+        option enabled      1
+        option upload       256
+        option download     2048
+# Slow client. (1/2 speed)
+config interface lan2
+        option classgroup  &quot;Default&quot;
+        option enabled      1
+        option upload       128
+        option download     1024
+# The Host. (Big pipes)
+config interface lan3
+        option classgroup  &quot;Default&quot;
+        option enabled      1
+        option upload       4096
+        option download     4096
+</pre>
 <p>To enable QoS and start it:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/etc/init.d/qos enable
-</span><span style="color:#c0c5ce;">/etc/init.d/qos start
-</span></pre>
+/etc/init.d/qos enable
+/etc/init.d/qos start
+</pre>
 <p>Later, to restart it:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/etc/init.d/qos restart
-</span></pre><h4 id="aside-an-resolved-issue">Aside: An Resolved Issue</h4>
+/etc/init.d/qos restart
+</pre><h4 id="aside-an-resolved-issue">Aside: An Resolved Issue</h4>
 <blockquote>
 <p>When I attempted to use the <code>pktsize</code> option in a classifier I recieved yet unresolved errors.</p>
 </blockquote>
 <p>The error was:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">iptables: No chain/target/match by that name.
-</span></pre>
+iptables: No chain/target/match by that name.
+</pre>
 <p>Inspecting the generated config:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/usr/lib/qos/generate.sh all
-</span></pre>
+/usr/lib/qos/generate.sh all
+</pre>
 <p>See the script executed along with output (for diagnosing errors):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/usr/lib/qos/generate.sh all | sh -x
-</span></pre>
+/usr/lib/qos/generate.sh all | sh -x
+</pre>
 <p>Resulted in:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;"># ...
-</span><span style="color:#c0c5ce;">+ iptables -t mangle -A qos_Default -m mark --mark 0/0xf0 -p udp -m length --length 500 -j MARK --set-mark 34/0xff
-</span><span style="color:#c0c5ce;">iptables: No chain/target/match by that name.
-</span><span style="color:#c0c5ce;"># ...
-</span></pre>
+# ...
++ iptables -t mangle -A qos_Default -m mark --mark 0/0xf0 -p udp -m length --length 500 -j MARK --set-mark 34/0xff
+iptables: No chain/target/match by that name.
+# ...
+</pre>
 <p>I was only able to resolve this by removing the use of <code>pktsize</code> in classifiers then restarting the service.</p>
 <h2 id="testing-it">Testing It</h2>
 <p>Open up a terminal to use <code>vagrant ssh test1</code> and <code>test2</code> then, run the following command at approximately the same time (remember to sub in <code>$TEST3IP</code>):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">wget $TEST3IP/video.mp4
-</span></pre>
+wget $TEST3IP/video.mp4
+</pre>
 <p>You should see something like the following:</p>
 <figure>
     <img srcset="
@@ -358,18 +273,18 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 <h2 id="favoring-ports">Favoring Ports</h2>
 <p>Looking over the default configuration you can see the following config block:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config classify
-</span><span style="color:#c0c5ce;">    option target       &quot;Priority&quot;
-</span><span style="color:#c0c5ce;">    option ports        &quot;22,53&quot;
-</span><span style="color:#c0c5ce;">    option comment      &quot;ssh, dns&quot;
-</span></pre>
+config classify
+    option target       &quot;Priority&quot;
+    option ports        &quot;22,53&quot;
+    option comment      &quot;ssh, dns&quot;
+</pre>
 <p>Which match to the following class:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config class &quot;Priority&quot;
-</span><span style="color:#c0c5ce;">    option packetsize  400
-</span><span style="color:#c0c5ce;">    option avgrate     10
-</span><span style="color:#c0c5ce;">    option priority    20
-</span></pre>
+config class &quot;Priority&quot;
+    option packetsize  400
+    option avgrate     10
+    option priority    20
+</pre>
 <p>This suggests that all traffic over port 22 (The standard <code>ssh</code> default) will prioritized as it has the highest priority in the default configuration.</p>
 <p>But what if you don't use port 22 for <code>ssh</code>? Then this is a silly rule.  You can easily just remap the ports option to <code>&quot;2222,53&quot;</code> or something else.</p>
 <h2 id="limiting-a-class-rate">Limiting a Class Rate</h2>
@@ -377,31 +292,31 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 <p>First, lets get our <code>test3</code> VM serving off multiple ports so we can classify them differently.</p>
 <p>In <code>/etc/nginx/nginx.conf</code> modify your listen block:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">    server {
-</span><span style="color:#c0c5ce;">      listen       80 default_server;
-</span><span style="color:#c0c5ce;">      listen       8080; # Add this.
-</span><span style="color:#c0c5ce;">      server_name  localhost;
-</span><span style="color:#c0c5ce;">      root /vagrant;
-</span><span style="color:#c0c5ce;">      # ...
-</span></pre>
+    server {
+      listen       80 default_server;
+      listen       8080; # Add this.
+      server_name  localhost;
+      root /vagrant;
+      # ...
+</pre>
 <p>Then run <code>sudo systemctl restart nginx</code>.</p>
 <p>Back on the router, edit <code>/etc/config/qos</code> to add two new blocks, a <code>classify</code> block and a <code>class</code> block. Also make sure that your <code>lan1</code> and <code>lan2</code> interfaces have the same upload and download so we can use them to test.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config classify
-</span><span style="color:#c0c5ce;">	option target  &quot;httpdev&quot;
-</span><span style="color:#c0c5ce;">    option ports   &quot;8080&quot;
-</span><span style="color:#c0c5ce;">    option comment &quot;httpdev&quot;
-</span><span style="color:#c0c5ce;">config class &quot;httpdev&quot;
-</span><span style="color:#c0c5ce;">	option packetsize  1500
-</span><span style="color:#c0c5ce;">    option packetdelay 100
-</span><span style="color:#c0c5ce;">    option limitrate   10
-</span><span style="color:#c0c5ce;">    option priority    5
-</span></pre>
+config classify
+	option target  &quot;httpdev&quot;
+    option ports   &quot;8080&quot;
+    option comment &quot;httpdev&quot;
+config class &quot;httpdev&quot;
+	option packetsize  1500
+    option packetdelay 100
+    option limitrate   10
+    option priority    5
+</pre>
 <p>Then in the <code>classroup &quot;Default&quot;</code> add <code>httpdev</code> to the classes.</p>
 <p>Finally, restart the QoS:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/etc/init.d/qos reload
-</span></pre>
+/etc/init.d/qos reload
+</pre>
 <p>Then get <code>test1</code> to download from port 80, and <code>test2</code> to download from port 8080.</p>
 <figure>
     <img srcset="
@@ -421,12 +336,12 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 <p>Instead of placing a hard limit on the rate a class can achieve, let's instead change the priority it recieves.</p>
 <p>On the router, edit <code>/etc/config/qos</code>, change the <code>Normal</code> class to have a <code>50</code> priority, while leaving <code>httpdev</code> on <code>5</code>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">config class &quot;Normal&quot;
-</span><span style="color:#c0c5ce;">    option packetsize  1500
-</span><span style="color:#c0c5ce;">    option packetdelay 100
-</span><span style="color:#c0c5ce;">    option avgrate     10
-</span><span style="color:#c0c5ce;">    option priority    50
-</span></pre>
+config class &quot;Normal&quot;
+    option packetsize  1500
+    option packetdelay 100
+    option avgrate     10
+    option priority    50
+</pre>
 <p>Then issue <code>/etc/init.d/qos reload</code>. To test this, <strong>on one of the <code>test1</code> or <code>test2</code></strong> open two connections and attempt to download from both ports.</p>
 <figure>
     <img srcset="

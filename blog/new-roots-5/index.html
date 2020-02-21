@@ -74,57 +74,11 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#our-first-container">Our First Container</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#orcestration">Orcestration</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#fixing-an-anti-feature">Fixing an Anti-Feature</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#inter-container-networking">Inter-Container Networking</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#the-upgrade-problem">The Upgrade Problem</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#the-web-proxy">The Web Proxy</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#rest-and-test">Rest and Test</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/new-roots-5/#system-evolution">System Evolution</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>This is the fifth part of an ongoing series on configuring a new server. In our <a href="/2016/05/09/new-roots-4/">last post</a> we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.</p>
 <p>Before we get around to setting things up, let's describe the what we're up to.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<span id="continue-reading"></span>
 <p>Currently, the only external service the server is running is <code>ssh</code>. We'd like our server to host more services. These services are likely to be both internal services like databases, and external services like HTTP/HTTPS hosts. Since the IPv4 space is increasingly crowded we'd like to do all of these things from one IPv4 address too.</p>
 <p>There are lots of ways to provide isolation to these services. These include virtual machines through something like <a href="http://xenproject.org/">Xen</a>, containers through something like <a href="https://www.docker.com/">Docker</a>, or even just chroots. Isolation isn't just for security, it's one way to help increase your security <em>somewhat</em> but it isn't a silver bullet. Light solutions like containers have very little overhead though so the benefits tend to outweigh the costs.</p>
 <p>We'll use containers, because they're entertaining and fun to use. This is a laboratory, remember? We're suposed to have fun and play with new things.</p>

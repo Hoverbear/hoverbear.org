@@ -75,49 +75,12 @@ I was glad to discover that BadSSL is a Jekyll site. I&#x27;ve used Jekyll a num
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-menagerie-of-badssl/#superfish-and-dell-fumble">Superfish and Dell Fumble</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-menagerie-of-badssl/#the-spider-s-web">The Spider&#x27;s Web</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-menagerie-of-badssl/#a-whale-of-a-time">A Whale of a Time</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-menagerie-of-badssl/#weaving-a-tale">Weaving a Tale</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-menagerie-of-badssl/#smooth-like-butter">Smooth Like Butter</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/the-menagerie-of-badssl/#a-big-congratulations">A Big Congratulations!</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>Late last year I was given an opporunity to participate in the Mozilla Winter of Security 2016! I'm happy to report it was, and still is, super cool. Plans diverted significantly at the very start of the project as it was discovered that the &quot;menagerie&quot; of certificates we wanted to build already existed.</p>
 <p>What joy! In order to avoid any &quot;not-invented-here&quot; syndrome problems we pivoted, like  a failing startup, and I moved to become a contributor to <a href="http://badssl.com/">BadSSL</a>. One of my mentors, <a href="https://github.com/marumari">April King</a>, happened to already be a contributor to BadSSL and helped me get acquainted with the repository and the maintainer, <a href="https://github.com/lgarron/">Lucas Garron</a>.</p>
 <p>I was glad to discover that BadSSL is a <a href="http://jekyllrb.com/">Jekyll</a> site. I've used Jekyll a number of times for different tasks and really enjoy working with the program. BadSSL is deployed on the <a href="https://cloud.google.com/">Google Cloud Platform</a> and is primarily powered via extensive nginx configurations.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h2 id="superfish-and-dell-fumble">Superfish and Dell Fumble</h2>
+<span id="continue-reading"></span><h2 id="superfish-and-dell-fumble">Superfish and Dell Fumble</h2>
 <p>In a couple spectacular fumbles by Dell and Lenovo we got a couple really interesting new specimens. <a href="http://blog.erratasec.com/2015/02/extracting-superfish-certificate.html">Lenovo's bundled adware 'Superfish' CA</a> and <a href="https://blog.hboeck.de/archives/876-Superfish-2.0-Dangerous-Certificate-on-Dell-Laptops-breaks-encrypted-HTTPS-Connections.html">Dell's Curious Customer Service CA</a> were discovered and compromised. We subsequently added <a href="https://superfish.badssl.com/">https://superfish.badssl.com/</a>, <a href="https://edellroot.badssl.com/">https://edellroot.badssl.com/</a>, and <a href="https://dsdtestprovider.badssl.com/">https://dsdtestprovider.badssl.com/</a> so that potentially affected users could easily test their systems.</p>
 <h2 id="the-spider-s-web">The Spider's Web</h2>
 <p>One of the problems we identified with the current version of BadSSL was the tangle of files one needs to create or manipulate to generate a new subdomain. As an example, adding the above mentioned 3 subdomains required changing over 18 files. After doing some research I discovered that we could harness the power of Jekyll's <code>_data</code> files to our advantage. I have a <a href="https://github.com/lgarron/badssl.com/pull/156">Pull Request</a> I've been trying to land that will greatly simplify this process and permit further automation.</p>

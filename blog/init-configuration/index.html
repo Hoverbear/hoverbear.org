@@ -74,50 +74,11 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/init-configuration/#daemons-and-services">Daemons and services</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/init-configuration/#dependencies">Dependencies</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/init-configuration/#other-files">Other files</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/init-configuration/#configuring-init-itself">Configuring Init Itself</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/init-configuration/#thoughts">Thoughts</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/init-configuration/#further-reading">Further Reading</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>An initialization system's main interface with the user is through it's configuration scripts and service files. Let's take a look at what this looks like for <code>systemd</code> and OpenRC.</p>
 <p>With systemd, daemon configuration is handled by <code>.toml</code> configuration files. With OpenRC, this task is performed by shell scripts.</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h1 id="daemons-and-services">Daemons and services</h1>
+<span id="continue-reading"></span><h1 id="daemons-and-services">Daemons and services</h1>
 <p>systemd stores service files in <code>/etc/systemd/system/</code> (user-provided) or <code>/usr/lib/systemd/system/</code> (package-provided). <code>.service</code> files are used to declare configuration.</p>
 <p>OpenRC stores scripts in <code>/etc/init.d/</code>, the scripts are typically standalone, configuration does not require multiple separate files.</p>
 <p>Here is the contents of <code>/etc/systemd/system/sshd.service</code> on a Fedora 20 system:</p>

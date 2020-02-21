@@ -75,64 +75,12 @@ So how can we model them?
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#core-problem">Core Problem</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#concepts">Concepts</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#before-we-start">Before we start</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#solution-1-materialized-views-and-recursive-ctes">Solution 1: Materialized Views and Recursive CTEs</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#testing">Testing</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#solution-2-ltree-columns">Solution 2: ltree columns</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#testing-1">Testing</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/postgresql-hierarchical-structures/#conclusion">Conclusion</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>It's a common pattern: a database developer at a startup is probably on the Product subteam of the Engineering team at their company. In a department store, shoes are a subcategory of clothing, while your favorite thermos is probably in the travel department.</p>
 <p>In any Github organization, there are teams within teams within teams. In any large department store there are categories deeply nested. In any recipe book, there are many ways to classify food.</p>
 <p>So how can we model them?</p>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
+<span id="continue-reading"></span>
 <p>Jake (my boyfriend) and I have been exploring relational database concepts out of interest and pure geekery. This was a fun problem that I gave him and we got to work it out together. It was so fun we wanted to share! We won't beat the bush around with PostgreSQL installation, security, setup, blah blah at this time, let's just have some pure database fun for a few minutes!</p>
 <h2 id="core-problem">Core Problem</h2>
 <p>Handle a high amount of reads and a small amount of writes over a small to medium amount of keys (in this case, a text field), each of which <em>possibly</em> has a reference to a parent key.</p>

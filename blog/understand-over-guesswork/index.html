@@ -76,102 +76,13 @@ Some bugs are just that+++a one off.  A wayward moth that just happens to be inn
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#evolving-how-we-learn-systems-with-lessons-from-programming-in-the-large">Evolving How We Learn Systems with Lessons from Programming in the Large</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#1-introduction">1. Introduction</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-introducing-rust">2. Introducing Rust</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-1-rust-basics">2.1 Rust Basics</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-2-a-strong-type-system">2.2 A Strong Type System</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-3-we-don-t-need-a-null">2.3 We Don&#x27;t Need A null</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-rust-reducing-bugs-through-linguistic-features">3. Rust: Reducing Bugs through Linguistic Features</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-1-results-and-try">3.1 Results and try!()</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-2-borrow-and-move-forget-free">3.2 Borrow and Move: Forget free()</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-3-traits-zero-cost-abstractions">3.3 Traits: Zero-cost Abstractions</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-4-static-analysis-at-the-core">3.4 Static Analysis at the Core</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-5-threads-that-don-t-bite">3.5 Threads that don&#x27;t Bite</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-safety-tools-and-community">4. Safety, Tools, and Community</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-1-tooling">4.1 Tooling</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-2-community">4.2 Community</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/understand-over-guesswork/#5-0-conclusion-and-future-work">5.0 Conclusion and Future Work</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <h1 id="evolving-how-we-learn-systems-with-lessons-from-programming-in-the-large">Evolving How We Learn Systems with Lessons from Programming in the Large</h1>
 <blockquote>
 <p>Some bugs are just that+++a one off.  A wayward moth that just happens to be innocently fluttering through the wrong relay at the wrong time.  But some kinds of bugs aren't like that.  Instead, they have risen to superstar status, plaguing veterans and newcomers alike.  But what if these aren't bugs at all?  What if they are actual deficiencies in safety and robustness offered by the C programming language as a consequence of the degree to which guesswork is introduced.  Here we explore a more explicit approach to systems level programming supported by Rust, which we believe will better promote understanding of design intent, and eliminate some of the guesswork.  Guided by a set of classic, but still relevant, bugs identified almost 15 years ago by Engler, we consider this in the context of the new generation of students learning about systems in a typical OS course, where students often first encounter these deficiencies.</p>
 </blockquote>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h1 id="1-introduction">1. Introduction</h1>
+<span id="continue-reading"></span><h1 id="1-introduction">1. Introduction</h1>
 <p>Concurrency, parallelism, memory management, process scheduling, deadlocks, mutexes, system calls, filesystems, and architectural considerations are all commonly taught concepts in Operating Systems courses. These topics can be a struggle to understand, even for determined students, due to their complex, low-level characteristics.</p>
 <p>Instructors may also find themselves struggling, as these assignments can be difficult to create, and at times nearly impossible to evaluate effectively. Instructors and their markers desire assignments which are simple enough to fit into a few files, demonstrate understanding of failure modes, can be tested effectively in an automated fashion, and show students the caveats of their attempts to solve the problem. In many cases, a trade-off is necessary. For example, building an interactive shell is a common, and much loved, assignment in which instructors must balance the number of features required with the time provided. Features such as pipes, background tasks, tab-completion, and environment variables are all desirable and interesting to implement, but contribute greatly to the complexity of the code, as well as the amount of time it takes to evaluate.</p>
 <p>On top of the complexity, the ambiguity of language features means that year after year new students hit the same old bugs+++eventually.  Engler et al. <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a> identified a number of problem classes in their work in static analysis that has served as a foundation for many tools in systems <a href="http://doi.acm.org/10.1145/2039239.2039241" title="Finding Resource-release Omission Faults in Linux"><em>(ref)</em></a>, <a href="http://doi.acm.org/10.1145/1133373.1133405" title="Applying Source-code Verification to a Microkernel: The VFiasco Project"><em>(ref)</em></a>, applications <a href="http://dl.acm.org/citation.cfm?id=1883978.1883982" title="Detecting Missing Method Calls in Object-oriented Software"><em>(ref)</em></a>, <a href="http://dl.acm.org/citation.cfm?id=1883978.1883982" title="Statically Checking API Protocol Conformance with Mined Multi-object Specifications"><em>(ref)</em></a>  and even compiler extensions derived from hardware specifications <a href="http://doi.acm.org/10.1145/2666357.2597823" title="em-SPADE: A Compiler Extension for Checking Rules Extracted from Processor Specifications"><em>(ref)</em></a>.  Students and professionals alike are perplexed by seemingly simple questions such as:</p>

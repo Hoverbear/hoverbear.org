@@ -77,54 +77,6 @@ Note: All interfaces and code are not final, and are for educational and interes
 
         <main>
             
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/raft-update-2/#hacking-up-a-persistent-log">Hacking up a Persistent Log</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#on-new-toys">On New Toys</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#creating-files">Creating Files</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#manipulating-files">Manipulating Files</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#scanning-through">Scanning Through</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#retrieving-an-entry">Retrieving an Entry</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#purging-and-appending">Purging and Appending</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/raft-update-2/#testing">Testing</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/raft-update-2/#explore-and-help">Explore and Help!</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
                 
     <p>I've spent the majority of my free time this last week working on <a href="https://github.com/hoverbear/raft">Raft</a>. As you can see from this <a href="https://github.com/Hoverbear/raft/issues/1">issue</a> I've been mostly working on the idea of transactions.</p>
@@ -132,27 +84,26 @@ Note: All interfaces and code are not final, and are for educational and interes
 <blockquote>
 <p>Note: All interfaces and code are not final, and are for educational and interest purposes.</p>
 </blockquote>
-<p id="zola-continue-reading"><a name="continue-reading"></a></p>
-<h2 id="hacking-up-a-persistent-log">Hacking up a Persistent Log</h2>
+<span id="continue-reading"></span><h2 id="hacking-up-a-persistent-log">Hacking up a Persistent Log</h2>
 <p>Probably one of the coolest little projects I worked on was writing the <code>persistent_state</code> of a <code>RaftNode</code>. This is the data that the Raft protocol requires be written on stable storage each update.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/// Persistent state
-</span><span style="color:#c0c5ce;">/// **Must be updated to stable storage before RPC response.**
-</span><span style="color:#c0c5ce;">pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
-</span><span style="color:#c0c5ce;">    current_term: u64,
-</span><span style="color:#c0c5ce;">    voted_for: Option&lt;u64&gt;,      // request_vote cares if this is `None`
-</span><span style="color:#c0c5ce;">    log: File,
-</span><span style="color:#c0c5ce;">    last_index: u64,             // The last index of the file.
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+/// Persistent state
+/// **Must be updated to stable storage before RPC response.**
+pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
+    current_term: u64,
+    voted_for: Option&lt;u64&gt;,      // request_vote cares if this is `None`
+    log: File,
+    last_index: u64,             // The last index of the file.
+}
+</pre>
 <p>So, the reason this needs to be written to disk is so that in theory if we have a crash, we can recover. I haven't implemented resuming from a previous log, but I think that'll be a fun thing to do.</p>
 <p>Here's what a log looks like right now:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">➜  raft git:(master) ✗ cat /tmp/test_path
-</span><span style="color:#c0c5ce;">                   0                    0
-</span><span style="color:#c0c5ce;">1 IkZvbyI
-</span><span style="color:#c0c5ce;">2 IkJhciI
-</span></pre>
+➜  raft git:(master) ✗ cat /tmp/test_path
+                   0                    0
+1 IkZvbyI
+2 IkJhciI
+</pre>
 <p>The first line is where we store <code>current_term</code> and <code>voted_for</code> (in that order). All previous lines are pairs of <code>$term  $V</code> where <code>V</code> is the base64 encoded JSON encoded version of <code>T</code>, which is anything that implemented <code>Decode</code> and <code>Encode</code>.</p>
 <blockquote>
 <p>I'd really like to not Base64 encode JSON encoded data. If you have a suggestion, please open an issue! I'm currently looking at using <a href="https://github.com/TyOverby/bincode">bincode</a> instead. See <a href="https://github.com/Hoverbear/raft/issues/4">this issue</a>.</p>
@@ -164,57 +115,57 @@ Note: All interfaces and code are not final, and are for educational and interes
 <h3 id="creating-files">Creating Files</h3>
 <p>This was, surprisingly, a bit of a stumbling block for me. <code>File::open()</code> gives you read access, while <code>File::create()</code> gives you write, but if you're hoping to open a file then <em>read and write</em> to it, you'll need to use <a href="http://doc.rust-lang.org/std/fs/struct.OpenOptions.html"><code>OpenOptions</code></a>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">let mut open_opts = OpenOptions::new();
-</span><span style="color:#c0c5ce;">open_opts.read(true);
-</span><span style="color:#c0c5ce;">open_opts.write(true);
-</span><span style="color:#c0c5ce;">open_opts.create(true);
-</span><span style="color:#c0c5ce;">let mut file = open_opts.open(&amp;log_path).unwrap();
-</span></pre><h3 id="manipulating-files">Manipulating Files</h3>
+let mut open_opts = OpenOptions::new();
+open_opts.read(true);
+open_opts.write(true);
+open_opts.create(true);
+let mut file = open_opts.open(&amp;log_path).unwrap();
+</pre><h3 id="manipulating-files">Manipulating Files</h3>
 <p>Working with files means you generally deal with <code>Cursor</code>s into the file. You can navigate around a file like so:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">let start =
-</span><span style="color:#c0c5ce;">	self.log.seek(io::SeekFrom::Start(0));
-</span><span style="color:#c0c5ce;">let offset_from_start =
-</span><span style="color:#c0c5ce;">	self.log.seek(io::SeekFrom::Start(8));
-</span><span style="color:#c0c5ce;">let very_end =
-</span><span style="color:#c0c5ce;">	self.log.seek(io::SeekFrom::End(0));
-</span><span style="color:#c0c5ce;">let current =
-</span><span style="color:#c0c5ce;">	self.log.seek(io::SeekFrom::Current(0));
-</span></pre>
+let start =
+	self.log.seek(io::SeekFrom::Start(0));
+let offset_from_start =
+	self.log.seek(io::SeekFrom::Start(8));
+let very_end =
+	self.log.seek(io::SeekFrom::End(0));
+let current =
+	self.log.seek(io::SeekFrom::Current(0));
+</pre>
 <p>This is key, because it controls your position in the file for <em>most</em> other operations. You can try it out with the code below on the <a href="http://is.gd/rnOgNO">playpen</a>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#![feature(io)]
-</span><span style="color:#c0c5ce;">#![feature(fs)]
-</span><span style="color:#c0c5ce;">#![feature(path)]
-</span><span style="color:#c0c5ce;">use std::fs::OpenOptions;
-</span><span style="color:#c0c5ce;">use std::io::{Read, Write, Seek, SeekFrom};
-</span><span style="color:#c0c5ce;">fn main() {
-</span><span style="color:#c0c5ce;">    let mut open_opts = OpenOptions::new();
-</span><span style="color:#c0c5ce;">    open_opts.read(true);
-</span><span style="color:#c0c5ce;">    open_opts.write(true);
-</span><span style="color:#c0c5ce;">    open_opts.create(true);
-</span><span style="color:#c0c5ce;">    let mut file = open_opts.open(&amp;Path::new(&quot;/tmp/test&quot;)).unwrap();
-</span><span style="color:#c0c5ce;">    let mut read = String::new();
+#![feature(io)]
+#![feature(fs)]
+#![feature(path)]
+use std::fs::OpenOptions;
+use std::io::{Read, Write, Seek, SeekFrom};
+fn main() {
+    let mut open_opts = OpenOptions::new();
+    open_opts.read(true);
+    open_opts.write(true);
+    open_opts.create(true);
+    let mut file = open_opts.open(&amp;Path::new(&quot;/tmp/test&quot;)).unwrap();
+    let mut read = String::new();
 
-</span><span style="color:#c0c5ce;">    write!(&amp;mut file, &quot;Foo bar baz&quot;).unwrap();
-</span><span style="color:#c0c5ce;">    file.seek(SeekFrom::End(-3)).unwrap();
-</span><span style="color:#c0c5ce;">    file.read_to_string(&amp;mut read).unwrap();
-</span><span style="color:#c0c5ce;">    println!(&quot;{}&quot;, read); // Outputs &quot;baz&quot;
+    write!(&amp;mut file, &quot;Foo bar baz&quot;).unwrap();
+    file.seek(SeekFrom::End(-3)).unwrap();
+    file.read_to_string(&amp;mut read).unwrap();
+    println!(&quot;{}&quot;, read); // Outputs &quot;baz&quot;
 
-</span><span style="color:#c0c5ce;">    read = String::new();
+    read = String::new();
 
-</span><span style="color:#c0c5ce;">    file.seek(SeekFrom::End(-7)).unwrap();
-</span><span style="color:#c0c5ce;">    write!(&amp;mut file, &quot;dog&quot;).unwrap();
-</span><span style="color:#c0c5ce;">    file.seek(SeekFrom::Start(0)).unwrap();
-</span><span style="color:#c0c5ce;">    file.read_to_string(&amp;mut read).unwrap();
-</span><span style="color:#c0c5ce;">    println!(&quot;{}&quot;, read); // Outputs &quot;Foo dog baz&quot;
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+    file.seek(SeekFrom::End(-7)).unwrap();
+    write!(&amp;mut file, &quot;dog&quot;).unwrap();
+    file.seek(SeekFrom::Start(0)).unwrap();
+    file.read_to_string(&amp;mut read).unwrap();
+    println!(&quot;{}&quot;, read); // Outputs &quot;Foo dog baz&quot;
+}
+</pre>
 <p>Now that we can write into files, how do we make sure we have a consistent space for data? The first line of our log contains two <code>u64</code>s which can take up to 20 digits each. Using this, we can modify our <code>write!()</code> call to use more specialize formatting options.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">write!(&amp;mut self.log, &quot;{:20} {:20}\n&quot;,
-</span><span style="color:#c0c5ce;">	self.current_term, self.voted_for.unwrap_or(0))
-</span></pre>
+write!(&amp;mut self.log, &quot;{:20} {:20}\n&quot;,
+	self.current_term, self.voted_for.unwrap_or(0))
+</pre>
 <p>The <code>{:20}</code> is a formatting option that ensures it takes up consistent space. <a href="http://doc.rust-lang.org/std/fmt/#syntax">More on that here</a>.</p>
 <h3 id="scanning-through">Scanning Through</h3>
 <p>Since we have a handle on moving around our file cursor we can start using other things like <code>.chars()</code> on the file to get it to spit out characters.</p>
@@ -222,138 +173,138 @@ Note: All interfaces and code are not final, and are for educational and interes
 <p>Make sure to <code>.seek()</code> then build your iterator, otherwise ownership woes will be upon you!</p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/// Moves `line` lines into the file. Purposefully goes &quot;one extra&quot; line because the first line is metadata.
-</span><span style="color:#c0c5ce;">/// Returns the number of bytes containing `line` lines.
-</span><span style="color:#c0c5ce;">fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
-</span><span style="color:#c0c5ce;">    // Gotcha: The first line is NOT a log entry.
-</span><span style="color:#c0c5ce;">    let mut lines_read = 0u64;
-</span><span style="color:#c0c5ce;">    self.log.seek(io::SeekFrom::Start(0)); // Take the start.
-</span><span style="color:#c0c5ce;">    // Go until we&#39;ve reached `line` new lines.
-</span><span style="color:#c0c5ce;">    let _ = self.log.by_ref().chars().skip_while(|opt| {
-</span><span style="color:#c0c5ce;">        match *opt {
-</span><span style="color:#c0c5ce;">            Ok(val) =&gt; {
-</span><span style="color:#c0c5ce;">                if val == &#39;\n&#39; {
-</span><span style="color:#c0c5ce;">                    lines_read += 1;
-</span><span style="color:#c0c5ce;">                    if lines_read &gt; line { // Greater than here because the first line is a bust.
-</span><span style="color:#c0c5ce;">                        false // At right location.
-</span><span style="color:#c0c5ce;">                    } else {
-</span><span style="color:#c0c5ce;">                        true // Not done yet, more lines to go.
-</span><span style="color:#c0c5ce;">                    }
-</span><span style="color:#c0c5ce;">                } else {
-</span><span style="color:#c0c5ce;">                    true // Not a new line.
-</span><span style="color:#c0c5ce;">                }
-</span><span style="color:#c0c5ce;">            },
-</span><span style="color:#c0c5ce;">            _ =&gt; false // At EOF. Nothing more.
-</span><span style="color:#c0c5ce;">        }
-</span><span style="color:#c0c5ce;">    }).next(); // Side effects.
-</span><span style="color:#c0c5ce;">    self.log.seek(io::SeekFrom::Current(0)) // Where are we?
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+/// Moves `line` lines into the file. Purposefully goes &quot;one extra&quot; line because the first line is metadata.
+/// Returns the number of bytes containing `line` lines.
+fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
+    // Gotcha: The first line is NOT a log entry.
+    let mut lines_read = 0u64;
+    self.log.seek(io::SeekFrom::Start(0)); // Take the start.
+    // Go until we've reached `line` new lines.
+    let _ = self.log.by_ref().chars().skip_while(|opt| {
+        match *opt {
+            Ok(val) =&gt; {
+                if val == '\n' {
+                    lines_read += 1;
+                    if lines_read &gt; line { // Greater than here because the first line is a bust.
+                        false // At right location.
+                    } else {
+                        true // Not done yet, more lines to go.
+                    }
+                } else {
+                    true // Not a new line.
+                }
+            },
+            _ =&gt; false // At EOF. Nothing more.
+        }
+    }).next(); // Side effects.
+    self.log.seek(io::SeekFrom::Current(0)) // Where are we?
+}
+</pre>
 <p>As you can see, the <code>move_to()</code> function's main traversing is not done by <code>seek()</code>, it's done by an iterator! Once we set the cursor to <code>Start(0)</code> we can set up an iterator with <code>log.by_ref().chars().skip_while()</code>. <code>by_ref()</code> gets us a reference so we don't stumble into <em>move</em> issues. <code>.chars()</code> lets us pull <code>char</code> types instead of <code>u8</code>. <code>.skip_while()</code> lets us walk over the file, disgarding values as we finish looking at them.</p>
 <p>Finally, at the end you might notice a <code>.next()</code>, this is because iterators are lazy... So up until that's called, nothing is actually even done! Very neat.</p>
 <p>Looking forward, I'd like to not require going from the start forward every <code>.move_to()</code> call.</p>
 <h3 id="retrieving-an-entry">Retrieving an Entry</h3>
 <p>Now that we can effectively scan through the file and get the correct position, how do we retrieve entries? Here is what <code>retrieve_entry</code> looks like (Note there is <code>retrieve_entries</code> too which is very similar):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">pub fn retrieve_entry(&amp;mut self, index: u64) -&gt; io::Result&lt;(u64, T)&gt; {
-</span><span style="color:#c0c5ce;">    // Move to the correct line.
-</span><span style="color:#c0c5ce;">    let position = self.move_to(index);
-</span><span style="color:#c0c5ce;">    let mut chars = self.log.by_ref()
-</span><span style="color:#c0c5ce;">        .chars()
-</span><span style="color:#c0c5ce;">        // Only go until the end of the file, `None`
-</span><span style="color:#c0c5ce;">        .take_while(|val| val.is_ok())
-</span><span style="color:#c0c5ce;">        // Drop anything not `Some(val)`
-</span><span style="color:#c0c5ce;">        .filter_map(|val| val.ok())
-</span><span style="color:#c0c5ce;">        // Take the line.
-</span><span style="color:#c0c5ce;">        .take_while(|&amp;val| val != &#39;\n&#39;)
-</span><span style="color:#c0c5ce;">        // Bring it into a String.
-</span><span style="color:#c0c5ce;">        .collect::&lt;String&gt;();
-</span><span style="color:#c0c5ce;">    let mut splits = chars.split(&#39; &#39;);
-</span><span style="color:#c0c5ce;">    // Use a scope!
-</span><span style="color:#c0c5ce;">    let term = {
-</span><span style="color:#c0c5ce;">        // `.and_then()` is great for dealing with Options.
-</span><span style="color:#c0c5ce;">        let chunk = splits.next()
-</span><span style="color:#c0c5ce;">            .and_then(|v| v.parse::&lt;u64&gt;().ok());
-</span><span style="color:#c0c5ce;">        match chunk {
-</span><span style="color:#c0c5ce;">            Some(v) =&gt; v,
-</span><span style="color:#c0c5ce;">            None =&gt; return Err(io::Error::new(io::ErrorKind::InvalidInput, &quot;Could not parse term.&quot;, None)),
-</span><span style="color:#c0c5ce;">        }
-</span><span style="color:#c0c5ce;">    };
-</span><span style="color:#c0c5ce;">    let encoded = {
-</span><span style="color:#c0c5ce;">        let chunk = splits.next();
-</span><span style="color:#c0c5ce;">        match chunk {
-</span><span style="color:#c0c5ce;">            Some(v) =&gt; v,
-</span><span style="color:#c0c5ce;">            None =&gt; return Err(io::Error::new(io::ErrorKind::InvalidInput, &quot;Could not parse encoded data.&quot;, None)),
-</span><span style="color:#c0c5ce;">        }
-</span><span style="color:#c0c5ce;">    };
-</span><span style="color:#c0c5ce;">    // Decode the value.
-</span><span style="color:#c0c5ce;">    let decoded: T = PersistentState::decode(encoded.to_string())
-</span><span style="color:#c0c5ce;">        .ok().expect(&quot;Could not unwrap log entry.&quot;);
-</span><span style="color:#c0c5ce;">    Ok((term, decoded))
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+pub fn retrieve_entry(&amp;mut self, index: u64) -&gt; io::Result&lt;(u64, T)&gt; {
+    // Move to the correct line.
+    let position = self.move_to(index);
+    let mut chars = self.log.by_ref()
+        .chars()
+        // Only go until the end of the file, `None`
+        .take_while(|val| val.is_ok())
+        // Drop anything not `Some(val)`
+        .filter_map(|val| val.ok())
+        // Take the line.
+        .take_while(|&amp;val| val != '\n')
+        // Bring it into a String.
+        .collect::&lt;String&gt;();
+    let mut splits = chars.split(' ');
+    // Use a scope!
+    let term = {
+        // `.and_then()` is great for dealing with Options.
+        let chunk = splits.next()
+            .and_then(|v| v.parse::&lt;u64&gt;().ok());
+        match chunk {
+            Some(v) =&gt; v,
+            None =&gt; return Err(io::Error::new(io::ErrorKind::InvalidInput, &quot;Could not parse term.&quot;, None)),
+        }
+    };
+    let encoded = {
+        let chunk = splits.next();
+        match chunk {
+            Some(v) =&gt; v,
+            None =&gt; return Err(io::Error::new(io::ErrorKind::InvalidInput, &quot;Could not parse encoded data.&quot;, None)),
+        }
+    };
+    // Decode the value.
+    let decoded: T = PersistentState::decode(encoded.to_string())
+        .ok().expect(&quot;Could not unwrap log entry.&quot;);
+    Ok((term, decoded))
+}
+</pre>
 <p>This code makes use of iterators, scopes, and options in, what I consider, a fairly clean way. After moving to the correct line, <code>chars</code> takes in one line of the file and it gets chunked into two pieces along a delimiter. Then the values of that chunk iterator are parsed.</p>
 <p>One stumbling block I had was that <code>v.parse::&lt;u64&gt;()</code> returned <a href="http://doc.rust-lang.org/std/str/trait.StrExt.html#tymethod.parse"><code>&lt;F as FromStr&gt;::Err</code></a> instead of an <code>IoError</code> like <code>io::Result&lt;_&gt;</code> expects. This means that I couldn't just <code>try!()</code> the expression. Looking at <a href="http://doc.rust-lang.org/std/io/struct.Error.html"><code>io::Error</code></a> I was able to find the <code>InvalidInput</code> variant that suited my needs.</p>
 <h3 id="purging-and-appending">Purging and Appending</h3>
 <p>Part of the Raft protocol dictates that purging and appending must be able to happen to the log. Here's purge:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/// Do *not* invoke this unless you update the `last_index`!
-</span><span style="color:#c0c5ce;">fn purge_from_bytes(&amp;mut self, from_bytes: u64) -&gt; io::Result&lt;()&gt; {
-</span><span style="color:#c0c5ce;">    self.log.set_len(from_bytes) // Chop off the file at the given position.
-</span><span style="color:#c0c5ce;">}
-</span><span style="color:#c0c5ce;">/// Removes all entries from `from` to the last entry, inclusively.
-</span><span style="color:#c0c5ce;">pub fn purge_from_index(&amp;mut self, from_line: u64) -&gt; io::Result&lt;()&gt; {
-</span><span style="color:#c0c5ce;">    let position = try!(self.move_to(from_line));
-</span><span style="color:#c0c5ce;">    self.last_index = from_line - 1;
-</span><span style="color:#c0c5ce;">    self.purge_from_bytes(position)
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+/// Do *not* invoke this unless you update the `last_index`!
+fn purge_from_bytes(&amp;mut self, from_bytes: u64) -&gt; io::Result&lt;()&gt; {
+    self.log.set_len(from_bytes) // Chop off the file at the given position.
+}
+/// Removes all entries from `from` to the last entry, inclusively.
+pub fn purge_from_index(&amp;mut self, from_line: u64) -&gt; io::Result&lt;()&gt; {
+    let position = try!(self.move_to(from_line));
+    self.last_index = from_line - 1;
+    self.purge_from_bytes(position)
+}
+</pre>
 <p>Since purging will always remove all lines <strong>after</strong> a given line, we can just use <code>.set_len()</code>, which is convienent since otherwise the only real way I've seen to remove &quot;some&quot; lines is to read in the file and write it back out again entirely, which kind of sucks.</p>
 <p>I split <code>purge_from_bytes()</code> and <code>purge_from_index()</code> up because <code>append_entries()</code> will use it. Here it is:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">/// Appends `entries` after `prev_log_index` and `prev_log_term`.
-</span><span style="color:#c0c5ce;">pub fn append_entries(&amp;mut self, prev_log_index: u64, prev_log_term: u64,
-</span><span style="color:#c0c5ce;">                      entries: Vec&lt;(u64, T)&gt;) -&gt; io::Result&lt;()&gt; {
-</span><span style="color:#c0c5ce;">    // TODO: No checking of `prev_log_index` &amp; `prev_log_term` yet... Do we need to?
-</span><span style="color:#c0c5ce;">    let position = try!(self.move_to(prev_log_index + 1));
-</span><span style="color:#c0c5ce;">    let number = entries.len();
-</span><span style="color:#c0c5ce;">    try!(self.purge_from_bytes(position)); // Update `last_log_index` later.
-</span><span style="color:#c0c5ce;">    for (term, entry) in entries {
-</span><span style="color:#c0c5ce;">        // TODO: I don&#39;t like the &quot;doubling&quot; here. How can we do this better?
-</span><span style="color:#c0c5ce;">        write!(&amp;mut self.log, &quot;{} {}\n&quot;, term, PersistentState::encode(entry));
-</span><span style="color:#c0c5ce;">    }
-</span><span style="color:#c0c5ce;">    self.last_index = if prev_log_index == 0 {
-</span><span style="color:#c0c5ce;">        number as u64 - 1
-</span><span style="color:#c0c5ce;">    } else { prev_log_index + number as u64 };
-</span><span style="color:#c0c5ce;">    Ok(())
-</span><span style="color:#c0c5ce;">}
-</span></pre>
+/// Appends `entries` after `prev_log_index` and `prev_log_term`.
+pub fn append_entries(&amp;mut self, prev_log_index: u64, prev_log_term: u64,
+                      entries: Vec&lt;(u64, T)&gt;) -&gt; io::Result&lt;()&gt; {
+    // TODO: No checking of `prev_log_index` &amp; `prev_log_term` yet... Do we need to?
+    let position = try!(self.move_to(prev_log_index + 1));
+    let number = entries.len();
+    try!(self.purge_from_bytes(position)); // Update `last_log_index` later.
+    for (term, entry) in entries {
+        // TODO: I don't like the &quot;doubling&quot; here. How can we do this better?
+        write!(&amp;mut self.log, &quot;{} {}\n&quot;, term, PersistentState::encode(entry));
+    }
+    self.last_index = if prev_log_index == 0 {
+        number as u64 - 1
+    } else { prev_log_index + number as u64 };
+    Ok(())
+}
+</pre>
 <p>You'll notice the first line is a <code>// TODO:</code> because there are no safety checks to make sure that things are as they should be. The semantics of these checks are specified in the Raft paper, and should be easy to implement, I just haven't gotten to it yet! (Midterm week, yuck!) Otherwise, the code for this is fairly straightforward.</p>
 <h3 id="testing">Testing</h3>
 <p>One of my favorite things about Rust is the built in tooling for testing. Here's what the start of my log test looks like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#[test]
-</span><span style="color:#c0c5ce;">fn test_persistent_state() {
-</span><span style="color:#c0c5ce;">    let path = Path::new(&quot;/tmp/test_path&quot;);
-</span><span style="color:#c0c5ce;">    fs::remove_file(&amp;path.clone());
-</span><span style="color:#c0c5ce;">    let mut state = PersistentState::new(0, path.clone());
-</span><span style="color:#c0c5ce;">    // Add 0, 1
-</span><span style="color:#c0c5ce;">    assert_eq!(state.append_entries(0, 0,
-</span><span style="color:#c0c5ce;">        vec![(0, &quot;Zero&quot;.to_string()),
-</span><span style="color:#c0c5ce;">             (1, &quot;One&quot;.to_string())]),
-</span><span style="color:#c0c5ce;">        Ok(()));
-</span><span style="color:#c0c5ce;">    // Check index.
-</span><span style="color:#c0c5ce;">    assert_eq!(state.get_last_index(), 1);
-</span><span style="color:#c0c5ce;">    // Check 0
-</span><span style="color:#c0c5ce;">    assert_eq!(state.retrieve_entry(0),
-</span><span style="color:#c0c5ce;">        Ok((0, &quot;Zero&quot;.to_string())));
-</span><span style="color:#c0c5ce;">    // Check 0, 1
-</span><span style="color:#c0c5ce;">    assert_eq!(state.retrieve_entries(0, 1),
-</span><span style="color:#c0c5ce;">        Ok(vec![(0, &quot;Zero&quot;.to_string()),
-</span><span style="color:#c0c5ce;">                (1, &quot;One&quot;.to_string())
-</span><span style="color:#c0c5ce;">        ]));
-</span><span style="color:#c0c5ce;">    // ...
-</span></pre>
+#[test]
+fn test_persistent_state() {
+    let path = Path::new(&quot;/tmp/test_path&quot;);
+    fs::remove_file(&amp;path.clone());
+    let mut state = PersistentState::new(0, path.clone());
+    // Add 0, 1
+    assert_eq!(state.append_entries(0, 0,
+        vec![(0, &quot;Zero&quot;.to_string()),
+             (1, &quot;One&quot;.to_string())]),
+        Ok(()));
+    // Check index.
+    assert_eq!(state.get_last_index(), 1);
+    // Check 0
+    assert_eq!(state.retrieve_entry(0),
+        Ok((0, &quot;Zero&quot;.to_string())));
+    // Check 0, 1
+    assert_eq!(state.retrieve_entries(0, 1),
+        Ok(vec![(0, &quot;Zero&quot;.to_string()),
+                (1, &quot;One&quot;.to_string())
+        ]));
+    // ...
+</pre>
 <p>Let me be clear <strong>I love this.</strong> It makes it so easy to unit test code. One gotcha I discovered is that <code>cargo test</code> captures all your stdout... So you can do <code>cargo test -- --nocapture</code> to disable that!</p>
 <h2 id="explore-and-help">Explore and Help!</h2>
 <blockquote>
