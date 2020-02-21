@@ -5,6 +5,7 @@ $visited-link: ("light": #555555, "dark": #AAAAAA);
 $code-background: ("light": #DDDDDD, "dark": #2b303b);
 $font: ("normal": "Fira Sans", "code": "Fira Code");
 $responsive-margin-vertical: ("normal": 5vw, "widescreen": 15vw);
+$hero-wrapper-font-color: black;
 
 @mixin color-scheme($property, $setting) {
     #{$property}: map-get($setting, "light");
@@ -69,8 +70,9 @@ html {
                 z-index: 1;
 
                 & > * {
-                    color: white;
-                    text-shadow: 0px 0px 1em black, 0px 0px 1em black;
+                    color: $hero-wrapper-font-color;
+                    font-weight: 600;
+                    //text-shadow: 0px 0px 1em black, 0px 0px 1em black;
                 }
                 & a {
                     text-decoration: none !important;
@@ -78,7 +80,8 @@ html {
             }
 
             a:visited, a {
-                color: white;
+                color: $hero-wrapper-font-color;
+                font-weight: 600;
             }
         }
 
