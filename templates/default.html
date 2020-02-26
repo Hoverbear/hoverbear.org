@@ -8,10 +8,10 @@
         {% include "partials/header.html" %}
 
         <main>
-            {% if toc %}
+            {% if page and page.toc %}
                 <nav id=toc>
                     <ol>
-                        {% for h1 in toc %}
+                        {% for h1 in page.toc %}
                             <li>
                                 <a href="{{h1.permalink | safe}}">{{ h1.title }}</a>
                                 {% if h1.children %}
