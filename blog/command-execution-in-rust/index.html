@@ -79,44 +79,44 @@ Interfacing with command line applications
       
 
         <main>
-            
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/command-execution-in-rust/#using-libc">Using libc</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/command-execution-in-rust/#using-std-io-process">Using std::io::process</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/command-execution-in-rust/#introducing-command">Introducing Command</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/command-execution-in-rust/#in-and-out">In and Out</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/command-execution-in-rust/#spawning-and-managing-the-children">Spawning and managing the Children</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/command-execution-in-rust/#init-s-perspective">Init&#x27;s Perspective</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
+                
+    <nav id=toc>
+        <ol>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/command-execution-in-rust/#using-libc">Using libc</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/command-execution-in-rust/#using-std-io-process">Using std::io::process</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/command-execution-in-rust/#introducing-command">Introducing Command</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/command-execution-in-rust/#in-and-out">In and Out</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/command-execution-in-rust/#spawning-and-managing-the-children">Spawning and managing the Children</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/command-execution-in-rust/#init-s-perspective">Init&#x27;s Perspective</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
                 
     <p>One of my projects over the upcoming semester is to explore the Linux boot process and the job of the init (initialization) system. The init system is considered <strong>PID 1</strong> and is responsible for a significant portion of userspace functionality. Common init systems on Linux are OpenRC and systemd. One of the key parts of an init system is to spawn new processes, like in command shell.</p>
 <p>Executing child processes may be useful to any number of programs, but common applications include:</p>

@@ -75,92 +75,92 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
       
 
         <main>
-            
-                <nav id=toc>
-                    <ol>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#prerequisites">Prerequisites</a>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#overview">Overview</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#interfaces">Interfaces</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#rules">Rules</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#classgroups">Classgroups</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#classes">Classes</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#initial-configuration">Initial Configuration</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#aside-an-resolved-issue">Aside: An Resolved Issue</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#testing-it">Testing It</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#experimentation">Experimentation</a>
-                                
-                                    <ol>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#favoring-ports">Favoring Ports</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#limiting-a-class-rate">Limiting a Class Rate</a>
-                                            </li>
-                                        
-                                            <li>
-                                                <a href="https://hoverbear.org/blog/openwrt-qos/#priorities">Priorities</a>
-                                            </li>
-                                        
-                                    </ol>
-                                
-                            </li>
-                        
-                            <li>
-                                <a href="https://hoverbear.org/blog/openwrt-qos/#further-configuration">Further Configuration</a>
-                                
-                            </li>
-                        
-                    </ol>
-                </nav>
-            
             <article>
+                
+    <nav id=toc>
+        <ol>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/openwrt-qos/#prerequisites">Prerequisites</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/openwrt-qos/#overview">Overview</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#interfaces">Interfaces</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#rules">Rules</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/openwrt-qos/#classgroups">Classgroups</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#classes">Classes</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/openwrt-qos/#initial-configuration">Initial Configuration</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#aside-an-resolved-issue">Aside: An Resolved Issue</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#testing-it">Testing It</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/openwrt-qos/#experimentation">Experimentation</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#favoring-ports">Favoring Ports</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#limiting-a-class-rate">Limiting a Class Rate</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/openwrt-qos/#priorities">Priorities</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/openwrt-qos/#further-configuration">Further Configuration</a>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
                 
     <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
 <blockquote>
