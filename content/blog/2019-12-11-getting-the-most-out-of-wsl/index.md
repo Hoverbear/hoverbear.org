@@ -135,6 +135,9 @@ Thankfully, a wonderful person in the Snapcraft project, [Daniel](https://forum.
 
 In your Ubuntu shell:
 
+> Ubuntu 20.20? Daemonize is moved according to [@ram0973](https://twitter.com/ram0973/status/1253647608670814217) found
+> it on the `/usr/bin/daemonize` path.
+
 ```bash
 sudo apt-get install -yqq daemonize dbus-user-session
 cat <<-'EOF' | sudo tee -a /usr/sbin/start-systemd-namespace > /dev/null
