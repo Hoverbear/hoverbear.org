@@ -135,7 +135,7 @@ Note: All interfaces and code are not final, and are for educational and interes
 <span id="continue-reading"></span><h2 id="hacking-up-a-persistent-log">Hacking up a Persistent Log</h2>
 <p>Probably one of the coolest little projects I worked on was writing the <code>persistent_state</code> of a <code>RaftNode</code>. This is the data that the Raft protocol requires be written on stable storage each update.</p>
 <pre style="background-color:#2b303b;">
-/// Persistent state
+<code>/// Persistent state
 /// **Must be updated to stable storage before RPC response.**
 pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
     current_term: u64,
@@ -143,15 +143,15 @@ pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
     log: File,
     last_index: u64,             // The last index of the file.
 }
-</pre>
+</code></pre>
 <p>So, the reason this needs to be written to disk is so that in theory if we have a crash, we can recover. I haven't implemented resuming from a previous log, but I think that'll be a fun thing to do.</p>
 <p>Here's what a log looks like right now:</p>
 <pre style="background-color:#2b303b;">
-➜  raft git:(master) ✗ cat /tmp/test_path
+<code>➜  raft git:(master) ✗ cat /tmp/test_path
                    0                    0
 1 IkZvbyI
 2 IkJhciI
-</pre>
+</code></pre>
 <p>The first line is where we store <code>current_term</code> and <code>voted_for</code> (in that order). All previous lines are pairs of <code>$term  $V</code> where <code>V</code> is the base64 encoded JSON encoded version of <code>T</code>, which is anything that implemented <code>Decode</code> and <code>Encode</code>.</p>
 <blockquote>
 <p>I'd really like to not Base64 encode JSON encoded data. If you have a suggestion, please open an issue! I'm currently looking at using <a href="https://github.com/TyOverby/bincode">bincode</a> instead. See <a href="https://github.com/Hoverbear/raft/issues/4">this issue</a>.</p>
@@ -163,15 +163,15 @@ pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
 <h3 id="creating-files">Creating Files</h3>
 <p>This was, surprisingly, a bit of a stumbling block for me. <code>File::open()</code> gives you read access, while <code>File::create()</code> gives you write, but if you're hoping to open a file then <em>read and write</em> to it, you'll need to use <a href="http://doc.rust-lang.org/std/fs/struct.OpenOptions.html"><code>OpenOptions</code></a>.</p>
 <pre style="background-color:#2b303b;">
-let mut open_opts = OpenOptions::new();
+<code>let mut open_opts = OpenOptions::new();
 open_opts.read(true);
 open_opts.write(true);
 open_opts.create(true);
 let mut file = open_opts.open(&amp;log_path).unwrap();
-</pre><h3 id="manipulating-files">Manipulating Files</h3>
+</code></pre><h3 id="manipulating-files">Manipulating Files</h3>
 <p>Working with files means you generally deal with <code>Cursor</code>s into the file. You can navigate around a file like so:</p>
 <pre style="background-color:#2b303b;">
-let start =
+<code>let start =
 	self.log.seek(io::SeekFrom::Start(0));
 let offset_from_start =
 	self.log.seek(io::SeekFrom::Start(8));
@@ -179,10 +179,10 @@ let very_end =
 	self.log.seek(io::SeekFrom::End(0));
 let current =
 	self.log.seek(io::SeekFrom::Current(0));
-</pre>
+</code></pre>
 <p>This is key, because it controls your position in the file for <em>most</em> other operations. You can try it out with the code below on the <a href="http://is.gd/rnOgNO">playpen</a>.</p>
 <pre style="background-color:#2b303b;">
-#![feature(io)]
+<code>#![feature(io)]
 #![feature(fs)]
 #![feature(path)]
 use std::fs::OpenOptions;
@@ -208,12 +208,12 @@ fn main() {
     file.read_to_string(&amp;mut read).unwrap();
     println!(&quot;{}&quot;, read); // Outputs &quot;Foo dog baz&quot;
 }
-</pre>
+</code></pre>
 <p>Now that we can write into files, how do we make sure we have a consistent space for data? The first line of our log contains two <code>u64</code>s which can take up to 20 digits each. Using this, we can modify our <code>write!()</code> call to use more specialize formatting options.</p>
 <pre style="background-color:#2b303b;">
-write!(&amp;mut self.log, &quot;{:20} {:20}\n&quot;,
+<code>write!(&amp;mut self.log, &quot;{:20} {:20}\n&quot;,
 	self.current_term, self.voted_for.unwrap_or(0))
-</pre>
+</code></pre>
 <p>The <code>{:20}</code> is a formatting option that ensures it takes up consistent space. <a href="http://doc.rust-lang.org/std/fmt/#syntax">More on that here</a>.</p>
 <h3 id="scanning-through">Scanning Through</h3>
 <p>Since we have a handle on moving around our file cursor we can start using other things like <code>.chars()</code> on the file to get it to spit out characters.</p>
@@ -221,7 +221,7 @@ write!(&amp;mut self.log, &quot;{:20} {:20}\n&quot;,
 <p>Make sure to <code>.seek()</code> then build your iterator, otherwise ownership woes will be upon you!</p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-/// Moves `line` lines into the file. Purposefully goes &quot;one extra&quot; line because the first line is metadata.
+<code>/// Moves `line` lines into the file. Purposefully goes &quot;one extra&quot; line because the first line is metadata.
 /// Returns the number of bytes containing `line` lines.
 fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
     // Gotcha: The first line is NOT a log entry.
@@ -247,14 +247,14 @@ fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
     }).next(); // Side effects.
     self.log.seek(io::SeekFrom::Current(0)) // Where are we?
 }
-</pre>
+</code></pre>
 <p>As you can see, the <code>move_to()</code> function's main traversing is not done by <code>seek()</code>, it's done by an iterator! Once we set the cursor to <code>Start(0)</code> we can set up an iterator with <code>log.by_ref().chars().skip_while()</code>. <code>by_ref()</code> gets us a reference so we don't stumble into <em>move</em> issues. <code>.chars()</code> lets us pull <code>char</code> types instead of <code>u8</code>. <code>.skip_while()</code> lets us walk over the file, disgarding values as we finish looking at them.</p>
 <p>Finally, at the end you might notice a <code>.next()</code>, this is because iterators are lazy... So up until that's called, nothing is actually even done! Very neat.</p>
 <p>Looking forward, I'd like to not require going from the start forward every <code>.move_to()</code> call.</p>
 <h3 id="retrieving-an-entry">Retrieving an Entry</h3>
 <p>Now that we can effectively scan through the file and get the correct position, how do we retrieve entries? Here is what <code>retrieve_entry</code> looks like (Note there is <code>retrieve_entries</code> too which is very similar):</p>
 <pre style="background-color:#2b303b;">
-pub fn retrieve_entry(&amp;mut self, index: u64) -&gt; io::Result&lt;(u64, T)&gt; {
+<code>pub fn retrieve_entry(&amp;mut self, index: u64) -&gt; io::Result&lt;(u64, T)&gt; {
     // Move to the correct line.
     let position = self.move_to(index);
     let mut chars = self.log.by_ref()
@@ -290,13 +290,13 @@ pub fn retrieve_entry(&amp;mut self, index: u64) -&gt; io::Result&lt;(u64, T)&gt
         .ok().expect(&quot;Could not unwrap log entry.&quot;);
     Ok((term, decoded))
 }
-</pre>
+</code></pre>
 <p>This code makes use of iterators, scopes, and options in, what I consider, a fairly clean way. After moving to the correct line, <code>chars</code> takes in one line of the file and it gets chunked into two pieces along a delimiter. Then the values of that chunk iterator are parsed.</p>
 <p>One stumbling block I had was that <code>v.parse::&lt;u64&gt;()</code> returned <a href="http://doc.rust-lang.org/std/str/trait.StrExt.html#tymethod.parse"><code>&lt;F as FromStr&gt;::Err</code></a> instead of an <code>IoError</code> like <code>io::Result&lt;_&gt;</code> expects. This means that I couldn't just <code>try!()</code> the expression. Looking at <a href="http://doc.rust-lang.org/std/io/struct.Error.html"><code>io::Error</code></a> I was able to find the <code>InvalidInput</code> variant that suited my needs.</p>
 <h3 id="purging-and-appending">Purging and Appending</h3>
 <p>Part of the Raft protocol dictates that purging and appending must be able to happen to the log. Here's purge:</p>
 <pre style="background-color:#2b303b;">
-/// Do *not* invoke this unless you update the `last_index`!
+<code>/// Do *not* invoke this unless you update the `last_index`!
 fn purge_from_bytes(&amp;mut self, from_bytes: u64) -&gt; io::Result&lt;()&gt; {
     self.log.set_len(from_bytes) // Chop off the file at the given position.
 }
@@ -306,11 +306,11 @@ pub fn purge_from_index(&amp;mut self, from_line: u64) -&gt; io::Result&lt;()&gt
     self.last_index = from_line - 1;
     self.purge_from_bytes(position)
 }
-</pre>
+</code></pre>
 <p>Since purging will always remove all lines <strong>after</strong> a given line, we can just use <code>.set_len()</code>, which is convienent since otherwise the only real way I've seen to remove &quot;some&quot; lines is to read in the file and write it back out again entirely, which kind of sucks.</p>
 <p>I split <code>purge_from_bytes()</code> and <code>purge_from_index()</code> up because <code>append_entries()</code> will use it. Here it is:</p>
 <pre style="background-color:#2b303b;">
-/// Appends `entries` after `prev_log_index` and `prev_log_term`.
+<code>/// Appends `entries` after `prev_log_index` and `prev_log_term`.
 pub fn append_entries(&amp;mut self, prev_log_index: u64, prev_log_term: u64,
                       entries: Vec&lt;(u64, T)&gt;) -&gt; io::Result&lt;()&gt; {
     // TODO: No checking of `prev_log_index` &amp; `prev_log_term` yet... Do we need to?
@@ -326,12 +326,12 @@ pub fn append_entries(&amp;mut self, prev_log_index: u64, prev_log_term: u64,
     } else { prev_log_index + number as u64 };
     Ok(())
 }
-</pre>
+</code></pre>
 <p>You'll notice the first line is a <code>// TODO:</code> because there are no safety checks to make sure that things are as they should be. The semantics of these checks are specified in the Raft paper, and should be easy to implement, I just haven't gotten to it yet! (Midterm week, yuck!) Otherwise, the code for this is fairly straightforward.</p>
 <h3 id="testing">Testing</h3>
 <p>One of my favorite things about Rust is the built in tooling for testing. Here's what the start of my log test looks like:</p>
 <pre style="background-color:#2b303b;">
-#[test]
+<code>#[test]
 fn test_persistent_state() {
     let path = Path::new(&quot;/tmp/test_path&quot;);
     fs::remove_file(&amp;path.clone());
@@ -352,7 +352,7 @@ fn test_persistent_state() {
                 (1, &quot;One&quot;.to_string())
         ]));
     // ...
-</pre>
+</code></pre>
 <p>Let me be clear <strong>I love this.</strong> It makes it so easy to unit test code. One gotcha I discovered is that <code>cargo test</code> captures all your stdout... So you can do <code>cargo test -- --nocapture</code> to disable that!</p>
 <h2 id="explore-and-help">Explore and Help!</h2>
 <blockquote>

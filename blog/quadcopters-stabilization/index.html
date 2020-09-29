@@ -142,18 +142,18 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <h1 id="structure">Structure</h1>
 <p><strong>C code and Arduino code are fairly similar</strong>, and the best practice is to lay out your code roughly as follows:</p>
 <pre style="background-color:#2b303b;">
-// Includes
+<code>// Includes
 // Definitions
 // Variables
 // Functions
-</pre>
+</code></pre>
 <p>So what are all these? Let's break them down.</p>
 <h2 id="includes">Includes</h2>
 <p>In order to use code from other files it's necessary to bring them &quot;in scope&quot;. Includes come in two forms:</p>
 <pre style="background-color:#2b303b;">
-#include &lt;math.h&gt;     // Use a system provided library.
+<code>#include &lt;math.h&gt;     // Use a system provided library.
 #include &quot;FreeRTOS.h&quot; // Use from the project library.
-</pre>
+</code></pre>
 <p>Notice how we include <code>.h</code> files instead of <code>.c</code> files? These are called <em>header files</em> and contain functions, variables, and definitions. In most cases, each <code>.h</code> file has a respective <code>.c</code> file.</p>
 <blockquote>
 <p>The distinction between <code>.c</code> and <code>.h</code> files is largely a historical one. Some modern languages have combined the two.</p>
@@ -161,48 +161,48 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <h2 id="definitions">Definitions</h2>
 <p>Definitions are a way to assign certain values to specific names. <code>#define</code>s can be values or expressions.</p>
 <pre style="background-color:#2b303b;">
-#define example 1
+<code>#define example 1
 #define max(a,b) ((a) &gt; (b) ? (a) : (b))
 #define min(a,b) ((a) &lt; (b) ? (a) : (b))
-</pre>
+</code></pre>
 <p><em>Note:</em> Definitions cannot change while the program is running, this is not a place for variables.</p>
 <p>Consider them like &quot;macros&quot;, if we enter <code>max(1,2)</code> then our compiler will replace it with <code>((1) &gt; (2) ? (1) : (2))</code>.</p>
 <h2 id="variables">Variables</h2>
 <p>We've used variables in our Arduino experiments already. Variables are the main workhorse of <em>data storage</em>.</p>
 <pre style="background-color:#2b303b;">
-int foo;
+<code>int foo;
 static int bar = 2;
 const int baz = 3;
 foo = 1;
-</pre>
+</code></pre>
 <p>Variables follow the format <code>type name = value</code>. You can also do just <code>type name</code> and <code>name</code> will be <code>null</code> (nothing) until it is set.</p>
 <p>Sometimes you'll also see things like <code>static</code> and <code>const</code> in front. <code>static</code> variables exist over the lifetime of the program and are unique inside that given code file, they are not accessible outside of it. <code>const</code> variables cannot change their value after declared.</p>
 <p>Not all variables will be simple values, for example, below we declare three <code>Axis3f</code>. When designing programs it's quite easy to create your own types to store whatever you might need.</p>
 <pre style="background-color:#2b303b;">
-static Axis3f gyro; // Gyro axis data in deg/s
+<code>static Axis3f gyro; // Gyro axis data in deg/s
 static Axis3f acc;  // Accelerometer axis data in mG
 static Axis3f mag;  // Magnetometer axis data in testla
-</pre>
+</code></pre>
 <p>You'll see <code>float</code> occur commonly in the stabilization code, this is a decimal value like <code>0.00001</code>.</p>
 <h2 id="functions">Functions</h2>
 <p>Functions are step-by-step procedures which (generally) have an input and an output. The simplest function is this:</p>
 <pre style="background-color:#2b303b;">
-void foo() {}
-</pre>
+<code>void foo() {}
+</code></pre>
 <p>This is a function with no input or output! <code>void</code> is the <em>return type</em>, <code>void</code> in most cases means nothing is returned. A function which takes a pair of integers and returns their sum looks like this:</p>
 <pre style="background-color:#2b303b;">
-int sum(int a, int b) {
+<code>int sum(int a, int b) {
 	return a+b;
 }
-</pre>
+</code></pre>
 <p>Functions can be invoked by calling them like so:</p>
 <pre style="background-color:#2b303b;">
-int should_be_three = sum(1, 2);
-</pre><h1 id="understanding-the-code">Understanding the Code</h1>
+<code>int should_be_three = sum(1, 2);
+</code></pre><h1 id="understanding-the-code">Understanding the Code</h1>
 <p>The stabilization code is broken up into a few sections. We'll take the code directly from the project and go over it slowly. If anything doesn't make sense please <a href="mailto:ana+quads@hoverbear.org">email me</a> and I'll make it more clear!</p>
 <h2 id="initialization">Initialization</h2>
 <pre style="background-color:#2b303b;">
-void stabilizerInit(void)
+<code>void stabilizerInit(void)
 {
   if(isInit)
     return;
@@ -221,7 +221,7 @@ void stabilizerInit(void)
 
   isInit = true;
 }
-</pre>
+</code></pre>
 <p>The <code>stabilizerInit()</code> function is what starts up the stabilization routines. You can see in the first line that if it is already been initialized the function simply returns early, doing nothing. (Note how <code>isInit</code> is set at the end of a normal call)</p>
 <p>The code then initializes it's dependencies (which also exit early if already initialized!) After, it sets the desired orientation values to zero.</p>
 <p>Finally, the function calls <code>xTaskCreate</code> which spawns a <em>task</em> which can run concurrently alongside other tasks. This particular task runs the <code>stabilizerTask()</code> function.</p>
@@ -231,7 +231,7 @@ void stabilizerInit(void)
 <h2 id="the-task">The Task</h2>
 <p>Okay, so what does this task look like then? Let's take a look! This function is longer, so I'll be breaking it up.</p>
 <pre style="background-color:#2b303b;">
-static void stabilizerTask(void* param)
+<code>static void stabilizerTask(void* param)
 {
   uint32_t attitudeCounter = 0;
   uint32_t altHoldCounter = 0;
@@ -247,7 +247,7 @@ static void stabilizerTask(void* param)
   while(1)
   {
     vTaskDelayUntil(&amp;lastWakeTime, F2T(IMU_UPDATE_FREQ)); // 500Hz
-</pre>
+</code></pre>
 <p>In the first few lines the function allocates some space for some 32-bit unsigned integers, these <em>only represent absolute numbers</em>. You can see that <code>lastWakeTime</code> is set later in the code. There are a few functions whose purpose is not immediately clear, let's go over them.</p>
 <ul>
 <li><a href="http://www.freertos.org/vTaskSetApplicationTag.html"><code>vTaskSetApplicationTaskTag()</code></a> - Sets the 'tag' of the tag for debugging purposes. We need not concern ourselves with this.</li>
@@ -256,7 +256,7 @@ static void stabilizerTask(void* param)
 </ul>
 <p>You'll notice as well that there is the start of a <code>while(1)</code> loop, which is an <em>infinite loop</em>, and will keep going until it is manually exited. Let's move forward.</p>
 <pre style="background-color:#2b303b;">
-// Magnetometer not yet used more then for logging.
+<code>// Magnetometer not yet used more then for logging.
 imu9Read(&amp;gyro, &amp;acc, &amp;mag);
 
 if (imu6IsCalibrated())
@@ -280,7 +280,7 @@ if (imu6IsCalibrated())
                                  &amp;rollRateDesired, &amp;pitchRateDesired, &amp;yawRateDesired);
     attitudeCounter = 0;
   }
-</pre>
+</code></pre>
 <p>At the top of this chunk you'll see <code>imu9Read(&amp;gyro, &amp;acc, &amp;mag);</code> which, if you've never used pointers, may seem odd. Essentially what we're doing is calling the <code>imu9Read</code> function and passing it the three <em>pointers</em> to the location of our variables. The function can then <em>dereference</em> these pointers and write into them. This is a common practice when you want to modify a complex value in a function without needing to copy the entire thing.</p>
 <p>The <code>commanderGetRPY()</code> and <code>commanderGetRPYType()</code> fetch the desired inputs from the user, like an increase in pitch or roll.</p>
 <p>After, if a counter is high enough (the <code>++</code> increments it) we do an 'attitude' update. This is not to be confused with altitude. The term attitude is something that seems to be internal to the Crazyflie, and appears to just be their term for a need for adjustment.</p>
@@ -288,7 +288,7 @@ if (imu6IsCalibrated())
 <p><code>AccWZ</code> is used along with the deadband (a way to reduce the amount of data collected and save battery life) to estimate the vertical speed of the device. It appears that <code>AccMAG</code> is unused.</p>
 <p>Then <code>controllerCorrectAttitudePID()</code> is called. This takes the desired values and through a round-about method works with <a href="https://github.com/bitcraze/crazyflie-firmware/blob/a3ecf78d2e0e70e45c8a77f4d3d068b875ab8bf4/modules/interface/pid.h#L65-L81"><code>PidObject</code></a>s to update the pointers we pass in (The <code>&amp;</code> values). <code>PidObject</code>s are used to model mathematics that drive the quadcopter.</p>
 <pre style="background-color:#2b303b;">
-  // 100HZ
+<code>  // 100HZ
   if (imuHasBarometer() &amp;&amp; (++altHoldCounter &gt;= ALTHOLD_UPDATE_RATE_DIVIDER))
   {
     stabilizerAltHoldUpdate();
@@ -307,10 +307,10 @@ if (imu6IsCalibrated())
   {
     yawRateDesired = -eulerYawDesired;
   }
-</pre>
+</code></pre>
 <p>Next, if necessary, an altitude hold update is performed. Afterwards the three axes of movement are updated to their desired values.</p>
 <pre style="background-color:#2b303b;">
-  // TODO: Investigate possibility to subtract gyro drift.
+<code>  // TODO: Investigate possibility to subtract gyro drift.
   controllerCorrectRatePID(gyro.x, -gyro.y, gyro.z,
                            rollRateDesired, pitchRateDesired, yawRateDesired);
 
@@ -326,10 +326,10 @@ if (imu6IsCalibrated())
     // Added so thrust can be set to 0 while in altitude hold mode after disconnect
     commanderWatchdog();
   }
-</pre>
+</code></pre>
 <p>Here the task updates the desired rate, and updates its picture of how fast the quadcopter is actuating with its motors. Then it is updating the thrust based on input from the user or the altitude hold control.</p>
 <pre style="background-color:#2b303b;">
-      if (actuatorThrust &gt; 0)
+<code>      if (actuatorThrust &gt; 0)
       {
 #if defined(TUNE_ROLL)
         distributePower(actuatorThrust, actuatorRoll, 0, 0);
@@ -348,7 +348,7 @@ if (imu6IsCalibrated())
       }
     }
   }
-</pre>
+</code></pre>
 <p>Finally, the task distributes power to the actuators. The <code>#if defined(TUNE_ROLL)</code> lines are compile time options meant for debugging, normally the <code>#else</code> case is used.</p>
 <h1 id="what-does-it-all-mean">What does it all mean?</h1>
 <p>In order to stabilize itself a quadcopter must <em>rapidly, constantly</em> sample its sensors, controller, and actuators in order to get the best picture of two very important things:</p>

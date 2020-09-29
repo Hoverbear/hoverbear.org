@@ -192,18 +192,18 @@ Some bugs are just that+++a one off.  A wayward moth that just happens to be inn
 <p>Rust does, however, have significant semantic differences compared to C-like languages. For variable declaration, Rust has the <code>let</code> keyword which is <em>immutable by default</em>, mutability is opt-in via <code>let mut</code>. This opt-in mutability was found by the community to encourage better code. Instead of the programmer needing to remember to use <code>const</code> the compiler informs them of any variables they might have forgotten to make mutable or if it is unnecessarily mutable.</p>
 <p>As well, function definitions differ from C-like languages. This change makes function definitions easier to comprehend when dealing with complex parameters, generics, and return values. Numerous reasoning for why C's declaration syntax is inadequate were well explained by Rob Pike <a href="https://blog.golang.org/gos-declaration-syntax" title="Go Blog: Function Declaration"><em>(ref)</em></a>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example_simple</span><span style="color:#c0c5ce;">()
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example_simple</span><span style="color:#c0c5ce;">()
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example_params</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">y</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">z</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut u64</span><span style="color:#c0c5ce;">)
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example_returns</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">
 fn example_generic&lt;U: Read&gt;(reader: U) -&gt; </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">
 fn example_generic_alt&lt;U&gt;(reader: U) -&gt; </span><span style="color:#b48ead;">u64
     where</span><span style="color:#c0c5ce;"> U: Read
-</span></pre><h2 id="2-2-a-strong-type-system">2.2 A Strong Type System</h2>
+</span></code></pre><h2 id="2-2-a-strong-type-system">2.2 A Strong Type System</h2>
 <p>While a dynamic type system is desirable in some areas, particularly in higher level code, things like implicit, possibly lossy data conversions can often be dangerous in system code. In our experience, many operating systems students also struggle with the mental concepts of pointers and their uses. This can lead to taking pointers as values and performing pointer arithmetic.</p>
 <p>The programmer is not <em>prevented</em> from doing these things in Rust, it only ensures that it is actually the intended action. For many students though, attempting to cast pointers into a value is actually a mistake in their intention. Rust helps users with this by automatically dereferencing pointers when necessary, and providing stronger tools for common places where these mistakes crop up, like string indexing or dynamic array access.</p>
 <p>Types can be created easily, and there are three basic compound data structures, <code>struct</code>, <code>enum</code>, and tuples. <code>struct</code>s and tuples are similar to other languages. Rust's <code>enum</code>s are able to represent variants with encapsulated values, generics, and even <code>struct</code>s!</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">// Structure with generic
+<code><span style="color:#65737e;">// Structure with generic
 </span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">One&lt;T&gt; {
     </span><span style="color:#bf616a;">foo</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
     </span><span style="color:#bf616a;">bar</span><span style="color:#c0c5ce;">: T
@@ -219,12 +219,12 @@ fn example_generic_alt&lt;U&gt;(reader: U) -&gt; </span><span style="color:#b48e
     </span><span style="color:#65737e;">// Variant with Struct.
 </span><span style="color:#c0c5ce;">    Baz { x: </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, y: </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, z: </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, },
 }
-</span></pre><h2 id="2-3-we-don-t-need-a-null">2.3 We Don't Need A <code>null</code></h2>
+</span></code></pre><h2 id="2-3-we-don-t-need-a-null">2.3 We Don't Need A <code>null</code></h2>
 <p>Cited by its creator <a href="http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare" title="The Billion Dollar Mistake"><em>(ref)</em></a> as a 'billion-dollar mistake' <code>null</code> is one of the most dangerous thorns in a programmers toolbox. What's more is that these errors happen at <em>runtime</em> and may take down live systems.</p>
 <p>In languages like C, C++, and Java a tremendous amount of research and development time has gone into developing products like Coverity <a href="https://www.coverity.com/" title="Coverity"><em>(ref)</em></a> and PVS-Studio <a href="http://www.viva64.com/en/pvs-studio/" title="PVS-Studio"><em>(ref)</em></a> to help discover possible null pointer inconsistencies. Engler et al suggest heuristic methods to determine the 'null state' of a variable throughout the control flow of a program. What if programmers could just stop worrying about <code>null</code> all together?</p>
 <p>Many functional languages like Haskell and F# have the concept of an <code>Option</code>, a concept that Rust shares. Instead of needing to be aware of and check for <code>null</code> at every occurrence, the language semantics require the programmer to explicitly decide on the control flow for all values.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">// Create a `Some(T)` and a None.
+<code><span style="color:#65737e;">// Create a `Some(T)` and a None.
 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> maybe_foo = Some(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">);
 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> not_foo = None;
 </span><span style="color:#65737e;">// Unwrapping.
@@ -236,13 +236,13 @@ fn example_generic_alt&lt;U&gt;(reader: U) -&gt; </span><span style="color:#b48e
 };
 </span><span style="color:#65737e;">// Mapping
 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> mapped = maybe_foo.</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(|</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">| x as </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">);
-</span></pre><h1 id="3-rust-reducing-bugs-through-linguistic-features">3. Rust: Reducing Bugs through Linguistic Features</h1>
+</span></code></pre><h1 id="3-rust-reducing-bugs-through-linguistic-features">3. Rust: Reducing Bugs through Linguistic Features</h1>
 <p>In Rust, many common bugs can be prevented because: routines with the potential for failure carry it explicitly in their function signature (Section 3.1), RAII is used to ensure allocations are followed by frees (Section 3.2), security checks can be required by the type system or through marker traits for 'tainted' data (Section 3.3), powerful move semantics eliminate use-after-free errors (Section 3.4), and locks inherently protect data, not code (Section 3.4).</p>
 <h2 id="3-1-results-and-try">3.1 Results and <code>try!()</code></h2>
 <p>When working with traditional languages such as C and C++ it can often be difficult to answer the question &quot;Can this function fail?&quot; Checked exceptions can help, but often APIs are inconsistent, and checks for failure can be forgotten <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a>. Some static analysis techniques can be used to determine possible missed failure checks, such has detecting invocations that do check for error. Having failure information included in the function's signature and requiring it to be explicitly checked may be a more robust solution over heuristics though.</p>
 <p>The <code>Result&lt;T, E&gt;</code> enum exists as either <code>Ok(T)</code> or <code>Err(E)</code> and conveys the result of something which may fail with an error. Using Rust's <code>match</code> expression the user can act on various error conditions or success.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io;
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::error::Error;
 </span><span style="color:#65737e;">// Create an error. (Normally raised from lib)
 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> error = io::Error::new(io::ErrorKind::Other,
@@ -256,10 +256,10 @@ fn example_generic_alt&lt;U&gt;(reader: U) -&gt; </span><span style="color:#b48e
     Ok(val) =&gt; val,
     Err(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> e)  =&gt; e.</span><span style="color:#96b5b4;">description</span><span style="color:#c0c5ce;">(),
 };
-</span></pre>
+</span></code></pre>
 <p>It is a compiler warning to perform an action such as <code>file.read_to_string(buf)</code> which returns a <code>Result&lt;usize, Error&gt;</code> and to not handle the error in some way. In Rust is it idiomatic for any recoverable error to be passed up the call stack to where it can be sensibly handled. While approaching this idea newcomers typically struggle with the fact that an <code>io::Error</code> and a <code>Utf8Error</code> are different types and cannot be returned in the same <code>Result&lt;T,E&gt;</code>, since the <code>E</code> value would differ and violate Rust's strong typing. This is typically solved by creating a new <code>Error</code> which is an enumeration over the possible underlaying errors as well as any the programmer may wish to include themselves. Then there are the <code>Into&lt;T&gt;</code> and <code>From&lt;T&gt;</code> traits which can be implemented to provide seamless interaction.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">pub enum </span><span style="color:#c0c5ce;">MyError {
+<code><span style="color:#b48ead;">pub enum </span><span style="color:#c0c5ce;">MyError {
     Io(io::Error),
     Utf8(Utf8Error)
 }
@@ -269,23 +269,23 @@ fn example_generic_alt&lt;U&gt;(reader: U) -&gt; </span><span style="color:#b48e
     }
 }
 </span><span style="color:#65737e;">// ...
-</span></pre>
+</span></code></pre>
 <p>When working with functions which may return a <code>Result&lt;T, E&gt;</code> it is common to use the <code>try!()</code> macro. This macro expands to either unwrap the <code>T</code> value inside and assign it, or return the error up the call stack. This helps reduce visual 'noise' and assist in composition.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">open_and_read</span><span style="color:#c0c5ce;">() -&gt; Result&lt;String, MyError&gt; {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">open_and_read</span><span style="color:#c0c5ce;">() -&gt; Result&lt;String, MyError&gt; {
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> f = try!(File::open(&quot;</span><span style="color:#a3be8c;">foo.txt</span><span style="color:#c0c5ce;">&quot;));
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> s = String::new();
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> num_read = try!(f.</span><span style="color:#96b5b4;">read_to_string</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> s));
     Ok(s)
 }
-</span></pre>
+</span></code></pre>
 <p>Error handling in Rust is explicit, composable, and sane. There are no exceptions, nulls, 'magic numbers' (like -1) or anything that may prevent the programmer from handling the error as <em>they</em> choose to, even if that is to simply <code>.unwrap()</code> it and fail. It's worth noting that even <code>.unwrap()</code>ing does not actually crash the program as normally it unwinds the stack, isolating failure to a single thread and preventing inconsistent state.</p>
 <h2 id="3-2-borrow-and-move-forget-free">3.2 Borrow and Move: Forget <code>free()</code></h2>
 <p>In Rust there is the notion of moving, copying, and referencing. In some ways Rust's memory model
 is similar to C/C++'s. It features a powerful pointer system that allows programmers to make fine-grain, informed decisions about how values are stored, passed, and represented. Like C++, Rust makes use of a concept called Resource Acquisition Is Instantiation (RAII). Rust goes a step further, introducing the distinction between <em>immutably borrowing</em> (<code>&amp;</code>), <em>mutably borrowing</em> (<code>&amp;mut</code>), <em>copying</em> (<code>Copy</code> trait), and <em>moving</em> values. At any given time there may be any number of <em>immutable borrows</em>, meanwhile there may only be one <em>mutable borrow</em>, and a value may not be used in the function once it has been <em>moved</em> out.</p>
 <p>This makes it simple for a programmer to observe a function signature and determine which values the function may mutate or consume, and which it may return. Using this information the compiler is able to determine the lifetime constraints of almost any value without additional notations. In (rare, complex) cases where it does require additional information, the programmer can annotate lifetimes just as they would generic type parameters.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// An owned, growable,
     // non-copyable string.
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> foo = String::from(&quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;);
@@ -304,12 +304,12 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> rad = &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> foo;
     rad.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">c</span><span style="color:#c0c5ce;">&#39;);
 } </span><span style="color:#65737e;">// foo is destroyed.
-</span></pre>
+</span></code></pre>
 <p>This behavior is very similar to C++'s RAII facilities and ensures all values are safely destructed in a consistent, predictable manner as soon as they are no longer needed. The programmer does not need to worry about making sure each of their <code>malloc()</code> calls have a corresponding <code>free()</code> or rely on an outside tool <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a> to discover such errors. The borrow checker is also able to determine when a value has been <em>moved</em> into a function call and should not be further used in the caller, eliminating another possible class of errors.</p>
 <h2 id="3-3-traits-zero-cost-abstractions">3.3 Traits: Zero-cost Abstractions</h2>
 <p>Rust does not use a class based or inheritance based system. Data is stored in <code>struct</code>s, primitives, or <code>enum</code>s which implement a set of traits that define how it interacts and which functions are available to it. For example, the <code>File</code> is a <code>struct</code> which implements <code>Read</code> and <code>Write</code> among other traits. Other structures like <code>TcpStream</code> and <code>UdpSocket</code> also implement the same <code>Read</code> and <code>Write</code> trait. Traits are zero-cost abstractions that act to encourage common interfaces and capabilities between like-structures <a href="http://blog.rust-lang.org/2015/05/11/traits.html" title="Abstraction without overhead: traits in Rust"><em>(ref)</em></a>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Thing {
+<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Thing {
     </span><span style="color:#bf616a;">barred</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">,
 }
 </span><span style="color:#b48ead;">trait </span><span style="color:#c0c5ce;">Foo {
@@ -323,7 +323,7 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
         </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">.barred = </span><span style="color:#d08770;">true</span><span style="color:#c0c5ce;">;
     }
 }
-</span></pre>
+</span></code></pre>
 <p>Traits fit easily together, are widespread in their implementation, and allow for common interfaces between modules to permit better adaptability. Traits can also be used as 'markers' in design patterns like state machines to provide additional compile time verification of correctness.</p>
 <h2 id="3-4-static-analysis-at-the-core">3.4 Static Analysis at the Core</h2>
 <p>Static analysis tools, like <code>splint</code> for C <a href="http://splint.org/" title="Splint"><em>(ref)</em></a> are an invaluable tool for Operating Systems programming, particularly when working on large codebases with multiple programmers.  Rust's type system and region based memory, based on Cyclone <a href="http://209.68.42.137/ucsd-pages/Courses/cse227.w03/handouts/cyclone-regions.pdf" title="Region-Based Memory Management in Cyclone"><em>(ref)</em></a>, are particularly well suited to static analysis. Indeed, <code>rustc</code> itself performs a tremendous amount of static analysis without the help of external tools. The type system carries all the information necessary for the compiler to understand all possible control flows of the program, all possible (recoverable) errors which arise, and the lifetimes of each region of memory.</p>
@@ -341,24 +341,24 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
 <p>Harnessing the power of ownership semantics, the type system, the standard library's threading modules there are a number of tools available <a href="http://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html" title="Fearless Concurrency"><em>(ref)</em></a>:</p>
 <p><strong>Channels</strong> provide a way to transfer messages (and ownership) between threads without fear of there being later (unsafe) access to the data by other threads. The default channel provided by the standard library is a Multiple-Producer, Single-Consumer channel.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::sync::mpsc::{channel, Sender, Receiver};
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::sync::mpsc::{channel, Sender, Receiver};
 </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">(send, receive) = </span><span style="color:#96b5b4;">channel</span><span style="color:#c0c5ce;">();
-</span></pre>
+</span></code></pre>
 <p><strong>Locks</strong> can encapsulate data such that access is only granted if the lock is held. In Rust, you <strong>don't lock code, you lock data</strong>, and it is safer because of it. Locks are typically represented by <code>Mutex</code>s and shared between threads with an Atomically Reference Counted structure (<code>Arc</code>). It should be noted that this design of locking data prevents a lock from being acquired and never given up, identified as common by Engler <a href="https://web.stanford.edu/%7Eengler/deviant-sosp-01.pdf" title="Bugs as Deviant Behavior: A General Approach to Inferring Errors in Systems Code"><em>(ref)</em></a>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::sync::{Arc, Mutex};
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::sync::{Arc, Mutex};
 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> data = Arc::new(Mutex::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">));
-</span></pre>
+</span></code></pre>
 <p><strong>Traits</strong> like <code>Sync</code> and <code>Send</code> are implemented on types and symbolize if it can be <em>sent</em> or <em>shared</em> between threads safely. These traits are not just documentation, they are intrinsic to the language.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">// Safe to share between threads.
+<code><span style="color:#65737e;">// Safe to share between threads.
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::marker::Sync;
 </span><span style="color:#65737e;">// Safe to transfer between threads.
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::marker::Send;
-</span></pre>
+</span></code></pre>
 <p>Rust's concurrency primitives are powerful and composable, allowing users to implement other, more fearless forms of concurrency such as <strong>sharing stack frames</strong>. For example, here's a demonstration of a third-party crate called <strong>crossbeam</strong> that allows us to safely operate concurrently on stack-allocated data: <a href="http://aturon.github.io/crossbeam-doc/crossbeam/struct.Scope.html#method.spawn" title="crossbeam::Scope::spawn"><em>(ref)</em></a></p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> crossbeam;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> crossbeam;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> items = [</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
@@ -371,7 +371,7 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
         }
     });
 }
-</span></pre>
+</span></code></pre>
 <p>This same crate also provides primitives for building lock-free concurrent data structures without the overhead of a garbage collector <a href="http://aturon.github.io/blog/2015/08/27/epoch/" title="Lock-freedom without garbage collection"><em>(ref)</em></a>, again demonstrating Rust's capacity for building safe, efficient, and reusable concurrent components.</p>
 <h1 id="4-safety-tools-and-community">4. Safety, Tools, and Community</h1>
 <p>The concept of &quot;Safety&quot; in code is often poorly defined, but can be considered in three categories:</p>
@@ -386,7 +386,7 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
 <p>Package management via <code>cargo</code> is a feature Rust has inherited from several other modern languages. All package dependencies, build options, and tasks are defined in a <code>Cargo.toml</code> file. Dependencies are checked and (if necessary) pulled on <code>cargo build</code>, <code>test</code>, or <code>doc</code>.</p>
 <p>Rust supports both <em>unit tests</em> and <em>integration tests</em> by default. Unit tests may appear wherever is appropriate in the code and are annotated by <code>#[test]</code>, it is common for designers to include a <code>test</code> module in their code. Integration tests are written in the <code>tests/</code> directory and allow a package to be tested as a depended upon library. Testing is done by simply invoking <code>cargo test</code> in the project directory. These features blow away barriers which programmers might face in other languages that would prevent them from bothering to test. Additionally, it makes marking Rust based projects very easy, all an instructor needs to do is provide (or replace) the <code>tests/</code> directory with an appropriate suite.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
+<code><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">test_passes</span><span style="color:#c0c5ce;">() {
     assert_eq!(</span><span style="color:#d08770;">true</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">true</span><span style="color:#c0c5ce;">);
 }
@@ -395,7 +395,7 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">test_fails</span><span style="color:#c0c5ce;">() {
     assert!(</span><span style="color:#d08770;">true </span><span style="color:#c0c5ce;">== </span><span style="color:#d08770;">false</span><span style="color:#c0c5ce;">);
 }
-</span></pre>
+</span></code></pre>
 <p>Having a standardized, high quality documentation format is invaluable for programmers, and Rust facilitates this. Documentation comments can be placed anywhere in the code using <code>///</code> for function level documentation or <code>//!</code> for module level documentation. Documentation is in a common markdown format, code samples included in the documentation are automatically processed as unit tests. Generating documentation is done by <code>cargo doc</code>, which generates HTML and manpage documentation. Many Rust projects even go so far as to automate the unit testing and documentation generation step and hook it into their git commits <a href="http://hoverbear.org/2015/03/06/rust-travis-github-pages/" title="Rust, Travis, and Github Pages"><em>(ref)</em></a>.</p>
 <h2 id="4-2-community">4.2 Community</h2>
 <p>One of the biggest dangers in choosing a language that &quot;Is not C&quot; to teach operating systems in is that it can be very difficult for students to get help.  Mozilla's IRC network hosts the popular #rust channel which regularly has over 800 members at any given time. <a href="http://crates.io/"><code>crates.io</code></a> hosts over 2300 packages. The language reached 1.0 on May 15, 2015 <a href="http://blog.rust-lang.org/2015/05/15/Rust-1.0.html" title="Announcing Rust 1.0"><em>(ref)</em></a> and has been in development since 2006. The community is active and friendly with a variety special interest groups.</p>

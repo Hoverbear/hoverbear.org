@@ -281,10 +281,10 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>While many projects test trivial partition scenarios (such as <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{D, E}</code>), there were cases, such as Elasticsearch testing a &quot;bridge&quot;, where nodes on each side of a partition were only partially disconnected, yielding split brains.</p>
 <p>An example of this is <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{C,D,E}</code>, where <code>C</code> is a bridge between the two partitions.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">A - C - E
+<code><span style="color:#c0c5ce;">A - C - E
  \ / \ /
   B   D
-</span></pre>
+</span></code></pre>
 <p>Intuitively, we can see from the diagram that <code>C</code> should probably be the elected leader. It's totally connected. But this isn't always what happens.</p>
 <p>In <a href="https://aphyr.com/posts/317-call-me-maybe-elasticsearch">Zendisco (2014)</a>, Elasticsearch's membership system, there was no invariant preventing two leaders from existing, so it was possible for two nodes to believe themselves to be in a majority, and become elected leaders.</p>
 <h3 id="poor-behavior-on-failed-connections">Poor behavior on failed connections</h3>
@@ -292,12 +292,12 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>In this case, if PD failed, then TiKV failed before PD recovered. This could lead to a state where TiKV nodes would never recover.</p>
 <p>Here's an example of a problematic case involving 1 TiKV node, and 1 PD node:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#96b5b4;">kill</span><span style="color:#c0c5ce;">(pd);
+<code><span style="color:#96b5b4;">kill</span><span style="color:#c0c5ce;">(pd);
 </span><span style="color:#96b5b4;">restart</span><span style="color:#c0c5ce;">(tikv);
 </span><span style="color:#96b5b4;">sleep</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">61_000</span><span style="color:#c0c5ce;">);
 </span><span style="color:#96b5b4;">recover</span><span style="color:#c0c5ce;">(pd);
 </span><span style="color:#65737e;">// TiKV never recovers connection.
-</span></pre>
+</span></code></pre>
 <p><a href="https://jepsen.io/analyses/dgraph-1-0-2">Dgraph behaved similarly</a> with interactions between it's Alpha and Zero nodes.</p>
 <h3 id="inappropriate-retries">Inappropriate retries</h3>
 <p>Both CockroachDB and TiDB recently were shown to have issues where they could improperly retry a transaction using a newer timestamp. In CockroachDB, this could result in duplicate writes. In TiDB, this could lead to read skew or lost updates, as indicated by a drifting total in the bank test.</p>
@@ -321,10 +321,10 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>In <a href="(https://aphyr.com/posts/317-call-me-maybe-elasticsearch)">ElasticSearch - 2014-06-15 - 1.1.0</a> it was noted that different JVMs serialize classes differently (e.g., InetAddress), meaning it was possible clients and servers would be unable to correctly communicate error messages from a different node.</p>
 <p>This is <a href="https://github.com/elastic/elasticsearch/issues/3145">issue #3145</a>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">[</span><span style="color:#d08770;">2013</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">06</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">05</span><span style="color:#c0c5ce;"> 09:</span><span style="color:#d08770;">35</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">20</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">480</span><span style="color:#c0c5ce;">][</span><span style="color:#d08770;">WARN</span><span style="color:#c0c5ce;"> ][action.index         	] [es-</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">] </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to perform index on replica [rules][</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
+<code><span style="color:#c0c5ce;">[</span><span style="color:#d08770;">2013</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">06</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">05 0</span><span style="background-color:#bf616a;color:#2b303b;">9</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">35</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">20</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">480</span><span style="color:#c0c5ce;">][</span><span style="color:#d08770;">WARN</span><span style="color:#c0c5ce;"> ][action.index         	] [es-</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">] </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to perform index on replica [rules][</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
 org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportException</span><span style="color:#c0c5ce;">: </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to deserialize exception response from stream
 </span><span style="color:#ebcb8b;">Caused</span><span style="color:#c0c5ce;"> by: org.elasticsearch.transport.</span><span style="color:#ebcb8b;">TransportSerializationException</span><span style="color:#c0c5ce;">: </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to deserialize exception response from stream
-</span></pre>
+</span></code></pre>
 <p>Using tools such as <a href="https://developers.google.com/protocol-buffers/">Protobuf</a> or <a href="https://capnproto.org/">Cap'n Proto</a> can help prevent these kinds of issues, as they have a well defined backward compatibility semantic.</p>
 <h2 id="how-we-use-jepsen-with-tidb">How we use Jepsen with TiDB</h2>
 <p>The team at PingCAP uses Jepsen to test TiDB (which uses TiKV) frequently. This includes tests developed for the <a href="https://jepsen.io/analyses/tidb-2.1.7">official Jepsen Analysis</a> for TiDB.</p>

@@ -214,18 +214,18 @@
 </ul>
 <p>The resulting enum looks like:</p>
 <pre style="background-color:#2b303b;">
-#[derive(PartialEq, Eq, Clone)]
+<code>#[derive(PartialEq, Eq, Clone)]
 pub enum NodeState {
     Follower(VecDeque&lt;Transaction&gt;),
     Leader(LeaderState),
     Candidate(Vec&lt;Transaction&gt;),
 }
-</pre>
+</code></pre>
 <p>These variants all store their one specific data needed for <em>only</em> their operation. Changing between state clears all of the data.</p>
 <h3 id="transactions">Transactions</h3>
 <p><code>Transaction</code>s are used to track the state of a variety of things in the library. They look like this:</p>
 <pre style="background-color:#2b303b;">
-#[derive(PartialEq, Eq, Clone)]
+<code>#[derive(PartialEq, Eq, Clone)]
 pub struct Transaction {
     pub uuid: Uuid,
     pub state: TransactionState,
@@ -236,7 +236,7 @@ pub enum TransactionState {
     Accepted,
     Rejected,
 }
-</pre>
+</code></pre>
 <p>The idea is that when a <code>RemoteProcedureRequest</code> is made it generates a UUID which the <code>RaftNode</code> (particularly it's <code>node.state</code>) stores and uses to verify and identify responses.</p>
 <p>In the case of <code>AppendEntries</code> there is no need for the <code>Leader(_)</code> to track UUIDs. They are mostly used for <code>Candidate(_)</code> elections and for the <code>Follower(_)</code> when it makes a request of the leader.</p>
 <p>I'm not entirely happy with this approach, and I think that in the future moving to some form of RPC approach like <a href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/">Cap'n Proto</a> would be safer and faster.</p>
@@ -246,8 +246,8 @@ pub enum TransactionState {
 <h3 id="the-tick">The Tick</h3>
 <p>Currently, most of the work done by <code>tick()</code> which runs a loop.</p>
 <pre style="background-color:#2b303b;">
-loop { raft_node.tick(); }
-</pre>
+<code>loop { raft_node.tick(); }
+</code></pre>
 <p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
 <p>If you have any advice on this, let me know <a href="https://github.com/Hoverbear/raft/issues/6">here</a>.</p>
 <h3 id="main-events">Main Events</h3>
@@ -264,14 +264,14 @@ loop { raft_node.tick(); }
 <p>I just started migrating over to the <strong>fantastic</strong> <a href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
 <p>Using it, you end up with something like this:</p>
 <pre style="background-color:#2b303b;">
-if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
+<code>if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
     debug!(&quot;ID {}: FROM {:?} RECIEVED {:?}&quot;, self.own_id, source, rpc);
       // ..
     }
-</pre>
+</code></pre>
 <p>And this:</p>
 <pre style="background-color:#2b303b;">
-match checks.iter().all(|&amp;x| x) {
+<code>match checks.iter().all(|&amp;x| x) {
     true  =&gt; {
         self.persistent_state.set_voted_for(Some(source_id)).unwrap();
         self.reset_timer();
@@ -279,15 +279,15 @@ match checks.iter().all(|&amp;x| x) {
         RemoteProcedureResponse::accept(call.uuid, current_term,
             last_index, self.volatile_state.commit_index)
     },
-</pre>
+</code></pre>
 <p>And the user is able to toggle directives at runtime, which is awesome! So set the logging level while testing a crate you can use:</p>
 <pre style="background-color:#2b303b;">
-RUST_LOG=raft=debug cargo test -- --nocapture
-</pre>
+<code>RUST_LOG=raft=debug cargo test -- --nocapture
+</code></pre>
 <p>Or use the same environment variable at runtime. You can even specifiy different log levels per crate. It's kind of neat to use a wildcard like <code>RUST_LOG=debug</code> with cargo because you actually see a considerable amount of compiler output.</p>
 <p>Here's what the test output looks like with the highest level of logging:</p>
 <pre style="background-color:#2b303b;">
-running 1 test
+<code>running 1 test
 INFO:raft: ID 2: HANDLE timer
 DEBUG:raft: ID 2: FOLLOWER -&gt; CANDIDATE: Term 0
 DEBUG:raft: Node 2 timer RESET
@@ -311,16 +311,16 @@ DEBUG:raft: ID 2: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 } RE
 INFO:raft: ID 2: FROM 0 HANDLE accepted
 DEBUG:raft: ID 2:C: FROM 0 MATCHED
 // ...
-</pre>
+</code></pre>
 <p>On the normal level:</p>
 <pre style="background-color:#2b303b;">
-     Running target/lib-800267e679b6e5c6
+<code>     Running target/lib-800267e679b6e5c6
 
 running 1 test
 test basic_test ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
-</pre><h3 id="dealing-with-failures">Dealing with Failures</h3>
+</code></pre><h3 id="dealing-with-failures">Dealing with Failures</h3>
 <p>Most failure modes are defined by the Raft paper, and I'm attempting to implement them the best I can. Currently there is an <code>unimplemented!()</code> section of the code I'm still working on figuring out the correct course of action.</p>
 <h2 id="the-demo">The 'Demo'</h2>
 <blockquote>
@@ -328,7 +328,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
 </blockquote>
 <p>Here is the current most basic possible functioning hunk of code to fire up a cluster:</p>
 <pre style="background-color:#2b303b;">
-let nodes = vec![
+<code>let nodes = vec![
     (0, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 }),
     (1, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11111 }),
     (2, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 }),
@@ -349,10 +349,10 @@ let (log_2_sender, log_2_reciever) = RaftNode::&lt;String&gt;::start(
     nodes.clone(),
     Path::new(&quot;/tmp/test2&quot;)
 );
-</pre>
+</code></pre>
 <p>Here is the current code to make an append request and check that it at least got to the leader:</p>
 <pre style="background-color:#2b303b;">
-// Make a test send to that port.
+<code>// Make a test send to that port.
 let test_command = ClientRequest::AppendRequest(AppendRequest {
     entries: vec![&quot;foo&quot;.to_string()],
     prev_log_index: 0,
@@ -364,10 +364,10 @@ wait_a_second();
 let event = log_0_reciever.try_recv()
     .ok().expect(&quot;Didn't recieve in a reasonable time.&quot;);
 assert!(event.is_ok()); // Workaround until we build a proper stream.
-</pre>
+</code></pre>
 <p>Here is the how to check an for items in an index, notice the graceful failing of &quot;overasking&quot;:</p>
 <pre style="background-color:#2b303b;">
-// Test Index.
+<code>// Test Index.
 let test_index = ClientRequest::IndexRange(IndexRange {
         start_index: 0,
         end_index: 5,
@@ -378,7 +378,7 @@ let result = log_0_reciever.try_recv()
     .ok().expect(&quot;Didn't recieve in a reasonable time.&quot;).unwrap();
 // We don't know what the term will be.
 assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
-</pre><h2 id="further-work">Further Work</h2>
+</code></pre><h2 id="further-work">Further Work</h2>
 <p>A <strong>lot</strong> of further work is needed to make this library ready for action. Here is a brief summary:</p>
 <ul>
 <li><a href="https://github.com/Hoverbear/raft/issues/6">Tame the Tick!</a></li>

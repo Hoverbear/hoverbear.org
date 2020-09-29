@@ -129,21 +129,21 @@ fn main () {
                 
     <p>One common monadic structure is the <code>Option</code> (or <code>Maybe</code> in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
   </span><span style="color:#65737e;">// Parses a string into an integer.
   </span><span style="color:#c0c5ce;">from_str::&lt;int&gt;(&quot;</span><span style="color:#a3be8c;">4</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// A valid input.
   </span><span style="color:#c0c5ce;">from_str::&lt;int&gt;(&quot;</span><span style="color:#a3be8c;">Potato</span><span style="color:#c0c5ce;">&quot;); </span><span style="color:#65737e;">// Definitely invalid.
 </span><span style="color:#c0c5ce;">}
-</span></pre><span id="continue-reading"></span>
+</span></code></pre><span id="continue-reading"></span>
 <p>The <code>from_str</code> function cannot return a meaningful value for <code>&quot;Potato&quot;</code>. Rust (and many other functional languages) does not have <code>null</code>, so what should we return? This is where an <code>Option</code> type becomes useful. In our example, instead of returning an <code>int</code> type, the <code>from_str</code> function returns an <code>Option&lt;int&gt;</code> type.</p>
 <p>In Rust, the <code>Option</code> enum is represented by either <code>Some(x)</code> or <code>None</code>, where <code>x</code> is the encapsulated value. In this way, the <code>Option</code> monad can be thought of like a box. It encapsulates the value <code>x</code>, where <code>x</code> is any type. Rust defines an <code>Option</code> as such, where <code>&lt;T&gt;</code> and <code>(T)</code> denote that it handles a generic type, meaning that <code>T</code> could be an <code>int</code>, a <code>str</code>, a <code>vec</code>, or anything else, even other <code>Option</code> types.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">Option&lt;T&gt; { None, Some(T) }
-</span></pre><h3 id="value-in-value-out">Value In, Value Out</h3>
+<code><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">Option&lt;T&gt; { None, Some(T) }
+</span></code></pre><h3 id="value-in-value-out">Value In, Value Out</h3>
 <p>Since we can see an <code>Option</code> as a box, or encapsulation type, we need to be able to put things into the box, or take things out.</p>
 <p>Putting a value into an <code>Option</code> is delightfully simple. Simply use <code>Some(x)</code> or <code>None</code> in place of <code>x</code> or (an imaginary) <code>null</code>. Most of the time, you will receive or return an <code>Option</code> based on input, rather than just creating them directly. Here are some examples of different techniques.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Ways to create an Option containing an int.
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> w = Some(3i); </span><span style="color:#65737e;">// Something
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> x: Option&lt;int&gt; = None; </span><span style="color:#65737e;">// Nothing
@@ -160,13 +160,13 @@ fn main () {
         </span><span style="color:#c0c5ce;">_                     =&gt; None
     }
 }
-</span></pre>
+</span></code></pre>
 <p>To take something out of the <code>Option</code> we need to be able to extract, or &quot;unwrap&quot; the value. There are a number of ways to do this. Some common methods are with a <code>match</code> or <code>.expect()</code>.</p>
 <blockquote>
 <p>If you're seeking to write code that won't crash, avoid <code>.expect()</code> and it's cousin <code>.unwrap()</code> and use safer alternatives like <code>unwrap_or_default()</code> or <code>unwrap_or()</code>.</p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Create an Option containing the value 1.
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> a_monad: Option&lt;int&gt; = Some(</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">);
     </span><span style="color:#65737e;">// Extract and branch based on result.
@@ -180,7 +180,7 @@ fn main () {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value_or_default = a_monad.</span><span style="color:#96b5b4;">unwrap_or_default</span><span style="color:#c0c5ce;">();
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value_or_fallback = a_monad.</span><span style="color:#96b5b4;">unwrap_or</span><span style="color:#c0c5ce;">(42i);
 }
-</span></pre><h3 id="not-just-a-null">Not Just a Null</h3>
+</span></code></pre><h3 id="not-just-a-null">Not Just a Null</h3>
 <p>By now, you're probably asking yourself something similar to the following:</p>
 <blockquote>
 <p>So why not just have <code>null</code>? What does an <code>Option</code> monad provide that's more?</p>
@@ -196,19 +196,19 @@ fn main () {
 <h3 id="composing-a-symphony-of-functions">Composing a Symphony of Functions</h3>
 <p>Nirvana is being able to compose a series of functions together without introducing a tight dependency between them, such that they could be moved or changed without needing to be concerned with how this might affect the other functions. For example, let's say we have some functions with the following signatures:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">log</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)     -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">; </span><span style="color:#65737e;">// This could fail. (log(-2) == ??)
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">log</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)     -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">; </span><span style="color:#65737e;">// This could fail. (log(-2) == ??)
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">sqrt</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)    -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">; </span><span style="color:#65737e;">// This could fail. (sqrt(-2) == ??)
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">square</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)  -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">;
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">double</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">)  -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">;
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">inverse</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">;
-</span></pre>
+</span></code></pre>
 <p>Quite the little math library we have here! How about we come up with a way to turn <code>20</code> into something else, using a round-about pipeline?</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#96b5b4;">sqrt</span><span style="color:#c0c5ce;">(-</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">* (</span><span style="color:#96b5b4;">log</span><span style="color:#c0c5ce;">(-</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">* (</span><span style="color:#d08770;">20 </span><span style="color:#c0c5ce;">* </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">)))^</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">)
-</span></pre>
+<code><span style="color:#96b5b4;">sqrt</span><span style="color:#c0c5ce;">(-</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">* (</span><span style="color:#96b5b4;">log</span><span style="color:#c0c5ce;">(-</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">* (</span><span style="color:#d08770;">20 </span><span style="color:#c0c5ce;">* </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">)))^</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">)
+</span></code></pre>
 <p>With our little library it'd look something like this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">// This code will not compile, it&#39;s invalid.
+<code><span style="color:#65737e;">// This code will not compile, it&#39;s invalid.
 // `Null` isn&#39;t a real type in Rust.
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> number: </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">20.</span><span style="color:#c0c5ce;">;
@@ -222,11 +222,11 @@ fn main () {
         Null =&gt; println!(&quot;</span><span style="color:#a3be8c;">.log failed.</span><span style="color:#c0c5ce;">&quot;)
     }
 }
-</span></pre>
+</span></code></pre>
 <p>In this case, we had two functions which could fail, since we didn't have an <code>Option</code> type, the author must be aware of and handle possible <code>Null</code> values. Note that the onus was on the programmer to know when a <code>Null</code> <strong>might</strong> be returned, and <strong>remember</strong> to handle it, not on the compiler.</p>
 <p>Let's see what the same code would look like using the <code>Option</code> monad. In this example, all of the functions are appropriately defined.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> number: </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">20.</span><span style="color:#c0c5ce;">;
     </span><span style="color:#65737e;">// Perform a pipeline of options.
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = Some(number)
@@ -264,13 +264,13 @@ fn main () {
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">inverse</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">f64</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">f64 </span><span style="color:#c0c5ce;">{
     value * -</span><span style="color:#d08770;">1.
 </span><span style="color:#c0c5ce;">}
-</span></pre>
+</span></code></pre>
 <p>This code handles all possible result branches cleanly, and the author need not explicitly deal with each possible <code>None</code> result, they only need to handle the end result. If any of the functions which may fail (called by <code>and_then()</code>) do fail, the rest of the computation is bypassed. Additionally, it makes expressing and understanding the pipeline of computations much easier.</p>
 <p><code>map</code> and <code>and_then</code> (along with a gamut of other functions listed <a href="http://doc.rust-lang.org/std/option/type.Option.html">here</a>) provide a robust set of tools for composing functions together. Let's take a look, their signatures are below.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">map</span><span style="color:#c0c5ce;">&lt;U&gt;     (</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: |T| -&gt; U)         -&gt; Option&lt;U&gt;
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">map</span><span style="color:#c0c5ce;">&lt;U&gt;     (</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: |T| -&gt; U)         -&gt; Option&lt;U&gt;
 fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
-</span></pre><h3 id="functor-interface-map">Functor Interface: <code>.map()</code></h3>
+</span></code></pre><h3 id="functor-interface-map">Functor Interface: <code>.map()</code></h3>
 <p><code>map</code> provides a way to apply a function of the signature <code>|T| -&gt; U</code> to an <code>Option&lt;T&gt;</code>, returning an <code>Option&lt;U&gt;</code>. This is ideal for functions like <code>double()</code> which don't return an <code>Option</code>.</p>
 <p>This call corresponds to <code>fmap</code> in Haskell, which is part of a functor. Monads have this trait because every monad is a functor.</p>
 <h3 id="monad-interface-and-then">Monad Interface: <code>.and_then()</code></h3>
@@ -279,7 +279,7 @@ fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
 <h3 id="examples">Examples</h3>
 <p><strong>Working with Options in Vectors</strong>. Parsing a vector of strings into integers. Note that Rust's iterators are lazy, so if <code>collect()</code> isn't called, the iterator itself could be composed with others.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> strings = vec!(&quot;</span><span style="color:#a3be8c;">4</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">12</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">15</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">bar</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">baz</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">1</span><span style="color:#c0c5ce;">&quot;);
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> numbers: Vec&lt;int&gt; = strings.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">()
         </span><span style="color:#65737e;">// `filter_map` transforms `Vec&lt;&amp;&#39;static str&gt;` to `Vec&lt;int&gt;`
@@ -290,10 +290,10 @@ fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
         </span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">collect</span><span style="color:#c0c5ce;">();
     println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, numbers);
 }
-</span></pre>
+</span></code></pre>
 <p><strong>A simple pipeline</strong>. This example takes a strong and splits it into an iterator. <code>next()</code> fetches the next token, which is an <code>Option</code>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> input = &quot;</span><span style="color:#a3be8c;">15 Bear</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">split</span><span style="color:#c0c5ce;">(&#39; &#39;);
     </span><span style="color:#65737e;">// Need to pull the number and parse it.
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> number = input.</span><span style="color:#96b5b4;">next</span><span style="color:#c0c5ce;">()
@@ -308,7 +308,7 @@ fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
         println!(&quot;</span><span style="color:#d08770;">{} {}</span><span style="color:#a3be8c;"> says hi!</span><span style="color:#c0c5ce;">&quot;, animal, x)
     }
 }
-</span></pre><h2 id="discussion">Discussion:</h2>
+</span></code></pre><h2 id="discussion">Discussion:</h2>
 <ul>
 <li><a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/">Reddit Post</a></li>
 <li><a href="https://news.ycombinator.com/item?id=8187106">Hacker News Post</a></li>

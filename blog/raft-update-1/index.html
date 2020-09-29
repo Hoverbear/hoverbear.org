@@ -144,7 +144,7 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 <p>Probably one of the most interesting (and meaningful) changes I've made was moving my previous enum structs into seperate enums and structs.</p>
 <p>Simply, this:</p>
 <pre style="background-color:#2b303b;">
-enum ClientRequest&lt;T&gt; {
+<code>enum ClientRequest&lt;T&gt; {
     IndexRange {
         start_index: u64,
         end_index: u64,
@@ -155,10 +155,10 @@ enum ClientRequest&lt;T&gt; {
         entries: Vec&lt;T&gt;,
     },
 }
-</pre>
+</code></pre>
 <p>Became this:</p>
 <pre style="background-color:#2b303b;">
-#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+<code>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
 pub enum ClientRequest&lt;T&gt; {
     /// Gets the log entries from start to end.
     IndexRange(IndexRange),
@@ -178,7 +178,7 @@ pub struct AppendRequest&lt;T&gt; {
     pub prev_log_term: T,
     pub entries: Vec&lt;T&gt;,
 }
-</pre>
+</code></pre>
 <p>So... <em>Why?</em> A couple of reasons actually:</p>
 <ol>
 <li><del><strong>Enum structs take the memory of their biggest variant.</strong> This is a minor concern to me as most of my structs are just a few values large, but I understand how this can have an effect and I'd like to follow best practices.</del> <a href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/cocqx4d">(The change made did not benefit from this. See this comment by Quxxy)</a></li>
@@ -187,7 +187,7 @@ pub struct AppendRequest&lt;T&gt; {
 <p><em>What's the downside?</em> Creating a new <code>AppendRequest</code> without the use of a helper function can look a little gross: <code>ClientRequest::AppendRequest(AppendRequest { ... })</code></p>
 <p>But a helper can mask this grossness:</p>
 <pre style="background-color:#2b303b;">
-impl&lt;T&gt; ClientRequest&lt;T&gt; {
+<code>impl&lt;T&gt; ClientRequest&lt;T&gt; {
     /// Returns (term, success)
     pub fn index_range(start: u64, end: u64) -&gt; ClientRequest&lt;T&gt; {
         ClientRequest::IndexRange(IndexRange {
@@ -205,12 +205,12 @@ impl&lt;T&gt; ClientRequest&lt;T&gt; {
         })
     }
 }
-</pre><h3 id="interfacing">Interfacing</h3>
+</code></pre><h3 id="interfacing">Interfacing</h3>
 <p>A <code>RaftNode</code> now is spawned via the following function</p>
 <pre style="background-color:#2b303b;">
-pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
+<code>pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
 (Sender&lt;ClientRequest&lt;T&gt;&gt;, Receiver&lt;Result&lt;Vec&lt;T&gt;, String&gt;&gt;)
-</pre>
+</code></pre>
 <p>Well isn't that a long function signature? Basically, once you spawn a RaftNode it gets <em>immediately</em> moved into it's own thread and you are given a pair of channels to talk to it over. You send <code>ClientRequest</code>s and get back the rather familiar <code>Result</code> type. In the future it might be beneficial to expose something other than channels, but currently I think that's the best choice.</p>
 <blockquote>
 <p>I'm still wrangling ownership and borrowing, as I think many Rust users are, and some of my design choices are specifically because I wanted to avoid friction for now.</p>
@@ -222,7 +222,7 @@ pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
 <h3 id="decoding-socket-data">Decoding Socket Data</h3>
 <p>I had all sorts of fun implementing the following code in the loop's main <code>tick()</code> function:</p>
 <pre style="background-color:#2b303b;">
-match self.socket.recv_from(&amp;mut read_buffer) {
+<code>match self.socket.recv_from(&amp;mut read_buffer) {
     Ok((num_read, source)) =&gt; { // Something on the socket.
         // This is possibly an RPC from another node. Try to parse it out
         // and determine what to do based on it's variant.
@@ -246,14 +246,14 @@ match self.socket.recv_from(&amp;mut read_buffer) {
     },
     Err(_) =&gt; (),                 // Nothing on the socket.
 }
-</pre>
+</code></pre>
 <p>This was the first time I used <code>if let</code> and it was very useful for destructuring in control flow. I'm looking forward to using <code>while let</code> soon.</p>
 <p><em>What does that code do... exactly?</em> When we recieve data from the network, it's either going to be a <code>RemoteProcedureCall</code>, a <code>RemoteProcedureResponse</code>, or something else entirely. Currently, I only account for the valid cases, the third case is outright ignored.</p>
 <h3 id="dealing-with-the-state-machine">Dealing with the State (Machine)</h3>
 <p>I read <a href="https://gist.github.com/bvssvni/8970459">this gist</a> with great interest, however I've yet to determine how to go about implementing a truly type-safe state machine for Raft right now. I'd like to do this in the future, and I'd be thrilled if someone could help with advice, mentorship, or pull requests on how to accomplish this.</p>
 <p>Currently, all of the data event handlers look roughly like this:</p>
 <pre style="background-color:#2b303b;">
-fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
+<code>fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
     match self.state {
         Leader(ref state) =&gt; {
             unimplemented!();
@@ -266,14 +266,14 @@ fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
         },
     }
 }
-</pre><h3 id="dealing-with-non-pollables">Dealing with Non-Pollables</h3>
+</code></pre><h3 id="dealing-with-non-pollables">Dealing with Non-Pollables</h3>
 <p>One thing I noticed while working with Rust's <code>UdpSocket</code> imeplementation is there is no way to <code>poll()</code> the socket to see if there is data, so any time the socket is checked you <em>must</em> handle the data immediately. I'm currently avoiding having FIFO queues for the various data but that might end up being a requirement.</p>
 <p>For those wondering, you can make a socket non-blocking by using this:</p>
 <pre style="background-color:#2b303b;">
-let mut socket = UdpSocket::bind(own_socket_addr)
+<code>let mut socket = UdpSocket::bind(own_socket_addr)
     .unwrap();
 socket.set_read_timeout(Some(0));
-</pre><h2 id="thoughts">Thoughts</h2>
+</code></pre><h2 id="thoughts">Thoughts</h2>
 <p>Working with Rust has been <strong>really fun</strong>. <em>(Except when there is a breaking change which cascades through libraries and means you lose productivity.)</em></p>
 <p><strong><code>match</code> expressions</strong> are incredible things. If you haven't played around with Rust yet, they're so much more than a <code>switch</code> statement in your run of the mill language.</p>
 <p><strong>API design</strong> in Rust is very versatile and interesting. The strong typing and ownership system encourage you to work with data in sane and creative ways.</p>

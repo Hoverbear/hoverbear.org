@@ -95,23 +95,23 @@ async.auto() is a function offered by the libary which allows you to declare a s
 </figure>
 <p>With <code>async</code> this could be modelled like so:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">init</span><span style="color:#c0c5ce;">() {
+<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">init</span><span style="color:#c0c5ce;">() {
 	</span><span style="color:#bf616a;">async</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">auto</span><span style="color:#c0c5ce;">({
 		dbConn: </span><span style="color:#bf616a;">dbConn</span><span style="color:#c0c5ce;">,
 		schemas: [ &#39;</span><span style="color:#a3be8c;">dbConn</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">schemas </span><span style="color:#c0c5ce;">],
-		http: http,
+		http: </span><span style="color:#bf616a;">http</span><span style="color:#c0c5ce;">,
 		httpMiddleware: [ &#39;</span><span style="color:#a3be8c;">http</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">httpMiddleware </span><span style="color:#c0c5ce;">],
 		routes: [ &#39;</span><span style="color:#a3be8c;">http</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">schemas</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">routes </span><span style="color:#c0c5ce;">]
 	}, </span><span style="color:#bf616a;">listen</span><span style="color:#c0c5ce;">);
 
 	</span><span style="color:#65737e;">// Definitions of functions below.
 </span><span style="color:#c0c5ce;">}());
-</span></pre>
+</span></code></pre>
 <p>The first parameter of the function is an object of tasks. They follow the format <code>taskName: function</code> or <code>taskName: [dependencies, function]</code>. Tasks with dependencies will only start when those have been resolved.</p>
 <p>So async helps with the handling of dependencies, but can we handle dependant state?</p>
 <p>For example, <code>dbConn</code> produces a <code>connection</code> variable, and <code>schemas</code> consumes it. The two functions look like this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">dbConn</span><span style="color:#c0c5ce;">(callback) {
+<code><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">dbConn</span><span style="color:#c0c5ce;">(callback) {
 	</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">connection </span><span style="color:#c0c5ce;">= </span><span style="color:#bf616a;">db</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">someString</span><span style="color:#c0c5ce;">).connection
 	</span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">success</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">() {
 		</span><span style="color:#65737e;">// Return `connection` into the `results`
@@ -127,7 +127,7 @@ async.auto() is a function offered by the libary which allows you to declare a s
 	// results.dbConn has the connection.
 	</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
 }
-</span></pre>
+</span></code></pre>
 <p>The result values of any task which another depends on are populated into the <code>results</code> parameter.</p>
 <p>Finally, the <code>listen</code> function accepts a final <code>(error, results)</code>. Note it's called as soon as <strong>any</strong> task returns an error, so always make sure to handle errors. Finally, <code>results</code> will have all of the return values of the tasks which were composed.</p>
 <p>This provides a compelling way to handle composability and dependencies without having to deal with complex callback changes. Functions will be invoked as their dependencies are resolved, and it's easy to add or remove dependencies, changing what's available in <code>results</code>.</p>

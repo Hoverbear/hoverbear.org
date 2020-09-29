@@ -124,14 +124,14 @@ Since Vagrant has support for multi-machine configurations and gives us minimal 
 <h2 id="getting-started-with-vagrant">Getting started with Vagrant</h2>
 <p>I'll assume you've already install <a href="http://vagrantup.com/">Vagrant</a>. Let's make a workspace and set some enviroment variables. You might want to change this.</p>
 <pre style="background-color:#2b303b;">
-INTNET=&quot;openwrt&quot;
+<code>INTNET=&quot;openwrt&quot;
 WORKSPACE=&quot;workspace&quot;
 mkdir $WORKSPACE &amp;&amp; \
 cd $WORKSPACE
-</pre>
+</code></pre>
 <p>Next we'll write a <code>Vagrantfile</code> to orchestrate the boxes and give them various traits.</p>
 <pre style="background-color:#2b303b;">
-Vagrant.configure(&quot;2&quot;) do |config|
+<code>Vagrant.configure(&quot;2&quot;) do |config|
     config.vm.define :test1 do |box|
         box.vm.box = &quot;chef/fedora-20&quot;
         box.vm.network &quot;private_network&quot;,
@@ -151,15 +151,15 @@ Vagrant.configure(&quot;2&quot;) do |config|
             virtualbox__intnet: &quot;port3&quot;
     end
 end
-</pre>
+</code></pre>
 <p>Now you can run it:</p>
 <pre style="background-color:#2b303b;">
-vagrant up
-</pre>
+<code>vagrant up
+</code></pre>
 <p>Because of how we <a href="http://www.hoverbear.org/2014/11/23/openwrt-in-virtualbox/#dhcp">configured</a> the <code>dhcp</code> service on our OpenWRT router, these machine should connect primarily to the OpenWRT router over the NAT (falling back on it if things fail).</p>
 <p>To check, access the VM's and ensure that the interface <code>enp0s8</code> exists and has an <code>inet</code> address. For example, if I use <code>vagrant ssh test1</code>, then run the following, my outputs show I am assigned <code>192.168.1.196</code> by the OpenWRT router.</p>
 <pre style="background-color:#2b303b;">
-ifconfig enp0s8
+<code>ifconfig enp0s8
 # enp0s8: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
 #     inet 192.168.1.196  netmask 255.255.255.0  broadcast 192.168.1.255
 #     inet6 fe80::a00:27ff:fe31:dcfe  prefixlen 64  scopeid 0x20&lt;link&gt;
@@ -178,11 +178,11 @@ route
 # 10.0.2.0        0.0.0.0         255.255.255.0   U     0      0        0 p2p1
 # link-local      0.0.0.0         255.255.0.0     U     1003   0        0 enp0s8
 # 192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 enp0s8
-</pre>
+</code></pre>
 <p>I should be able to access this from another VM if I use <code>vagrant ssh test2</code> then run:</p>
 <pre style="background-color:#2b303b;">
-ping 192.168.1.196
-</pre>
+<code>ping 192.168.1.196
+</code></pre>
 <p>Fantastic. This means all of our machines can talk.</p>
 <p>What's more, is that these three client machines will all talk to the internet through the router. You can, for example, <code>wget</code> something and watch in <code>ifconfig enp0s8</code> as the TX and RX change.</p>
 <h2 id="configuring-a-host">Configuring a Host</h2>
@@ -195,7 +195,7 @@ ping 192.168.1.196
 <p>The easiest way to accomplish this is to have a large file on your VM host which is in the <code>$WORKSPACE</code> folder, this can then be shared with <code>test3</code>, which it can serve. This is because Vagrant automatically shares anything in the current directory into the VM's <code>/vagrant</code> folder.</p>
 <p>Modify your <code>Vagrantfile</code> to match the following:</p>
 <pre style="background-color:#2b303b;">
-$make_host = &lt;&lt;SCRIPT
+<code>$make_host = &lt;&lt;SCRIPT
     yum install -y nginx
     sed -i 's/root .*/root \\/vagrant;/' /etc/nginx/nginx.conf
     systemctl enable nginx
@@ -223,23 +223,23 @@ Vagrant.configure(&quot;2&quot;) do |config|
         box.vm.provision &quot;shell&quot;, inline: $make_host
     end
 end
-</pre>
+</code></pre>
 <p>Now you should be able to fetch the IP address of <code>test3</code> by SSH'ing into the box with <code>vagrant ssh test3</code> then running <code>ip addr show enp0s8 | grep 192.168</code>. Mine is <code>192.168.3.201</code>, yours might be different, substitute this where you see <code>$TEST3IP</code>.</p>
 <p>On your <code>test1</code> or <code>test2</code> box, you should be able to do:</p>
 <pre style="background-color:#2b303b;">
-curl $TEST3IP/Vagrantfile
-</pre>
+<code>curl $TEST3IP/Vagrantfile
+</code></pre>
 <p>The output of this command should be the script we wrote. Your next step should be to find a file of sufficient size. If you're stuck on ideas, there is an hour long video of a Norwegian train trip which would be suitable.</p>
 <p>On <code>test3</code>:</p>
 <pre style="background-color:#2b303b;">
-yum install -y youtube-dl
+<code>yum install -y youtube-dl
 youtube-dl https://www.youtube.com/watch?v=m7rWhCqsh2I  -o /vagrant/video.mp4
-</pre>
+</code></pre>
 <p>The resulting file is approximately 1.18GB, which is enough for our use.</p>
 <p>You can test with:</p>
 <pre style="background-color:#2b303b;">
-curl $TEST3IP/video.mp4
-</pre><h2 id="quality-of-service">Quality of Service</h2>
+<code>curl $TEST3IP/video.mp4
+</code></pre><h2 id="quality-of-service">Quality of Service</h2>
 <p>Now that we have a small network set up with our router, the next step is configuring the quality of service on the router. I discuss this <a href="http://www.hoverbear.org/2014/12/06/openwrt-qos/">here</a>.</p>
 
 

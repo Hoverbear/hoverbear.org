@@ -165,12 +165,12 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <p><a href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
 <p>To pull the Keycloak image:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> pull jboss/keycloak
-</span></pre>
+<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> pull jboss/keycloak
+</span></code></pre>
 <p>Then, to erect the container (<a href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -it --name</span><span style="color:#c0c5ce;"> keycloak</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9090:9090 jboss/keycloak
-</span></pre>
+<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -it --name</span><span style="color:#c0c5ce;"> keycloak</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9090:9090 jboss/keycloak
+</span></code></pre>
 <blockquote>
 <p>Use the  <code>-d</code> flag to daemonize the service so it doesn't die with the tty. You can check the logs later with <code>docker logs -f keycloak</code></p>
 </blockquote>
@@ -202,104 +202,104 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <h3 id="setting-up-the-immutant-application">Setting Up the Immutant Application</h3>
 <p>Start up a new lein project with:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
-</span></pre>
+<code><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
+</span></code></pre>
 <p>Your <code>learning/project.clj</code> needs to be modified to look similar to this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">defproject </span><span style="color:#c0c5ce;">learning &quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">license </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
-            :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
-  :</span><span style="color:#d08770;">dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
+<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:license </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
+            </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
+  </span><span style="color:#d08770;">:dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
                  [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.191</span><span style="color:#c0c5ce;">&quot;]
                  [compojure &quot;</span><span style="color:#a3be8c;">1.1.8</span><span style="color:#c0c5ce;">&quot;]]
-  :</span><span style="color:#d08770;">repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
                   &quot;</span><span style="color:#a3be8c;">http://downloads.immutant.org/incremental/</span><span style="color:#c0c5ce;">&quot;]]
-  :</span><span style="color:#d08770;">plugins </span><span style="color:#c0c5ce;">[[lein-immutant &quot;</span><span style="color:#a3be8c;">2.0.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;]]
-  :</span><span style="color:#d08770;">main ^</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">skip-aot </span><span style="color:#c0c5ce;">learning.core
-  :</span><span style="color:#d08770;">target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">profiles </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">uberjar </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">aot </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">all</span><span style="color:#c0c5ce;">}}
+  </span><span style="color:#d08770;">:plugins </span><span style="color:#c0c5ce;">[[lein-immutant &quot;</span><span style="color:#a3be8c;">2.0.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;]]
+  </span><span style="color:#d08770;">:main </span><span style="color:#c0c5ce;">^</span><span style="color:#d08770;">:skip-aot</span><span style="color:#c0c5ce;"> learning.core
+  </span><span style="color:#d08770;">:target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:profiles </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:uberjar </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:aot :all</span><span style="color:#c0c5ce;">}}
   </span><span style="color:#65737e;">; Plugin configuration.
-  </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">ring </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">handler </span><span style="color:#c0c5ce;">learning.core/app}
-  :</span><span style="color:#d08770;">immutant </span><span style="color:#c0c5ce;">{
-     :</span><span style="color:#d08770;">war </span><span style="color:#c0c5ce;">{
-        :</span><span style="color:#d08770;">dev</span><span style="color:#b48ead;">? </span><span style="color:#d08770;">false
-        </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">resource-paths </span><span style="color:#c0c5ce;">[&quot;</span><span style="color:#a3be8c;">resources</span><span style="color:#c0c5ce;">&quot;]
-        :</span><span style="color:#d08770;">nrepl </span><span style="color:#c0c5ce;">{
-          :</span><span style="color:#d08770;">port 8888
-          </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">start</span><span style="color:#b48ead;">? </span><span style="color:#d08770;">true</span><span style="color:#c0c5ce;">}}})
-</span></pre>
+  :ring {:handler learning.core/app}
+  :immutant {
+     :war {
+        :dev? false
+        :resource-paths [&quot;resources&quot;]
+        :nrepl {
+          :port 8888
+          :start? true}}})
+</span></code></pre>
 <p>Now change your <code>learning/src/learning/core.clj</code> file to contain the following:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
-  (:use compojure.core)
-  (:require [compojure.route       :as route]
-            [immutant.web          :as web]
-            [immutant.web.servlet  :as servlet])
-  (:gen-class))
+<code><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
+  (</span><span style="color:#d08770;">:use</span><span style="color:#c0c5ce;"> compojure.core)
+  (</span><span style="color:#d08770;">:require </span><span style="color:#c0c5ce;">[compojure.route       </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> route]
+            [immutant.web          </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> web]
+            [immutant.web.servlet  </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> servlet])
+  (</span><span style="color:#d08770;">:gen-class</span><span style="color:#c0c5ce;">))
 
 
 (</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-token
-  </span><span style="color:#a3be8c;">&quot;Gets the session for the user&quot;
-  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
-  (</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[{</span><span style="color:#bf616a;">servlet-request </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">servlet-request</span><span style="color:#c0c5ce;">} request
-        </span><span style="color:#bf616a;">security-context </span><span style="color:#c0c5ce;">(.getAttribute servlet-request &quot;</span><span style="color:#a3be8c;">org.keycloak.KeycloakSecurityContext</span><span style="color:#c0c5ce;">&quot;)
-        </span><span style="color:#bf616a;">id-token </span><span style="color:#c0c5ce;">(.getIdToken security-context)]
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Gets the session for the user</span><span style="color:#c0c5ce;">&quot;
+  [request]
+  (</span><span style="color:#bf616a;">let </span><span style="color:#c0c5ce;">[{servlet-request </span><span style="color:#d08770;">:servlet-request</span><span style="color:#c0c5ce;">} request
+        security-context (</span><span style="color:#bf616a;">.getAttribute</span><span style="color:#c0c5ce;"> servlet-request &quot;</span><span style="color:#a3be8c;">org.keycloak.KeycloakSecurityContext</span><span style="color:#c0c5ce;">&quot;)
+        id-token (</span><span style="color:#bf616a;">.getIdToken</span><span style="color:#c0c5ce;"> security-context)]
     id-token))
 
 (</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">show-profile
-  </span><span style="color:#a3be8c;">&quot;Shows the profile of the user&quot;
-  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
-  (</span><span style="color:#b48ead;">try
-    </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">token </span><span style="color:#c0c5ce;">(get-token request)]
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Shows the profile of the user</span><span style="color:#c0c5ce;">&quot;
+  [request]
+  (</span><span style="color:#bf616a;">try
+    </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">let </span><span style="color:#c0c5ce;">[token (</span><span style="color:#bf616a;">get-token</span><span style="color:#c0c5ce;"> request)]
       </span><span style="color:#65737e;">; The token is a Java Object, don&#39;t expect more then a reference.
-      </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;p&gt;Token is: &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; token &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;
-           </span><span style="color:#65737e;">; This should show the users name.
+      (str &quot;&lt;p&gt;Token is: &lt;pre&gt;&quot; token &quot;&lt;/pre&gt;&lt;/p&gt;&quot;
+           ; This should show the users name.
            ; Reference: https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html
-           </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;p&gt;User is: &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; (.getPreferredUsername token) &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;))
-    (</span><span style="color:#b48ead;">catch </span><span style="color:#a3be8c;">Exception </span><span style="color:#bf616a;">e
-      </span><span style="color:#65737e;">; There is no token.
-      </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;p&gt;No user found.&lt;/p&gt;&lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; e &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;</span><span style="color:#c0c5ce;">&quot;))))
+           &quot;&lt;p&gt;User is: &lt;pre&gt;&quot; (.getPreferredUsername token) &quot;&lt;/pre&gt;&lt;/p&gt;&quot;))
+    (catch Exception e
+      ; There is no token.
+      (str &quot;&lt;p&gt;No user found.&lt;/p&gt;&lt;pre&gt;&quot; e &quot;&lt;/pre&gt;&quot;))))
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">test-handler
-  </span><span style="color:#a3be8c;">&quot;A very versatile test route handler&quot;
-  </span><span style="color:#65737e;">; Handled different arities.
-  </span><span style="color:#c0c5ce;">([</span><span style="color:#bf616a;">request base</span><span style="color:#c0c5ce;">]
-   (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Base: </span><span style="color:#c0c5ce;">&quot; base &quot;</span><span style="color:#a3be8c;">&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;
-        &quot;</span><span style="color:#a3be8c;">&lt;p&gt;</span><span style="color:#c0c5ce;">&quot; (show-profile request) &quot;</span><span style="color:#a3be8c;">&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;))
-  ([</span><span style="color:#bf616a;">request base sub</span><span style="color:#c0c5ce;">]
-   (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Base: </span><span style="color:#c0c5ce;">&quot; base &quot;</span><span style="color:#a3be8c;"> Sub: </span><span style="color:#c0c5ce;">&quot; sub &quot;</span><span style="color:#a3be8c;">&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;
-        &quot;</span><span style="color:#a3be8c;">&lt;p&gt;</span><span style="color:#c0c5ce;">&quot; (show-profile request) &quot;</span><span style="color:#a3be8c;">&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;))
-  ([</span><span style="color:#bf616a;">request base sub subsub</span><span style="color:#c0c5ce;">]
-   (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Base: </span><span style="color:#c0c5ce;">&quot; base &quot;</span><span style="color:#a3be8c;"> Sub: </span><span style="color:#c0c5ce;">&quot; sub &quot;</span><span style="color:#a3be8c;"> Subsub: </span><span style="color:#c0c5ce;">&quot; subsub &quot;</span><span style="color:#a3be8c;">&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;
-        &quot;</span><span style="color:#a3be8c;">&lt;p&gt;</span><span style="color:#c0c5ce;">&quot; (show-profile request) &quot;</span><span style="color:#a3be8c;">&lt;/p&gt;</span><span style="color:#c0c5ce;">&quot;)))
+(defn test-handler
+  &quot;A very versatile test route handler&quot;
+  ; Handled different arities.
+  ([request base]
+   (str &quot;&lt;h1&gt;Base: &quot; base &quot;&lt;/h1&gt;&quot;
+        &quot;&lt;p&gt;&quot; (show-profile request) &quot;&lt;/p&gt;&quot;))
+  ([request base sub]
+   (str &quot;&lt;h1&gt;Base: &quot; base &quot; Sub: &quot; sub &quot;&lt;/h1&gt;&quot;
+        &quot;&lt;p&gt;&quot; (show-profile request) &quot;&lt;/p&gt;&quot;))
+  ([request base sub subsub]
+   (str &quot;&lt;h1&gt;Base: &quot; base &quot; Sub: &quot; sub &quot; Subsub: &quot; subsub &quot;&lt;/h1&gt;&quot;
+        &quot;&lt;p&gt;&quot; (show-profile request) &quot;&lt;/p&gt;&quot;)))
 
-(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
-  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#65737e;">; Logout
+(defroutes app
+  &quot;The router.&quot;
+  ; Logout
   ; Doesn&#39;t currently work: https://issues.jboss.org/browse/KEYCLOAK-478
-  </span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/logout</span><span style="color:#c0c5ce;">&quot; [:</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
-    (</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[{</span><span style="color:#bf616a;">servlet-request </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">servlet-request</span><span style="color:#c0c5ce;">} request]
+  (GET &quot;/logout&quot; [:as request]
+    (let [{servlet-request :servlet-request} request]
       (.logout servlet-request)
-      (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Logged out</span><span style="color:#c0c5ce;">&quot;)))
-  </span><span style="color:#65737e;">; Rest of the routes.
-  </span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot; [:</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
-       (test-handler request &quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;))
-  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/:base</span><span style="color:#c0c5ce;">&quot; [base :</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+      (str &quot;Logged out&quot;)))
+  ; Rest of the routes.
+  (GET &quot;/&quot; [:as request]
+       (test-handler request &quot;/&quot;))
+  (GET &quot;/:base&quot; [base :as request]
        (test-handler request base))
-  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/:base/:sub</span><span style="color:#c0c5ce;">&quot; [base sub :</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+  (GET &quot;/:base/:sub&quot; [base sub :as request]
        (test-handler request base sub))
-  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/:base/:sub/:subsub</span><span style="color:#c0c5ce;">&quot; [base sub subsub :</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request]
+  (GET &quot;/:base/:sub/:subsub&quot; [base sub subsub :as request]
        (test-handler request base sub subsub))
-  (route/not-found &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
+  (route/not-found &quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;))
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
-  </span><span style="color:#a3be8c;">&quot;Start the server&quot;
-  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
-  </span><span style="color:#65737e;">; Start the server.
-  </span><span style="color:#c0c5ce;">(web/run (servlet/create-servlet app) :</span><span style="color:#d08770;">port 8081</span><span style="color:#c0c5ce;">))
-</span></pre>
+(defn -main
+  &quot;Start the server&quot;
+  [&amp; args]
+  ; Start the server.
+  (web/run (servlet/create-servlet app) :port 8081))
+</span></code></pre>
 <p>The <code>get-token</code> function returns an object that you can run things like <code>(.getPreferredUsername token)</code>. <a href="https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html">This</a> documents the different methods you can use.</p>
 <h3 id="planning-the-routes">Planning the Routes</h3>
 <p>The routes are specifically very, very general so that we can test various routes. In our exploration we'll be paying attention to the following routes:</p>
@@ -315,11 +315,11 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <p>However, Immutant does not currently provide an easy way to modify the <code>web.xml</code> in the war files it builds. Thankfully, since a war is a jar, and a jar is a zip, we can just add it in after.</p>
 <p>First, lets make a folder for this type of data in <code>/learning/resources</code>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> resources/WEB-INF
-</span></pre>
+<code><span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> resources/WEB-INF
+</span></code></pre>
 <p>Then, create a <code>learning/resources/WEB-INF/web.xml</code> with the following XML:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">web-app </span><span style="color:#d08770;">xmlns</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xmlns:xsi</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://www.w3.org/2001/XMLSchema-instance</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xsi:schemaLocation</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">version</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">3.0</span><span style="color:#c0c5ce;">&quot;&gt;
+<code><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">web-app </span><span style="color:#d08770;">xmlns</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xmlns:xsi</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://www.w3.org/2001/XMLSchema-instance</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xsi:schemaLocation</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">version</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">3.0</span><span style="color:#c0c5ce;">&quot;&gt;
 	&lt;</span><span style="color:#bf616a;">distributable</span><span style="color:#c0c5ce;">/&gt;
 	&lt;</span><span style="color:#bf616a;">listener</span><span style="color:#c0c5ce;">&gt;
 		&lt;</span><span style="color:#bf616a;">listener-class</span><span style="color:#c0c5ce;">&gt;org.projectodd.wunderboss.wildfly.ServletListener&lt;/</span><span style="color:#bf616a;">listener-class</span><span style="color:#c0c5ce;">&gt;
@@ -380,18 +380,18 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 	&lt;/</span><span style="color:#bf616a;">login-config</span><span style="color:#c0c5ce;">&gt;
 
 &lt;/</span><span style="color:#bf616a;">web-app</span><span style="color:#c0c5ce;">&gt;
-</span></pre>
+</span></code></pre>
 <p>Now, navigate back to your <a href="https://localhost:8080/auth">Keycloak container</a>, log in, and go to the <strong>Applications</strong> menu, hit <strong>learning</strong>, and go to the <strong>Installation</strong> tab. Select the <code>keycloak.json</code> from the dropdown. Finally, <strong>Download</strong> the output and save it as <code>learning/WEB-INF/keycloak.json</code>.</p>
 <h3 id="building-the-container">Building the container</h3>
 <p>Since we'll be using a Docker container for the application, create a <code>learning/Dockerfile</code> with the following:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">FROM jboss/keycloak-adapter-wildfly
+<code><span style="color:#c0c5ce;">FROM jboss/keycloak-adapter-wildfly
 RUN /opt/wildfly/bin/add-user.sh admin hunter2 --silent
 ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments/ROOT.war
-</span></pre>
+</span></code></pre>
 <p>Then a <code>learning/Makefile</code> to (optionally) make things a bit smoother:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">all</span><span style="color:#c0c5ce;">:
+<code><span style="color:#8fa1b3;">all</span><span style="color:#c0c5ce;">:
 	</span><span style="color:#a3be8c;">docker rm -f immut-test || true
 	</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> rmi immut-learning || </span><span style="color:#bf616a;">true
 	lein</span><span style="color:#c0c5ce;"> immutant war
@@ -399,31 +399,31 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
 
 </span><span style="color:#8fa1b3;">run</span><span style="color:#c0c5ce;">:
 	</span><span style="color:#a3be8c;">docker run --name immut-test --rm -t -i -p 127.0.0.1:8081:8080 -p 127.0.0.1:9991:9990 --link keycloak:auth immut-learning
-</span></pre>
+</span></code></pre>
 <p><strong>Just one more thing:</strong> Due to the linking between containers, you may need to add a line to your <code>/etc/hosts</code> so that the application will appropriately talk to the Keycloak server. The line should look like this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">127.0.0.1 auth
-</span></pre>
+<code><span style="color:#c0c5ce;">127.0.0.1 auth
+</span></code></pre>
 <p>Then, edit your <code>keycloak.json</code> and set the <code>auth-server-url</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">auth-server-url</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">http://auth:8080/auth</span><span style="color:#c0c5ce;">&quot;,
-</span></pre><h2 id="running">Running</h2>
+<code><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">auth-server-url</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">http://auth:8080/auth</span><span style="color:#c0c5ce;">&quot;,
+</span></code></pre><h2 id="running">Running</h2>
 <p>You should now be able to build <strong>and start</strong> the application with:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">make </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> run
-</span></pre>
+<code><span style="color:#bf616a;">make </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> run
+</span></code></pre>
 <p>After waiting for boot, browsing to <a href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Base = &quot;test&quot;
+<code><span style="color:#c0c5ce;">Base = &quot;test&quot;
 
 No user found.
 
 java.lang.NullPointerException
-</span></pre><h2 id="exploring">Exploring</h2>
+</span></code></pre><h2 id="exploring">Exploring</h2>
 <h3 id="user-routes">User routes</h3>
 <p>Now, try visiting <a href="http://localhost:8081/locked">http://localhost:8081/locked</a>. You should get redirected to the familiar Keycloak login screen. Log in with the <code>user</code> account. You should see something roughly like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Base = &quot;locked Sub: test&quot;
+<code><span style="color:#c0c5ce;">Base = &quot;locked Sub: test&quot;
 
 Token is:
 
@@ -433,13 +433,13 @@ User is:
 
 user
 
-</span></pre>
+</span></code></pre>
 <p><em>Fantastic</em>. Now, try navigating to the admin route at <a href="http://localhost:8081/admin">http://localhost:8081/admin</a>. You should see the helpful <code>Forbidden</code> error. This is exactly what we want!</p>
 <h3 id="admin-routes">Admin routes</h3>
 <p>In order to change accounts, you, unfortunately, can't browse to <a href="http://localhost:8081/logout">http://localhost:8081/logout</a>. This seems to be a bug to be squashed in the next version of Keycloak (<a href="https://issues.jboss.org/browse/KEYCLOAK-478">Bug</a>), but I'll leave it here for posterity. For now, navigate to <a href="http://localhost:8080/auth">http://localhost:8080/auth</a>, log in as <code>admin</code>, navigate to the <strong>Sessions and Tokens</strong> and click the blue <strong>Logout All</strong> button.</p>
 <p>Browse back to <a href="http://localhost:8081/admin">http://localhost:8081/admin</a> and log in as <code>admin</code>. You should see:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Base = &quot;admin&quot;
+<code><span style="color:#c0c5ce;">Base = &quot;admin&quot;
 
 Token is:
 
@@ -448,7 +448,7 @@ org.keycloak.representations.IDToken@4a8ca873
 User is:
 
 admin
-</span></pre>
+</span></code></pre>
 <p>You should also be able to hit all other routes as the admin. Be sure to explore Keycloak, as it has many features regarding roles, permissions, and other things not covered here.</p>
 <p><strong>Special thanks to all the folks on #immutant, especially bbrowning, tcrawley, and jcrossley3 for their help!</strong></p>
 

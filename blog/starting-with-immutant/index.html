@@ -122,64 +122,64 @@ Leiningen - The package manager.
 <span id="continue-reading"></span><h3 id="getting-leiningen">Getting Leiningen</h3>
 <p>Assuming <code>~/bin/</code> is a folder in your <code>$PATH</code></p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">DEST</span><span style="color:#c0c5ce;">=</span><span style="color:#bf616a;">~</span><span style="color:#a3be8c;">/bin/lein
+<code><span style="color:#bf616a;">DEST</span><span style="color:#c0c5ce;">=</span><span style="color:#bf616a;">~</span><span style="color:#a3be8c;">/bin/lein
 </span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein &gt; $</span><span style="color:#bf616a;">DEST
 chmod</span><span style="color:#c0c5ce;"> +x $</span><span style="color:#bf616a;">DEST
-</span></pre><h3 id="getting-clojure">Getting Clojure</h3>
+</span></code></pre><h3 id="getting-clojure">Getting Clojure</h3>
 <p>You get Clojure (oddly) through <code>lein</code>. Just run it, and it'll download everything it needs.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">lein
-</span></pre>
+<code><span style="color:#bf616a;">lein
+</span></code></pre>
 <p>That was easy!</p>
 <h3 id="setting-up-an-immutant-project">Setting up an Immutant Project</h3>
 <p><em>This is a lightly expanded version of <a href="http://immutant.org/tutorials/installation/index.html">this page</a>.</em></p>
 <p>Use <code>lein</code> to initialize a new project.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
+<code><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> learning
-</span></pre>
+</span></code></pre>
 <p>The folder <code>learning/</code> should have a file <code>project.clj</code> which you should edit to look like this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">defproject </span><span style="color:#c0c5ce;">learning &quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">license </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
-            :</span><span style="color:#d08770;">url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
-  :</span><span style="color:#d08770;">dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
+<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:license </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
+            </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
+  </span><span style="color:#d08770;">:dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
                  [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.186</span><span style="color:#c0c5ce;">&quot;]]
-  :</span><span style="color:#d08770;">repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
                   &quot;</span><span style="color:#a3be8c;">http://downloads.immutant.org/incremental/</span><span style="color:#c0c5ce;">&quot;]]
-  :</span><span style="color:#d08770;">main ^</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">skip-aot </span><span style="color:#c0c5ce;">learning.core
-  :</span><span style="color:#d08770;">target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
-  :</span><span style="color:#d08770;">profiles </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">uberjar </span><span style="color:#c0c5ce;">{:</span><span style="color:#d08770;">aot </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">all</span><span style="color:#c0c5ce;">}})
-</span></pre>
+  </span><span style="color:#d08770;">:main </span><span style="color:#c0c5ce;">^</span><span style="color:#d08770;">:skip-aot</span><span style="color:#c0c5ce;"> learning.core
+  </span><span style="color:#d08770;">:target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
+  </span><span style="color:#d08770;">:profiles </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:uberjar </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:aot :all</span><span style="color:#c0c5ce;">}})
+</span></code></pre>
 <p>Note how the dependencies and repositories now contain references to immutant. You should change <code>186</code> to the latest incremental build at <a href="http://immutant.org/builds/2x/">this page</a>.</p>
 <p>The <code>project.clj</code> file is similar to a <code>package.json</code> in Node.js or <code>Cargo.toml</code> in Rust.</p>
 <h3 id="your-first-route">Your First Route</h3>
 <p><em>This is a lightly expanded version of <a href="http://immutant.org/tutorials/web/index.html">this page</a>.</em></p>
 <p>In order to have a route (and thus a real web server) you need to add a <code>require</code> for immutant to your <code>src/learning/core.clj</code>. Then, define the <code>app</code> function like so and use <code>run</code> to start it:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
-  (:use compojure.core)
-  (:require [compojure.route :as route]
-             [immutant.web :as immutant])
-  (:gen-class))
+<code><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
+  (</span><span style="color:#d08770;">:use</span><span style="color:#c0c5ce;"> compojure.core)
+  (</span><span style="color:#d08770;">:require </span><span style="color:#c0c5ce;">[compojure.route </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> route]
+             [immutant.web </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> immutant])
+  (</span><span style="color:#d08770;">:gen-class</span><span style="color:#c0c5ce;">))
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">app </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">app </span><span style="color:#c0c5ce;">[request]
   &quot;</span><span style="color:#a3be8c;">A basic route for learning.</span><span style="color:#c0c5ce;">&quot;
-  {:</span><span style="color:#d08770;">status 200
-   </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">body </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Hello world!</span><span style="color:#c0c5ce;">&quot;})
+  {</span><span style="color:#d08770;">:status 200
+   :body </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Hello world!</span><span style="color:#c0c5ce;">&quot;})
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
-  </span><span style="color:#a3be8c;">&quot;Start the server.&quot;
-  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
-  (immutant/run app {:</span><span style="color:#d08770;">host </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">localhost</span><span style="color:#c0c5ce;">&quot; :</span><span style="color:#d08770;">port 8080 </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;}))
-</span></pre>
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">-main
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Start the server.</span><span style="color:#c0c5ce;">&quot;
+  [&amp; args]
+  (</span><span style="color:#bf616a;">immutant/run</span><span style="color:#c0c5ce;"> app {</span><span style="color:#d08770;">:host </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">localhost</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">:port 8080 :path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;}))
+</span></code></pre>
 <p>To start the server with <code>lein run</code> in the folder.</p>
 <p>Now browse to <a href="http://localhost:8080">http://localhost:8080</a> and you should see something like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Hello world!
-</span></pre><h3 id="more-routes">More Routes</h3>
+<code><span style="color:#c0c5ce;">Hello world!
+</span></code></pre><h3 id="more-routes">More Routes</h3>
 <p>You're probably thinking &quot;Well that's great, an app with one route, how useless.&quot; You'd be quite right, unless you're implementing <a href="http://www.justyo.co/">Yo</a> or something.</p>
 <p>If you're reading along the <a href="http://immutant.org/tutorials/web/index.html">Immutant web tutorial</a> you may have noticed in &quot;Advanced Usage&quot; they use multiple <code>run</code> functions to serve multiple routes.</p>
 <p>To quote:</p>
@@ -193,35 +193,35 @@ chmod</span><span style="color:#c0c5ce;"> +x $</span><span style="color:#bf616a;
 <p>That sounds certainly more desirable. Let's use <a href="https://github.com/weavejester/compojure/">Compojure</a>.</p>
 <p>Change your <code>project.clj</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">:dependencies [[org.clojure/clojure &quot;1.6.0&quot;]
-               [org.immutant/immutant &quot;2.x.incremental.186&quot;]
-               [compojure &quot;1.1.8&quot;]]
-</span></pre>
+<code><span style="color:#d08770;">:dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
+               [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.186</span><span style="color:#c0c5ce;">&quot;]
+               [compojure &quot;</span><span style="color:#a3be8c;">1.1.8</span><span style="color:#c0c5ce;">&quot;]]
+</span></code></pre>
 <p>And then extend your source file.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">ns </span><span style="color:#c0c5ce;">learning.core
-  (:use compojure.core)
-  (:require [compojure.route :as route]
-             [immutant.web :as immutant])
-  (:gen-class))
+<code><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
+  (</span><span style="color:#d08770;">:use</span><span style="color:#c0c5ce;"> compojure.core)
+  (</span><span style="color:#d08770;">:require </span><span style="color:#c0c5ce;">[compojure.route </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> route]
+             [immutant.web </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> immutant])
+  (</span><span style="color:#d08770;">:gen-class</span><span style="color:#c0c5ce;">))
 
 
 (</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">handler
-  </span><span style="color:#a3be8c;">&quot;Comment&quot;
-  </span><span style="color:#c0c5ce;">[]
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Comment</span><span style="color:#c0c5ce;">&quot;
+  []
   &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Hello World&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;)
 
-(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
-  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
-  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">[] </span><span style="color:#c0c5ce;">(handler))
-  (route/not-found
-       &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
+(</span><span style="color:#b48ead;">defroutes </span><span style="color:#8fa1b3;">app
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
+  (</span><span style="color:#bf616a;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot; [] (</span><span style="color:#bf616a;">handler</span><span style="color:#c0c5ce;">))
+  (</span><span style="color:#bf616a;">route/not-found
+       </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#c0c5ce;">-</span><span style="color:#8fa1b3;">main
-  </span><span style="color:#a3be8c;">&quot;Start the server&quot;
-  </span><span style="color:#c0c5ce;">[&amp; </span><span style="color:#bf616a;">args</span><span style="color:#c0c5ce;">]
-  (immutant/run app {:</span><span style="color:#d08770;">host </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">localhost</span><span style="color:#c0c5ce;">&quot; :</span><span style="color:#d08770;">port 8080 </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;}))
-</span></pre>
+(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">-main
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Start the server</span><span style="color:#c0c5ce;">&quot;
+  [&amp; args]
+  (</span><span style="color:#bf616a;">immutant/run</span><span style="color:#c0c5ce;"> app {</span><span style="color:#d08770;">:host </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">localhost</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">:port 8080 :path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/</span><span style="color:#c0c5ce;">&quot;}))
+</span></code></pre>
 <p>Now you should have multiple routes.</p>
 
 

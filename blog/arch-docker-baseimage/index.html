@@ -153,7 +153,7 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
 <h3 id="get-an-arch-chroot">Get an Arch Chroot</h3>
 <p>On any 64-bit Linux 2.6.23 or later you can create your base image via a chroot.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Make some space
+<code><span style="color:#65737e;"># Make some space
 </span><span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> archbuild
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> archbuild
 </span><span style="color:#65737e;"># Get the Image
@@ -165,20 +165,20 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
 </span><span style="color:#c0c5ce;">gpg</span><span style="color:#bf616a;"> --keyserver</span><span style="color:#c0c5ce;"> pgp.mit.edu</span><span style="color:#bf616a;"> --recv-keys</span><span style="color:#c0c5ce;"> 9741E8AC
 </span><span style="color:#65737e;"># Verify its integrity.
 </span><span style="color:#c0c5ce;">gpg</span><span style="color:#bf616a;"> --verify</span><span style="color:#c0c5ce;"> archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz.sig
-</span></pre>
+</span></code></pre>
 <p>Check the output, make sure the signature is good. You'll likely see a trust warning, that's fine, you didn't mark the key trusted.</p>
 <h3 id="getting-in">Getting In</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Extract
+<code><span style="color:#65737e;"># Extract
 </span><span style="color:#bf616a;">tar</span><span style="color:#c0c5ce;"> xvf archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz
 </span><span style="color:#65737e;"># Hop in
 </span><span style="color:#c0c5ce;">sudo ./root.x86_64/bin/arch-chroot root.x86_64
-</span></pre>
+</span></code></pre>
 <p>You should notice you shell looks like <code>sh-4.3#</code>. Furthermore, <code>pacman</code> should be available.</p>
 <h3 id="setup">Setup</h3>
 <p><strong>In the chroot</strong>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Setup a mirror.
+<code><span style="color:#65737e;"># Setup a mirror.
 </span><span style="color:#96b5b4;">echo </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch</span><span style="color:#c0c5ce;">&#39; &gt; /etc/pacman.d/mirrorlist
 </span><span style="color:#65737e;"># Setup Keys
 </span><span style="color:#c0c5ce;">pacman-key --init
@@ -192,10 +192,10 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
 </span><span style="color:#bf616a;">echo </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">en_US.UTF-8 UTF-8</span><span style="color:#c0c5ce;">&quot; &gt; /etc/locale.gen
 </span><span style="color:#bf616a;">locale-gen
 </span><span style="color:#96b5b4;">exit
-</span></pre>
+</span></code></pre>
 <p><strong>Outside of the chroot</strong> (You may need to be root):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># udev doesnt work in containers, rebuild /dev
+<code><span style="color:#65737e;"># udev doesnt work in containers, rebuild /dev
 # Taken from https://raw.githubusercontent.com/dotcloud/docker/master/contrib/mkimage-arch.sh
 </span><span style="color:#bf616a;">DEV</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">root.x86_64/dev
 </span><span style="color:#bf616a;">rm -rf </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">DEV
@@ -213,15 +213,15 @@ mknod -m</span><span style="color:#c0c5ce;"> 666 $</span><span style="color:#bf6
 </span><span style="color:#bf616a;">mknod -m</span><span style="color:#c0c5ce;"> 600 $</span><span style="color:#bf616a;">DEV</span><span style="color:#c0c5ce;">/initctl p
 </span><span style="color:#bf616a;">mknod -m</span><span style="color:#c0c5ce;"> 666 $</span><span style="color:#bf616a;">DEV</span><span style="color:#c0c5ce;">/ptmx c 5 2
 </span><span style="color:#bf616a;">ln -sf</span><span style="color:#c0c5ce;"> /proc/self/fd $</span><span style="color:#bf616a;">DEV</span><span style="color:#c0c5ce;">/fd
-</span></pre><h3 id="import-the-image">Import the Image</h3>
+</span></code></pre><h3 id="import-the-image">Import the Image</h3>
 <p><strong>Outside of the chroot</strong> (You may need to be root):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">=&#39;</span><span style="color:#a3be8c;">hoverbear</span><span style="color:#c0c5ce;">&#39;
+<code><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">=&#39;</span><span style="color:#a3be8c;">hoverbear</span><span style="color:#c0c5ce;">&#39;
 </span><span style="color:#bf616a;">tar --numeric-owner -C</span><span style="color:#c0c5ce;"> root.x86_64</span><span style="color:#bf616a;"> -c</span><span style="color:#c0c5ce;"> .  | </span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> import - $</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/archlinux
-</span></pre><h3 id="test-it">Test It</h3>
+</span></code></pre><h3 id="test-it">Test It</h3>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -t -i </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/archlinux /bin/bash
-</span></pre>
+<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -t -i </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/archlinux /bin/bash
+</span></code></pre>
 <p>Give it a try!</p>
 <h2 id="a-full-start-to-end-script">A full, start to end script</h2>
 <p>You can grab a fully automated script <a href="https://github.com/Hoverbear/docker-archlinux">here</a>.</p>

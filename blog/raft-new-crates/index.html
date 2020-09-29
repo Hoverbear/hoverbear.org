@@ -108,17 +108,17 @@ As a result of Raft development two new crates have been put together for genera
 <p>Working with Raft we discovered a useful error pattern for making use of things like <code>try!()</code>. Let's quickly recap on why error handling can be a pain sometimes.</p>
 <p>Let's say you're off happily using <code>.read()</code> on some file descriptor (maybe a <code>TcpStream</code>) and than performing some action which may also result in an error. So you write a function like so:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Read;
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Read;
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">read_and_action</span><span style="color:#c0c5ce;">&lt;R: Read&gt;(</span><span style="color:#bf616a;">reader</span><span style="color:#c0c5ce;">: R) -&gt; Result&lt;String, _&gt; {
 	</span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> buf = Vec::with_capacity(</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">);
     try!(reader.</span><span style="color:#96b5b4;">read</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> buf));
     try!(String::from_utf8(buf))
 }
-</span></pre>
+</span></code></pre>
 <p>But wait! There is a problem here! The first <code>try!()</code> and the second <code>try!()</code> have <em>different errors</em> that they might return. <strong>This won't work.</strong> Even worse, in a sufficiently complex library or application there can be many <code>Error</code> types in play!</p>
 <p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">/// A simple convienence type.
+<code><span style="color:#65737e;">/// A simple convienence type.
 </span><span style="color:#b48ead;">pub type </span><span style="color:#c0c5ce;">Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
 
 </span><span style="color:#65737e;">// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
@@ -146,7 +146,7 @@ As a result of Raft development two new crates have been put together for genera
         }
     }
 }
-</span></pre>
+</span></code></pre>
 <p>With this machinery in place our previous example starts to work, fantastic! This has saved us so much headache and complication in our code. Want it? Click one of the badges below!</p>
 <p><a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/v/wrapped_enum.svg" alt="" /></a>
 <a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/d/wrapped_enum.svg" alt="" /></a></p>
@@ -156,7 +156,7 @@ As a result of Raft development two new crates have been put together for genera
 <p>James and Dan put together the <a href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
 <p>When we use this crate with tests (which makes it all that much more awesome!) we use the following macro.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">/// Prepares the environment testing. Should be called as the first line of every test with the
+<code><span style="color:#65737e;">/// Prepares the environment testing. Should be called as the first line of every test with the
 /// name of the test as the only argument.
 </span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">cfg</span><span style="color:#c0c5ce;">(test)]
 </span><span style="color:#96b5b4;">macro_rules! </span><span style="color:#c0c5ce;">setup_test {
@@ -165,17 +165,17 @@ As a result of Raft development two new crates have been put together for genera
         push_log_scope!(</span><span style="color:#bf616a;">$test_name</span><span style="color:#c0c5ce;">);
     );
 }
-</span></pre>
+</span></code></pre>
 <p>Now our logs look like this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">INFO:raft::replica: test_apply_client_message: ElectionTimeout
+<code><span style="color:#c0c5ce;">INFO:raft::replica: test_apply_client_message: ElectionTimeout
 INFO:raft::replica: test_election_3: ElectionTimeout
 INFO:raft::replica: test_election_2: ElectionTimeout
 INFO:raft::replica: test_apply_client_message: transitioning to Leader
 INFO:raft::replica: test_election_5: ElectionTimeout
 INFO:raft::replica: test_election_5: transitioning to Candidate
 DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
-</span></pre>
+</span></code></pre>
 <p>Much more context that we <em>barely</em> have to tool. Fantastic! This crate even maintains the same <code>noop</code> characteristic of the <code>log</code> crate which it heavily relies on. Want it?</p>
 <p><a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/v/scoped_log.svg" alt="" /></a>
 <a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/d/scoped_log.svg" alt="" /></a></p>

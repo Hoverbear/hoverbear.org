@@ -108,7 +108,7 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 <p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
 <p>I wanted to remove the complexity of having to make network requests outside of the Node. If you're participating in a Raft cluster you don't want to have to think about it, you just want to read logs and append logs. Raft's goal is to implement a replicated log, or state machine.</p>
 <pre style="background-color:#2b303b;">
-fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
+<code>fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
 					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
 enum ClientRequest&lt;T&gt; {
     IndexRange {
@@ -131,7 +131,7 @@ enum ClientResponse&lt;T&gt; {
         reason: String,
     },
 }
-</pre>
+</code></pre>
 <p>Right now most of the data types I'm using are compound data enums, allowing for strongly typed, encapsulated data that is easy to work with via <code>match</code> statements.</p>
 <p>I am not sure if this is the <em>right</em> way to go about things, and I think that there can be some improvement, but this method of requests across a channel are, as far as I can tell, the idomatic way to communicate with a thread in Rust.</p>
 <p>One cool thing about this approach is the log entries themselves can be basically anything the programmer desires as long as it can be serialized and deserialized. I'm mostly using <code>String</code>s for testing.</p>
@@ -139,7 +139,7 @@ enum ClientResponse&lt;T&gt; {
 <p>Inside of the <code>RaftNode</code>'s thread it binds on a UDP socket and listens for <code>RemoteProcedureCall</code> data. These requests are encoded and decoded through the <code>rustc-serialize</code> crato, but in the future <code>serde</code> will probably replace it.</p>
 <p>A <code>RemoteProcedureCall</code> looks almost identical to those dictated in the Raft paper:</p>
 <pre style="background-color:#2b303b;">
-#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+<code>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
 pub enum RemoteProcedureCall&lt;T&gt; {
     AppendEntries {
         term: u64,
@@ -164,7 +164,7 @@ pub enum RemoteProcedureResponse {
     EntriesAccepted { term: u64 },
     EntriesRejected { term: u64 },
 }
-</pre>
+</code></pre>
 <p>I'm not sure if the way I'm approaching the <code>RemoteProcedureResponse</code> is necessarily the right way to go about things. I think it might be better to model it after <code>ClientResponse</code>.</p>
 <h2 id="progress">Progress</h2>
 <p>Most of the work done so far is on scaffolding, and determining interfaces. I have two nodes running locally successfully passing <code>ClientRequest</code>s into one node, them communicating with a <code>RemoteProcedureCall</code> and a <code>ClientResponse</code> being emitted at the other node.</p>

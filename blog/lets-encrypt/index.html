@@ -95,15 +95,15 @@
 <span id="continue-reading"></span><h2 id="get-er-done">Get 'er Done</h2>
 <p>I first needed some prerequisites (I already had <code>nginx</code> installed):</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> emerge</span><span style="color:#bf616a;"> -vqa</span><span style="color:#c0c5ce;"> augeas python-augeas dialog
-</span></pre>
+<code><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> emerge</span><span style="color:#bf616a;"> -vqa</span><span style="color:#c0c5ce;"> augeas python-augeas dialog
+</span></code></pre>
 <p>Then, following the instructions provided:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/letsencrypt/letsencrypt
+<code><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/letsencrypt/letsencrypt
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> letsencrypt
 </span><span style="color:#bf616a;">./letsencrypt-auto --agree-dev-preview --server </span><span style="color:#c0c5ce;">\
   https://acme-v01.api.letsencrypt.org/directory auth
-</span></pre>
+</span></code></pre>
 <p>From here you'll be brought to something that looks like a <code>make menuconfig</code> when building your own kernel... But a lot easier. From here you have two options, &quot;Manual&quot; and &quot;Standalone&quot;.</p>
 <p><strong>Manual</strong> asks you for your domain then tasks you with the job of hosting a file under something like <code>$YOUR_DOMAIN/.well_known/acme-challenge/$KEY</code>.</p>
 <p><strong>Standalone</strong> will make an effort to automatically verify your domain for you by hosting it's own web server. (<em>You'll need to stop your existing <code>nginx</code> server if you have one.</em>)</p>

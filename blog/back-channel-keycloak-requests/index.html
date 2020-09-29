@@ -132,33 +132,33 @@ You may want to check this link to learn how to use Immutant with Keycloak.
 <p>The <strong>User</strong> will browse to the <strong>Consumer</strong> and authenticate with <strong>Keycloak</strong>, then return to the <code>/backchannel</code> route. Since at this point they will be authenticated, you can get their session and utilize the Token it provides.</p>
 <p>The <code>get-session</code> function produces a session which can be utilized.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-session
-  </span><span style="color:#a3be8c;">&quot;Gets the session, get the object with `.getToken` or the access token itself with `.getTokenString`&quot;
-  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
-  (</span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">[{</span><span style="color:#bf616a;">servlet-request </span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">servlet-request</span><span style="color:#c0c5ce;">} request
-        </span><span style="color:#bf616a;">session </span><span style="color:#c0c5ce;">(.getAttribute servlet-request &quot;</span><span style="color:#a3be8c;">org.keycloak.KeycloakSecurityContext</span><span style="color:#c0c5ce;">&quot;)]
+<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-session
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Gets the session, get the object with `.getToken` or the access token itself with `.getTokenString`</span><span style="color:#c0c5ce;">&quot;
+  [request]
+  (</span><span style="color:#bf616a;">let </span><span style="color:#c0c5ce;">[{servlet-request </span><span style="color:#d08770;">:servlet-request</span><span style="color:#c0c5ce;">} request
+        session (</span><span style="color:#bf616a;">.getAttribute</span><span style="color:#c0c5ce;"> servlet-request &quot;</span><span style="color:#a3be8c;">org.keycloak.KeycloakSecurityContext</span><span style="color:#c0c5ce;">&quot;)]
     session))
-</span></pre>
+</span></code></pre>
 <p><code>back-channel-handler</code>, which is bound to the <code>/backchannel</code> route, responds to the request with information regarding the users resource access, as well as the data sent from the provider.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">back-channel-handler
-  </span><span style="color:#a3be8c;">&quot;A back channel request handler&quot;
-  </span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">request</span><span style="color:#c0c5ce;">]
-  (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The back call resulted in:&lt;br&gt;</span><span style="color:#c0c5ce;">&quot;
-    (.getResourceAccess (.getToken (get-session request)))
+<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">back-channel-handler
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">A back channel request handler</span><span style="color:#c0c5ce;">&quot;
+  [request]
+  (</span><span style="color:#bf616a;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The back call resulted in:&lt;br&gt;</span><span style="color:#c0c5ce;">&quot;
+    (</span><span style="color:#bf616a;">.getResourceAccess </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">.getToken </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">get-session</span><span style="color:#c0c5ce;"> request)))
     &quot;</span><span style="color:#a3be8c;">&lt;br&gt;</span><span style="color:#c0c5ce;">&quot;
-    (</span><span style="color:#b48ead;">try
-      </span><span style="color:#c0c5ce;">(client/</span><span style="color:#96b5b4;">get </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://provider:8080/locked</span><span style="color:#c0c5ce;">&quot;
-        {:</span><span style="color:#d08770;">headers </span><span style="color:#c0c5ce;">{
-          &quot;</span><span style="color:#a3be8c;">Authorization</span><span style="color:#c0c5ce;">&quot; (</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Bearer </span><span style="color:#c0c5ce;">&quot; (.getTokenString (get-session request)))
+    (</span><span style="color:#bf616a;">try
+      </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">client/get </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://provider:8080/locked</span><span style="color:#c0c5ce;">&quot;
+        {</span><span style="color:#d08770;">:headers </span><span style="color:#c0c5ce;">{
+          &quot;</span><span style="color:#a3be8c;">Authorization</span><span style="color:#c0c5ce;">&quot; (</span><span style="color:#bf616a;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Bearer </span><span style="color:#c0c5ce;">&quot; (</span><span style="color:#bf616a;">.getTokenString </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">get-session</span><span style="color:#c0c5ce;"> request)))
         }})
-      (</span><span style="color:#b48ead;">catch </span><span style="color:#a3be8c;">Exception </span><span style="color:#bf616a;">e
-        </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exception occured... &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; e &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;</span><span style="color:#c0c5ce;">&quot;)))))
+      (</span><span style="color:#bf616a;">catch</span><span style="color:#c0c5ce;"> Exception e
+        (</span><span style="color:#bf616a;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exception occured... &lt;pre&gt;</span><span style="color:#c0c5ce;">&quot; e &quot;</span><span style="color:#a3be8c;">&lt;/pre&gt;</span><span style="color:#c0c5ce;">&quot;)))))
 
-(</span><span style="color:#96b5b4;">defroutes </span><span style="color:#c0c5ce;">app
-  &quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
-  (</span><span style="color:#d08770;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/backchannel</span><span style="color:#c0c5ce;">&quot; [:</span><span style="color:#d08770;">as </span><span style="color:#c0c5ce;">request] (back-channel-handler request)))
-</span></pre><h2 id="handling-a-request">Handling a Request</h2>
+(</span><span style="color:#b48ead;">defroutes </span><span style="color:#8fa1b3;">app
+  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
+  (</span><span style="color:#bf616a;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/backchannel</span><span style="color:#c0c5ce;">&quot; [</span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> request] (</span><span style="color:#bf616a;">back-channel-handler</span><span style="color:#c0c5ce;"> request)))
+</span></code></pre><h2 id="handling-a-request">Handling a Request</h2>
 <p>On the <strong>Provider</strong>, lock down the <code>/locked</code> route in the <code>web.xml</code> file. Then, Keycloak provides all of the necessary facilities to handle and verify the request. By the time the request reaches the <strong>Provider</strong>, it's already verified that the user has access.</p>
 
 

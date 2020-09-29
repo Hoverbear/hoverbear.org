@@ -106,7 +106,7 @@
 <p>Travis CI released <a href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
 <p>In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">addons</span><span style="color:#c0c5ce;">:
+<code><span style="color:#bf616a;">addons</span><span style="color:#c0c5ce;">:
   </span><span style="color:#bf616a;">apt</span><span style="color:#c0c5ce;">:
     </span><span style="color:#bf616a;">sources</span><span style="color:#c0c5ce;">:
       - </span><span style="color:#bf616a;">ubuntu-toolchain-r-test
@@ -126,12 +126,12 @@
     </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">export PATH=&quot;$PATH:$(pwd)&quot;
     </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
     </span><span style="color:#c0c5ce;">-  </span><span style="color:#a3be8c;">cd ../..
-</span></pre>
+</span></code></pre>
 <p>Now that we've flagged <code>sudo: false</code> in our <code>.travis.yml</code> our Travis <em>wait time</em> for a build have significantly decreased. Some of our test builds take under 1:45 minutes!</p>
 <h2 id="moved-to-travis-cargo">Moved to <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
 <p>Huon created the fantastic <code>travis-cargo</code> crate and we recently moved over to it! This helped clean up the <code>.travis.yml</code> a bit and opened the door for us to utilize future improvements. This took our <code>.travis.yml</code> script section from this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Generate Docs
+<code><span style="color:#65737e;"># Generate Docs
 </span><span style="color:#a3be8c;">after_success = &quot;|&quot;
   </span><span style="color:#c0c5ce;">[ </span><span style="color:#a3be8c;">$TRAVIS_BRANCH = master </span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">&amp;</span><span style="color:#c0c5ce;">&amp;
   [ </span><span style="color:#a3be8c;">$TRAVIS_PULL_REQUEST = false </span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">&amp;</span><span style="color:#c0c5ce;">&amp;
@@ -140,10 +140,10 @@
   sudo pip install ghp-import &amp;&amp;
   ghp-import -n target/doc &amp;&amp;
   git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
-</span></pre>
+</span></code></pre>
 <p>To this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Load `travis-cargo`
+<code><span style="color:#65737e;"># Load `travis-cargo`
 </span><span style="color:#bf616a;">before_script</span><span style="color:#c0c5ce;">:
     - </span><span style="color:#bf616a;">pip install &#39;travis-cargo&#39; --user
     </span><span style="color:#c0c5ce;">- </span><span style="color:#bf616a;">export PATH=$HOME/.local/bin:$PATH
@@ -158,7 +158,7 @@ script</span><span style="color:#c0c5ce;">:
 </span><span style="color:#bf616a;">after_success</span><span style="color:#c0c5ce;">:
     - </span><span style="color:#a3be8c;">travis-cargo doc-upload
     </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo coveralls --no-sudo
-</span></pre>
+</span></code></pre>
 <p>With <code>travis-cargo</code> our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.</p>
 <h2 id="code-coverage">Code Coverage</h2>
 <p>You may have noticed the <code>travis-cargo coveralls --no-sudo</code> above and wondered what that was. <a href="http://coveralls.io/"><code>http://coveralls.io/</code></a> offers free code coverage analysis to open source projects. You can see what ours looks like <a href="https://coveralls.io/github/Hoverbear/raft">here</a>.</p>

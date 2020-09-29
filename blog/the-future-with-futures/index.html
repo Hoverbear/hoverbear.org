@@ -133,7 +133,7 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
 <p>When compiled futures <a href="https://aturon.github.io/blog/2016/08/11/futures/">boil down to actual state machines</a> while still allowing us to write our code in a relatively familiar 'callback style' pattern. If you've already been using Rust then working with Futures will feel very similar to how iterators feel.</p>
 <p>One of the things we'll commonly do in this section is &quot;sleep a little bit&quot; on a thread to simulate some asynchronous action. In order to do this let's create a little function:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> rand;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> rand;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::thread;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::time::Duration;
@@ -150,10 +150,10 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
     thread::sleep(a_little_bit);
     choice
 }
-</span></pre>
+</span></code></pre>
 <p>Now that we've got that established we can use it in our first future. We'll use a <code>oneshot</code> to delegate a task to another thread, then pick it up back in the main thread. A oneshot is essentially a single use channel, something can be sent from the sender to the receiver, then the channel is closed.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::thread;
@@ -188,18 +188,18 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
     </span><span style="color:#65737e;">// This value will be the same as the previous &quot;WAITED&quot; output.
     </span><span style="color:#c0c5ce;">println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, result);
 }
-</span></pre>
+</span></code></pre>
 <p>If we run this example we'll see something like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">--&gt; START
+<code><span style="color:#c0c5ce;">--&gt; START
 +++ WAITED 542
 &lt;-- END
 542
-</span></pre>
+</span></code></pre>
 <p>The output is exactly what we might expect if we were doing this via the <code>std</code> channels. The code looks similar as well. At this point we're barely using Futures at all, so it shouldn't be a huge surprise that there is nothing surprising happening here. Futures start to come into their own during much more complicated tasks.</p>
 <p>Next, let's look at how we can work with a set of futures. In this example we'll spawn a number of threads, have them do some long running task, and then collect all of the results into a vector.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::thread;
@@ -250,10 +250,10 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
 
     println!(&quot;</span><span style="color:#a3be8c;">Job is done. Values returned in order: </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, result);
 }
-</span></pre>
+</span></code></pre>
 <p>The <code>map</code> call behaves just like the <code>map</code> of an <code>Option&lt;T&gt;</code> or a <code>Result&lt;T,E&gt;</code>. It transforms some <code>Future&lt;T&gt;</code> into some <code>Future&lt;U&gt;</code>.  Running this example in output similar to the following:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">0 --&gt; START
+<code><span style="color:#c0c5ce;">0 --&gt; START
 1 --&gt; START
 3 --&gt; START
 2 --&gt; START
@@ -284,7 +284,7 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
 7 +++ WAITED 802
 7 &lt;-- END
 Job is done. Values returned in order: true
-</span></pre>
+</span></code></pre>
 <p>In this example we can observe that all of the futures started, waited various times, then finished. They did not finish in order, but the resulting vector did come out in the correct order. Again, this result is not entirely surprising and we could have done something very similar with <code>std</code>'s channels.</p>
 <blockquote>
 <p>Remember, futures are a basic building block, not a batteries included solution. They are intended to be built on top of.</p>
@@ -292,7 +292,7 @@ Job is done. Values returned in order: true
 <p>We'll cover one more example which will feel fairly familiar to people who have used the channels from <code>std</code>, then we'll start doing more interesting stuff.</p>
 <p>The next primitive from <code>futures</code> we'll use is the <a href="https://docs.rs/futures/0.1.10/futures/sync/mpsc/fn.channel.html"><code>futures::sync::mpsc::channel</code></a> which behaves similar to the <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html"><code>std::sync::mpsc::channel</code></a>. We'll build a channel then pass off the sender <code>tx</code> to another thread, then we'll fire a series of messages along the channel. The <code>rx</code> side of the channel can then be used similarly to an <code>Iterator</code>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::thread;
@@ -348,10 +348,10 @@ Job is done. Values returned in order: true
         .</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
     println!(&quot;</span><span style="color:#a3be8c;">SUM </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, sum);
 }
-</span></pre>
+</span></code></pre>
 <p>The output will be similar to the following:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">--&gt; START THREAD
+<code><span style="color:#c0c5ce;">--&gt; START THREAD
 +++ THREAD WAITED 166
 +++ FOLDING 166 INTO 0
 +++ THREAD WAITED 554
@@ -374,13 +374,13 @@ Job is done. Values returned in order: true
 &lt;-- END THREAD
 +++ FOLDING 21 INTO 3675
 SUM 3696
-</span></pre>
+</span></code></pre>
 <p>Now that we're familiar with these basic ideas we can move on to working with <code>futures_cpupool</code>.</p>
 <h2 id="dipping-our-toes-into-the-cpu-pool">Dipping Our Toes Into the CPU Pool</h2>
 <p>Earlier we alluded to the idea of using futures with a CPU pool where we didn't have to manage which thread did which work, but in our examples so far we've still had to manually spin up threads. So let's fix that.</p>
 <p>The <a href="https://docs.rs/futures-cpupool/0.1.3/futures_cpupool/"><code>futures_cpupool</code></a> crate offers us this functionality. Let's take a look at a basic example which does nearly the same thing as our second example above:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures_cpupool;
 
@@ -424,10 +424,10 @@ SUM 3696
         .</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
     println!(&quot;</span><span style="color:#a3be8c;">Job is done. Values returned in order: </span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, result)
 }
-</span></pre>
+</span></code></pre>
 <p>This outputs something similar to the following:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">0 --&gt; START
+<code><span style="color:#c0c5ce;">0 --&gt; START
 1 --&gt; START
 2 --&gt; START
 3 --&gt; START
@@ -448,10 +448,10 @@ SUM 3696
 1 &lt;-- WAITED 794
 8 &lt;-- WAITED 838
 Job is done. Values returned in order: true
-</span></pre>
+</span></code></pre>
 <p>This time we didn't need to manage threads or which thread does what. The pool just handled it for us. This is pretty handy. We can be rather arbitrary with what we do with the pool. For example different spawned tasks can return different types:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures_cpupool;
 
@@ -492,13 +492,13 @@ Job is done. Values returned in order: true
     println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, resulting_string, resulting_integer);
     </span><span style="color:#65737e;">// Returns `First, 2`
 </span><span style="color:#c0c5ce;">}
-</span></pre>
+</span></code></pre>
 <p>This means that we can create a CPU pool and delegate arbitrary tasks to it throughout the lifetime of our program. It may be that you want to create multiple pools to prevent starvation, for example a pool with 2 workers for network connections, and another with 2 workers for delayed jobs.</p>
 <h2 id="visiting-tokio-s-core">Visiting Tokio's Core</h2>
 <p>The <a href="https://tokio.rs/"><code>tokio</code></a> project has been developed closely alongside of <code>futures</code> and the projects share many authors. The project has a number of crates intended for building asynchronous applications. In the <code>tokio-core</code> crate there are things like the main event loop, TCP handlers, and timeouts. Building on top of that are crates such as <code>tokio-proto</code> and <code>tokio-service</code> which build on top of these constructs.</p>
 <p>We'll start with just <code>tokio-core</code> and doing a simple HTTP GET request. Note since we're not actually using a HTTP client we need to handle all the details ourselves. Here's what that looks like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> tokio_core;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::net::ToSocketAddrs;
@@ -540,13 +540,13 @@ Job is done. Values returned in order: true
     </span><span style="color:#65737e;">// Parse the data and output it.
     </span><span style="color:#c0c5ce;">println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, String::from_utf8(data).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">());
 }
-</span></pre>
+</span></code></pre>
 <p>This looks a bit different than what we've previously been doing with our futures. <a href="https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Core.html"><code>Core::new()</code></a> is how we create an event loop, or 'Reactor', which we can get <a href="https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Handle.html"><code>Handle</code>s</a> which we use when issuing tasks such as <code>TcpStream::Connect</code>. You can learn more about the basics of the Reactor <a href="https://tokio.rs/docs/getting-started/reactor/">here</a>.</p>
 <p>Working with the types provided by Tokio is slightly different than working with those provided by <code>std</code>, however many of the ideas and concepts are the same. Many of the changes are due to the differences between syncronous and asynchronous I/O.</p>
 <p>Near the end of the example we have <code>core.run()</code> which is a way to fire off <strong>one off</strong> tasks and get a return value from them, similar to how we were using futures. Tokio also provides a <code>spawn()</code> and <code>spawn_fn()</code> functions which are executed in the background and must do their own handling of errors, making it ideal for tasks such as responding to new connections.</p>
 <p>Let's play with <code>spawn_fn()</code> in our next example by making a simple server.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> tokio_core;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::net::SocketAddr;
@@ -593,13 +593,13 @@ Job is done. Values returned in order: true
 </span><span style="color:#c0c5ce;">    core.</span><span style="color:#96b5b4;">run</span><span style="color:#c0c5ce;">(server).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
 }
 </span><span style="color:#65737e;">// Throw some data at it with `echo &quot;Test&quot; | nc 127.0.0.1 8080`
-</span></pre>
+</span></code></pre>
 <p>Running <code>echo &quot;Test&quot; | nc 127.0.0.1 8080</code> in another terminal echos back the data sent. </p>
 <p>However, our example here isn't very useful, or idiomatic! For example, we can't use something like <code>telnet</code> or <code>curl</code> to interact with it. It's a start though. Let's do better.</p>
 <p>We'll improve on our previous example by using a <a href="https://docs.rs/tokio-core/0.1.4/tokio_core/io/trait.Codec.html"><code>Codec</code></a>. <code>Codec</code>s allow us to describe how to encode and decode the frames a <code>TcpStream</code> (or anything else that can be <code>framed()</code>). It asks us to define an <code>In</code> and an <code>Out</code> type as well as <code>encode()</code> and <code>decode()</code> functions.</p>
 <p>Here's what our example with <code>EchoCodec</code> could look like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> tokio_core;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::net::SocketAddr;
@@ -667,10 +667,10 @@ Job is done. Values returned in order: true
 </span><span style="color:#c0c5ce;">    core.</span><span style="color:#96b5b4;">run</span><span style="color:#c0c5ce;">(server).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
 }
 </span><span style="color:#65737e;">// Throw some data at it with `echo &quot;Test&quot; | nc 127.0.0.1 8080`
-</span></pre>
+</span></code></pre>
 <p>If you test this out you'll find the same behaviour as the previous example. With a little change we can even make it handle lines instead of entire messages, we'll borrow some code from Tokio's examples to do this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">// Codecs can have state, but this one doesn&#39;t.
+<code><span style="color:#65737e;">// Codecs can have state, but this one doesn&#39;t.
 </span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">EchoCodec;
 </span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">Codec </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">EchoCodec {
     </span><span style="color:#65737e;">// Associated types which define the data taken/produced by the codec.
@@ -706,11 +706,11 @@ Job is done. Values returned in order: true
         Ok(())
     }
 }
-</span></pre>
+</span></code></pre>
 <p>Running this example you can connect with <code>nc 127.0.0.1 8080</code> and send some lines of text, then get them back. Notice how we didn't have to change the rest of the code at all in order to make this change? All we had to do was change the behaivor of the codec.</p>
 <p>Now let's try making a codec that encodes and decodes HTTP 1.1 GET and POST requests made from <code>curl</code> that we can build on later:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">ExampleRequest {
+<code><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">ExampleRequest {
     Get { url: String },
     Post { url: String, content: String },
 }
@@ -799,7 +799,7 @@ Job is done. Values returned in order: true
         Ok(())
     }
 }
-</span></pre>
+</span></code></pre>
 <p>Let's be honest with ourselves here, this is very naive and is obviously incomplete! However it works for <code>curl -vvvv localhost:8080</code> and <code>curl -vvvv localhost:8080 --data hello</code>, and we got to learn a bit about how to use Tokio. So far so good! Let's build on it.</p>
 <h2 id="services-and-protocols">Services and Protocols</h2>
 <p><code>tokio-core</code> is, by definition, minimal. The <code>tokio-proto</code> and <code>tokio-service</code> crates build atop it to create common abstractions which we can use for various applications.</p>
@@ -807,7 +807,7 @@ Job is done. Values returned in order: true
 <p>Our goal will be to build an ultra simple web server that responds to GET/POST requests. A POST to <code>/cats</code> with the data <code>meow</code> should return a <code>200</code> OK with the old value (if any) as the data, and any future GET to <code>/cats</code> should return <code>meow</code> as well until it is replaced. Our goal is simplicity and learning, not being robust or perfect.</p>
 <p>First, we'll go ahead and define our protocol. We'll use a simple pipelined, non-streaming protocol. This code is quite generic and will generally look quite similar for different implementations. <code>tokio-proto</code> allow us to define the general style of our network. The <a href="https://docs.rs/tokio-proto/0.1.0/tokio_proto/"><code>tokio-proto</code> docs</a> provide a good explanation of the differences.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">tokio_proto::pipeline::ServerProto;
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">tokio_proto::pipeline::ServerProto;
 
 </span><span style="color:#65737e;">// Like codecs, protocols can carry state too!
 </span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">ExampleProto;
@@ -823,11 +823,11 @@ Job is done. Values returned in order: true
         Ok(io.</span><span style="color:#96b5b4;">framed</span><span style="color:#c0c5ce;">(ExampleCodec))
     }
 }
-</span></pre>
+</span></code></pre>
 <p>The service is less generic, and handles our little &quot;database&quot; inside of it. Due to the <code>Proto</code> and the <code>Codec</code> already handling most of the complicated bits, it's fairly straightforward. Services are reusable abstractions that operate over protocols.</p>
 <p>Here's what our little HTTP example looks like:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;">// Surprise! Services can also carry state.
+<code><span style="color:#65737e;">// Surprise! Services can also carry state.
 </span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Default)]
 </span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">ExampleService {
     </span><span style="color:#bf616a;">db</span><span style="color:#c0c5ce;">: Arc&lt;Mutex&lt;HashMap&lt;String, String&gt;&gt;&gt;,
@@ -873,10 +873,10 @@ Job is done. Values returned in order: true
         </span><span style="color:#c0c5ce;">future::finished(res).</span><span style="color:#96b5b4;">boxed</span><span style="color:#c0c5ce;">()
     }
 }
-</span></pre>
+</span></code></pre>
 <p>At this point we have all the pieces and just need to put them all together. This requires some changes to our <code>main()</code> function like so:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Get a SocketAddr
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> socket: SocketAddr = </span><span style="color:#d08770;">LISTEN_TO</span><span style="color:#c0c5ce;">.</span><span style="color:#96b5b4;">parse</span><span style="color:#c0c5ce;">()
         .</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
@@ -891,24 +891,24 @@ Job is done. Values returned in order: true
 </span><span style="color:#c0c5ce;">    server.</span><span style="color:#96b5b4;">serve</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">move </span><span style="color:#c0c5ce;">|| Ok(ExampleService { db: db.</span><span style="color:#96b5b4;">clone</span><span style="color:#c0c5ce;">() }));
 }
 </span><span style="color:#65737e;">// Throw some data at it with `curl 127.0.0.1 8080/foo` and `curl 127.0.0.1 8080 --data bar`
-</span></pre>
+</span></code></pre>
 <p>Testing it out:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> curl localhost:8080/bear           
+<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> curl localhost:8080/bear           
 </span><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> curl localhost:8080/bear</span><span style="color:#bf616a;"> --data</span><span style="color:#c0c5ce;"> foo
 </span><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> curl localhost:8080/bear           
 </span><span style="color:#bf616a;">foo</span><span style="color:#c0c5ce;">%                                                                                                                                                                   $ curl localhost:8080/bear</span><span style="color:#bf616a;"> --data</span><span style="color:#c0c5ce;"> bar
 </span><span style="color:#bf616a;">foo</span><span style="color:#c0c5ce;">%
 </span><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> curl localhost:8080/bear
 </span><span style="color:#bf616a;">bar</span><span style="color:#c0c5ce;">%
-</span></pre>
+</span></code></pre>
 <p>This is great, we've created a little network connected database with a &quot;REST-ish&quot; API. I hope this has taught you a bit about Futures and Tokio, and inspired you to play around further! </p>
 <blockquote>
 <p>This post was supported in part through a time allocation from <a href="http://asquera.de/">Asquera</a> and can be found <a href="http://asquera.de/blog/2017-03-01/the-future-with-futures/">here</a>. Thanks!</p>
 </blockquote>
 <h2 id="complete-tokio-example">Complete Tokio Example</h2>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> tokio_core;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> tokio_proto;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> tokio_service;
@@ -1093,7 +1093,7 @@ Job is done. Values returned in order: true
 </span><span style="color:#c0c5ce;">    server.</span><span style="color:#96b5b4;">serve</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">move </span><span style="color:#c0c5ce;">|| Ok(ExampleService { db: db.</span><span style="color:#96b5b4;">clone</span><span style="color:#c0c5ce;">() }));
 }
 </span><span style="color:#65737e;">// Throw some data at it with `curl 127.0.0.1 8080/foo` and `curl 127.0.0.1 8080 --data bar`
-</span></pre>
+</span></code></pre>
 
             </article>
         </main>

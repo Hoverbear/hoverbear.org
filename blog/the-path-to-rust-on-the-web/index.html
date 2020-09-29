@@ -140,25 +140,25 @@ Disclaimer: WebAssembly is stabilized, but most implementations are not. The inf
 <p>We'll need two things to get started with WebAssembly and Rust, assuming you already have a functional development environment otherwise (That is, you have <code>build-essential</code>, XCode, or the like installed.)</p>
 <p>First, Rust. You can review <a href="https://hoverbear.org/2017/03/03/setting-up-a-rust-devenv/#setting-up-rust-via-rustup">here</a> for a more long winded explanation of how to do this, or you can just run the following and accept the defaults:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://sh.rustup.rs</span><span style="color:#bf616a;"> -sSf </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">sh
-</span></pre>
+<code><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://sh.rustup.rs</span><span style="color:#bf616a;"> -sSf </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">sh
+</span></code></pre>
 <p>Open a new terminal or run <code>source $HOME/.cargo/env</code>, then we'll add the <code>wasm32-unknown-emscripten</code> compile target via <code>rustup</code> as well:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">rustup</span><span style="color:#c0c5ce;"> target add wasm32-unknown-emscripten
-</span></pre>
+<code><span style="color:#bf616a;">rustup</span><span style="color:#c0c5ce;"> target add wasm32-unknown-emscripten
+</span></code></pre>
 <p>We can use this command to install other targets, found via <code>rustup target list</code>, as well.</p>
 <p>Next we need to set up Emscripten via <a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html"><code>emsdk</code></a>. We'll use the <em>incoming</em> version of Emscripten in order to get the best output. Note: This may take awhile (an hour!).</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | </span><span style="color:#bf616a;">tar -xv -C ~</span><span style="color:#c0c5ce;">/
+<code><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz | </span><span style="color:#bf616a;">tar -xv -C ~</span><span style="color:#c0c5ce;">/
 </span><span style="color:#96b5b4;">cd </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/emsdk-portable
 </span><span style="color:#bf616a;">./emsdk</span><span style="color:#c0c5ce;"> update
 </span><span style="color:#bf616a;">./emsdk</span><span style="color:#c0c5ce;"> install sdk-incoming-64bit
 </span><span style="color:#bf616a;">./emsdk</span><span style="color:#c0c5ce;"> activate sdk-incoming-64bit
-</span></pre>
+</span></code></pre>
 <p>At this point Emscripten is installed. The last command will instruct us how to add the binaries to our path for permanent usage, or we can just <code>source ./emsdk_env.sh</code> for temporary fun.</p>
 <p>At this point <code>emcc -v</code> should report something similar to this:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> emcc</span><span style="color:#bf616a;"> -v
+<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> emcc</span><span style="color:#bf616a;"> -v
 INFO:root:</span><span style="color:#c0c5ce;">(Emscripten: Running sanity checks)
 </span><span style="color:#bf616a;">emcc</span><span style="color:#c0c5ce;"> (Emscripten gcc/clang-like replacement + linker emulating GNU ld) </span><span style="color:#bf616a;">1.37.9
 clang</span><span style="color:#c0c5ce;"> version 4.0.0 (https://github.com/kripken/emscripten-fastcomp-clang/ d4b1e0785f1ee15ab78207de4380e82e3407c6ea) (</span><span style="color:#bf616a;">https://github.com/kripken/emscripten-fastcomp/</span><span style="color:#c0c5ce;"> 09aaa022c31e247bfb7b00882372733e6b27f007) (emscripten 1.37.9 : 1.37.9)
@@ -166,18 +166,18 @@ clang</span><span style="color:#c0c5ce;"> version 4.0.0 (https://github.com/krip
 </span><span style="color:#bf616a;">Thread</span><span style="color:#c0c5ce;"> model: posix
 </span><span style="color:#bf616a;">InstalledDir:</span><span style="color:#c0c5ce;"> /Users/hoverbear/emsdk-portable/clang/fastcomp/build_incoming_64/bin
 </span><span style="color:#bf616a;">INFO:root:</span><span style="color:#c0c5ce;">(Emscripten: Running sanity checks)
-</span></pre>
+</span></code></pre>
 <p>Now, let's kick the tires a bit!</p>
 <h2 id="first-experiment-standalone-executable">First Experiment: Standalone Executable</h2>
 <p>In our first experiment we'll compile some Rust code into wasm and have it run in the browser console. We'll try a basic code sample to ensure things are working as we expect. We won't try to do any crate importing, DOM manipulation, or network access yet, but that's coming later!</p>
 <p>Let's create our project, we'll use this same project for our future experiments as well. We need to set this to nightly (at least at the time or writing) to have our demos work.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> init wasm-demo</span><span style="color:#bf616a;"> --bin
+<code><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> init wasm-demo</span><span style="color:#bf616a;"> --bin
 rustup</span><span style="color:#c0c5ce;"> override set nightly
-</span></pre>
+</span></code></pre>
 <p>Then we'll put our first code sample into <code>src/main.rs</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Debug)]
+<code><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Debug)]
 </span><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">Direction { North, South, East, West }
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">is_north</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dir</span><span style="color:#c0c5ce;">: Direction) -&gt; </span><span style="color:#b48ead;">bool </span><span style="color:#c0c5ce;">{
@@ -193,19 +193,19 @@ rustup</span><span style="color:#c0c5ce;"> override set nightly
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> compass = </span><span style="color:#96b5b4;">is_north</span><span style="color:#c0c5ce;">(points);
     println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, compass);
 }
-</span></pre>
+</span></code></pre>
 <p>Running this normally yields what we would expect:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cargo run
+<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cargo run
    </span><span style="color:#bf616a;">Compiling</span><span style="color:#c0c5ce;"> wasm-demo v0.1.0 (file:///Users/hoverbear/git/rust/wasm-demo)
     </span><span style="color:#bf616a;">Finished</span><span style="color:#c0c5ce;"> dev </span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">unoptimized + debuginfo</span><span style="color:#b48ead;">]</span><span style="color:#c0c5ce;"> target(s) </span><span style="color:#bf616a;">in</span><span style="color:#c0c5ce;"> 0.89 secs
      </span><span style="color:#bf616a;">Running </span><span style="color:#c0c5ce;">`</span><span style="color:#bf616a;">target/debug/wasm-demo</span><span style="color:#c0c5ce;">`
 </span><span style="color:#bf616a;">South
 false
-</span></pre>
+</span></code></pre>
 <p>Now, let's get the same thing in our browser! We can build our executable for the wasm target by using the <code>--target</code> flag.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cargo build</span><span style="color:#bf616a;"> --target</span><span style="color:#c0c5ce;">=wasm32-unknown-emscripten</span><span style="color:#bf616a;"> --release
+<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cargo build</span><span style="color:#bf616a;"> --target</span><span style="color:#c0c5ce;">=wasm32-unknown-emscripten</span><span style="color:#bf616a;"> --release
 $</span><span style="color:#c0c5ce;"> tree target
 </span><span style="color:#bf616a;">target
 └──</span><span style="color:#c0c5ce;"> wasm32-unknown-emscripten
@@ -220,12 +220,12 @@ $</span><span style="color:#c0c5ce;"> tree target
         </span><span style="color:#bf616a;">├──</span><span style="color:#c0c5ce;"> native
         </span><span style="color:#bf616a;">├──</span><span style="color:#c0c5ce;"> wasm-demo.d
         </span><span style="color:#bf616a;">└──</span><span style="color:#c0c5ce;"> wasm-demo.js
-</span></pre>
+</span></code></pre>
 <p><code>cargo</code> created several files in <code>target/wasm32-unknown-emscripten/release/deps/</code> for us. Of primary interest are the <code>.wasm</code> and <code>.js</code> files.</p>
 <p>Why do we get both a <code>wasm</code> and a <code>js</code>? Wasn't the whole point of this to not use Javascript? Turns out we need some Javascript glue code to fetch, initialize, and configure it.</p>
 <p>At this point we can't really <em>use</em> the created files, since we don't have a webpage to import them into! Let's work on that. We can create a <code>site/index.html</code> with the following content:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
+<code><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
     &lt;</span><span style="color:#bf616a;">head</span><span style="color:#c0c5ce;">&gt;
         &lt;</span><span style="color:#bf616a;">script</span><span style="color:#c0c5ce;">&gt;
             </span><span style="color:#65737e;">// This is read and used by `site.js`
@@ -237,40 +237,40 @@ $</span><span style="color:#c0c5ce;"> tree target
     &lt;/</span><span style="color:#bf616a;">head</span><span style="color:#c0c5ce;">&gt;
     &lt;</span><span style="color:#bf616a;">body</span><span style="color:#c0c5ce;">&gt;&lt;/</span><span style="color:#bf616a;">body</span><span style="color:#c0c5ce;">&gt;
 &lt;/</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
-</span></pre>
+</span></code></pre>
 <p>Next we need to set up some way to get the generated files from the <code>target/</code> folder into the <code>site/</code> folder. <code>make</code> is a good solution for this, so let's make a <code>Makefile</code>. (Makefiles <strong>require</strong> tabs, not spaces!)</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">SHELL </span><span style="color:#c0c5ce;">:</span><span style="color:#a3be8c;">= /bin/bash
+<code><span style="color:#8fa1b3;">SHELL </span><span style="color:#c0c5ce;">:</span><span style="color:#a3be8c;">= /bin/bash
 </span><span style="color:#8fa1b3;">
 all</span><span style="color:#c0c5ce;">:</span><span style="color:#bf616a;">
 	cargo build --target</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">wasm32-unknown-emscripten --release</span><span style="color:#c0c5ce;">
 	mkdir -p site
 	find target/wasm32-unknown-emscripten/release/deps -type f -name &quot;*.wasm&quot; | xargs -I {} cp {} site/site.wasm
 	find target/wasm32-unknown-emscripten/release/deps -type f ! -name &quot;*.asm.js&quot; -name &quot;*.js&quot; | xargs -I {} cp {} site/site.js
-</span></pre>
+</span></code></pre>
 <p>Finally, test it with <code>make</code>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> tree site
+<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> tree site
 </span><span style="color:#bf616a;">site
 ├──</span><span style="color:#c0c5ce;"> index.html
 </span><span style="color:#bf616a;">├──</span><span style="color:#c0c5ce;"> site.js
 </span><span style="color:#bf616a;">└──</span><span style="color:#c0c5ce;"> site.wasm
-</span></pre>
+</span></code></pre>
 <p>Let's test our generated code by running <code>python -m SimpleHTTPServer</code>, browsing to <a href="http://localhost:8000/site/"><code>http://localhost:8000/site/</code></a>, and opening the browser console.</p>
 <p>In the browser console you should see:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">trying binaryen method: native-wasm
+<code><span style="color:#c0c5ce;">trying binaryen method: native-wasm
 asynchronously preparing wasm
 binaryen method succeeded.
 The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol.
 South
 false
-</span></pre>
+</span></code></pre>
 <p>Excellent! It worked!</p>
 <h2 id="second-experiment-imports">Second Experiment: Imports</h2>
 <p>In our first example we just used a basic enum and some print statements, nothing too exciting. Let's do something more exciting and work with iterators.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">Direction::*;
 
 #[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Debug, PartialEq)]
@@ -288,19 +288,19 @@ false
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, users_not_facing_north);
 }
 
-</span></pre>
+</span></code></pre>
 <p>Building this code again with <code>make</code> we can navigate to the page again in our browser. This should output:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">{&quot;</span><span style="color:#a3be8c;">Carol</span><span style="color:#c0c5ce;">&quot;: East, &quot;</span><span style="color:#a3be8c;">Bob</span><span style="color:#c0c5ce;">&quot;: South}
-</span></pre>
+<code><span style="color:#c0c5ce;">{&quot;</span><span style="color:#a3be8c;">Carol</span><span style="color:#c0c5ce;">&quot;: East, &quot;</span><span style="color:#a3be8c;">Bob</span><span style="color:#c0c5ce;">&quot;: South}
+</span></code></pre>
 <p>Excellent! So importing things from <code>std</code> seems to work okay. How about other crates? Let's try using <code>itertools</code>. Add the following to the <code>Cargo.toml</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">[dependencies]
+<code><span style="color:#c0c5ce;">[dependencies]
 </span><span style="color:#bf616a;">itertools </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;
-</span></pre>
+</span></code></pre>
 <p>Then we can go and try to use it.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> itertools;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> itertools;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">itertools::Itertools;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">Direction::*;
@@ -317,20 +317,20 @@ false
         .collect::&lt;Vec&lt;_&gt;&gt;();
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, unique_directions);
 }
-</span></pre>
+</span></code></pre>
 <p>Building and visiting the page again we see the following output:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">[North, South, East, West]
-</span></pre>
+<code><span style="color:#c0c5ce;">[North, South, East, West]
+</span></code></pre>
 <p>Okay that was simple! What about something a bit more complicated, like <code>serde</code>, which lets us serialize and deserialize various formats? This will be important for an application which needs to parse responses from APIs!</p>
 <p>Changing the <code>Cargo.toml</code> and the <code>main.rs</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">[dependencies]
+<code><span style="color:#c0c5ce;">[dependencies]
 </span><span style="color:#bf616a;">serde_json </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;
 </span><span style="color:#bf616a;">serde_derive </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;
 </span><span style="color:#bf616a;">serde </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;
-</span></pre><pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serde_json;
+</span></code></pre><pre style="background-color:#2b303b;">
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serde_json;
 #[</span><span style="color:#bf616a;">macro_use</span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serde_derive;
 
 #[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Serialize, Deserialize, Debug)]
@@ -343,15 +343,15 @@ false
 }
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> data = </span><span style="color:#b48ead;">r</span><span style="color:#c0c5ce;">#</span><span style="color:#a3be8c;">&quot; { &quot;favorite_animal&quot;: &quot;Bear&quot;, &quot;favorite_direction&quot;: &quot;North&quot; } </span><span style="color:#c0c5ce;">&quot;#;
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> data = </span><span style="color:#b48ead;">r</span><span style="color:#c0c5ce;">#&quot;</span><span style="color:#a3be8c;"> { &quot;favorite_animal&quot;: &quot;Bear&quot;, &quot;favorite_direction&quot;: &quot;North&quot; } </span><span style="color:#c0c5ce;">&quot;#;
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> parsed: Example = serde_json::from_str(data).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, parsed);
 }
-</span></pre>
+</span></code></pre>
 <p>Building, and viewing it in the browser console yields:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Example { favorite_animal: &quot;</span><span style="color:#a3be8c;">Bear</span><span style="color:#c0c5ce;">&quot;, favorite_direction: North }
-</span></pre>
+<code><span style="color:#c0c5ce;">Example { favorite_animal: &quot;</span><span style="color:#a3be8c;">Bear</span><span style="color:#c0c5ce;">&quot;, favorite_direction: North }
+</span></code></pre>
 <p>Awesome!</p>
 <h2 id="third-experiment-calling-from-javascript">Third Experiment: Calling From Javascript</h2>
 <p>It's also possible to use generated wasm as a library and call the generated code from within Javascript. This has its own set of complications though.</p>
@@ -366,7 +366,7 @@ false
 <p>Writing this interaction code means that on the Rust side of things we have to treat it as though we're interacting with C. This can make some things a bit complicated, on the bright side it means writing more FFI (foreign function interfaces) later will be much easier.</p>
 <p>So, let's write a basic function which returns a String from Rust into Javascript.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::os::raw::</span><span style="color:#b48ead;">c_char</span><span style="color:#c0c5ce;">;
+<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::os::raw::</span><span style="color:#b48ead;">c_char</span><span style="color:#c0c5ce;">;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::ffi::CString;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
 
@@ -389,10 +389,10 @@ false
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Deliberately blank.
 </span><span style="color:#c0c5ce;">}
-</span></pre>
+</span></code></pre>
 <p>First thing you might notice is that we have a <code>main()</code> function which is blank. This is on purpose, we're going to define that in Javascript! We'll edit the <code>index.html</code> to write a bit of new code for this purpose.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
+<code><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
     &lt;</span><span style="color:#bf616a;">head</span><span style="color:#c0c5ce;">&gt;
         &lt;</span><span style="color:#bf616a;">script</span><span style="color:#c0c5ce;">&gt;
             </span><span style="color:#65737e;">// This is read and used by `site.js`
@@ -409,7 +409,7 @@ false
     &lt;/</span><span style="color:#bf616a;">head</span><span style="color:#c0c5ce;">&gt;
     &lt;</span><span style="color:#bf616a;">body</span><span style="color:#c0c5ce;">&gt;&lt;/</span><span style="color:#bf616a;">body</span><span style="color:#c0c5ce;">&gt;
 &lt;/</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
-</span></pre>
+</span></code></pre>
 <p>The final argument of <code>cwrap</code> is an array of argument types, which we don't use in this case.</p>
 <p>It's also possible to call the function via <code>Module._get_data()</code> but you'll notice that it returns a pointer to a memory location, not a string.</p>
 <h2 id="fourth-experiment-calling-javascript-from-rust">Fourth Experiment: Calling Javascript From Rust</h2>
@@ -417,7 +417,7 @@ false
 <p>The basic concept is that when <code>emcc</code> goes and does its job it includes a <code>library.js</code> file which we can add functions to via the <code>--js-library</code> flag. These functions can return values, or do things like run <code>alert(&quot;Blah blah&quot;)</code>.</p>
 <p>In order to do this we need to create a <code>site/utilities.js</code> file containing the following:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">use strict</span><span style="color:#c0c5ce;">&#39;;
+<code><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">use strict</span><span style="color:#c0c5ce;">&#39;;
 
 </span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">library </span><span style="color:#c0c5ce;">= {
   </span><span style="color:#8fa1b3;">get_data</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">function</span><span style="color:#c0c5ce;">() {
@@ -426,18 +426,18 @@ false
 
     </span><span style="color:#65737e;">// Not needed for numerics.
     </span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">len </span><span style="color:#c0c5ce;">= </span><span style="color:#bf616a;">lengthBytesUTF8</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">str</span><span style="color:#c0c5ce;">);
-    </span><span style="color:#b48ead;">var </span><span style="color:#c0c5ce;">buffer = </span><span style="color:#ebcb8b;">Module</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">_malloc</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">len</span><span style="color:#c0c5ce;">);
-    </span><span style="color:#ebcb8b;">Module</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">stringToUTF8</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">str</span><span style="color:#c0c5ce;">, buffer, </span><span style="color:#bf616a;">len</span><span style="color:#c0c5ce;">);
+    </span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">buffer </span><span style="color:#c0c5ce;">= </span><span style="color:#ebcb8b;">Module</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">_malloc</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">len</span><span style="color:#c0c5ce;">);
+    </span><span style="color:#ebcb8b;">Module</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">stringToUTF8</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">str</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">buffer</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">len</span><span style="color:#c0c5ce;">);
 
-    </span><span style="color:#b48ead;">return </span><span style="color:#c0c5ce;">buffer;
+    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">buffer</span><span style="color:#c0c5ce;">;
   },
 };
 
 </span><span style="color:#bf616a;">mergeInto</span><span style="color:#c0c5ce;">(</span><span style="color:#ebcb8b;">LibraryManager</span><span style="color:#c0c5ce;">.library, </span><span style="color:#bf616a;">library</span><span style="color:#c0c5ce;">);
-</span></pre>
+</span></code></pre>
 <p>Then the HTML:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
+<code><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
     &lt;</span><span style="color:#bf616a;">head</span><span style="color:#c0c5ce;">&gt;
         &lt;</span><span style="color:#bf616a;">script</span><span style="color:#c0c5ce;">&gt;
             </span><span style="color:#65737e;">// This is read and used by `site.js`
@@ -449,10 +449,10 @@ false
     &lt;/</span><span style="color:#bf616a;">head</span><span style="color:#c0c5ce;">&gt;
     &lt;</span><span style="color:#bf616a;">body</span><span style="color:#c0c5ce;">&gt;&lt;/</span><span style="color:#bf616a;">body</span><span style="color:#c0c5ce;">&gt;
 &lt;/</span><span style="color:#bf616a;">html</span><span style="color:#c0c5ce;">&gt;
-</span></pre>
+</span></code></pre>
 <p>Lastly, the Rust code:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#![</span><span style="color:#bf616a;">feature</span><span style="color:#c0c5ce;">(link_args)]
+<code><span style="color:#c0c5ce;">#![</span><span style="color:#bf616a;">feature</span><span style="color:#c0c5ce;">(link_args)]
 
 #[</span><span style="color:#bf616a;">cfg_attr</span><span style="color:#c0c5ce;">(target_arch=&quot;</span><span style="color:#a3be8c;">wasm32</span><span style="color:#c0c5ce;">&quot;, link_args = &quot;</span><span style="color:#a3be8c;">\
     --js-library site/utilities.js\
@@ -478,7 +478,7 @@ false
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> data = </span><span style="color:#96b5b4;">get_data_safe</span><span style="color:#c0c5ce;">();
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, data);
 }
-</span></pre>
+</span></code></pre>
 <p>If we build this and load the page we'll get an alert, and see <code>&quot;Hello from JS&quot;</code> printed out on the console.</p>
 <p>The good thing is it works. The bad thing is that it is rather complex to do. Hopefully it will get better in the future.</p>
 <blockquote>
@@ -489,7 +489,7 @@ false
 <p>Luckly for us, there is a crate called <a href="https://github.com/tcr/rust-webplatform/"><code>rust-webplatform</code></a> that was started. It allows for convienent DOM manipulation and provides some helpers for doing Javascript. It's still a bit rough around the edges, but the foundations are there.</p>
 <p>To get started, let's add <code>webplatform = &quot;*&quot;</code> to our dependencies. Then we can use some slightly modified sample code from the repo:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> webplatform;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> webplatform;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> document = webplatform::init();
@@ -513,7 +513,7 @@ false
 
     webplatform::spin();
 }
-</span></pre>
+</span></code></pre>
 <p>Building our project you should see:</p>
 <ul>
 <li>DOM elements created when the wasm is loaded.</li>

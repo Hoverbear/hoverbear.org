@@ -129,12 +129,12 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
 <h2 id="making-a-demo-project">Making a Demo Project</h2>
 <p>Let's make a demo repository to play.</p>
 <pre style="background-color:#2b303b;">
-cargo new travis-demo
+<code>cargo new travis-demo
 cd travis-demo
-</pre>
+</code></pre>
 <p>For simplicity, we'll replace the contents of <code>src/lib.rs</code> with the following:</p>
 <pre style="background-color:#2b303b;">
-#![crate_name = &quot;travis-demo&quot;]
+<code>#![crate_name = &quot;travis-demo&quot;]
 #![crate_type = &quot;lib&quot;]
 
 //! This is a comment.
@@ -146,7 +146,7 @@ pub fn always_true() -&gt; bool { true }
 fn it_works() {
     assert_eq!(always_true(), true);
 }
-</pre>
+</code></pre>
 <blockquote>
 <p>If you haven't had a chance to learn about <code>rustdoc</code> you can read about it <a href="http://doc.rust-lang.org/book/documentation.html">here</a>.</p>
 </blockquote>
@@ -166,11 +166,11 @@ fn it_works() {
 </figure>
 <p>Finally, push this project up to Github (You'll need to make it on Github!):</p>
 <pre style="background-color:#2b303b;">
-git add Cargo.toml src .gitignore
+<code>git add Cargo.toml src .gitignore
 git commit -m &quot;Initial commit.&quot;
 git remote add origin git@github.com:Hoverbear/travis-demo.git
 git push -u origin master
-</pre><h2 id="starting-with-travis">Starting with Travis</h2>
+</code></pre><h2 id="starting-with-travis">Starting with Travis</h2>
 <p>First, you'll need to sign up with Travis. This is trivially done by visiting <a href="https://travis-ci.org/">TravisCI</a> and signing in with Github.</p>
 <p>Then, visit your profile by clicking on your name in the top right corner.</p>
 <figure>
@@ -199,7 +199,7 @@ git push -u origin master
 <p>Travis uses a <code>.travis.yml</code> to configure how it works. You can read more about it <a href="http://docs.travis-ci.com/user/build-configuration/">here</a>.</p>
 <p>We can add the following to ours:</p>
 <pre style="background-color:#2b303b;">
-language: rust
+<code>language: rust
 after_success: |
   [ $TRAVIS_BRANCH = master ] &amp;&amp;
   [ $TRAVIS_PULL_REQUEST = false ] &amp;&amp;
@@ -208,7 +208,7 @@ after_success: |
   sudo pip install ghp-import &amp;&amp;
   ghp-import -n target/doc &amp;&amp;
   git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
-</pre>
+</code></pre>
 <p><code>language:</code> lets us specify <code>rust</code>, which for now defaults to the latest nightly.</p>
 <p><code>after_success:</code> lets us declare a script to run after a successful build. I found this series of steps <em>somewhere</em>, modified them a bit, and they work fantastic. The script basically does the following:</p>
 <ul>
@@ -250,17 +250,17 @@ after_success: |
 <p>Now, install the <a href="https://github.com/travis-ci/travis.rb#installation">Travis Gem</a>. Then you need to authenticate using <code>travis login</code> using your Github credentials.</p>
 <p>Once Travis is installed and logged in, you can run this, where <code>$YOUR_TOKEN</code> is the one we copied earlier.</p>
 <pre style="background-color:#2b303b;">
-travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
-</pre>
+<code>travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
+</code></pre>
 <p>This command should automatically add a few lines to your <code>.travis.yml</code>.</p>
 <blockquote>
 <p><strong>Why encrypt?</strong> Because it's probably a bad idea to store an access token for your Github account in the clear.</p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-git add .travis.yml
+<code>git add .travis.yml
 git commit -m &quot;Add Travis&quot;
 git push
-</pre>
+</code></pre>
 <p>Now if you visit <a href="https://travis-ci.org/repositories"><code>https://travis-ci.org/repositories</code></a> you should, eventually, see your build pop up! Note that Travis can take a moment to start a build.</p>
 <p>Your build should look similar to the following:</p>
 <figure>
@@ -281,12 +281,12 @@ git push
 <p>Let's go back to your <code>src/lib.rs</code> and add a couple more declarations.</p>
 <p><strong>To set a base URL</strong> you can add this:</p>
 <pre style="background-color:#2b303b;">
-#![doc(html_root_url = &quot;https://hoverbear.github.io/travis-demo/&quot;)]
-</pre>
+<code>#![doc(html_root_url = &quot;https://hoverbear.github.io/travis-demo/&quot;)]
+</code></pre>
 <p><strong>To set an image for the documentation</strong> you can add an image to your Github repository and do something like the following:</p>
 <pre style="background-color:#2b303b;">
-#![doc(html_logo_url = &quot;https://raw.githubusercontent.com/Hoverbear/travis-demo/master/demo.png&quot;)]
-</pre>
+<code>#![doc(html_logo_url = &quot;https://raw.githubusercontent.com/Hoverbear/travis-demo/master/demo.png&quot;)]
+</code></pre>
 <p>Once you change those, commit them, push it to <code>origin master</code>, and visit Travis again. You can see Travis will take the new revision and test it as well. (You can see there is even a &quot;Build Log&quot;) Once the test succeeds you'll see, again, how it builds docs and sets them up.</p>
 <blockquote>
 <p>If you create a pull request or branch, you'll notice that the Travis builds don't push new documentation except to commits on <code>master</code>.</p>

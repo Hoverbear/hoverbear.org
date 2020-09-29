@@ -114,11 +114,11 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 <p>What's a good blog post without some fun examples?</p>
 <p><strong>Spawning 10 Arch containers in parallel and having them all pipe to the same file:</strong></p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">{1..10}; </span><span style="color:#b48ead;">do </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/here hoverbear/archlinux /bin/bash</span><span style="color:#bf616a;"> -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">echo </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">i</span><span style="color:#a3be8c;"> &gt;&gt; here/checkin</span><span style="color:#c0c5ce;">&quot; &amp;); </span><span style="color:#b48ead;">done
-</span></pre>
+<code><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">{1..10}; </span><span style="color:#b48ead;">do </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/here hoverbear/archlinux /bin/bash</span><span style="color:#bf616a;"> -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">echo </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">i</span><span style="color:#a3be8c;"> &gt;&gt; here/checkin</span><span style="color:#c0c5ce;">&quot; &amp;); </span><span style="color:#b48ead;">done
+</span></code></pre>
 <p>A few seconds later:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cat checkin
+<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cat checkin
 </span><span style="color:#bf616a;">6
 3
 4
@@ -129,35 +129,35 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 2
 7
 9
-</span></pre>
+</span></code></pre>
 <p><strong>Making an image to build your favorite Rust project:</strong></p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">FROM hoverbear/archlinux
-MAINTAINER Ana Hobden &lt;ana@hoverbear.org&gt;
+<code><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> hoverbear/archlinux
+</span><span style="color:#b48ead;">MAINTAINER </span><span style="color:#c0c5ce;">Ana Hobden &lt;ana@hoverbear.org&gt;
 
-# It&#39;s always a good idea to update Arch, then install deps.
-RUN pacman -Syu
-RUN pacman -S git file awk gcc --noconfirm
+</span><span style="color:#65737e;"># It&#39;s always a good idea to update Arch, then install deps.
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">pacman -Syu
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">pacman -S git file awk gcc --noconfirm
 
-# Install Multirust
-RUN git clone --recursive https://github.com/brson/multirust
-WORKDIR multirust
-RUN git submodule update --init
-RUN ./build.sh
-RUN ./install.sh
+</span><span style="color:#65737e;"># Install Multirust
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">git clone --recursive https://github.com/brson/multirust
+</span><span style="color:#b48ead;">WORKDIR </span><span style="color:#c0c5ce;">multirust
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">git submodule update --init
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">./build.sh
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">./install.sh
+</span><span style="color:#b48ead;">
+RUN </span><span style="color:#c0c5ce;">multirust default &quot;</span><span style="color:#a3be8c;">nightly</span><span style="color:#c0c5ce;">&quot;
 
-RUN multirust default &quot;nightly&quot;
+</span><span style="color:#65737e;"># /source - Should mount the user code.
+</span><span style="color:#b48ead;">VOLUME </span><span style="color:#c0c5ce;">[ &quot;</span><span style="color:#a3be8c;">/source</span><span style="color:#c0c5ce;">&quot; ]
 
-# /source - Should mount the user code.
-VOLUME [ &quot;/source&quot; ]
-
-# Change the Workdir to /source
-WORKDIR /source
-</span></pre>
+</span><span style="color:#65737e;"># Change the Workdir to /source
+</span><span style="color:#b48ead;">WORKDIR </span><span style="color:#c0c5ce;">/source
+</span></code></pre>
 <p>Running it inside your favorite project folder:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -t -i --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/source rust cargo build
-</span></pre>
+<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -t -i --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/source rust cargo build
+</span></code></pre>
 <p>You can even get this image <a href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>I hope you have a great time using this image and please let me know if there is any way I can make it better!</p>

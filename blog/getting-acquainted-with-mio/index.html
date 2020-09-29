@@ -144,7 +144,7 @@ MIO is a lightweight IO library for Rust with a focus on adding as little overhe
 <h2 id="hello-world">Hello, World</h2>
 <p>The following program is a nice, simple example of what MIO looks like:</p>
 <pre style="background-color:#2b303b;">
-extern crate mio;
+<code>extern crate mio;
 use mio::*;
 use std::fmt::Debug;
 
@@ -165,21 +165,21 @@ impl&lt;T, M: Send + Debug&gt; Handler&lt;T, M&gt; for BearHandler {
         println!(&quot;{:?}&quot;, msg);
     }
 }
-</pre>
+</code></pre>
 <p>A <strong>lot</strong> is going on here. Let's take a closer look.</p>
 <pre style="background-color:#2b303b;">
-EventLoop::&lt;(), String&gt;::new();
-</pre>
+<code>EventLoop::&lt;(), String&gt;::new();
+</code></pre>
 <p>This creates a new <code>EventLoop</code>. The Event loop uses <code>T</code> tokens of type <code>()</code>, and channels that consume and pass <code>M: Send</code> of type <code>String</code>. You can use anything that implements <code>Send</code> for messages.</p>
 <pre style="background-color:#2b303b;">
-event_loop.channel();
-</pre>
+<code>event_loop.channel();
+</code></pre>
 <p>This gives us a channel to send <code>String</code>s. When we <code>send()</code> later our <code>BearHandler</code> wakes up and invokes <code>notify</code>.</p>
 <p>From there, <code>notify</code> prints out the message. In a real application, this is where your business logic would be to determine what to do with the message.</p>
 <h2 id="getting-a-handle-r">Getting a Handle(r)</h2>
 <p>A Handler can implement some or all of the following functions:</p>
 <pre style="background-color:#2b303b;">
-pub trait Handler&lt;T: Token, M: Send&gt; {
+<code>pub trait Handler&lt;T: Token, M: Send&gt; {
     /// A registered IoHandle has available data to read
     fn readable(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, hint: ReadHint, token: T);
     /// A registered IoHandle is available to write to
@@ -191,11 +191,11 @@ pub trait Handler&lt;T: Token, M: Send&gt; {
     /// A signal has been delivered to the process
     fn signal(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, info: mio::SigInfo);
 }
-</pre>
+</code></pre>
 <p>So this is a lot more then just sending some <code>String</code>s around! Did you doubt me?</p>
 <p>What's really cool is your <code>Handler</code> can have a data backing since it's just a trait that you can implement yourself! Let's do that now:</p>
 <pre style="background-color:#2b303b;">
-extern crate mio;
+<code>extern crate mio;
 use mio::*;
 
 fn main() {
@@ -217,15 +217,15 @@ impl&lt;T&gt; Handler&lt;T, u64&gt; for BearHandler {
         println!(&quot;Message: {}, Total: {}&quot;, msg, self.0);
     }
 }
-</pre>
+</code></pre>
 <p>Output:</p>
 <pre style="background-color:#2b303b;">
-Message: 0, Total: 0
+<code>Message: 0, Total: 0
 Message: 1, Total: 1
 Message: 2, Total: 3
 Message: 3, Total: 6
 Message: 4, Total: 10
-</pre>
+</code></pre>
 <p>In this case, our <code>BearHandler</code> was a humble <code>u64</code> tuple which we mutated, but you could easily make this a more complicated <code>struct</code>.</p>
 <h2 id="registered-interest">Registered Interest</h2>
 <p>Just sending messages isn't particularly interesting, let's wire up some new interests.</p>
@@ -238,7 +238,7 @@ Message: 4, Total: 10
 <p>First, we'll modify the <code>BearHandler</code> to reflect these changes. First, we'll make it a proper <code>struct</code> and let it store a pair of sockets as well as it's <code>count</code>.</p>
 <p>Second, we'll implement the <code>readable</code>, <code>timeout</code>, and <code>notify</code>. Note in the <code>readable</code> we take care to drain the socket. Also, note how the <code>timeout</code> doesn't need to reset itself, we can clear it with <a href="https://carllerche.github.io/mio/mio/struct.EventLoop.html#method.clear_timeout"><code>clear_timeout</code></a> if we want.</p>
 <pre style="background-color:#2b303b;">
-impl Handler&lt;Token, u64&gt; for BearHandler {
+<code>impl Handler&lt;Token, u64&gt; for BearHandler {
     fn readable(&amp;mut self, _reactor: &amp;mut EventLoop&lt;Token, u64&gt;, _token: Token, _hint: ReadHint) {
         let mut buffer = buf::RingBuf::new(1024);
         // Drain socket, otherwise infinite loop!
@@ -258,10 +258,10 @@ impl Handler&lt;Token, u64&gt; for BearHandler {
         println!(&quot;Increment by: {}, Total: {}&quot;, msg, self.count);
     }
 }
-</pre>
+</code></pre>
 <p>Next, registering the various events, we'll use some of MIO's <code>mio::net</code> items:</p>
 <pre style="background-color:#2b303b;">
-const LISTENER: Token = Token(0);
+<code>const LISTENER: Token = Token(0);
 const TIMEOUT:  Token = Token(1);
 fn main() {
     // Create an event loop
@@ -284,10 +284,10 @@ fn main() {
         sender: sender
     }).unwrap();
 }
-</pre>
+</code></pre>
 <p>Output:</p>
 <pre style="background-color:#2b303b;">
-Increment by: 0, Total: 0
+<code>Increment by: 0, Total: 0
 Increment by: 1, Total: 1
 Increment by: 2, Total: 3
 Increment by: 3, Total: 6
@@ -312,7 +312,7 @@ Timeout
 Decremented, Total: 1
 Timeout
 Decremented, Total: 0
-</pre>
+</code></pre>
 <blockquote>
 <p>By the way, in our examples MIO will take over the main thread and block. In a normal application you'll want to kick it off into a new thread when you <code>start()</code> it.</p>
 </blockquote>

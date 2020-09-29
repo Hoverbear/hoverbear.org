@@ -235,11 +235,11 @@
 <h2 id="dacs-install">DACS Install</h2>
 <p>We'll try using <a href="https://launchpad.net/ubuntu/+source/dacs">Ubuntu's stable package</a> available in the repositories.</p>
 <pre style="background-color:#2b303b;">
-sudo apt-get install dacs
-</pre>
+<code>sudo apt-get install dacs
+</code></pre>
 <p>A quick test reveals several <code>dacs</code> related binaries are now available.</p>
 <pre style="background-color:#2b303b;">
-dacsacl        dacs_acs
+<code>dacsacl        dacs_acs
 dacsauth       dacscheck
 dacsconf       dacscookie
 dacscred       dacsemail
@@ -250,10 +250,10 @@ dacspasswd     dacsrlink
 dacssched      dacstoken
 dacstransform  dacsversion
 dacsvfs
-</pre>
+</code></pre>
 <p>Since <code>dacsinit</code> is not available in this package, we'll need to configure the system manually. By default this package installs the configuration directories to <code>/etc/dacs</code> with <code>root:root</code> permissions.</p>
 <pre style="background-color:#2b303b;">
-dacsgroup=root
+<code>dacsgroup=root
 dacs=/etc/dacs
 feds=$dacs/federations
 la=$feds/dacstest.dss.ca/LA
@@ -265,10 +265,10 @@ install -d -g $dacsgroup -m 0770 $la/acls
 install -c -g $dacsgroup -m 6660 /dev/null $la/acls/revocations
 install -d -g $dacsgroup -m 0770 $la/groups $la/groups/LA $la/groups/DACS
 install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
-</pre>
+</code></pre>
 <p>In the <code>$la/groups/DACS/jurisdictions.grp</code>:</p>
 <pre style="background-color:#2b303b;">
-&lt;groups xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
+<code>&lt;groups xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
  &lt;group_definition jurisdiction=&quot;LA&quot; name=&quot;jurisdictions&quot;
      mod_date=&quot;Tue, 14-Jun-2005 16:06:00 GMT&quot; type=&quot;public&quot;&gt;
    &lt;group_member jurisdiction=&quot;LA&quot; name=&quot;LA Jurisdiction&quot; type=&quot;meta&quot;
@@ -277,10 +277,10 @@ install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
      authenticates=&quot;yes&quot; prompts=&quot;no&quot;/&gt;
  &lt;/group_definition&gt;
 &lt;/groups&gt;
-</pre>
+</code></pre>
 <p>In <code>$feds/dacs.conf</code>:</p>
 <pre style="background-color:#2b303b;">
-&lt;Configuration xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
+<code>&lt;Configuration xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
 
  &lt;Default&gt;
    FEDERATION_DOMAIN &quot;dacstest.dss.ca&quot;
@@ -293,98 +293,98 @@ install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
  &lt;/Jurisdiction&gt;
 
 &lt;/Configuration&gt;
-</pre>
+</code></pre>
 <p>Then set the configuration:</p>
 <pre style="background-color:#2b303b;">
-rm -f $la/dacs.conf
+<code>rm -f $la/dacs.conf
 ln -s $feds/dacs.conf $la/dacs.conf
-</pre>
+</code></pre>
 <p>Next we can check the configuration with:</p>
 <pre style="background-color:#2b303b;">
-dacsconf -uj LA -q
-</pre>
+<code>dacsconf -uj LA -q
+</code></pre>
 <p>It should output a set of variables like so:</p>
 <pre style="background-color:#2b303b;">
-…
+<code>…
 ALLOW_HTTP_COOKIE &quot;no&quot;
 AUTH_FAIL_DELAY_SECS &quot;2&quot;
 ACS_ERROR_HANDLER &quot;* /handlers/acs_failed.html&quot;
 SECURE_MODE &quot;on&quot;
 COOKIE_PATH &quot;/&quot;
 …
-</pre>
+</code></pre>
 <p>Next, we need to set up the federation keys.</p>
 <pre style="background-color:#2b303b;">
-install -c -g $dacsgroup -m 0640 /dev/null $feds/dacstest.dss.ca/federation_keyfile
+<code>install -c -g $dacsgroup -m 0640 /dev/null $feds/dacstest.dss.ca/federation_keyfile
 dacskey -uj LA -q $feds/dacstest.dss.ca/federation_keyfile
-</pre><h2 id="dacs-authentication">DACS Authentication</h2>
+</code></pre><h2 id="dacs-authentication">DACS Authentication</h2>
 <blockquote>
 <p>If you're following along with me, these commands may require <code>sudo</code> because of how we set up permissions.</p>
 </blockquote>
 <p>First, lets add a <code>passwd</code> file. The identities managed by this file are not related to the local UNIX users.</p>
 <pre style="background-color:#2b303b;">
-install -c -g $dacsgroup -m 0660 /dev/null $la/passwd
+<code>install -c -g $dacsgroup -m 0660 /dev/null $la/passwd
 dacspasswd -uj LA -q -a bear
 # Give them password `bear`
-</pre>
+</code></pre>
 <p>Then add to the <strong>Jurisdiction</strong> section of <code>$la/dacs.conf</code>:</p>
 <pre style="background-color:#2b303b;">
-&lt;Auth id=&quot;passwd&quot;&gt;
+<code>&lt;Auth id=&quot;passwd&quot;&gt;
    URL &quot;http://dodgers.dacstest.dss.ca:18123/cgi-bin/dacs/local_passwd_authenticate&quot;
    STYLE &quot;pass&quot;
    CONTROL &quot;sufficient&quot;
 &lt;/Auth&gt;
-</pre>
+</code></pre>
 <p>Now try authenticating with:</p>
 <pre style="background-color:#2b303b;">
-dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bear
+<code>dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bear
 echo $?
 # 0 means success.
-</pre>
+</code></pre>
 <p>Now lets make it fail:</p>
 <pre style="background-color:#2b303b;">
-dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bears
+<code>dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bears
 echo $?
 # 1 means failure.
-</pre>
+</code></pre>
 <blockquote>
 <p>The <code>-vfs</code> flag is important, it tells DACS where to look for the respective files.</p>
 </blockquote>
 <p>Authenticating as a UNIX user:</p>
 <pre style="background-color:#2b303b;">
-useradd bear
+<code>useradd bear
 passwd bear # Set it to foo
 dacsauth -m unix passwd required -u bear -p foo
 echo $? # 0 means success.
 dacsauth -m unix passwd required -u bear -p bar
 echo $? # 1 means failure.
-</pre><h2 id="dacs-roles">DACS Roles</h2>
+</code></pre><h2 id="dacs-roles">DACS Roles</h2>
 <p>If authenticating as a UNIX user, roles in DACS are based upon the groups the user is in. For example:</p>
 <pre style="background-color:#2b303b;">
-dacsauth -r unix -u bear
+<code>dacsauth -r unix -u bear
 # Outputs 'bear'
 
 gpasswd -a users bear
 
 dacsauth -r unix -u bear
 # Outputs 'bear,users'
-</pre>
+</code></pre>
 <p>To add roles to a DACS user, we can consult <a href="http://dacs.dss.ca/man/dacs_authenticate.8.html#local_roles">the relevant documentation</a> which directs us to create a <code>/etc/dacs/federations/roles</code> file with contents like the following:</p>
 <pre style="background-color:#2b303b;">
-bear:animals,mammals
-</pre>
+<code>bear:animals,mammals
+</code></pre>
 <p>Now we can check DACS for the roles of our user:</p>
 <pre style="background-color:#2b303b;">
-dacsauth -r roles -vfs &quot;[roles]dacs-kwv-fs:/etc/dacs/federations/roles&quot; -u bear
+<code>dacsauth -r roles -vfs &quot;[roles]dacs-kwv-fs:/etc/dacs/federations/roles&quot; -u bear
 # animals,mammals
-</pre>
+</code></pre>
 <p>You may notice other output when issuing these commands, but note they are on <code>stderr</code>, not <code>stdout</code>.</p>
 <h1 id="interfacing-with-dacs">Interfacing with DACS</h1>
 <p>Since we've explored two common use cases for DACS, authentication and role checking. Lets look like how doing this would look from two languages, Javascript (Node) and Rust.</p>
 <h2 id="authentication">Authentication</h2>
 <p>In Javascript, it's easy to just use the <code>child_process</code> built-in library. These examples are structured such that they would fit nicely into a middleware based system like used in <code>express</code>:</p>
 <pre style="background-color:#2b303b;">
-/**
+<code>/**
  * Uses DACS' local module.
  * Determines whether the login details are valid.
  * @param  {String}   user The username string.
@@ -452,16 +452,16 @@ function unixAuth(user, pass, next) {
         }
     });
 }());
-</pre>
+</code></pre>
 <p>Running it:</p>
 <pre style="background-color:#2b303b;">
-node test.js
+<code>node test.js
 # LOCAL: Successfully authenticated as `bear`
 # UNIX: Successfully authenticated as `bear`
-</pre>
+</code></pre>
 <p>In Rust, this task is also simple enough by using <code>Command</code>, which I've written about <a href="http://www.hoverbear.org/2014/09/07/command-execution-in-rust/">here</a> (Note it is slightly out of date):</p>
 <pre style="background-color:#2b303b;">
-use std::io::Command;
+<code>use std::io::Command;
 use std::io::process::ProcessExit::ExitStatus;
 
 /// Uses DACS' local module.
@@ -509,20 +509,20 @@ fn test_unix_auth() {
     assert!(unix_auth(&quot;bear&quot;, &quot;foo&quot;) == true);
     assert!(unix_auth(&quot;bear&quot;, &quot;bar&quot;) == false);
 }
-</pre>
+</code></pre>
 <p>Running it:</p>
 <pre style="background-color:#2b303b;">
-rustc test.rs --test
+<code>rustc test.rs --test
 ./test
 # running 2 tests
 # test test_local_auth ... ok
 # test test_unix_auth ... ok
 #
 # test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
-</pre><h2 id="roles">Roles</h2>
+</code></pre><h2 id="roles">Roles</h2>
 <p>Using a similar style of code, we can get the roles for a user like so:</p>
 <pre style="background-color:#2b303b;">
-/**
+<code>/**
 * Uses DACS' local module.
 * Determines the user's roles.
 * @param  {String}   user The username string.
@@ -588,16 +588,16 @@ function unixRoles(user, next) {
         }
     });
 }());
-</pre>
+</code></pre>
 <p>Running it:</p>
 <pre style="background-color:#2b303b;">
-nodejs test.js
+<code>nodejs test.js
 # LOCAL: `bear` has roles animals,mammals
 # UNIX: `bear` has roles bear,users
-</pre>
+</code></pre>
 <p>And in Rust:</p>
 <pre style="background-color:#2b303b;">
-use std::io::Command;
+<code>use std::io::Command;
 use std::str;
 
 /// Uses DACS' local module.
@@ -651,17 +651,17 @@ fn test_unix_roles() {
     assert!(unix_roles(&quot;bear&quot;) == vec![&quot;bear&quot;.to_string(), &quot;users&quot;.to_string()]);
     assert!(unix_roles(&quot;invalid&quot;) == Vec::&lt;String&gt;::new());
 }
-</pre>
+</code></pre>
 <p>Running it:</p>
 <pre style="background-color:#2b303b;">
-rustc test.rs --test
+<code>rustc test.rs --test
 ./test
 # running 2 tests
 # test test_local_roles ... ok
 # test test_unix_roles ... ok
 #
 # test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
-</pre><h2 id="thoughts-on-dacs">Thoughts on DACS</h2>
+</code></pre><h2 id="thoughts-on-dacs">Thoughts on DACS</h2>
 <p>DACS is, overall, effective at the tasks it claims to accomplish. It is flexible with where it's configuration is stored, how it is invoked, and which components it is compiled with.</p>
 <p>When I was first compiling this article, I attempted to compile DACS from source (as suggested in both the <a href="http://dacs.dss.ca/man/dacs.install.7.html">Install</a> and <a href="http://dacs.dss.ca/man/dacs.quick.7.html">Quick Install</a> guides). I was concerned with the fact that the guide suggests you do things like compile your own versions of things like OpenSSL and Apache from source instead of from your distributions packages. OpenSSL and Apache are both critical packages for a server, and should be handled with care. Recall things like <a href="http://en.wikipedia.org/wiki/Shellshock_%28software_bug%29">Shellshock</a> (which effected Apache's CGI) and <a href="http://en.wikipedia.org/wiki/Heartbleed">Heartbleed</a> (which effected <a href="http://opensslrampage.org/">OpenSSL</a> and prompted the creation of <a href="http://www.libressl.org/">LibreSSL</a>). I ended up using the packages available on <a href="http://packages.ubuntu.com/trusty/dacs">Ubuntu</a> as the <a href="https://packages.debian.org/sid/dacs">Debian</a> packages were quite out of date in stable.</p>
 <p>The DACS documentation is quite complete and covers a wide range of topics, which makes sense given DACS's wide scope. For a newcomer to DACS, however, they are quite opaque due to their self referencing and assumption of inherant knowledge regarding the application. Questions like &quot;Where is the normal place to store a roles file?&quot; and &quot;What are the various <code>[foo]</code> fields for the <code>-vfs</code> flag?&quot; were challenging to find answers to. This is understandable for a complex system that has limited usage, but at some points it felt like th documentation was written by DACS programmers, for DACS programmers, instead of DACS users.</p>

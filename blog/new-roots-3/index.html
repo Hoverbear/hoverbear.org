@@ -124,12 +124,12 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 <h2 id="hostname">Hostname</h2>
 <p>We can set the hostname with the following command:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
+<code><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
 </span><span style="color:#bf616a;">hostnamectl</span><span style="color:#c0c5ce;"> set-hostname $</span><span style="color:#bf616a;">HOSTNAME
-</span></pre>
+</span></code></pre>
 <p>This writes the hostname to <code>/etc/hostname</code>. After you'll want to look in <code>/etc/hosts</code>. Here's what mine ended up like after I was done editing it. I'm setting up a host called <code>silicon</code> on the <code>hoverbear.org</code> domain.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">#
+<code><span style="color:#c0c5ce;">#
 # /etc/hosts: static lookup table for host names
 #
 
@@ -137,18 +137,18 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 127.0.0.1       silicon.local  silicon
 ::1             silicon.local  silicon
 138.201.63.106  silicon.hoverbear.org    silicon
-</span></pre>
+</span></code></pre>
 <p>You can test that the local name is working with <code>ping $HOSTNAME</code>.</p>
 <p>Now that our server thinks it's <code>$HOSTNAME</code> we need to tell everything else in the world that it is! If you happen to have a domain name, you should go to your provider's DNS console and route <code>$HOSTNAME.$DOMAIN.$TLD</code> to your device's IP address. You can find this with <code>ip addr</code>.</p>
 <p>For me that looked like adding a line to a table with the following information:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">silicon     138.201.63.106      A (Address)
-</span></pre>
+<code><span style="color:#c0c5ce;">silicon     138.201.63.106      A (Address)
+</span></code></pre>
 <p>Go make yourself a tea, then try pinging your server from a different machine a few minutes later.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">FQDN</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
+<code><span style="color:#bf616a;">FQDN</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
 </span><span style="color:#bf616a;">ping </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">FQDN
-</span></pre>
+</span></code></pre>
 <p>Once it starts working you're all set with your domain name! Do note it can take up to 24 hours for global DNS propagation.</p>
 <h2 id="time">Time</h2>
 <p>One choice which may bring up confusion is the timezone to set your server to. If you're only going to be hosting services in one time zone you may wish to simply set it to that. If you provide services internationally the question becomes more unclear. One option is UTC.</p>
@@ -156,18 +156,18 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 <p>Properly designed programs will store timezones as part of their dates, but not all programs are properly designed. Changing your timezone later can temporarily cause rather strange issues, so be forwarned.</p>
 <p>I'm going to just choose my current local time for now. Since my root host won't be running any time sensitive services I can change it without worrying too much.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-timezone Canada/Pacific
-</span></pre>
+<code><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-timezone Canada/Pacific
+</span></code></pre>
 <p>Since we're running a server that will, ultimately, be responsible for possibly time-sensitive data it might be a good idea to ensure we have accurate times. In order to do this we'll enable an <code>ntp</code> service.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-ntp true
-</span></pre><h2 id="a-simple-firewall">A Simple Firewall</h2>
+<code><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-ntp true
+</span></code></pre><h2 id="a-simple-firewall">A Simple Firewall</h2>
 <p>Most modern kernels come built in with <code>iptables</code> and <code>nftables</code> support already. In Arch, <code>iptables</code> is pulled in as part of base. <code>nftables</code> is a newer 'spiritual successor' to <code>iptables</code> however there is little practical real world documentation. Since some of the things we'll be doing later on will be utilizing <code>iptables</code> it's probably a good idea to use that.</p>
 <p>There is a <a href="https://wiki.archlinux.org/index.php/Firewalls#iptables">menagerie</a> of different frontends for <code>iptables</code> that put a layer between you and it. However <code>iptables</code> isn't that difficult to understand and has some great <a href="https://wiki.archlinux.org/index.php/Iptables">documentation</a>. Learning how to understand what's happening in <code>iptables</code> will make using even frontends easier later on, if you even choose to use them.</p>
 <p>We'll be referencing the <a href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall">Simple Stateful Firewall</a> for our initial setup.</p>
 <p>Since we're currently on a remote device over SSH we need to be careful not to lock ourselves out. So let's set some basic filter settings in <code>/etc/iptables/iptables.rules</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">*filter
+<code><span style="color:#bf616a;">*filter
 </span><span style="color:#65737e;">### Defaults for the chain.
 # Drop anything that we don&#39;t catch from input.
 </span><span style="color:#bf616a;">:INPUT</span><span style="color:#c0c5ce;"> DROP </span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">0:0</span><span style="color:#b48ead;">]
@@ -212,19 +212,19 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 </span><span style="color:#bf616a;">--append</span><span style="color:#c0c5ce;"> TCP</span><span style="color:#bf616a;"> --protocol</span><span style="color:#c0c5ce;"> tcp</span><span style="color:#bf616a;"> --dport</span><span style="color:#c0c5ce;"> 22</span><span style="color:#bf616a;"> --jump</span><span style="color:#c0c5ce;"> ACCEPT
 
 </span><span style="color:#bf616a;">COMMIT
-</span></pre>
+</span></code></pre>
 <p>Now you can start and get the status of the <code>iptables</code> service.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> start iptables
+<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> start iptables
 </span><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> status iptables
-</span></pre>
+</span></code></pre>
 <p>Now try ending your <code>ssh</code> session and hopping back in. If it didn't work you can just reset the machine and try reconfiguring. If it did work then we can enable the service on boot.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable iptables
-</span></pre>
+<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable iptables
+</span></code></pre>
 <p>At this point you can review your current settings and see various usages with <code>iptables -nvL</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Chain INPUT (policy DROP 0 packets, 0 bytes)
+<code><span style="color:#c0c5ce;">Chain INPUT (policy DROP 0 packets, 0 bytes)
  pkts bytes target     prot opt in     out     source               destination         
   215 18609 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
     0     0 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
@@ -248,12 +248,12 @@ Chain TCP (1 references)
 
 Chain UDP (1 references)
  pkts bytes target     prot opt in     out     source               destination
-</span></pre>
+</span></code></pre>
 <p>As you can see from the <code>pkts</code> column, our rule in <code>TCP</code> got used for an <code>ssh</code> connection, and the rule for already established connections is also being used.</p>
 <h2 id="hardening">Hardening</h2>
 <p>Servers get attacked, it's a fact of life. Let's take some simple steps to help build up a bit of security for ourselves. First let's set some flags in <code>/etc/sysctl.d/50-hardening.conf</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Only root can see dmesg
+<code><span style="color:#65737e;"># Only root can see dmesg
 </span><span style="color:#bf616a;">kernel.dmesg_restrict</span><span style="color:#c0c5ce;"> = 1
 </span><span style="color:#65737e;"># Restrict kernel pointer access.
 </span><span style="color:#c0c5ce;">kernel.kptr_restrict = 1
@@ -285,24 +285,24 @@ Chain UDP (1 references)
 </span><span style="color:#65737e;"># Protect against some hardlink and symlink vulnerabilities.
 </span><span style="color:#c0c5ce;">fs.protected_hardlinks = 1
 </span><span style="color:#bf616a;">fs.protected_symlinks</span><span style="color:#c0c5ce;"> = 1
-</span></pre>
+</span></code></pre>
 <p>Much of this configuration was taken from the <a href="https://wiki.archlinux.org/index.php/Security">security guide</a>. Now you can apply the changes with <code>systemctl --system</code>.</p>
 <h2 id="dns-and-name-resolution">DNS and Name Resolution</h2>
 <p>It's now time to properly configure <code>systemd-resolved</code>. First we'll link its configuration into the old <code>/etc/resolv.conf</code> location for compatability <a href="https://wiki.archlinux.org/index.php/systemd-networkd#Required_services_and_setup">reasons</a>.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">rm</span><span style="color:#c0c5ce;"> /etc/resolv.conf
+<code><span style="color:#bf616a;">rm</span><span style="color:#c0c5ce;"> /etc/resolv.conf
 </span><span style="color:#bf616a;">ln -s</span><span style="color:#c0c5ce;"> /run/systemd/resolve/resolv.conf /etc/resolv.conf
 </span><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> restart systemd-resolved
-</span></pre>
+</span></code></pre>
 <p>Next we'll go into <code>/etc/nsswitch.conf</code> and set up to local DNS stub resolver. Change this line:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#a3be8c;">+ hosts: files mymachines resolve myhostname
+<code><span style="color:#a3be8c;">+ hosts: files mymachines resolve myhostname
 </span><span style="color:#bf616a;">- hosts: files dns myhostname
-</span></pre>
+</span></code></pre>
 <p>Now we can go about creating and modifying files in <code>/etc/systemd/network/</code>. Before going about this it's a good idea to review your network adapters and check out <code>man systemd.network</code>. You can do this with <code>ip addr</code>. You should see a <code>lo</code> and some adapter starting with <code>enp</code>. The <code>enp</code> prefixed adapter is your physical adapter.</p>
 <p>We can go back and review our previous <code>/etc/systemd/network/physical.network</code> now. Some changes can be made:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">[Match]
+<code><span style="color:#bf616a;">[Match]
 </span><span style="color:#65737e;"># Make sure this matches your adapter from the ip addr command
 </span><span style="color:#bf616a;">Name</span><span style="color:#c0c5ce;">=enp*
 
@@ -313,21 +313,21 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
 </span><span style="color:#bf616a;">NTP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">1.pool.ntp.org
 </span><span style="color:#bf616a;">NTP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">2.pool.ntp.org
 </span><span style="color:#bf616a;">NTP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">3.pool.ntp.org
-</span></pre>
+</span></code></pre>
 <p>Then we'll configure <code>/etc/systemd/resolved.conf</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">[Resolve]
+<code><span style="color:#bf616a;">[Resolve]
 </span><span style="color:#65737e;"># Specify Google&#39;s DNS instead of whatever the default picked by DHCP is.
 </span><span style="color:#bf616a;">DNS</span><span style="color:#c0c5ce;">=8.8.8.8
 </span><span style="color:#bf616a;">FallbackDNS</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">8.8.4.4
 </span><span style="color:#bf616a;">LLMNR</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">true
-</span></pre><h2 id="reboot-tea-time">Reboot &amp; Tea Time</h2>
+</span></code></pre><h2 id="reboot-tea-time">Reboot &amp; Tea Time</h2>
 <p>At this point we've tinkered with enough things it's a good idea to verify everything is working as intended still. Give your system a <code>reboot</code>, go make yourself a cup of tea (servers take time to reboot), and verify that you can reconnect.</p>
 <p>So far we've set up a basic firewall, configured time syncronization, added some kernel parameters, and added some basic configuration to our physical network adapter. These are things that you'll likely want to do on your server regardless of what it's final purpose is, and even if you do need to change them this gives you a good basis.</p>
 <p>At this point our configuration is roughly as so:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">internet -&gt; host { iptables -&gt; ssh }
-</span></pre>
+<code><span style="color:#c0c5ce;">internet -&gt; host { iptables -&gt; ssh }
+</span></code></pre>
 <p>Our host is configured through <code>systemd-networkd</code> and name resolution is augmented by <code>systemd-resolved</code>. This configuration places us in a great position to use container based services.</p>
 <h2 id="adding-a-new-service-mosh">Adding a New Service (mosh)</h2>
 <p>We'll discuss setting up and networking various services at length in future posts, including example <code>nginx</code>, <code>postgres</code>, <code>nodejs</code> and <code>rust</code> service deployments. We'll end up using containers for these, the idea of using containers for these services is a choice of isolation and modularization. We'd, ideally, like to keep our 'root' system as simple and secure as possible, it shouldn't have the job of hosting any public facing services other than <code>ssh</code> and <code>nginx</code>, and we'll only use <code>nginx</code> to proxy requests to other HTTP servers.</p>
@@ -335,29 +335,29 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
 <p>The process for adding any new service will be similar, so even if you're not interested in installing <code>mosh</code> it's good to be familiar with it. We'll use it as an example below.</p>
 <p><strong>Install:</strong> You should choose a reliable, secure source for your service. You should always prefer the official Arch repositories over the AUR or a third party repository, especially on the 'root' of the server.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> mosh
-</span></pre>
+<code><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> mosh
+</span></code></pre>
 <p><strong>Discover:</strong> Most externally facing services require a port to bind to (if they're TCP), or recieve from / send through (if they're UDP). You may recall we set up our firewall to accept all outgoing connections, so we only need to configure it to accept incoming data. You can generally discover this by looking in their respective <code>man</code> pages, website, or the configuration itself.</p>
 <p><code>mosh</code> uses ports starting at <code>60000</code> and going up to <code>60999</code> if lower numbered ports are not available. It's pretty reasonable to assume that we'll never have more than 100 <code>mosh</code> sessions, so we only need to allow the lower 100 ports.</p>
 <p><strong>Accept:</strong> In order to accept data on these ports we'll open them up by adding the following line <em>near</em> the bottom of our <code>/etc/iptables/iptables.rules</code> file, <em>before</em> the <code>COMMIT</code> line.</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Allow MOSH connections.
+<code><span style="color:#65737e;"># Allow MOSH connections.
 </span><span style="color:#bf616a;">--append</span><span style="color:#c0c5ce;"> UDP</span><span style="color:#bf616a;"> --protocol</span><span style="color:#c0c5ce;"> udp</span><span style="color:#bf616a;"> --dport</span><span style="color:#c0c5ce;"> 60000:60100</span><span style="color:#bf616a;"> --jump</span><span style="color:#c0c5ce;"> ACCEPT
-</span></pre>
+</span></code></pre>
 <p>Then you can restart the firewall with <code>systemctl restart iptables</code>.</p>
 <p><strong>Test:</strong> At this point if your new service has a daemon to run you should start it with the appropriate <code>systemctl start $SERVICE</code> command. Then take a moment to test your service and make sure it works as expected.</p>
 <p>With <code>mosh</code> there is no daemon, we just test by trying to use it!</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
+<code><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
 </span><span style="color:#bf616a;">mosh </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">HOSTNAME
-</span></pre>
+</span></code></pre>
 <p><strong>Enable:</strong> Once you know things are working correctly we can enable it to start at boot if desired with <code>systemctl enable $SERVICE</code> Since <code>mosh</code> has no related daemon we don't need to do this.</p>
 <p><strong>Verify:</strong> At this point my <code>mosh</code> service works fine, and we can verify that the firewall is catching this by reviewing <code>iptables -nvL</code> and checking out our <code>UDP</code> chain:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#c0c5ce;">Chain UDP (1 references)
+<code><span style="color:#c0c5ce;">Chain UDP (1 references)
  pkts bytes target     prot opt in     out     source               destination         
     2   217 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpts:60000:60100
-</span></pre>
+</span></code></pre>
 <p>As you can see here, the rule was used twice, which means it's working! At this point, we're done setting up the new service. We'll have a chance to practice this more in future posts when we're configuring various serices.</p>
 <p>For our <a href="/2016/05/09/new-roots-4/">next post</a> we'll explore nice ways to personalize your server environment and make it feel like home. Remember, there's no place like <code>127.0.0.1</code>. :)</p>
 

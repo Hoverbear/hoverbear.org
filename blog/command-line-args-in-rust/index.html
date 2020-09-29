@@ -79,18 +79,18 @@ Luckly, there is a Rust Package to play with!
     <p>I was reading about the <a href="http://docopt.org/">Docopt</a> project the other day and really liked the standardized approach to <code>--help</code> prompts and argument parsing that it offers.</p>
 <p>Luckly, there is a <a href="https://github.com/docopt/docopt.rs">Rust Package</a> to play with!</p>
 <span id="continue-reading"></span><pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> new</span><span style="color:#bf616a;"> --bin</span><span style="color:#c0c5ce;"> foo
+<code><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> new</span><span style="color:#bf616a;"> --bin</span><span style="color:#c0c5ce;"> foo
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> foo
-</span></pre>
+</span></code></pre>
 <p>Add <code>docopt</code> to your <code>Cargo.toml</code></p>
 <pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># ...
+<code><span style="color:#65737e;"># ...
 </span><span style="color:#c0c5ce;">[dependencies.docopt_macros]
 </span><span style="color:#bf616a;">git </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">git://github.com/docopt/docopt.rs</span><span style="color:#c0c5ce;">&quot;
-</span></pre>
+</span></code></pre>
 <p>Now in <code>foo/src/main.rs</code>:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serialize;
+<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serialize;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> docopt;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">docopt::Docopt;
@@ -144,12 +144,12 @@ Options:
         .</span><span style="color:#96b5b4;">unwrap_or_else</span><span style="color:#c0c5ce;">(|</span><span style="color:#bf616a;">e</span><span style="color:#c0c5ce;">| e.</span><span style="color:#96b5b4;">exit</span><span style="color:#c0c5ce;">());
     println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, args);
 }
-</span></pre>
+</span></code></pre>
 <p>Now build it, and try some tests:</p>
 <pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> build
-</span></pre><pre style="background-color:#2b303b;">
-<span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;">  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo
+<code><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> build
+</span></code></pre><pre style="background-color:#2b303b;">
+<code><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;">  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo
 </span><span style="color:#65737e;"># Invalid arguments.
 #
 # Usage: foo [options] &lt;target&gt; &lt;task&gt;
@@ -182,7 +182,7 @@ Options:
 #
 # Usage: foo [options] &lt;target&gt; &lt;task&gt;
 #        foo (--help | --version)
-</span></pre>
+</span></code></pre>
 <p>This works great! The <a href="https://github.com/docopt/docopt.rs">README</a> of the project also describes a way to use a macro for this, but I quite like this way.</p>
 
 
