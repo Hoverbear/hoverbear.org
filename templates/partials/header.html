@@ -8,6 +8,8 @@
     {%- endif -%}
 
     <div id="hero-wrapper">
+        {{ image::full(path=image, colocated=colocated) }}
+        
         <div class="content">
             {%- if page.title -%}
                 <h1><a href="{{ config.base_url }}">{{ page.title }}</a></h1>
@@ -25,7 +27,6 @@
                 </ul>
             </nav>
         </div>
-        {{ image::full(path=image, colocated=colocated) }}
     </div>
 </header>
       

@@ -4,7 +4,14 @@ $unvisited-link: ("light": #333333, "dark": #CCCCCC);
 $visited-link: ("light": #555555, "dark": #AAAAAA);
 $code-background: ("light": #DDDDDD, "dark": #2b303b);
 $font: ("normal": "Fira Sans", "code": "Fira Code");
-$responsive-margin-vertical: ("normal": 5vw, "widescreen": 15vw);
+$responsive-margin-horizontal: (
+    "normal": 5vw,
+    "widescreen": 15vw
+);
+$responsive-margin-horizontal-inverse: (
+    "normal": -5vw, 
+    "widescreen": -15vw
+);
 $hero-wrapper-font-color: white;
 
 @mixin color-scheme($property, $setting) {
@@ -43,17 +50,8 @@ html {
             background-color: black;
             position: relative;
 
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-
             & > img {
-                max-height: 80vmin;
+                max-height: 100vmin;
                 opacity: 0;
                 animation: 1s fade-in ease-in .5s 1 forwards;
                 width: 100%;
@@ -61,13 +59,28 @@ html {
                 object-fit: cover;
                 z-index: 0;
             }
+            & > div.content:before {
+                content: "";
+                position: absolute;
+                display: block;
+                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+                width: 100vw;
+                height: 40vh;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin-bottom: -2vh;
+                @include responsive(margin-left, $responsive-margin-horizontal-inverse);
+                @include responsive(margin-right, $responsive-margin-horizontal-inverse);
+                z-index: -1;
+            }
 
             &  > div.content {
                 text-align: left;
                 position: absolute;
-                bottom: 10vmin;
+                bottom: 0;
                 animation: 1s fade-in ease-in 0s 1 forwards;
-                z-index: 1;
+                z-index: 2;
 
                 & > * {
                     color: $hero-wrapper-font-color;
@@ -108,8 +121,8 @@ html {
 
         p, h2, h1, h3, h4, ul, ol, table,
         .post-meta, section > .excerpt > a, section, pre, figcaption, #hero-wrapper .content, nav#toc {
-            @include responsive(margin-left, $responsive-margin-vertical);
-            @include responsive(margin-right, $responsive-margin-vertical);
+            @include responsive(margin-left, $responsive-margin-horizontal);
+            @include responsive(margin-right, $responsive-margin-horizontal);
             margin-top: 2vh;
             margin-bottom: 2vh;
         }
