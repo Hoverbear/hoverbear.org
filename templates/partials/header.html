@@ -6,10 +6,17 @@
         {%- set image = '../static/' ~ config.extra.cover -%}
         {%- set colocated = false -%}
     {%- endif -%}
+
     {%- if page.title -%}
         {%- set title = page.title -%}
     {%- else -%}
         {%- set title = config.title -%}
+    {%- endif -%}
+
+    {%- if page.description -%}
+        {%- set description = page.description -%}
+    {%- else -%}
+        {%- set description = config.description -%}
     {%- endif -%}
 
     <div id="hero-wrapper">
@@ -18,9 +25,9 @@
         <div class="content">
 
             <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
-            {% if page.description -%}
+            {% if description -%}
                 <p class="description">
-                    {{ page.description }}
+                    {{ description }}
                 </p>
             {%- endif %}
 
