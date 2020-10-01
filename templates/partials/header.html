@@ -34,10 +34,20 @@
 
     <div id="hero-wrapper">
         {{ figure::enriched(path=cover_path, alt="Photo", source=cover_source, photographer=cover_photographer, colocated=colocated) }}
-        
-        <div class="content">
+    </div>
+    <div class="hero-wrapper-content">
 
-            <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
+        <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
+
+        <nav id="pages">
+            <ul>
+                {%- for item in config.extra.menu -%}
+                    <li><a href="{{ item.url | safe }}">{{ item.title | markdown(inline=true) }}</a>&nbsp;</li>
+                {%- endfor -%}
+            </ul>
+        </nav>
+
+        <div class="metadata">
             {% if description -%}
                 <p class="description">
                     {{ description }}
@@ -49,14 +59,6 @@
                     Posted on {{ page.date }}, around {{ page.reading_time }} minutes of reading.
                 </p>
             {%- endif %}
-
-            <nav id="pages">
-                <ul>
-                    {%- for item in config.extra.menu -%}
-                        <li><a href="{{ item.url | safe }}">{{ item.title | markdown(inline=true) }}</a>&nbsp;</li>
-                    {%- endfor -%}
-                </ul>
-            </nav>
         </div>
     </div>
 </header>

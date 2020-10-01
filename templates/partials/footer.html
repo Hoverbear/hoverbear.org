@@ -1,46 +1,30 @@
 <footer class="post-footer">
-    <div id="hero-wrapper">
-        {%- if page.extra.image.path -%}
-            {%- set cover_path = page.extra.image.path -%}
-            {%- set cover_photographer = page.extra.image.photographer | default(value="") -%}
-            {%- set cover_source = page.extra.image.source | default(value="") -%}
-            {%- set colocated = true -%}
-        {%- else -%}
-            {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
-            {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
-            {%- set cover_source = config.extra.cover.source | default(value="") -%}
-            {%- set colocated = false -%}
+    <div class="content">
+        <h4><a href=/>← Back to top of index</a></h4>
+    
+        <h4>By {{ config.extra.author }}</h4>
+        {%- if page.extra.image_credit -%}
+            <h4>Cover image by {{ page.extra.cover.photographer }}</h4>
         {%- endif -%}
-        
-        {{ figure::enriched(path=cover_path, photographer=cover_photographer, source=cover_source, colocated=colocated) }}
-
-        <div class="content">
-            <h4><a href=/>← Back to top of index</a></h4>
-        
-            <h4>By {{ config.extra.author }}</h4>
-            {%- if page.extra.image_credit -%}
-                <h4>Cover image by {{ page.extra.cover.photographer }}</h4>
+    
+        <p>
+            Connect through
+            {%- if config.extra.email -%}
+                <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>,
             {%- endif -%}
+            &nbsp;
+            {%- if config.extra.github -%}
+                <a href="https://github.com/{{ config.extra.github }}">@{{ config.extra.github }}</a> on Github,
+            {%- endif -%}
+            &nbsp;
+            {%- if config.extra.twitter -%}
+                <a href="https://twitter.com/{{ config.extra.twitter }}">@{{ config.extra.twitter }}</a> on Twitter,</a>
+            {%- endif -%}
+            &nbsp;
+            or track via <a class="subscribe" href="{{ config.base_url }}/rss.xml">RSS Feed</a>.
+        </p>
         
-            <p>
-                Connect through
-                {%- if config.extra.email -%}
-                    <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>,
-                {%- endif -%}
-                &nbsp;
-                {%- if config.extra.github -%}
-                    <a href="https://github.com/{{ config.extra.github }}">@{{ config.extra.github }}</a> on Github,
-                {%- endif -%}
-                &nbsp;
-                {%- if config.extra.twitter -%}
-                    <a href="https://twitter.com/{{ config.extra.twitter }}">@{{ config.extra.twitter }}</a> on Twitter,</a>
-                {%- endif -%}
-                &nbsp;
-                or track via <a class="subscribe" href="{{ config.base_url }}/rss.xml">RSS Feed</a>.
-            </p>
-            
-            {%- set commit = load_data(path=".git/HEAD") -%}
-            <p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/{{commit}}"><code>{{ commit }}</code></a></p>
-        </div>
+        {%- set commit = load_data(path=".git/HEAD") -%}
+        <p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/{{commit}}"><code>{{ commit }}</code></a></p>
     </div>
 </footer>

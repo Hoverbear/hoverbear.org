@@ -47,9 +47,16 @@ html {
 
         // Hero images are intended to be very prominent, and can hold some content.
         #hero-wrapper {
+            pointer-events: auto;
             background-color: black;
             position: relative;
             overflow: hidden;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh;
+            z-index: -10;
+            position: fixed;
 
             & > * {
                 margin-left: 0;
@@ -59,7 +66,7 @@ html {
             & > figure {
                 & > img {
                     max-width: 100vw;
-                    height: 90vh;
+                    height: 100vh;
                     opacity: 0;
                     animation: 1s fade-in ease-in .5s 1 forwards;
                     width: 100%;
@@ -76,33 +83,16 @@ html {
                     z-index: 1;
                 }
             }
-            & > div.content:before {
-                content: "";
-                position: absolute;
-                display: block;
-                width: 100vw;
-                @include responsive(margin-left, $responsive-margin-horizontal-inverse);
-                @include responsive(margin-right, $responsive-margin-horizontal-inverse);
-                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%,  rgba(0,0,0,.9) 20%, rgba(0,0,0,.7) 50%, rgba(0,0,0,0) 100%);
-                height: 30vh;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                margin-bottom: -2vh;
-                z-index: -1;
-            }
 
-            &  > div.content {
+            & ~ div.hero-wrapper-content {
                 text-align: left;
                 position: absolute;
-                bottom: 0;
+                top: 70vh;
+                width: 90vw;
                 animation: 1s fade-in ease-in 0s 1 forwards;
                 z-index: 2;
 
                 & > p {
-                    margin-top: 0;
-                    margin-bottom: 0;
-
                     &.description {
                         font-size: 14pt;
                     }
@@ -111,43 +101,71 @@ html {
                         font-size: 12pt;
                     }
                 }
+            }
+        }
 
-                & > * {
-                    color: $hero-wrapper-font-color;
-                    font-weight: 600;
-                }
-                & a {
-                    text-decoration: none !important;
-                }
+        header {
+            height: 90vh;
+            overflow: hidden;
+            pointer-events: none;
+            
+            * {
+                pointer-events: auto;
+                color: $hero-wrapper-font-color;
+                font-weight: 600;
+            }
+            a {
+                text-decoration: none !important;
             }
 
             a:visited, a {
                 color: $hero-wrapper-font-color;
                 font-weight: 600;
             }
-        }
 
-        header {
-            margin-bottom: 5vh;
+            &:after {
+                content: "";
+                position: relative;
+                width: 100vw;
+                display: inline-block;
+                left: 0;
+                right: 0;
+                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%,  rgba(0,0,0,.9) 20%, rgba(0,0,0,.7) 50%, rgba(0,0,0,0) 100%);
+                height: 30vh;
+                top: 60vh;
+            }
         }
+        
 
         // Tweak the footer hero to be a bit smaller and more "goodbye" feeling.
         footer {
+            height: 60vh;
+            overflow: hidden;
+
+            & > .content {
+                position: relative;
+                top: -20vh;
+                z-index: 1;
+
+                &:before {
+                    content: "";
+                    position: relative;
+                    width: 100vw;
+                    display: block;
+                    left: 0;
+                    right: 0;
+                    background-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.7) 50%,  rgba(0,0,0,.9) 80%, rgba(0,0,0,1) 100%);
+                    height: 30vh;
+                    bottom: 0;
+                    top: 20vh;
+                    z-index: -1;
+                }
+            }
+
+
             span.author,span.image-credit {
                 display: block;
                 font-size: 12pt;
-            }
-
-            & > #hero-wrapper > img {
-                filter: blur(2px) saturate(20%) contrast(200%);
-                background-color: black;
-                max-height: 100vmin;
-                opacity: 0;
-                animation: 1s fade-in ease-in .5s 1 forwards;
-                width: 100%;
-                display: block;
-                object-fit: cover;
-                z-index: 0;
             }
         }
 
@@ -171,6 +189,9 @@ html {
         }
 
         nav {
+            &#pages {
+                font-size: 16pt;
+            }
             &#toc {
                 &:first-child::before {
                     content: "Table of Contents";
@@ -215,6 +236,13 @@ html {
         main {
             margin: auto;
             line-height: 1.4;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            z-index: 10;
+            left: 0;
+            right: 0;
+            @include color-scheme(background, $background);
+
             // Create nice article breaks.
             article {
                 & > h1:before,article > h2:before,article > h3:before {
@@ -294,7 +322,6 @@ html {
                 height: 1px;
                 @include color-scheme(background, $main-text);
             }
-
             
             // *** Bad Behavior fixes ***
             // Figure captions should center align.
@@ -333,19 +360,6 @@ html {
                 margin: auto;
                 max-width: 100%;
                 max-height: 100%;
-            }
-
-            // Better link behavior. No underlines, simpler colors.
-            h1 > a,h2 > a,h3 > a,h4 > a {
-                text-decoration: none;
-            }
-
-            a {
-                @include color-scheme(color, $unvisited-link);
-            }
-                
-            a:visited {
-                @include color-scheme(color, $visited-link);
             }
 
             // Make a nice border around code.
@@ -392,6 +406,20 @@ html {
             }
         }
     }
+
+    // Better link behavior. No underlines, simpler colors.
+    h1 > a,h2 > a,h3 > a,h4 > a {
+        text-decoration: none;
+    }
+
+    a {
+        @include color-scheme(color, $unvisited-link);
+    }
+        
+    a:visited {
+        @include color-scheme(color, $visited-link);
+    }
+    
 }
 
 @keyframes fade-in {
