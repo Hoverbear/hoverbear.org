@@ -63,9 +63,9 @@ html {
                 content: "";
                 position: absolute;
                 display: block;
-                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%,  rgba(0,0,0,.9) 20%, rgba(0,0,0,.7) 50%, rgba(0,0,0,0) 100%);
                 width: 100vw;
-                height: 40vh;
+                height: 30vh;
                 left: 0;
                 right: 0;
                 bottom: 0;
@@ -82,10 +82,22 @@ html {
                 animation: 1s fade-in ease-in 0s 1 forwards;
                 z-index: 2;
 
+                & > p {
+                    margin-top: 0;
+                    margin-bottom: 0;
+
+                    &.description {
+                        font-size: 14pt;
+                    }
+
+                    &.metadata {
+                        font-size: 12pt;
+                    }
+                }
+
                 & > * {
                     color: $hero-wrapper-font-color;
                     font-weight: 600;
-                    text-shadow: 0px 0px 1em black, 0px 0px 1em black;
                 }
                 & a {
                     text-decoration: none !important;
