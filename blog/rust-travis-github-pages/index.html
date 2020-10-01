@@ -48,7 +48,7 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
 
     <body>
         <header><div id="hero-wrapper">
-        <figure class="enriched">
+        <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
@@ -74,12 +74,7 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
                 </p>
 
             <nav id="pages">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/consulting/">Consulting</a></li>
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/tags/">By Tag</a></li>
-                </ul>
+                <ul><li><a href="/">Home</a>&nbsp;</li><li><a href="/consulting">Consulting</a>&nbsp;</li><li><a href="/about">About</a>&nbsp;</li><li><a href="/tags">Tags</a>&nbsp;</li></ul>
             </nav>
         </div>
     </div>
@@ -165,7 +160,7 @@ fn it_works() {
 <p>If you haven't had a chance to learn about <code>rustdoc</code> you can read about it <a href="http://doc.rust-lang.org/book/documentation.html">here</a>.</p>
 </blockquote>
 <p>Now you can run <code>cargo doc</code> and visit a url like <code>file:///Users/hoverbear/travis-demo/target/doc/travis-demo/</code> to view the generated documentation.</p>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>Our Documentation</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3ec1b6f4424fc84700.png 1920w,
@@ -187,7 +182,7 @@ git push -u origin master
 </code></pre><h2 id="starting-with-travis">Starting with Travis</h2>
 <p>First, you'll need to sign up with Travis. This is trivially done by visiting <a href="https://travis-ci.org/">TravisCI</a> and signing in with Github.</p>
 <p>Then, visit your profile by clicking on your name in the top right corner.</p>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>How to get to your profile.</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ac646c37373f8e8f00.png 1920w,
@@ -234,7 +229,7 @@ after_success: |
 <p><strong>But wait!</strong> Where do we get the Token?</p>
 <h2 id="giving-travis-permissions">Giving Travis Permissions</h2>
 <p>Since it would be positively outrageous to give Travis your Github password or private key, we'll use what's called an &quot;access token&quot;. To get one of these, go to your Github settings and hit the &quot;Applictions&quot; tab.</p>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>Getting a token</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33310b58635b18aa00.png 1920w,
@@ -247,7 +242,7 @@ after_success: |
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1c69649043e246fc00.png"
               alt="Getting a token" />
     </figure>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>Token Creation Screen</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fb6cf092cf65e36300.png 1920w,
@@ -277,7 +272,7 @@ git push
 </code></pre>
 <p>Now if you visit <a href="https://travis-ci.org/repositories"><code>https://travis-ci.org/repositories</code></a> you should, eventually, see your build pop up! Note that Travis can take a moment to start a build.</p>
 <p>Your build should look similar to the following:</p>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>Example Build</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d459ac2149621cdf00.png 1920w,
@@ -309,7 +304,7 @@ git push
 <p>Travis offers us some great options for configuring our output during tests.</p>
 <p>The first is <code>RUST_BACKTRACE</code>, we can set it to <code>1</code> to make Rust print out a stacktrace on a panic. This is particularly useful combined with <code>panic!()</code>, <code>unreachable!()</code> and <code>unimplemented!()</code> which you can use to structure failure modes in your programs.</p>
 <p>If you use <a href="https://github.com/rust-lang/log"><code>log</code> and <code>env-logger</code></a> you also might want to set <code>RUST_LOG</code>. I would definitely suggest limiting the logging to a specific crate as otherwise <code>rustc</code> and other libs will spout a considerable amount of output.</p>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>Setting ENV Variables</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a61dfdc13d2dcdb700.png 1920w,
@@ -325,7 +320,7 @@ git push
 <h2 id="a-while-later">A While Later...</h2>
 <p>Try visiting <a href="https://hoverbear.github.io/raft/"><code>https://$YOUR_GITHUB_USER.github.io/$YOUR_REPO</code></a>. Did it work? Awesome!</p>
 <p>Don't forget to add it to the repository page on Github!</p>
-<figure class="enriched">
+<figure class="enriched ">
         <figcaption>Our new Repo</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2905129e1421659900.png 1920w,
@@ -345,7 +340,7 @@ git push
         </main>
         
         <footer class="post-footer">
-    <div id="hero-wrapper"><figure class="enriched">
+    <div id="hero-wrapper"><figure class="enriched ">
         <figcaption>&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
