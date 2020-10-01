@@ -26,3 +26,7 @@ You can get an idea of the projects I've been involved with by checking out my [
 I've helped organize, or presented at, several conferences in North America, Asia, and Europe. If you're interested in having me offer a workshop or talk at a conference you are most encouraged to get in touch. I prefer longer, interactive sessions on intermediate/advanced topics.
 
 Recent employers include [PingCAP](http://pingcap.com/) (building [TiKV](http://tikv.org/)), [Asquera](http://asquera.de/) (helping clients with their systems), [Science Venture](http://www.scienceventure.ca/) (teaching and doing community outreach), SIMBIOSES/LEED Lab (a predecessor of the [Health Data Coalition](http://hdcbc.ca/)), the [BCAAFC](http://bcaafc.com/) (serving indigenous communities), and the [(Mod)ularity Squad](https://yvonnecoady.com/) Distributed Systems lab.
+
+Life has lead me to own my own business. These days, I am able to freely work with international clients, create partnerships, and spark ideas. I've had the pleasure of taking on long term maintenance roles in [Vector](https://vector.dev/), running workshops with [Ferrous Systems](https://ferrous-systems.com/), and even a few secret projects.
+
+I don't know what is next for me, but I hope to find myself living in the north and working improve the lives of our people.
