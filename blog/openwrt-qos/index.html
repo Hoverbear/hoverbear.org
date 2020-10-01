@@ -50,6 +50,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 
     <body>
         <header><div id="hero-wrapper">
+        <figure class="enriched">
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
@@ -59,7 +61,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
-              alt="" />
+              alt="Photo" />
+    </figure>
         
         <div class="content">
 
@@ -267,8 +270,9 @@ config class &quot;Bulk&quot;
 </ul>
 <h1 id="initial-configuration">Initial Configuration</h1>
 <p>As a reminder, here is the configuration of our setup.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>Our setup.</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;530a4755db2b4b2300.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c4c34e5c8235978400.jpg 3840w
               "
@@ -278,8 +282,7 @@ config class &quot;Bulk&quot;
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f615cb8d93d4a85900.jpg"
               alt="Our setup." />
-    <figcaption>Our setup.</figcaption>
-</figure>
+    </figure>
 <p>First, we need to pull in <code>xt_connmark</code>, which is a depedency for some features of <code>qos-scripts</code>:</p>
 <pre style="background-color:#2b303b;">
 <code>modprobe xt_connmark
@@ -344,8 +347,9 @@ iptables: No chain/target/match by that name.
 <code>wget $TEST3IP/video.mp4
 </code></pre>
 <p>You should see something like the following:</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>In action.</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;438d6f6f685dc09400.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f9d96a4f1aa997f00.png 3840w
               "
@@ -355,8 +359,7 @@ iptables: No chain/target/match by that name.
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e0460f0911a7f28200.png"
               alt="In action." />
-    <figcaption>In action.</figcaption>
-</figure>
+    </figure>
 <p>Feel free to cancel them at any time. We only care about the rate right now.</p>
 <p>As you can see, <code>test1</code> recieved approximately twice the bandwidth of <code>test2</code>. Perfect, that's exactly what we wanted.</p>
 <blockquote>
@@ -413,8 +416,9 @@ config class &quot;httpdev&quot;
 <code>/etc/init.d/qos reload
 </code></pre>
 <p>Then get <code>test1</code> to download from port 80, and <code>test2</code> to download from port 8080.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>httpdev</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e7301bb625d15f4500.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc0ea0d8c7c1a0c900.png 3840w
               "
@@ -424,8 +428,7 @@ config class &quot;httpdev&quot;
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d73592f6519aa9db00.png"
               alt="httpdev" />
-    <figcaption>httpdev</figcaption>
-</figure>
+    </figure>
 <p>Attempting to download on port 8080 only resulted in recieving 10% of the available bandwidth, where on port 80 it was able to use the entire link.</p>
 <h2 id="priorities">Priorities</h2>
 <p>Instead of placing a hard limit on the rate a class can achieve, let's instead change the priority it recieves.</p>
@@ -438,8 +441,9 @@ config class &quot;httpdev&quot;
     option priority    50
 </code></pre>
 <p>Then issue <code>/etc/init.d/qos reload</code>. To test this, <strong>on one of the <code>test1</code> or <code>test2</code></strong> open two connections and attempt to download from both ports.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>Priorities.</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fa789553a1077fe900.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1261848654708b8e00.png 3840w
               "
@@ -449,8 +453,7 @@ config class &quot;httpdev&quot;
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c5444d4aa9891e2e00.png"
               alt="Priorities." />
-    <figcaption>Priorities.</figcaption>
-</figure>
+    </figure>
 <p>Here I ran two tests, one with downloads on different ports, one with them on the same. Notice how the <code>8080</code> download is much slower while there is a download on port <code>80</code> happening, but while both at on port <code>80</code> they're nearly the same <em>(except that I couldn't stop both at the same time so the second one I stopped was reading higher then before, they were both in the teens).</em></p>
 <p>A lone download on port <code>8080</code> (and thus of the <code>httpdev</code> class) would still be fast if there is no other traffic in the <code>normal</code> class, though.</p>
 <h1 id="further-configuration">Further Configuration</h1>
@@ -469,7 +472,9 @@ config class &quot;httpdev&quot;
         </main>
         
         <footer class="post-footer">
-    <div id="hero-wrapper"><img srcset="
+    <div id="hero-wrapper"><figure class="enriched">
+        <figcaption>&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
@@ -478,7 +483,10 @@ config class &quot;httpdev&quot;
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
-              alt="" /><div class="content">
+              alt="" />
+    </figure>
+
+        <div class="content">
             <h4><a href=/>← Back to top of index</a></h4>
         
             <h4>By Ana Hobden</h4><p>

@@ -48,6 +48,8 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
 
     <body>
         <header><div id="hero-wrapper">
+        <figure class="enriched">
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
@@ -57,7 +59,8 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
-              alt="" />
+              alt="Photo" />
+    </figure>
         
         <div class="content">
 
@@ -212,8 +215,9 @@ VBoxManage storageattach $VMNAME \
 <code>VBoxManage startvm openwrt --type &quot;gui&quot;
 </code></pre>
 <p>Next, it's time to settle in and get comfortable. The boot output will not show you command prompt until you manually focus the window and tap return, then you should see a prompt.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>The VM screen</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fbe72737e9bcd82100.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;78518a7ceddfcc0a00.png 3840w
               "
@@ -223,8 +227,7 @@ VBoxManage storageattach $VMNAME \
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9bc6866a935f7f5700.png"
               alt="The VM screen" />
-    <figcaption>The VM screen</figcaption>
-</figure>
+    </figure>
 <h2 id="wan">WAN</h2>
 <p>You'll notice from a quick <code>ping hoverbear.org</code> that you don't have a network connection working, even though we set up a NAT connection.</p>
 <p>In the OpenWRT VM, add the following to <code>/etc/config/network</code>:</p>
@@ -373,7 +376,9 @@ config dhcp 'lan3'
         </main>
         
         <footer class="post-footer">
-    <div id="hero-wrapper"><img srcset="
+    <div id="hero-wrapper"><figure class="enriched">
+        <figcaption>&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
@@ -382,7 +387,10 @@ config dhcp 'lan3'
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
-              alt="" /><div class="content">
+              alt="" />
+    </figure>
+
+        <div class="content">
             <h4><a href=/>← Back to top of index</a></h4>
         
             <h4>By Ana Hobden</h4><p>

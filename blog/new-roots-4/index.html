@@ -49,6 +49,8 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 
     <body>
         <header><div id="hero-wrapper">
+        <figure class="enriched">
+        <figcaption>Photo&nbsp;- Olivier Guillard</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;56a685959943722400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg 3840w
@@ -58,7 +60,8 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca68e3fdaa7db2f800.jpg"
-              alt="" />
+              alt="Photo" />
+    </figure>
         
         <div class="content">
 
@@ -187,8 +190,9 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 </span></code></pre>
 <p><code>(system state)</code> refers to the output of <code>systemctl is-system-running</code> which will output based on <a href="https://www.freedesktop.org/software/systemd/man/systemctl.html#is-system-running">this</a> list. In most cases it will either be <code>running</code> if everything is good, or <code>degraded</code> if some service has failed.</p>
 <p><code>(last exit code)</code> will be <code>0</code> if the last command exited successfully, and a different number if it did not.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>My prompt</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fdb8256c62c2010a00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;da9f2b5ec6c944e400.jpg 3840w
               "
@@ -198,8 +202,7 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4990a9c556a8832700.jpg"
               alt="My prompt" />
-    <figcaption>My prompt</figcaption>
-</figure>
+    </figure>
 <h2 id="the-multiplexer">The Multiplexer</h2>
 <p>Shell multiplexing is a great way to maintain a workspace on a remote machine. The idea is to have a daemon which holds onto your shell sessions for you and essentially acts as a 'window manager' for your various shell panes. You're then able to 'detach' and 'reattach' to these sessions whenever you want.</p>
 <p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
@@ -285,8 +288,9 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 </span></code></pre>
 <p>Launching <code>tmux</code> you can create new 'tabs' with <code>Ctl+b c</code> (press <code>Control</code> and <code>b</code>, then let go and press <code>c</code>). You can rename them with <code>Ctl+b ,</code>. You can split them with <code>Ctl+\</code> and <code>Ctl+-</code> respectively. You can move between splits with <code>Ctl+b left</code> and <code>Ctl+b right</code>. With <code>Ctl+b 1</code> or any number you can change 'tabs'.</p>
 <p>You can <strong>detach</strong> <code>tmux</code> with <code>Ctl+b d</code> and you can <strong>re-attach</strong> with <code>tmux a</code> later on. Sessions will persist between logins but not between reboots.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>Example of tmux</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed6c4dc15bf5d08700.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f8381fb3a47d6bc300.jpg 3840w
               "
@@ -296,8 +300,7 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;30006dc003920e9900.jpg"
               alt="Example of tmux" />
-    <figcaption>Example of tmux</figcaption>
-</figure>
+    </figure>
 <h2 id="editing-the-editor">Editing the Editor</h2>
 <p>Earlier we installed <code>nvim</code> with <code>pacman -S neovim</code>. <a href="https://neovim.io/">Neovim</a> is a minimal modern recreation of <code>vim</code> which itself was a recreation of <code>vi</code>. There are also editors like <code>emacs</code>, <code>ed</code>, and <code>nano</code>.</p>
 <p>The <code>nvim</code> systemwide configuration is stored at <code>/etc/xdg/nvim/init.vim</code>, and you might need to create the folder with <code>mkdir -p /etc/xdg/nvim/</code>.</p>
@@ -404,8 +407,9 @@ colorscheme spacegrey
 <p>In later posts we'll be discussing BTRFS more in regards to how it works with containers and backups.</p>
 <h2 id="ready-to-go">Ready to Go</h2>
 <p>Try running our three configured programs as both <code>root</code> and your <code>$USER</code>, their configurations should be the same. Our system has been configured to act in a simple, usable manner and behave with little surprising behaivor. Below you can see it with <code>nvim /etc/iptables/iptables.rules</code>, <code>systemd-cgtop</code> and <code>journalctl -f</code> running.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>An Example</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a21dbbe2ed97548700.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4f5c212ca56b519200.jpg 3840w
               "
@@ -415,8 +419,7 @@ colorscheme spacegrey
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;15cc12bb6628cc7d00.jpg"
               alt="An Example" />
-    <figcaption>An Example</figcaption>
-</figure>
+    </figure>
 <p>What's perhaps most important to remember throughout this process is that you kept this system very clean. Next post we'll discuss using containers to construct virtual environments, which we can be much more <em>messy</em> with!</p>
 
 
@@ -424,7 +427,9 @@ colorscheme spacegrey
         </main>
         
         <footer class="post-footer">
-    <div id="hero-wrapper"><img srcset="
+    <div id="hero-wrapper"><figure class="enriched">
+        <figcaption>&nbsp;- Olivier Guillard</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;56a685959943722400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg 3840w
               "
@@ -433,10 +438,13 @@ colorscheme spacegrey
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca68e3fdaa7db2f800.jpg"
-              alt="" /><div class="content">
+              alt="" />
+    </figure>
+
+        <div class="content">
             <h4><a href=/>← Back to top of index</a></h4>
         
-            <h4>By Ana Hobden</h4><h4>Cover image by Olivier Guillard</h4><p>
+            <h4>By Ana Hobden</h4><p>
                 Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
                 or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
             </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/ref: refs&#x2F;heads&#x2F;master

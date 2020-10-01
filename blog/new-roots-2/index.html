@@ -47,6 +47,8 @@
 
     <body>
         <header><div id="hero-wrapper">
+        <figure class="enriched">
+        <figcaption>Photo&nbsp;- Arthur Rutkowski</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c09a9ef4ed42ccdb00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;519c4fd433fff41d00.jpg 3840w
@@ -56,7 +58,8 @@
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8ebb722ab1e6c23900.jpg"
-              alt="" />
+              alt="Photo" />
+    </figure>
         
         <div class="content">
 
@@ -149,8 +152,9 @@
 <p>Out of the others, <a href="https://wiki.archlinux.org/index.php/Server">Arch Linux</a> is my particular favorite. To me, it's an <strong>umami</strong> distribution with (lots of) up-to-date signed packages, a simple core, amazing documentation, and a rolling release schedule. I've been using it for years and the original creator actually attended the same University I did. You may also have a distribution which you are very comfortable with, and you may choose to use it.</p>
 <p>Servers do, though, have different requirements. You will not want to install a GUI specific distribution onto a headless server. Additionally, many providers will limit what can be installed on their machines. In some cases they offer a LARA, a direct console to the machine, for installation, but you'll need to verify this is possible.</p>
 <p>Much to my joy, Hetzner offers Arch Linux as part of their <a href="https://wiki.hetzner.de/index.php/Installimage">Install Image</a>. Their install scripts are very general though, and installing a different choice is a similar process.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>Several Options</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;05a7cc50c7168c8200.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;79774695e05d898900.jpg 3840w
               "
@@ -160,13 +164,13 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0085c375a382308800.jpg"
               alt="Several Options" />
-    <figcaption>Several Options</figcaption>
-</figure>
+    </figure>
 <h2 id="rescue-me">Rescue Me!</h2>
 <p>All providers are different in how this process will work. Some will have more options, some will be graphical, others will be more buggy. It's very important you become familiar with this process and understand what you're doing. You don't want to accidently wipe your machine, or find yourself in an emergency reinstall situation then realize you don't know how to set things up.</p>
 <p>With Hetzner you can select a rescue image from their web UI allows you to SSH in using your pre-provided key. You can also generally choose premade images from a similar panel of the web UI, in Hetzner's UI has this under the &quot;Linux&quot; tab.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>The rescue web UI</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;493a586fbc69212a00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9a0c62dd342c79f000.jpg 3840w
               "
@@ -176,8 +180,7 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;462303ec62ef6abb00.jpg"
               alt="The rescue web UI" />
-    <figcaption>The rescue web UI</figcaption>
-</figure>
+    </figure>
 <p>From this system, you can either run something like the provided <code>installimage</code> or install your own system. Since we want to experiment let's just install our own! If you choose to use <code>installimage</code> you'll find it to be very painless.</p>
 <h2 id="getting-the-image">Getting the Image</h2>
 <p>First, we'll pull down our ISO image. This snippet will discover, fetch, and verify the latest Arch Linux chroot bootstrap. You're able to just paste it into your <code>ssh</code> session.</p>
@@ -375,8 +378,9 @@ DHCP=ipv4
 <code><span style="color:#bf616a;">reboot
 </span></code></pre>
 <p>With any luck, in a few minutes you'll be able to <code>ssh</code> in again. I found with Hetzner you may need to issue an automatic reset from their online console, you might need to as well.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>Mine works! :)</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;43499cb7f7dd478800.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8d2e54259b1a041300.jpg 3840w
               "
@@ -386,8 +390,7 @@ DHCP=ipv4
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;24ddefb576fde24a00.jpg"
               alt="Mine works! :)" />
-    <figcaption>Mine works! :)</figcaption>
-</figure>
+    </figure>
 <p>In our next post we'll talk about <a href="/2016/05/07/new-roots-3/">configuring your server's services and doing some hardening</a>.</p>
 
 
@@ -395,7 +398,9 @@ DHCP=ipv4
         </main>
         
         <footer class="post-footer">
-    <div id="hero-wrapper"><img srcset="
+    <div id="hero-wrapper"><figure class="enriched">
+        <figcaption>&nbsp;- Arthur Rutkowski</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c09a9ef4ed42ccdb00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;519c4fd433fff41d00.jpg 3840w
               "
@@ -404,10 +409,13 @@ DHCP=ipv4
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8ebb722ab1e6c23900.jpg"
-              alt="" /><div class="content">
+              alt="" />
+    </figure>
+
+        <div class="content">
             <h4><a href=/>← Back to top of index</a></h4>
         
-            <h4>By Ana Hobden</h4><h4>Cover image by Arthur Rutkowski</h4><p>
+            <h4>By Ana Hobden</h4><p>
                 Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
                 or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
             </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/ref: refs&#x2F;heads&#x2F;master

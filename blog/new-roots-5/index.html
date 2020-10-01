@@ -48,6 +48,8 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
 
     <body>
         <header><div id="hero-wrapper">
+        <figure class="enriched">
+        <figcaption>Photo&nbsp;- Ethan Dow</figcaption>
         <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;833c2916e79c91aa00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e6bd6e8057e9432100.jpg 3840w
@@ -57,7 +59,8 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7e8b8296ee9292f500.jpg"
-              alt="" />
+              alt="Photo" />
+    </figure>
         
         <div class="content">
 
@@ -483,8 +486,9 @@ Port=443
 </span></code></pre>
 <p>Give it a few seconds then try running <code>systemctl status haproxy -M web</code>.</p>
 <p><strong>Gotcha:</strong> Sometimes <code>puppet</code> doesn't wait for the name resolution to configure and needs to be restarted with <code>systemctl restart puppet -M web</code>. I'm currently pondering solutions to this.</p>
-<figure>
-    <img srcset="
+<figure class="enriched">
+        <figcaption>That looks great.</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;17fa2bab2e0df7b400.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b7c1d6feae84cdf800.jpg 3840w
               "
@@ -494,8 +498,7 @@ Port=443
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e4a3bb81ac2d847400.jpg"
               alt="That looks great." />
-    <figcaption>That looks great.</figcaption>
-</figure>
+    </figure>
 <h2 id="rest-and-test">Rest and Test</h2>
 <p>Since the hostname is <code>silicon.hoverbear.org</code> is already mapped in DNS for me, I'll use that for testing. You want to make your container <code>web-$SUBDOMAIN</code>.</p>
 <pre style="background-color:#2b303b;">
@@ -527,7 +530,9 @@ Port=443
         </main>
         
         <footer class="post-footer">
-    <div id="hero-wrapper"><img srcset="
+    <div id="hero-wrapper"><figure class="enriched">
+        <figcaption>&nbsp;- Ethan Dow</figcaption>
+        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;833c2916e79c91aa00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e6bd6e8057e9432100.jpg 3840w
               "
@@ -536,10 +541,13 @@ Port=443
                      (max-width: 1800px) 1800px,
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7e8b8296ee9292f500.jpg"
-              alt="" /><div class="content">
+              alt="" />
+    </figure>
+
+        <div class="content">
             <h4><a href=/>← Back to top of index</a></h4>
         
-            <h4>By Ana Hobden</h4><h4>Cover image by Ethan Dow</h4><p>
+            <h4>By Ana Hobden</h4><p>
                 Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
                 or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
             </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/ref: refs&#x2F;heads&#x2F;master
