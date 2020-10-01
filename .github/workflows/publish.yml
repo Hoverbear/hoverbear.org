@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches:
-      - master
+      - root
 
 jobs:
   publish:
@@ -20,8 +20,8 @@ jobs:
         git init .
         git remote add origin https://github.com/Hoverbear/hoverbear.org
         git config gc.auto 0
-        git fetch --depth 1 origin master
-        git checkout master
+        git fetch --depth 1 origin root
+        git checkout root
     - name: Install Zola
       run: |
         sudo snap install --edge zola
