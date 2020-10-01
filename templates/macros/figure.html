@@ -1,8 +1,8 @@
 {%- import "macros/image.html" as image -%}
 
 <!-- Create a 'full' sized image. -->
-{%- macro captioned(path, alt=false, colocated=false, source=false, photographer=false) -%}
-    <figure class="captioned">
+{%- macro captioned(path, alt=false, colocated=false, source=false, photographer=false, classes="") -%}
+    <figure class="captioned {{ classes }}">
         {{ image::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
         <figcaption>
             {%- if alt -%}
@@ -19,8 +19,8 @@
     </figure>
 {%- endmacro full -%}
 
-{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false) -%}
-    <figure class="enriched">
+{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false, classes="") -%}
+    <figure class="enriched {{ classes }}">
         <figcaption>
             {%- if alt -%}
                 {{ alt | markdown(inline=true) | safe }}

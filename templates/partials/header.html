@@ -3,28 +3,31 @@
         {%- set cover_path = page.extra.image.path -%}
         {%- set cover_photographer = page.extra.image.photographer | default(value="") -%}
         {%- set cover_source = page.extra.image.source | default(value="") -%}
-        {%- set colocated = true -%}
+        {%- set colocated = section.extra.image.colocated | default(value=true) -%}
+    {%- elif section.extra.image.path -%}
+        {%- set cover_path = section.extra.image.path -%}
+        {%- set cover_photographer = section.extra.image.photographer | default(value="") -%}
+        {%- set cover_source = section.extra.image.source | default(value="") -%}
+        {%- set colocated = section.extra.image.colocated | default(value=true) -%}
     {%- else -%}
         {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
         {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
         {%- set cover_source = config.extra.cover.source | default(value="") -%}
-        {%- set colocated = false -%}
+        {%- set colocated = section.extra.image.colocated | default(value=false) -%}
     {%- endif -%}
 
     {%- if page.title -%}
         {%- set title = page.title -%}
-    {%- else -%}
-        {%- set title = config.title -%}
-    {%- endif -%}
-
-    {%- if page.title -%}
-        {%- set title = page.title -%}
+    {%- elif section.title -%}
+        {%- set title = section.title -%}
     {%- else -%}
         {%- set title = config.title -%}
     {%- endif -%}
 
     {%- if page.description -%}
         {%- set description = page.description -%}
+    {%- elif section.description -%}
+        {%- set description = section.description -%}
     {%- else -%}
         {%- set description = config.description -%}
     {%- endif -%}
@@ -49,10 +52,9 @@
 
             <nav id="pages">
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/consulting/">Consulting</a></li>
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/tags/">By Tag</a></li>
+                    {%- for item in config.extra.menu -%}
+                        <li><a href="{{ item.url | safe }}">{{ item.title | markdown(inline=true) }}</a>&nbsp;</li>
+                    {%- endfor -%}
                 </ul>
             </nav>
         </div>
