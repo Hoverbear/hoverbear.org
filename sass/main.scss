@@ -49,29 +49,46 @@ html {
         #hero-wrapper {
             background-color: black;
             position: relative;
+            overflow: hidden;
 
-            & > img {
-                max-height: 100vmin;
-                opacity: 0;
-                animation: 1s fade-in ease-in .5s 1 forwards;
-                width: 100%;
-                display: block;
-                object-fit: cover;
-                z-index: 0;
+            & > * {
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 0;
+            }
+            & > figure {
+                & > img {
+                    max-width: 100vw;
+                    max-height: 100vh;
+                    opacity: 0;
+                    animation: 1s fade-in ease-in .5s 1 forwards;
+                    width: 100%;
+                    object-fit: cover;
+                    z-index: 0;
+                }
+                & > figcaption {
+                    top: 0;
+                    right: 0;
+                    margin-left: 0;
+                    margin-right: 2vw;
+                    position: absolute;
+                    font-size: 8pt;
+                    z-index: 1;
+                }
             }
             & > div.content:before {
                 content: "";
                 position: absolute;
                 display: block;
-                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%,  rgba(0,0,0,.9) 20%, rgba(0,0,0,.7) 50%, rgba(0,0,0,0) 100%);
                 width: 100vw;
+                @include responsive(margin-left, $responsive-margin-horizontal-inverse);
+                @include responsive(margin-right, $responsive-margin-horizontal-inverse);
+                background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%,  rgba(0,0,0,.9) 20%, rgba(0,0,0,.7) 50%, rgba(0,0,0,0) 100%);
                 height: 30vh;
                 left: 0;
                 right: 0;
                 bottom: 0;
                 margin-bottom: -2vh;
-                @include responsive(margin-left, $responsive-margin-horizontal-inverse);
-                @include responsive(margin-right, $responsive-margin-horizontal-inverse);
                 z-index: -1;
             }
 
@@ -283,8 +300,31 @@ html {
             // Figure captions should center align.
             figure {
                 text-align: center;
-                margin-left: 0;
-                margin-right: 0;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                display: block;
+
+                & > figcaption,img {
+                    margin-left: 0 !important;
+                    margin-right: 0 !important;
+                }
+                img {
+                    max-height: 100vmin;
+                    opacity: 0;
+                    animation: 1s fade-in ease-in .5s 1 forwards;
+                    width: 100%;
+                    display: block;
+                    object-fit: cover;
+                    z-index: 0;
+                }
+
+                &.enriched > figcaption {
+                    display: block;
+                    right: 2vw;
+                    position: absolute;
+                    font-size: 8pt;
+                    z-index: 1;
+                }
             }
 
             // Images should try to behave somewhat.

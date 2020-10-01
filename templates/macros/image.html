@@ -1,6 +1,6 @@
 
 <!-- Create a 'full' sized image. -->
-{%- macro full(path, alt=false, colocated=false) -%}
+{%- macro full(path, alt=false, colocated=false, source=false, photographer=false) -%}
        {%- if colocated == true -%}
               {%- set path = self::colocated_asset(path=path) | trim -%}
        {%- endif -%}

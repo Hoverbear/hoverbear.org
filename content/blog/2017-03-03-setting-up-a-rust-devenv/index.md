@@ -9,8 +9,9 @@ tags = [
   "Tooling",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Eric Parks"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Eric Parks"
 +++
 
 In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:

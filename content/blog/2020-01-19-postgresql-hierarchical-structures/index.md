@@ -8,8 +8,9 @@ tags = [
     "PostgreSQL",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Javier Allegue Barros; @soymeraki on Unsplash"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Javier Allegue Barros; @soymeraki on Unsplash"
 +++
 
 It's a common pattern: a database developer at a startup is probably on the Product subteam of the Engineering team at their company. In a department store, shoes are a subcategory of clothing, while your favorite thermos is probably in the travel department.

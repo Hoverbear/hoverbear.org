@@ -7,8 +7,9 @@ tags = [
   "UVic",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Samuel Scrimshaw"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Samuel Scrimshaw"
 +++
 
 Late last year I was given an opporunity to participate in the Mozilla Winter of Security 2016! I'm happy to report it was, and still is, super cool. Plans diverted significantly at the very start of the project as it was discovered that the "menagerie" of certificates we wanted to build already existed.

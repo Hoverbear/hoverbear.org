@@ -8,7 +8,8 @@ tags = [
   "Tutorials",
 ]
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 One of my favorite features of Rust is iterators. They are a fast, safe, 'lazy' way of working with data structures, streams, and other more creative applications.

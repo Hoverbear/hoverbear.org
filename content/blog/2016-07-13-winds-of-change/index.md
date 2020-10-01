@@ -7,8 +7,9 @@ tags = [
   "Personal",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Jérôme Prax"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Jérôme Prax"
 +++
 
 Unlike most of this blog this post is not technical in the slightest, instead it's a personal update. Though, I have been wanting to write this post for a long time now!

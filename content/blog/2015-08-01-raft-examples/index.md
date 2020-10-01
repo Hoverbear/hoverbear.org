@@ -9,7 +9,8 @@ tags = [
   "UVic",
 ]
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 We've also got couple nice working examples! Yes, they're ready to play with!

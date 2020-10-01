@@ -7,8 +7,9 @@ tags = [
     "Personal",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Ana Hobden"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Ana Hobden"
 +++
 
 The simple passage of time changes us. Our personalities, identities, social circles, fears, and passions all shift to meet our needs throughout life. As we grow and mature, we must reconcile our past and resolve ourselves to the future. Time trawls up existential questions again and again: *Who am I? What is my purpose? What do I want in life? What am I willing to struggle with? What happens if I fail? What could have been, but never will be?* These kinds of questions can prompt deep introspection, and act as reasons for change.
@@ -35,7 +36,7 @@ As for the TiKV community, I plan to bring my involvement to an end in a good wa
 
 ## Forging Hoverbear Consulting
 
-{{ figure(path="forge.jpg", alt="A forge - [@neonbrand](https://unsplash.com/@neonbrand)", colocated=true) }}
+{{ figure(path="forge.jpg", alt="A forge", colocated=true, source="https://unsplash.com/@neonbrand", photographer="@neonbrand") }}
 
 During university, I worked as an employeee as part of a number of organizations, like the [BCAAFC](https://bcaafc.com/), a couple research labs, and [Science Venture](https://www.scienceventure.ca/). Often at the same time. After, I worked in Germany as part of the software consultancy [Asquera](https://asquera.de/) with some really incredible organizations, including my favorite, the [Wheelmap](https://wheelmap.org). For [PingCAP](https://pingcap.com/), I operated again as an employee.
 
@@ -59,7 +60,7 @@ You can find a rough plan of my business goals on the [consulting page](/consult
 
 ## Cutting to the heart of logging
 
-{{ figure(path="timber.jpg", alt="Chopped Timber - [@scutal](https://unsplash.com/@scutal)", colocated=true) }}
+{{ figure(path="timber.jpg", alt="Chopped Timber", source="https://unsplash.com/@scutal", photographer="@scutal", colocated=true) }}
 
 I'm really excited to start working on [Vector](https://vector.dev/)! It solves such a common problem that plagues infrastructure large and small.
 

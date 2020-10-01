@@ -8,8 +8,9 @@ tags = [
   "Tutorials",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Mario Klassen"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Mario Klassen"
 +++
 
 Recently there has been quite a bit of talk about *WebAssembly*, a new format for code for the web. It is a compile target for languages like C and Rust that enables us to write, and run, code from these languages in our browser.

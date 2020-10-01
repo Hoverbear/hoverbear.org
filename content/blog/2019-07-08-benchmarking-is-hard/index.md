@@ -7,8 +7,9 @@ tags = [
     "Infrastructure"
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Mitchel Boot; @valeon on Unsplash"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Mitchel Boot; @valeon on Unsplash"
 +++
 
 If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.

@@ -8,8 +8,9 @@ tags = [
   "Tooling",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "贝莉儿 NG"
+[extra.image]
+path =  "cover.jpg"
+photographer = "贝莉儿 NG"
 +++
 
 Over the last couple days at [asquera](http://asquera.de/) we've been on a retreat at the [Landhaus Fredenwalde](http://landhaus-fredenwalde.de/). It's really beautiful out here and it's given me a chance to work on a few small projects which I've been wanting to explore for awhile now.

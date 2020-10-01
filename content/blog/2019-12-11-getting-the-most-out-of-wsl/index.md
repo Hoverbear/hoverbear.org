@@ -7,8 +7,9 @@ tags = [
     "Tutorials"
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Matthieu Joannon; @matt_j on Unsplash"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Matthieu Joannon; @matt_j on Unsplash"
 +++
 
 Not long ago, Microsoft started iterating more heavily on their long-existing "Windows Subsystem for Linux" feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.

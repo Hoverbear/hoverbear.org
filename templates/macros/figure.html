@@ -1,0 +1,38 @@
+{%- import "macros/image.html" as image -%}
+
+<!-- Create a 'full' sized image. -->
+{%- macro captioned(path, alt=false, colocated=false, source=false, photographer=false) -%}
+    <figure class="captioned">
+        {{ image::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
+        <figcaption>
+            {%- if alt -%}
+                {{ alt | markdown(inline=true) | safe }}
+            {%- endif -%}
+            {%- if source and photographer -%}
+                &nbsp;- <a href="{{ source | safe }}">{{ photographer }}</a>
+            {%- elif source -%}
+                &nbsp;- {{ source }}
+            {%- elif photographer -%}
+                &nbsp;- {{ photographer }}
+            {%- endif -%}
+        </figcaption>
+    </figure>
+{%- endmacro full -%}
+
+{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false) -%}
+    <figure class="enriched">
+        <figcaption>
+            {%- if alt -%}
+                {{ alt | markdown(inline=true) | safe }}
+            {%- endif -%}
+            {%- if source and photographer -%}
+                &nbsp;- <a href="{{ source | safe }}">{{ photographer }}</a>
+            {%- elif source -%}
+                &nbsp;- {{ source }}
+            {%- elif photographer -%}
+                &nbsp;- {{ photographer }}
+            {%- endif -%}
+        </figcaption>
+        {{ image::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
+    </figure>
+{%- endmacro full -%}

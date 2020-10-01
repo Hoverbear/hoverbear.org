@@ -1,10 +1,20 @@
 <header>
-    {%- if page.extra.image -%}
-        {%- set image = page.extra.image -%}
+    {%- if page.extra.image.path -%}
+        {%- set cover_path = page.extra.image.path -%}
+        {%- set cover_photographer = page.extra.image.photographer | default(value="") -%}
+        {%- set cover_source = page.extra.image.source | default(value="") -%}
         {%- set colocated = true -%}
     {%- else -%}
-        {%- set image = '../static/' ~ config.extra.cover -%}
+        {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
+        {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
+        {%- set cover_source = config.extra.cover.source | default(value="") -%}
         {%- set colocated = false -%}
+    {%- endif -%}
+
+    {%- if page.title -%}
+        {%- set title = page.title -%}
+    {%- else -%}
+        {%- set title = config.title -%}
     {%- endif -%}
 
     {%- if page.title -%}
@@ -20,7 +30,7 @@
     {%- endif -%}
 
     <div id="hero-wrapper">
-        {{ image::full(path=image, colocated=colocated) }}
+        {{ figure::enriched(path=cover_path, alt="Photo", source=cover_source, photographer=cover_photographer, colocated=colocated) }}
         
         <div class="content">
 

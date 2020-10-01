@@ -8,7 +8,8 @@ tags = [
  "Arch Linux",
 ]
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 Back in [2014](/2014/07/14/arch-docker-baseimage/) when I was learning about [Docker](https://docker.com) I got around to making a base image for [Arch Linux](http://archlinux.org/). It was a really fun exploration and I got to know a lot more about how Docker worked from it. I'd highly suggest trying to make your own sometime!

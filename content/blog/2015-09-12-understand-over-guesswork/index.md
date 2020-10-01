@@ -8,7 +8,8 @@ tags = [
   "UVic",
 ]
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 # Evolving How We Learn Systems with Lessons from Programming in the Large

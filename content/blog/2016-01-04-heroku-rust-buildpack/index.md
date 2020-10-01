@@ -7,7 +7,8 @@ tags = [
   "Rust",
 ]
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 I'm happy to introduce the first stable version of my Rust Heroku Buildpack!

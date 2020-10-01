@@ -1,20 +1,25 @@
 <footer class="post-footer">
     <div id="hero-wrapper">
-        {%- if page.extra.image -%}
-            {%- set page_url_components = page.relative_path | split(pat='/') -%}
-            {%- set page_base = page_url_components | slice(end=page_url_components | length - 1) | join(sep='/') -%}
-            {%- set image_url = page_base ~ '/' ~ page.extra.image -%}
-            {{ image::full(path=image_url) }}
+        {%- if page.extra.image.path -%}
+            {%- set cover_path = page.extra.image.path -%}
+            {%- set cover_photographer = page.extra.image.photographer | default(value="") -%}
+            {%- set cover_source = page.extra.image.source | default(value="") -%}
+            {%- set colocated = true -%}
         {%- else -%}
-            {%- set image_url = '../static/' ~ config.extra.cover -%}
-            {{ image::full(path=image_url) }}
+            {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
+            {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
+            {%- set cover_source = config.extra.cover.source | default(value="") -%}
+            {%- set colocated = false -%}
         {%- endif -%}
+        
+        {{ figure::enriched(path=cover_path, photographer=cover_photographer, source=cover_source, colocated=colocated) }}
+
         <div class="content">
             <h4><a href=/>← Back to top of index</a></h4>
         
             <h4>By {{ config.extra.author }}</h4>
             {%- if page.extra.image_credit -%}
-                <h4>Cover image by {{ page.extra.image_credit }}</h4>
+                <h4>Cover image by {{ page.extra.cover.photographer }}</h4>
             {%- endif -%}
         
             <p>

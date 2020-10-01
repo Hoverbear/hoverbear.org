@@ -8,8 +8,9 @@ tags = [
     "Personal",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Ana Hobden @ 34c3"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Ana Hobden @ 34c3"
 +++
 
 First of all, **happy new year!**

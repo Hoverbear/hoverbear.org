@@ -1,10 +1,11 @@
 +++
 layout = "page"
 title = "About"
-description = "I have been many things, and I shall be many more, but what I shall always be, is me."
+description = "I have been, and will be, many things, but what I shall always be, is me."
 [extra]
-image = "about.jpg"
-image_credit = "Ana Hobden"
+[extra.image]
+path = "about.jpg"
+photographer = "Ana Hobden"
 +++
 
 Hello,

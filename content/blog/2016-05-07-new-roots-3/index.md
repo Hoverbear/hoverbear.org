@@ -8,8 +8,9 @@ tags = [
   "Arch Linux",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Lucas Neasi"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Lucas Neasi"
 +++
 
 This is the third in a series of posts about getting settled into a server. First we talked about [choosing a server](/2016/05/06/new-roots-1/), then we talked about [installing a base OS on a dedicated server](/2016/05/06/new-roots-2/). In this post we'll discuss configuring, securing, and hardening our server.

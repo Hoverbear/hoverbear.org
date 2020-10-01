@@ -7,8 +7,9 @@ tags = [
     "Infrastructure"
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Lennart Heim; @ohlennart on Unsplash"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Lennart Heim; @ohlennart on Unsplash"
 +++
 
 When [Jepsen](https://jepsen.io/) appeared in the industry several years ago our team at PingCAP couldn't have been happier. Finally, an approachable, understandable reliability testing framework along with an enjoyable and rigorous library of analyses of popular databases.

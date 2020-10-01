@@ -7,8 +7,9 @@ tags = [
   "Rust",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Samuel Zeller"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Samuel Zeller"
 +++
 
 Lately I've been thinking a lot about the *patterns* and *structures* which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.

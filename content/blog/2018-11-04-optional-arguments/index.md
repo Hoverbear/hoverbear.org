@@ -9,8 +9,9 @@ tags = [
   "Tutorials",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "A Hobden; Port Renfrew, BC"
+[extra.image]
+path =  "cover.jpg"
+photographer = "A Hobden; Port Renfrew, BC"
 +++
 
 When designing an API for your crate one topic which can come is how to handle optional arguments. Let's explore our `Option`s in Rust!

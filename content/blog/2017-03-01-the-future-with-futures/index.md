@@ -8,8 +8,9 @@ tags = [
   "Tutorials",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "NASA"
+[extra.image]
+path =  "cover.jpg"
+photographer = "NASA"
 +++
 
 Recently there has been a lot of progress in the Rust language towards a robust asynchronous stack. In this article we'll take a look at what these things are, take a tour of what's available, play with some examples, and talk about how the pieces fit together.

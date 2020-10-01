@@ -7,8 +7,9 @@ tags = [
   "BCAAFC",
 ]
 [extra]
-image = "gov-21-1.jpg"
-image_credit = "(All) Geoff Howe"
+[extra.image]
+path =  "gov-21-1.jpg"
+photographer = "(All) Geoff Howe"
 +++
 
 This year helped again with Gathering Our Voices. I worked in the same capacity as previous years and had a similarly great time.

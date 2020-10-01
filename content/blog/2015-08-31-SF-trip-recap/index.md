@@ -9,7 +9,8 @@ tags = [
   "Events",
 ]
 [extra]
-image = "d1-yyj-yvr.jpg"
+[extra.image]
+path =  "d1-yyj-yvr.jpg"
 +++
 
 A selection of images from my trip that I thought I'd share with the world.

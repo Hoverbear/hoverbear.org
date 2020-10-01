@@ -3,7 +3,8 @@ title = "Site Redesign"
 aliases = ["2016/04/06/Site-Redesign/"]
 layout = "blog/single.html"
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 I've begun redesigning my website with my own theme! With school finishing and new employment looming I decided to take the time to make my site truly my own.

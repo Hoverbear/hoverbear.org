@@ -1,5 +1,3 @@
-{%- import "macros/image.html" as image -%}
-<figure>
-    {{ image::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
-    <figcaption>{{ alt | markdown(inline=true) | safe  }}</figcaption>
-</figure>
+{%- import "macros/figure.html" as figure -%}
+
+{{ figure::enriched(path=path, alt=alt, colocated=colocated, source=source | default(value=false), photographer=photographer | default(value=false)) | safe }}

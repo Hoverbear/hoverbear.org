@@ -7,8 +7,9 @@ tags = [
   "Infrastructure"
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Todd Quackenbush"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Todd Quackenbush"
 +++
 
 This is the first in a series of posts where we'll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we'll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.

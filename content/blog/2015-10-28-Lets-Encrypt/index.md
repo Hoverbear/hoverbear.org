@@ -7,7 +7,8 @@ tags = [
   "Tooling",
 ]
 [extra]
-image = "cover.jpg"
+[extra.image]
+path =  "cover.jpg"
 +++
 
 I was privileged to recieve one of the early [Let's Encrypt](https://letsencrypt.org/) beta certificates for [https://hoverbear.org](https://hoverbear.org/). I had an easy and fun time setting it up this evening on my [Funtoo Container](http://www.funtoo.org/Funtoo_Hosting) and wanted to quickly jot down how to!

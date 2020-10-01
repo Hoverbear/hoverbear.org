@@ -8,8 +8,9 @@ tags = [
   "Arch Linux",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "Arthur Rutkowski"
+[extra.image]
+path =  "cover.jpg"
+photographer = "Arthur Rutkowski"
 +++
 
 This is the second post of a series on settling into new servers. The first was about [choosing a server](/2016/05/06/new-roots-1/). This post is specifically targetted at newly acquired VPS and Dedicated servers. We'll talk about installing our chosen distribution, configuring its basics, and familiarizing ourselves with the new metal.

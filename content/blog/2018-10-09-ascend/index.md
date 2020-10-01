@@ -8,8 +8,9 @@ tags = [
     "Personal",
 ]
 [extra]
-image = "cover.jpg"
-image_credit = "A Hobden; Port Renfrew, BC"
+[extra.image]
+path =  "cover.jpg"
+photographer = "A Hobden; Port Renfrew, BC"
 +++
 
 It seems that at times of monumental change in life there is a 'before' time, and an 'after' time. For example, the time 'before' graduation, and the time 'after'. It feels appropriate for the moment. Over the other side of the summit is unknowns. Unknowns about the future, about ones place in it, and about what changes might come next.
