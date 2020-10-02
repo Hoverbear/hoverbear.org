@@ -41,8 +41,22 @@
 
         <nav id="pages">
             <ul>
-                {%- for item in config.extra.menu -%}
-                    <li><a href="{{ item.url | safe }}">{{ item.title | markdown(inline=true) }}</a>&nbsp;</li>
+                {%- for key, value in config.extra.menu -%}
+                    <li>
+                        <a href="{{ value.url | safe }}">
+                            {{ value.title | markdown(inline=true) }}
+                        </a>&nbsp;
+                        {%- if value.branches -%}
+                            {%- for key, value in value.branches -%}
+                                <ul>
+                                    <li>
+                                        <a href="{{ value.url | safe }}">{{ value.title | markdown(inline=true) }}</a>&nbsp;
+                                    </li>
+                                </ul>
+                            {%- endfor -%}
+                        {%- endif -%}
+                    </li>
+
                 {%- endfor -%}
             </ul>
         </nav>
