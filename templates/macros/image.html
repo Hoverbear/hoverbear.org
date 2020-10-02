@@ -23,7 +23,7 @@
        This means you have to reference the full page asset colocation path.
 -->
 {%- macro colocated_asset(path) -%}
-       {%- set page_url_components = page.relative_path | split(pat='/') -%}
+       {%- set page_url_components = page.relative_path | default(value=section.relative_path) | split(pat='/') -%}
        {%- set page_base = page_url_components | slice(end=page_url_components | length - 1) | join(sep='/') -%}
        {{ page_base ~ '/' ~ path }}
 {%- endmacro colocated_asset -%}

@@ -39,27 +39,32 @@
 
         <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
 
-        <nav id="pages">
+        <nav id="sections">
             <ul>
                 {%- for key, value in config.extra.menu -%}
                     <li>
                         <a href="{{ value.url | safe }}">
                             {{ value.title | markdown(inline=true) }}
                         </a>&nbsp;
-                        {%- if value.branches -%}
-                            {%- for key, value in value.branches -%}
-                                <ul>
-                                    <li>
-                                        <a href="{{ value.url | safe }}">{{ value.title | markdown(inline=true) }}</a>&nbsp;
-                                    </li>
-                                </ul>
-                            {%- endfor -%}
-                        {%- endif -%}
                     </li>
-
                 {%- endfor -%}
             </ul>
         </nav>
+
+        {%- if section.subsections -%}
+            <nav id="current-section">
+                <ul>
+                    {%- for value in section.subsections -%}
+                        {%- set section = get_section(path=value) -%}
+                        <li>
+                            <a href="{{ section.permalink | safe }}">
+                                {{ section.title | markdown(inline=true) }}
+                            </a>&nbsp;
+                        </li>
+                    {%- endfor -%}
+                </ul>
+            </nav>
+        {%- endif -%}
 
         <div class="metadata">
             {% if description -%}
@@ -74,6 +79,6 @@
                 </p>
             {%- endif %}
         </div>
+
     </div>
 </header>
-      
