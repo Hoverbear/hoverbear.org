@@ -3,6 +3,9 @@ $main-text: ("light": #000000, "dark": #FFFFFF);
 $unvisited-link: ("light": #333333, "dark": #CCCCCC);
 $visited-link: ("light": #555555, "dark": #AAAAAA);
 $code-background: ("light": #DDDDDD, "dark": #2b303b);
+
+$quote-background: ("light": #DDDDDD, "dark": #2b303b);
+
 $font: ("normal": "Fira Sans", "code": "Fira Code");
 $responsive-margin-horizontal: (
     "normal": 15vw,
@@ -162,7 +165,7 @@ html {
             text-align: center;
         }
 
-        article > p, h2, h1, h3, h4, ul, ol, table, .metadata,
+        article > p, blockquote, h2, h1, h3, h4, ul, ol, table, .metadata,
         .post-meta, section > .excerpt > a, section, pre, figcaption, #hero-wrapper .content, nav#toc {
             @include responsive(margin-left, $responsive-margin-horizontal);
             @include responsive(margin-right, $responsive-margin-horizontal);
@@ -310,6 +313,19 @@ html {
                 border: none;
                 height: 1px;
                 @include color-scheme(background, $main-text);
+            }
+
+            blockquote {
+                @include color-scheme(background, $quote-background);
+                border-left: 10px solid #ccc;
+                padding-left: 2vw;
+                
+                padding-top: 2vh;
+                padding-bottom: 2vh;
+
+                & p {
+                    display: inline;
+                }
             }
             
             // *** Bad Behavior fixes ***
