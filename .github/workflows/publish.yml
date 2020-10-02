@@ -22,6 +22,11 @@ jobs:
         git config gc.auto 0
         git fetch --depth 1 origin root
         git checkout root
+    - name: Cache images
+      uses: actions/cache@v2
+      with:
+        path: static/processed_images
+        key: images-${{ hashFiles('static/processed_images/*') }}
     - name: Install Zola
       run: |
         sudo snap install --edge zola
