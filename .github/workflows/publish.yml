@@ -26,7 +26,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: static/processed_images
-        key: images-${{ hashFiles('static/processed_images/*') }}
+        key: images-${{ hashFiles('content/**') }}
     - name: Install Zola
       run: |
         sudo snap install --edge zola
