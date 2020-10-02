@@ -165,8 +165,12 @@ html {
             text-align: center;
         }
 
-        article > p, blockquote, h2, h1, h3, h4, ul, ol, table, .metadata,
-        .post-meta, section > .excerpt > a, section, pre, figcaption, #hero-wrapper .content, nav#toc {
+        article > p, blockquote, 
+        & > h2, & > h1, & > h3, & > h4,
+        article > h2, article > h1, article > h3, article > h4,
+        .hero-wrapper-content > h2, .hero-wrapper-content > h1, .hero-wrapper-content > h3, .hero-wrapper-content > h4,
+        ul, ol, table, .metadata, section > .excerpt > a, section, pre, figcaption, 
+        nav#toc {
             @include responsive(margin-left, $responsive-margin-horizontal);
             @include responsive(margin-right, $responsive-margin-horizontal);
             margin-top: 2vh;
