@@ -5,12 +5,12 @@ $visited-link: ("light": #555555, "dark": #AAAAAA);
 $code-background: ("light": #DDDDDD, "dark": #2b303b);
 $font: ("normal": "Fira Sans", "code": "Fira Code");
 $responsive-margin-horizontal: (
-    "normal": 5vw,
-    "widescreen": 15vw
+    "normal": 15vw,
+    "widescreen": 25vw,
 );
-$responsive-margin-horizontal-inverse: (
-    "normal": -5vw, 
-    "widescreen": -15vw
+$responsive-margin-horizontal-wide: (
+    "normal": 5vw,
+    "widescreen": 5vw,
 );
 $hero-wrapper-font-color: white;
 
@@ -32,6 +32,7 @@ html {
     background: black;
     font-family: map-get($font, "normal");
     text-rendering: optimizeLegibility;
+    font-variant-ligatures: normal;
     font-feature-settings: "calt" 1; /* For IE/Edgee*/
 
     body {
@@ -353,6 +354,11 @@ html {
             // Make a nice border around code.
             pre {
                 font-family: map-get($font, "code") !important;
+                @include responsive(margin-left, $responsive-margin-horizontal-wide);
+                @include responsive(margin-right, $responsive-margin-horizontal-wide);
+                font-weight: bolder;
+                letter-spacing: 0.0.8rem;
+                line-height: 1.4;
                 padding: 5px;
                 border: 1px solid #DDDDDD;
                 overflow-x: auto;
