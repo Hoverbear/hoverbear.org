@@ -1,8 +1,10 @@
 +++
 layout = "page"
-title = "Hoverbear Consulting"
+title = "Consulting"
 description = "Building capacity and capability for a more hopeful future."
 [extra]
+in_menu = true
+
 [extra.image]
 path =  "cover.jpg"
 photographer = "Ana Hobden"

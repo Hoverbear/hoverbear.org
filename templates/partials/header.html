@@ -1,33 +1,30 @@
 <header>
-    {%- if page.extra.image.path -%}
-        {%- set cover_path = page.extra.image.path -%}
-        {%- set cover_photographer = page.extra.image.photographer | default(value="") -%}
-        {%- set cover_source = page.extra.image.source | default(value="") -%}
-        {%- set colocated = section.extra.image.colocated | default(value=true) -%}
-    {%- elif section.extra.image.path -%}
-        {%- set cover_path = section.extra.image.path -%}
-        {%- set cover_photographer = section.extra.image.photographer | default(value="") -%}
-        {%- set cover_source = section.extra.image.source | default(value="") -%}
-        {%- set colocated = section.extra.image.colocated | default(value=true) -%}
+    {%- if page -%}
+        {%- set page_or_section = page -%}
+    {%- elif section -%}
+        {%- set page_or_section = section -%}
+    {%- endif -%}
+
+    {%- if page_or_section.extra.image -%}
+        {%- set cover_path = page_or_section.extra.image.path -%}
+        {%- set cover_photographer = page_or_section.extra.image.photographer | default(value="") -%}
+        {%- set cover_source = page_or_section.extra.image.source | default(value="") -%}
+        {%- set colocated = page_or_section.extra.image.colocated | default(value=true) -%}
     {%- else -%}
         {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
         {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
         {%- set cover_source = config.extra.cover.source | default(value="") -%}
-        {%- set colocated = section.extra.image.colocated | default(value=false) -%}
+        {%- set colocated = false -%}
     {%- endif -%}
 
-    {%- if page.title -%}
-        {%- set title = page.title -%}
-    {%- elif section.title -%}
-        {%- set title = section.title -%}
+    {%- if page_or_section.title -%}
+        {%- set title = page_or_section.title -%}
     {%- else -%}
         {%- set title = config.title -%}
     {%- endif -%}
 
-    {%- if page.description -%}
-        {%- set description = page.description -%}
-    {%- elif section.description -%}
-        {%- set description = section.description -%}
+    {%- if page_or_section.description -%}
+        {%- set description = page_or_section.description -%}
     {%- else -%}
         {%- set description = config.description -%}
     {%- endif -%}
@@ -39,32 +36,54 @@
 
         <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
 
-        <nav id="sections">
+
+        <nav id="tree">
+            {%- for ancestor_path in page_or_section.ancestors | default(value=[]) -%}
+                <ul>
+                    {%- set ancestor = get_section(path=ancestor_path) -%}
+                    {%- for ancestor_page in ancestor.pages | default(value=[]) -%}
+                        {%- if ancestor_page.extra.in_menu | default(value=false) -%}
+                            <li>
+                                <a href="{{ ancestor_page.permalink | safe }}">
+                                    {{ ancestor_page.title | markdown(inline=true) }}
+                                </a>&nbsp;
+                            </li>
+                        {%- endif -%}
+                    {%- endfor -%}
+                    {%- for ancestor_section_path in ancestor.subsections -%}
+                        {%- set ancestor_section = get_section(path=ancestor_section_path) -%}
+                        {%- if ancestor_section.extra.in_menu | default(value=false) -%}
+                            <li>
+                                <a href="{{ ancestor_section.permalink | safe }}">
+                                    {{ ancestor_section.title | markdown(inline=true) }}
+                                </a>&nbsp;
+                            </li>
+                        {%- endif -%}
+                    {%- endfor -%}
+                </ul>
+            {%- endfor -%}
             <ul>
-                {%- for key, value in config.extra.menu -%}
+                {%- for page in page_or_section.pages | default(value=[]) -%}
+                    {%- if page.extra.in_menu | default(value=false) -%}
+                        <li>
+                            <a href="{{ page.permalink | safe }}">
+                                {{ page.title | markdown(inline=true) }}
+                            </a>&nbsp;
+                        </li>
+                    {%- endif -%}
+                {%- endfor -%}
+                {%- for subsection_path in page_or_section.subsections | default(value=[]) -%}
+                    {%- set subsection_section = get_section(path=subsection_path) -%}
+                    {%- if subsection_section.extra.in_menu | default(value=false) -%}
                     <li>
-                        <a href="{{ value.url | safe }}">
-                            {{ value.title | markdown(inline=true) }}
+                        <a href="{{ subsection_section.permalink | safe }}">
+                            {{ subsection_section.title | markdown(inline=true) }}
                         </a>&nbsp;
                     </li>
+                    {%- endif -%}
                 {%- endfor -%}
             </ul>
         </nav>
-
-        <!-- {%- if section.subsections -%}
-            <nav id="current-section">
-                <ul>
-                    {%- for value in section.subsections -%}
-                        {%- set section = get_section(path=value) -%}
-                        <li>
-                            <a href="{{ section.permalink | safe }}">
-                                {{ section.title | markdown(inline=true) }}
-                            </a>&nbsp;
-                        </li>
-                    {%- endfor -%}
-                </ul>
-            </nav>
-        {%- endif -%} -->
 
         <div class="metadata">
             {% if description -%}
