@@ -1,8 +1,16 @@
 {% extends "default.html" %}
 
 {% block content %}
-  {% for post in section.pages  %}
+  {{ section.content | safe }}
+  <hr>
+  {% for post in section.pages | default(value=[])  %}
     {{ post::metadata(post=post) }}
+    {% if loop.last != true %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  {% for subsection_path in section.subsections | default(value=[])  %}
+    {{ section::metadata(path=subsection_path) }}
     {% if loop.last != true %}
       <hr>
     {% endif %}

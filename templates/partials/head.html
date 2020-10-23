@@ -12,6 +12,8 @@
         <!-- Information about this site -->
         <title>{%- if page.title -%}
             {{ page.title }}
+        {% elif section.title %}
+            {{ section.title }}
         {%- else -%}
             {{ config.title }}
         {%- endif -%}
@@ -30,6 +32,8 @@
         <meta name="twitter:creator" content="@{{ config.extra.twitter }}">
         {% if page.title %}
             <meta name="twitter:title" content="{{ page.title | striptags }}">
+        {% elif section.title %}
+            <meta name="twitter:title" content="{{ section.title | striptags }}">
         {% else %}
             <meta name="twitter:title" content="{{ config.title | striptags }}">
         {% endif %}

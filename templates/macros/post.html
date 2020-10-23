@@ -9,9 +9,11 @@
 		<div class="post-meta">
 			<a class="continue-reading" href="{{ post.permalink }}#continue-reading">Continue reading...</a>
 			<div class="meta-box">
-				<div class="posted-on">
+				{%- if post.date -%}
+					<div class="posted-on">
 						<time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
-				</div>
+					</div>
+				{%- endif -%}
 				<div class="reading-time">
 					{{ post.reading_time }} min
 				</div>
