@@ -8,8 +8,8 @@ template = "blog/list.html"
 in_menu = true
 
 [extra.image]
-path = "../static/cover.jpg"
-colocated = false
-photographer = "Kobi Li"
-source = "https://unsplash.com/photos/-N0cgDSF_MI"
+path = "cover.jpg"
+colocated = true
+photographer = "Anthony Rosset"
+source = "https://unsplash.com/photos/GnlV0Jgbi6g"
 +++

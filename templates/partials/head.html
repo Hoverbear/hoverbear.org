@@ -24,6 +24,8 @@
         <meta name="twitter:card" content="summary_large_image">
         {%- if page.extra.image.path -%}
             {%- set image = image::colocated_asset(path=page.extra.image.path) | trim -%}
+        {% elif section.extra.image.path %}
+            {%- set image = image::colocated_asset(path=section.extra.image.path) | trim -%}
         {%- else -%}
             {%- set image = '../static/' ~ config.extra.cover.path -%}
         {%- endif -%}
@@ -39,6 +41,8 @@
         {% endif %}
         {% if page.summary %}
             <meta name="twitter:description" content="{{ page.summary | striptags }}">
+        {% elif section.summary %}
+            <meta name="twitter:description" content="{{ section.summary | striptags }}">
         {% else %}
             <meta name="twitter:description" content="{{ config.description | striptags }}">
         {% endif %}
