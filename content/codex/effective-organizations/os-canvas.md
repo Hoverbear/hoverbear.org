@@ -17,9 +17,25 @@ source = "https://unsplash.com/photos/_HBH-iaHC78"
 
 The OS Canvas is a concept described by [*Aaron Dignan*](https://twitter.com/aarondignan) as part of [*The Ready*](the-ready) in [*The Operating System Canvas*](operating-system-canvas).
 
-There are roughly 12 dimensions laid out (copied from the post):
+> TODO: Much of this information is behind [books](https://www.russellbooks.com/books/brave-new-work-are-you-ready-to-reinvent-your-organization-0525536205/) I need to source.
 
-> # Dimensions
+# Methodology
+
+The OS canvas process described in [*The Operating System Canvas*](operating-system-canvas) appears vaguely like retrospective processes I've encountered in the past.
+
+What differs from retrospectives I've been a part of is the content and context. Instead of talking about sprints, or quarters, what is being discussed is the organization itself. They discuss 12 [dimension](#dimensions)
+
+It seems to work first on building up tensions and vulnerability, then allowing the emotion to level out through positive reflection before trying to draw the members of the group into sharing more deeply and charting a path forward.
+
+# Open Questions
+
+* **Cadence:** The material I've found does not seem to suggest a cadence. How often should this be done?
+* **Stage Setting:** How does an organization choose the right stakeholders to have in the process? What is the appropriate number?
+* **Following Through:** While this canvas provides organizations with some clear goals, how do the stakeholders hold themselves to their goals and follow through?
+
+# Dimensions
+
+There are roughly 12 dimensions laid out (copied from the post):
 >
 > ## Purpose
 >
