@@ -9,7 +9,7 @@ weight = 0
 in_menu = true
 
 [extra.image]
-path = "cover.jpg"
+path = "totems.jpg"
 colocated = true
 photographer = "Danika Perkinson"
 source = "https://unsplash.com/photos/_HBH-iaHC78"
