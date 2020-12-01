@@ -117,7 +117,7 @@ Don't get hung up thinking that `[1, 2, 3]` and it's ilk are the only things you
 Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement [`iter()`](http://doc.rust-lang.org/std/?search=iter%28%29).
 
 ```rust
-std::collections::VecDeque;
+use std::collections::VecDeque;
 
 fn main() {
     // Create a Vector of values.
