@@ -23,7 +23,7 @@ My work has two sides:
 
 The majority of my time, I work with **international technology companies working in the open-source space** to build a healthy technical ecosystem and a sustainable future. A healthy ecosystem requires collaboration as well as competition. A healthy company operates as an citizen of the society which has created the need for it to exist. A healthy open source project fulfills the hopes and dreams of the contributors which participate in it.
 
-What time I can mange, I spend supporting and engaging with **Indigenous led efforts**. This company is founded on unceded Lək̓ʷəŋən territory, and the Indigenous community here has invested in my during my youth. Creating long term, impactful, healthy investments into Indigenous communities in Canada as well as globally is the overriding purpose of this company.
+What time I can mange, I spend supporting and engaging with **Indigenous led efforts**. This company is founded on unceded Lək̓ʷəŋən territory, and the Indigenous community here has invested in me during my youth. It is my duty to invest back. Creating long term, impactful, healthy investments into Indigenous communities in Canada as well as globally is the overriding purpose of this company.
 
 
 ## Services
