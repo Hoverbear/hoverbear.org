@@ -53,11 +53,16 @@ I offer flexible, friendly, casual workshops or for groups of up to 6. Content i
   + WASM plugins for Rust
   + Chaos Testing
   + Networking best practices
-* **Rust Engineer Management:** One off or regular 1-3 hour Q&A or planning sessions.
+* **Engineering Management:** One off or regular 1-3 hour Q&A or planning sessions.
   + Rust in production
   + Rust at scale
   + Rust over the entire business lifecycle
   + Hiring Rust engineers
+* **Industry Directions:** 1-2 hour whirlwind topical tours. Suitable for executives.
+  + Databases (OLAP/OLTP)
+  + Serverless/Function-as-as-service
+  + Storage
+  + Software Foundations
 
 
 ### Technical review or assessment
