@@ -10,10 +10,13 @@ path =  "cover.jpg"
 photographer = "Ana Hobden"
 +++
 
+
+> **My company is in hibernation.** I am currently engaged in a staff Senior Engineer position with [Maya Data](mayadata.io/), with my work focusing on [Mayastor](https://github.com/openebs/Mayastor). Because of this, my Company and I are not available for hire. I still offer many (free!) services to Indigenous-led efforts, though!
+
+
 Doing good work is incredibly hard work. The world is constantly weathering your organization with new challenges to overcome, and new opportunities to grasp. I work with your organization over the long term to create capacity and capability amongst your team, preparing them for what is to come. I advocate for practical solutions and foster cooperation over competition.
 
-Perhaps we can work together to build a better, more hopeful future:
-
+Perhaps we can work together to build a better, more hopeful future.
 
 ## Vision & Focus
 
@@ -28,15 +31,35 @@ What time I can mange, I spend supporting and engaging with **Indigenous led eff
 
 ## Services
 
+As a consultancy, my company can provide a range of services. I do not produce products, or operate client infrastructure.
 
 ### Open source maintainership
+
+> This service is not available due to a standing employment agreement with [Maya Data](mayadata.io/).
   
 Ongoing development and maintenance of a growing open source project is no easy task. The main service I provide is long term, ongoing maintenance services. I can help your open source project reach your goals.
 
-I prefer Rust projects, particularly in the distributed systems, networking, or embedded space.
+As part of this arrangement, I will happily accept deep, hard technical work, examples include: implementing complex topics like Raft's Joint Consensus, adding a WASM plugin architecture to your project, and doing broad scale data model refactors.
+
+Maintainership is a retainer style service that includes monthly independent-contributor hours as well as full access to all other company services.
+
+I prefer Rust projects, particularly in the distributed systems, networking, or embedded space. I'm open to other things, particularly Typescript.
+
+### Technical Copywriting
+
+> This service is has limited availablility (Indigenous organizations only) due to a standing employment agreement with [Maya Data](mayadata.io/).
+
+From technical blog article, authoring in depth tutorials, building references, or even maintaining large project websites, I've had a part in it. There are many examples of my writing on on the blog section of this site. I have supported documentation efforts of multiple large projects, such as [Vector](https://vector.dev/).
+
+A couple non-negotiable notes:
+
+* **I do not write 'benchmarketing'.** I'm not going to compare your product to your competitors and show how it is certainly better. I will show a range of scenarios and explain how I ensured the benchmarks were fair, and let you choose not to publish, though.
+* If you publish my work, I reserve the right to **post the final (or revised) version on this website**. I will always link to your official article. This is to preserve a record of my work, as well as ensure readers who visit my site, but not yours, also see the work we partook in together.
 
 
 ### Workshops & Training
+
+> This service is has limited availablility (Indigenous organizations only) due to a standing employment agreement with [Maya Data](mayadata.io/).
   
 I offer flexible, friendly, casual workshops or for groups of up to 6. Content is custom catered to your needs.
 
@@ -101,8 +124,8 @@ I have a few policies to be aware of:
     + can freely renegotiate our mandate at each renewal.
     + am able to hire staff.
   
-  If you wish to hire me as an employee, you may do so by contacting me personally to ensure you have a [foreign payroll entity](https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll/payroll-deductions-contributions/canada-pension-plan-cpp/foreign-employees-employers.html) in Canada which can issue payroll correctly.
-* Our business relationship must be founded on **mutual goodwill and intent.** I provide a service to your company, and I will do so as passionately, carefully, and correctly as possible. If I find myself no longer motivated to work with you, or you are not satisfied with the outcomes of my work, we will terminate the contract under good terms and part ways like reasonble people.
+  If you wish to hire me as an employee, you may do so by contacting me personally to ensure you have a [foreign payroll entity](https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll/payroll-deductions-contributions/canada-pension-plan-cpp/foreign-employees-employers.html) in Canada which can issue payroll correctly, or use something like [Remote.com](https://remote.com/).
+* Our business relationship must be founded on **mutual goodwill and intent.** I provide a service to your company, and I will do so as passionately, carefully, and correctly as possible. If I find myself no longer motivated to work with you, or you are not satisfied with the outcomes of my work, we will terminate the contract under good terms and part ways like reasonable people.
 * **I am happy to sign limited term Non-Disclosure Agreements.** I do not accept unlimited term NDAs, I am not interested in taking on liabilities which cannot be practically enforced, as this risks damaging the enforcability of the rest of our contract. Please choose a reasonable NDA term, and I will be very happy to accept it. If your company does not have an NDA yet, I have one we can use.
 * I **bill monthly by invoice.** They are expected to be fulfilled within 30 days. Since I have no interest in legal matters, invoices left unpaid after 30 days result in immediate mandate termination, no exceptions.
 * Occasionally, I am blessed with more business than work. New clients may attempt to 'buy-out' an existing contract with me. **Your company will have the opportunity to renegotiate our contract** whenever:
@@ -114,12 +137,18 @@ I have a few policies to be aware of:
 
 The company maintains the following mandates:
 
-* [Vector.dev](https://vector.dev/): Open source maintainership supported by [Timber.io](timber.io/).
+> None! I work for [Maya Data](https://mayadata.io/) now, and do not accept B2B contracts.
+>
+> **I don't plan on changing jobs soon. Please don't ask.**
  
 Previous mandates of the company:
 
+* [Vector.dev](https://vector.dev/): Open source maintainership supported by [Timber.io](timber.io/).
+  + Added proof of concept WASM plugins.
+  + Supported release process over x86, aarch64, and armv7 architectures as well as Linux and Windows.
+  + Advised on community chat migration to Discord, helped foster new user community there.
+  + Undertook architectural and data model RFCs.
 * [Ferrous Systems](https://ferrous-systems.com/): Specialized training module development.
-
 
 ## Efforts
 
