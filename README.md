@@ -24,6 +24,7 @@ Press Ctrl+C to stop
 
 You can interactively edit now. Changes should show up nearly immediately.
 
+
 # Deployment
 
-Seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work for pyshing, so you'll need to add a CI secret called `TOKEN`. You'll also need to create a `gh-pages` branch and might need to change your default branch name from root.
+It seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work for pushing, so you'll need to add a CI secret called `TOKEN` with permissions to do this! You'll also need to create a `gh-pages` branch and might need to change your default branch name from `root`.
