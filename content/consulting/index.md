@@ -11,7 +11,7 @@ photographer = "Ana Hobden"
 +++
 
 
-> **My company is in hibernation.** I am currently engaged in a staff Senior Engineer position with [Maya Data](mayadata.io/), with my work focusing on [Mayastor](https://github.com/openebs/Mayastor). Because of this, my Company and I are not available for hire. I still offer many (free!) services to Indigenous-led efforts, though!
+> **My company is in hibernation.** I am currently engaged in a staff Senior Engineer position with [Maya Data](https://mayadata.io/), with my work focusing on [Mayastor](https://github.com/openebs/Mayastor). Because of this, my Company and I are not available for hire. I still offer many (free!) services to Indigenous-led efforts, though!
 
 
 Doing good work is incredibly hard work. The world is constantly weathering your organization with new challenges to overcome, and new opportunities to grasp. I work with your organization over the long term to create capacity and capability amongst your team, preparing them for what is to come. I advocate for practical solutions and foster cooperation over competition.
