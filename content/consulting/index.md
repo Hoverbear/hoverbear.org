@@ -35,7 +35,7 @@ As a consultancy, my company can provide a range of services. I do not produce p
 
 ### Open source maintainership
 
-> This service is not available due to a standing employment agreement with [Maya Data](mayadata.io/).
+> This service is not available due to a standing employment agreement with [Maya Data](https://mayadata.io/).
   
 Ongoing development and maintenance of a growing open source project is no easy task. The main service I provide is long term, ongoing maintenance services. I can help your open source project reach your goals.
 
@@ -47,7 +47,7 @@ I prefer Rust projects, particularly in the distributed systems, networking, or 
 
 ### Technical Copywriting
 
-> This service is has limited availablility (Indigenous organizations only) due to a standing employment agreement with [Maya Data](mayadata.io/).
+> This service is has limited availablility (Indigenous organizations only) due to a standing employment agreement with [Maya Data](https://mayadata.io/).
 
 From technical blog article, authoring in depth tutorials, building references, or even maintaining large project websites, I've had a part in it. There are many examples of my writing on on the blog section of this site. I have supported documentation efforts of multiple large projects, such as [Vector](https://vector.dev/).
 
@@ -59,7 +59,7 @@ A couple non-negotiable notes:
 
 ### Workshops & Training
 
-> This service is has limited availablility (Indigenous organizations only) due to a standing employment agreement with [Maya Data](mayadata.io/).
+> This service is has limited availablility (Indigenous organizations only) due to a standing employment agreement with [Maya Data](https://mayadata.io/).
   
 I offer flexible, friendly, casual workshops or for groups of up to 6. Content is custom catered to your needs.
 
