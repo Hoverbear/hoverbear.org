@@ -71,12 +71,12 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -175,7 +175,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 <span id="continue-reading"></span><h2 id="our-first-iterator">Our First Iterator</h2>
 <p>Having everything twice as much is great, right? Let's take a set of values and double it!</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// First, we get a set of values.
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> input = [</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
     </span><span style="color:#65737e;">// Create an iterator over them.
@@ -197,7 +197,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 <h2 id="n-at-a-time"><code>n</code> at a Time</h2>
 <p>You can access the next element in an iterator with <code>.next()</code>. If you'd like a batch you can use <code>.take(n)</code> to create a new iterator that goes over the next <code>n</code> elements. Have a few you don't care about? Use <code>.skip(n)</code> to discard <code>n</code> elements.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> vals = [ </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">];
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> iter = vals.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">();
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, iter.</span><span style="color:#96b5b4;">next</span><span style="color:#c0c5ce;">());
@@ -210,7 +210,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 </span></code></pre><h2 id="observing-laziness">Observing Laziness</h2>
 <p>We talked about how Iterators are lazy, but our first example didn't really demonstrate that. Let's use <code>.inspect()</code> calls to observe evaluation.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> input = [</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> iterator = input.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">();
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> mapped = iterator
@@ -224,15 +224,15 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 </span></code></pre>
 <p>The output is:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">Pre map:    </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">
-First map:  </span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">
-Second map: </span><span style="color:#d08770;">15</span><span style="color:#c0c5ce;">
-Pre map:    </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">
-First map:  </span><span style="color:#d08770;">20</span><span style="color:#c0c5ce;">
-Second map: </span><span style="color:#d08770;">25</span><span style="color:#c0c5ce;">
-Pre map:    </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">
-First map:  </span><span style="color:#d08770;">30</span><span style="color:#c0c5ce;">
-Second map: </span><span style="color:#d08770;">35
+<code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">Pre map:    </span><span style="color:#d08770;">1
+</span><span style="color:#c0c5ce;">First map:  </span><span style="color:#d08770;">10
+</span><span style="color:#c0c5ce;">Second map: </span><span style="color:#d08770;">15
+</span><span style="color:#c0c5ce;">Pre map:    </span><span style="color:#d08770;">2
+</span><span style="color:#c0c5ce;">First map:  </span><span style="color:#d08770;">20
+</span><span style="color:#c0c5ce;">Second map: </span><span style="color:#d08770;">25
+</span><span style="color:#c0c5ce;">Pre map:    </span><span style="color:#d08770;">3
+</span><span style="color:#c0c5ce;">First map:  </span><span style="color:#d08770;">30
+</span><span style="color:#c0c5ce;">Second map: </span><span style="color:#d08770;">35
 </span></code></pre>
 <p>As you can see, the map functions are only evaluated as the iterator is moved through. (Otherwise we would see <code>1</code>, <code>2</code>, <code>3</code>, <code>10</code>, ...)</p>
 <blockquote>
@@ -240,7 +240,7 @@ Second map: </span><span style="color:#d08770;">35
 </blockquote>
 <p>This has some really cool implications, for example, we can have infinite or cycling iterators.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> input = [</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
     </span><span style="color:#65737e;">// This tells the iterator to cycle over itself.
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> cycled = input.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">cycle</span><span style="color:#c0c5ce;">();
@@ -253,7 +253,7 @@ Second map: </span><span style="color:#d08770;">35
 <p>Don't get hung up thinking that <code>[1, 2, 3]</code> and it's ilk are the only things you can use iterators on.</p>
 <p>Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement <a href="http://doc.rust-lang.org/std/?search=iter%28%29"><code>iter()</code></a>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::VecDeque;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::VecDeque;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Create a Vector of values.
@@ -271,7 +271,7 @@ Second map: </span><span style="color:#d08770;">35
 <p>Notice how here we collect into a VecDeque? That's because it implements <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>.</p>
 <p>Now you're probably thinking, <em>&quot;Ah hah! I bet you can't use a HashMap or tree or something, Hoverbear!&quot;</em> Well, you're wrong! You can!</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Initialize an input map.
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> input = HashMap::&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, </span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">&gt;::new();
@@ -296,7 +296,7 @@ Second map: </span><span style="color:#d08770;">35
 <h2 id="writing-an-iterator">Writing an Iterator</h2>
 <p>Okay so we've seen a taste of the kind of things that might offer iterators, but we can also make our own. What about an iterator that counts up indefinitely?</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">CountUp {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">CountUp {
     </span><span style="color:#bf616a;">current</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
 }
 
@@ -327,12 +327,12 @@ Second map: </span><span style="color:#d08770;">35
 <p>Throughout the following examples you'll see use of the <code>x..y</code> syntax. This creates a <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a>. They implement <code>Iterator</code>	so we don't need to call <code>.iter()</code> on them. You can also use <code>(0..100).step_by(2)</code> if you want to use specific step increments if you're using them as <code>Iterator</code>s.</p>
 <p>Note that they are open ended, and not inclusive.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">5 </span><span style="color:#c0c5ce;">== [ </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, ]
+<code class="language-rust" data-lang="rust"><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">5 </span><span style="color:#c0c5ce;">== [ </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, ]
 </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">6 </span><span style="color:#c0c5ce;">== [ </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, ]
 </span></code></pre>
 <p>We can also index into our collections.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> range = (</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">).collect::&lt;Vec&lt;</span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">&gt;&gt;();
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, &amp;range[..</span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">]);
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, &amp;range[</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">]);
@@ -349,7 +349,7 @@ Second map: </span><span style="color:#d08770;">35
 <h2 id="chaining-and-zipping">Chaining and Zipping</h2>
 <p>Putting together interators in various ways allows for some very nice, expressive code.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Demonstrate Chain
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> first = </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">;
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> second = </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">;
@@ -371,7 +371,7 @@ Second map: </span><span style="color:#d08770;">35
 <h2 id="getting-inquisistive">Getting Inquisistive</h2>
 <p><code>.count()</code>, <code>.max_by()</code>, <code>.min_by()</code>, <code>.all()</code>, and <code>.any()</code>, are common ways to inquire into an iterator.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">#![</span><span style="color:#bf616a;">feature</span><span style="color:#c0c5ce;">(core)] </span><span style="color:#65737e;">// Must be run on nightly at time of publishing.
+<code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">#![</span><span style="color:#bf616a;">feature</span><span style="color:#c0c5ce;">(core)] </span><span style="color:#65737e;">// Must be run on nightly at time of publishing.
 </span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Eq, PartialEq, Debug)]
 </span><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BearSpecies { Brown, Black, Polar, Grizzly }
 
@@ -415,7 +415,7 @@ Second map: </span><span style="color:#d08770;">35
 <p>If you're used to Javascript like me, you probably expect the holy trinity of <code>.filter()</code>, <code>.map()</code>, <code>.reduce()</code>. Well, they're all there in Rust too, but <code>.reduce()</code> is called <code>.fold()</code> which I kind of prefer.</p>
 <p>A basic example:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> input = </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">;
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> output = input
         .</span><span style="color:#96b5b4;">filter</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">item</span><span style="color:#c0c5ce;">| item % </span><span style="color:#d08770;">2 </span><span style="color:#c0c5ce;">== </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">) </span><span style="color:#65737e;">// Keep Evens
@@ -426,7 +426,7 @@ Second map: </span><span style="color:#d08770;">35
 </span></code></pre>
 <p>Of course, don't start trying to be too clever, the above could simply be:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> input = </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">;
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> output = input
         .</span><span style="color:#96b5b4;">fold</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, |</span><span style="color:#bf616a;">acc</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">item</span><span style="color:#c0c5ce;">| {
@@ -445,7 +445,7 @@ Second map: </span><span style="color:#d08770;">35
 <p>Splitting an iterator up into two parts is possible. You can just use a simple grouping function that returns a boolean with <a href="https://doc.rust-lang.org/std/iter/trait.aIterator.html#method.partition"><code>partition</code></a>.</p>
 <p>Let's use the two concepts to split up a big slice, group it be evens and odds, then progressively sum them up and make sure that the some of the evens is always less than the sum of the odds. (This is because <code>even</code> starts at 0.)</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> set = </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">1000</span><span style="color:#c0c5ce;">;
     </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">(even, odd): (Vec&lt;_&gt;, Vec&lt;_&gt;) = set.</span><span style="color:#96b5b4;">partition</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">n</span><span style="color:#c0c5ce;">| n % </span><span style="color:#d08770;">2 </span><span style="color:#c0c5ce;">== </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">);
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> even_scanner = even.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">scan</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, |</span><span style="color:#bf616a;">acc</span><span style="color:#c0c5ce;">, &amp;</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">| { *acc += x; Some(*acc) });
@@ -461,7 +461,7 @@ Second map: </span><span style="color:#d08770;">35
 <p>Another common goal is to group elements together based on a specific value. Now, if you're expecting something like <a href="https://lodash.com/docs#groupBy"><code>_.groupBy()</code></a> from Lodash it's not quite that simple. Consider: Rust has <code>BTreeMap</code>, <code>HashMap</code>, <code>VecMap</code>, and other data types, our grouping method should not be opinionated.</p>
 <p>To use a simple example, let's make an infinite iterator that cycles from 0 to 5 inclusively. In your own code these could be complex structs or tuples, but for now, simple integers are fine. We'll group them into into three categories, 0s, 5s, and the rest.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
 
 #[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Debug, PartialEq, Eq, Hash)]
 </span><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">Kind { Zero, Five, Other }
@@ -492,7 +492,7 @@ Second map: </span><span style="color:#d08770;">35
 <h2 id="flanked">Flanked</h2>
 <p>The <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> trait is useful for certain purposes. For example, when you need the behavior of both of queue and a stack.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> vals = </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">;
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, vals.</span><span style="color:#96b5b4;">next</span><span style="color:#c0c5ce;">());
     println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, vals.</span><span style="color:#96b5b4;">next_back</span><span style="color:#c0c5ce;">());
@@ -523,8 +523,8 @@ Second map: </span><span style="color:#d08770;">35
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

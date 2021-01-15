@@ -71,12 +71,12 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -189,11 +189,11 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <p><a href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
 <p>To pull the Keycloak image:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> pull jboss/keycloak
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> pull jboss/keycloak
 </span></code></pre>
 <p>Then, to erect the container (<a href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -it --name</span><span style="color:#c0c5ce;"> keycloak</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9090:9090 jboss/keycloak
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -it --name</span><span style="color:#c0c5ce;"> keycloak</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9090:9090 jboss/keycloak
 </span></code></pre>
 <blockquote>
 <p>Use the  <code>-d</code> flag to daemonize the service so it doesn't die with the tty. You can check the logs later with <code>docker logs -f keycloak</code></p>
@@ -226,11 +226,11 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <h3 id="setting-up-the-immutant-application">Setting Up the Immutant Application</h3>
 <p>Start up a new lein project with:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> new app learning
 </span></code></pre>
 <p>Your <code>learning/project.clj</code> needs to be modified to look similar to this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
   </span><span style="color:#d08770;">:description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
   </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
   </span><span style="color:#d08770;">:license </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
@@ -256,7 +256,7 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 </span></code></pre>
 <p>Now change your <code>learning/src/learning/core.clj</code> file to contain the following:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
+<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
   (</span><span style="color:#d08770;">:use</span><span style="color:#c0c5ce;"> compojure.core)
   (</span><span style="color:#d08770;">:require </span><span style="color:#c0c5ce;">[compojure.route       </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> route]
             [immutant.web          </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> web]
@@ -339,11 +339,11 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <p>However, Immutant does not currently provide an easy way to modify the <code>web.xml</code> in the war files it builds. Thankfully, since a war is a jar, and a jar is a zip, we can just add it in after.</p>
 <p>First, lets make a folder for this type of data in <code>/learning/resources</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> resources/WEB-INF
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> resources/WEB-INF
 </span></code></pre>
 <p>Then, create a <code>learning/resources/WEB-INF/web.xml</code> with the following XML:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">web-app </span><span style="color:#d08770;">xmlns</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xmlns:xsi</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://www.w3.org/2001/XMLSchema-instance</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xsi:schemaLocation</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">version</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">3.0</span><span style="color:#c0c5ce;">&quot;&gt;
+<code class="language-xml" data-lang="xml"><span style="color:#c0c5ce;">&lt;</span><span style="color:#bf616a;">web-app </span><span style="color:#d08770;">xmlns</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xmlns:xsi</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://www.w3.org/2001/XMLSchema-instance</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">xsi:schemaLocation</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#d08770;">version</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">3.0</span><span style="color:#c0c5ce;">&quot;&gt;
 	&lt;</span><span style="color:#bf616a;">distributable</span><span style="color:#c0c5ce;">/&gt;
 	&lt;</span><span style="color:#bf616a;">listener</span><span style="color:#c0c5ce;">&gt;
 		&lt;</span><span style="color:#bf616a;">listener-class</span><span style="color:#c0c5ce;">&gt;org.projectodd.wunderboss.wildfly.ServletListener&lt;/</span><span style="color:#bf616a;">listener-class</span><span style="color:#c0c5ce;">&gt;
@@ -415,7 +415,7 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
 </span></code></pre>
 <p>Then a <code>learning/Makefile</code> to (optionally) make things a bit smoother:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#8fa1b3;">all</span><span style="color:#c0c5ce;">:
+<code class="language-make" data-lang="make"><span style="color:#8fa1b3;">all</span><span style="color:#c0c5ce;">:
 	</span><span style="color:#a3be8c;">docker rm -f immut-test || true
 	</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> rmi immut-learning || </span><span style="color:#bf616a;">true
 	lein</span><span style="color:#c0c5ce;"> immutant war
@@ -430,11 +430,11 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
 </span></code></pre>
 <p>Then, edit your <code>keycloak.json</code> and set the <code>auth-server-url</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">auth-server-url</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">http://auth:8080/auth</span><span style="color:#c0c5ce;">&quot;,
+<code class="language-json" data-lang="json"><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">auth-server-url</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">http://auth:8080/auth</span><span style="color:#c0c5ce;">&quot;,
 </span></code></pre><h2 id="running">Running</h2>
 <p>You should now be able to build <strong>and start</strong> the application with:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">make </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> run
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">make </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> run
 </span></code></pre>
 <p>After waiting for boot, browsing to <a href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
 <pre style="background-color:#2b303b;">
@@ -487,8 +487,8 @@ admin
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

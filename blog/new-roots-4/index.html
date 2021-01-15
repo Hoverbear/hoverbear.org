@@ -70,12 +70,12 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -149,13 +149,13 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <p>The prompt you've been typing all these commands at is your shell. There are lots of different shells, this one is <code>bash</code>. I've enjoyed using <code>zsh</code> and <code>fish</code> before as well.  Since this is our 'root' we're just going to stick with the built-in defaults, we can choose a <em>fancy</em> shell to load with lots of sketchy plugins in our less privileged container!</p>
 <p><code>bash</code> looks for configuration in <code>/etc/bash.bashrc</code> which is overridden by <code>~/.bashrc</code>. We'll remove these user specific files then edit the system-wide file.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">rm ~</span><span style="color:#c0c5ce;">/.bashrc
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rm ~</span><span style="color:#c0c5ce;">/.bashrc
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> rm /root/.bashrc
 </span><span style="color:#bf616a;">vim</span><span style="color:#c0c5ce;"> /etc/bash.bashrc
 </span></code></pre>
 <p>Below I've included a commented configuration to explain many settings.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">#
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;">#
 # /etc/bash.bashrc
 #
 
@@ -217,11 +217,11 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <p>Shell multiplexing is a great way to maintain a workspace on a remote machine. The idea is to have a daemon which holds onto your shell sessions for you and essentially acts as a 'window manager' for your various shell panes. You're then able to 'detach' and 'reattach' to these sessions whenever you want.</p>
 <p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> tmux
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> tmux
 </span></code></pre>
 <p>The global configuration for <code>tmux</code> lives at <code>/etc/tmux.conf</code> and we can just configure a couple settings:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># Use a 256 color configuration.
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Use a 256 color configuration.
 </span><span style="color:#96b5b4;">set</span><span style="color:#c0c5ce;"> -g default-terminal &quot;</span><span style="color:#a3be8c;">screen-256color</span><span style="color:#c0c5ce;">&quot;
 
  </span><span style="color:#65737e;"># Start windows and panes at 1, not 0.
@@ -316,7 +316,7 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <p>The <code>nvim</code> systemwide configuration is stored at <code>/etc/xdg/nvim/init.vim</code>, and you might need to create the folder with <code>mkdir -p /etc/xdg/nvim/</code>.</p>
 <p>Inside we can do some basic configuration:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">&quot; Be improved
+<code class="language-vimrc" data-lang="vimrc"><span style="color:#c0c5ce;">&quot; Be improved
 set nocompatible
 
 &quot; General
@@ -382,12 +382,12 @@ colorscheme spacegrey
 </span></code></pre>
 <p>Now we need to fetch the colorscheme, <em>Spacegrey</em>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/xdg/nvim/colors/
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/xdg/nvim/colors/
 </span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://raw.githubusercontent.com/ajh17/Spacegray.vim/master/colors/spacegray.vim</span><span style="color:#bf616a;"> -o</span><span style="color:#c0c5ce;"> /etc/xdg/nvim/colors/spacegrey.vim
 </span></code></pre>
 <p>At this point <code>nvim</code> is quite capable of doing any task we might need of it. Triumph in this by telling the system you and it are officially in a relationship.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/bash.bashrc
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/bash.bashrc
 
 </span><span style="color:#65737e;"># Use nvim
 </span><span style="color:#c0c5ce;">export EDITOR=nvim
@@ -400,7 +400,7 @@ colorscheme spacegrey
 </ol>
 <p>Before moving on it might be a good idea to make a snapshot of what we have so far, this way we can roll back. This is a very cool feature of BTRFS and one of the main reasons I use it. Since this is technically our <code>/</code> the process is a bit more involved than usual.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># First, mount the BTRFS volume somewhere plainly, no subvolume.
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># First, mount the BTRFS volume somewhere plainly, no subvolume.
 </span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> compress=lzo /dev/sda /mnt/
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> /mnt
 </span><span style="color:#65737e;"># Create a read-only snapshot of `root` called `root-fresh`.
@@ -443,8 +443,8 @@ colorscheme spacegrey
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

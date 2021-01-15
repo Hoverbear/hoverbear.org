@@ -68,12 +68,12 @@
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -152,13 +152,13 @@
 <span id="continue-reading"></span><h2 id="we-don-t-have-splats-or-multiple-implementations">We Don't Have Splats or Multiple Implementations</h2>
 <p>Rust currently does not offer functions with variadic or optional arguments. This means this is not possible:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">) {}
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">) {}
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">other</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">) {}
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">impossible</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">rest</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">...) {}
 </span></code></pre>
 <p>Coming from languages such as JS or Ruby, you might miss this functionality. In particular, I found myself often looking for a way to have an optional configuration or value I pass in.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// In the context of an configuration structure for a client:
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// In the context of an configuration structure for a client:
 </span><span style="color:#c0c5ce;">client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span style="color:#c0c5ce;">&quot;)?;
 client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">127.0.0.1</span><span style="color:#c0c5ce;">&quot;, custom_config)?;
 </span></code></pre>
@@ -169,7 +169,7 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 <p>Since that's not possible, what's a viable alternative?</p>
 <p>The most obvious is to have <strong>two functions.</strong> There is nothing technically wrong with that. It's perfectly reasonable, and results in a very acceptable API. There is no tricks, and it's understandable immediately:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String) -&gt; Result&lt;</span><span style="color:#b48ead;">Self</span><span style="color:#c0c5ce;">, io::Error&gt; {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String) -&gt; Result&lt;</span><span style="color:#b48ead;">Self</span><span style="color:#c0c5ce;">, io::Error&gt; {
     </span><span style="color:#b48ead;">Self</span><span style="color:#c0c5ce;">::connect_with_config(addr, Config::default())
 }
 
@@ -181,7 +181,7 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 <h2 id="we-ve-got-options">We've got <code>Option</code>s</h2>
 <p>The next logical step, which starts to harness Rust's abstractions, is using an <strong>optional type</strong>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">message</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String, </span><span style="color:#bf616a;">maybe_payload</span><span style="color:#c0c5ce;">: Option&lt;Vec&lt;</span><span style="color:#b48ead;">u8</span><span style="color:#c0c5ce;">&gt;&gt;) -&gt; Result&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, io::Error&gt; {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">message</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">addr</span><span style="color:#c0c5ce;">: String, </span><span style="color:#bf616a;">maybe_payload</span><span style="color:#c0c5ce;">: Option&lt;Vec&lt;</span><span style="color:#b48ead;">u8</span><span style="color:#c0c5ce;">&gt;&gt;) -&gt; Result&lt;</span><span style="color:#b48ead;">u64</span><span style="color:#c0c5ce;">, io::Error&gt; {
     </span><span style="color:#65737e;">// ...
     </span><span style="color:#b48ead;">if let </span><span style="color:#c0c5ce;">Some(payload) = maybe_payload {
         </span><span style="color:#65737e;">// Off you go...
@@ -195,7 +195,7 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 <p>This certainly gets the job done! Now we can have one function that can internally handle if the value is provided or not. It does clutter up the API a bit, but it seems now we have these odd feeling <code>Some(_)</code> and <code>None</code> variants loitering around.</p>
 <p>We boil the problem down with some generics, to get a better idea of what we're trying to accomplish and to support some microbenchmarks.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">value_arg</span><span style="color:#c0c5ce;">&lt;Thing&gt;(</span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: Thing) -&gt; Thing {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">value_arg</span><span style="color:#c0c5ce;">&lt;Thing&gt;(</span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: Thing) -&gt; Thing {
     thing
 }
 
@@ -209,7 +209,7 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 <h3 id="aside-why-i-like-impl-trait">Aside: Why I like <code>impl Trait</code></h3>
 <p>I think it enables a more succinct style, better semantics for some use cases, and helps avoid one particular usability mistake that is easy to make. Consider the following:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">handles_a_pair_of_stringish</span><span style="color:#c0c5ce;">&lt;Stringish&gt;(</span><span style="color:#bf616a;">first</span><span style="color:#c0c5ce;">: Stringish, </span><span style="color:#bf616a;">second</span><span style="color:#c0c5ce;">: Stringish)
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">handles_a_pair_of_stringish</span><span style="color:#c0c5ce;">&lt;Stringish&gt;(</span><span style="color:#bf616a;">first</span><span style="color:#c0c5ce;">: Stringish, </span><span style="color:#bf616a;">second</span><span style="color:#c0c5ce;">: Stringish)
 </span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Stringish: AsRef&lt;</span><span style="color:#b48ead;">str</span><span style="color:#c0c5ce;">&gt; {
     </span><span style="color:#65737e;">// ...
 </span><span style="color:#c0c5ce;">}
@@ -234,7 +234,7 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 </ul>
 <p>This means we can do the following:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">optional_arg_with_into</span><span style="color:#c0c5ce;">&lt;Thing&gt;(
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">optional_arg_with_into</span><span style="color:#c0c5ce;">&lt;Thing&gt;(
     </span><span style="color:#bf616a;">thing</span><span style="color:#c0c5ce;">: impl Into&lt;Option&lt;Thing&gt;&gt;
 ) -&gt; Thing
 </span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> Thing: Default {
@@ -256,7 +256,7 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 <h2 id="benchmarking">Benchmarking</h2>
 <p>Let's make sure that adding this flexibility doesn't have a huge performance impact on our code. I used Criterion and wrote a small suite for our demo code. Since the code is trivial (it basically just converts and converts back), we can explore the cost of just doing this operation. Here is the entire bench code:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">macro_use</span><span style="color:#c0c5ce;">(criterion_main, criterion_group)] </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> criterion;
+<code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">macro_use</span><span style="color:#c0c5ce;">(criterion_main, criterion_group)] </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> criterion;
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">criterion::Criterion;
 
 criterion_main!(benches);
@@ -381,8 +381,8 @@ optional_into (Vec&lt;u64&gt;) None
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

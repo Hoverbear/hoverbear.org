@@ -69,12 +69,12 @@ async.auto() is a function offered by the libary which allows you to declare a s
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -119,8 +119,8 @@ async.auto() is a function offered by the libary which allows you to declare a s
     </figure>
 <p>With <code>async</code> this could be modelled like so:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">init</span><span style="color:#c0c5ce;">() {
-	</span><span style="color:#bf616a;">async</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">auto</span><span style="color:#c0c5ce;">({
+<code class="language-javascript" data-lang="javascript"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">init</span><span style="color:#c0c5ce;">() {
+	</span><span style="color:#bf616a;">async</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">auto</span><span style="color:#c0c5ce;">({
 		dbConn: </span><span style="color:#bf616a;">dbConn</span><span style="color:#c0c5ce;">,
 		schemas: [ &#39;</span><span style="color:#a3be8c;">dbConn</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">schemas </span><span style="color:#c0c5ce;">],
 		http: </span><span style="color:#bf616a;">http</span><span style="color:#c0c5ce;">,
@@ -135,21 +135,21 @@ async.auto() is a function offered by the libary which allows you to declare a s
 <p>So async helps with the handling of dependencies, but can we handle dependant state?</p>
 <p>For example, <code>dbConn</code> produces a <code>connection</code> variable, and <code>schemas</code> consumes it. The two functions look like this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">dbConn</span><span style="color:#c0c5ce;">(callback) {
-	</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">connection </span><span style="color:#c0c5ce;">= </span><span style="color:#bf616a;">db</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">someString</span><span style="color:#c0c5ce;">).connection
-	</span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">success</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">() {
+<code class="language-javascript" data-lang="javascript"><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">dbConn</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">) {
+	</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">connection </span><span style="color:#c0c5ce;">= </span><span style="color:#bf616a;">db</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">someString</span><span style="color:#c0c5ce;">).</span><span style="color:#bf616a;">connection
+	connection</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">success</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">() {
 		</span><span style="color:#65737e;">// Return `connection` into the `results`
-		</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">);
+		</span><span style="color:#8fa1b3;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">);
 	});
-	</span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">error</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">(error) {
-		</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">error</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
+	</span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">error</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">error</span><span style="color:#c0c5ce;">) {
+		</span><span style="color:#8fa1b3;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">error</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
 	});
 }
 
-</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">schemas</span><span style="color:#c0c5ce;">(callback, results) {
+</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">schemas</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">results</span><span style="color:#c0c5ce;">) {
 	</span><span style="color:#65737e;">// Do a bunch of stuff.
 	// results.dbConn has the connection.
-	</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
+	</span><span style="color:#8fa1b3;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
 }
 </span></code></pre>
 <p>The result values of any task which another depends on are populated into the <code>results</code> parameter.</p>
@@ -168,8 +168,8 @@ async.auto() is a function offered by the libary which allows you to declare a s
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

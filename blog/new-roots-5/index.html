@@ -69,12 +69,12 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -156,15 +156,15 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
 <p>We'll be using <code>machinectl</code> to work with our containers. You may already know Docker, CoreOS's <code>rkt</code>, or <code>lxc</code>, and you're more than welcome to use any of those. The important thing is to only use <strong>one</strong> on this machine. You don't want to be managing multiple container providers. Good news is they're all pretty much compatible with one another, so if you use <code>machinectl</code> you can still use Docker images.</p>
 <p>To get started with our first container, we first need to construct one. We'll make a scratch directory and put it in there. We'll tell <code>pacstrap</code>, which came as part of <code>arch-install-scripts</code>, to ignore anything that's likely unnecessary in a container.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir -p ~</span><span style="color:#c0c5ce;">/scratch/
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p ~</span><span style="color:#c0c5ce;">/scratch/
 </span><span style="color:#96b5b4;">echo </span><span style="color:#bf616a;">-e </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">n\nn\nn\nn\nn\nn\nn\nn\nn\nn\nn\nn\nn\nn\n\n</span><span style="color:#c0c5ce;">&quot; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> pacstrap</span><span style="color:#bf616a;"> -i -c -d ~</span><span style="color:#c0c5ce;">/scratch/ base</span><span style="color:#bf616a;"> --ignore</span><span style="color:#c0c5ce;"> linux,linux-firmware,cryptsetup,jfsutils,lvm2,nano,netctl,reiserfsprogs,vi,xfsprogs,mdadm,device-mapper,licenses,man-pages,pcmciautils
 </span></code></pre>
 <p>This should give you an installed package size of under 400MB. That's pretty decent. We could probably go smaller but it doesn't really matter. We don't need to worry about setting up things like <code>iptables</code> since it's already protected via the host, and we don't need to have things like <code>vi</code> because we'll do our editing from outside of the container. We don't need things like <code>linux</code> because we're using the host kernel.</p>
 <p>Take a look in <code>~/scratch</code> and you should see what appears to be a base Arch install like we had before. We're going to use <code>chroot</code> to enable some services by default, finally we're going to import it into <code>machinectl</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#96b5b4;">cd </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/scratch
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> chroot .</span><span style="color:#a3be8c;">
-    systemctl enable systemd-networkd
+<code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/scratch
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> chroot .
+</span><span style="color:#a3be8c;">    systemctl enable systemd-networkd
     systemctl enable systemd-resolved
     rm /etc/resolv.conf
     ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
@@ -183,7 +183,7 @@ base subvolume yes 277.6M Wed 2016-05-11 15:52:43 PDT n/a
 <p>You can get a shell into the container with <code>machinectl shell base</code>. You'll probably notice there is no network connection. That's because our firewall is blocking us! You can check this by observing <code>iptables -nvL</code> and watching the packet counts go up on the <code>icmp-port-unreachable</code> filter.</p>
 <p>Editing our <code>/etc/iptables/iptables.rules</code> we can add the green lines:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;"> # Accept anything from the local loopback.
+<code class="language-diff" data-lang="diff"><span style="color:#c0c5ce;"> # Accept anything from the local loopback.
  --append INPUT --in-interface lo --jump ACCEPT
 </span><span style="color:#a3be8c;">+# Accept anything originating from a container.
 +--append INPUT --in-interface ve-+ --jump ACCEPT
@@ -195,17 +195,17 @@ base subvolume yes 277.6M Wed 2016-05-11 15:52:43 PDT n/a
 <p>From here you can create writable clones of the image with <code>machinectl clone base $NAME</code>, then <code>start</code> them, <code>shell</code> into them, and ultimately <code>poweroff</code> them. When you're ready to get rid of them entirely you can <code>remove</code> them.</p>
 <p>Later on you can upgrade your <code>base</code> image in a similar way.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl clone base upgrade
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl clone base upgrade
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl start upgrade
 </span></code></pre>
 <p>After a moment to start you can issue the upgrade command.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl shell upgrade /bin/pacman -- -Syu
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl shell upgrade /bin/pacman -- -Syu
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl poweroff upgrade
 </span></code></pre>
 <p>After another moment you can finish up.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl remove base
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl remove base
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl read-only upgrade
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl rename upgrade base
 </span></code></pre><h2 id="orcestration">Orcestration</h2>
@@ -214,11 +214,11 @@ base subvolume yes 277.6M Wed 2016-05-11 15:52:43 PDT n/a
 <p>Also, I want to learn Puppet, so this is a great excuse. You can review the Puppet docs as well as <a href="https://www.digitalocean.com/community/tutorial_series/how-to-use-puppet-to-manage-your-servers-2">this guide by Digital Ocean</a>. Our plan is a bit different than those.</p>
 <p>Let's start by creating a <code>puppet</code> container from our base.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base puppet
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base puppet
 </span></code></pre>
 <p>Since we're basing our <code>puppet</code> image on our <code>base</code> Arch image we can have them share repository caches. Neat! Next we'll create a <code>environments</code> subvolume on our BTRFS volume so we can mount it into the <code>puppet</code> image. This will help us not accidently delete things. We're 'in' a subvolume already so we need to actually mount the true root for this.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mount</span><span style="color:#c0c5ce;"> /dev/sda /mnt/
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mount</span><span style="color:#c0c5ce;"> /dev/sda /mnt/
 </span><span style="color:#bf616a;">btrfs</span><span style="color:#c0c5ce;"> subvolume create /mnt/config/puppet
 </span><span style="color:#96b5b4;">echo </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/dev/sda    /config/puppet             btrfs   subvol=config/puppet,rw,relatime,ssd,space_cache,compress=lzo          0   0</span><span style="color:#c0c5ce;">&quot; &gt;&gt; /etc/fstab
 </span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /config/puppet
@@ -226,9 +226,9 @@ base subvolume yes 277.6M Wed 2016-05-11 15:52:43 PDT n/a
 </span></code></pre>
 <p>We'll create <code>/etc/systemd/nspawn/puppet.nspawn</code> which is the container specific configuration.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/systemd/nspawn/
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/nspawn/puppet.nspawn</span><span style="color:#a3be8c;">
-[Files]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/systemd/nspawn/
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/nspawn/puppet.nspawn
+</span><span style="color:#a3be8c;">[Files]
 # Official packages are signed and verified before install
 Bind=/var/cache/pacman
 # abs packages are not.
@@ -242,18 +242,18 @@ Bind=/config/puppet:/etc/puppetlabs
 </blockquote>
 <p>Now we can start the machine and hop inside.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl start puppet
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl start puppet
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl shell puppet
 </span></code></pre>
 <p>Inside of this container we can start seting up Puppet! First we'll install it:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -Syu</span><span style="color:#c0c5ce;"> puppet</span><span style="color:#bf616a;"> --noconfirm
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -Syu</span><span style="color:#c0c5ce;"> puppet</span><span style="color:#bf616a;"> --noconfirm
 </span></code></pre>
 <p>Before we start making manifests we need to get the server working though! In order to do this we need to edit our configuration file at <code>/etc/puppetlabs/puppet/puppet.conf</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># In puppet container
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/puppetlabs/puppet/puppet.conf</span><span style="color:#a3be8c;">
-[main]
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># In puppet container
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/puppetlabs/puppet/puppet.conf
+</span><span style="color:#a3be8c;">[main]
 certname = puppet
 bindaddress = ::
 autosign = true
@@ -264,8 +264,8 @@ strict_variables = true
 </span></code></pre>
 <p>Next we'll make a simple <code>.service</code> file for <code>puppet master</code> since it doesn't come with one by default. You can run <code>systemctl cat puppet</code> to see the configuration of <code>puppet agent</code>. We'll basically just copy this.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/system/puppetmaster.service</span><span style="color:#a3be8c;">
-[Unit]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/system/puppetmaster.service
+</span><span style="color:#a3be8c;">[Unit]
 Description=Puppet master
 Wants=basic.target
 After=basic.target network.target
@@ -275,8 +275,8 @@ EnvironmentFile=-/etc/sysconfig/puppetmaster
 EnvironmentFile=-/etc/sysconfig/puppet
 EnvironmentFile=-/etc/default/puppet
 ExecStart=/usr/bin/puppet master </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">PUPPET_EXTRA_OPTS</span><span style="color:#a3be8c;"> --no-daemonize
-ExecReload=/bin/kill -HUP </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">MAINPID</span><span style="color:#a3be8c;">
-KillMode=process
+ExecReload=/bin/kill -HUP </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">MAINPID
+</span><span style="color:#a3be8c;">KillMode=process
 
 [Install]
 WantedBy=multi-user.target
@@ -284,9 +284,9 @@ WantedBy=multi-user.target
 </span></code></pre>
 <p>Now you can start it with <code>systemctl start puppetmaster</code>. At this point let's consider that our <code>puppet</code> container should probably be managed by Puppet as well! Let's do that to learn how to use Puppet, then we'll figure out networking.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/puppetlabs/code/environments/production/manifests/
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/puppetlabs/code/environments/production/manifests/main.pp</span><span style="color:#a3be8c;">
-node puppet,test {
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/puppetlabs/code/environments/production/manifests/
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/puppetlabs/code/environments/production/manifests/main.pp
+</span><span style="color:#a3be8c;">node puppet,test {
     file { &#39;puppet-test&#39;:
         path    =&gt; &#39;/puppet-test&#39;,
         ensure  =&gt; file,
@@ -301,7 +301,7 @@ node puppet,test {
 <p>Finally run <code>systemctl enable puppet</code> and <code>systemctl enable puppetmaster</code>. Remember that you can edit this configuration from outside the container by editing the things in <code>/puppet</code> on the our root.</p>
 <p>All we need to do now is add Puppet to our <code>base</code>. First make it writable with <code>machinectl read-only base false</code>, start it, then shell in with <code>machinectl shell base</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -Syu</span><span style="color:#c0c5ce;"> puppet</span><span style="color:#bf616a;"> --noconfirm
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -Syu</span><span style="color:#c0c5ce;"> puppet</span><span style="color:#bf616a;"> --noconfirm
 systemctl</span><span style="color:#c0c5ce;"> enable puppet
 </span></code></pre>
 <p>Then <code>poweroff</code> it and mark it read only again with <code>machinectl read-only base true</code>. Now when we clone it the new containers will automatically run puppet.</p>
@@ -310,11 +310,11 @@ systemctl</span><span style="color:#c0c5ce;"> enable puppet
 <p>So let's fix it! In fact, we can make our <code>/etc/sytemd/network/</code> and <code>/etc/systemd/nspawn</code> folders both subvolumes for safe keeping. With <code>config/puppetlabs/</code> also as subvolume our primary container configuration will be stored safely in subvolumes.</p>
 <p>Reviewing <code>btrfs subvolume list /</code> you may notice that our machines have been creating subvolumes as they go. This is great. We can use these for snapshots later. We'll create a <code>config/network</code> and <code>config/nspawn</code>. Recall that we're 'in' a subvolume already so we need to actually mount the true root for this again.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mount</span><span style="color:#c0c5ce;"> /dev/sda /mnt/
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mount</span><span style="color:#c0c5ce;"> /dev/sda /mnt/
 </span><span style="color:#bf616a;">btrfs</span><span style="color:#c0c5ce;"> subvolume create /mnt/config/network
 </span><span style="color:#bf616a;">btrfs</span><span style="color:#c0c5ce;"> subvolume create /mnt/config/nspawn
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/fstab</span><span style="color:#a3be8c;">
-/dev/sda    /config/nspawn      btrfs   subvol=config/nspawn,rw,relatime,ssd,space_cache,compress=lzo   0   0
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/fstab
+</span><span style="color:#a3be8c;">/dev/sda    /config/nspawn      btrfs   subvol=config/nspawn,rw,relatime,ssd,space_cache,compress=lzo   0   0
 /dev/sda    /config/network     btrfs   subvol=config/network,rw,relatime,ssd,space_cache,compress=lzo   0   0
 # Read only so nothing gets deleted.
 /dev/sda    /etc/systemd/nspawn btrfs   subvol=config/nspawn,ro,relatime,ssd,space_cache,compress=lzo   0   0
@@ -337,15 +337,15 @@ systemctl</span><span style="color:#c0c5ce;"> enable puppet
 <p>First we'll go ahead and create a bridge. A bridge will let us join all the containers together on a single network so they can resolve each others names. For now this is sufficient, though there is some documentation suggestion <a href="http://doger.io/#networking">VLANs</a> can be used to improve this system. Perhaps we'll explore that later.</p>
 <p>On our 'root' host:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/network/br-internal.netdev</span><span style="color:#a3be8c;">
-[NetDev]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/network/br-internal.netdev
+</span><span style="color:#a3be8c;">[NetDev]
 Name=br-internal
 Kind=bridge
 Description=The internal network bridge.
 EOF</span><span style="background-color:#bf616a;color:#2b303b;">
 </span><span style="color:#a3be8c;">
-</span><span style="color:#c0c5ce;">cat &lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/network/br-internal.network</span><span style="color:#a3be8c;">
-[Match]
+</span><span style="color:#c0c5ce;">cat &lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/network/br-internal.network
+</span><span style="color:#a3be8c;">[Match]
 Name=br-internal
 
 [Network]
@@ -354,8 +354,8 @@ DHCP=yes
 EOF</span><span style="background-color:#bf616a;color:#2b303b;">
 </span><span style="color:#a3be8c;">
 </span><span style="color:#c0c5ce;">machinectl read-only base false
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /var/lib/machines/base/etc/systemd/network/internal.network</span><span style="color:#a3be8c;">
-[Match]
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /var/lib/machines/base/etc/systemd/network/internal.network
+</span><span style="color:#a3be8c;">[Match]
 Name=int-*
 
 [Network]
@@ -366,7 +366,7 @@ DHCP=yes
 </span></code></pre>
 <p>Then run <code>systemctl edit systemd-nspawn@</code> and enter the following:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">[Service]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">[Service]
 </span><span style="color:#65737e;"># Set up.
 </span><span style="color:#bf616a;">ExecStartPre</span><span style="color:#c0c5ce;">=/bin/sh</span><span style="color:#bf616a;"> -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">ip link add int-</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span style="color:#c0c5ce;">%</span><span style="color:#bf616a;">I </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">cut -c</span><span style="color:#a3be8c;"> 1-11) type veth peer name con-</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span style="color:#c0c5ce;">%</span><span style="color:#bf616a;">I </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">cut -c</span><span style="color:#a3be8c;"> 1-11)</span><span style="color:#c0c5ce;">&quot;
 </span><span style="color:#bf616a;">ExecStartPre</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/bin/sh </span><span style="color:#bf616a;">-c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">ip link set con-</span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span style="color:#c0c5ce;">%</span><span style="color:#bf616a;">I </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">cut -c</span><span style="color:#a3be8c;"> 1-11) master br-internal</span><span style="color:#c0c5ce;">&quot;
@@ -384,9 +384,9 @@ DHCP=yes
 <p>We can use a tool called <code>kexec</code> to quickly (and uncleanly) switch to the new kernel. On my server this takes about a third of the time compared to actually rebooting. It's important to note that this doesn't <em>replace</em> a reboot though, as it doesn't make efforts to clean up anything. Things may go funky, and you may still need to reboot.</p>
 <p>We'll build a systemd unit for this then enable it like so:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> kexec-tools
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/system/kexec-load@.service</span><span style="color:#a3be8c;">
-[Unit]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> kexec-tools
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/system/kexec-load@.service
+</span><span style="color:#a3be8c;">[Unit]
 Description=Load %i as the kernel.
 Documentation=man:kexec(8)
 DefaultDependencies=no
@@ -410,9 +410,9 @@ WantedBy=kexec.target
 <p>Later we'll follow a similar scheme for <code>db</code>, <code>usr</code>, <code>box</code>, etc. You can use whichever scheme you'd like, or change later, just <strong>be consistent</strong>.</p>
 <p>We'll start by editing our puppet configuration to define what this host should look like. Since we have the puppet configuration subvolume mounted on <code>/puppet</code> on our host we can just edit it from there.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /config/puppet/code/modules/web/files/
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/puppet/code/modules/web/files/haproxy.cfg</span><span style="color:#a3be8c;">
-global
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /config/puppet/code/modules/web/files/
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/puppet/code/modules/web/files/haproxy.cfg
+</span><span style="color:#a3be8c;">global
     user haproxy
     group haproxy
     daemon
@@ -451,8 +451,8 @@ backend silicon_host
     server web-silicon web-silicon:443 check
 </span><span style="color:#b48ead;">EOF
 </span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /config/puppet/code/environments/production/manifests/
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/puppet/code/environments/production/manifests/main.pp</span><span style="color:#a3be8c;">
-node web {
+</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/puppet/code/environments/production/manifests/main.pp
+</span><span style="color:#a3be8c;">node web {
     file { &#39;haproxy.cfg&#39;:
         path    =&gt; &#39;/etc/haproxy/haproxy.cfg&#39;,
         ensure  =&gt; file,
@@ -473,15 +473,15 @@ node web {
 </span></code></pre>
 <p>We can set up the container to bind to our host ports 80 and 443.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/nspawn/web.nspawn</span><span style="color:#a3be8c;">
-[Network]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/nspawn/web.nspawn
+</span><span style="color:#a3be8c;">[Network]
 Port=80
 Port=443
 </span><span style="color:#b48ead;">EOF
 </span></code></pre>
 <p>Then add in our firewall rules to the <code>/etc/iptables/iptables.rules</code> file, and reboot <code>iptables</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;"> # Allow SSH connections.
+<code class="language-diff" data-lang="diff"><span style="color:#c0c5ce;"> # Allow SSH connections.
  --append TCP --protocol tcp --dport 22 --jump ACCEPT
  # Allow HTTP connections.
 </span><span style="color:#a3be8c;">+--append TCP --protocol tcp --dport 80 --jump ACCEPT
@@ -491,7 +491,7 @@ Port=443
 </span></code></pre>
 <p>Finally we can create the machine:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base web
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base web
 </span><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> start web
 </span></code></pre>
 <p>Give it a few seconds then try running <code>systemctl status haproxy -M web</code>.</p>
@@ -512,19 +512,19 @@ Port=443
 <h2 id="rest-and-test">Rest and Test</h2>
 <p>Since the hostname is <code>silicon.hoverbear.org</code> is already mapped in DNS for me, I'll use that for testing. You want to make your container <code>web-$SUBDOMAIN</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base web-silicon
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base web-silicon
 </span><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> start web-silicon
 </span></code></pre>
 <p>Since we're testing we don't need to be clean at all. Just shell in, <code>pacman -Syu nginx openssl</code> and edit the <code>/etc/nginx/nginx.conf</code> on that container according to this diff:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">-listen       80;
+<code class="language-diff" data-lang="diff"><span style="color:#bf616a;">-listen       80;
 </span><span style="color:#a3be8c;">+listen       [::]:443 ssl;
 +ssl_certificate /etc/nginx/ssl/nginx.crt;
 +ssl_certificate_key /etc/nginx/ssl/nginx.key;
 </span></code></pre>
 <p>Then generate the certificate with:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/nginx/ssl
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /etc/nginx/ssl
 </span><span style="color:#bf616a;">openssl</span><span style="color:#c0c5ce;"> req</span><span style="color:#bf616a;"> -x509 -nodes -days</span><span style="color:#c0c5ce;"> 365</span><span style="color:#bf616a;"> -newkey</span><span style="color:#c0c5ce;"> rsa:2048</span><span style="color:#bf616a;"> -keyout</span><span style="color:#c0c5ce;"> /etc/nginx/ssl/nginx.key</span><span style="color:#bf616a;"> -out</span><span style="color:#c0c5ce;"> /etc/nginx/ssl/nginx.crt
 </span></code></pre>
 <p>Then start up the <code>nginx</code> service on that container. Verify you can <code>curl web-silicon</code> from both the container itself and your <code>web</code> container. You can check <code>systemctl status -M web-silicon nginx</code> and <code>systemctl status -M web haproxy</code> for any messages.</p>
@@ -546,8 +546,8 @@ Port=443
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

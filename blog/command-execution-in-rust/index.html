@@ -75,12 +75,12 @@ Interfacing with command line applications
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -153,7 +153,7 @@ Interfacing with command line applications
 <span id="continue-reading"></span><h1 id="using-libc">Using libc</h1>
 <p>If you are familiar with C/C++, or other languages, you may have used one of the following functions:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;"> </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">execl</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">path</span><span style="color:#c0c5ce;">, </span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">arg</span><span style="color:#c0c5ce;">, ...);
+<code class="language-c" data-lang="c"><span style="color:#c0c5ce;"> </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">execl</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">path</span><span style="color:#c0c5ce;">, </span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">arg</span><span style="color:#c0c5ce;">, ...);
  </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">execlp</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">file</span><span style="color:#c0c5ce;">, </span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">arg</span><span style="color:#c0c5ce;">, ...);
  </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">execle</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">path</span><span style="color:#c0c5ce;">, </span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">arg </span><span style="color:#c0c5ce;">, ..., </span><span style="color:#b48ead;">char </span><span style="color:#c0c5ce;">* </span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">envp</span><span style="color:#c0c5ce;">[]);
  </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">execv</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">path</span><span style="color:#c0c5ce;">, </span><span style="color:#b48ead;">char </span><span style="color:#c0c5ce;">*</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">argv</span><span style="color:#c0c5ce;">[]);
@@ -161,7 +161,7 @@ Interfacing with command line applications
 </span></code></pre>
 <p>Each of these functions provide some variant of process spawning. Most of these are still available in Rust if you so desire. They can be accessed in <a href="http://doc.rust-lang.org/libc/funcs/posix88/unistd/index.html"><code>libc</code></a>. Note these are unsafe C bindings.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">pub unsafe fn </span><span style="color:#8fa1b3;">execv</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">prog</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">*const</span><span style="color:#c0c5ce;"> c_char, </span><span style="color:#bf616a;">argv</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">*mut *const</span><span style="color:#c0c5ce;"> c_char) -&gt; c_int
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub unsafe fn </span><span style="color:#8fa1b3;">execv</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">prog</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">*const</span><span style="color:#c0c5ce;"> c_char, </span><span style="color:#bf616a;">argv</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">*mut *const</span><span style="color:#c0c5ce;"> c_char) -&gt; c_int
 pub unsafe fn execve(prog: </span><span style="color:#b48ead;">*const</span><span style="color:#c0c5ce;"> c_char, argv: </span><span style="color:#b48ead;">*mut *const</span><span style="color:#c0c5ce;"> c_char, envp: </span><span style="color:#b48ead;">*mut *const</span><span style="color:#c0c5ce;"> c_char) -&gt; c_int
 pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span style="color:#c0c5ce;"> c_char, argv: </span><span style="color:#b48ead;">*mut *const</span><span style="color:#c0c5ce;"> c_char) -&gt; c_int
 </span></code></pre>
@@ -171,7 +171,7 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 <h2 id="introducing-command">Introducing <code>Command</code></h2>
 <p><code>std::io::process::Command</code>, aliased as <code>std::io::Command</code>, is a type that acts as a process builder. The <a href="http://doc.rust-lang.org/std/io/process/struct.Command.html#method.new"><code>Command::new()</code></a> command sets up several sane defaults for the program for you.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">&lt;T: ToCStr&gt;(</span><span style="color:#bf616a;">program</span><span style="color:#c0c5ce;">: T) -&gt; Command
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">&lt;T: ToCStr&gt;(</span><span style="color:#bf616a;">program</span><span style="color:#c0c5ce;">: T) -&gt; Command
 </span></code></pre>
 <p>The various builder functions allow for customization over the defaults, which are:</p>
 <ul>
@@ -184,7 +184,7 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 <h2 id="in-and-out">In and Out</h2>
 <p>In  a simple example, lets collect the output of <code>ps aux</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Command;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Command;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Spawn a process, wait for it to finish, and collect it&#39;s output
@@ -198,16 +198,16 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 <p>It should be noted that this is a blocking call, meaning the current task will halt until the completion of the process. This is acceptable for simple calls to the underlying operating system. <code>.output()</code> will handle all the tasks related to piping and spawning for you.</p>
 <p>If you're dealing with multiple arguments, you can pass a slice, like so:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> the_output = Command::new(&quot;</span><span style="color:#a3be8c;">ps</span><span style="color:#c0c5ce;">&quot;).</span><span style="color:#96b5b4;">args</span><span style="color:#c0c5ce;">([&quot;</span><span style="color:#a3be8c;">a</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">u</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">x</span><span style="color:#c0c5ce;">&quot;]).</span><span style="color:#96b5b4;">output</span><span style="color:#c0c5ce;">()
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> the_output = Command::new(&quot;</span><span style="color:#a3be8c;">ps</span><span style="color:#c0c5ce;">&quot;).</span><span style="color:#96b5b4;">args</span><span style="color:#c0c5ce;">([&quot;</span><span style="color:#a3be8c;">a</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">u</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">x</span><span style="color:#c0c5ce;">&quot;]).</span><span style="color:#96b5b4;">output</span><span style="color:#c0c5ce;">()
     .</span><span style="color:#96b5b4;">ok</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">expect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">Failed to execute.</span><span style="color:#c0c5ce;">&quot;);
 </span></code></pre><h2 id="spawning-and-managing-the-children">Spawning and managing the Children</h2>
 <p>Waiting for the command to <strong>completely</strong> return is kind of lame. What would be better some way to keep track of the process and communicate with it.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">spawn</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; IoResult&lt;Process&gt;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">spawn</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; IoResult&lt;Process&gt;
 </span></code></pre>
 <p>The <a href="http://doc.rust-lang.org/std/io/process/struct.Process.html"><code>Process</code></a> type returned by <code>.spawn()</code> does just this.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Command;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Command;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// Spawn a process. Do not wait for it to return.
@@ -220,12 +220,12 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 </span></code></pre>
 <p>We can get the <a href="http://doc.rust-lang.org/std/io/process/struct.Process.html#method.id">PID</a> of the child:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// Get the PID of the process.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Get the PID of the process.
 </span><span style="color:#c0c5ce;">println!(&quot;</span><span style="color:#a3be8c;">The PID is: </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, the_process.</span><span style="color:#96b5b4;">id</span><span style="color:#c0c5ce;">());
 </span></code></pre>
 <p>Or <a href="http://doc.rust-lang.org/std/io/process/struct.Process.html#method.signal">signal</a> the process:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// Signal the process.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Signal the process.
 // 0 is interpreted as a poll check.
 </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> the_process.</span><span style="color:#96b5b4;">signal</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">) {
     Ok(_)  =&gt; println!(&quot;</span><span style="color:#a3be8c;">Process still alive!</span><span style="color:#c0c5ce;">&quot;),
@@ -235,7 +235,7 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 <p><em>Note</em>: <code>.signal_exit()</code> and <code>.signal_kill()</code> are also available.</p>
 <p><a href="http://doc.rust-lang.org/std/io/process/struct.Process.html#method.wait">Wait</a> for the process before returning, receiving it's status:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// Wait for the process to exit.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Wait for the process to exit.
 </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> the_process.</span><span style="color:#96b5b4;">wait</span><span style="color:#c0c5ce;">() {
     Ok(status) =&gt; println!(&quot;</span><span style="color:#a3be8c;">Finished, status of </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, status),
     Err(e)     =&gt; println!(&quot;</span><span style="color:#a3be8c;">Failed, error: </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, e)
@@ -244,7 +244,7 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 <p><em>Gotcha</em>: Some processes will not exit until you drain their STDOUT.</p>
 <p>Retrieve STDOUT, interacting with it like any <a href="http://doc.rust-lang.org/std/io/trait.Reader.html">Reader</a>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// Get a Pipestream, which implements the Reader trait.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Get a Pipestream, which implements the Reader trait.
 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> the_stdout_stream = the_process.stdout.</span><span style="color:#96b5b4;">as_mut</span><span style="color:#c0c5ce;">()
     .</span><span style="color:#96b5b4;">expect</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">Couldn&#39;t get mutable Pipestream.</span><span style="color:#c0c5ce;">&quot;);
 </span><span style="color:#65737e;">// Drain it into a &amp;mut [u8].
@@ -254,7 +254,7 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 </span></code></pre>
 <p>Pipe into STDIN, also, <a href="http://doc.rust-lang.org/std/io/process/struct.Process.html#method.wait_with_output">wait for output</a> and exit:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Command;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Command;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> the_process = Command::new(&quot;</span><span style="color:#a3be8c;">grep</span><span style="color:#c0c5ce;">&quot;).</span><span style="color:#96b5b4;">arg</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">foo</span><span style="color:#c0c5ce;">&quot;)
@@ -290,7 +290,7 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
 <p>Lets say we want to spawn <code>curl</code>, a very long running process, and map it's STDOUT and STDERR to files. We'll also explicitly declare which user and group it should run as, as well as it's CWD and ENV variables.</p>
 <p>In it's simplest form:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> native;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> native;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> rustrt;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::{process, Command};
@@ -356,8 +356,8 @@ pub unsafe fn execvp(c: </span><span style="color:#b48ead;">*const</span><span s
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

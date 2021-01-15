@@ -69,12 +69,12 @@ Luckly, there is a Rust Package to play with!
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -103,25 +103,25 @@ Luckly, there is a Rust Package to play with!
     <p>I was reading about the <a href="http://docopt.org/">Docopt</a> project the other day and really liked the standardized approach to <code>--help</code> prompts and argument parsing that it offers.</p>
 <p>Luckly, there is a <a href="https://github.com/docopt/docopt.rs">Rust Package</a> to play with!</p>
 <span id="continue-reading"></span><pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> new</span><span style="color:#bf616a;"> --bin</span><span style="color:#c0c5ce;"> foo
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> new</span><span style="color:#bf616a;"> --bin</span><span style="color:#c0c5ce;"> foo
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> foo
 </span></code></pre>
 <p>Add <code>docopt</code> to your <code>Cargo.toml</code></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># ...
+<code class="language-toml" data-lang="toml"><span style="color:#65737e;"># ...
 </span><span style="color:#c0c5ce;">[dependencies.docopt_macros]
 </span><span style="color:#bf616a;">git </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">git://github.com/docopt/docopt.rs</span><span style="color:#c0c5ce;">&quot;
 </span></code></pre>
 <p>Now in <code>foo/src/main.rs</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serialize;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serialize;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> docopt;
 
 </span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">docopt::Docopt;
 
 </span><span style="color:#65737e;">// Define a USAGE string.
-</span><span style="color:#b48ead;">static </span><span style="color:#d08770;">USAGE</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">&#39;static str </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">
-Usage: foo [options] &lt;target&gt; &lt;task&gt;
+</span><span style="color:#b48ead;">static </span><span style="color:#d08770;">USAGE</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">&#39;static str </span><span style="color:#c0c5ce;">= &quot;
+</span><span style="color:#a3be8c;">Usage: foo [options] &lt;target&gt; &lt;task&gt;
        foo (--help | --version)
 
 Task:
@@ -171,9 +171,9 @@ Options:
 </span></code></pre>
 <p>Now build it, and try some tests:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> build
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> build
 </span></code></pre><pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;">  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;">  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo
 </span><span style="color:#65737e;"># Invalid arguments.
 #
 # Usage: foo [options] &lt;target&gt; &lt;task&gt;
@@ -220,8 +220,8 @@ Options:
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

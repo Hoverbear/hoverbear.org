@@ -69,12 +69,12 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -148,7 +148,7 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 <h2 id="hostname">Hostname</h2>
 <p>We can set the hostname with the following command:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
 </span><span style="color:#bf616a;">hostnamectl</span><span style="color:#c0c5ce;"> set-hostname $</span><span style="color:#bf616a;">HOSTNAME
 </span></code></pre>
 <p>This writes the hostname to <code>/etc/hostname</code>. After you'll want to look in <code>/etc/hosts</code>. Here's what mine ended up like after I was done editing it. I'm setting up a host called <code>silicon</code> on the <code>hoverbear.org</code> domain.</p>
@@ -170,7 +170,7 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 </span></code></pre>
 <p>Go make yourself a tea, then try pinging your server from a different machine a few minutes later.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">FQDN</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">FQDN</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
 </span><span style="color:#bf616a;">ping </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">FQDN
 </span></code></pre>
 <p>Once it starts working you're all set with your domain name! Do note it can take up to 24 hours for global DNS propagation.</p>
@@ -180,18 +180,18 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 <p>Properly designed programs will store timezones as part of their dates, but not all programs are properly designed. Changing your timezone later can temporarily cause rather strange issues, so be forwarned.</p>
 <p>I'm going to just choose my current local time for now. Since my root host won't be running any time sensitive services I can change it without worrying too much.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-timezone Canada/Pacific
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-timezone Canada/Pacific
 </span></code></pre>
 <p>Since we're running a server that will, ultimately, be responsible for possibly time-sensitive data it might be a good idea to ensure we have accurate times. In order to do this we'll enable an <code>ntp</code> service.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-ntp true
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-ntp true
 </span></code></pre><h2 id="a-simple-firewall">A Simple Firewall</h2>
 <p>Most modern kernels come built in with <code>iptables</code> and <code>nftables</code> support already. In Arch, <code>iptables</code> is pulled in as part of base. <code>nftables</code> is a newer 'spiritual successor' to <code>iptables</code> however there is little practical real world documentation. Since some of the things we'll be doing later on will be utilizing <code>iptables</code> it's probably a good idea to use that.</p>
 <p>There is a <a href="https://wiki.archlinux.org/index.php/Firewalls#iptables">menagerie</a> of different frontends for <code>iptables</code> that put a layer between you and it. However <code>iptables</code> isn't that difficult to understand and has some great <a href="https://wiki.archlinux.org/index.php/Iptables">documentation</a>. Learning how to understand what's happening in <code>iptables</code> will make using even frontends easier later on, if you even choose to use them.</p>
 <p>We'll be referencing the <a href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall">Simple Stateful Firewall</a> for our initial setup.</p>
 <p>Since we're currently on a remote device over SSH we need to be careful not to lock ourselves out. So let's set some basic filter settings in <code>/etc/iptables/iptables.rules</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">*filter
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">*filter
 </span><span style="color:#65737e;">### Defaults for the chain.
 # Drop anything that we don&#39;t catch from input.
 </span><span style="color:#bf616a;">:INPUT</span><span style="color:#c0c5ce;"> DROP </span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">0:0</span><span style="color:#b48ead;">]
@@ -239,12 +239,12 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 </span></code></pre>
 <p>Now you can start and get the status of the <code>iptables</code> service.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> start iptables
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> start iptables
 </span><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> status iptables
 </span></code></pre>
 <p>Now try ending your <code>ssh</code> session and hopping back in. If it didn't work you can just reset the machine and try reconfiguring. If it did work then we can enable the service on boot.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable iptables
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable iptables
 </span></code></pre>
 <p>At this point you can review your current settings and see various usages with <code>iptables -nvL</code>:</p>
 <pre style="background-color:#2b303b;">
@@ -277,7 +277,7 @@ Chain UDP (1 references)
 <h2 id="hardening">Hardening</h2>
 <p>Servers get attacked, it's a fact of life. Let's take some simple steps to help build up a bit of security for ourselves. First let's set some flags in <code>/etc/sysctl.d/50-hardening.conf</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># Only root can see dmesg
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Only root can see dmesg
 </span><span style="color:#bf616a;">kernel.dmesg_restrict</span><span style="color:#c0c5ce;"> = 1
 </span><span style="color:#65737e;"># Restrict kernel pointer access.
 </span><span style="color:#c0c5ce;">kernel.kptr_restrict = 1
@@ -314,19 +314,19 @@ Chain UDP (1 references)
 <h2 id="dns-and-name-resolution">DNS and Name Resolution</h2>
 <p>It's now time to properly configure <code>systemd-resolved</code>. First we'll link its configuration into the old <code>/etc/resolv.conf</code> location for compatability <a href="https://wiki.archlinux.org/index.php/systemd-networkd#Required_services_and_setup">reasons</a>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">rm</span><span style="color:#c0c5ce;"> /etc/resolv.conf
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rm</span><span style="color:#c0c5ce;"> /etc/resolv.conf
 </span><span style="color:#bf616a;">ln -s</span><span style="color:#c0c5ce;"> /run/systemd/resolve/resolv.conf /etc/resolv.conf
 </span><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> restart systemd-resolved
 </span></code></pre>
 <p>Next we'll go into <code>/etc/nsswitch.conf</code> and set up to local DNS stub resolver. Change this line:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#a3be8c;">+ hosts: files mymachines resolve myhostname
+<code class="language-diff" data-lang="diff"><span style="color:#a3be8c;">+ hosts: files mymachines resolve myhostname
 </span><span style="color:#bf616a;">- hosts: files dns myhostname
 </span></code></pre>
 <p>Now we can go about creating and modifying files in <code>/etc/systemd/network/</code>. Before going about this it's a good idea to review your network adapters and check out <code>man systemd.network</code>. You can do this with <code>ip addr</code>. You should see a <code>lo</code> and some adapter starting with <code>enp</code>. The <code>enp</code> prefixed adapter is your physical adapter.</p>
 <p>We can go back and review our previous <code>/etc/systemd/network/physical.network</code> now. Some changes can be made:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">[Match]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">[Match]
 </span><span style="color:#65737e;"># Make sure this matches your adapter from the ip addr command
 </span><span style="color:#bf616a;">Name</span><span style="color:#c0c5ce;">=enp*
 
@@ -340,7 +340,7 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
 </span></code></pre>
 <p>Then we'll configure <code>/etc/systemd/resolved.conf</code>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">[Resolve]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">[Resolve]
 </span><span style="color:#65737e;"># Specify Google&#39;s DNS instead of whatever the default picked by DHCP is.
 </span><span style="color:#bf616a;">DNS</span><span style="color:#c0c5ce;">=8.8.8.8
 </span><span style="color:#bf616a;">FallbackDNS</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">8.8.4.4
@@ -359,20 +359,20 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
 <p>The process for adding any new service will be similar, so even if you're not interested in installing <code>mosh</code> it's good to be familiar with it. We'll use it as an example below.</p>
 <p><strong>Install:</strong> You should choose a reliable, secure source for your service. You should always prefer the official Arch repositories over the AUR or a third party repository, especially on the 'root' of the server.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> mosh
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> mosh
 </span></code></pre>
 <p><strong>Discover:</strong> Most externally facing services require a port to bind to (if they're TCP), or recieve from / send through (if they're UDP). You may recall we set up our firewall to accept all outgoing connections, so we only need to configure it to accept incoming data. You can generally discover this by looking in their respective <code>man</code> pages, website, or the configuration itself.</p>
 <p><code>mosh</code> uses ports starting at <code>60000</code> and going up to <code>60999</code> if lower numbered ports are not available. It's pretty reasonable to assume that we'll never have more than 100 <code>mosh</code> sessions, so we only need to allow the lower 100 ports.</p>
 <p><strong>Accept:</strong> In order to accept data on these ports we'll open them up by adding the following line <em>near</em> the bottom of our <code>/etc/iptables/iptables.rules</code> file, <em>before</em> the <code>COMMIT</code> line.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># Allow MOSH connections.
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Allow MOSH connections.
 </span><span style="color:#bf616a;">--append</span><span style="color:#c0c5ce;"> UDP</span><span style="color:#bf616a;"> --protocol</span><span style="color:#c0c5ce;"> udp</span><span style="color:#bf616a;"> --dport</span><span style="color:#c0c5ce;"> 60000:60100</span><span style="color:#bf616a;"> --jump</span><span style="color:#c0c5ce;"> ACCEPT
 </span></code></pre>
 <p>Then you can restart the firewall with <code>systemctl restart iptables</code>.</p>
 <p><strong>Test:</strong> At this point if your new service has a daemon to run you should start it with the appropriate <code>systemctl start $SERVICE</code> command. Then take a moment to test your service and make sure it works as expected.</p>
 <p>With <code>mosh</code> there is no daemon, we just test by trying to use it!</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon.hoverbear.org
 </span><span style="color:#bf616a;">mosh </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">HOSTNAME
 </span></code></pre>
 <p><strong>Enable:</strong> Once you know things are working correctly we can enable it to start at boot if desired with <code>systemctl enable $SERVICE</code> Since <code>mosh</code> has no related daemon we don't need to do this.</p>
@@ -396,8 +396,8 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

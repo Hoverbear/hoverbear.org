@@ -70,12 +70,12 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -305,7 +305,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>While many projects test trivial partition scenarios (such as <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{D, E}</code>), there were cases, such as Elasticsearch testing a &quot;bridge&quot;, where nodes on each side of a partition were only partially disconnected, yielding split brains.</p>
 <p>An example of this is <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{C,D,E}</code>, where <code>C</code> is a bridge between the two partitions.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">A - C - E
+<code class="language-markdown" data-lang="markdown"><span style="color:#c0c5ce;">A - C - E
  \ / \ /
   B   D
 </span></code></pre>
@@ -316,7 +316,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>In this case, if PD failed, then TiKV failed before PD recovered. This could lead to a state where TiKV nodes would never recover.</p>
 <p>Here's an example of a problematic case involving 1 TiKV node, and 1 PD node:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#96b5b4;">kill</span><span style="color:#c0c5ce;">(pd);
+<code class="language-rust" data-lang="rust"><span style="color:#96b5b4;">kill</span><span style="color:#c0c5ce;">(pd);
 </span><span style="color:#96b5b4;">restart</span><span style="color:#c0c5ce;">(tikv);
 </span><span style="color:#96b5b4;">sleep</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">61_000</span><span style="color:#c0c5ce;">);
 </span><span style="color:#96b5b4;">recover</span><span style="color:#c0c5ce;">(pd);
@@ -345,7 +345,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>In <a href="(https://aphyr.com/posts/317-call-me-maybe-elasticsearch)">ElasticSearch - 2014-06-15 - 1.1.0</a> it was noted that different JVMs serialize classes differently (e.g., InetAddress), meaning it was possible clients and servers would be unable to correctly communicate error messages from a different node.</p>
 <p>This is <a href="https://github.com/elastic/elasticsearch/issues/3145">issue #3145</a>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">[</span><span style="color:#d08770;">2013</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">06</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">05 0</span><span style="background-color:#bf616a;color:#2b303b;">9</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">35</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">20</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">480</span><span style="color:#c0c5ce;">][</span><span style="color:#d08770;">WARN</span><span style="color:#c0c5ce;"> ][action.index         	] [es-</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">] </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to perform index on replica [rules][</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
+<code class="language-java" data-lang="java"><span style="color:#c0c5ce;">[</span><span style="color:#d08770;">2013</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">06</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">05 0</span><span style="background-color:#bf616a;color:#2b303b;">9</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">35</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">20</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">480</span><span style="color:#c0c5ce;">][</span><span style="color:#d08770;">WARN</span><span style="color:#c0c5ce;"> ][action.index         	] [es-</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">] </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to perform index on replica [rules][</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
 org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportException</span><span style="color:#c0c5ce;">: </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to deserialize exception response from stream
 </span><span style="color:#ebcb8b;">Caused</span><span style="color:#c0c5ce;"> by: org.elasticsearch.transport.</span><span style="color:#ebcb8b;">TransportSerializationException</span><span style="color:#c0c5ce;">: </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to deserialize exception response from stream
 </span></code></pre>
@@ -722,8 +722,8 @@ org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportE
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

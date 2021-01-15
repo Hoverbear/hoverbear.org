@@ -69,12 +69,12 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -145,7 +145,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>OpenRC stores scripts in <code>/etc/init.d/</code>, the scripts are typically standalone, configuration does not require multiple separate files.</p>
 <p>Here is the contents of <code>/etc/systemd/system/sshd.service</code> on a Fedora 20 system:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">[Unit]
+<code class="language-toml" data-lang="toml"><span style="color:#c0c5ce;">[Unit]
 </span><span style="color:#bf616a;">Description</span><span style="color:#c0c5ce;">=</span><span style="background-color:#bf616a;color:#2b303b;">OpenSSH server daemon</span><span style="color:#c0c5ce;">
 </span><span style="color:#bf616a;">After</span><span style="color:#c0c5ce;">=</span><span style="background-color:#bf616a;color:#2b303b;">syslog.target network.target auditd.service</span><span style="color:#c0c5ce;">
 
@@ -163,7 +163,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 </span></code></pre>
 <p>For comparison, this is an excerpt of <code>/etc/init.d/sshd</code> on Funtoo Linux, not the entire file:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
+<code class="language-bash" data-lang="bash"><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
   </span><span style="color:#bf616a;">use</span><span style="color:#c0c5ce;"> logger dns
   </span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span style="color:#c0c5ce;">&quot;$</span><span style="color:#a3be8c;">{</span><span style="color:#bf616a;">rc_need</span><span style="color:#c0c5ce;">+</span><span style="color:#a3be8c;">set}</span><span style="color:#c0c5ce;">&quot; = &quot;</span><span style="color:#a3be8c;">set</span><span style="color:#c0c5ce;">&quot; </span><span style="color:#96b5b4;">]</span><span style="color:#c0c5ce;">; </span><span style="color:#b48ead;">then
     </span><span style="color:#96b5b4;">: </span><span style="color:#65737e;"># Do nothing, the user has explicitly set rc_need
@@ -219,7 +219,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>In systemd dependencies are handled via the declarations <code>Wants</code>, <code>Requires</code>, and <code>After</code> in the <code>[Unit]</code> section of the <code>.service</code>. For more info visit <a href="https://wiki.archlinux.org/index.php/systemd#Handling_dependencies">Arch Linux's SystemD Dependencies Section</a>. For example:</p>
 <p><strong>/etc/systemd/system/A.service</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">[Unit]
+<code class="language-toml" data-lang="toml"><span style="color:#c0c5ce;">[Unit]
 </span><span style="color:#65737e;"># Optionally depends on `C` and `D`.
 </span><span style="color:#bf616a;">Wants</span><span style="color:#c0c5ce;">=</span><span style="background-color:#bf616a;color:#2b303b;">C.service D.service</span><span style="color:#c0c5ce;">
 </span><span style="color:#65737e;"># Start after `D`, but concurrently with `C`
@@ -227,7 +227,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 </span></code></pre>
 <p><strong>/etc/systemd/system/B.service</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">[Unit]
+<code class="language-toml" data-lang="toml"><span style="color:#c0c5ce;">[Unit]
 </span><span style="color:#65737e;"># Strictly depend on A and Networking.
 </span><span style="color:#bf616a;">Requires</span><span style="color:#c0c5ce;">=</span><span style="background-color:#bf616a;color:#2b303b;">A.service Networking.target</span><span style="color:#c0c5ce;">
 </span><span style="color:#65737e;"># Start after `A`, but concurrently with `Networking`
@@ -237,7 +237,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>For OpenRC, dependencies are handled by the <code>depend</code> function of the script. For more info visit <a href="http://www.funtoo.org/Package:OpenRC">The Funtoo OpenRC Page</a>.</p>
 <p><strong>/etc/init.d/nginx</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
+<code class="language-bash" data-lang="bash"><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
 	</span><span style="color:#bf616a;">need</span><span style="color:#c0c5ce;"> net
 	</span><span style="color:#bf616a;">use</span><span style="color:#c0c5ce;"> dns logger netmount
 }
@@ -264,7 +264,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>Here we can see the origin of the <code>${SSHD_OPTS}</code> from the earlier example of <code>/etc/init.d/sshd</code>:</p>
 <p><strong>/etc/conf.d/sshd</strong>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># /etc/conf.d/sshd: config file for /etc/init.d/sshd
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># /etc/conf.d/sshd: config file for /etc/init.d/sshd
 # Where is your sshd_config file stored?
 </span><span style="color:#bf616a;">SSHD_CONFDIR</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">/etc/ssh</span><span style="color:#c0c5ce;">&quot;
 
@@ -282,7 +282,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>OpenRC is configured the same way as most traditional Linux/BSD services are configured. The default configuration on Funtoo is well commented and usually self-explanatory, even including gotchas in their notes. There are a few knobs to tweak based on user preferences.</p>
 <p><strong>/etc/rc.conf</strong>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># Set to &quot;YES&quot; if you want the rc system to try and start services
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Set to &quot;YES&quot; if you want the rc system to try and start services
 # in parallel for a slight speed improvement. When running in parallel we
 # prefix the service output with its name as the output will get
 # jumbled up.
@@ -300,7 +300,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>systemd's configuration is similarly accessible in <code>/etc/systemd/*.conf</code>, from there it's possible to set things like the default CPU limits for processes and other things.</p>
 <p><strong>/etc/systemd/system.conf</strong>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">[Manager]
+<code class="language-toml" data-lang="toml"><span style="color:#c0c5ce;">[Manager]
 </span><span style="color:#65737e;">#CPUAffinity=1 2
 #DefaultStandardOutput=journal
 #DefaultStandardError=inherit
@@ -350,8 +350,8 @@ With systemd, daemon configuration is handled by .toml configuration files. With
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

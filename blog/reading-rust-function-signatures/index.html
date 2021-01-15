@@ -70,12 +70,12 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -166,7 +166,7 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 <h1 id="baby-steps">Baby Steps</h1>
 <p>Your first function definition in Rust almost definitely looks like this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {}
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {}
 </span></code></pre>
 <p>So since you've already most likely wrote this let's start here!</p>
 <ul>
@@ -177,13 +177,13 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 </ul>
 <p>So what would we write for a function that does nothing useful?</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">do_nothing_useful</span><span style="color:#c0c5ce;">() {}
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">do_nothing_useful</span><span style="color:#c0c5ce;">() {}
 </span></code></pre>
 <p>Great, now you too can do nothing useful!</p>
 <h1 id="visibility">Visibility</h1>
 <p>By default, all functions are private and cannot be used outside of the module they are in. Making them usable by a different module is simple.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">mod </span><span style="color:#c0c5ce;">dog {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">mod </span><span style="color:#c0c5ce;">dog {
     </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">private_function</span><span style="color:#c0c5ce;">() {}
     </span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">public_function</span><span style="color:#c0c5ce;">() {}
 }
@@ -202,12 +202,12 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 <h1 id="simple-parameters">Simple Parameters</h1>
 <p>No longer happy with <code>do_nothing_useful()</code> you decide to adopt a dog. Good for you! Now you have a new problem, you have to walk it and play with it!</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_dog</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog_name</span><span style="color:#c0c5ce;">: String) {}
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_dog</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog_name</span><span style="color:#c0c5ce;">: String) {}
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">play_with</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog_name</span><span style="color:#c0c5ce;">: String, </span><span style="color:#bf616a;">game_name</span><span style="color:#c0c5ce;">: String) {}
 </span></code></pre>
 <p>Parameters are declared <code>variable_name: Type</code>, and are comma seperated. But c'mon! Our dog is a lot more than just a <code>String</code>! Good news, you can use your own types too.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog;  </span><span style="color:#65737e;">// Let&#39;s not go overboard.
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog;  </span><span style="color:#65737e;">// Let&#39;s not go overboard.
 </span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Game; </span><span style="color:#65737e;">// Simple types in demos!
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_dog</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog</span><span style="color:#c0c5ce;">: Dog) {}
@@ -215,7 +215,7 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 </span></code></pre>
 <p>Great, looking better already. Let's get that awesome day started.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> rover = Dog;
     </span><span style="color:#96b5b4;">walk_dog</span><span style="color:#c0c5ce;">(rover);
 
@@ -244,13 +244,13 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 <p>Instead of moving our <code>Dog</code> into the <code>walk_dog()</code> function we really just want to <em>lend</em> the function our <code>Dog</code>. When you walk your dog it (generally) ends up coming back to the house with you, right?</p>
 <p>Rust uses <code>&amp;</code> to symbolize a borrow. Borrowing something tells the compiler that when the function is done the ownership of the value returns back to the caller.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_dog</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog</span><span style="color:#c0c5ce;">: &amp;Dog) {}
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_dog</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog</span><span style="color:#c0c5ce;">: &amp;Dog) {}
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">play_with</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">dog</span><span style="color:#c0c5ce;">: &amp;Dog, </span><span style="color:#bf616a;">game</span><span style="color:#c0c5ce;">: Game) {}
 </span></code></pre>
 <p>There are immutable borrows as well as mutable borrows (<code>&amp;mut</code>). You can have an immutable borrow passed to any number of things at once, and a mutable borrow only passed to one thing at a time. This provides data safety.</p>
 <p>So our new borrowing functions don't really cut it, do they? We can't even mutate the <code>Dog</code>! Let's try anyways to see the error message.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog {
     </span><span style="color:#bf616a;">walked</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool
 </span><span style="color:#c0c5ce;">}
 
@@ -273,7 +273,7 @@ error: aborting due to previous error
 </span></code></pre>
 <p>Changing the function signature to <code>fn walk_dog(dog: &amp;mut Dog) {}</code> and updating our <code>main()</code> we can solve this.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> rover = Dog { walked: </span><span style="color:#d08770;">false </span><span style="color:#c0c5ce;">};
     </span><span style="color:#96b5b4;">walk_dog</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> rover);
     assert_eq!(rover.walked, </span><span style="color:#d08770;">true</span><span style="color:#c0c5ce;">);
@@ -283,7 +283,7 @@ error: aborting due to previous error
 <h1 id="returning">Returning</h1>
 <p>Let's revisit exactly <em>how</em> we get Rover, because thats how we can explore return types! Let's say we want a function <code>adopt_dog()</code> which takes a name and gives us a <code>Dog</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog {
     </span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: String,
     </span><span style="color:#bf616a;">walked</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">,
 }
@@ -306,7 +306,7 @@ error: aborting due to previous error
 </ul>
 <p>An example:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// ... `Dog` struct from before.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// ... `Dog` struct from before.
 </span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">Dog {
     </span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">adopt</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: String) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
         Dog { name: name, walked: </span><span style="color:#d08770;">false </span><span style="color:#c0c5ce;">}
@@ -327,7 +327,7 @@ error: aborting due to previous error
 <p>Generics let us do this. We can have a <code>Dog</code> and <code>Bear</code> struct that implement the <code>Walk</code> trait, then have a <code>walk_pet()</code> function accept any <code>Walk</code> traited structure!</p>
 <p>Generics are specified to functions in between the name and the parameters using sharp brackets. The important thing to note about generics is when you're accepting a generic <em>you may only use the functions from the constraints</em>. This means that if you pass a <code>Read</code> to a function that wants <code>Write</code>, it still can't <code>Read</code> in it unless the constraints include it.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog { </span><span style="color:#bf616a;">walked</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, }
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog { </span><span style="color:#bf616a;">walked</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, }
 </span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Bear { </span><span style="color:#bf616a;">walked</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">, }
 
 </span><span style="color:#b48ead;">trait </span><span style="color:#c0c5ce;">Walk {
@@ -364,14 +364,14 @@ error: aborting due to previous error
 </span></code></pre>
 <p>You can also use a different <code>where</code> syntax as function signatures with complex generics can get rather long.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_pet</span><span style="color:#c0c5ce;">&lt;W&gt;(</span><span style="color:#bf616a;">pet</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> W)
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">walk_pet</span><span style="color:#c0c5ce;">&lt;W&gt;(</span><span style="color:#bf616a;">pet</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> W)
 </span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> W: Walk {
     pet.</span><span style="color:#96b5b4;">walk</span><span style="color:#c0c5ce;">();
 }
 </span></code></pre>
 <p>If you have multiple generics you can comma seperate them in both cases. If you'd like more than one trait contraint you can use <code>where W: Walk + Read</code> or <code>&lt;W: Walk + Read&gt;</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">stuff</span><span style="color:#c0c5ce;">&lt;R, W&gt;(</span><span style="color:#bf616a;">r</span><span style="color:#c0c5ce;">: &amp;R, </span><span style="color:#bf616a;">w</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> W)
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">stuff</span><span style="color:#c0c5ce;">&lt;R, W&gt;(</span><span style="color:#bf616a;">r</span><span style="color:#c0c5ce;">: &amp;R, </span><span style="color:#bf616a;">w</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> W)
 </span><span style="color:#b48ead;">where</span><span style="color:#c0c5ce;"> W: Write, R: Read + Clone {}
 </span></code></pre>
 <p>Look at all of the information you can derive from that function signature! It's not helpfully named but you can still tell <em>almost for sure</em> what it does!</p>
@@ -382,7 +382,7 @@ error: aborting due to previous error
 <p>You should definitely use the <code>where</code> syntax here.</p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Dog {
     </span><span style="color:#bf616a;">walked</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool
 </span><span style="color:#c0c5ce;">}
 
@@ -432,7 +432,7 @@ error: aborting due to previous error
 <p>So, if you start dealing with a lot of lifetimes, your first step should really be to <strong>sit back and think about it</strong>. Unless your code is quite complex it's quite likely you won't need to deal with lifetimes. If you're bumping into lifetimes in a simple example your notion of the problem is probably <strong>incorrect</strong>.</p>
 <p>Here is a function with lifetimes from <a href="https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.as_slice"><code>Option</code>'s implementation</a>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">as_slice&lt;</span><span style="color:#b48ead;">&#39;a</span><span style="color:#c0c5ce;">&gt;(&amp;</span><span style="color:#b48ead;">&#39;a </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a </span><span style="color:#c0c5ce;">[T]
+<code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">as_slice&lt;</span><span style="color:#b48ead;">&#39;a</span><span style="color:#c0c5ce;">&gt;(&amp;</span><span style="color:#b48ead;">&#39;a </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; &amp;</span><span style="color:#b48ead;">&#39;a </span><span style="color:#c0c5ce;">[T]
 </span></code></pre>
 <p>Lifetimes are denoted by the tick (<code>'</code>) and given a name. In this case, <code>'a</code> but they can also be things like <code>'burrito</code> if you prefer inside jokes. Essentially what this is saying is:</p>
 <blockquote>
@@ -442,29 +442,29 @@ error: aborting due to previous error
 <h1 id="challenge-time">Challenge Time</h1>
 <p>Below, you'll find a set of functions pulled from the standard library along with links to their documentation. Can you tell from their function signature what they do? (For added fun, I've removed the function name!)</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// In `File`
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// In `File`
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">name</span><span style="color:#c0c5ce;">&lt;P: AsRef&lt;Path&gt;&gt;(</span><span style="color:#bf616a;">path</span><span style="color:#c0c5ce;">: P) -&gt; Result&lt;File&gt;
 </span></code></pre>
 <p><a href="https://doc.rust-lang.org/stable/std/fs/struct.File.html#method.create">Source</a></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// In `Option&lt;T&gt;`
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// In `Option&lt;T&gt;`
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">name</span><span style="color:#c0c5ce;">&lt;E, T&gt;(</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">err</span><span style="color:#c0c5ce;">: E) -&gt; Result&lt;T, E&gt;
 </span></code></pre>
 <p><a href="https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.ok_or">Source</a></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// In `Iterator&lt;Item=T&gt;`
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// In `Iterator&lt;Item=T&gt;`
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">name</span><span style="color:#c0c5ce;">&lt;B: FromIterator&lt;</span><span style="color:#b48ead;">Self::</span><span style="color:#c0c5ce;">Item&gt;&gt;(</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; B
 </span><span style="color:#b48ead;">where Self</span><span style="color:#c0c5ce;">: Sized
 </span></code></pre>
 <p><a href="https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.collect">Source</a></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// In `Iterator&lt;Item=T&gt;`
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// In `Iterator&lt;Item=T&gt;`
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">name</span><span style="color:#c0c5ce;">&lt;B, F&gt;(</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">init</span><span style="color:#c0c5ce;">: B, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: F) -&gt; B
 </span><span style="color:#b48ead;">where Self</span><span style="color:#c0c5ce;">: Sized, F: FnMut(B, </span><span style="color:#b48ead;">Self::</span><span style="color:#c0c5ce;">Item) -&gt; B
 </span></code></pre>
 <p><a href="https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.fold">Source</a></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// In `Result&lt;T,E&gt;`
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// In `Result&lt;T,E&gt;`
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">name</span><span style="color:#c0c5ce;">&lt;F, O: FnOnce(E) -&gt; F&gt;(</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">op</span><span style="color:#c0c5ce;">: O) -&gt; Result&lt;T, F&gt;
 </span></code></pre>
 <p><a href="https://doc.rust-lang.org/stable/core/result/enum.Result.html#method.map_err">Source</a></p>
@@ -481,8 +481,8 @@ error: aborting due to previous error
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

@@ -68,12 +68,12 @@
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -162,12 +162,12 @@
 </ul>
 <p>A system transitions between runlevels like so:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">sysinit</span><span style="color:#c0c5ce;"> -&gt; boot -&gt; default -&gt; shutdown
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sysinit</span><span style="color:#c0c5ce;"> -&gt; boot -&gt; default -&gt; shutdown
 </span></code></pre>
 <p>The services controlled by a particular runlevel are controlled by <code>/etc/inittab</code> and via the <code>rc-update</code> command.</p>
 <p>On a modern <a href="http://www.funtoo.org/Funtoo_Hosting">Funtoo LXC Container</a>, your runlevels  might look like this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">± </span><span style="color:#65737e;"># rc-update -v
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">± </span><span style="color:#65737e;"># rc-update -v
 </span><span style="color:#c0c5ce;">             bootmisc | </span><span style="color:#bf616a;">boot
          busybox-ntpd </span><span style="color:#c0c5ce;">|
      </span><span style="color:#bf616a;">busybox-watchdog </span><span style="color:#c0c5ce;">|
@@ -224,11 +224,11 @@
 </span></code></pre>
 <p>Services can be added to runlevels with:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> add &lt;service&gt; &lt;runlevel&gt;
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> add &lt;service&gt; &lt;runlevel&gt;
 </span></code></pre>
 <p>Or removed with:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> del &lt;service&gt; &lt;runlevel&gt;
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> del &lt;service&gt; &lt;runlevel&gt;
 </span></code></pre>
 <p>Changing between runlevels is done via the <code>rc &lt;runlevel&gt;</code> command, but most users will never need to do this as runlevels are (mostly) managed by the system.</p>
 <p>In the case where a user does want to change runlevels in this way, it is often such that they are utilizing <a href="http://www.funtoo.org/Stacked_Runlevels">Stacked Runlevels</a>.</p>
@@ -270,7 +270,7 @@ AllowIsolate=yes
 <p>This file would be accompanied by a <code>&lt;target&gt;.wants</code> directory containing the services it should enable.</p>
 <p>Targets can be controlled very similar to systemd's <code>.service</code> unit files, you just need to add <code>.target</code> at the end.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> status graphical.target
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> status graphical.target
 </span><span style="color:#bf616a;">± </span><span style="color:#c0c5ce;">% systemctl status graphical.target
 </span><span style="color:#bf616a;">graphical.target</span><span style="color:#c0c5ce;"> - Graphical Interface
 </span><span style="color:#bf616a;">Loaded:</span><span style="color:#c0c5ce;"> loaded (/lib/systemd/system/graphical.target; </span><span style="color:#bf616a;">enabled</span><span style="color:#c0c5ce;">)
@@ -282,7 +282,7 @@ AllowIsolate=yes
 </span></code></pre>
 <p>The <code>.target</code> based approach allows for various services to be grouped in a logical manner. For example, is is the state of targets on a modern Fedora Desktop:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">± </span><span style="color:#c0c5ce;">% systemctl list-units</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;">=target</span><span style="color:#bf616a;"> --all
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">± </span><span style="color:#c0c5ce;">% systemctl list-units</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;">=target</span><span style="color:#bf616a;"> --all
 UNIT</span><span style="color:#c0c5ce;">                   LOAD      ACTIVE   SUB    DESCRIPTION
 </span><span style="color:#bf616a;">basic.target</span><span style="color:#c0c5ce;">           loaded    active   active Basic System
 </span><span style="color:#bf616a;">bluetooth.target</span><span style="color:#c0c5ce;">       loaded    active   active Bluetooth
@@ -357,8 +357,8 @@ UNIT</span><span style="color:#c0c5ce;">                   LOAD      ACTIVE   SU
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

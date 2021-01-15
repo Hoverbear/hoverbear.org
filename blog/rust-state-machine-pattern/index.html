@@ -70,12 +70,12 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -182,7 +182,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>So, a State Machine is any <strong>'machine'</strong> which has a set of <strong>'states'</strong> and <strong>'transitions'</strong> defined between them.</p>
 <p>When we talk about a machine we're referring to the abstract concept of something which <em>does something</em>. For example, your 'Hello World!' function is a machine. It is started and eventually outputs what we expect it to. Some model which you use to interact with your database is just the same. We'll regard our most basic machine simply as a <code>struct</code> that can be created and destroyed.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Machine;
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Machine;
 
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
   </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> my_machine = Machine; </span><span style="color:#65737e;">// Create.
@@ -192,7 +192,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>States are a way to reason about <em>where</em> a machine is in its process. For example, we can think about a bottle filling machine as an example. The machine is in a 'waiting' state when it is waiting for a new bottle. Once it detects a bottle it moves to the 'filling' state. Upon detecting the bottle is filled it enters the 'done' state. After the bottle is left the machine we return to the 'waiting' state.</p>
 <p>A key takeaway here is that none of the states have any information relevant for the other states. The 'filling' state doesn't care how long the 'waiting' state waited. The 'done' state doesn't care about what rate the bottle was filled at. Each state has <em>discrete responsibilities and concerns</em>. The natural way to consider these <em>variants</em> is as an <code>enum</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BottleFillerState {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BottleFillerState {
   Waiting { waiting_time: std::time::Duration },
   Filling { rate: </span><span style="color:#b48ead;">usize </span><span style="color:#c0c5ce;">},
   Done,
@@ -239,7 +239,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <h3 id="a-second-shot-with-enums">A Second Shot with Enums</h3>
 <p>As we saw above the most natural way to attempt this is an <code>enum</code>, but we noted already that you can't control which transitions are actually permitted in this case. So can we just wrap it? We sure can! Let's take a look:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">State {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">State {
     Waiting { waiting_time: std::time::Duration },
     Filling { rate: </span><span style="color:#b48ead;">usize </span><span style="color:#c0c5ce;">},
     Done
@@ -286,7 +286,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <h3 id="structures-with-transitions">Structures With Transitions</h3>
 <p>So what if we just used a set of structs? We could have them all implement traits which all states should share. We could use special functions that transitioned the type into the new type! How would it look?</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// This is some functionality shared by all of the states.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// This is some functionality shared by all of the states.
 </span><span style="color:#b48ead;">trait </span><span style="color:#c0c5ce;">SharedFunctionality {
     </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_shared_value</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">;
 }
@@ -350,7 +350,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <li>Since the size of the state is variable we end up needing to wrap this in an <code>enum</code> as above for it to be usable where the state machine is simply one component of a more complex system. Here's what this could look like:</li>
 </ul>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">State {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">State {
     Waiting(Waiting),
     Filling(Filling),
     Done(Done),
@@ -365,7 +365,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>As you can see, this isn't very ergonomic. We're getting closer to what we want though. The idea of moving between distinct types seems to be a good way forward! Before we go try something entirely different though, let's talk about a simple way to change our example that could enlighten further thinking.</p>
 <p>The Rust standard library defines two highly related traits: <a href="https://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a> and <a href="https://doc.rust-lang.org/std/convert/trait.Into.html"><code>Into</code></a> that are extremely useful and worth checking out. An important thing to note is that implementing one of these automatically implements the other. In general implementing <code>From</code> is preferable as it's a bit more flexible. We can implement them very easily for our above example like so:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// ...
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// ...
 </span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Waiting&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Filling {
     </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: Waiting) -&gt; Filling {
         Filling {
@@ -381,7 +381,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <h3 id="generically-sophistication">Generically Sophistication</h3>
 <p>In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this is to harness the power of generics. Let's take a look at a fairly bare structure representing this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;S&gt; {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;S&gt; {
     </span><span style="color:#bf616a;">shared_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
     </span><span style="color:#bf616a;">state</span><span style="color:#c0c5ce;">: S
 }
@@ -401,7 +401,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>So here we're actually building the state into the type signature of the <code>BottleFillingMachine</code> itself. A state machine in the 'Filling' state is <code>BottleFillingMachine&lt;Filling&gt;</code> which is just <strong>awesome</strong> since it means when we see it as part of an error message or something we know immediately what state the machine is in.</p>
 <p>From there we can go ahead and implement <code>From&lt;T&gt;</code> for some of these specific generic variants like so:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;BottleFillingMachine&lt;Waiting&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Filling&gt; {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;BottleFillingMachine&lt;Waiting&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Filling&gt; {
     </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: BottleFillingMachine&lt;Waiting&gt;) -&gt; BottleFillingMachine&lt;Filling&gt; {
         BottleFillingMachine {
             shared_value: val.shared_value,
@@ -423,7 +423,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 </span></code></pre>
 <p>Defining a starting state for the machine looks like this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Waiting&gt; {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Waiting&gt; {
     </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">shared_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
         BottleFillingMachine {
             shared_value: shared_value,
@@ -436,14 +436,14 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 </span></code></pre>
 <p>So how does it look to change between two states? Like this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_waiting = BottleFillingMachine::&lt;Waiting&gt;::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">);
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_filling = BottleFillingMachine::&lt;Filling&gt;::from(in_waiting);
 }
 </span></code></pre>
 <p>Alternatively if you're doing this inside of a function whose type signature restricts the possible outputs it might look like this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">transition_the_states</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: BottleFillingMachine&lt;Waiting&gt;) -&gt; BottleFillingMachine&lt;Filling&gt; {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">transition_the_states</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: BottleFillingMachine&lt;Waiting&gt;) -&gt; BottleFillingMachine&lt;Filling&gt; {
     val.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">() </span><span style="color:#65737e;">// Nice right?
 </span><span style="color:#c0c5ce;">}
 </span></code></pre>
@@ -481,7 +481,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>So how can we have some parent structure hold our state machine without it being a gigantic pain to interact with? Well, this circles us back around to the <code>enum</code> idea we had at first.</p>
 <p>If you recall the primary problem with the <code>enum</code> example above was that we had to deal with no ability to enforce transitions, and the only errors we got were at runtime when we did try.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BottleFillingMachineWrapper {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BottleFillingMachineWrapper {
     Waiting(BottleFillingMachine&lt;Waiting&gt;),
     Filling(BottleFillingMachine&lt;Filling&gt;),
     Done(BottleFillingMachine&lt;Done&gt;),
@@ -499,7 +499,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 </span></code></pre>
 <p>At this point your first reaction is likely &quot;Gosh, Hoverbear, look at that awful and long type signature!&quot; You're quite right! Frankly it's rather long, but I picked long, explanatory type names! You'll be able to use all your favorite arcane abbreviations and type aliases in your own code. Have at!</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">BottleFillingMachineWrapper {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">BottleFillingMachineWrapper {
     </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">step</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
         </span><span style="color:#b48ead;">match </span><span style="color:#bf616a;">self </span><span style="color:#c0c5ce;">{
             BottleFillingMachineWrapper::Waiting(val) =&gt; BottleFillingMachineWrapper::Filling(val.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()),
@@ -529,7 +529,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p><a href="https://is.gd/4ITDyV">Playground link</a></p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#65737e;">// The `&lt;StateA&gt;` is implied here. We don&#39;t need to add type annotations!
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_state_a = StateMachine::new(&quot;</span><span style="color:#a3be8c;">Blah blah blah</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">());
 
@@ -631,7 +631,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p><a href="https://is.gd/HDZeGR">Playground link</a></p>
 </blockquote>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;">// You can play around in this function.
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// You can play around in this function.
 </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_follower = Raft::new(</span><span style="color:#65737e;">/* ... */</span><span style="color:#c0c5ce;">);
     </span><span style="color:#65737e;">// Raft typically comes in groups of 3, 5, or 7. Just 1 for us. :)
@@ -758,8 +758,8 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

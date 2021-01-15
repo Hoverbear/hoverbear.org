@@ -71,12 +71,12 @@ You may want to check this link to learn how to use Immutant with Keycloak.
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -156,7 +156,7 @@ You may want to check this link to learn how to use Immutant with Keycloak.
 <p>The <strong>User</strong> will browse to the <strong>Consumer</strong> and authenticate with <strong>Keycloak</strong>, then return to the <code>/backchannel</code> route. Since at this point they will be authenticated, you can get their session and utilize the Token it provides.</p>
 <p>The <code>get-session</code> function produces a session which can be utilized.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-session
+<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">get-session
   </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Gets the session, get the object with `.getToken` or the access token itself with `.getTokenString`</span><span style="color:#c0c5ce;">&quot;
   [request]
   (</span><span style="color:#bf616a;">let </span><span style="color:#c0c5ce;">[{servlet-request </span><span style="color:#d08770;">:servlet-request</span><span style="color:#c0c5ce;">} request
@@ -165,7 +165,7 @@ You may want to check this link to learn how to use Immutant with Keycloak.
 </span></code></pre>
 <p><code>back-channel-handler</code>, which is bound to the <code>/backchannel</code> route, responds to the request with information regarding the users resource access, as well as the data sent from the provider.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">back-channel-handler
+<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">back-channel-handler
   </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">A back channel request handler</span><span style="color:#c0c5ce;">&quot;
   [request]
   (</span><span style="color:#bf616a;">str </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The back call resulted in:&lt;br&gt;</span><span style="color:#c0c5ce;">&quot;
@@ -196,8 +196,8 @@ You may want to check this link to learn how to use Immutant with Keycloak.
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

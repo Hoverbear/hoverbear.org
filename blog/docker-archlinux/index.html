@@ -70,12 +70,12 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -138,11 +138,11 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 <p>What's a good blog post without some fun examples?</p>
 <p><strong>Spawning 10 Arch containers in parallel and having them all pipe to the same file:</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">{1..10}; </span><span style="color:#b48ead;">do </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/here hoverbear/archlinux /bin/bash</span><span style="color:#bf616a;"> -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">echo </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">i</span><span style="color:#a3be8c;"> &gt;&gt; here/checkin</span><span style="color:#c0c5ce;">&quot; &amp;); </span><span style="color:#b48ead;">done
+<code class="language-bash" data-lang="bash"><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">{1..10}; </span><span style="color:#b48ead;">do </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/here hoverbear/archlinux /bin/bash</span><span style="color:#bf616a;"> -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">echo </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">i</span><span style="color:#a3be8c;"> &gt;&gt; here/checkin</span><span style="color:#c0c5ce;">&quot; &amp;); </span><span style="color:#b48ead;">done
 </span></code></pre>
 <p>A few seconds later:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cat checkin
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cat checkin
 </span><span style="color:#bf616a;">6
 3
 4
@@ -156,7 +156,7 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 </span></code></pre>
 <p><strong>Making an image to build your favorite Rust project:</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> hoverbear/archlinux
+<code class="language-dockerfile" data-lang="dockerfile"><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> hoverbear/archlinux
 </span><span style="color:#b48ead;">MAINTAINER </span><span style="color:#c0c5ce;">Ana Hobden &lt;ana@hoverbear.org&gt;
 
 </span><span style="color:#65737e;"># It&#39;s always a good idea to update Arch, then install deps.
@@ -169,8 +169,8 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 </span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">git submodule update --init
 </span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">./build.sh
 </span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">./install.sh
-</span><span style="color:#b48ead;">
-RUN </span><span style="color:#c0c5ce;">multirust default &quot;</span><span style="color:#a3be8c;">nightly</span><span style="color:#c0c5ce;">&quot;
+
+</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">multirust default &quot;</span><span style="color:#a3be8c;">nightly</span><span style="color:#c0c5ce;">&quot;
 
 </span><span style="color:#65737e;"># /source - Should mount the user code.
 </span><span style="color:#b48ead;">VOLUME </span><span style="color:#c0c5ce;">[ &quot;</span><span style="color:#a3be8c;">/source</span><span style="color:#c0c5ce;">&quot; ]
@@ -180,7 +180,7 @@ RUN </span><span style="color:#c0c5ce;">multirust default &quot;</span><span sty
 </span></code></pre>
 <p>Running it inside your favorite project folder:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -t -i --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/source rust cargo build
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -t -i --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/source rust cargo build
 </span></code></pre>
 <p>You can even get this image <a href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
 <h2 id="conclusion">Conclusion</h2>
@@ -197,8 +197,8 @@ RUN </span><span style="color:#c0c5ce;">multirust default &quot;</span><span sty
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

@@ -68,12 +68,12 @@
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -195,7 +195,7 @@
 <h2 id="getting-the-image">Getting the Image</h2>
 <p>First, we'll pull down our ISO image. This snippet will discover, fetch, and verify the latest Arch Linux chroot bootstrap. You're able to just paste it into your <code>ssh</code> session.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">=$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">curl</span><span style="color:#a3be8c;"> https://mirrors.kernel.org/archlinux/iso/latest/ </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">grep -Poh </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">(?&lt;=archlinux-bootstrap-)\d*\.\d*\.\d*(?=\-x86_64)</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">head -n</span><span style="color:#a3be8c;"> 1)
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">=$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">curl</span><span style="color:#a3be8c;"> https://mirrors.kernel.org/archlinux/iso/latest/ </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">grep -Poh </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">(?&lt;=archlinux-bootstrap-)\d*\.\d*\.\d*(?=\-x86_64)</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">head -n</span><span style="color:#a3be8c;"> 1)
 </span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz</span><span style="color:#bf616a;"> -o</span><span style="color:#c0c5ce;"> /tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz
 </span><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz.sig</span><span style="color:#bf616a;"> -o</span><span style="color:#c0c5ce;"> /tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz.sig
 </span><span style="color:#65737e;"># Pull Pierre Schmitz PGP Key.
@@ -216,7 +216,7 @@
 <h2 id="foundational-file-systems">Foundational File Systems</h2>
 <p>You can review your available drives with this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">lsblk --paths --scsi
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">lsblk --paths --scsi
 </span></code></pre>
 <p>And you should see some output like so:</p>
 <pre style="background-color:#2b303b;">
@@ -227,13 +227,13 @@
 <p>For our configuration, we'll use the <code>btrfs</code> filesystem which supports <a href="https://btrfs.wiki.kernel.org/index.php/Using_Btrfs_with_Multiple_Devices">multiple devices</a>. You may wish to review the <a href="https://wiki.archlinux.org/index.php/Btrfs">Arch wiki page</a> as well.</p>
 <p>I'm choosing to map both my whole disks into a <code>btrfs</code> volume with mirroring across disks. This should give me consistency against disk failures.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
 </span><span style="color:#bf616a;">mkfs.btrfs -f -L </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">HOSTNAME -d</span><span style="color:#c0c5ce;"> raid1</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> raid1 /dev/sda /dev/sdb
 </span></code></pre>
 <p>If your drives are solid state this process will also issue full TRIM commands to them which is good.</p>
 <p>You can test that the RAID is working by doing this:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># Make folders for them.
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Make folders for them.
 </span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/sda
 </span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/sdb
 </span><span style="color:#65737e;"># Make a test write.
@@ -251,7 +251,7 @@
 <p>If you need to sync the raid mirroring because you have a new disk you can do <code>btrfs balance start</code>. I've never actually had a case where I've <em>used</em> this failsafe, so if anyone has experience with it I'd definitely appreciate your feedback.</p>
 <p>Next we'll set up some initial mountpoints and subvolumes.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> compress=lzo /dev/sda /mnt
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> compress=lzo /dev/sda /mnt
 </span><span style="color:#65737e;"># Will go on /
 </span><span style="color:#c0c5ce;">btrfs subvolume create /mnt/root
 </span><span style="color:#65737e;"># Will go on /home
@@ -272,7 +272,7 @@
 <p>You may be asking &quot;Why not a seperate <code>boot</code>?&quot; and that's an extremely good question! From my experience, one thing that happens when you use a seperate <code>boot</code> is your kernel version starts to conflict with various modules (such as <code>ntfs-3g</code>) when the kernel is new but the <code>root</code> is old. This is a new strategy I'm trying. Another reason no <code>boot</code> was made is because we're not encrypting the disk, so there is no need.</p>
 <p>Now let's mount things in their destined paths:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">umount</span><span style="color:#c0c5ce;"> /dev/sda
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">umount</span><span style="color:#c0c5ce;"> /dev/sda
 </span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> subvol=root /dev/sda /mnt
 </span><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/home
 </span><span style="color:#bf616a;">mount -o</span><span style="color:#c0c5ce;"> subvol=home /dev/sda /mnt/home
@@ -283,16 +283,16 @@
 </span></code></pre><h2 id="bootstrapping-to-base">Bootstrapping to Base</h2>
 <p>With our filesystem and subvolumes mounted, it's time to install Arch Linux.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> /mnt
+<code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> /mnt
 </span><span style="color:#bf616a;">tar --strip-components</span><span style="color:#c0c5ce;"> 1</span><span style="color:#bf616a;"> --extract --preserve-permissions --gzip --file</span><span style="color:#c0c5ce;">=/tmp/archlinux-bootstrap-$</span><span style="color:#bf616a;">VERSION</span><span style="color:#c0c5ce;">-x86_64.tar.gz
 </span></code></pre>
 <p>If you issue an <code>ls</code> things should now look like a normal happy Linux installation. From here you can <code>chroot</code> in with the following command:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">./bin/arch-chroot</span><span style="color:#c0c5ce;"> .
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">./bin/arch-chroot</span><span style="color:#c0c5ce;"> .
 </span></code></pre>
 <p>The environment we find ourself in is very minimal, it doesn't even contain a full copy of <code>base</code>! But from here, we can do everything! You should see something like <code>sh-4.3#</code> as your prompt.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#65737e;"># Setup a mirror.
+<code class="language-bash" data-lang="bash"><span style="color:#65737e;"># Setup a mirror.
 </span><span style="color:#bf616a;">MIRRORLIST</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/etc/pacman.d/mirrorlist
 </span><span style="color:#96b5b4;">echo </span><span style="color:#bf616a;">-e </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Server = https://mirrors.kernel.org/archlinux/</span><span style="color:#96b5b4;">\$</span><span style="color:#a3be8c;">repo/os/</span><span style="color:#96b5b4;">\$</span><span style="color:#a3be8c;">arch\n`</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">MIRRORLIST</span><span style="color:#a3be8c;">`</span><span style="color:#c0c5ce;">&quot; &gt; $</span><span style="color:#bf616a;">MIRRORLIST
 </span><span style="color:#65737e;"># Setup Keys
@@ -307,8 +307,8 @@ locale-gen
 </span></code></pre>
 <p>Next we need to configure the <code>/etc/fstab</code> file to make sure the boot process is able to understand what's happening. At this point you're likely noticing you don't have a text editor. Let's keep it that way for now, just for fun. You can review the syntax with <code>cat /etc/fstab</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/fstab</span><span style="color:#a3be8c;">
-/dev/sda    /                   btrfs   subvol=root,rw,relatime,ssd,space_cache,compress=lzo            0   0
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt;&gt; /etc/fstab
+</span><span style="color:#a3be8c;">/dev/sda    /                   btrfs   subvol=root,rw,relatime,ssd,space_cache,compress=lzo            0   0
 /dev/sda    /home               btrfs   subvol=home,rw,relatime,ssd,space_cache,compress=lzo            0   0
 /dev/sda    /var/cache/pacman   btrfs   subvol=pacman-cache,rw,relatime,ssd,space_cache,compress=lzo    0   0
 /dev/sda    /var/cache/abs      btrfs   subvol=abs-cache,rw,relatime,ssd,space_cache,compress=lzo       0   0
@@ -318,7 +318,7 @@ locale-gen
 <h2 id="user-creation">User Creation</h2>
 <p>Since you don't want to normally operate as <code>root</code> on your server it's a good idea to create a new user. Let's quickly configure <code>sudo</code> first so when we get our new user working we can still do fun things.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> sudo
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> sudo
 </span><span style="color:#bf616a;">EDITOR</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">nvim </span><span style="color:#bf616a;">visudo
 </span></code></pre>
 <p>In here you want to enable users in the <code>sudo</code> group to utilize <code>sudo</code>, uncomment the following line:</p>
@@ -327,22 +327,22 @@ locale-gen
 </span></code></pre>
 <p>Then you can create the group:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">groupadd</span><span style="color:#c0c5ce;"> sudo
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">groupadd</span><span style="color:#c0c5ce;"> sudo
 </span></code></pre>
 <p>Finally, create your new user:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">hoverbear
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">hoverbear
 </span><span style="color:#bf616a;">useradd -m -G</span><span style="color:#c0c5ce;"> sudo $</span><span style="color:#bf616a;">USER
 passwd</span><span style="color:#c0c5ce;"> hoverbear
 </span></code></pre>
 <p>Finally, grab your public keys and set up for your user.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">GITHUB_USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">hoverbear
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">GITHUB_USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">hoverbear
 </span><span style="color:#bf616a;">su </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">mkdir -p /home/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#a3be8c;">/.ssh &amp;&amp; curl -o /home/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#a3be8c;">/.ssh/authorized_keys https://github.com/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">GITHUB_USER</span><span style="color:#a3be8c;">.keys &amp;&amp; chmod 600 /home/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">USER</span><span style="color:#a3be8c;">/.ssh/authorized_keys</span><span style="color:#c0c5ce;">&quot;
 </span></code></pre><h2 id="ssh">SSH</h2>
 <p>Obviously we need to run SSH to access our new install. At this point, let's finally install our editor. I like <code>neovim</code> for strange reason, but you can pick other things.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">EDITOR</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">neovim
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">EDITOR</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">neovim
 </span><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> openssh $</span><span style="color:#bf616a;">EDITOR
 </span></code></pre>
 <p>Now you can open <code>/etc/ssh/sshd_config</code>. Read through everything here! I'm going to tweak the following knobs:</p>
@@ -358,18 +358,18 @@ ChallengeResponseAuthentication no
 </span></code></pre>
 <p>We'll enable both <code>sshd</code> which will give us remote access when we reboot:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable sshd
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable sshd
 </span></code></pre><h2 id="networking">Networking</h2>
 <p>We'll just quickly set up a basic networking configuration for now which we can build on later. First we'll enable the two services needed:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable systemd-networkd
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable systemd-networkd
 </span><span style="color:#bf616a;">systemctl</span><span style="color:#c0c5ce;"> enable systemd-resolved
 </span><span style="color:#bf616a;">ln -s</span><span style="color:#c0c5ce;"> /run/systemd/resolve/resolv.conf /etc/resolv.conf
 </span></code></pre>
 <p>Then we'll create the necessary files.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/network/physical.network</span><span style="color:#a3be8c;">
-[Match]
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt; </span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /etc/systemd/network/physical.network
+</span><span style="color:#a3be8c;">[Match]
 # Make sure this matches your adapter from the ip addr command
 Name=enp*
 
@@ -379,13 +379,13 @@ DHCP=ipv4
 </span></code></pre><h2 id="booting">Booting</h2>
 <p>Dealing with bootloaders is usually fairly arcane in my experience, and debugging a remote boot sounds just awful. We want something basically failsafe. If something <em>does</em> go wrong, we want to be able to fix it from the rescue system. Let's take the recommended solution of Arch, Grub.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">pacman -S --noconfirm</span><span style="color:#c0c5ce;"> grub
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -S --noconfirm</span><span style="color:#c0c5ce;"> grub
 </span><span style="color:#bf616a;">grub-mkconfig -o</span><span style="color:#c0c5ce;"> /boot/grub/grub.cfg
 </span><span style="color:#bf616a;">grub-install</span><span style="color:#c0c5ce;"> /dev/sda
 </span></code></pre><h2 id="the-moment-of-truth">The Moment of Truth!</h2>
 <p>You can get out of your chroot with <code>exit</code>, then reboot the machine.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">reboot
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">reboot
 </span></code></pre>
 <p>With any luck, in a few minutes you'll be able to <code>ssh</code> in again. I found with Hetzner you may need to issue an automatic reset from their online console, you might need to as well.</p>
 <figure class="enriched ">
@@ -414,8 +414,8 @@ DHCP=ipv4
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>

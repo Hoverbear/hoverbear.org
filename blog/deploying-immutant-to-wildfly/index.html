@@ -71,12 +71,12 @@ Starting from a lein new app learning command, set up your project like so:
 
 
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
                                 </a>&nbsp;
                             </li><li>
                                 <a href="https://hoverbear.org/blog/">
@@ -150,7 +150,7 @@ Starting from a lein new app learning command, set up your project like so:
 <span id="continue-reading"></span>
 <p><strong>project.clj</strong>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
+<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
   </span><span style="color:#d08770;">:description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
   </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
   </span><span style="color:#d08770;">:license </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
@@ -169,7 +169,7 @@ Starting from a lein new app learning command, set up your project like so:
 <p>Note how <code>lein-immutant</code> is in the <code>:plugins</code> field. This will give us access to the <code>lein immutant &lt;command&gt;</code> commands.</p>
 <p><strong>src/learning/core.clj</strong>:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
+<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
   (</span><span style="color:#d08770;">:use</span><span style="color:#c0c5ce;"> compojure.core)
   (</span><span style="color:#d08770;">:require </span><span style="color:#c0c5ce;">[compojure.route    </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> route]
             [immutant.web       </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> immutant])
@@ -200,11 +200,11 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
 </span></code></pre><h3 id="build-the-immutant-application">Build the Immutant Application</h3>
 <p>Wildfly seems to expect <code>.war</code> files for deployment. Thankfully Immutant provides this via the plugin declared in the <code>project.clj</code>.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> immutant war
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> immutant war
 </span></code></pre>
 <p>The output should be similar to:</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;"> lein immutant war
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;"> lein immutant war
 </span><span style="color:#bf616a;">Compiling</span><span style="color:#c0c5ce;"> learning.core
 </span><span style="color:#bf616a;">Created</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT.jar
 </span><span style="color:#bf616a;">Created</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT-standalone.jar
@@ -214,12 +214,12 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
 <h3 id="building-the-docker-image">Building the Docker Image</h3>
 <p>Next, build the Docker image, make sure you're in the project directory.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> build</span><span style="color:#bf616a;"> -t</span><span style="color:#c0c5ce;"> wildfly-learning .
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> build</span><span style="color:#bf616a;"> -t</span><span style="color:#c0c5ce;"> wildfly-learning .
 </span></code></pre>
 <p>If you haven't pulled the <code>jboss/wildfly</code> base image before, this first command might take awhile. Future builds will be very fast as it won't need to pull the base image.</p>
 <h3 id="running-the-container">Running the Container</h3>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9990:9990 wildfly-learning
+<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9990:9990 wildfly-learning
 </span></code></pre>
 <p>There should be a considerable log of output.</p>
 <h3 id="testing">Testing</h3>
@@ -241,8 +241,8 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
         <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/d4256c6abade34017f3ba441dc91598e6a9f2419
-"><code>d4256c6abade34017f3ba441dc91598e6a9f2419
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/426178265208fa49e84c1946b8cfa00548cab15c
+"><code>426178265208fa49e84c1946b8cfa00548cab15c
 </code></a></p>
     </div>
 </footer>
