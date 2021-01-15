@@ -30,7 +30,7 @@ The greatest impact I could have on you would be to inspire you to explore and s
 
 # Background
 
-Out of high school, the [VNFC](http://www.vnfc.ca/) changed my life: They invested in me: They gave me a bursary to start post-secondary.
+Out of high school, the [VNFC](http://www.vnfc.ca/) changed my life: They invested in me. They gave me a bursary to start post-secondary.
 
 While in University, I worked for [Science Venture](http://www.scienceventure.ca/) teaching and doing robotics clubs, science clubs, and on-reserve outreach, SIMBIOSES/LEED Lab (a predecessor of the [Health Data Coalition](http://hdcbc.ca/)) working on distributed privacy-aware aggregate health data, the [BCAAFC](http://bcaafc.com/) running the technical side of BC's largest annual (2200+ person) youth conference, and the [(Mod)ularity Squad](https://yvonnecoady.com/) Distributed Systems lab. I graduated in the top 15% of my class, I was the first person in my family to graduate university. Because others invested in me.
 
@@ -40,7 +40,7 @@ While in Europe, I was able to be a founding organizer of [RustFest (2016-2018)]
 
 Later, I moved home. [PingCAP](http://pingcap.com/) recruited me as a Senior Engineer onto their fledgling international team. With them, I helped build [TiKV](http://tikv.org/), helped organize the first [RustCon Asia 2019](https://rustcon.asia/), and hosted (or supported) numerous talks or workshops.
 
-At the start of 2020, Life lead me to start my own consultancy. Through it, I am able to work internationally, create partnerships, and spark ideas. I had the pleasure of taking on a long term maintenance role in [Vector](https://vector.dev/), as well as running workshops with [Ferrous Systems](https://ferrous-systems.com/).
+At the start of 2020, life lead me to start my own consultancy. Through it, I am able to work internationally, create partnerships, and spark ideas. I had the pleasure of taking on a long term maintenance role in [Vector](https://vector.dev/), as well as running workshops with [Ferrous Systems](https://ferrous-systems.com/).
 
 My company is a contributor to the [Natives in Tech](https://nativesintech.org/) organization, and plans to become involved in more. It was a supporter of [Natives in Tech Conference 2020](https://www.youtube.com/watch?v=kV8IpFhZmHs). The company is only involved in supporting Indigenous led efforts at this time.
 
