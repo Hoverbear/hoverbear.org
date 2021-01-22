@@ -15,18 +15,18 @@ photographer = "Chinta Pavan Kumar"
 source = "https://unsplash.com/photos/BaveYdwO6CQ"
 +++
 
-In [*Roadwork Ahead* (page 14-17)](roadwork-ahead) and in [*Open Source Archetypes*](open-source-archetypes) the idea of *Project Archetypes* is brought up. They try to broadly grip at what kinds of organizations exist within the open source space.
+In [*Roadwork Ahead* (page 14-17)][roadwork-ahead] and in [*Open Source Archetypes*][open-source-archetypes] the idea of *Project Archetypes* is brought up. They try to broadly grip at what kinds of organizations exist within the open source space.
 
 # Archetypes, two ways
 
-In [*Roadwork Ahead* (page 14-17)](roadwork-ahead) the researchers found the following types:
+In [*Roadwork Ahead* (page 14-17)][roadwork-ahead] the researchers found the following types:
 
 * **One-person Shop**: Independent maintainers who are responsible for some work. (eg Curl)
 * **Collective**: Grassroots communities. (eg Nix Project)
 * **Embedded**: Small projects used primarily by a larger entities. (eg Tremor)
 * **Organization**: Legal entities with a distinct brand. (eg Rust Foundation)
 
-In [*Open Source Archetypes*](open-source-archetypes) the researchers found the following types:
+In [*Open Source Archetypes*][open-source-archetypes] the researchers found the following types:
 
 * **Business-to-Business:** Entities where being open is a core business feature, focused on working with other businesses. (eg Timber)
 * **Multi-Vendor Infrastructure:** Large projects with multiple large stakeholders which create broad standards. (eg Kubernetes)
