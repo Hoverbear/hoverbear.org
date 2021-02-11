@@ -41,4 +41,4 @@ In [*Open Source Archetypes*][open-source-archetypes] the researchers found the 
 
 
 [roadwork-ahead]: https://recommendations.implicit-development.org/assets/IDE_REPORT_2020.pdf
-[open-source-archteypes]: https://blog.mozilla.org/wp-content/uploads/2018/05/MZOTS_OS_Archetypes_report_ext_scr.pdf
+[open-source-archetypes]: https://blog.mozilla.org/wp-content/uploads/2018/05/MZOTS_OS_Archetypes_report_ext_scr.pdf
