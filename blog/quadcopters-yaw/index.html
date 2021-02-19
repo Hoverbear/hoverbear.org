@@ -33,8 +33,6 @@
         <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
     
         <!-- Stylesheets are fun -->
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
         <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
     
         <!-- Katex -->
@@ -47,51 +45,42 @@
     
 
     <body>
-        <header><div id="hero-wrapper">
-        <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+        <header><figure class="enriched ">
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
     </figure>
-    </div>
-    <div class="hero-wrapper-content">
-
-        <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Quadcopters: Yaw</a></h1>
-
-
-        <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
-
+    
+    <div class="content">
         <div class="metadata">
-            <p class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </p>
+            <h1 class="title"><a href="https:&#x2F;&#x2F;hoverbear.org">Quadcopters: Yaw</a></h1>
 
+            <p class="description">A computer scientist working in open source towards a more hopeful future.</p>
+            
             <p class="date">
                     Posted on 2015-05-27, around 4 minutes of reading.
                 </p>
         </div>
-
+        
+        <nav class="tree"><ul><li>
+                                <a href="https://hoverbear.org/consulting/">
+                                    Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
+                                </a>&nbsp;
+                            </li></ul><ul></ul><ul></ul>
+        </nav>
     </div>
 </header>
 
@@ -141,17 +130,18 @@
 <h1 id="understanding-torque">Understanding Torque</h1>
 <p>Let's first talk about <strong>Center of Gravity</strong>, have you ever tried to balance an object on the tip of your finger? That's a center of gravity! <em>Fun Fact:</em> Your center of gravity is your belly button! The quads is, predictably, near its center.</p>
 <figure class="enriched ">
-        <figcaption>Center of Gravity for a Quad</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;acec7311cefe79a500.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ffd979980425c3f600.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;acec7311cefe79a500.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ffd979980425c3f600.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d8caa14ccb7fc10e00.jpg"
               alt="Center of Gravity for a Quad" />
+        <figcaption>Center of Gravity for a Quad</figcaption>
     </figure>
 <p><strong>Torque</strong> ($$ \tau $$) is a twisting force, you use it when you do things like turn a door-knob handle, use a wrench, or pedal a bicycle. Now, the torque produced by a force equals the magnitude of the <em>force</em> ($$ F $$) times the <em>radius</em> ($$ r $$), or distance from the center of gravity.</p>
 <p>$$ \tau = F*r $$</p>
@@ -181,17 +171,18 @@ $$</p>
 <p>In order to properly test our hypothesis, we rigged up an apparatus to demonstrate this yawing. Since the quadcopter propellers move too fast to be able to observe without specialized equipment we looked towards water.</p>
 <p>This apparatus is designed to dip it's two wooden paddles into the water, with the rest of the device sitting at the surface of the water. The two paddles rotate the same as the two propellers we talked about above.</p>
 <figure class="enriched ">
-        <figcaption>Apparatus</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33f1d111f538597300.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;97d02f282f36874a00.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33f1d111f538597300.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;97d02f282f36874a00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c3132b1eaa09897f00.jpg"
               alt="Apparatus" />
+        <figcaption>Apparatus</figcaption>
     </figure>
 <p>We were very impressed with the result. Note the yawing motion as we predicted. The apparatus did not hold up particularly well however, as you can observe, our eslastics were not particularly happy campers! This is because of the friction of them rubbing on one another.</p>
 <div ></div>
@@ -225,14 +216,13 @@ $$</p>
         
         <footer class="post-footer">
     <div class="content">
-        <h4><a href=/>← Back to top of index</a></h4>
     
-        <h4>By Ana Hobden</h4><p>
+        <p>By Ana Hobden</p><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-"><code>4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-</code></a></p>
+        </p><pre><code>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+">2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+</code></a></pre>
     </div>
 </footer>
             

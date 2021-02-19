@@ -41,8 +41,6 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
         <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
     
         <!-- Stylesheets are fun -->
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
         <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
     
         <!-- Katex -->
@@ -55,51 +53,42 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
     
 
     <body>
-        <header><div id="hero-wrapper">
-        <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Eric Parks</figcaption>
+        <header><figure class="enriched ">
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1ff6c62ec5c1b77700.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;25b8801cd456170100.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1ff6c62ec5c1b77700.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;25b8801cd456170100.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d47546d4ba67395600.jpg"
               alt="Photo" />
+        <figcaption>Photo&nbsp;- Eric Parks</figcaption>
     </figure>
-    </div>
-    <div class="hero-wrapper-content">
-
-        <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Setting up a Rust Development Environment</a></h1>
-
-
-        <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
-
+    
+    <div class="content">
         <div class="metadata">
-            <p class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </p>
+            <h1 class="title"><a href="https:&#x2F;&#x2F;hoverbear.org">Setting up a Rust Development Environment</a></h1>
 
+            <p class="description">A computer scientist working in open source towards a more hopeful future.</p>
+            
             <p class="date">
                     Posted on 2017-03-03, around 14 minutes of reading.
                 </p>
         </div>
-
+        
+        <nav class="tree"><ul><li>
+                                <a href="https://hoverbear.org/consulting/">
+                                    Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
+                                </a>&nbsp;
+                            </li></ul><ul></ul><ul></ul>
+        </nav>
     </div>
 </header>
 
@@ -456,17 +445,18 @@ Process 8376 stopped
 </span></code></pre>
 <p>Next let's set a breakpoint somewhere. Finally we can go to the 'No Bugs' icon and hit the 'Play' and we should see something like this:</p>
 <figure class="enriched ">
-        <figcaption>Demonstrating the VS Debugger</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f9835cf5121ff27f00.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;01a9df7dd00912be00.png 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f9835cf5121ff27f00.png 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;01a9df7dd00912be00.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;81a9ea8b2a94f8a500.png"
               alt="Demonstrating the VS Debugger" />
+        <figcaption>Demonstrating the VS Debugger</figcaption>
     </figure>
 <h2 id="compiling-to-different-targets">Compiling to Different Targets</h2>
 <p>So far we've been building <code>x86_64-apple-darwin</code>. If we were using Linux we'd be building <code>x86_64-unknown-linux-gnu</code> most likely. Let's target <code>asmjs-unknown-emscripten</code> (that is, Javascript) for fun.</p>
@@ -509,14 +499,13 @@ false
         
         <footer class="post-footer">
     <div class="content">
-        <h4><a href=/>← Back to top of index</a></h4>
     
-        <h4>By Ana Hobden</h4><p>
+        <p>By Ana Hobden</p><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-"><code>4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-</code></a></p>
+        </p><pre><code>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+">2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+</code></a></pre>
     </div>
 </footer>
             

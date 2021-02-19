@@ -31,8 +31,6 @@
         <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
     
         <!-- Stylesheets are fun -->
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
         <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
     
         <!-- Katex -->
@@ -45,37 +43,32 @@
     
 
     <body>
-        <header><div id="hero-wrapper">
-        <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+        <header><figure class="enriched ">
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
     </figure>
-    </div>
-    <div class="hero-wrapper-content">
-
-        <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Ana, Hoverbear 🐻</a></h1>
-
-
-        <nav id="tree"><ul></ul>
-        </nav>
-
+    
+    <div class="content">
         <div class="metadata">
-            <p class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </p>
+            <h1 class="title"><a href="https:&#x2F;&#x2F;hoverbear.org">Ana, Hoverbear 🐻</a></h1>
 
+            <p class="description">A computer scientist working in open source towards a more hopeful future.</p>
+            
             
         </div>
-
+        
+        <nav class="tree"><ul></ul>
+        </nav>
     </div>
 </header>
 
@@ -87,8 +80,11 @@
     <h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;tags&#x2F;tooling&#x2F;">Tooling</a></h2>
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;setting-up-a-rust-devenv&#x2F;">Setting up a Rust Development Environment</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;setting-up-a-rust-devenv&#x2F;">Setting up a Rust Development Environment</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:</p>
 <ul>
@@ -100,16 +96,16 @@
 </ul>
 <p>Everything we do should be functional on both Linux and MacOS, on Windows your mileage may vary. I, unfortunately, don't have a Windows instance to test on.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;setting-up-a-rust-devenv&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;setting-up-a-rust-devenv&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2017-03-03 00:00">2017-03-03</time>
-					</div><div class="reading-time">
-					14 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/rust">Rust</a>,&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tutorials">Tutorials</a>,&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2017-03-03 00:00">2017-03-03</time>
+				</div><div class="reading-time">
+				14 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/rust">Rust</a>,&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tutorials">Tutorials</a>,&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></p>
 			</div>
 		</div>
 	</section>
@@ -118,23 +114,26 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;an-https-terminator-box&#x2F;">An HTTPS Terminator Box</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;an-https-terminator-box&#x2F;">An HTTPS Terminator Box</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>Over the last couple days at <a href="http://asquera.de/">asquera</a> we've been on a retreat at the <a href="http://landhaus-fredenwalde.de/">Landhaus Fredenwalde</a>. It's really beautiful out here and it's given me a chance to work on a few small projects which I've been wanting to explore for awhile now.</p>
 <p>Anyways, yesterday I set up a system that uses <a href="https://www.ansible.com/">Ansible</a>, <a href="http://letsencrypt.org/">Let's Encrypt</a>, <a href="https://hoverbear.org/blog/an-https-terminator-box/nginx.com">nginx</a>, and <a href="http://digitalocean.com/">DigitalOcean</a> to terminate HTTP and proxy requests to arbitrary hosts. The intended use case for this is to have <a href="http://pages.github.com/">Github Pages</a> sites able to be dropped onto a custom domain that is SSL enabled, but there are many other use cases which I haven't experimented with (yet).</p>
 <p>I was, primarily, interested in exploring using Ansible and DigitalOcean. It worked out quite well <a href="http://hoverbear.org/">http://hoverbear.org/</a> is running on it at the moment!</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;an-https-terminator-box&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;an-https-terminator-box&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2016-09-29 00:00">2016-09-29</time>
-					</div><div class="reading-time">
-					3 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2016-09-29 00:00">2016-09-29</time>
+				</div><div class="reading-time">
+				3 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></p>
 			</div>
 		</div>
 	</section>
@@ -143,21 +142,24 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;lets-encrypt&#x2F;">It&#x27;s a Let&#x27;s Encrypt Beta!</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;lets-encrypt&#x2F;">It&#x27;s a Let&#x27;s Encrypt Beta!</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>I was privileged to recieve one of the early <a href="https://letsencrypt.org/">Let's Encrypt</a> beta certificates for <a href="https://hoverbear.org/">https://hoverbear.org</a>. I had an easy and fun time setting it up this evening on my <a href="http://www.funtoo.org/Funtoo_Hosting">Funtoo Container</a> and wanted to quickly jot down how to!</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;lets-encrypt&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;lets-encrypt&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2015-10-28 00:00">2015-10-28</time>
-					</div><div class="reading-time">
-					2 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2015-10-28 00:00">2015-10-28</time>
+				</div><div class="reading-time">
+				2 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></p>
 			</div>
 		</div>
 	</section>
@@ -166,21 +168,24 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;raft-tooling&#x2F;">Raft: Tooling &amp; Infra Update</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;raft-tooling&#x2F;">Raft: Tooling &amp; Infra Update</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our <a href="https://github.com/Hoverbear/raft/blob/master/.travis.yml"><code>.travis.yml</code> here</a>.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;raft-tooling&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;raft-tooling&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2015-07-23 00:00">2015-07-23</time>
-					</div><div class="reading-time">
-					3 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/rust">Rust</a>,&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/raft">Raft</a>,&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2015-07-23 00:00">2015-07-23</time>
+				</div><div class="reading-time">
+				3 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/rust">Rust</a>,&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/raft">Raft</a>,&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></p>
 			</div>
 		</div>
 	</section>
@@ -189,21 +194,24 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;acm-papers-in-pandoc&#x2F;">ACM papers in Pandoc</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;acm-papers-in-pandoc&#x2F;">ACM papers in Pandoc</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>Based partially off <a href="http://hoverbear.org/2015/03/06/rust-travis-github-pages/">my earlier article</a> I've set up a repository <a href="https://github.com/Hoverbear/acm-pandoc-paper">here</a> that demonstrates how to use Travis CI to build yourself ACM styled PDFs (along with fairly decent looking HTML versions) out of a simple <code>pandoc</code> markdown document!</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;acm-papers-in-pandoc&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;acm-papers-in-pandoc&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2015-06-16 00:00">2015-06-16</time>
-					</div><div class="reading-time">
-					1 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2015-06-16 00:00">2015-06-16</time>
+				</div><div class="reading-time">
+				1 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></p>
 			</div>
 		</div>
 	</section>
@@ -212,22 +220,25 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;rust-travis-github-pages&#x2F;">Rust, Travis, and Github Pages</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;rust-travis-github-pages&#x2F;">Rust, Travis, and Github Pages</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p><a href="http://rust-lang.org/">Rust</a> is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They're pursuing the trifecta: <em>Safe, Fast, Concurrent.</em> It's been a great learning journey for me so far and I learnt to write better code in <strong>all</strong> languages.</p>
 <p><a href="https://pages.github.com/">Github Pages</a> is Github's very generous offering of web hosting to your projects. Basically, you create a branch <code>gh-pages</code> and push it to Github, then browse to <a href="https://hoverbear.github.io/raft"><code>https://$USERNAME.github.io/$REPOSITORY</code></a>.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;rust-travis-github-pages&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;rust-travis-github-pages&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2015-03-07 00:00">2015-03-07</time>
-					</div><div class="reading-time">
-					7 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/rust">Rust</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2015-03-07 00:00">2015-03-07</time>
+				</div><div class="reading-time">
+				7 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/rust">Rust</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tooling">Tooling</a></p>
 			</div>
 		</div>
 	</section>
@@ -240,14 +251,13 @@
         
         <footer class="post-footer">
     <div class="content">
-        <h4><a href=/>← Back to top of index</a></h4>
     
-        <h4>By Ana Hobden</h4><p>
+        <p>By Ana Hobden</p><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-"><code>4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-</code></a></p>
+        </p><pre><code>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+">2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+</code></a></pre>
     </div>
 </footer>
             

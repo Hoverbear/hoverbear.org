@@ -31,8 +31,6 @@
         <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
     
         <!-- Stylesheets are fun -->
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
         <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
     
         <!-- Katex -->
@@ -45,37 +43,32 @@
     
 
     <body>
-        <header><div id="hero-wrapper">
-        <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+        <header><figure class="enriched ">
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
     </figure>
-    </div>
-    <div class="hero-wrapper-content">
-
-        <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Ana, Hoverbear 🐻</a></h1>
-
-
-        <nav id="tree"><ul></ul>
-        </nav>
-
+    
+    <div class="content">
         <div class="metadata">
-            <p class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </p>
+            <h1 class="title"><a href="https:&#x2F;&#x2F;hoverbear.org">Ana, Hoverbear 🐻</a></h1>
 
+            <p class="description">A computer scientist working in open source towards a more hopeful future.</p>
+            
             
         </div>
-
+        
+        <nav class="tree"><ul></ul>
+        </nav>
     </div>
 </header>
 
@@ -87,22 +80,25 @@
     <h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;tags&#x2F;arch-linux&#x2F;">Arch Linux</a></h2>
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-5&#x2F;">New Roots part 5, Erecting Container Infrastructure</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-5&#x2F;">New Roots part 5, Erecting Container Infrastructure</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>This is the fifth part of an ongoing series on configuring a new server. In our <a href="/2016/05/09/new-roots-4/">last post</a> we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.</p>
 <p>Before we get around to setting things up, let's describe the what we're up to.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-5&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-5&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2016-05-10 00:00">2016-05-10</time>
-					</div><div class="reading-time">
-					18 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2016-05-10 00:00">2016-05-10</time>
+				</div><div class="reading-time">
+				18 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></p>
 			</div>
 		</div>
 	</section>
@@ -111,23 +107,26 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-4&#x2F;">New Roots part 4, Making it 127.0.0.1</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-4&#x2F;">New Roots part 4, Making it 127.0.0.1</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>This is the fourth of a series on taking up residence on a new server. In our <a href="/2016/05/07/new-roots-3/">last post</a> we talked about how to set up some basic network services like <code>ssh</code> and configure <code>iptables</code>, our firewall. In this post we'll talk about making your server feel like home.</p>
 <p>There are a grand number of things we can do at this point to make our time on the machine enjoyable. Take time to evaluate your choices though. This 'root' host is going to be our 'control seat' so it's not going to be doing much more than orcestrating virtualized environments. Once we configure these environments (next post) we'll be using these for any sort of development, deployment, or experiments.</p>
 <p>With 'root' our goal is to make a simple set of good, sharp tools to do what we need to do. These are tools like <code>nvim</code> which we installed earlier. If you were following the last host you may have installed <code>mosh</code> as well, which makes our <code>ssh</code> sessions safe from network changes and comfortable against latency.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-4&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-4&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2016-05-09 00:00">2016-05-09</time>
-					</div><div class="reading-time">
-					11 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2016-05-09 00:00">2016-05-09</time>
+				</div><div class="reading-time">
+				11 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></p>
 			</div>
 		</div>
 	</section>
@@ -136,22 +135,25 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-3&#x2F;">New Roots part 3, Services &amp; Hardening</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-3&#x2F;">New Roots part 3, Services &amp; Hardening</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>This is the third in a series of posts about getting settled into a server. First we talked about <a href="/2016/05/06/new-roots-1/">choosing a server</a>, then we talked about <a href="/2016/05/06/new-roots-2/">installing a base OS on a dedicated server</a>. In this post we'll discuss configuring, securing, and hardening our server.</p>
 <p>In our last post we left our new server in a very, very minimal state. Heck, we didn't even tell it it's own name! In this post we'll talk about configuration. Throughout this process we're going to try to keep things simple and tightly knit. Through most of this guide you'll need to be using <code>sudo</code> or acting as <code>root</code>.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-3&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-3&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2016-05-07 00:00">2016-05-07</time>
-					</div><div class="reading-time">
-					13 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2016-05-07 00:00">2016-05-07</time>
+				</div><div class="reading-time">
+				13 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></p>
 			</div>
 		</div>
 	</section>
@@ -160,21 +162,24 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-2&#x2F;">New Roots part 2, On the Metal</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-2&#x2F;">New Roots part 2, On the Metal</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>This is the second post of a series on settling into new servers. The first was about <a href="/2016/05/06/new-roots-1/">choosing a server</a>. This post is specifically targetted at newly acquired VPS and Dedicated servers. We'll talk about installing our chosen distribution, configuring its basics, and familiarizing ourselves with the new metal.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-2&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-2&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2016-05-06 00:00">2016-05-06</time>
-					</div><div class="reading-time">
-					11 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2016-05-06 00:00">2016-05-06</time>
+				</div><div class="reading-time">
+				11 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/infrastructure">Infrastructure</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></p>
 			</div>
 		</div>
 	</section>
@@ -183,23 +188,26 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;docker-archlinux&#x2F;">Arch Linux on Docker Revisited</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;docker-archlinux&#x2F;">Arch Linux on Docker Revisited</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>Back in <a href="/2014/07/14/arch-docker-baseimage/">2014</a> when I was learning about <a href="https://docker.com">Docker</a> I got around to making a base image for <a href="http://archlinux.org/">Arch Linux</a>. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I'd highly suggest trying to make your own sometime!</p>
 <p>Docker has matured a lot since, and I've enjoyed following it. I took some time this last week to revisit my Arch Linux image and ensure it's still functional. I wasn't surprised when the scripts continued to work just fine, even after two years.</p>
 <p>With nothing broken, I knew I only had one choice. <strong>I had to improve it!</strong></p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;docker-archlinux&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;docker-archlinux&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2016-01-13 00:00">2016-01-13</time>
-					</div><div class="reading-time">
-					3 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/containers">Containers</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2016-01-13 00:00">2016-01-13</time>
+				</div><div class="reading-time">
+				3 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/containers">Containers</a>&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></p>
 			</div>
 		</div>
 	</section>
@@ -208,22 +216,25 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;mtrack&#x2F;">Trackpad Drivers for Linux on a Mac</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;mtrack&#x2F;">Trackpad Drivers for Linux on a Mac</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<p>If you're like me and have Mac hardware but run Linux you might also run into the slight annoyance with the trackpad drivers X.org defaults to.</p>
 <p>If you haven't explored, there is a fantastic replacement called <a href="https://github.com/BlueDragonX/xf86-input-mtrack"><code>mtrack</code></a> that I've had great luck with.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;mtrack&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;mtrack&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2015-08-04 00:00">2015-08-04</time>
-					</div><div class="reading-time">
-					1 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2015-08-04 00:00">2015-08-04</time>
+				</div><div class="reading-time">
+				1 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a></p>
 			</div>
 		</div>
 	</section>
@@ -232,22 +243,25 @@
         
     
         <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;arch-docker-baseimage&#x2F;">Arch Docker Baseimage</a></h2>
-		<p></p>
+		<div class="post-heading">
+			<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;arch-docker-baseimage&#x2F;">Arch Docker Baseimage</a></h2>
+			<p></p>
+		</div>
+
 		<div class="excerpt">
 			<h2 id="problem">Problem</h2>
 <p>You need a base image of Arch Linux that you're sure is a-okay.</p>
 
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;arch-docker-baseimage&#x2F;#continue-reading">Continue reading...</a>
 		</div>
 
-		<div class="post-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;arch-docker-baseimage&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="posted-on">
-						<time datetime="2014-07-14 00:00">2014-07-14</time>
-					</div><div class="reading-time">
-					4 min
-				</div>
-				<div class="tags">&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/containers">Containers</a>,&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a>,&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tutorials">Tutorials</a></div>
+		<div class="post-meta"><div class="posted-on">
+					<time datetime="2014-07-14 00:00">2014-07-14</time>
+				</div><div class="reading-time">
+				4 min
+			</div>
+			<div class="tags">
+				<p>&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/containers">Containers</a>,&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/arch linux">Arch Linux</a>,&nbsp;and&nbsp;<a href="https:&#x2F;&#x2F;hoverbear.org/tags/tutorials">Tutorials</a></p>
 			</div>
 		</div>
 	</section>
@@ -260,14 +274,13 @@
         
         <footer class="post-footer">
     <div class="content">
-        <h4><a href=/>← Back to top of index</a></h4>
     
-        <h4>By Ana Hobden</h4><p>
+        <p>By Ana Hobden</p><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-"><code>4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-</code></a></p>
+        </p><pre><code>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+">2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+</code></a></pre>
     </div>
 </footer>
             

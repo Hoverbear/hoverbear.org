@@ -36,8 +36,6 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
         <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
     
         <!-- Stylesheets are fun -->
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
-        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
         <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
     
         <!-- Katex -->
@@ -50,51 +48,42 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
     
 
     <body>
-        <header><div id="hero-wrapper">
-        <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+        <header><figure class="enriched ">
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
     </figure>
-    </div>
-    <div class="hero-wrapper-content">
-
-        <h1><a href="https:&#x2F;&#x2F;hoverbear.org">OpenWRT QoS</a></h1>
-
-
-        <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
-
+    
+    <div class="content">
         <div class="metadata">
-            <p class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </p>
+            <h1 class="title"><a href="https:&#x2F;&#x2F;hoverbear.org">OpenWRT QoS</a></h1>
 
+            <p class="description">A computer scientist working in open source towards a more hopeful future.</p>
+            
             <p class="date">
                     Posted on 2014-12-06, around 9 minutes of reading.
                 </p>
         </div>
-
+        
+        <nav class="tree"><ul><li>
+                                <a href="https://hoverbear.org/consulting/">
+                                    Consulting
+                                </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/about/">
+                                    About
+                                </a>&nbsp;
+                            </li></ul><ul></ul><ul></ul>
+        </nav>
     </div>
 </header>
 
@@ -281,17 +270,18 @@ config class &quot;Bulk&quot;
 <h1 id="initial-configuration">Initial Configuration</h1>
 <p>As a reminder, here is the configuration of our setup.</p>
 <figure class="enriched ">
-        <figcaption>Our setup.</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;530a4755db2b4b2300.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c4c34e5c8235978400.jpg 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;530a4755db2b4b2300.jpg 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c4c34e5c8235978400.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f615cb8d93d4a85900.jpg"
               alt="Our setup." />
+        <figcaption>Our setup.</figcaption>
     </figure>
 <p>First, we need to pull in <code>xt_connmark</code>, which is a depedency for some features of <code>qos-scripts</code>:</p>
 <pre style="background-color:#2b303b;">
@@ -358,17 +348,18 @@ iptables: No chain/target/match by that name.
 </code></pre>
 <p>You should see something like the following:</p>
 <figure class="enriched ">
-        <figcaption>In action.</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;438d6f6f685dc09400.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f9d96a4f1aa997f00.png 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;438d6f6f685dc09400.png 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f9d96a4f1aa997f00.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e0460f0911a7f28200.png"
               alt="In action." />
+        <figcaption>In action.</figcaption>
     </figure>
 <p>Feel free to cancel them at any time. We only care about the rate right now.</p>
 <p>As you can see, <code>test1</code> recieved approximately twice the bandwidth of <code>test2</code>. Perfect, that's exactly what we wanted.</p>
@@ -427,17 +418,18 @@ config class &quot;httpdev&quot;
 </code></pre>
 <p>Then get <code>test1</code> to download from port 80, and <code>test2</code> to download from port 8080.</p>
 <figure class="enriched ">
-        <figcaption>httpdev</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e7301bb625d15f4500.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc0ea0d8c7c1a0c900.png 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e7301bb625d15f4500.png 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc0ea0d8c7c1a0c900.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d73592f6519aa9db00.png"
               alt="httpdev" />
+        <figcaption>httpdev</figcaption>
     </figure>
 <p>Attempting to download on port 8080 only resulted in recieving 10% of the available bandwidth, where on port 80 it was able to use the entire link.</p>
 <h2 id="priorities">Priorities</h2>
@@ -452,17 +444,18 @@ config class &quot;httpdev&quot;
 </code></pre>
 <p>Then issue <code>/etc/init.d/qos reload</code>. To test this, <strong>on one of the <code>test1</code> or <code>test2</code></strong> open two connections and attempt to download from both ports.</p>
 <figure class="enriched ">
-        <figcaption>Priorities.</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fa789553a1077fe900.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1261848654708b8e00.png 3840w
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fa789553a1077fe900.png 1920w,
+                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1261848654708b8e00.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840px"
+                     3840w
+              "
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c5444d4aa9891e2e00.png"
               alt="Priorities." />
+        <figcaption>Priorities.</figcaption>
     </figure>
 <p>Here I ran two tests, one with downloads on different ports, one with them on the same. Notice how the <code>8080</code> download is much slower while there is a download on port <code>80</code> happening, but while both at on port <code>80</code> they're nearly the same <em>(except that I couldn't stop both at the same time so the second one I stopped was reading higher then before, they were both in the teens).</em></p>
 <p>A lone download on port <code>8080</code> (and thus of the <code>httpdev</code> class) would still be fast if there is no other traffic in the <code>normal</code> class, though.</p>
@@ -483,14 +476,13 @@ config class &quot;httpdev&quot;
         
         <footer class="post-footer">
     <div class="content">
-        <h4><a href=/>← Back to top of index</a></h4>
     
-        <h4>By Ana Hobden</h4><p>
+        <p>By Ana Hobden</p><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-"><code>4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
-</code></a></p>
+        </p><pre><code>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+">2a516dfc04104c714770c57b1ebfcf1083ebb1c6
+</code></a></pre>
     </div>
 </footer>
             
