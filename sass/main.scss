@@ -6,7 +6,11 @@ $code-background: ("light": #DDDDDD, "dark": #2b303b);
 
 $quote-background: ("light": #DDDDDD, "dark": #2b303b);
 
-$font: ("normal": "Fira Sans", "code": "Fira Code");
+$font: (
+    "headings": "Roboto",
+    "normal": "Noto Sans",
+    "code": "Fira Code"
+);
 $responsive-margin-horizontal: (
     "normal": 15vw,
     "widescreen": 25vw,
@@ -385,9 +389,6 @@ html {
                 font-family: map-get($font, "code") !important;
                 @include responsive(margin-left, $responsive-margin-horizontal-wide);
                 @include responsive(margin-right, $responsive-margin-horizontal-wide);
-                font-weight: bolder;
-                letter-spacing: 0.08rem;
-                line-height: 1.4;
                 padding: 5px;
                 border: 1px solid #DDDDDD;
                 overflow-x: auto;
@@ -431,8 +432,12 @@ html {
     }
 
     // Better link behavior. No underlines, simpler colors.
-    h1 > a,h2 > a,h3 > a,h4 > a {
+    h1 > a,
+    h2 > a,
+    h3 > a,
+    h4 > a {
         text-decoration: none;
+        font-family: map-get($font, "headings") !important;
     }
 
     a {
