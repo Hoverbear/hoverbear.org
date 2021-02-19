@@ -35,6 +35,8 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
         <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
     
         <!-- Stylesheets are fun -->
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira_code/fira_code.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;hoverbear.org/font/fira/fira.css">
         <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
     
         <!-- Katex -->
@@ -47,33 +49,27 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
     
 
     <body>
-        <header><figure class="enriched ">
+        <header><div id="hero-wrapper">
+        <figure class="enriched ">
+        <figcaption>Photo&nbsp;- Lennart Heim; @ohlennart on Unsplash</figcaption>
         <img srcset="
-                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;141609389465be9400.jpg 1920w,
-                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;141609389465be9400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840w
-              "
+                     3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ec6b4e3ee208b81600.jpg"
               alt="Photo" />
-        <figcaption>Photo&nbsp;- Lennart Heim; @ohlennart on Unsplash</figcaption>
     </figure>
-    
-    <div class="content">
-        <div class="metadata">
-            <h1 class="title"><a href="https:&#x2F;&#x2F;hoverbear.org">Common Safety Pitfalls found by Jepsen</a></h1>
+    </div>
+    <div class="hero-wrapper-content">
 
-            <p class="description">Learning about Jepsen and doing a survey of published analyses.</p>
-            
-            <p class="date">
-                    Posted on 2019-09-18, around 22 minutes of reading.
-                </p>
-        </div>
-        
-        <nav class="tree"><ul><li>
+        <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Common Safety Pitfalls found by Jepsen</a></h1>
+
+
+        <nav id="tree"><ul><li>
                                 <a href="https://hoverbear.org/consulting/">
                                     Consulting
                                 </a>&nbsp;
@@ -81,8 +77,23 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
                                 <a href="https://hoverbear.org/about/">
                                     About
                                 </a>&nbsp;
+                            </li><li>
+                                <a href="https://hoverbear.org/blog/">
+                                    Blog
+                                </a>&nbsp;
                             </li></ul><ul></ul><ul></ul>
         </nav>
+
+        <div class="metadata">
+            <p class="description">
+                    Learning about Jepsen and doing a survey of published analyses.
+                </p>
+
+            <p class="date">
+                    Posted on 2019-09-18, around 22 minutes of reading.
+                </p>
+        </div>
+
     </div>
 </header>
 
@@ -267,18 +278,17 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>When a project requests a Jepsen analysis from Jepsen, they're actually asking Jepsen to verify the claims the system makes, rather than check the system against a rigorous, formal model or set of requirements. E.g., if the project claims to withstand single node failures, then Jepsen can test that. In many cases, the project (or a possible customer) is funding some or all of the work.</p>
 <p>All of this is quite important. This means Jepsen analyses aren't just someone &quot;dunking&quot; on a project. Moreover, Jepsen is validating the claims the project makes in its own documentation.</p>
 <figure class="enriched ">
+        <figcaption>The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash</figcaption>
         <img srcset="
-                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca463d3e24c9ea6f00.jpg 1920w,
-                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f1994e56fa84e19800.jpg 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca463d3e24c9ea6f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f1994e56fa84e19800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840w
-              "
+                     3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c2f07f08afe6921200.jpg"
               alt="The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash" />
-        <figcaption>The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash</figcaption>
     </figure>
 <h2 id="commonly-found-problems">Commonly found problems</h2>
 <p>While not all analyses map directly to specific suites, tests, or claims, there were some problems that just seem to keep popping up!</p>
@@ -344,18 +354,17 @@ org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportE
 <p>The team at PingCAP uses Jepsen to test TiDB (which uses TiKV) frequently. This includes tests developed for the <a href="https://jepsen.io/analyses/tidb-2.1.7">official Jepsen Analysis</a> for TiDB.</p>
 <p>Each new release of TiDB and TiKV passes a check ensuring that there are no claims we have made which the Jepsen framework disproves.</p>
 <figure class="enriched ">
+        <figcaption>The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash</figcaption>
         <img srcset="
-                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;84c7b04689dd184e00.jpg 1920w,
-                     https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7605f2edf663101400.jpg 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;84c7b04689dd184e00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7605f2edf663101400.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
-                     3840w
-              "
+                     3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;71b710e55f9fb4ee00.jpg"
               alt="The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash" />
-        <figcaption>The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash</figcaption>
     </figure>
 <h2 id="appendix-i">Appendix I</h2>
 <p>This is a summary of each report's problems discovered.</p>
@@ -708,13 +717,14 @@ org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportE
         
         <footer class="post-footer">
     <div class="content">
+        <h4><a href=/>← Back to top of index</a></h4>
     
-        <p>By Ana Hobden</p><p>
+        <h4>By Ana Hobden</h4><p>
             Connect through&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
             or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
-        </p><pre><code>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/2a516dfc04104c714770c57b1ebfcf1083ebb1c6
-">2a516dfc04104c714770c57b1ebfcf1083ebb1c6
-</code></a></pre>
+        </p><p>Built from <a href="https://github.com/Hoverbear/hoverbear.org/commit/4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
+"><code>4d58cd88fbf2e9eb85b5c3e01e56a5ea10ce375a
+</code></a></p>
     </div>
 </footer>
             
