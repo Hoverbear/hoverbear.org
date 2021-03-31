@@ -5,7 +5,7 @@ To fork this, or test a change you may want to submit:
 You'll need `cargo`. Get that by installing [Rustup](https://rustup.rs/). Next, install the [tagged Zola](https://github.com/getzola/zola/releases/tag/v0.12.2) via:
 
 ```bash
-cargo install --git https://github.com/getzola/zola --ref 84ecd2ac5e2913426ea6e6a9dc55928e81d0df25
+cargo install --git https://github.com/getzola/zola --rev 84ecd2ac5e2913426ea6e6a9dc55928e81d0df25
 ```
 
 Run `zola serve` from a terminal in the site working directory. The first time you do this, it could take a long time, as it has to process a lot of images.

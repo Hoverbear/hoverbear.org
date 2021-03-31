@@ -11,17 +11,15 @@ photographer = "Ana Hobden"
 
 Hello,
 
-My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.'
+My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.' I also go by [**Hoverbear**, or any of it's translations]((#translations-of-hoverbear)).
 
-I also go by **Hoverbear**. My nick translates ಹಾರುವ ಕರಡಿ (*Haruva Karadi*) in Kannada, منڈلاتا ہوا ریچھ (*Mandlata Hua Reech*) in Urdu, , मंडराता भालू (*Mandaraata bhaloo*) in Hindi, ఎగిరే ఎలుగుబంటి (*Egire elugubaṇṭi*) in Telugu, பறக்கும் கரடி (*Parakkum karadi*) in Tamil, ਮੰਡਰਾਉਂਦਾ ਰਿੱਛ (*Mandaraunda richh*) in Punjabi, उद्या अस्वल (*Udta aswal*) in Marathi, പറക്കുന്ന കരടി (*Parakkunna karadi*) in Malayalam, ଉଡ଼ନ୍ତା ଭାଲୁ (*Udawntaa bhaalu*) in Odia, Udne bhaalu in Nepali, 飘飘熊 (*Piāo piāo xióng*) in Mandarin, Schwebebär in German, Парящий Медведь (*Paryashchiy Medved'*) in Russian, Очучы Аю in Tartar, Gaudotājlācis in Latvian, Zweefbeer in Dutch, Flotatzen duen hartza in Euskara, or Latający Miś in Polish. You are welcome to address me by any of them. I am always seeking to learn new translations, particularly Restigouche Míkmaq (which I believe would combine Āoonpitkōgwĕk and Noosĕ'skw) or W̱SÁNEĆ.
-
-I live in Lək̓ʷəŋən territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conviently located close to Vancouver and Seattle, with connections to most of the world.
+I live in Lək̓ʷəŋən territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conveniently located close to Vancouver and Seattle, with connections to most of the world.
 
 You may know of me because of my background in technology, but there is much more that defines me. My [partner](https://twitter.com/j_dowadi) and I love going hiking, road tripping, and camping with our Golden Retriever, [*Nami*](https://twitter.com/nami_num_nums). We're also avid video gamers, chefs, and bakers. You can get an idea of the projects I've been involved with by checking the rest of this site, as well as my [Github profile](https://github.com/hoverbear/). Things like Rust, distributed consensus, storage, networking, automation, operations, WASM, and embedded are within my interests.
 
 I have ancestral ties to Norway, France, England, and the Listuguj Mi'kmaq. I am a patchwork. Humanity is a patchwork, and it is beautiful. I will not view you worse because of your ethnicity, sexuality, gender, physique, disabilities, or anything else. I will do my best to respect your wishes around how you define yourself, and will apologize when I make mistakes. The only reason I will treat you differently or disrespect you is if I see you disrespecting or harming others. We're all in this together, we've all suffered enough.
 
-Life draws me into many interesting adventures and teachings. I try to use this site to catalog and document some of it. While it documents edited and often well researched topics, it does not capture the true *texture* of life. When I write I try to take you along on my exploration, but that is by no means a subsitute for your own adventures.
+Life draws me into many interesting adventures and teachings. I try to use this site to catalog and document some of it. While it documents edited and often well researched topics, it does not capture the true *texture* of life. When I write I try to take you along on my exploration, but that is by no means a substitute for your own adventures.
 
 Friendships are something I am constantly looking to build, if you need someone to talk to, or some help with a problem, let me know. I'd love to try to help. Alternatively, if you're giving your life some texture and wholeness, I'd love to talk and learn about how you are doing that.
 
@@ -46,6 +44,14 @@ My company is a contributor to the [Natives in Tech](https://nativesintech.org/)
 
 Currently, I'm a staff Senior Engineer at [Maya Data](https://mayadata.io/) working mostly on [Mayastor](https://github.com/openebs/Mayastor). We're working on next generation storage technology.
 
+
+# Translations of 'Hoverbear'
+
+I have been honoured with many translations of my nickname into a variety of languages. You are welcome to call me by these names as well.
+
+My nick translates خرس بالزن (*khers-e-balzan*) in Farsi, ಹಾರುವ ಕರಡಿ (*Haruva Karadi*) in Kannada, منڈلاتا ہوا ریچھ (*Mandlata Hua Reech*) in Urdu, , मंडराता भालू (*Mandaraata bhaloo*) in Hindi, ఎగిరే ఎలుగుబంటి (*Egire elugubaṇṭi*) in Telugu, பறக்கும் கரடி (*Parakkum karadi*) in Tamil, ਮੰਡਰਾਉਂਦਾ ਰਿੱਛ (*Mandaraunda richh*) in Punjabi, उद्या अस्वल (*Udta aswal*) in Marathi, പറക്കുന്ന കരടി (*Parakkunna karadi*) in Malayalam, ଉଡ଼ନ୍ତା ଭାଲୁ (*Udawntaa bhaalu*) in Odia, Udne bhaalu in Nepali, 飘飘熊 (*Piāo piāo xióng*) in Mandarin, Schwebebär in German, Парящий Медведь (*Paryashchiy Medved'*) in Russian, Очучы Аю in Tartar, Gaudotājlācis in Latvian, Zweefbeer in Dutch, Flotatzen duen hartza in Euskara, or Latający Miś in Polish. You are welcome to address me by any of them.
+
+I am always seeking to learn new translations, particularly for Restigouche Míkmaq (which I believe would combine Āoonpitkōgwĕk and Noosĕ'skw), lək̓ʷəŋiʔnəŋ, or W̱SÁNEĆ.
 
 # Introducing Me
 
