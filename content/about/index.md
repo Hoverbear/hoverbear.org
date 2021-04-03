@@ -1,6 +1,6 @@
 +++
 layout = "article"
-title = "About"
+title = "Ana, Hoverbear 🐻"
 description = "I have been, and will be, many things, but what I shall always be, is me."
 [extra]
 in_menu = true

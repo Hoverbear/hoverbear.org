@@ -1,11 +1,11 @@
 +++
-title = "Codex"
+title = "Research Codex"
 description = "Living documents on various topics I am studying."
 sort_by = "weight"
 template = "blog/list.html"
 
 [extra]
-in_menu = false
+in_menu = true
 
 [extra.image]
 path = "cover.jpg"

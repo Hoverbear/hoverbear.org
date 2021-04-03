@@ -1,11 +1,6 @@
-{%- extends "page.html" -%}
+{%- extends "default.html" -%}
 
-{%- block content -%}
-    {%- set blog = get_section(path="blog/_index.md") -%}
-    {% for post in blog.pages  %}
-        {{ post::metadata(post=post) }}
-        {% if loop.last != true %}
-            <hr>
-        {% endif %}
-    {% endfor %}
-{%- endblock content -%}
+{%- block page -%}
+    {% include "partials/splash.html" %}
+    {% include "partials/header.html" %}
+{%- endblock page -%}

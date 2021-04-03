@@ -1,0 +1,47 @@
+<nav id="tree">
+    {%- for ancestor_path in page_or_section.ancestors | default(value=[]) -%}
+    <ul>
+        {%- set ancestor = get_section(path=ancestor_path) -%}
+        {%- for ancestor_page in ancestor.pages | default(value=[]) -%}
+        {%- if ancestor_page.extra.in_menu | default(value=false) -%}
+        <li>
+            <a href="{{ ancestor_page.permalink | safe }}">
+                {{ ancestor_page.title | markdown(inline=true) }}
+            </a>&nbsp;
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+        {%- for ancestor_section_path in ancestor.subsections -%}
+        {%- set ancestor_section = get_section(path=ancestor_section_path) -%}
+        {%- if ancestor_section.extra.in_menu | default(value=false) -%}
+        <li>
+            <a href="{{ ancestor_section.permalink | safe }}">
+                {{ ancestor_section.title | markdown(inline=true) }}
+            </a>&nbsp;
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+    </ul>
+    {%- endfor -%}
+    <ul>
+        {%- for page in page_or_section.pages | default(value=[]) -%}
+        {%- if page.extra.in_menu | default(value=false) -%}
+        <li>
+            <a href="{{ page.permalink | safe }}">
+                {{ page.title | markdown(inline=true) }}
+            </a>&nbsp;
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+        {%- for subsection_path in page_or_section.subsections | default(value=[]) -%}
+        {%- set subsection_section = get_section(path=subsection_path) -%}
+        {%- if subsection_section.extra.in_menu | default(value=false) -%}
+        <li>
+            <a href="{{ subsection_section.permalink | safe }}">
+                {{ subsection_section.title | markdown(inline=true) }}
+            </a>&nbsp;
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+    </ul>
+</nav>

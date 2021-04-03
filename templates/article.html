@@ -2,9 +2,15 @@
 
 {% include "partials/toc.html" %}
 
-{% block content %}
-    <article>
+{% block page %}
+    {% include "partials/hero.html" %}
+    {% include "partials/header.html" %}
+    <main>
+        {% include "partials/toc.html" %}
+        <article>
         {% block article %}
         {% endblock article %}
-    </article>
-{% endblock content %}
+        </article>
+    </main>
+    {% include "partials/footer.html" %}
+{% endblock page %}
