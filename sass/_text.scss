@@ -1,0 +1,110 @@
+a {
+  text-decoration: none;
+  color: var(--color-link);
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+ol {
+  counter-reset: section;
+  list-style-type: none;
+  li:before {
+    counter-increment: section;
+    content: counters(section, ".") " ";
+  }
+}
+
+ul {
+  li {
+    margin-left: 1rem;
+  }
+}
+
+/* Set up some font families */
+body {
+  font-family: var(--font-text);
+  line-height: 1.2;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  padding: 1vh 0;
+}
+
+// From https://www.modularscale.com/
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 2.0rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
+h4 {
+  font-size: 1.7rem;
+}
+
+h5 {
+  font-size: 1.6rem;
+}
+
+h6 {
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1em;
+  padding: .25em 0;
+}
+
+hr {
+  width: 60%;
+}
+
+blockquote {
+  background-color: var(--color-muted);
+  border-left: 10px solid #ccc;
+  padding-left: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  & p {
+    display: inline-block;
+  }
+}
+
+table {
+  border-spacing: 1em .5em;
+  margin: 1vh 0;
+  padding: 1vh var(--margins);
+  margin: 0 var(--margins);
+  & th {
+    font-weight: bold;
+  }
+  & td, th {
+    text-align: left;
+    vertical-align: middle;
+    word-break: break-word;
+  }
+}
+
+pre:not(.artifact) {
+  margin: 1vh 0;
+  padding: 1vh var(--margins);
+  overflow-x: auto;
+}
+
+pre, code {
+  font-family: var(--font-code);
+}
+
+*:not(pre) > code {
+  background-color: var(--color-muted);
+  padding: 0 .25rem;
+}

@@ -1,39 +1,39 @@
+{%- if page -%}
+    {%- set page_or_section = page -%}
+{%- elif section -%}
+    {%- set page_or_section = section -%}
+{%- endif -%}
+
+{%- if page_or_section.extra.image -%}
+{%- set cover_path = page_or_section.extra.image.path -%}
+    {%- set cover_photographer = page_or_section.extra.image.photographer | default(value="") -%}
+    {%- set cover_source = page_or_section.extra.image.source | default(value="") -%}
+    {%- set colocated = page_or_section.extra.image.colocated | default(value=true) -%}
+{%- else -%}
+    {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
+    {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
+    {%- set cover_source = config.extra.cover.source | default(value="") -%}
+    {%- set colocated = false -%}
+{%- endif -%}
+
+{%- if page_or_section.title -%}
+    {%- set title = page_or_section.title -%}
+{%- else -%}
+    {%- set title = config.title -%}
+{%- endif -%}
+
+{%- if page_or_section.description -%}
+    {%- set description = page_or_section.description -%}
+{%- else -%}
+    {%- set description = config.description -%}
+{%- endif -%}
+
+<div id="hero-wrapper">
+    {{ figure::enriched(path=cover_path, alt="Photo", source=cover_source, photographer=cover_photographer, colocated=colocated) }}
+</div>
+
 <header>
-    {%- if page -%}
-        {%- set page_or_section = page -%}
-    {%- elif section -%}
-        {%- set page_or_section = section -%}
-    {%- endif -%}
-
-    {%- if page_or_section.extra.image -%}
-        {%- set cover_path = page_or_section.extra.image.path -%}
-        {%- set cover_photographer = page_or_section.extra.image.photographer | default(value="") -%}
-        {%- set cover_source = page_or_section.extra.image.source | default(value="") -%}
-        {%- set colocated = page_or_section.extra.image.colocated | default(value=true) -%}
-    {%- else -%}
-        {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
-        {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
-        {%- set cover_source = config.extra.cover.source | default(value="") -%}
-        {%- set colocated = false -%}
-    {%- endif -%}
-
-    {%- if page_or_section.title -%}
-        {%- set title = page_or_section.title -%}
-    {%- else -%}
-        {%- set title = config.title -%}
-    {%- endif -%}
-
-    {%- if page_or_section.description -%}
-        {%- set description = page_or_section.description -%}
-    {%- else -%}
-        {%- set description = config.description -%}
-    {%- endif -%}
-
-    <div id="hero-wrapper">
-        {{ figure::enriched(path=cover_path, alt="Photo", source=cover_source, photographer=cover_photographer, colocated=colocated) }}
-    </div>
     <div class="hero-wrapper-content">
-
         <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
 
 

@@ -1,7 +1,9 @@
-{% extends "default.html" %}
+{% extends "page.html" %}
 
 {% block content %}
   {% for post in section.pages %}
-    {{ post.content | safe }}
+    <section>
+      {{ post.content | safe }}
+    </section>
   {% endfor %}
 {% endblock content %}

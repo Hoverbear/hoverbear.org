@@ -1,0 +1,25 @@
+/* Add captions to figures. */
+figure.enriched {
+  display: grid;
+  grid-template-columns: 2vh 1fr 2vh;
+  grid-template-rows: 2vw 1fr 2vw;
+  max-height: 100vh;
+  max-width: 100vw;
+  margin: 0;
+  figcaption {
+    z-index: 1;
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    align-self: start;
+    color: var(--color-text);
+  }
+  img {
+    z-index: 0;
+    grid-column: 1 / span 3;
+    grid-row: 1 / span 3;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}

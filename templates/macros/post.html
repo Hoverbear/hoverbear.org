@@ -4,28 +4,26 @@
 		<p>{{ post.description }}</p>
 		<div class="excerpt">
 			{{ post.summary | safe }}
+			<a class="continue-reading" href="{{ post.permalink }}#continue-reading">Continue reading...</a>
 		</div>
 
 		<div class="post-meta">
-			<a class="continue-reading" href="{{ post.permalink }}#continue-reading">Continue reading...</a>
-			<div class="meta-box">
-				{%- if post.date -%}
-					<div class="posted-on">
-						<time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
-					</div>
+			{%- if post.date -%}
+				<div class="posted-on">
+					<time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
+				</div>
+			{%- endif -%}
+			<div class="reading-time">
+				{{ post.reading_time }} min
+			</div>
+			<div class="tags">
+				{%- if post.taxonomies.tags -%}
+					{%- for tag in post.taxonomies.tags -%}
+						{%- if loop.first != true and post.taxonomies.tags | length > 2 -%},{%- endif -%}
+						{%- if loop.last and post.taxonomies.tags | length > 1 -%}&nbsp;and{%- endif -%}
+						&nbsp;<a href="{{ config.base_url }}/tags/{{ tag | lower }}">{{ tag }}</a>
+					{%- endfor -%}
 				{%- endif -%}
-				<div class="reading-time">
-					{{ post.reading_time }} min
-				</div>
-				<div class="tags">
-					{%- if post.taxonomies.tags -%}
-						{%- for tag in post.taxonomies.tags -%}
-							{%- if loop.first != true and post.taxonomies.tags | length > 2 -%},{%- endif -%}
-							{%- if loop.last and post.taxonomies.tags | length > 1 -%}&nbsp;and{%- endif -%}
-							&nbsp;<a href="{{ config.base_url }}/tags/{{ tag | lower }}">{{ tag }}</a>
-						{%- endfor -%}
-					{%- endif -%}
-				</div>
 			</div>
 		</div>
 	</section>

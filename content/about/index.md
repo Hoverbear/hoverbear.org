@@ -1,5 +1,5 @@
 +++
-layout = "page"
+layout = "article"
 title = "About"
 description = "I have been, and will be, many things, but what I shall always be, is me."
 [extra]
@@ -14,7 +14,7 @@ Hello,
 My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.' I also go by [**Hoverbear**, or any of it's translations]((#translations-of-hoverbear)).
 
 I live in Lək̓ʷəŋən territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conveniently located close to Vancouver and Seattle, with connections to most of the world.
-
+w
 You may know of me because of my background in technology, but there is much more that defines me. My [partner](https://twitter.com/j_dowadi) and I love going hiking, road tripping, and camping with our Golden Retriever, [*Nami*](https://twitter.com/nami_num_nums). We're also avid video gamers, chefs, and bakers. You can get an idea of the projects I've been involved with by checking the rest of this site, as well as my [Github profile](https://github.com/hoverbear/). Things like Rust, distributed consensus, storage, networking, automation, operations, WASM, and embedded are within my interests.
 
 I have ancestral ties to Norway, France, England, and the Listuguj Mi'kmaq. I am a patchwork. Humanity is a patchwork, and it is beautiful. I will not view you worse because of your ethnicity, sexuality, gender, physique, disabilities, or anything else. I will do my best to respect your wishes around how you define yourself, and will apologize when I make mistakes. The only reason I will treat you differently or disrespect you is if I see you disrespecting or harming others. We're all in this together, we've all suffered enough.
