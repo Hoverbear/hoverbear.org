@@ -49,7 +49,8 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Matthieu Joannon; @matt_j on Unsplash</figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Getting the most of WSL</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -141,8 +145,8 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
         </ol>
     </nav>
 
-            
-    <p>Not long ago, Microsoft started iterating more heavily on their long-existing &quot;Windows Subsystem for Linux&quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.</p>
+        
+            <p>Not long ago, Microsoft started iterating more heavily on their long-existing &quot;Windows Subsystem for Linux&quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.</p>
 <p>In this post, we'll investigate some ways to get the most out of WSL. I won't present anything new here, just providing a single place for how I or someone else <strong>could</strong> get things set up.</p>
 <span id="continue-reading"></span>
 <blockquote>
@@ -156,7 +160,7 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
 </span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><span style="color:#c0c5ce;">-Online -FeatureName &quot;</span><span style="color:#a3be8c;">VirtualMachinePlatform</span><span style="color:#c0c5ce;">&quot; 
 wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#c0c5ce;">-version </span><span style="color:#d08770;">2
 </span></code></pre>
-<p>Next, head on over to the Windows Store and install <a href="https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab">'Ubuntu'</a>. Once it's downloaded you should launch it and do the first time setup. It'll ask you to put a username and password.</p>
+<p>Next, head on over to the Windows Store and install <a rel="noopener" target="_blank" href="https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab">'Ubuntu'</a>. Once it's downloaded you should launch it and do the first time setup. It'll ask you to put a username and password.</p>
 <p>At the point, you have a WSL2 installation of Ubuntu. To verify:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-powershell" data-lang="powershell"><span style="color:#c0c5ce;">$ wsl -l -v
@@ -183,7 +187,7 @@ wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#
 </span></code></pre>
 <p>Following the same procedure, <code>lsb_release -r</code> for me now shows 19.10.</p>
 <h2 id="better-terminals">Better terminals</h2>
-<p>The <a href="https://www.microsoft.com/en-ca/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab">'Windows Terminal'</a> app provides a nicer terminal experience.</p>
+<p>The <a rel="noopener" target="_blank" href="https://www.microsoft.com/en-ca/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab">'Windows Terminal'</a> app provides a nicer terminal experience.</p>
 <figure class="enriched ">
         <figcaption>Windows Terminal chooser</figcaption>
         <img srcset="
@@ -197,7 +201,7 @@ wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;db8e8a96ebe3931e00.jpg"
               alt="Windows Terminal chooser" />
     </figure>
-<p>You can also install <a href="https://code.visualstudio.com/insiders/">VS Code Insiders</a> and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL</a> extension to get a full featured editor/explorer.</p>
+<p>You can also install <a rel="noopener" target="_blank" href="https://code.visualstudio.com/insiders/">VS Code Insiders</a> and the <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL</a> extension to get a full featured editor/explorer.</p>
 <figure class="enriched ">
         <figcaption>VS Code chooser</figcaption>
         <img srcset="
@@ -243,10 +247,10 @@ wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#
 <p>Unfortunately we can't easily link them since they're on different devices.</p>
 <h2 id="get-systemd-functional">Get <code>systemd</code> functional</h2>
 <p>At this stage of WSL2's development, we don't get a true <code>systemd</code> <em>yet</em>. That is, by default, you can't do things like <code>systemctl start sshd</code> or <code>systemctl start docker</code>.</p>
-<p>Thankfully, a wonderful person in the Snapcraft project, <a href="https://forum.snapcraft.io/u/daniel/summary">Daniel</a>, got an <a href="https://forum.snapcraft.io/t/running-snaps-on-wsl2-insiders-only-for-now/13033">amazingly convienent hack working</a>! While you may want to fully review the linked article, here's a quick and dirty breakdown.</p>
+<p>Thankfully, a wonderful person in the Snapcraft project, <a rel="noopener" target="_blank" href="https://forum.snapcraft.io/u/daniel/summary">Daniel</a>, got an <a rel="noopener" target="_blank" href="https://forum.snapcraft.io/t/running-snaps-on-wsl2-insiders-only-for-now/13033">amazingly convienent hack working</a>! While you may want to fully review the linked article, here's a quick and dirty breakdown.</p>
 <p>In your Ubuntu shell:</p>
 <blockquote>
-<p>Ubuntu 20.20? Daemonize is moved according to <a href="https://twitter.com/ram0973/status/1253647608670814217">@ram0973</a> found
+<p>Ubuntu 20.20? Daemonize is moved according to <a rel="noopener" target="_blank" href="https://twitter.com/ram0973/status/1253647608670814217">@ram0973</a> found
 it on the <code>/usr/bin/daemonize</code> path.</p>
 </blockquote>
 <pre style="background-color:#2b303b;">
@@ -355,16 +359,16 @@ wsl --shutdown
               alt="Docker running in Sytemd" />
     </figure>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

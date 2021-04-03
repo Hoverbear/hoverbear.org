@@ -49,7 +49,8 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Lucas Neasi</figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 3, Services &amp; Hardening</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -141,8 +145,8 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
         </ol>
     </nav>
 
-            
-    <p>This is the third in a series of posts about getting settled into a server. First we talked about <a href="/2016/05/06/new-roots-1/">choosing a server</a>, then we talked about <a href="/2016/05/06/new-roots-2/">installing a base OS on a dedicated server</a>. In this post we'll discuss configuring, securing, and hardening our server.</p>
+        
+            <p>This is the third in a series of posts about getting settled into a server. First we talked about <a href="/2016/05/06/new-roots-1/">choosing a server</a>, then we talked about <a href="/2016/05/06/new-roots-2/">installing a base OS on a dedicated server</a>. In this post we'll discuss configuring, securing, and hardening our server.</p>
 <p>In our last post we left our new server in a very, very minimal state. Heck, we didn't even tell it it's own name! In this post we'll talk about configuration. Throughout this process we're going to try to keep things simple and tightly knit. Through most of this guide you'll need to be using <code>sudo</code> or acting as <code>root</code>.</p>
 <span id="continue-reading"></span>
 <p>I'm purposely choosing some things I'm not familiar with to learn as I go, so please feel free to offer any advice you might have.</p>
@@ -188,8 +192,8 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">timedatectl</span><span style="color:#c0c5ce;"> set-ntp true
 </span></code></pre><h2 id="a-simple-firewall">A Simple Firewall</h2>
 <p>Most modern kernels come built in with <code>iptables</code> and <code>nftables</code> support already. In Arch, <code>iptables</code> is pulled in as part of base. <code>nftables</code> is a newer 'spiritual successor' to <code>iptables</code> however there is little practical real world documentation. Since some of the things we'll be doing later on will be utilizing <code>iptables</code> it's probably a good idea to use that.</p>
-<p>There is a <a href="https://wiki.archlinux.org/index.php/Firewalls#iptables">menagerie</a> of different frontends for <code>iptables</code> that put a layer between you and it. However <code>iptables</code> isn't that difficult to understand and has some great <a href="https://wiki.archlinux.org/index.php/Iptables">documentation</a>. Learning how to understand what's happening in <code>iptables</code> will make using even frontends easier later on, if you even choose to use them.</p>
-<p>We'll be referencing the <a href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall">Simple Stateful Firewall</a> for our initial setup.</p>
+<p>There is a <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Firewalls#iptables">menagerie</a> of different frontends for <code>iptables</code> that put a layer between you and it. However <code>iptables</code> isn't that difficult to understand and has some great <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Iptables">documentation</a>. Learning how to understand what's happening in <code>iptables</code> will make using even frontends easier later on, if you even choose to use them.</p>
+<p>We'll be referencing the <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall">Simple Stateful Firewall</a> for our initial setup.</p>
 <p>Since we're currently on a remote device over SSH we need to be careful not to lock ourselves out. So let's set some basic filter settings in <code>/etc/iptables/iptables.rules</code>:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">*filter
@@ -311,9 +315,9 @@ Chain UDP (1 references)
 </span><span style="color:#c0c5ce;">fs.protected_hardlinks = 1
 </span><span style="color:#bf616a;">fs.protected_symlinks</span><span style="color:#c0c5ce;"> = 1
 </span></code></pre>
-<p>Much of this configuration was taken from the <a href="https://wiki.archlinux.org/index.php/Security">security guide</a>. Now you can apply the changes with <code>systemctl --system</code>.</p>
+<p>Much of this configuration was taken from the <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Security">security guide</a>. Now you can apply the changes with <code>systemctl --system</code>.</p>
 <h2 id="dns-and-name-resolution">DNS and Name Resolution</h2>
-<p>It's now time to properly configure <code>systemd-resolved</code>. First we'll link its configuration into the old <code>/etc/resolv.conf</code> location for compatability <a href="https://wiki.archlinux.org/index.php/systemd-networkd#Required_services_and_setup">reasons</a>.</p>
+<p>It's now time to properly configure <code>systemd-resolved</code>. First we'll link its configuration into the old <code>/etc/resolv.conf</code> location for compatability <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/systemd-networkd#Required_services_and_setup">reasons</a>.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rm</span><span style="color:#c0c5ce;"> /etc/resolv.conf
 </span><span style="color:#bf616a;">ln -s</span><span style="color:#c0c5ce;"> /run/systemd/resolve/resolv.conf /etc/resolv.conf
@@ -356,7 +360,7 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
 <p>Our host is configured through <code>systemd-networkd</code> and name resolution is augmented by <code>systemd-resolved</code>. This configuration places us in a great position to use container based services.</p>
 <h2 id="adding-a-new-service-mosh">Adding a New Service (mosh)</h2>
 <p>We'll discuss setting up and networking various services at length in future posts, including example <code>nginx</code>, <code>postgres</code>, <code>nodejs</code> and <code>rust</code> service deployments. We'll end up using containers for these, the idea of using containers for these services is a choice of isolation and modularization. We'd, ideally, like to keep our 'root' system as simple and secure as possible, it shouldn't have the job of hosting any public facing services other than <code>ssh</code> and <code>nginx</code>, and we'll only use <code>nginx</code> to proxy requests to other HTTP servers.</p>
-<p>For me there is one exception to this rule, <a href="https://mosh.mit.edu/"><code>mosh</code></a>. <code>mosh</code> completely changed my experience using <code>ssh</code>, especially over unreliable or mobile connections (such as a laptop). It works by transporting your <code>ssh</code> session data over UDP, and works through changes in IP or situations of large lag.</p>
+<p>For me there is one exception to this rule, <a rel="noopener" target="_blank" href="https://mosh.mit.edu/"><code>mosh</code></a>. <code>mosh</code> completely changed my experience using <code>ssh</code>, especially over unreliable or mobile connections (such as a laptop). It works by transporting your <code>ssh</code> session data over UDP, and works through changes in IP or situations of large lag.</p>
 <p>The process for adding any new service will be similar, so even if you're not interested in installing <code>mosh</code> it's good to be familiar with it. We'll use it as an example below.</p>
 <p><strong>Install:</strong> You should choose a reliable, secure source for your service. You should always prefer the official Arch repositories over the AUR or a third party repository, especially on the 'root' of the server.</p>
 <pre style="background-color:#2b303b;">
@@ -386,16 +390,16 @@ DHCP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ipv
 <p>As you can see here, the rule was used twice, which means it's working! At this point, we're done setting up the new service. We'll have a chance to practice this more in future posts when we're configuring various serices.</p>
 <p>For our <a href="/2016/05/09/new-roots-4/">next post</a> we'll explore nice ways to personalize your server environment and make it feel like home. Remember, there's no place like <code>127.0.0.1</code>. :)</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

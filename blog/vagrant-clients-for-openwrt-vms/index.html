@@ -50,7 +50,8 @@ Since Vagrant has support for multi-machine configurations and gives us minimal 
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -66,25 +67,29 @@ Since Vagrant has support for multi-machine configurations and gives us minimal 
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Vagrant Clients for OpenWRT VMs</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -98,9 +103,8 @@ Since Vagrant has support for multi-machine configurations and gives us minimal 
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -127,10 +131,10 @@ Since Vagrant has support for multi-machine configurations and gives us minimal 
         </ol>
     </nav>
 
-            
-    <p>In my <a href="/2014/11/23/openwrt-in-virtualbox/">last post</a>, we explored how to set up a OpenWRT VM in VirtualBox.</p>
+        
+            <p>In my <a href="/2014/11/23/openwrt-in-virtualbox/">last post</a>, we explored how to set up a OpenWRT VM in VirtualBox.</p>
 <p>Let's give it some clients! Since the router is using a <code>intnet</code>s we need to configure some machines to use that as their primary way to connect to the internet.</p>
-<p>Since <a href="http://vagrantup.com/">Vagrant</a> has support for <a href="https://docs.vagrantup.com/v2/multi-machine/index.html">multi-machine configurations</a> and gives us <a href="https://vagrantcloud.com/chef/boxes/debian-7.4">minimal builds of machines</a>, we'll use this for our clients.</p>
+<p>Since <a rel="noopener" target="_blank" href="http://vagrantup.com/">Vagrant</a> has support for <a rel="noopener" target="_blank" href="https://docs.vagrantup.com/v2/multi-machine/index.html">multi-machine configurations</a> and gives us <a rel="noopener" target="_blank" href="https://vagrantcloud.com/chef/boxes/debian-7.4">minimal builds of machines</a>, we'll use this for our clients.</p>
 <span id="continue-reading"></span><h2 id="the-plan">The Plan</h2>
 <figure class="enriched ">
         <figcaption>Diagram.</figcaption>
@@ -147,7 +151,7 @@ Since Vagrant has support for multi-machine configurations and gives us minimal 
     </figure>
 <p>Here is (roughly) the goal. The pair of VMs <code>test1</code> and <code>test2</code> will access <code>test3</code> (and the internet) through the OpenWRT router we created. Later, we'll build in QoS and talk about the effects of various parameters.</p>
 <h2 id="getting-started-with-vagrant">Getting started with Vagrant</h2>
-<p>I'll assume you've already install <a href="http://vagrantup.com/">Vagrant</a>. Let's make a workspace and set some enviroment variables. You might want to change this.</p>
+<p>I'll assume you've already install <a rel="noopener" target="_blank" href="http://vagrantup.com/">Vagrant</a>. Let's make a workspace and set some enviroment variables. You might want to change this.</p>
 <pre style="background-color:#2b303b;">
 <code>INTNET=&quot;openwrt&quot;
 WORKSPACE=&quot;workspace&quot;
@@ -181,7 +185,7 @@ end
 <pre style="background-color:#2b303b;">
 <code>vagrant up
 </code></pre>
-<p>Because of how we <a href="http://www.hoverbear.org/2014/11/23/openwrt-in-virtualbox/#dhcp">configured</a> the <code>dhcp</code> service on our OpenWRT router, these machine should connect primarily to the OpenWRT router over the NAT (falling back on it if things fail).</p>
+<p>Because of how we <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/11/23/openwrt-in-virtualbox/#dhcp">configured</a> the <code>dhcp</code> service on our OpenWRT router, these machine should connect primarily to the OpenWRT router over the NAT (falling back on it if things fail).</p>
 <p>To check, access the VM's and ensure that the interface <code>enp0s8</code> exists and has an <code>inet</code> address. For example, if I use <code>vagrant ssh test1</code>, then run the following, my outputs show I am assigned <code>192.168.1.196</code> by the OpenWRT router.</p>
 <pre style="background-color:#2b303b;">
 <code>ifconfig enp0s8
@@ -265,18 +269,18 @@ youtube-dl https://www.youtube.com/watch?v=m7rWhCqsh2I  -o /vagrant/video.mp4
 <pre style="background-color:#2b303b;">
 <code>curl $TEST3IP/video.mp4
 </code></pre><h2 id="quality-of-service">Quality of Service</h2>
-<p>Now that we have a small network set up with our router, the next step is configuring the quality of service on the router. I discuss this <a href="http://www.hoverbear.org/2014/12/06/openwrt-qos/">here</a>.</p>
+<p>Now that we have a small network set up with our router, the next step is configuring the quality of service on the router. I discuss this <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/12/06/openwrt-qos/">here</a>.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

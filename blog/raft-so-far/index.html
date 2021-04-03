@@ -49,7 +49,8 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft So Far</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -126,8 +130,8 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
         </ol>
     </nav>
 
-            
-    <p>I've been working quite a bit on my Raft implementation over the last few days and I must say it's been quite a pleasure to work in Rust, which recently released it's 1.0.0-alpha.</p>
+        
+            <p>I've been working quite a bit on my Raft implementation over the last few days and I must say it's been quite a pleasure to work in Rust, which recently released it's 1.0.0-alpha.</p>
 <p>It takes the work out of needing to serialize and deserialize data, it enforces data safety, and it's type checking is incredible. I'm very quickly able to make a change, build it, fix the errors the compiler catches for me, and build again, then test. So far the only times my tests have failed after a successful build was when I was accidently disgarding one of my channels.</p>
 <span id="continue-reading"></span><h2 id="client-interface">Client Interface</h2>
 <p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
@@ -197,18 +201,18 @@ pub enum RemoteProcedureResponse {
 <h2 id="repository">Repository</h2>
 <p>Currently the state of the code is such that I don't feel right releasing it to the public, once I have some bearance of functionality in the crate I'll be releasing it under the MIT license.</p>
 <p>If you're interested in helping out with this implementation please let me know. I'd be happy to include you in the private Github repository. I am currently working on it as part of a course project, but can accept contributions so long as I maintain a log of my work.</p>
-<p><strong>Discussion of this post was on <a href="https://www.reddit.com/r/rust/comments/2tncd1/raft_so_far_first_steps_into_implementation_in/">Reddit</a>.</strong></p>
+<p><strong>Discussion of this post was on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2tncd1/raft_so_far_first_steps_into_implementation_in/">Reddit</a>.</strong></p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

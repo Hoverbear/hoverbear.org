@@ -51,7 +51,8 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -67,25 +68,29 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Integrating Immutant and Keycloak</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -99,9 +104,8 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -180,28 +184,28 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
         </ol>
     </nav>
 
-            
-    <p>In my past two posts, we took a <a href="/2014/07/14/starting-with-immutant/">surface level look at Immutant</a> then took a look at <a href="/2014/07/22/deploying-immutant-to-wildfly/">deploying immutant applications to the Wildfly application server.</a> This time, we'll take a look at how to integrate Keycloak with an Immutant app, again using Docker heavily.</p>
+        
+            <p>In my past two posts, we took a <a href="/2014/07/14/starting-with-immutant/">surface level look at Immutant</a> then took a look at <a href="/2014/07/22/deploying-immutant-to-wildfly/">deploying immutant applications to the Wildfly application server.</a> This time, we'll take a look at how to integrate Keycloak with an Immutant app, again using Docker heavily.</p>
 <blockquote>
 <p>If you haven't read the previous few articles, it might be useful to give them a quick glance over.</p>
 </blockquote>
 <span id="continue-reading"></span><h2 id="keycloak">Keycloak</h2>
 <h3 id="erecting-keycloak">Erecting Keycloak</h3>
-<p><a href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
+<p><a rel="noopener" target="_blank" href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a rel="noopener" target="_blank" href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
 <p>To pull the Keycloak image:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> pull jboss/keycloak
 </span></code></pre>
-<p>Then, to erect the container (<a href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
+<p>Then, to erect the container (<a rel="noopener" target="_blank" href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -it --name</span><span style="color:#c0c5ce;"> keycloak</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9090:9090 jboss/keycloak
 </span></code></pre>
 <blockquote>
 <p>Use the  <code>-d</code> flag to daemonize the service so it doesn't die with the tty. You can check the logs later with <code>docker logs -f keycloak</code></p>
 </blockquote>
-<p>Finally, you should be able to browse to <a href="http://localhost:8080/">http://localhost:8080/</a> and see the friendly Wildfly logo and welcome screen. Visiting <a href="http://localhost:8080/auth/">http://localhost:8080/auth/</a> should yield a Keycloak welcome screen.</p>
+<p>Finally, you should be able to browse to <a rel="noopener" target="_blank" href="http://localhost:8080/">http://localhost:8080/</a> and see the friendly Wildfly logo and welcome screen. Visiting <a rel="noopener" target="_blank" href="http://localhost:8080/auth/">http://localhost:8080/auth/</a> should yield a Keycloak welcome screen.</p>
 <h3 id="getting-into-keycloak">Getting into Keycloak</h3>
-<p>Visiting <a href="http://localhost:8080/auth/admin/">http://localhost:8080/auth/admin/</a> should bring you to a very <em>blue</em> login screen. The Keycloak docker image starts with a pre-created <code>admin</code> account for you to log in with.</p>
+<p>Visiting <a rel="noopener" target="_blank" href="http://localhost:8080/auth/admin/">http://localhost:8080/auth/admin/</a> should bring you to a very <em>blue</em> login screen. The Keycloak docker image starts with a pre-created <code>admin</code> account for you to log in with.</p>
 <p><strong>Username:</strong> admin</p>
 <p><strong>Password:</strong> admin</p>
 <p>After logging in, Keycloak should prompt for a password change.</p>
@@ -325,18 +329,18 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
   ; Start the server.
   (web/run (servlet/create-servlet app) :port 8081))
 </span></code></pre>
-<p>The <code>get-token</code> function returns an object that you can run things like <code>(.getPreferredUsername token)</code>. <a href="https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html">This</a> documents the different methods you can use.</p>
+<p>The <code>get-token</code> function returns an object that you can run things like <code>(.getPreferredUsername token)</code>. <a rel="noopener" target="_blank" href="https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html">This</a> documents the different methods you can use.</p>
 <h3 id="planning-the-routes">Planning the Routes</h3>
 <p>The routes are specifically very, very general so that we can test various routes. In our exploration we'll be paying attention to the following routes:</p>
 <ul>
-<li><code>/logout</code> - Logs out the user. (Note: <a href="https://issues.jboss.org/browse/KEYCLOAK-478">This is currently broken in Keycloak-1.0.0-beta-3</a>)</li>
+<li><code>/logout</code> - Logs out the user. (Note: <a rel="noopener" target="_blank" href="https://issues.jboss.org/browse/KEYCLOAK-478">This is currently broken in Keycloak-1.0.0-beta-3</a>)</li>
 <li><code>/test</code> and <code>/test/foo</code> - General routes available to all visitors.</li>
 <li><code>/locked</code> and <code>/locked/foo</code> - Routes available to all <code>user</code> and <code>admin</code> roles.</li>
 <li><code>/admin</code> and <code>/admin/foo</code> - Routes available to only administrators.</li>
 </ul>
 <p>The routes in our code above covers much, much more then those, but you can play with those on your own.</p>
 <h3 id="integrating-keycloak">Integrating Keycloak</h3>
-<p><a href="http://keycloak.jboss.org/docs.html">Keycloak's User Guide</a> specifies how to secure the application via the <code>web.xml</code>. If you're familiar with JBoss (I'm not) this is apparently a fairly standard way of securing the application.</p>
+<p><a rel="noopener" target="_blank" href="http://keycloak.jboss.org/docs.html">Keycloak's User Guide</a> specifies how to secure the application via the <code>web.xml</code>. If you're familiar with JBoss (I'm not) this is apparently a fairly standard way of securing the application.</p>
 <p>However, Immutant does not currently provide an easy way to modify the <code>web.xml</code> in the war files it builds. Thankfully, since a war is a jar, and a jar is a zip, we can just add it in after.</p>
 <p>First, lets make a folder for this type of data in <code>/learning/resources</code>.</p>
 <pre style="background-color:#2b303b;">
@@ -406,7 +410,7 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 
 &lt;/</span><span style="color:#bf616a;">web-app</span><span style="color:#c0c5ce;">&gt;
 </span></code></pre>
-<p>Now, navigate back to your <a href="https://localhost:8080/auth">Keycloak container</a>, log in, and go to the <strong>Applications</strong> menu, hit <strong>learning</strong>, and go to the <strong>Installation</strong> tab. Select the <code>keycloak.json</code> from the dropdown. Finally, <strong>Download</strong> the output and save it as <code>learning/WEB-INF/keycloak.json</code>.</p>
+<p>Now, navigate back to your <a rel="noopener" target="_blank" href="https://localhost:8080/auth">Keycloak container</a>, log in, and go to the <strong>Applications</strong> menu, hit <strong>learning</strong>, and go to the <strong>Installation</strong> tab. Select the <code>keycloak.json</code> from the dropdown. Finally, <strong>Download</strong> the output and save it as <code>learning/WEB-INF/keycloak.json</code>.</p>
 <h3 id="building-the-container">Building the container</h3>
 <p>Since we'll be using a Docker container for the application, create a <code>learning/Dockerfile</code> with the following:</p>
 <pre style="background-color:#2b303b;">
@@ -437,7 +441,7 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">make </span><span style="color:#c0c5ce;">&amp;&amp; </span><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> run
 </span></code></pre>
-<p>After waiting for boot, browsing to <a href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
+<p>After waiting for boot, browsing to <a rel="noopener" target="_blank" href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
 <pre style="background-color:#2b303b;">
 <code><span style="color:#c0c5ce;">Base = &quot;test&quot;
 
@@ -446,7 +450,7 @@ No user found.
 java.lang.NullPointerException
 </span></code></pre><h2 id="exploring">Exploring</h2>
 <h3 id="user-routes">User routes</h3>
-<p>Now, try visiting <a href="http://localhost:8081/locked">http://localhost:8081/locked</a>. You should get redirected to the familiar Keycloak login screen. Log in with the <code>user</code> account. You should see something roughly like:</p>
+<p>Now, try visiting <a rel="noopener" target="_blank" href="http://localhost:8081/locked">http://localhost:8081/locked</a>. You should get redirected to the familiar Keycloak login screen. Log in with the <code>user</code> account. You should see something roughly like:</p>
 <pre style="background-color:#2b303b;">
 <code><span style="color:#c0c5ce;">Base = &quot;locked Sub: test&quot;
 
@@ -459,10 +463,10 @@ User is:
 user
 
 </span></code></pre>
-<p><em>Fantastic</em>. Now, try navigating to the admin route at <a href="http://localhost:8081/admin">http://localhost:8081/admin</a>. You should see the helpful <code>Forbidden</code> error. This is exactly what we want!</p>
+<p><em>Fantastic</em>. Now, try navigating to the admin route at <a rel="noopener" target="_blank" href="http://localhost:8081/admin">http://localhost:8081/admin</a>. You should see the helpful <code>Forbidden</code> error. This is exactly what we want!</p>
 <h3 id="admin-routes">Admin routes</h3>
-<p>In order to change accounts, you, unfortunately, can't browse to <a href="http://localhost:8081/logout">http://localhost:8081/logout</a>. This seems to be a bug to be squashed in the next version of Keycloak (<a href="https://issues.jboss.org/browse/KEYCLOAK-478">Bug</a>), but I'll leave it here for posterity. For now, navigate to <a href="http://localhost:8080/auth">http://localhost:8080/auth</a>, log in as <code>admin</code>, navigate to the <strong>Sessions and Tokens</strong> and click the blue <strong>Logout All</strong> button.</p>
-<p>Browse back to <a href="http://localhost:8081/admin">http://localhost:8081/admin</a> and log in as <code>admin</code>. You should see:</p>
+<p>In order to change accounts, you, unfortunately, can't browse to <a rel="noopener" target="_blank" href="http://localhost:8081/logout">http://localhost:8081/logout</a>. This seems to be a bug to be squashed in the next version of Keycloak (<a rel="noopener" target="_blank" href="https://issues.jboss.org/browse/KEYCLOAK-478">Bug</a>), but I'll leave it here for posterity. For now, navigate to <a rel="noopener" target="_blank" href="http://localhost:8080/auth">http://localhost:8080/auth</a>, log in as <code>admin</code>, navigate to the <strong>Sessions and Tokens</strong> and click the blue <strong>Logout All</strong> button.</p>
+<p>Browse back to <a rel="noopener" target="_blank" href="http://localhost:8081/admin">http://localhost:8081/admin</a> and log in as <code>admin</code>. You should see:</p>
 <pre style="background-color:#2b303b;">
 <code><span style="color:#c0c5ce;">Base = &quot;admin&quot;
 
@@ -477,16 +481,16 @@ admin
 <p>You should also be able to hit all other routes as the admin. Be sure to explore Keycloak, as it has many features regarding roles, permissions, and other things not covered here.</p>
 <p><strong>Special thanks to all the folks on #immutant, especially bbrowning, tcrawley, and jcrossley3 for their help!</strong></p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

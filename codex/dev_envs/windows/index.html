@@ -47,7 +47,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-qzLjuJEmsE">Roseanna Smith</a></figcaption>
         <img srcset="
@@ -63,49 +64,53 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Windows</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul><li>
-                                <a href="https://hoverbear.org/codex/rust/">
-                                    Rust at Scale
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/codex/effective-organizations/">
-                                    Effective Organizations
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/codex/dev_envs/">
-                                    Environments
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/codex/research_methods/">
-                                    Research Methods
-                                </a>&nbsp;
-                            </li></ul><ul><li>
-                                <a href="https://hoverbear.org/codex/dev_envs/windows/">
-                                    Windows
-                                </a>&nbsp;
-                            </li></ul><ul><li>
-                        <a href="https://hoverbear.org/codex/dev_envs/windows/wsl/">
-                            WSL
-                        </a>&nbsp;
-                    </li></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul><li>
+            <a href="https://hoverbear.org/codex/rust/">
+                Rust at Scale
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/effective-organizations/">
+                Effective Organizations
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/dev_envs/">
+                Environments
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/research_methods/">
+                Research Methods
+            </a>&nbsp;
+        </li></ul><ul><li>
+            <a href="https://hoverbear.org/codex/dev_envs/windows/">
+                Windows
+            </a>&nbsp;
+        </li></ul><ul><li>
+            <a href="https://hoverbear.org/codex/dev_envs/windows/wsl/">
+                WSL
+            </a>&nbsp;
+        </li></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -117,10 +122,9 @@
 
     </div>
 </header>
-
-        <main>
-            
-            
+    <main>
+        
+        
   <h1 id="use-powershell">Use PowerShell</h1>
 <p>To get to a PowerShell from a command prompt:</p>
 <pre style="background-color:#2b303b;">
@@ -135,7 +139,7 @@
     </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">terminal.integrated.shell.windows</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">powershell.exe</span><span style="color:#c0c5ce;">&quot;
 }
 </span></code></pre><h1 id="use-a-package-manager">Use a Package Manager</h1>
-<p>There are several options such as <a href="https://scoop.sh/"><code>scoop</code></a> for Windows.</p>
+<p>There are several options such as <a rel="noopener" target="_blank" href="https://scoop.sh/"><code>scoop</code></a> for Windows.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-powershell" data-lang="powershell"><span style="color:#96b5b4;">Set-ExecutionPolicy</span><span style="color:#c0c5ce;"> RemoteSigned -scope CurrentUser
 </span><span style="color:#96b5b4;">Invoke-Expression </span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">New-Object</span><span style="color:#c0c5ce;"> System.Net.WebClient).DownloadString(&#39;</span><span style="color:#a3be8c;">https://get.scoop.sh</span><span style="color:#c0c5ce;">&#39;)
@@ -159,12 +163,12 @@ sudo </span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><s
 </span></code></pre><h1 id="use-docker-in-wsl2">Use Docker in WSL2</h1>
 <p>There are a few ways to get Docker working.</p>
 <ul>
-<li>A hack such as <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional">this one</a>.</li>
+<li>A hack such as <a rel="noopener" target="_blank" href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional">this one</a>.</li>
 <li>The Docker Desktop WSL2 integration option.</li>
 </ul>
 <p>If you only need Docker to work, I strongly suggest you use the Docker Desktop WSL2 integration.</p>
 <h1 id="systemd-in-wsl2">Systemd in WSL2</h1>
-<p>You can use a hack such as <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional">this one</a>, but really, this isn't a good solution. <em>(Largely because Microsoft updates it a lot and things break often.)</em></p>
+<p>You can use a hack such as <a rel="noopener" target="_blank" href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional">this one</a>, but really, this isn't a good solution. <em>(Largely because Microsoft updates it a lot and things break often.)</em></p>
 <p>I suggest you investigate a Hyper-V, VMWare, or VirtualBox VM. Alternatively, if you have another disk, dual booting is quite reasonable if you give each OS a disk.</p>
 
 		</div>
@@ -181,15 +185,15 @@ sudo </span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><s
     
   
 
-        </main>
-        
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

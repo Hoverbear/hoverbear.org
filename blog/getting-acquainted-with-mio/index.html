@@ -51,7 +51,8 @@ MIO is a lightweight IO library for Rust with a focus on adding as little overhe
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -67,25 +68,29 @@ MIO is a lightweight IO library for Rust with a focus on adding as little overhe
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Getting Acquainted with MIO</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -99,9 +104,8 @@ MIO is a lightweight IO library for Rust with a focus on adding as little overhe
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -138,8 +142,8 @@ MIO is a lightweight IO library for Rust with a focus on adding as little overhe
         </ol>
     </nav>
 
-            
-    <p>One of my next goals in my <a href="http://hoverbear.org/tag/raft/">Raft</a> project is to tame the <code>tick()</code> with <a href="https://github.com/carllerche/mio"><code>mio</code></a>. In this post, we'll explore what it is, what it can do, and why it matters. First things first: What is MIO?</p>
+        
+            <p>One of my next goals in my <a rel="noopener" target="_blank" href="http://hoverbear.org/tag/raft/">Raft</a> project is to tame the <code>tick()</code> with <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio"><code>mio</code></a>. In this post, we'll explore what it is, what it can do, and why it matters. First things first: What is MIO?</p>
 <blockquote>
 <p>MIO is a lightweight IO library for Rust with a focus on adding as little overhead as possible over the OS abstractions.</p>
 </blockquote>
@@ -261,7 +265,7 @@ Message: 4, Total: 10
 <li>Each time on the channel increment it by that much.</li>
 </ul>
 <p>First, we'll modify the <code>BearHandler</code> to reflect these changes. First, we'll make it a proper <code>struct</code> and let it store a pair of sockets as well as it's <code>count</code>.</p>
-<p>Second, we'll implement the <code>readable</code>, <code>timeout</code>, and <code>notify</code>. Note in the <code>readable</code> we take care to drain the socket. Also, note how the <code>timeout</code> doesn't need to reset itself, we can clear it with <a href="https://carllerche.github.io/mio/mio/struct.EventLoop.html#method.clear_timeout"><code>clear_timeout</code></a> if we want.</p>
+<p>Second, we'll implement the <code>readable</code>, <code>timeout</code>, and <code>notify</code>. Note in the <code>readable</code> we take care to drain the socket. Also, note how the <code>timeout</code> doesn't need to reset itself, we can clear it with <a rel="noopener" target="_blank" href="https://carllerche.github.io/mio/mio/struct.EventLoop.html#method.clear_timeout"><code>clear_timeout</code></a> if we want.</p>
 <pre style="background-color:#2b303b;">
 <code>impl Handler&lt;Token, u64&gt; for BearHandler {
     fn readable(&amp;mut self, _reactor: &amp;mut EventLoop&lt;Token, u64&gt;, _token: Token, _hint: ReadHint) {
@@ -343,27 +347,27 @@ Decremented, Total: 0
 </blockquote>
 <h2 id="learn-more">Learn More</h2>
 <ul>
-<li>I found Wycats' <a href="https://github.com/wycats/mio-book"><code>mio-book</code></a> repo very useful.</li>
-<li>As always, the <a href="https://carllerche.github.io/mio/mio/index.html">docs</a> were a great help.</li>
-<li>This post is <a href="https://www.reddit.com/r/rust/comments/2xvtll/getting_acquainted_with_mio/"><strong>discussed on Reddit</strong></a>.</li>
-<li>This post is also <a href="https://news.ycombinator.com/item?id=9143255"><strong>discussed on Hacker News</strong></a>!</li>
+<li>I found Wycats' <a rel="noopener" target="_blank" href="https://github.com/wycats/mio-book"><code>mio-book</code></a> repo very useful.</li>
+<li>As always, the <a rel="noopener" target="_blank" href="https://carllerche.github.io/mio/mio/index.html">docs</a> were a great help.</li>
+<li>This post is <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2xvtll/getting_acquainted_with_mio/"><strong>discussed on Reddit</strong></a>.</li>
+<li>This post is also <a rel="noopener" target="_blank" href="https://news.ycombinator.com/item?id=9143255"><strong>discussed on Hacker News</strong></a>!</li>
 </ul>
 <h2 id="help-out">Help Out!</h2>
-<p>We're tracking progress on integrating MIO into Raft with <a href="https://github.com/Hoverbear/raft/issues/6">this issue</a>. Feel free to weigh in or help out!</p>
+<p>We're tracking progress on integrating MIO into Raft with <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/6">this issue</a>. Feel free to weigh in or help out!</p>
 <blockquote>
-<p>A <strong>huge</strong> thanks to <a href="https://github.com/Hoverbear/raft/commits/master?author=danburkert"><strong>@danburkert</strong></a> for their contributions this week!</p>
+<p>A <strong>huge</strong> thanks to <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/commits/master?author=danburkert"><strong>@danburkert</strong></a> for their contributions this week!</p>
 </blockquote>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

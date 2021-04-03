@@ -49,7 +49,8 @@ async.auto() is a function offered by the libary which allows you to declare a s
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ async.auto() is a function offered by the libary which allows you to declare a s
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Async Auto</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,12 +102,11 @@ async.auto() is a function offered by the libary which allows you to declare a s
 
     </div>
 </header>
-
-        <main>
-            
-            
-    <p>I've been exploring the handy <a href="https://github.com/caolan/async"><code>async</code></a> over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.</p>
-<p><a href="https://github.com/caolan/async#autotasks-callback"><code>async.auto()</code></a> is a function offered by the libary which allows you to declare a set of tasks and their dependencies, then the library determines the best way to compose the initialization.</p>
+    <main>
+        
+        
+            <p>I've been exploring the handy <a rel="noopener" target="_blank" href="https://github.com/caolan/async"><code>async</code></a> over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.</p>
+<p><a rel="noopener" target="_blank" href="https://github.com/caolan/async#autotasks-callback"><code>async.auto()</code></a> is a function offered by the libary which allows you to declare a set of tasks and their dependencies, then the library determines the best way to compose the initialization.</p>
 <span id="continue-reading"></span>
 <p>Consider the following dependency graph:</p>
 <figure class="enriched ">
@@ -156,18 +160,18 @@ async.auto() is a function offered by the libary which allows you to declare a s
 <p>The result values of any task which another depends on are populated into the <code>results</code> parameter.</p>
 <p>Finally, the <code>listen</code> function accepts a final <code>(error, results)</code>. Note it's called as soon as <strong>any</strong> task returns an error, so always make sure to handle errors. Finally, <code>results</code> will have all of the return values of the tasks which were composed.</p>
 <p>This provides a compelling way to handle composability and dependencies without having to deal with complex callback changes. Functions will be invoked as their dependencies are resolved, and it's easy to add or remove dependencies, changing what's available in <code>results</code>.</p>
-<p>Give this pattern a try, it's especially useful when combined with other functions available in <code>async</code>, like <a href="https://github.com/caolan/async#seq"><code>async.seq</code></a>.</p>
+<p>Give this pattern a try, it's especially useful when combined with other functions available in <code>async</code>, like <a rel="noopener" target="_blank" href="https://github.com/caolan/async#seq"><code>async.seq</code></a>.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

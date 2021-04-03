@@ -49,7 +49,8 @@ As a result of Raft development two new crates have been put together for genera
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ As a result of Raft development two new crates have been put together for genera
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: New Crates!</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ As a result of Raft development two new crates have been put together for genera
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -126,8 +130,8 @@ As a result of Raft development two new crates have been put together for genera
         </ol>
     </nav>
 
-            
-    <p>We've been resoundingly busy with our <a href="http://raftconsensus.github.io/">Raft</a> implementation after a brief period of calm in the early summer! I'll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!</p>
+        
+            <p>We've been resoundingly busy with our <a rel="noopener" target="_blank" href="http://raftconsensus.github.io/">Raft</a> implementation after a brief period of calm in the early summer! I'll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!</p>
 <p>As a result of Raft development two new crates have been put together for general consumption! Both of these are macro-centric and lead mainly by James.</p>
 <span id="continue-reading"></span><h2 id="a-useful-error-pattern">A Useful Error Pattern</h2>
 <p>Working with Raft we discovered a useful error pattern for making use of things like <code>try!()</code>. Let's quickly recap on why error handling can be a pain sometimes.</p>
@@ -141,7 +145,7 @@ As a result of Raft development two new crates have been put together for genera
 }
 </span></code></pre>
 <p>But wait! There is a problem here! The first <code>try!()</code> and the second <code>try!()</code> have <em>different errors</em> that they might return. <strong>This won't work.</strong> Even worse, in a sufficiently complex library or application there can be many <code>Error</code> types in play!</p>
-<p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
+<p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a rel="noopener" target="_blank" href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#65737e;">/// A simple convienence type.
 </span><span style="color:#b48ead;">pub type </span><span style="color:#c0c5ce;">Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
@@ -173,12 +177,12 @@ As a result of Raft development two new crates have been put together for genera
 }
 </span></code></pre>
 <p>With this machinery in place our previous example starts to work, fantastic! This has saved us so much headache and complication in our code. Want it? Click one of the badges below!</p>
-<p><a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/v/wrapped_enum.svg" alt="" /></a>
-<a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/d/wrapped_enum.svg" alt="" /></a></p>
+<p><a rel="noopener" target="_blank" href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/v/wrapped_enum.svg" alt="" /></a>
+<a rel="noopener" target="_blank" href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/d/wrapped_enum.svg" alt="" /></a></p>
 <h2 id="scoped-logging">Scoped Logging</h2>
-<p>Okay, let's take a minute to remember how frigging awesome the <a href="https://crates.io/crates/log"><code>log</code></a> crate is. If you've got a project, large or small, this crate is super handy for helping trace, debug, and log whatever you need and to do it only when needed! The best part about the log crate is that when logs are off it's a simple <code>noop</code>.</p>
+<p>Okay, let's take a minute to remember how frigging awesome the <a rel="noopener" target="_blank" href="https://crates.io/crates/log"><code>log</code></a> crate is. If you've got a project, large or small, this crate is super handy for helping trace, debug, and log whatever you need and to do it only when needed! The best part about the log crate is that when logs are off it's a simple <code>noop</code>.</p>
 <p>One problem we identified, however, was that sometimes it was very difficult to identify the source of a log message. Asking &quot;Did it come from <code>foo</code> or <code>bar</code>?&quot; is only fun so many times.</p>
-<p>James and Dan put together the <a href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
+<p>James and Dan put together the <a rel="noopener" target="_blank" href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
 <p>When we use this crate with tests (which makes it all that much more awesome!) we use the following macro.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#65737e;">/// Prepares the environment testing. Should be called as the first line of every test with the
@@ -202,24 +206,24 @@ INFO:raft::replica: test_election_5: transitioning to Candidate
 DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
 </span></code></pre>
 <p>Much more context that we <em>barely</em> have to tool. Fantastic! This crate even maintains the same <code>noop</code> characteristic of the <code>log</code> crate which it heavily relies on. Want it?</p>
-<p><a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/v/scoped_log.svg" alt="" /></a>
-<a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/d/scoped_log.svg" alt="" /></a></p>
+<p><a rel="noopener" target="_blank" href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/v/scoped_log.svg" alt="" /></a>
+<a rel="noopener" target="_blank" href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/d/scoped_log.svg" alt="" /></a></p>
 <h2 id="travis-cargo">Travis &amp; Cargo!</h2>
-<p>If you've read any of my other articles you probably know I <strong>love</strong> tooling and automation. After my <a href="http://hoverbear.org/2015/03/07/rust-travis-github-pages/">Rust, Travis, and Github Pages</a> article <a href="https://github.com/huonw">Huon</a> created the fantastic <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a> tool! It's incredible!</p>
+<p>If you've read any of my other articles you probably know I <strong>love</strong> tooling and automation. After my <a rel="noopener" target="_blank" href="http://hoverbear.org/2015/03/07/rust-travis-github-pages/">Rust, Travis, and Github Pages</a> article <a rel="noopener" target="_blank" href="https://github.com/huonw">Huon</a> created the fantastic <a rel="noopener" target="_blank" href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a> tool! It's incredible!</p>
 <p>With its help we've moved to a <code>sudo</code>-less build and overall things work much better. I'll talk more about out tooling and infrastructure in a later post!</p>
 <h1 id="aside-contributors">Aside: Contributors!!!</h1>
-<p>We now have 3 whole code contributors to Raft! This includes <a href="https://github.com/danburkert">Dan Burkert</a>, <a href="https://github.com/james-darkfox">James McGlashan</a>, and <a href="https://github.com/hoverbear/">myself</a> (Ana Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!</p>
+<p>We now have 3 whole code contributors to Raft! This includes <a rel="noopener" target="_blank" href="https://github.com/danburkert">Dan Burkert</a>, <a rel="noopener" target="_blank" href="https://github.com/james-darkfox">James McGlashan</a>, and <a rel="noopener" target="_blank" href="https://github.com/hoverbear/">myself</a> (Ana Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

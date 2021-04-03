@@ -56,7 +56,8 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Eric Parks</figcaption>
         <img srcset="
@@ -72,25 +73,29 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Setting up a Rust Development Environment</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -104,9 +109,8 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -195,8 +199,8 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
         </ol>
     </nav>
 
-            
-    <p>In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:</p>
+        
+            <p>In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:</p>
 <ul>
 <li>Setting up Rust via Rustup.</li>
 <li>Valuable tools like <code>clippy</code> and <code>rustfmt</code>.</li>
@@ -208,7 +212,7 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
 <span id="continue-reading"></span>
 <p>In order to finish this all up you'll need to have the <code>build-essentials</code> (Ubuntu/Debian), <code>base-devel</code> (Arch), or XCode (Mac) installed already.</p>
 <h2 id="setting-up-rust-via-rustup">Setting up Rust via Rustup</h2>
-<p><a href="https://rustup.rs/">Rustup</a> is an official Rust project that allows us to install, manage, and update multiple Rust toolchains. It can be installed easily via:</p>
+<p><a rel="noopener" target="_blank" href="https://rustup.rs/">Rustup</a> is an official Rust project that allows us to install, manage, and update multiple Rust toolchains. It can be installed easily via:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl</span><span style="color:#c0c5ce;"> https://sh.rustup.rs</span><span style="color:#bf616a;"> -sSf </span><span style="color:#c0c5ce;">| </span><span style="color:#bf616a;">sh
 </span></code></pre>
@@ -250,10 +254,10 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
 <h2 id="valuable-tools">Valuable Tools</h2>
 <p>We'll cover four valuable tools for working with Rust:</p>
 <ul>
-<li><a href="https://github.com/Manishearth/rust-clippy"><code>rust-clippy</code></a> - A linter.</li>
-<li><a href="https://github.com/rust-lang-nursery/rustfmt"><code>rustfmt</code></a> - A code formatter.</li>
-<li><a href="https://github.com/phildawes/racer"><code>racer</code></a> - An autocompletion utility.</li>
-<li><a href="https://github.com/rust-lang-nursery/rls"><code>rls</code></a> - A language server (for symbol search etc.)</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/Manishearth/rust-clippy"><code>rust-clippy</code></a> - A linter.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang-nursery/rustfmt"><code>rustfmt</code></a> - A code formatter.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/phildawes/racer"><code>racer</code></a> - An autocompletion utility.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang-nursery/rls"><code>rls</code></a> - A language server (for symbol search etc.)</li>
 </ul>
 <h3 id="rust-clippy"><code>rust-clippy</code></h3>
 <p><strong>Why do we want this?</strong> The Rust compiler is already quite strict, <code>clippy</code> goes a step further and helps prevent some things which are valid but bad practice. This can help prevent unexpected problems later in your code.</p>
@@ -284,7 +288,7 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
   = note: #[warn(no_effect)] on by default
   = help: for further information visit https://github.com/Manishearth/rust-clippy/wiki#no_effect
 </span></code></pre>
-<p>Excellent. You can see the different lints which <code>clippy</code> detects <a href="https://github.com/Manishearth/rust-clippy#lints">here</a>. You can configure various lints in the <code>clippy.toml</code> according to their options listed in the wiki.</p>
+<p>Excellent. You can see the different lints which <code>clippy</code> detects <a rel="noopener" target="_blank" href="https://github.com/Manishearth/rust-clippy#lints">here</a>. You can configure various lints in the <code>clippy.toml</code> according to their options listed in the wiki.</p>
 <p>To disable (or warn instead of deny) various lints you can add the <code>deny</code> and <code>allow</code> flags to your crate attributes:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">#![</span><span style="color:#bf616a;">cfg_attr</span><span style="color:#c0c5ce;">(feature = &quot;</span><span style="color:#a3be8c;">cargo-clippy</span><span style="color:#c0c5ce;">&quot;, </span><span style="color:#bf616a;">deny</span><span style="color:#c0c5ce;">(empty_enum))]
@@ -330,7 +334,7 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
 <p>You should see several matches from this. At this point <code>racer</code> is set up and ready to be used in your editor or with <code>rls</code>.</p>
 <h3 id="rls"><code>rls</code></h3>
 <p><strong>Why do we want this?</strong> It enables a much richer development experience and extends on the capabilities of <code>racer</code>.</p>
-<p><code>rls</code> is a <a href="http://langserver.org/">language server</a> implementation for Rust. It provides things like code completion, goto definitions, rich refactoring, and some other nice features.</p>
+<p><code>rls</code> is a <a rel="noopener" target="_blank" href="http://langserver.org/">language server</a> implementation for Rust. It provides things like code completion, goto definitions, rich refactoring, and some other nice features.</p>
 <p>To install <code>rls</code> we need to use Rustup, specifying the appropriate toolchain when we do. (Macs use <code>nightly-x86_64-apple-darwin</code>, Linux should be <code>nightly-x86_64-unknown-linux-gnu</code>) If you don't use VS Code it might be worth skipping this step for now.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rustup</span><span style="color:#c0c5ce;"> component add rls</span><span style="color:#bf616a;"> --toolchain</span><span style="color:#c0c5ce;"> nightly-x86_64-apple-darwin
@@ -352,12 +356,12 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
 <blockquote>
 <p>You may use a different editor, and that's totally fine. Have at! I still regularly reach for <code>vim</code> for minor edits and some of my colleagues quite enjoy their <code>emacs</code>. Diversity is good, use what is best for you and let others use what is best for them.</p>
 </blockquote>
-<p>First, let's download VS Code. Drop over to <a href="https://code.visualstudio.com/">their website</a> and grab the installer. I'm a bit silly and use the 'Insiders' version that is released nightly, but you don't need to.</p>
+<p>First, let's download VS Code. Drop over to <a rel="noopener" target="_blank" href="https://code.visualstudio.com/">their website</a> and grab the installer. I'm a bit silly and use the 'Insiders' version that is released nightly, but you don't need to.</p>
 <p>In order to run <code>code</code> from the command line we may need to open up VS Code and open the 'Command Palette' with <code>Shift+Command+P</code> on Mac, or <code>Shift+Control+P</code> on Linux. In it, enter <code>shell command</code> and look for the <code>Shell Command: Install 'code' command in PATH</code> option. After doing this any new shell we open should be able to run <code>code</code>.</p>
 <h3 id="extension-rust">Extension: Rust</h3>
 <p>The 'Rust' extension provides some helpers around build, formatting, and other useful things. It can be installed by selecting the bottom 'Box with border and smaller box in the top right corner' button on the sidebar and searching for 'Rust'. You can take a look at the readme before you install.</p>
 <h3 id="extension-rls-vscode">Extension: <code>rls_vscode</code></h3>
-<p>We'll need <code>node</code> installed, you can do this via your package manager (If you're on a Mac <a href="https://brew.sh/"><code>brew</code></a> works great.)</p>
+<p>We'll need <code>node</code> installed, you can do this via your package manager (If you're on a Mac <a rel="noopener" target="_blank" href="https://brew.sh/"><code>brew</code></a> works great.)</p>
 <p>Once this is done we can install the <code>rls_vscode</code> extension. Since <code>rls</code> isn't released yet we need to do all the fun work ourselves! Nagivate to your regular <code>git</code> directory and clone the repository and install its dependencies.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/jonathandturner/rls_vscode.git
@@ -471,7 +475,7 @@ Process 8376 stopped
     </figure>
 <h2 id="compiling-to-different-targets">Compiling to Different Targets</h2>
 <p>So far we've been building <code>x86_64-apple-darwin</code>. If we were using Linux we'd be building <code>x86_64-unknown-linux-gnu</code> most likely. Let's target <code>asmjs-unknown-emscripten</code> (that is, Javascript) for fun.</p>
-<p>First we need to install the <code>emcripten</code> package. On Mac this can be found in <code>brew</code> via <code>brew install emscripten</code>, some Linux distributions also package <code>emscripten</code>, but you can also set it up via the guide <a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">here</a>.</p>
+<p>First we need to install the <code>emcripten</code> package. On Mac this can be found in <code>brew</code> via <code>brew install emscripten</code>, some Linux distributions also package <code>emscripten</code>, but you can also set it up via the guide <a rel="noopener" target="_blank" href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">here</a>.</p>
 <p>Next install the target with <code>rustup</code>:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rustup</span><span style="color:#c0c5ce;"> target add asmjs-unknown-emscripten
@@ -499,21 +503,21 @@ false
 <h2 id="closing-thoughts">Closing Thoughts</h2>
 <p>At this point we have a functional Rust development environment that can target our native system as well as asm.js. Our editor supports debugging and has nice features like autocomplete. Finally, we have handy tools like <code>clippy</code> to help us detect errors.</p>
 <p>Some of the tools and extensions we're using are still alpha, or don't work perhaps as well as we might hope, but things are only getting better! If you're interested, you can even get involved with these different projects to help them be even more awesome. Every few weeks you can go and do a quick update of things and see the improvements.</p>
-<p>Now, we don't have any excuses <em>not</em> to have fun with Rust! Why not find something that looks interesting and try to make your first PR? Can't find something? Check out <a href="https://www.reddit.com/r/rust/">/r/rust</a> and look at the projects people are talking about, look at the <code>E - Easy</code> issues on <a href="https://github.com/rust-lang/rust/labels/E-easy"><code>rustc</code></a>, or tackle something small from <a href="https://github.com/Hoverbear/rust-rosetta"><code>rust-rosetta</code></a>!</p>
+<p>Now, we don't have any excuses <em>not</em> to have fun with Rust! Why not find something that looks interesting and try to make your first PR? Can't find something? Check out <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/">/r/rust</a> and look at the projects people are talking about, look at the <code>E - Easy</code> issues on <a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust/labels/E-easy"><code>rustc</code></a>, or tackle something small from <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/rust-rosetta"><code>rust-rosetta</code></a>!</p>
 <blockquote>
-<p>Thanks to <a href="http://asquera.de/">Asquera</a> for allocating some time for me to write this! The same article is hosted <a href="http://asquera.de/blog/2017-03-03/setting-up-a-rust-devenv/">here</a> as well!</p>
+<p>Thanks to <a rel="noopener" target="_blank" href="http://asquera.de/">Asquera</a> for allocating some time for me to write this! The same article is hosted <a rel="noopener" target="_blank" href="http://asquera.de/blog/2017-03-03/setting-up-a-rust-devenv/">here</a> as well!</p>
 </blockquote>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

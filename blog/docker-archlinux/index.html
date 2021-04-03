@@ -50,7 +50,8 @@ With nothing broken, I knew I only had one choice. I had to improve it!
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo</figcaption>
         <img srcset="
@@ -66,25 +67,29 @@ With nothing broken, I knew I only had one choice. I had to improve it!
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Arch Linux on Docker Revisited</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -98,9 +103,8 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -122,16 +126,16 @@ With nothing broken, I knew I only had one choice. I had to improve it!
         </ol>
     </nav>
 
-            
-    <p>Back in <a href="/2014/07/14/arch-docker-baseimage/">2014</a> when I was learning about <a href="https://docker.com">Docker</a> I got around to making a base image for <a href="http://archlinux.org/">Arch Linux</a>. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I'd highly suggest trying to make your own sometime!</p>
+        
+            <p>Back in <a href="/2014/07/14/arch-docker-baseimage/">2014</a> when I was learning about <a rel="noopener" target="_blank" href="https://docker.com">Docker</a> I got around to making a base image for <a rel="noopener" target="_blank" href="http://archlinux.org/">Arch Linux</a>. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I'd highly suggest trying to make your own sometime!</p>
 <p>Docker has matured a lot since, and I've enjoyed following it. I took some time this last week to revisit my Arch Linux image and ensure it's still functional. I wasn't surprised when the scripts continued to work just fine, even after two years.</p>
 <p>With nothing broken, I knew I only had one choice. <strong>I had to improve it!</strong></p>
 <span id="continue-reading"></span>
 <blockquote>
-<p>Want to get started? See it on the hub <a href="https://hub.docker.com/r/hoverbear/archlinux/">here</a>, Github <a href="https://github.com/Hoverbear/docker-archlinux">here</a>, or pull it down with <code>docker run --tty --interactive --rm hoverbear/archlinux /bin/bash</code> and play around.</p>
+<p>Want to get started? See it on the hub <a rel="noopener" target="_blank" href="https://hub.docker.com/r/hoverbear/archlinux/">here</a>, Github <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/docker-archlinux">here</a>, or pull it down with <code>docker run --tty --interactive --rm hoverbear/archlinux /bin/bash</code> and play around.</p>
 </blockquote>
 <h2 id="improvements">Improvements</h2>
-<p>I spent most of my time working on having the <a href="http://travis-ci.org/">Travis-CI</a> service be able to build and deploy new versions in an automated fashion. This was primarily, for me, a trust thing. I don't feel comfortable running containers I haven't seen the build process for, and you shouldn't either.</p>
+<p>I spent most of my time working on having the <a rel="noopener" target="_blank" href="http://travis-ci.org/">Travis-CI</a> service be able to build and deploy new versions in an automated fashion. This was primarily, for me, a trust thing. I don't feel comfortable running containers I haven't seen the build process for, and you shouldn't either.</p>
 <p>While the Docker Hub has &quot;Automated&quot; builds there doesn't seem to be much of a solution for having trusted base images, only images built via a <code>Dockerfile</code>. Perhaps there is a way to scheme and subvert this via the <code>scratch</code> image but I did not find this avenue enjoyable.</p>
 <p>Thankfully, Travis did this job stellarly after a few hiccups. The biggest problem was that Travis runs a version of Ubuntu LTS and the <em>normal</em> Arch install process assumes it's happening on a relatively recent Linux, if not Arch itself.</p>
 <p>I got around this problem in a slightly dirty way and pinned recent versions of the necessary packages, then upgraded the host into a (slightly terrifying) abomination. I'd like to find a cleaner way of doing this, possibly from inside of a <code>docker</code> container like in the <code>Makefile</code>.</p>
@@ -183,20 +187,20 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -t -i --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/source rust cargo build
 </span></code></pre>
-<p>You can even get this image <a href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
+<p>You can even get this image <a rel="noopener" target="_blank" href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>I hope you have a great time using this image and please let me know if there is any way I can make it better!</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

@@ -49,7 +49,8 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Rust, Travis, and Github Pages</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -141,11 +145,11 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
         </ol>
     </nav>
 
-            
-    <p><a href="http://rust-lang.org/">Rust</a> is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They're pursuing the trifecta: <em>Safe, Fast, Concurrent.</em> It's been a great learning journey for me so far and I learnt to write better code in <strong>all</strong> languages.</p>
-<p><a href="https://pages.github.com/">Github Pages</a> is Github's very generous offering of web hosting to your projects. Basically, you create a branch <code>gh-pages</code> and push it to Github, then browse to <a href="https://hoverbear.github.io/raft"><code>https://$USERNAME.github.io/$REPOSITORY</code></a>.</p>
+        
+            <p><a rel="noopener" target="_blank" href="http://rust-lang.org/">Rust</a> is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They're pursuing the trifecta: <em>Safe, Fast, Concurrent.</em> It's been a great learning journey for me so far and I learnt to write better code in <strong>all</strong> languages.</p>
+<p><a rel="noopener" target="_blank" href="https://pages.github.com/">Github Pages</a> is Github's very generous offering of web hosting to your projects. Basically, you create a branch <code>gh-pages</code> and push it to Github, then browse to <a rel="noopener" target="_blank" href="https://hoverbear.github.io/raft"><code>https://$USERNAME.github.io/$REPOSITORY</code></a>.</p>
 <span id="continue-reading"></span>
-<p><a href="https://travis-ci.org/">TravisCI</a> offers free continuous integration for open-source projects. It's even integrated with <a href="http://www.rust-ci.org/">rust-ci</a>. I've had a great experience with the service. They're also the source of the little build status buttons like this one <a href="https://travis-ci.org/Hoverbear/raft"><img src="https://travis-ci.org/Hoverbear/raft.svg?branch=master" alt="Build Status" /></a>.</p>
+<p><a rel="noopener" target="_blank" href="https://travis-ci.org/">TravisCI</a> offers free continuous integration for open-source projects. It's even integrated with <a rel="noopener" target="_blank" href="http://www.rust-ci.org/">rust-ci</a>. I've had a great experience with the service. They're also the source of the little build status buttons like this one <a rel="noopener" target="_blank" href="https://travis-ci.org/Hoverbear/raft"><img src="https://travis-ci.org/Hoverbear/raft.svg?branch=master" alt="Build Status" /></a>.</p>
 <p>Today, we'll talk about how to set up your very own Rust project to:</p>
 <ul>
 <li>Automagically build and test your project.</li>
@@ -173,7 +177,7 @@ fn it_works() {
 }
 </code></pre>
 <blockquote>
-<p>If you haven't had a chance to learn about <code>rustdoc</code> you can read about it <a href="http://doc.rust-lang.org/book/documentation.html">here</a>.</p>
+<p>If you haven't had a chance to learn about <code>rustdoc</code> you can read about it <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/book/documentation.html">here</a>.</p>
 </blockquote>
 <p>Now you can run <code>cargo doc</code> and visit a url like <code>file:///Users/hoverbear/travis-demo/target/doc/travis-demo/</code> to view the generated documentation.</p>
 <figure class="enriched ">
@@ -196,7 +200,7 @@ git commit -m &quot;Initial commit.&quot;
 git remote add origin git@github.com:Hoverbear/travis-demo.git
 git push -u origin master
 </code></pre><h2 id="starting-with-travis">Starting with Travis</h2>
-<p>First, you'll need to sign up with Travis. This is trivially done by visiting <a href="https://travis-ci.org/">TravisCI</a> and signing in with Github.</p>
+<p>First, you'll need to sign up with Travis. This is trivially done by visiting <a rel="noopener" target="_blank" href="https://travis-ci.org/">TravisCI</a> and signing in with Github.</p>
 <p>Then, visit your profile by clicking on your name in the top right corner.</p>
 <figure class="enriched ">
         <figcaption>How to get to your profile.</figcaption>
@@ -219,9 +223,9 @@ git push -u origin master
 <p>Feel encouraged to take a moment to click on the wrench and explore the options Travis offers. We'll play with them in a minute!</p>
 <h2 id="set-up-your-repository">Set up your Repository</h2>
 <blockquote>
-<p>KMC offers us a <a href="https://github.com/kmcallister/travis-doc-upload/blob/master/README.md">more secure approach</a> for users who do not wish to permit Travis to push to their repositories.</p>
+<p>KMC offers us a <a rel="noopener" target="_blank" href="https://github.com/kmcallister/travis-doc-upload/blob/master/README.md">more secure approach</a> for users who do not wish to permit Travis to push to their repositories.</p>
 </blockquote>
-<p>Travis uses a <code>.travis.yml</code> to configure how it works. You can read more about it <a href="http://docs.travis-ci.com/user/build-configuration/">here</a>.</p>
+<p>Travis uses a <code>.travis.yml</code> to configure how it works. You can read more about it <a rel="noopener" target="_blank" href="http://docs.travis-ci.com/user/build-configuration/">here</a>.</p>
 <p>We can add the following to ours:</p>
 <pre style="background-color:#2b303b;">
 <code>language: rust
@@ -272,7 +276,7 @@ after_success: |
               alt="Token Creation Screen" />
     </figure>
 <p>Once you hit &quot;Generate Token&quot; you'll return to the previous page and see a green highlighted key. <strong>Copy that, you won't see it again!</strong></p>
-<p>Now, install the <a href="https://github.com/travis-ci/travis.rb#installation">Travis Gem</a>. Then you need to authenticate using <code>travis login</code> using your Github credentials.</p>
+<p>Now, install the <a rel="noopener" target="_blank" href="https://github.com/travis-ci/travis.rb#installation">Travis Gem</a>. Then you need to authenticate using <code>travis login</code> using your Github credentials.</p>
 <p>Once Travis is installed and logged in, you can run this, where <code>$YOUR_TOKEN</code> is the one we copied earlier.</p>
 <pre style="background-color:#2b303b;">
 <code>travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
@@ -286,7 +290,7 @@ after_success: |
 git commit -m &quot;Add Travis&quot;
 git push
 </code></pre>
-<p>Now if you visit <a href="https://travis-ci.org/repositories"><code>https://travis-ci.org/repositories</code></a> you should, eventually, see your build pop up! Note that Travis can take a moment to start a build.</p>
+<p>Now if you visit <a rel="noopener" target="_blank" href="https://travis-ci.org/repositories"><code>https://travis-ci.org/repositories</code></a> you should, eventually, see your build pop up! Note that Travis can take a moment to start a build.</p>
 <p>Your build should look similar to the following:</p>
 <figure class="enriched ">
         <figcaption>Example Build</figcaption>
@@ -319,7 +323,7 @@ git push
 <h2 id="tinkering-with-travis">Tinkering with Travis</h2>
 <p>Travis offers us some great options for configuring our output during tests.</p>
 <p>The first is <code>RUST_BACKTRACE</code>, we can set it to <code>1</code> to make Rust print out a stacktrace on a panic. This is particularly useful combined with <code>panic!()</code>, <code>unreachable!()</code> and <code>unimplemented!()</code> which you can use to structure failure modes in your programs.</p>
-<p>If you use <a href="https://github.com/rust-lang/log"><code>log</code> and <code>env-logger</code></a> you also might want to set <code>RUST_LOG</code>. I would definitely suggest limiting the logging to a specific crate as otherwise <code>rustc</code> and other libs will spout a considerable amount of output.</p>
+<p>If you use <a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>log</code> and <code>env-logger</code></a> you also might want to set <code>RUST_LOG</code>. I would definitely suggest limiting the logging to a specific crate as otherwise <code>rustc</code> and other libs will spout a considerable amount of output.</p>
 <figure class="enriched ">
         <figcaption>Setting ENV Variables</figcaption>
         <img srcset="
@@ -334,7 +338,7 @@ git push
               alt="Setting ENV Variables" />
     </figure>
 <h2 id="a-while-later">A While Later...</h2>
-<p>Try visiting <a href="https://hoverbear.github.io/raft/"><code>https://$YOUR_GITHUB_USER.github.io/$YOUR_REPO</code></a>. Did it work? Awesome!</p>
+<p>Try visiting <a rel="noopener" target="_blank" href="https://hoverbear.github.io/raft/"><code>https://$YOUR_GITHUB_USER.github.io/$YOUR_REPO</code></a>. Did it work? Awesome!</p>
 <p>Don't forget to add it to the repository page on Github!</p>
 <figure class="enriched ">
         <figcaption>Our new Repo</figcaption>
@@ -351,16 +355,16 @@ git push
     </figure>
 <p>Enjoy your new documentation! Your users will appreciate your documentation being up to date, you don't need to do it yourself, and later on you can hack this method to only handle commits to <code>stable</code> or other tags.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

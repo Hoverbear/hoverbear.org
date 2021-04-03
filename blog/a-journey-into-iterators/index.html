@@ -51,7 +51,8 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo</figcaption>
         <img srcset="
@@ -67,25 +68,29 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">A Journey into Iterators</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -99,9 +104,8 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -168,10 +172,10 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
         </ol>
     </nav>
 
-            
-    <p>One of my favorite features of Rust is iterators. They are a fast, safe, 'lazy' way of working with data structures, streams, and other more creative applications.</p>
+        
+            <p>One of my favorite features of Rust is iterators. They are a fast, safe, 'lazy' way of working with data structures, streams, and other more creative applications.</p>
 <blockquote>
-<p>You can play along on http://play.rust-lang.org/ and by browsing <a href="http://doc.rust-lang.org/core/iter/index.html">here</a>. This article is not a subtitute for the documentation or experience.</p>
+<p>You can play along on http://play.rust-lang.org/ and by browsing <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/index.html">here</a>. This article is not a subtitute for the documentation or experience.</p>
 </blockquote>
 <span id="continue-reading"></span><h2 id="our-first-iterator">Our First Iterator</h2>
 <p>Having everything twice as much is great, right? Let's take a set of values and double it!</p>
@@ -192,7 +196,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 <ul>
 <li><code>.iter()</code> can be used on many different types.</li>
 <li>Declare a value, <strong>then</strong> create an iterator over it. Otherwise, the value will not live long enough to be iterated over. (Iterators are lazy, and do not necessarily own their data.)</li>
-<li><code>.collect::&lt;Vec&lt;usize&gt;&gt;()</code> iterates over the entire iterator and places their values into the type of data collection we specify. (If you feel like writing your own data structure, have a look at <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html#tymethod.from_iter">this</a>.)</li>
+<li><code>.collect::&lt;Vec&lt;usize&gt;&gt;()</code> iterates over the entire iterator and places their values into the type of data collection we specify. (If you feel like writing your own data structure, have a look at <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html#tymethod.from_iter">this</a>.)</li>
 <li>It can be used and chained! You don't necessarily need to <code>.collect()</code> values at the end of a <code>.map()</code> call.</li>
 </ul>
 <h2 id="n-at-a-time"><code>n</code> at a Time</h2>
@@ -252,7 +256,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 </span><span style="color:#65737e;">// Outputs [1, 2, 3, 1, 2, 3, 1, 2, 3]
 </span></code></pre><h2 id="something-in-common">Something In Common</h2>
 <p>Don't get hung up thinking that <code>[1, 2, 3]</code> and it's ilk are the only things you can use iterators on.</p>
-<p>Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement <a href="http://doc.rust-lang.org/std/?search=iter%28%29"><code>iter()</code></a>.</p>
+<p>Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/?search=iter%28%29"><code>iter()</code></a>.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::VecDeque;
 
@@ -269,7 +273,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 }
 </span><span style="color:#65737e;">// Outputs [2, 4, 6]
 </span></code></pre>
-<p>Notice how here we collect into a VecDeque? That's because it implements <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>.</p>
+<p>Notice how here we collect into a VecDeque? That's because it implements <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>.</p>
 <p>Now you're probably thinking, <em>&quot;Ah hah! I bet you can't use a HashMap or tree or something, Hoverbear!&quot;</em> Well, you're wrong! You can!</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
@@ -323,9 +327,9 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 <blockquote>
 <p>Try changing the <code>current</code> and <code>.take()</code> values.</p>
 </blockquote>
-<p>See how we could use <code>.take()</code> and other functions without having to implement them separately for our new iterator? If you look at <a href="http://doc.rust-lang.org/core/iter/index.html#traits">the docs</a> of for <code>iter</code> you'll see that there are various traits like <a href="http://doc.rust-lang.org/core/iter/trait.Iterator.html"><code>Iterator</code></a>, <a href="http://doc.rust-lang.org/core/iter/trait.RandomAccessIterator.html"><code>RandomAccessIterator</code></a>.</p>
+<p>See how we could use <code>.take()</code> and other functions without having to implement them separately for our new iterator? If you look at <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/index.html#traits">the docs</a> of for <code>iter</code> you'll see that there are various traits like <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/trait.Iterator.html"><code>Iterator</code></a>, <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/trait.RandomAccessIterator.html"><code>RandomAccessIterator</code></a>.</p>
 <h2 id="out-on-the-range-with-ranges">Out on the Range with Ranges</h2>
-<p>Throughout the following examples you'll see use of the <code>x..y</code> syntax. This creates a <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a>. They implement <code>Iterator</code>	so we don't need to call <code>.iter()</code> on them. You can also use <code>(0..100).step_by(2)</code> if you want to use specific step increments if you're using them as <code>Iterator</code>s.</p>
+<p>Throughout the following examples you'll see use of the <code>x..y</code> syntax. This creates a <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a>. They implement <code>Iterator</code>	so we don't need to call <code>.iter()</code> on them. You can also use <code>(0..100).step_by(2)</code> if you want to use specific step increments if you're using them as <code>Iterator</code>s.</p>
 <p>Note that they are open ended, and not inclusive.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">5 </span><span style="color:#c0c5ce;">== [ </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, ]
@@ -345,7 +349,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 // [7, 8, 9]
 </span></code></pre>
 <blockquote>
-<p>Gotcha: Using <code>.step_by()</code> doesn't work this way since <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/struct.StepBy.html"><code>StepBy</code></a> doesn't implement <code>Idx</code> and <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a> does.</p>
+<p>Gotcha: Using <code>.step_by()</code> doesn't work this way since <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/struct.StepBy.html"><code>StepBy</code></a> doesn't implement <code>Idx</code> and <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a> does.</p>
 </blockquote>
 <h2 id="chaining-and-zipping">Chaining and Zipping</h2>
 <p>Putting together interators in various ways allows for some very nice, expressive code.</p>
@@ -365,7 +369,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 </span><span style="color:#65737e;">// Chained: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 // Zipped: [(0, 5), (1, 6), (2, 7), (3, 8), (4, 9)]
 </span></code></pre>
-<p><code>.zip()</code> allows you to merge iterators, while <code>.chain()</code> effectively creates an &quot;extended&quot; iterator. Yes, there is an <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.Iterator.html#method.unzip"><code>.unzip()</code></a>.</p>
+<p><code>.zip()</code> allows you to merge iterators, while <code>.chain()</code> effectively creates an &quot;extended&quot; iterator. Yes, there is an <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.Iterator.html#method.unzip"><code>.unzip()</code></a>.</p>
 <blockquote>
 <p>Try using <code>.zip()</code> on two <code>usize</code> slices then <code>.collect()</code> the resulting tuples to build up a HashMap.</p>
 </blockquote>
@@ -442,8 +446,8 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 </span></code></pre>
 <p>The ability to approach problems like this in multiple ways allows Rust to be quite flexible and expressive.</p>
 <h2 id="split-scan">Split &amp; Scan</h2>
-<p>There is also <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.scan"><code>scan</code></a> if you need a variation of folding which yeilds the result each time. This is useful if you're waiting for a certain accumulated amount and wish to check on each iteration.</p>
-<p>Splitting an iterator up into two parts is possible. You can just use a simple grouping function that returns a boolean with <a href="https://doc.rust-lang.org/std/iter/trait.aIterator.html#method.partition"><code>partition</code></a>.</p>
+<p>There is also <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.scan"><code>scan</code></a> if you need a variation of folding which yeilds the result each time. This is useful if you're waiting for a certain accumulated amount and wish to check on each iteration.</p>
+<p>Splitting an iterator up into two parts is possible. You can just use a simple grouping function that returns a boolean with <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.aIterator.html#method.partition"><code>partition</code></a>.</p>
 <p>Let's use the two concepts to split up a big slice, group it be evens and odds, then progressively sum them up and make sure that the some of the evens is always less than the sum of the odds. (This is because <code>even</code> starts at 0.)</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
@@ -459,7 +463,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 // Even was always less: true
 </span></code></pre>
 <p>Scanning can be used to provide things like a moving average. This is useful when reading through files, data, and sensors. Partitioning is a common task when shuffling through data.</p>
-<p>Another common goal is to group elements together based on a specific value. Now, if you're expecting something like <a href="https://lodash.com/docs#groupBy"><code>_.groupBy()</code></a> from Lodash it's not quite that simple. Consider: Rust has <code>BTreeMap</code>, <code>HashMap</code>, <code>VecMap</code>, and other data types, our grouping method should not be opinionated.</p>
+<p>Another common goal is to group elements together based on a specific value. Now, if you're expecting something like <a rel="noopener" target="_blank" href="https://lodash.com/docs#groupBy"><code>_.groupBy()</code></a> from Lodash it's not quite that simple. Consider: Rust has <code>BTreeMap</code>, <code>HashMap</code>, <code>VecMap</code>, and other data types, our grouping method should not be opinionated.</p>
 <p>To use a simple example, let's make an infinite iterator that cycles from 0 to 5 inclusively. In your own code these could be complex structs or tuples, but for now, simple integers are fine. We'll group them into into three categories, 0s, 5s, and the rest.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::HashMap;
@@ -491,7 +495,7 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 <p>It's kind of pointless to store all those replicated values. Try having this example return the number of occurances instead of the values. As a further exploration try using this method on a more complex value like a <code>struct</code>, you can also change what keys are used.</p>
 </blockquote>
 <h2 id="flanked">Flanked</h2>
-<p>The <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> trait is useful for certain purposes. For example, when you need the behavior of both of queue and a stack.</p>
+<p>The <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> trait is useful for certain purposes. For example, when you need the behavior of both of queue and a stack.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
     </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> vals = </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">..</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">;
@@ -505,24 +509,24 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 // Some(1)
 // Some(8)
 </span></code></pre><h1 id="play-on-your-own">Play on your own!</h1>
-<p>This is a good time for you to take a break, get some tea, and crack open the <a href="https://play.rust-lang.org/">Playpen</a>. Try changing one of the above examples, fiddle with some new things in the API docs below, and generally have a good time.</p>
+<p>This is a good time for you to take a break, get some tea, and crack open the <a rel="noopener" target="_blank" href="https://play.rust-lang.org/">Playpen</a>. Try changing one of the above examples, fiddle with some new things in the API docs below, and generally have a good time.</p>
 <ul>
-<li><a href="http://doc.rust-lang.org/1.0.0-beta.3/std/collections/"><code>std::collections</code></a></li>
-<li><a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/index.html"><code>std::iter</code></a></li>
+<li><a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/collections/"><code>std::collections</code></a></li>
+<li><a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/index.html"><code>std::iter</code></a></li>
 </ul>
-<p>If you get stuck, don't panic! Try googling the error if it befuddles you, Rust has activity on the <code>*.rust-lang.org</code> domain as well as Github and Stack Exchange. You are also welcome to email me or visit us on <a href="https://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a>.</p>
+<p>If you get stuck, don't panic! Try googling the error if it befuddles you, Rust has activity on the <code>*.rust-lang.org</code> domain as well as Github and Stack Exchange. You are also welcome to email me or visit us on <a rel="noopener" target="_blank" href="https://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a>.</p>
 <p>We're just scratching the surface... A vast world awaits us.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

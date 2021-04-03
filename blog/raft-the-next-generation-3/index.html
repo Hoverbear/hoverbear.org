@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: Status Update</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -120,20 +124,20 @@
         </ol>
     </nav>
 
-            
-    <p>In order to celebrate the new <a href="http://blog.rust-lang.org/2015/04/03/Rust-1.0-beta.html">beta</a> release of Rust, and as part of reporting requirements for my class, I'm happy to write to you regarding <a href="https://github.com/hoverbear/raft">hoverbear/raft</a>!</p>
+        
+            <p>In order to celebrate the new <a rel="noopener" target="_blank" href="http://blog.rust-lang.org/2015/04/03/Rust-1.0-beta.html">beta</a> release of Rust, and as part of reporting requirements for my class, I'm happy to write to you regarding <a rel="noopener" target="_blank" href="https://github.com/hoverbear/raft">hoverbear/raft</a>!</p>
 <span id="continue-reading"></span><h1 id="a-recap">A Recap</h1>
-<p>In January, 2015, a undergraduate (me) at the University of Victoria set out on a quest to implement the <a href="http://raftconsensus.github.io/">Raft Consensus Algorithm</a> in Rust, an experimental language in shepherded by Mozilla Research.</p>
-<p>If you don't know what Raft is, please take a look at <a href="http://thesecretlivesofdata.com/raft/">the secret lives of data</a>. If you don't know what Rust is, please feel encouraged to follow along at <a href="http://doc.rust-lang.org/nightly/intro.html">the intro</a>.</p>
-<p>Back in february I had a <a href="http://hoverbear.org/2015/02/24/raft-update-3/">first prototype</a> working. It was a partial implementation and some subtle logic flaws have been found in the reworking of the code.</p>
+<p>In January, 2015, a undergraduate (me) at the University of Victoria set out on a quest to implement the <a rel="noopener" target="_blank" href="http://raftconsensus.github.io/">Raft Consensus Algorithm</a> in Rust, an experimental language in shepherded by Mozilla Research.</p>
+<p>If you don't know what Raft is, please take a look at <a rel="noopener" target="_blank" href="http://thesecretlivesofdata.com/raft/">the secret lives of data</a>. If you don't know what Rust is, please feel encouraged to follow along at <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/nightly/intro.html">the intro</a>.</p>
+<p>Back in february I had a <a rel="noopener" target="_blank" href="http://hoverbear.org/2015/02/24/raft-update-3/">first prototype</a> working. It was a partial implementation and some subtle logic flaws have been found in the reworking of the code.</p>
 <blockquote>
-<p>You can play with the very first prototype <a href="https://github.com/hoverbear/raft/tree/first-prototype">here</a> updated for a recent nightly.</p>
+<p>You can play with the very first prototype <a rel="noopener" target="_blank" href="https://github.com/hoverbear/raft/tree/first-prototype">here</a> updated for a recent nightly.</p>
 </blockquote>
 <h1 id="where-we-re-heading">Where We're Heading</h1>
-<p>With the help of <a href="https://github.com/danburkert/">Dan Burkert</a> several dramatic architecture changes have occured.</p>
+<p>With the help of <a rel="noopener" target="_blank" href="https://github.com/danburkert/">Dan Burkert</a> several dramatic architecture changes have occured.</p>
 <p>Summarily, the second prototype builds from the first in the following ways:</p>
 <ul>
-<li>The <a href="https://github.com/carllerche/mio">mio</a> <strong>Asynchronous Event Loop</strong> backs the library, providing
+<li>The <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio">mio</a> <strong>Asynchronous Event Loop</strong> backs the library, providing
 it with event driven sockets and timers. This removes the <code>loop {}</code> and
 reduces demands on the system by using things like <code>epoll</code>.</li>
 <li><strong>Communication is over TCP</strong>, as opposed to UDP in the first prototype. It
@@ -161,41 +165,41 @@ optional feature of Raft, in the future.</li>
 been created and merged.</p>
 <p>Merged pull requests by Dan Burkert:</p>
 <ul>
-<li><a href="https://github.com/dwrensha/capnproto-rust/pull/30">impl <code>::std::error::Error</code> for <code>capnp::Error</code></a></li>
-<li><a href="https://github.com/rust-lang/rust/pull/23125">Implement <code>std::error::Error</code> for <code>std::sync::mpsc</code> error types</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnproto-rust/pull/30">impl <code>::std::error::Error</code> for <code>capnp::Error</code></a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust/pull/23125">Implement <code>std::error::Error</code> for <code>std::sync::mpsc</code> error types</a></li>
 </ul>
 <p>Merged pull requests by Ana Hobden:</p>
 <ul>
-<li><a href="https://github.com/dwrensha/capnproto-rust/pull/35">Move to <code>&amp;mut s[..]</code> syntax</a></li>
-<li><a href="https://github.com/rust-lang/rust/pull/23836">Update <code>std::error</code> example</a></li>
-<li><a href="https://github.com/carllerche/bytes/pull/12">Add <code>Read</code> and <code>Write</code> to <code>RingBuf</code></a></li>
-<li><a href="https://github.com/carllerche/mio/pull/144">Add docs for <code>NonBlock&lt;TcpListener&gt;::accept()</code></a></li>
-<li><a href="https://github.com/carllerche/syncbox/pull/13">Implement <code>collect()</code></a></li>
-<li><a href="https://github.com/rust-lang/rustc-serialize/pull/30">Derive not Deriving</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnproto-rust/pull/35">Move to <code>&amp;mut s[..]</code> syntax</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust/pull/23836">Update <code>std::error</code> example</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/carllerche/bytes/pull/12">Add <code>Read</code> and <code>Write</code> to <code>RingBuf</code></a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/carllerche/mio/pull/144">Add docs for <code>NonBlock&lt;TcpListener&gt;::accept()</code></a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/carllerche/syncbox/pull/13">Implement <code>collect()</code></a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rustc-serialize/pull/30">Derive not Deriving</a></li>
 </ul>
 <h1 id="thanks">Thanks</h1>
 <p>At this time I'd like to personally extend thanks to the following people:</p>
 <ul>
-<li>David Renshaw (<a href="https://github.com/dwrensha/">@dwrensha</a>)</li>
-<li>Carl Lerche (<a href="https://github.com/carllerche/">@carllerche</a>)</li>
-<li>Dan Burkert (<a href="https://github.com/danburkert/">@danburkert</a>)</li>
+<li>David Renshaw (<a rel="noopener" target="_blank" href="https://github.com/dwrensha/">@dwrensha</a>)</li>
+<li>Carl Lerche (<a rel="noopener" target="_blank" href="https://github.com/carllerche/">@carllerche</a>)</li>
+<li>Dan Burkert (<a rel="noopener" target="_blank" href="https://github.com/danburkert/">@danburkert</a>)</li>
 </ul>
-<p>For their professionalism, mentorship, and community involvement. One of my favorite things about the Rust community is just how great it is. Stop by on <a href="https://client01.chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a> sometime!</p>
+<p>For their professionalism, mentorship, and community involvement. One of my favorite things about the Rust community is just how great it is. Stop by on <a rel="noopener" target="_blank" href="https://client01.chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a> sometime!</p>
 <p>I'm having a tremendous amount of fun on this project and I'm learning so much. I can't wait to wrap up my semester to get back to work on Raft!</p>
 <blockquote>
-<p>You can get involved with Raft <a href="http://github.com/hoverbear/raft">here</a>. Or join the Reddit discussion here.</p>
+<p>You can get involved with Raft <a rel="noopener" target="_blank" href="http://github.com/hoverbear/raft">here</a>. Or join the Reddit discussion here.</p>
 </blockquote>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">A First Look at DACS</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -154,8 +158,8 @@
         </ol>
     </nav>
 
-            
-    <p>At Simbioses Lab, we've been recently looking at the federated authentication <a href="http://dacs.dss.ca/">DACS</a> as well as <a href="http://keycloak.jboss.org/">Keycloak</a>. I've previously written about Keycloak, so let's take a look at DACS.</p>
+        
+            <p>At Simbioses Lab, we've been recently looking at the federated authentication <a rel="noopener" target="_blank" href="http://dacs.dss.ca/">DACS</a> as well as <a rel="noopener" target="_blank" href="http://keycloak.jboss.org/">Keycloak</a>. I've previously written about Keycloak, so let's take a look at DACS.</p>
 <span id="continue-reading"></span><table>
   <thead>
     <tr>
@@ -254,11 +258,11 @@
 </table>
 <h2 id="dacs-sample-deployments">DACS Sample Deployments</h2>
 <ul>
-<li><a href="http://www.nfis.org/">National Forest Information System</a></li>
-<li><a href="https://wiki.debian.org/DebianSingleSignOn">Debian Single Sign-On</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.nfis.org/">National Forest Information System</a></li>
+<li><a rel="noopener" target="_blank" href="https://wiki.debian.org/DebianSingleSignOn">Debian Single Sign-On</a></li>
 </ul>
 <h2 id="dacs-install">DACS Install</h2>
-<p>We'll try using <a href="https://launchpad.net/ubuntu/+source/dacs">Ubuntu's stable package</a> available in the repositories.</p>
+<p>We'll try using <a rel="noopener" target="_blank" href="https://launchpad.net/ubuntu/+source/dacs">Ubuntu's stable package</a> available in the repositories.</p>
 <pre style="background-color:#2b303b;">
 <code>sudo apt-get install dacs
 </code></pre>
@@ -394,7 +398,7 @@ gpasswd -a users bear
 dacsauth -r unix -u bear
 # Outputs 'bear,users'
 </code></pre>
-<p>To add roles to a DACS user, we can consult <a href="http://dacs.dss.ca/man/dacs_authenticate.8.html#local_roles">the relevant documentation</a> which directs us to create a <code>/etc/dacs/federations/roles</code> file with contents like the following:</p>
+<p>To add roles to a DACS user, we can consult <a rel="noopener" target="_blank" href="http://dacs.dss.ca/man/dacs_authenticate.8.html#local_roles">the relevant documentation</a> which directs us to create a <code>/etc/dacs/federations/roles</code> file with contents like the following:</p>
 <pre style="background-color:#2b303b;">
 <code>bear:animals,mammals
 </code></pre>
@@ -484,7 +488,7 @@ function unixAuth(user, pass, next) {
 # LOCAL: Successfully authenticated as `bear`
 # UNIX: Successfully authenticated as `bear`
 </code></pre>
-<p>In Rust, this task is also simple enough by using <code>Command</code>, which I've written about <a href="http://www.hoverbear.org/2014/09/07/command-execution-in-rust/">here</a> (Note it is slightly out of date):</p>
+<p>In Rust, this task is also simple enough by using <code>Command</code>, which I've written about <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/09/07/command-execution-in-rust/">here</a> (Note it is slightly out of date):</p>
 <pre style="background-color:#2b303b;">
 <code>use std::io::Command;
 use std::io::process::ProcessExit::ExitStatus;
@@ -688,27 +692,27 @@ fn test_unix_roles() {
 # test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 </code></pre><h2 id="thoughts-on-dacs">Thoughts on DACS</h2>
 <p>DACS is, overall, effective at the tasks it claims to accomplish. It is flexible with where it's configuration is stored, how it is invoked, and which components it is compiled with.</p>
-<p>When I was first compiling this article, I attempted to compile DACS from source (as suggested in both the <a href="http://dacs.dss.ca/man/dacs.install.7.html">Install</a> and <a href="http://dacs.dss.ca/man/dacs.quick.7.html">Quick Install</a> guides). I was concerned with the fact that the guide suggests you do things like compile your own versions of things like OpenSSL and Apache from source instead of from your distributions packages. OpenSSL and Apache are both critical packages for a server, and should be handled with care. Recall things like <a href="http://en.wikipedia.org/wiki/Shellshock_%28software_bug%29">Shellshock</a> (which effected Apache's CGI) and <a href="http://en.wikipedia.org/wiki/Heartbleed">Heartbleed</a> (which effected <a href="http://opensslrampage.org/">OpenSSL</a> and prompted the creation of <a href="http://www.libressl.org/">LibreSSL</a>). I ended up using the packages available on <a href="http://packages.ubuntu.com/trusty/dacs">Ubuntu</a> as the <a href="https://packages.debian.org/sid/dacs">Debian</a> packages were quite out of date in stable.</p>
+<p>When I was first compiling this article, I attempted to compile DACS from source (as suggested in both the <a rel="noopener" target="_blank" href="http://dacs.dss.ca/man/dacs.install.7.html">Install</a> and <a rel="noopener" target="_blank" href="http://dacs.dss.ca/man/dacs.quick.7.html">Quick Install</a> guides). I was concerned with the fact that the guide suggests you do things like compile your own versions of things like OpenSSL and Apache from source instead of from your distributions packages. OpenSSL and Apache are both critical packages for a server, and should be handled with care. Recall things like <a rel="noopener" target="_blank" href="http://en.wikipedia.org/wiki/Shellshock_%28software_bug%29">Shellshock</a> (which effected Apache's CGI) and <a rel="noopener" target="_blank" href="http://en.wikipedia.org/wiki/Heartbleed">Heartbleed</a> (which effected <a rel="noopener" target="_blank" href="http://opensslrampage.org/">OpenSSL</a> and prompted the creation of <a rel="noopener" target="_blank" href="http://www.libressl.org/">LibreSSL</a>). I ended up using the packages available on <a rel="noopener" target="_blank" href="http://packages.ubuntu.com/trusty/dacs">Ubuntu</a> as the <a rel="noopener" target="_blank" href="https://packages.debian.org/sid/dacs">Debian</a> packages were quite out of date in stable.</p>
 <p>The DACS documentation is quite complete and covers a wide range of topics, which makes sense given DACS's wide scope. For a newcomer to DACS, however, they are quite opaque due to their self referencing and assumption of inherant knowledge regarding the application. Questions like &quot;Where is the normal place to store a roles file?&quot; and &quot;What are the various <code>[foo]</code> fields for the <code>-vfs</code> flag?&quot; were challenging to find answers to. This is understandable for a complex system that has limited usage, but at some points it felt like th documentation was written by DACS programmers, for DACS programmers, instead of DACS users.</p>
 <h2 id="further-exploration">Further Exploration</h2>
 <p>DACS has a variety of features, such Apache integration (for CGI applications), Federation support, Groups, adapters for LDAP, etc.  I haven't dug into them here because they're more involved and will only be applicable in more complex scenarios, in which case, the implementor should become familiar with the documentation of DACS itself, rather then a whirlwind tour like this article.</p>
 <h2 id="dacs-documentation">DACS Documentation</h2>
 <ul>
 <li><a href="dacs.dss.ca/man/dacsauth.1.html">dacsauth</a></li>
-<li><a href="http://dacs.dss.ca/man/dacs.install.7.html">Installing DACS</a> <em>(Note this is from source)</em></li>
-<li><a href="http://dacs.dss.ca/man/dacs.vfs.5.html">DACS VFS</a></li>
+<li><a rel="noopener" target="_blank" href="http://dacs.dss.ca/man/dacs.install.7.html">Installing DACS</a> <em>(Note this is from source)</em></li>
+<li><a rel="noopener" target="_blank" href="http://dacs.dss.ca/man/dacs.vfs.5.html">DACS VFS</a></li>
 </ul>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

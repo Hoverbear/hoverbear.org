@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- A Hobden; Port Renfrew, BC</figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Optional Arguments in Rust</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -148,8 +152,8 @@
         </ol>
     </nav>
 
-            
-    <p>When designing an API for your crate one topic which can come is how to handle optional arguments. Let's explore our <code>Option</code>s in Rust!</p>
+        
+            <p>When designing an API for your crate one topic which can come is how to handle optional arguments. Let's explore our <code>Option</code>s in Rust!</p>
 <span id="continue-reading"></span><h2 id="we-don-t-have-splats-or-multiple-implementations">We Don't Have Splats or Multiple Implementations</h2>
 <p>Rust currently does not offer functions with variadic or optional arguments. This means this is not possible:</p>
 <pre style="background-color:#2b303b;">
@@ -230,8 +234,8 @@ client.</span><span style="color:#96b5b4;">connect</span><span style="color:#c0c
 <h2 id="a-generic-implementation">A Generic Implementation</h2>
 <p>In order to refine this design we can pay attention to some key trait implementations:</p>
 <ul>
-<li><a href="https://doc.rust-lang.org/std/option/enum.Option.html#impl-From%3CT%3E"><code>impl&lt;T&gt; Into&lt;Option&lt;T&gt;&gt; for T</code></a></li>
-<li><a href="https://doc.rust-lang.org/std/option/enum.Option.html#impl-Default"><code>impl&lt;T&gt; Default for Option&lt;T&gt;</code></a></li>
+<li><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/option/enum.Option.html#impl-From%3CT%3E"><code>impl&lt;T&gt; Into&lt;Option&lt;T&gt;&gt; for T</code></a></li>
+<li><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/option/enum.Option.html#impl-Default"><code>impl&lt;T&gt; Default for Option&lt;T&gt;</code></a></li>
 </ul>
 <p>This means we can do the following:</p>
 <pre style="background-color:#2b303b;">
@@ -365,22 +369,22 @@ optional_into (Vec&lt;u64&gt;) None
                         time:   [830.59 ps 833.04 ps 835.56 ps]
 </span></code></pre><h1 id="what-we-learnt-takeaways">What We Learnt &amp; Takeaways</h1>
 <p>We learnt there are many options when it comes to API design with Rust. During our exploration we noted that choosing to declare our functions semantically, and/or enabling a more flexible API doesn't have to cost much.</p>
-<p>If you're interested in learning more about enabling flexible APIs in Rust, I'd reccomend exploring the <a href="https://rust-lang-nursery.github.io/api-guidelines/flexibility.html">Guidelines</a>. I'd also reccomend exploring the <a href="https://doc.rust-lang.org/1.0.0/style/ownership/builders.html">Builder Pattern</a>, since it's generally more well used in Rust.</p>
+<p>If you're interested in learning more about enabling flexible APIs in Rust, I'd reccomend exploring the <a rel="noopener" target="_blank" href="https://rust-lang-nursery.github.io/api-guidelines/flexibility.html">Guidelines</a>. I'd also reccomend exploring the <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/1.0.0/style/ownership/builders.html">Builder Pattern</a>, since it's generally more well used in Rust.</p>
 <p>Thanks for reading! Hope to use your lovely code soon. 😉</p>
 <blockquote>
-<p><strong>P.S.</strong> If you are looking for a <strong>senior level</strong> position, are passionate about this topic, and have experience with distributed systems, safety critical systems, data structures, networking, and chaos engineering please <a href="https://hoverbear.org/blog/optional-arguments/operator@hoverbear.org">email me</a>. We can chat about the possibility of working on my team at <a href="http://pingcap.com/">PingCAP</a> doing open source ecosystem work for <a href="https://github.com/tikv/tikv">TiKV</a> and its dependencies. In the future you would get to take on mentoring new juniors, open source contributors, and community members at large. Globally remote friendly, competitive salaries, travel coverage for speaking, very minority friendly (location, race, sexuality, gender, etc).</p>
+<p><strong>P.S.</strong> If you are looking for a <strong>senior level</strong> position, are passionate about this topic, and have experience with distributed systems, safety critical systems, data structures, networking, and chaos engineering please <a href="https://hoverbear.org/blog/optional-arguments/operator@hoverbear.org">email me</a>. We can chat about the possibility of working on my team at <a rel="noopener" target="_blank" href="http://pingcap.com/">PingCAP</a> doing open source ecosystem work for <a rel="noopener" target="_blank" href="https://github.com/tikv/tikv">TiKV</a> and its dependencies. In the future you would get to take on mentoring new juniors, open source contributors, and community members at large. Globally remote friendly, competitive salaries, travel coverage for speaking, very minority friendly (location, race, sexuality, gender, etc).</p>
 </blockquote>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

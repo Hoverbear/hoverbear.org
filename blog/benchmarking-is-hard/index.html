@@ -49,7 +49,8 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Mitchel Boot; @valeon on Unsplash</figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Why Benchmarking Distributed Databases Is So Hard</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -162,8 +166,8 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
         </ol>
     </nav>
 
-            
-    <p>If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.</p>
+        
+            <p>If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.</p>
 <p>So why do it at all? Let’s take a look at some of the motivations of benchmarking, the common tools, and discuss a few things to keep in mind when benchmarking.</p>
 <span id="continue-reading"></span><h2 id="why-benchmark-at-all">Why benchmark at all?</h2>
 <p>If you don't have reproducible, fair benchmarking, you can be blinded by your own hubris. Our contributors and maintainers of depend on benchmarks to ensure we don't negatively impact its performance. Often not having benchmarks is like not having logging or metrics.</p>
@@ -193,24 +197,24 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
 <h3 id="different-scenarios-different-standards">Different scenarios, different standards</h3>
 <p>Databases have an incredible variety of use cases and workloads. Understandably, there is no universal, all-encompassing benchmark. Instead, we have a variety of tools at our disposal.</p>
 <h4 id="tpc-c">TPC-C</h4>
-<p>The <a href="http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-c_v5.11.0.pdf">TPC-C benchmark</a> is an Online Transactional Processing (OLTP) standard that takes the perspective of distributing orders to customers. The metric it measures is the number of orders processed by the benchmark per minute.</p>
+<p>The <a rel="noopener" target="_blank" href="http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-c_v5.11.0.pdf">TPC-C benchmark</a> is an Online Transactional Processing (OLTP) standard that takes the perspective of distributing orders to customers. The metric it measures is the number of orders processed by the benchmark per minute.</p>
 <p>The TPC-C tries to measure the essential performance characteristics of some operations portrayed through the lens of a company distributing products to warehouses and districts, and then on to customers.</p>
 <p>The benchmark doesn't attempt to measure the impact or cost of ad-hoc operational or analytical queries, such as the effect of decision support or auditing requests.</p>
 <p>It uses fixed, scaling, and growing tables, and has a number of operations, such as creating new orders, paying for orders, checking the status of orders, and inquiring into the stock level of items.</p>
 <p>The benchmark defines strict requirements for response time and consistency, and it uses multiple client connections to do this. (An example of a multiple client connection is creating an order with one client, and checking for it with another.)</p>
 <p>The TPC-C has been one of the more popular OLTP benchmarks for a couple of decades, and it is commonly used to determine a system's cost or power efficiency. It's useful for determining the common, day-to-day performance of an OLTP database.</p>
 <h4 id="tpc-h">TPC-H</h4>
-<p>The <a href="http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.18.0.pdf">TPC-H benchmark</a> is a decision-support benchmark. It operates over a minimum dataset size of about 1 gigabyte, though it's commonly run on larger populations. It measures metrics through composite queries per hour. (The standard discourages comparing between sizes, which is misleading.)</p>
+<p>The <a rel="noopener" target="_blank" href="http://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.18.0.pdf">TPC-H benchmark</a> is a decision-support benchmark. It operates over a minimum dataset size of about 1 gigabyte, though it's commonly run on larger populations. It measures metrics through composite queries per hour. (The standard discourages comparing between sizes, which is misleading.)</p>
 <p>The TPC-H tries to measure the ability of a database to handle complex, large, ad-hoc queries. It functions similar to how a data lake functions in an extract, transform, load (ETL) pipeline, staying closely synchronized with an online transactional database. Complex queries are run over the dataset ad-hoc, and at varied intervals.</p>
 <p>In many ways, TPC-H complements TPC-C. TPC-H represents the analytical database which handles the queries the TPC-C doesn't.</p>
 <h4 id="sysbench">Sysbench</h4>
-<p>Unlike the TPC benchmarks, <a href="https://github.com/akopytov/sysbench">sysbench</a> is a scriptable benchmarking system in C and Lua. It offers a number of simple tests, and allows them to define subcommands (for example prepare and cleanup).</p>
+<p>Unlike the TPC benchmarks, <a rel="noopener" target="_blank" href="https://github.com/akopytov/sysbench">sysbench</a> is a scriptable benchmarking system in C and Lua. It offers a number of simple tests, and allows them to define subcommands (for example prepare and cleanup).</p>
 <p>Because it's scriptable, you can use sysbench to create your own benchmarks, and also use the included benchmarks like <code>oltp_read</code> and <code>oltp_point_select</code>.</p>
 <p>Sysbench is useful when you're trying to isolate problem cases, or want specific workload metrics.</p>
 <h4 id="ycsb">YCSB</h4>
-<p>The <a href="https://github.com/brianfrankcooper/YCSB">YCSB</a> is a framework and common set of workloads for evaluating databases. Unlike the TPC benchmarks, it supports key-value stores, such as TiKV or redis. It reports in operations/sec.</p>
+<p>The <a rel="noopener" target="_blank" href="https://github.com/brianfrankcooper/YCSB">YCSB</a> is a framework and common set of workloads for evaluating databases. Unlike the TPC benchmarks, it supports key-value stores, such as TiKV or redis. It reports in operations/sec.</p>
 <p>YCSB is  not as complex as the TPC benchmarks, but it has a number of fairly simple core workloads that you can use to evaluate system performance. Workloads A through F each offer a simplified workload of situations such as photo tagging, session stores, news, conversations, and user settings management.</p>
-<p>PingCAP maintains a <a href="https://github.com/pingcap/go-ycsb">Go fork of YCSB</a> that we regularly use to test our own database and those of our respected colleagues.</p>
+<p>PingCAP maintains a <a rel="noopener" target="_blank" href="https://github.com/pingcap/go-ycsb">Go fork of YCSB</a> that we regularly use to test our own database and those of our respected colleagues.</p>
 <figure class="enriched ">
         <figcaption>Cables -- Taylor Vick; @tvick on Unsplash</figcaption>
         <img srcset="
@@ -232,13 +236,13 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
 <h2 id="how-to-make-a-decent-benchmark">How to make a decent benchmark</h2>
 <p>Before we even get started on making a benchmark, we need to Read Those Fricking Manuals™ for each of the databases we'd like to benchmark, as well as each of the tools or workloads we want to benchmark. Understand what the tools are good at, and what they're bad at.</p>
 <p>Numbers that are just numbers mean nothing  — you must have an understanding of what you have benchmarked, and what the results mean. You should ensure that the benchmark configurations, specs, and topologies are all realistic and appropriate for the situation.</p>
-<p>Pay attention to tuning guides or recommended deployment options. If possible, use official deployment tools like <a href="https://github.com/pingcap/tidb-ansible">TiDB Ansible</a> or <a href="https://github.com/pingcap/tidb-operator/">TiDB Operator</a>, because they often are built to handle things like essential OS configuration.</p>
-<p>If you're looking for a model to start from, our friends at Percona do a great job with their benchmarking articles like <a href="https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/">PostgreSQL and MySQL: Millions of Queries per Second</a>.</p>
+<p>Pay attention to tuning guides or recommended deployment options. If possible, use official deployment tools like <a rel="noopener" target="_blank" href="https://github.com/pingcap/tidb-ansible">TiDB Ansible</a> or <a rel="noopener" target="_blank" href="https://github.com/pingcap/tidb-operator/">TiDB Operator</a>, because they often are built to handle things like essential OS configuration.</p>
+<p>If you're looking for a model to start from, our friends at Percona do a great job with their benchmarking articles like <a rel="noopener" target="_blank" href="https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/">PostgreSQL and MySQL: Millions of Queries per Second</a>.</p>
 <h3 id="focus-on-a-realistic-metric">Focus on a realistic metric</h3>
 <p>The TPC-C and TPC-H don't focus on just plain operations/second. TPC-H only measures <em>complex</em> queries. In contrast, TPC-C doesn't consider ad-hoc or complex queries, it just measures how many orders can be processed. Consider the use cases that you need to evaluate, and find or create a benchmark that is an appropriate match.</p>
 <p>Since you're considering a <em>distributed system</em>, you should also consider testing the database over different latencies or failure cases. You can use tools like traffic control (<code>tc</code>) to introduce delays or unreliability in a controlled way.</p>
 <p>You should also consider what percentiles you're interested in, and how much outliers mean to you. Measuring only the 99th percentile of requests can be misleading if one system has some possibly problematic outliers.</p>
-<p>Stutter can affect high-load databases just like other performance games. You can learn more about percentiles and stutter in <a href="https://developer.nvidia.com/content/analysing-stutter-%E2%80%93-mining-more-percentiles-0">Iain's (NVIDIA) excellent stutter article</a>.</p>
+<p>Stutter can affect high-load databases just like other performance games. You can learn more about percentiles and stutter in <a rel="noopener" target="_blank" href="https://developer.nvidia.com/content/analysing-stutter-%E2%80%93-mining-more-percentiles-0">Iain's (NVIDIA) excellent stutter article</a>.</p>
 <h3 id="distribute-the-workload">Distribute the workload</h3>
 <p>A naive approach to writing a benchmark might involve a single client interacting with a distributed database and running a workload.</p>
 <p>However this is rarely a realistic situation. It's much more likely that a large number of clients will be interacting with the database. Consider the TPC-C. It's unlikely that all of the warehouses and districts would connect over the same connection, or wait to take turns running their queries!</p>
@@ -252,19 +256,19 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
 <p>It's common for proprietary databases to have restrictive clauses against publishing benchmarks. We don't. At PingCAP, we love reading the benchmarks folks do on our database, and we try to help them set up fair, realistic scenarios for their benchmarks.</p>
 <p>After all, talk is cheap — show us the code!</p>
 <blockquote>
-<p>This article was originally published on <a href="https://pingcap.com/blog/why-benchmarking-distributed-databases-is-so-hard/">PingCAP's blog</a>, it has been edited to fit the aesthetic and tone of this blog.</p>
+<p>This article was originally published on <a rel="noopener" target="_blank" href="https://pingcap.com/blog/why-benchmarking-distributed-databases-is-so-hard/">PingCAP's blog</a>, it has been edited to fit the aesthetic and tone of this blog.</p>
 </blockquote>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: Tooling &amp; Infra Update</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -125,10 +129,10 @@
         </ol>
     </nav>
 
-            
-    <p>In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our <a href="https://github.com/Hoverbear/raft/blob/master/.travis.yml"><code>.travis.yml</code> here</a>.</p>
+        
+            <p>In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/blob/master/.travis.yml"><code>.travis.yml</code> here</a>.</p>
 <span id="continue-reading"></span><h2 id="sudo-less"><code>sudo</code>-less</h2>
-<p>Travis CI released <a href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
+<p>Travis CI released <a rel="noopener" target="_blank" href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
 <p>In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">addons</span><span style="color:#c0c5ce;">:
@@ -153,7 +157,7 @@
     </span><span style="color:#c0c5ce;">-  </span><span style="color:#a3be8c;">cd ../..
 </span></code></pre>
 <p>Now that we've flagged <code>sudo: false</code> in our <code>.travis.yml</code> our Travis <em>wait time</em> for a build have significantly decreased. Some of our test builds take under 1:45 minutes!</p>
-<h2 id="moved-to-travis-cargo">Moved to <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
+<h2 id="moved-to-travis-cargo">Moved to <a rel="noopener" target="_blank" href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
 <p>Huon created the fantastic <code>travis-cargo</code> crate and we recently moved over to it! This helped clean up the <code>.travis.yml</code> a bit and opened the door for us to utilize future improvements. This took our <code>.travis.yml</code> script section from this:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-yaml" data-lang="yaml"><span style="color:#65737e;"># Generate Docs
@@ -186,25 +190,25 @@ script</span><span style="color:#c0c5ce;">:
 </span></code></pre>
 <p>With <code>travis-cargo</code> our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.</p>
 <h2 id="code-coverage">Code Coverage</h2>
-<p>You may have noticed the <code>travis-cargo coveralls --no-sudo</code> above and wondered what that was. <a href="http://coveralls.io/"><code>http://coveralls.io/</code></a> offers free code coverage analysis to open source projects. You can see what ours looks like <a href="https://coveralls.io/github/Hoverbear/raft">here</a>.</p>
+<p>You may have noticed the <code>travis-cargo coveralls --no-sudo</code> above and wondered what that was. <a rel="noopener" target="_blank" href="http://coveralls.io/"><code>http://coveralls.io/</code></a> offers free code coverage analysis to open source projects. You can see what ours looks like <a rel="noopener" target="_blank" href="https://coveralls.io/github/Hoverbear/raft">here</a>.</p>
 <p>We're currently sitting at:</p>
-<p><a href="https://coveralls.io/github/Hoverbear/raft"><img src="https://img.shields.io/coveralls/Hoverbear/raft/master.svg" alt="Coverage Status" /></a></p>
+<p><a rel="noopener" target="_blank" href="https://coveralls.io/github/Hoverbear/raft"><img src="https://img.shields.io/coveralls/Hoverbear/raft/master.svg" alt="Coverage Status" /></a></p>
 <p>Code coverage. Wow! That's not bad! We hope to improve this as we go.</p>
-<h2 id="homu"><a href="http://homu.io/">@homu</a></h2>
+<h2 id="homu"><a rel="noopener" target="_blank" href="http://homu.io/">@homu</a></h2>
 <p>We also adopted the friendly robot homu to be our repository gatekeeper. If you've been around Rust or Servo you probably know bors, homu is a rewrite of bors.</p>
 <p>homu acts sort of like a pre-commit hook, testing pull requests <em>just before</em> they're merged. Much of the work to get <code>sudo</code>-less builds was in preparation for homu since we wanted it to be <em>fast!</em></p>
 <p>With homu guarding the <code>master</code> branch we can be sure that Raft will stay &quot;green&quot; on tests unless I manage to accidently push to master, or one of our dependencies breaks.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

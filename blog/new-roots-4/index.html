@@ -50,7 +50,8 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Olivier Guillard</figcaption>
         <img srcset="
@@ -66,25 +67,29 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 4, Making it 127.0.0.1</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -98,9 +103,8 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -137,8 +141,8 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
         </ol>
     </nav>
 
-            
-    <p>This is the fourth of a series on taking up residence on a new server. In our <a href="/2016/05/07/new-roots-3/">last post</a> we talked about how to set up some basic network services like <code>ssh</code> and configure <code>iptables</code>, our firewall. In this post we'll talk about making your server feel like home.</p>
+        
+            <p>This is the fourth of a series on taking up residence on a new server. In our <a href="/2016/05/07/new-roots-3/">last post</a> we talked about how to set up some basic network services like <code>ssh</code> and configure <code>iptables</code>, our firewall. In this post we'll talk about making your server feel like home.</p>
 <p>There are a grand number of things we can do at this point to make our time on the machine enjoyable. Take time to evaluate your choices though. This 'root' host is going to be our 'control seat' so it's not going to be doing much more than orcestrating virtualized environments. Once we configure these environments (next post) we'll be using these for any sort of development, deployment, or experiments.</p>
 <p>With 'root' our goal is to make a simple set of good, sharp tools to do what we need to do. These are tools like <code>nvim</code> which we installed earlier. If you were following the last host you may have installed <code>mosh</code> as well, which makes our <code>ssh</code> sessions safe from network changes and comfortable against latency.</p>
 <span id="continue-reading"></span>
@@ -199,7 +203,7 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <code><span style="color:#c0c5ce;">user@full.domain.name/current/directory (system state) (last exit code)
 (time) $
 </span></code></pre>
-<p><code>(system state)</code> refers to the output of <code>systemctl is-system-running</code> which will output based on <a href="https://www.freedesktop.org/software/systemd/man/systemctl.html#is-system-running">this</a> list. In most cases it will either be <code>running</code> if everything is good, or <code>degraded</code> if some service has failed.</p>
+<p><code>(system state)</code> refers to the output of <code>systemctl is-system-running</code> which will output based on <a rel="noopener" target="_blank" href="https://www.freedesktop.org/software/systemd/man/systemctl.html#is-system-running">this</a> list. In most cases it will either be <code>running</code> if everything is good, or <code>degraded</code> if some service has failed.</p>
 <p><code>(last exit code)</code> will be <code>0</code> if the last command exited successfully, and a different number if it did not.</p>
 <figure class="enriched ">
         <figcaption>My prompt</figcaption>
@@ -216,7 +220,7 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
     </figure>
 <h2 id="the-multiplexer">The Multiplexer</h2>
 <p>Shell multiplexing is a great way to maintain a workspace on a remote machine. The idea is to have a daemon which holds onto your shell sessions for you and essentially acts as a 'window manager' for your various shell panes. You're then able to 'detach' and 'reattach' to these sessions whenever you want.</p>
-<p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
+<p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">pacman -S</span><span style="color:#c0c5ce;"> tmux
 </span></code></pre>
@@ -313,7 +317,7 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
               alt="Example of tmux" />
     </figure>
 <h2 id="editing-the-editor">Editing the Editor</h2>
-<p>Earlier we installed <code>nvim</code> with <code>pacman -S neovim</code>. <a href="https://neovim.io/">Neovim</a> is a minimal modern recreation of <code>vim</code> which itself was a recreation of <code>vi</code>. There are also editors like <code>emacs</code>, <code>ed</code>, and <code>nano</code>.</p>
+<p>Earlier we installed <code>nvim</code> with <code>pacman -S neovim</code>. <a rel="noopener" target="_blank" href="https://neovim.io/">Neovim</a> is a minimal modern recreation of <code>vim</code> which itself was a recreation of <code>vi</code>. There are also editors like <code>emacs</code>, <code>ed</code>, and <code>nano</code>.</p>
 <p>The <code>nvim</code> systemwide configuration is stored at <code>/etc/xdg/nvim/init.vim</code>, and you might need to create the folder with <code>mkdir -p /etc/xdg/nvim/</code>.</p>
 <p>Inside we can do some basic configuration:</p>
 <pre style="background-color:#2b303b;">
@@ -396,7 +400,7 @@ colorscheme spacegrey
 </span></code></pre><h2 id="final-steps">Final Steps</h2>
 <p>Since it's probably been a couple days since you started this process, it's also a good idea to update:</p>
 <ol>
-<li>Check the <a href="https://www.archlinux.org/">Arch Frontpage</a> in case there is any news item you need to be aware of.</li>
+<li>Check the <a rel="noopener" target="_blank" href="https://www.archlinux.org/">Arch Frontpage</a> in case there is any news item you need to be aware of.</li>
 <li>Issue <code>pacman -Syu</code>.</li>
 </ol>
 <p>Before moving on it might be a good idea to make a snapshot of what we have so far, this way we can roll back. This is a very cool feature of BTRFS and one of the main reasons I use it. Since this is technically our <code>/</code> the process is a bit more involved than usual.</p>
@@ -433,16 +437,16 @@ colorscheme spacegrey
     </figure>
 <p>What's perhaps most important to remember throughout this process is that you kept this system very clean. Next post we'll discuss using containers to construct virtual environments, which we can be much more <em>messy</em> with!</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

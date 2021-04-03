@@ -50,7 +50,8 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -66,25 +67,29 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft Experiences and Repo Made Public!</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -98,9 +103,8 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -159,9 +163,9 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
         </ol>
     </nav>
 
-            
-    <blockquote>
-<p>TL;DR: I've made <a href="https://github.com/Hoverbear/raft">Hoverbear/raft</a> publicly available <em>(It's still not ready)</em>! Feel encouraged to contribute feedback or code via Github or email!</p>
+        
+            <blockquote>
+<p>TL;DR: I've made <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft">Hoverbear/raft</a> publicly available <em>(It's still not ready)</em>! Feel encouraged to contribute feedback or code via Github or email!</p>
 </blockquote>
 <span id="continue-reading"></span><h2 id="progress">Progress</h2>
 <p>I've been working hard on building a sane, reasonable scaffolding for the codebase. <a href="/2015/01/25/raft-so-far/">Last post</a> I talked about my first 'go' at designing the data structures and interfaces for the library, here I'll talk a bit about what's changed and why.</p>
@@ -206,7 +210,7 @@ pub struct AppendRequest&lt;T&gt; {
 </code></pre>
 <p>So... <em>Why?</em> A couple of reasons actually:</p>
 <ol>
-<li><del><strong>Enum structs take the memory of their biggest variant.</strong> This is a minor concern to me as most of my structs are just a few values large, but I understand how this can have an effect and I'd like to follow best practices.</del> <a href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/cocqx4d">(The change made did not benefit from this. See this comment by Quxxy)</a></li>
+<li><del><strong>Enum structs take the memory of their biggest variant.</strong> This is a minor concern to me as most of my structs are just a few values large, but I understand how this can have an effect and I'd like to follow best practices.</del> <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/cocqx4d">(The change made did not benefit from this. See this comment by Quxxy)</a></li>
 <li><strong>You lose type safety.</strong> There is no way to create a function that will only accept a single variant of an enum. You can't, for example, say <code>fn foo(bar: Option::None) {}</code>. Moving to seperate structs means that the compiler can check to make sure the right data is being passed into the right functions.</li>
 </ol>
 <p><em>What's the downside?</em> Creating a new <code>AppendRequest</code> without the use of a helper function can look a little gross: <code>ClientRequest::AppendRequest(AppendRequest { ... })</code></p>
@@ -240,9 +244,9 @@ pub struct AppendRequest&lt;T&gt; {
 <blockquote>
 <p>I'm still wrangling ownership and borrowing, as I think many Rust users are, and some of my design choices are specifically because I wanted to avoid friction for now.</p>
 </blockquote>
-<p>Since I've not been a user of any of the other Raft implementations out there (other than a bit of playing with <a href="https://github.com/coreos/etcd"><code>etcd</code></a>) I don't have much of a basis to go off what's a &quot;nice&quot; interface. My goal is to remove as much of the complexities and management of the library from the user as possible. Ideally once they start their <code>RaftNode</code>s they'll only need to worry about sending requests and getting responses.</p>
+<p>Since I've not been a user of any of the other Raft implementations out there (other than a bit of playing with <a rel="noopener" target="_blank" href="https://github.com/coreos/etcd"><code>etcd</code></a>) I don't have much of a basis to go off what's a &quot;nice&quot; interface. My goal is to remove as much of the complexities and management of the library from the user as possible. Ideally once they start their <code>RaftNode</code>s they'll only need to worry about sending requests and getting responses.</p>
 <h3 id="event-loop">Event Loop</h3>
-<p>I took a look at <a href="https://github.com/carllerche/mio"><code>mio</code></a> which looks fantastic, however for the time being I'm still just doing an infinite <code>loop</code> as I'd like to keep dependencies <em>down</em> until Rust stabilizes a bit more. In the future using some sort of evented system would definitely be ideal.</p>
+<p>I took a look at <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio"><code>mio</code></a> which looks fantastic, however for the time being I'm still just doing an infinite <code>loop</code> as I'd like to keep dependencies <em>down</em> until Rust stabilizes a bit more. In the future using some sort of evented system would definitely be ideal.</p>
 <h2 id="experience">Experience</h2>
 <h3 id="decoding-socket-data">Decoding Socket Data</h3>
 <p>I had all sorts of fun implementing the following code in the loop's main <code>tick()</code> function:</p>
@@ -275,7 +279,7 @@ pub struct AppendRequest&lt;T&gt; {
 <p>This was the first time I used <code>if let</code> and it was very useful for destructuring in control flow. I'm looking forward to using <code>while let</code> soon.</p>
 <p><em>What does that code do... exactly?</em> When we recieve data from the network, it's either going to be a <code>RemoteProcedureCall</code>, a <code>RemoteProcedureResponse</code>, or something else entirely. Currently, I only account for the valid cases, the third case is outright ignored.</p>
 <h3 id="dealing-with-the-state-machine">Dealing with the State (Machine)</h3>
-<p>I read <a href="https://gist.github.com/bvssvni/8970459">this gist</a> with great interest, however I've yet to determine how to go about implementing a truly type-safe state machine for Raft right now. I'd like to do this in the future, and I'd be thrilled if someone could help with advice, mentorship, or pull requests on how to accomplish this.</p>
+<p>I read <a rel="noopener" target="_blank" href="https://gist.github.com/bvssvni/8970459">this gist</a> with great interest, however I've yet to determine how to go about implementing a truly type-safe state machine for Raft right now. I'd like to do this in the future, and I'd be thrilled if someone could help with advice, mentorship, or pull requests on how to accomplish this.</p>
 <p>Currently, all of the data event handlers look roughly like this:</p>
 <pre style="background-color:#2b303b;">
 <code>fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
@@ -309,18 +313,18 @@ socket.set_read_timeout(Some(0));
 <p>https://github.com/Hoverbear/raft</p>
 </blockquote>
 <p>Would you like to explore, give feedback, or contribute? Please do! Publicly you can just make an issue on Github, or privately just shoot me an email. (I'm <em>sure</em> you can find it on Github or here...)</p>
-<p><strong>Discussion of this post is on <a href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/">Reddit</a>.</strong></p>
+<p><strong>Discussion of this post is on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2ux7xo/raft_experiences_part_1_and_repo_made_public/">Reddit</a>.</strong></p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

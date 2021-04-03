@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Arthur Rutkowski</figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 2, On the Metal</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -155,14 +159,14 @@
         </ol>
     </nav>
 
-            
-    <p>This is the second post of a series on settling into new servers. The first was about <a href="/2016/05/06/new-roots-1/">choosing a server</a>. This post is specifically targetted at newly acquired VPS and Dedicated servers. We'll talk about installing our chosen distribution, configuring its basics, and familiarizing ourselves with the new metal.</p>
+        
+            <p>This is the second post of a series on settling into new servers. The first was about <a href="/2016/05/06/new-roots-1/">choosing a server</a>. This post is specifically targetted at newly acquired VPS and Dedicated servers. We'll talk about installing our chosen distribution, configuring its basics, and familiarizing ourselves with the new metal.</p>
 <span id="continue-reading"></span><h2 id="what-distribution">What Distribution?</h2>
 <p>This choice is entirely dependent on your personal tastes and use case. Different distributions are catered well to different things, even different installation media of specific distributions are different enough to warrant considering.</p>
-<p>You might be interested in <a href="http://www.ubuntu.com/server">Ubuntu</a> if you're new to Linux or interested in doing things the 'Official' way the majority of the time. <a href="https://www.centos.org/">CentOS</a> is another fantastic choice, particularly if you're seeking to learn more about the enterprise space. You'll find these two options on virtually every provider you work with, and should familiarize yourself with at least one.</p>
-<p>Out of the others, <a href="https://wiki.archlinux.org/index.php/Server">Arch Linux</a> is my particular favorite. To me, it's an <strong>umami</strong> distribution with (lots of) up-to-date signed packages, a simple core, amazing documentation, and a rolling release schedule. I've been using it for years and the original creator actually attended the same University I did. You may also have a distribution which you are very comfortable with, and you may choose to use it.</p>
+<p>You might be interested in <a rel="noopener" target="_blank" href="http://www.ubuntu.com/server">Ubuntu</a> if you're new to Linux or interested in doing things the 'Official' way the majority of the time. <a rel="noopener" target="_blank" href="https://www.centos.org/">CentOS</a> is another fantastic choice, particularly if you're seeking to learn more about the enterprise space. You'll find these two options on virtually every provider you work with, and should familiarize yourself with at least one.</p>
+<p>Out of the others, <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Server">Arch Linux</a> is my particular favorite. To me, it's an <strong>umami</strong> distribution with (lots of) up-to-date signed packages, a simple core, amazing documentation, and a rolling release schedule. I've been using it for years and the original creator actually attended the same University I did. You may also have a distribution which you are very comfortable with, and you may choose to use it.</p>
 <p>Servers do, though, have different requirements. You will not want to install a GUI specific distribution onto a headless server. Additionally, many providers will limit what can be installed on their machines. In some cases they offer a LARA, a direct console to the machine, for installation, but you'll need to verify this is possible.</p>
-<p>Much to my joy, Hetzner offers Arch Linux as part of their <a href="https://wiki.hetzner.de/index.php/Installimage">Install Image</a>. Their install scripts are very general though, and installing a different choice is a similar process.</p>
+<p>Much to my joy, Hetzner offers Arch Linux as part of their <a rel="noopener" target="_blank" href="https://wiki.hetzner.de/index.php/Installimage">Install Image</a>. Their install scripts are very general though, and installing a different choice is a similar process.</p>
 <figure class="enriched ">
         <figcaption>Several Options</figcaption>
         <img srcset="
@@ -225,7 +229,7 @@
 /dev/sda 232.9G root  disk  brw-rw+++- /dev/sda 1:0:0:0    disk ATA      Crucial_CT250MX2 MU03 sata
 /dev/sdb 232.9G root  disk  brw-rw+++- /dev/sdb 2:0:0:0    disk ATA      Crucial_CT250MX2 MU03 sata
 </span></code></pre>
-<p>For our configuration, we'll use the <code>btrfs</code> filesystem which supports <a href="https://btrfs.wiki.kernel.org/index.php/Using_Btrfs_with_Multiple_Devices">multiple devices</a>. You may wish to review the <a href="https://wiki.archlinux.org/index.php/Btrfs">Arch wiki page</a> as well.</p>
+<p>For our configuration, we'll use the <code>btrfs</code> filesystem which supports <a rel="noopener" target="_blank" href="https://btrfs.wiki.kernel.org/index.php/Using_Btrfs_with_Multiple_Devices">multiple devices</a>. You may wish to review the <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Btrfs">Arch wiki page</a> as well.</p>
 <p>I'm choosing to map both my whole disks into a <code>btrfs</code> volume with mirroring across disks. This should give me consistency against disk failures.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">HOSTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">silicon
@@ -268,7 +272,7 @@
 <li><code>root</code> will be the core of our system, and what runs day-to-day. We make this a subvolume so we can take snapshots of our running system and use them later in case something goes wrong. It's fairly cheap to make snapshots of this since the only things that will change are updated packages and configurations.</li>
 <li><code>home</code> is where you store all of the user data. This data is, generally, <em>version independent</em> of what's running on your system. It's unlikely if you roll back <code>root</code> you'll also want to lose your latest changes to <code>home</code>.</li>
 <li><code>pacman-cache</code> is where we'll store the Arch Linux official repository caches. It stores previous and current versions of packages installed. Along with the <code>abs-cache</code> these are likely things you'll want to share between all snapshots.</li>
-<li><code>abs-cache</code> is where we'll store our ABS tree cache. It stores builds from the <a href="http://aur.archlinux.org/">AUR</a>.</li>
+<li><code>abs-cache</code> is where we'll store our ABS tree cache. It stores builds from the <a rel="noopener" target="_blank" href="http://aur.archlinux.org/">AUR</a>.</li>
 </ul>
 <p>You may be asking &quot;Why not a seperate <code>boot</code>?&quot; and that's an extremely good question! From my experience, one thing that happens when you use a seperate <code>boot</code> is your kernel version starts to conflict with various modules (such as <code>ntfs-3g</code>) when the kernel is new but the <code>root</code> is old. This is a new strategy I'm trying. Another reason no <code>boot</code> was made is because we're not encrypting the disk, so there is no need.</p>
 <p>Now let's mount things in their destined paths:</p>
@@ -404,16 +408,16 @@ DHCP=ipv4
     </figure>
 <p>In our next post we'll talk about <a href="/2016/05/07/new-roots-3/">configuring your server's services and doing some hardening</a>.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

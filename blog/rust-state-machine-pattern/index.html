@@ -50,7 +50,8 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Samuel Zeller</figcaption>
         <img srcset="
@@ -66,25 +67,29 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Pretty State Machine Patterns in Rust</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -98,9 +103,8 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -169,13 +173,13 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
         </ol>
     </nav>
 
-            
-    <p>Lately I've been thinking a lot about the <em>patterns</em> and <em>structures</em> which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.</p>
+        
+            <p>Lately I've been thinking a lot about the <em>patterns</em> and <em>structures</em> which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.</p>
 <p>Sometimes you're working on a new project and realize that you need to do something in the same way as you did in another project. This <em>thing</em> might not be a functionality or a library, it might not be something which you can encode into some clever macro or small crate. Instead, it may be simply a pattern, or a structural concept which addresses a problem nicely.</p>
 <p>One interesting pattern that is commonly applied to problems is that of the 'State Machine'. Let's take some time to consider what exactly we mean when we say that, and why they're interesting.</p>
 <span id="continue-reading"></span>
 <blockquote>
-<p>Throughout this post you can run all examples in <a href="https://play.rust-lang.org/">the playground</a>, I typically use 'Nightly' out of habit.</p>
+<p>Throughout this post you can run all examples in <a rel="noopener" target="_blank" href="https://play.rust-lang.org/">the playground</a>, I typically use 'Nightly' out of habit.</p>
 </blockquote>
 <h2 id="founding-our-concepts">Founding Our Concepts</h2>
 <p>There are a <strong>lot</strong> of resources and topical articles about state machines out there on the internet. Even more so, there are a lot of <strong>implementations</strong> of state machines.</p>
@@ -364,7 +368,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 }
 </span></code></pre>
 <p>As you can see, this isn't very ergonomic. We're getting closer to what we want though. The idea of moving between distinct types seems to be a good way forward! Before we go try something entirely different though, let's talk about a simple way to change our example that could enlighten further thinking.</p>
-<p>The Rust standard library defines two highly related traits: <a href="https://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a> and <a href="https://doc.rust-lang.org/std/convert/trait.Into.html"><code>Into</code></a> that are extremely useful and worth checking out. An important thing to note is that implementing one of these automatically implements the other. In general implementing <code>From</code> is preferable as it's a bit more flexible. We can implement them very easily for our above example like so:</p>
+<p>The Rust standard library defines two highly related traits: <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a> and <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/convert/trait.Into.html"><code>Into</code></a> that are extremely useful and worth checking out. An important thing to note is that implementing one of these automatically implements the other. In general implementing <code>From</code> is preferable as it's a bit more flexible. We can implement them very easily for our above example like so:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#65737e;">// ...
 </span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Waiting&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Filling {
@@ -476,7 +480,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <li>Each <code>BottleFillingMachine&lt;S&gt;</code> has a different size, with our previous example, so we'll need to use an enum. Because of our structure though we can do this in a way that doesn't completely suck.</li>
 </ul>
 <blockquote>
-<p>You can play with this example <a href="https://is.gd/CyuJlH"><strong>here</strong></a></p>
+<p>You can play with this example <a rel="noopener" target="_blank" href="https://is.gd/CyuJlH"><strong>here</strong></a></p>
 </blockquote>
 <h3 id="getting-messy-with-the-parents">Getting Messy With the Parents</h3>
 <p>So how can we have some parent structure hold our state machine without it being a gigantic pain to interact with? Well, this circles us back around to the <code>enum</code> idea we had at first.</p>
@@ -520,14 +524,14 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>One thing you will notice is this scheme <strong>does</strong> force you to handle all potential states when manipulating the machine, and that makes sense. You are reaching into a structure with a state machine and manipulating it, you need to have defined actions for each state that it is in.</p>
 <p>Or you can just <code>panic!()</code> if that's what you really want. But if you just wanted to <code>panic!()</code> then why didn't you just use the first attempt?</p>
 <blockquote>
-<p>You can see a fully worked example of this Factory example <a href="https://is.gd/s03IaQ"><strong>here</strong></a></p>
+<p>You can see a fully worked example of this Factory example <a rel="noopener" target="_blank" href="https://is.gd/s03IaQ"><strong>here</strong></a></p>
 </blockquote>
 <h2 id="worked-examples">Worked Examples</h2>
 <p>This is the kind of thing it's always nice to have some examples for. So below I've put together a couple worked examples with comments for you to explore.</p>
 <h3 id="three-state-two-transitions">Three State, Two Transitions</h3>
 <p>This example is very similar to the Bottle Filling Machine above, but instead it <strong>actually</strong> does work, albeit trivial work. It takes a string and returns the number of words in it.</p>
 <blockquote>
-<p><a href="https://is.gd/4ITDyV">Playground link</a></p>
+<p><a rel="noopener" target="_blank" href="https://is.gd/4ITDyV">Playground link</a></p>
 </blockquote>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
@@ -617,7 +621,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
     }
 }
 </span></code></pre><h3 id="a-raft-example">A Raft Example</h3>
-<p>If you've followed my posts for awhile you may know I rather enjoy thinking about Raft. Raft, and a discussion with <a href="https://twitter.com/Argorak"><strong>@argorak</strong></a> were the primary motivators behind all of this research.</p>
+<p>If you've followed my posts for awhile you may know I rather enjoy thinking about Raft. Raft, and a discussion with <a rel="noopener" target="_blank" href="https://twitter.com/Argorak"><strong>@argorak</strong></a> were the primary motivators behind all of this research.</p>
 <p>Raft is a bit more complex than the above examples as it does not just have linear states where <code>A-&gt;B-&gt;C</code>. Here is the transition diagram:</p>
 <pre style="background-color:#2b303b;">
 <code><span style="color:#c0c5ce;">++++++++++-+    ++++++++++--+    +++++++--+
@@ -629,7 +633,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
          +++++++++++++++++++++++++-+
 </span></code></pre>
 <blockquote>
-<p><a href="https://is.gd/HDZeGR">Playground link</a></p>
+<p><a rel="noopener" target="_blank" href="https://is.gd/HDZeGR">Playground link</a></p>
 </blockquote>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#65737e;">// You can play around in this function.
@@ -734,7 +738,7 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
     }
 }
 </span></code></pre><h2 id="alternatives-from-feedback">Alternatives From Feedback</h2>
-<p>I saw an interesting comment by <a href="https://www.reddit.com/r/rust/comments/57ccds/pretty_state_machine_patterns_in_rust/d8rhwq4">I-impv on Reddit</a> showing off <a href="https://play.rust-lang.org/?gist=ee3e4df093c136ced7b394dc7ffb78e1&amp;version=stable&amp;backtrace=0">this approach based on our examples above</a>. Here's what they had to say about it:</p>
+<p>I saw an interesting comment by <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/57ccds/pretty_state_machine_patterns_in_rust/d8rhwq4">I-impv on Reddit</a> showing off <a rel="noopener" target="_blank" href="https://play.rust-lang.org/?gist=ee3e4df093c136ced7b394dc7ffb78e1&amp;version=stable&amp;backtrace=0">this approach based on our examples above</a>. Here's what they had to say about it:</p>
 <blockquote>
 <p>I like the way you did it. I am working on a fairly complex FSM myself currently and did it slightly different.</p>
 <p>Some things I did different:</p>
@@ -748,16 +752,16 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>Rust lets us represent State Machines in a fairly good way. In an ideal situation we'd be able to make <code>enum</code>s with restricted transitions between variants, but that's not the case. Instead, we can harness the power of generics and the ownership system to create something expressive, safe, and understandable.</p>
 <p>If you have any feedback or suggestions on this article I'd suggest checking out the footer of this page for contact details. I also hang out on Mozilla's IRC as Hoverbear.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

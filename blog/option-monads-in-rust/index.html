@@ -54,7 +54,8 @@ fn main () {
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -70,25 +71,29 @@ fn main () {
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Option Monads in Rust</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -102,9 +107,8 @@ fn main () {
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -151,8 +155,8 @@ fn main () {
         </ol>
     </nav>
 
-            
-    <p>One common monadic structure is the <code>Option</code> (or <code>Maybe</code> in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,</p>
+        
+            <p>One common monadic structure is the <code>Option</code> (or <code>Maybe</code> in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main </span><span style="color:#c0c5ce;">() {
   </span><span style="color:#65737e;">// Parses a string into an integer.
@@ -214,7 +218,7 @@ fn main () {
 <ul>
 <li><strong>You must handle all possible returns, or lack thereof.</strong> The compiler will emit errors if you don't appropriately handle an <code>Option</code>. You can't just <em>forget</em> to handle the <code>None</code> (or 'null') case.</li>
 <li><strong>Null doesn't exist.</strong> It's immediately apparent to readers and consumers which functions might not return a meaningful value. Attempting to use a value from an <code>Option</code> without handling it results in a compiler error.</li>
-<li><strong>Values aren't boxed.</strong> <code>Option</code> values don't wrap pointers, they wrap values. In order to have a <code>null</code>, you necessarily need a pointer. (<a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/cjrca88">Thanks cmr!</a>)</li>
+<li><strong>Values aren't boxed.</strong> <code>Option</code> values don't wrap pointers, they wrap values. In order to have a <code>null</code>, you necessarily need a pointer. (<a rel="noopener" target="_blank" href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/cjrca88">Thanks cmr!</a>)</li>
 <li><strong>Composition becomes easy.</strong> The <code>Option</code> monad becomes much more powerful when it is used in composition, as its characteristics allow for pipelines to be created which don't need to explicitly handle errors at each step.</li>
 </ul>
 <p>Let's take a closer look at the composition idea...</p>
@@ -291,7 +295,7 @@ fn main () {
 </span><span style="color:#c0c5ce;">}
 </span></code></pre>
 <p>This code handles all possible result branches cleanly, and the author need not explicitly deal with each possible <code>None</code> result, they only need to handle the end result. If any of the functions which may fail (called by <code>and_then()</code>) do fail, the rest of the computation is bypassed. Additionally, it makes expressing and understanding the pipeline of computations much easier.</p>
-<p><code>map</code> and <code>and_then</code> (along with a gamut of other functions listed <a href="http://doc.rust-lang.org/std/option/type.Option.html">here</a>) provide a robust set of tools for composing functions together. Let's take a look, their signatures are below.</p>
+<p><code>map</code> and <code>and_then</code> (along with a gamut of other functions listed <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/option/type.Option.html">here</a>) provide a robust set of tools for composing functions together. Let's take a look, their signatures are below.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">map</span><span style="color:#c0c5ce;">&lt;U&gt;     (</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: |T| -&gt; U)         -&gt; Option&lt;U&gt;
 fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
@@ -300,7 +304,7 @@ fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
 <p>This call corresponds to <code>fmap</code> in Haskell, which is part of a functor. Monads have this trait because every monad is a functor.</p>
 <h3 id="monad-interface-and-then">Monad Interface: <code>.and_then()</code></h3>
 <p><code>and_then</code> allows you to apply a <code>|T| -&gt; Option&lt;U&gt;</code> function to an <code>Option&lt;T&gt;</code>, returning an <code>Option&lt;U&gt;</code>. This allows for functions which may return no value, like <code>sqrt()</code>, to be applied.</p>
-<p>This call corresponds to <code>bind</code> in Haskell and theoretical Monad definitions. Meanwhile unwrapping <code>Some&lt;T&gt;</code> or <code>None</code> is the equivalent of <code>return</code>. (Thanks to <a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/cjrr48c">dirkt</a>)</p>
+<p>This call corresponds to <code>bind</code> in Haskell and theoretical Monad definitions. Meanwhile unwrapping <code>Some&lt;T&gt;</code> or <code>None</code> is the equivalent of <code>return</code>. (Thanks to <a rel="noopener" target="_blank" href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/cjrr48c">dirkt</a>)</p>
 <h3 id="examples">Examples</h3>
 <p><strong>Working with Options in Vectors</strong>. Parsing a vector of strings into integers. Note that Rust's iterators are lazy, so if <code>collect()</code> isn't called, the iterator itself could be composed with others.</p>
 <pre style="background-color:#2b303b;">
@@ -335,29 +339,29 @@ fn and_then&lt;U&gt;(self, f: |T| -&gt; Option&lt;U&gt;) -&gt; Option&lt;U&gt;
 }
 </span></code></pre><h2 id="discussion">Discussion:</h2>
 <ul>
-<li><a href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/">Reddit Post</a></li>
-<li><a href="https://news.ycombinator.com/item?id=8187106">Hacker News Post</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.reddit.com/r/rust/comments/2dnx7k/exploring_the_option_monad_with_rust/">Reddit Post</a></li>
+<li><a rel="noopener" target="_blank" href="https://news.ycombinator.com/item?id=8187106">Hacker News Post</a></li>
 </ul>
 <h2 id="further-resources">Further Resources:</h2>
 <ul>
-<li><a href="http://en.wikipedia.org/wiki/Monad_(functional_programming)">Wikipedia's Article</a></li>
-<li><a href="http://www.intensivesystems.net/tutorials/monads_101.html">Monads 101</a></li>
-<li><a href="http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/">A Monad Tutorial for Clojure Programmers</a></li>
-<li><a href="https://github.com/clojure/algo.monads/blob/master/src/main/clojure/clojure/algo/monads.clj">Clojure.algo.monads</a></li>
-<li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, and Monads in Pictures</a></li>
-<li><a href="http://learnyouahaskell.com/a-fistful-of-monads">A fistful of monads</a></li>
+<li><a rel="noopener" target="_blank" href="http://en.wikipedia.org/wiki/Monad_(functional_programming)">Wikipedia's Article</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.intensivesystems.net/tutorials/monads_101.html">Monads 101</a></li>
+<li><a rel="noopener" target="_blank" href="http://onclojure.com/2009/03/05/a-monad-tutorial-for-clojure-programmers-part-1/">A Monad Tutorial for Clojure Programmers</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/clojure/algo.monads/blob/master/src/main/clojure/clojure/algo/monads.clj">Clojure.algo.monads</a></li>
+<li><a rel="noopener" target="_blank" href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, and Monads in Pictures</a></li>
+<li><a rel="noopener" target="_blank" href="http://learnyouahaskell.com/a-fistful-of-monads">A fistful of monads</a></li>
 </ul>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

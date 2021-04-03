@@ -51,7 +51,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -67,25 +68,29 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">OpenWRT QoS</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -99,9 +104,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -186,13 +190,13 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
         </ol>
     </nav>
 
-            
-    <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
+        
+            <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
 <blockquote>
-<p>The <a href="http://wiki.openwrt.org/doc/uci/qos">documentation</a> for OpenWRT's QoS is rather lacking, please feel encouraged to improve it as you go!</p>
+<p>The <a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/uci/qos">documentation</a> for OpenWRT's QoS is rather lacking, please feel encouraged to improve it as you go!</p>
 </blockquote>
 <span id="continue-reading"></span><h2 id="prerequisites">Prerequisites</h2>
-<p>Documented <a href="http://wiki.openwrt.org/doc/uci/qos">here</a>, the <code>qos-scripts</code> package offers a simple configuration that integrates well with the rest of OpenWRT's UCI (Unified Configuration Interface).</p>
+<p>Documented <a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/uci/qos">here</a>, the <code>qos-scripts</code> package offers a simple configuration that integrates well with the rest of OpenWRT's UCI (Unified Configuration Interface).</p>
 <p>On the router:</p>
 <pre style="background-color:#2b303b;">
 <code>opkg install qos-scripts
@@ -271,7 +275,7 @@ config class &quot;Bulk&quot;
     option avgrate     1
     option packetdelay 200
 </code></pre>
-<p><code>class</code> blocks are used to define packet classes. Each class is placed inside of a seperate <a href="https://en.wikipedia.org/wiki/Leaky_bucket">bucket</a>.</p>
+<p><code>class</code> blocks are used to define packet classes. Each class is placed inside of a seperate <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Leaky_bucket">bucket</a>.</p>
 <ul>
 <li><code>option packetsize 400</code> defines the size of packets within the bucket.</li>
 <li><code>option maxsize 1000</code> defines the maximum size of the bucket. <em>(Probably, this isn't specified.)</em></li>
@@ -472,22 +476,22 @@ config class &quot;httpdev&quot;
 <p>You can also take a much more low-level and fine grained control of how things behave using standard Linux tools. After all, everything in <code>qos-scripts</code> is built off <code>iptables</code>, <code>tc</code>, and other standard tools.</p>
 <p>Here are some links to explore further:</p>
 <ul>
-<li><a href="http://wiki.openwrt.org/doc/howto/packet.scheduler/packet.scheduler">Network Traffic Control</a> - Configuring your kernel scheduler.</li>
-<li><a href="http://wiki.openwrt.org/doc/howto/netfilter">Netfilter</a> - Configuring <code>iptables</code> and other things.</li>
-<li><a href="http://wiki.openwrt.org/doc/howto/bwmon">Bandwidth Monitoring</a> - Keeping tabs on things.</li>
+<li><a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/howto/packet.scheduler/packet.scheduler">Network Traffic Control</a> - Configuring your kernel scheduler.</li>
+<li><a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/howto/netfilter">Netfilter</a> - Configuring <code>iptables</code> and other things.</li>
+<li><a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/howto/bwmon">Bandwidth Monitoring</a> - Keeping tabs on things.</li>
 </ul>
 <p><em>A special thanks to the Bergens Banen train for our test material. The cover image of this article is from the video.</em></p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Raft: A First Prototype</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -162,8 +166,8 @@
         </ol>
     </nav>
 
-            
-    <p>As you may have <a href="/2015/02/05/raft-update-1/">previously</a> <a href="/2015/02/18/raft-update-2/">read</a>, I've been working on implementing the <a href="https://raftconsensus.github.io/">Raft Distributed Consensus Algorithm</a> in <a href="http://rust-lang.org/">Rust</a> for my classes (and fun!).</p>
+        
+            <p>As you may have <a href="/2015/02/05/raft-update-1/">previously</a> <a href="/2015/02/18/raft-update-2/">read</a>, I've been working on implementing the <a rel="noopener" target="_blank" href="https://raftconsensus.github.io/">Raft Distributed Consensus Algorithm</a> in <a rel="noopener" target="_blank" href="http://rust-lang.org/">Rust</a> for my classes (and fun!).</p>
 <span id="continue-reading"></span><h2 id="current-status">Current Status</h2>
 <p>I'm proud to say I have the first <em>(fragile)</em> prototype of the library working <em>(most of the time)</em> as I type this. But with that said, the work has only really just begun.</p>
 <p>Currently:</p>
@@ -176,7 +180,7 @@
 <li><strong>Replicating Logs:</strong> <em>Works, but isn't ideal!</em>
 <ul>
 <li>As I wrote about in my <a href="/2015/02/18/raft-update-2/">last article</a> the current scheme isn't very intelligent.</li>
-<li><a href="https://github.com/Hoverbear/raft/issues/4">This issue</a> is tracking possible improvements.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/4">This issue</a> is tracking possible improvements.</li>
 </ul>
 </li>
 <li><strong>Handling Commits</strong>: <em>Works!</em></li>
@@ -196,8 +200,8 @@
 <li><strong>Testing::</strong> <em>In progress!</em></li>
 <li><strong>Tooling:</strong> <em>Rocks!</em>
 <ul>
-<li><a href="https://travis-ci.org/Hoverbear/raft">Travis CI Builds</a></li>
-<li><a href="https://hoverbear.github.io/raft/raft/index.html">Generated Docs</a></li>
+<li><a rel="noopener" target="_blank" href="https://travis-ci.org/Hoverbear/raft">Travis CI Builds</a></li>
+<li><a rel="noopener" target="_blank" href="https://hoverbear.github.io/raft/raft/index.html">Generated Docs</a></li>
 </ul>
 </li>
 </ul>
@@ -211,12 +215,12 @@
 <h3 id="current-dependencies">Current Dependencies</h3>
 <p>With Rust still pre-beta, and my deadline for this prototype short, I wanted to reduce the number of dependencies to a minimum to avoid deadlocking. Please keep this in mind as you read forward as it was a primary consideration for some functionality like RPC.</p>
 <ul>
-<li><a href="http://doc.rust-lang.org/std/index.html"><code>std</code></a> - The stdlib.</li>
-<li><a href="https://github.com/rust-lang/rustc-serialize"><code>rustc-serialize</code></a> - Generic serialization/deserialization support.</li>
-<li><a href="https://github.com/rust-lang/uuid"><code>uuid</code></a> - Unique Universal Identifiers.</li>
-<li><a href="https://github.com/rust-lang/rand"><code>rand</code></a> - Random number generators.</li>
-<li><a href="https://github.com/rust-lang/log"><code>log</code></a> - Configurable logging.</li>
-<li><a href="https://github.com/rust-lang/log"><code>env_logger</code></a> - For <code>log</code>.</li>
+<li><a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/index.html"><code>std</code></a> - The stdlib.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rustc-serialize"><code>rustc-serialize</code></a> - Generic serialization/deserialization support.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/uuid"><code>uuid</code></a> - Unique Universal Identifiers.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rand"><code>rand</code></a> - Random number generators.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>log</code></a> - Configurable logging.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>env_logger</code></a> - For <code>log</code>.</li>
 </ul>
 <h3 id="states">States</h3>
 <p>Nodes can either be:</p>
@@ -264,7 +268,7 @@ pub enum TransactionState {
 </code></pre>
 <p>The idea is that when a <code>RemoteProcedureRequest</code> is made it generates a UUID which the <code>RaftNode</code> (particularly it's <code>node.state</code>) stores and uses to verify and identify responses.</p>
 <p>In the case of <code>AppendEntries</code> there is no need for the <code>Leader(_)</code> to track UUIDs. They are mostly used for <code>Candidate(_)</code> elections and for the <code>Follower(_)</code> when it makes a request of the leader.</p>
-<p>I'm not entirely happy with this approach, and I think that in the future moving to some form of RPC approach like <a href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/">Cap'n Proto</a> would be safer and faster.</p>
+<p>I'm not entirely happy with this approach, and I think that in the future moving to some form of RPC approach like <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/">Cap'n Proto</a> would be safer and faster.</p>
 <blockquote>
 <p>Moving to Cap'n Proto might serve two additional purposes: Increased compatability with other implementations, and providing examples (which are currently lacking for Rust!)</p>
 </blockquote>
@@ -273,8 +277,8 @@ pub enum TransactionState {
 <pre style="background-color:#2b303b;">
 <code>loop { raft_node.tick(); }
 </code></pre>
-<p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
-<p>If you have any advice on this, let me know <a href="https://github.com/Hoverbear/raft/issues/6">here</a>.</p>
+<p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
+<p>If you have any advice on this, let me know <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/6">here</a>.</p>
 <h3 id="main-events">Main Events</h3>
 <p>There are three main events which can occur:</p>
 <ul>
@@ -286,7 +290,7 @@ pub enum TransactionState {
 <p>Gotcha: Only the <code>Leader(_)</code> or a <code>Follower(_)</code> (with a known leader) will retrieve from a channel for now.</p>
 </blockquote>
 <h3 id="logging">Logging</h3>
-<p>I just started migrating over to the <strong>fantastic</strong> <a href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
+<p>I just started migrating over to the <strong>fantastic</strong> <a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
 <p>Using it, you end up with something like this:</p>
 <pre style="background-color:#2b303b;">
 <code>if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
@@ -406,8 +410,8 @@ assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
 </code></pre><h2 id="further-work">Further Work</h2>
 <p>A <strong>lot</strong> of further work is needed to make this library ready for action. Here is a brief summary:</p>
 <ul>
-<li><a href="https://github.com/Hoverbear/raft/issues/6">Tame the Tick!</a></li>
-<li><a href="https://github.com/Hoverbear/raft/issues/4">Use a Better Log!</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/6">Tame the Tick!</a></li>
+<li><a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/4">Use a Better Log!</a></li>
 <li>Use a more established RPC paradigm like Cap'n Proto.</li>
 <li>Improve consumer interface. (Possibly through facade functions?)</li>
 <li>Membership Changes</li>
@@ -418,18 +422,18 @@ assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
 <p>https://github.com/Hoverbear/raft</p>
 </blockquote>
 <p>Would you like to explore, give feedback, or contribute? Please do! Publicly you can just make an issue on Github, or privately just shoot me an email. (I'm sure you can find it on Github or here...)</p>
-<p><strong>Discussion of this post is on <a href="https://www.reddit.com/r/rust/comments/2wyq2e/raft_a_first_prototype/">Reddit</a>.</strong></p>
+<p><strong>Discussion of this post is on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2wyq2e/raft_a_first_prototype/">Reddit</a>.</strong></p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

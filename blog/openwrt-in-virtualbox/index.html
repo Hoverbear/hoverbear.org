@@ -49,7 +49,8 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">OpenWRT in Virtualbox</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -171,9 +175,9 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
         </ol>
     </nav>
 
-            
-    <p>For my CSC 467 project I'm studying the configuration and performance of various QoS parameters in OpenWRT.</p>
-<p>The plan is to set up an OpenWRT router in <a href="https://www.virtualbox.org/">VirtualBox</a> and orcestrate some <a href="http://vagrantup.com/">Vagrant</a> boxes to create a VM network.</p>
+        
+            <p>For my CSC 467 project I'm studying the configuration and performance of various QoS parameters in OpenWRT.</p>
+<p>The plan is to set up an OpenWRT router in <a rel="noopener" target="_blank" href="https://www.virtualbox.org/">VirtualBox</a> and orcestrate some <a rel="noopener" target="_blank" href="http://vagrantup.com/">Vagrant</a> boxes to create a VM network.</p>
 <span id="continue-reading"></span><h2 id="configuration">Configuration</h2>
 <p>Lets configure some environment variables we'll use throughout, once you close your shell these will disappear, so you might need to reinitialize them later.</p>
 <pre style="background-color:#2b303b;">
@@ -268,7 +272,7 @@ VBoxManage storageattach $VMNAME \
 <code>  opkg install dropbear
 </code></pre>
 <p>Then check <code>/etc/config/dropbear</code>. By default, PasswordAuth and RootPasswordAuth are both on and it runs on port 22. For our Virtual Machine testing purposes, this is fine, it will be port-forwarded on port 2222 of our host machine. On a system facing the world (I.E. not behind a NAT and router etc) this would be considered very, very bad practice.</p>
-<p>According to <a href="http://wiki.openwrt.org/doc/uci/dropbear">the Dropbear WRT documentation</a>, it is already enabled. If you change the configuration make sure to restart it.</p>
+<p>According to <a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/uci/dropbear">the Dropbear WRT documentation</a>, it is already enabled. If you change the configuration make sure to restart it.</p>
 <pre style="background-color:#2b303b;">
 <code>/etc/init.d/dropbear restart
 </code></pre>
@@ -380,18 +384,18 @@ config dhcp 'lan3'
 </code></pre><h2 id="making-clients">Making Clients</h2>
 <p>We can create other VMs which attach to our new router.</p>
 <p>I'll be writing later about how to get these subordinates, (ahem, <em>network clients</em>) working together with the router.</p>
-<p><a href="http://www.hoverbear.org/2014/12/04/vagrant-clients-for-openwrt-vms/">See next post.</a></p>
+<p><a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/12/04/vagrant-clients-for-openwrt-vms/">See next post.</a></p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

@@ -50,7 +50,8 @@ So how can we model them?
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Javier Allegue Barros; @soymeraki on Unsplash</figcaption>
         <img srcset="
@@ -66,25 +67,29 @@ So how can we model them?
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Hierarchical Structures in PostgreSQL</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -98,9 +103,8 @@ So how can we model them?
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -153,8 +157,8 @@ So how can we model them?
         </ol>
     </nav>
 
-            
-    <p>It's a common pattern: a database developer at a startup is probably on the Product subteam of the Engineering team at their company. In a department store, shoes are a subcategory of clothing, while your favorite thermos is probably in the travel department.</p>
+        
+            <p>It's a common pattern: a database developer at a startup is probably on the Product subteam of the Engineering team at their company. In a department store, shoes are a subcategory of clothing, while your favorite thermos is probably in the travel department.</p>
 <p>In any Github organization, there are teams within teams within teams. In any large department store there are categories deeply nested. In any recipe book, there are many ways to classify food.</p>
 <p>So how can we model them?</p>
 <span id="continue-reading"></span>
@@ -190,9 +194,9 @@ So how can we model them?
 <p>For this exercise, the exact format of the <code>path</code> is not important. An HTML string, a comma separated list, or any ordered collection is acceptable.</p>
 <h2 id="concepts">Concepts</h2>
 <p>We'll actually cover two solutions, both of which demonstrate a few core concepts! </p>
-<p>For the first solution, ensure you're familiar with the ideas of <a href="https://www.postgresql.org/docs/current/functions-comparison.html"><strong><code>NULL</code></strong></a>, <a href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"><strong>Primary Keys</strong></a>, and <a href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK"><strong>Foreign Keys</strong></a>. We'll need these for building safe, efficient linking between teams and their parents.</p>
-<p>We'll then use a <a href="https://www.postgresql.org/docs/12/sql-creatematerializedview.html"><strong>Materialized View</strong></a> to create a sort of <em>cache</em> of the point-in-time team structure. We'll refresh this using a <a href="https://www.postgresql.org/docs/12/plpgsql-trigger.html"><strong>Function</strong></a> that is <a href="https://www.postgresql.org/docs/12/trigger-definition.html"><strong>Triggered</strong></a> whenever the original table is written to.</p>
-<p>For the next solution, we'll explore the tailor-made <a href="https://www.postgresql.org/docs/12/ltree.html"><strong><code>ltree</code></strong></a> type that can solve our needs without the complex mechanics of the first solution. Further, this solution offers some useful functionality like <code>subpath</code>s.</p>
+<p>For the first solution, ensure you're familiar with the ideas of <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/current/functions-comparison.html"><strong><code>NULL</code></strong></a>, <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-PRIMARY-KEYS"><strong>Primary Keys</strong></a>, and <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK"><strong>Foreign Keys</strong></a>. We'll need these for building safe, efficient linking between teams and their parents.</p>
+<p>We'll then use a <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/sql-creatematerializedview.html"><strong>Materialized View</strong></a> to create a sort of <em>cache</em> of the point-in-time team structure. We'll refresh this using a <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/plpgsql-trigger.html"><strong>Function</strong></a> that is <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/trigger-definition.html"><strong>Triggered</strong></a> whenever the original table is written to.</p>
+<p>For the next solution, we'll explore the tailor-made <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/ltree.html"><strong><code>ltree</code></strong></a> type that can solve our needs without the complex mechanics of the first solution. Further, this solution offers some useful functionality like <code>subpath</code>s.</p>
 <h2 id="before-we-start">Before we start</h2>
 <p>Please make sure your database is in UTF-8! We're going to be exploring international text today. If you're not sure, let's create a new empty database, and go ahead and connect to it.</p>
 <pre style="background-color:#2b303b;">
@@ -287,9 +291,9 @@ Seq Scan on team_structure  (cost=</span><span style="color:#d08770;">0</span><s
 Execution </span><span style="color:#b48ead;">Time</span><span style="color:#c0c5ce;">: </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">.</span><span style="color:#d08770;">026</span><span style="color:#c0c5ce;"> ms
 </span></code></pre><h2 id="solution-2-ltree-columns">Solution 2: <code>ltree</code> columns</h2>
 <blockquote>
-<p>Thanks to <a href="https://twitter.com/focusaurus">@focusaurus</a> for giving me the idea to add this section after publication!</p>
+<p>Thanks to <a rel="noopener" target="_blank" href="https://twitter.com/focusaurus">@focusaurus</a> for giving me the idea to add this section after publication!</p>
 </blockquote>
-<p><code>ltree</code> is an extension that you should <em>probably</em> already have if your PostgreSQL is an officially distributed package. The <a href="https://www.postgresql.org/docs/12/ltree.html">PostgreSQL docs</a> on the <code>ltree</code> type summarize it quite well, so let's not just repeat them and let's solve our problem!</p>
+<p><code>ltree</code> is an extension that you should <em>probably</em> already have if your PostgreSQL is an officially distributed package. The <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/ltree.html">PostgreSQL docs</a> on the <code>ltree</code> type summarize it quite well, so let's not just repeat them and let's solve our problem!</p>
 <p>First, let's note some limitations:</p>
 <blockquote>
 <p>A label is a sequence of alphanumeric characters and underscores <strong>(for example, in C locale the characters A-Za-z0-9_ are allowed)</strong>. Labels must be <strong>less than 256 bytes long</strong>.</p>
@@ -364,16 +368,16 @@ Execution </span><span style="color:#b48ead;">Time</span><span style="color:#c0c
 <p>As you can see, this problem can be tackled in a couple different ways, with some basic SQL concepts used together, or with already existing types! Don't let limitations turn you away, you can overcome them!</p>
 <p>I hope this have given you some ideas about new things you can do with your database!</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

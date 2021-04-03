@@ -52,7 +52,8 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -68,25 +69,29 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Quadcopters: Stabilization</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -100,9 +105,8 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -156,14 +160,14 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
         </ol>
     </nav>
 
-            
-    <p>In our <a href="/tag/quadcopters/">past articles</a> we've explored some of the basics of the mechanics of Quadcopters. In this article we'll be doing something a bit different and discussing the algorithms behind how the Quadcopter keeps itself stable.</p>
-<p>To do this we'll actually be inspecting some of the official <a href="https://github.com/bitcraze/crazyflie-firmware">Bitcraze Firmware</a> and it's <a href="https://github.com/bitcraze/crazyflie-firmware/blob/crazyflie2/modules/src/stabilizer.c"><code>stabilizer.c</code></a> implementation.</p>
+        
+            <p>In our <a href="/tag/quadcopters/">past articles</a> we've explored some of the basics of the mechanics of Quadcopters. In this article we'll be doing something a bit different and discussing the algorithms behind how the Quadcopter keeps itself stable.</p>
+<p>To do this we'll actually be inspecting some of the official <a rel="noopener" target="_blank" href="https://github.com/bitcraze/crazyflie-firmware">Bitcraze Firmware</a> and it's <a rel="noopener" target="_blank" href="https://github.com/bitcraze/crazyflie-firmware/blob/crazyflie2/modules/src/stabilizer.c"><code>stabilizer.c</code></a> implementation.</p>
 <blockquote>
 <p>It's okay if you don't know C or understand what's going on in this file, that's part of the purpose of this article!</p>
 </blockquote>
 <span id="continue-reading"></span>
-<p>The Crazyflie uses a <em>real time</em> operating system called <a href="http://www.freertos.org/index.html">FreeRTOS</a> which is a well regarded industry standard.</p>
+<p>The Crazyflie uses a <em>real time</em> operating system called <a rel="noopener" target="_blank" href="http://www.freertos.org/index.html">FreeRTOS</a> which is a well regarded industry standard.</p>
 <h1 id="structure">Structure</h1>
 <p><strong>C code and Arduino code are fairly similar</strong>, and the best practice is to lay out your code roughly as follows:</p>
 <pre style="background-color:#2b303b;">
@@ -275,9 +279,9 @@ static Axis3f mag;  // Magnetometer axis data in testla
 </code></pre>
 <p>In the first few lines the function allocates some space for some 32-bit unsigned integers, these <em>only represent absolute numbers</em>. You can see that <code>lastWakeTime</code> is set later in the code. There are a few functions whose purpose is not immediately clear, let's go over them.</p>
 <ul>
-<li><a href="http://www.freertos.org/vTaskSetApplicationTag.html"><code>vTaskSetApplicationTaskTag()</code></a> - Sets the 'tag' of the tag for debugging purposes. We need not concern ourselves with this.</li>
-<li><a href="http://www.freertos.org/a00021.html#xTaskGetTickCount"><code>xTaskGetTickCount()</code></a> - This returns the number of ticks since the task was started (we saw this above).</li>
-<li><a href="http://www.freertos.org/vtaskdelayuntil.html"><code>vTaskDelayUntil()</code></a> - This call asks the FreeRTOS to delay any execution of the task until the appropriate time, then start it again.</li>
+<li><a rel="noopener" target="_blank" href="http://www.freertos.org/vTaskSetApplicationTag.html"><code>vTaskSetApplicationTaskTag()</code></a> - Sets the 'tag' of the tag for debugging purposes. We need not concern ourselves with this.</li>
+<li><a rel="noopener" target="_blank" href="http://www.freertos.org/a00021.html#xTaskGetTickCount"><code>xTaskGetTickCount()</code></a> - This returns the number of ticks since the task was started (we saw this above).</li>
+<li><a rel="noopener" target="_blank" href="http://www.freertos.org/vtaskdelayuntil.html"><code>vTaskDelayUntil()</code></a> - This call asks the FreeRTOS to delay any execution of the task until the appropriate time, then start it again.</li>
 </ul>
 <p>You'll notice as well that there is the start of a <code>while(1)</code> loop, which is an <em>infinite loop</em>, and will keep going until it is manually exited. Let's move forward.</p>
 <pre style="background-color:#2b303b;">
@@ -311,7 +315,7 @@ if (imu6IsCalibrated())
 <p>After, if a counter is high enough (the <code>++</code> increments it) we do an 'attitude' update. This is not to be confused with altitude. The term attitude is something that seems to be internal to the Crazyflie, and appears to just be their term for a need for adjustment.</p>
 <p>The <code>sensfusion6UpdateQ()</code> and <code>sensfusion6GetEulerRPY()</code> functions pull the current quadcopter orientation from the sensors onboard. You may note that this only updates the Gyro and Accelerometer, that's because the Crazyflie does not use the Magnometer in this code yet.</p>
 <p><code>AccWZ</code> is used along with the deadband (a way to reduce the amount of data collected and save battery life) to estimate the vertical speed of the device. It appears that <code>AccMAG</code> is unused.</p>
-<p>Then <code>controllerCorrectAttitudePID()</code> is called. This takes the desired values and through a round-about method works with <a href="https://github.com/bitcraze/crazyflie-firmware/blob/a3ecf78d2e0e70e45c8a77f4d3d068b875ab8bf4/modules/interface/pid.h#L65-L81"><code>PidObject</code></a>s to update the pointers we pass in (The <code>&amp;</code> values). <code>PidObject</code>s are used to model mathematics that drive the quadcopter.</p>
+<p>Then <code>controllerCorrectAttitudePID()</code> is called. This takes the desired values and through a round-about method works with <a rel="noopener" target="_blank" href="https://github.com/bitcraze/crazyflie-firmware/blob/a3ecf78d2e0e70e45c8a77f4d3d068b875ab8bf4/modules/interface/pid.h#L65-L81"><code>PidObject</code></a>s to update the pointers we pass in (The <code>&amp;</code> values). <code>PidObject</code>s are used to model mathematics that drive the quadcopter.</p>
 <pre style="background-color:#2b303b;">
 <code>  // 100HZ
   if (imuHasBarometer() &amp;&amp; (++altHoldCounter &gt;= ALTHOLD_UPDATE_RATE_DIVIDER))
@@ -383,16 +387,16 @@ if (imu6IsCalibrated())
 </ul>
 <p>In order to determine these values it uses mathematical models to get an idea of it's orientation and status. If you read our article on sensors you may recall how we transformed our accelerometer data into velocity data, this is the same idea. Then, the quadcopter attempts to find a <em>happy, stable</em> place that satisfies these requirements.</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

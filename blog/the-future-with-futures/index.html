@@ -49,7 +49,8 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- NASA</figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">The Future with Futures</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -141,8 +145,8 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
         </ol>
     </nav>
 
-            
-    <p>Recently there has been a lot of progress in the Rust language towards a robust asynchronous stack. In this article we'll take a look at what these things are, take a tour of what's available, play with some examples, and talk about how the pieces fit together.</p>
+        
+            <p>Recently there has been a lot of progress in the Rust language towards a robust asynchronous stack. In this article we'll take a look at what these things are, take a tour of what's available, play with some examples, and talk about how the pieces fit together.</p>
 <p>We'll get started with the <code>futures</code> crate to start, move on to <code>futures_cpupool</code>, and then eventually to <code>tokio</code>. We will assume you have some knowledge of programming, and have at least thought about trying Rust before.</p>
 <span id="continue-reading"></span><h2 id="what-are-futures-and-async">What are Futures and Async?</h2>
 <p>When writing code to do some action which may take some time, such as requesting a resource from a remote host, it is not always desirable to block further execution of our program. This is particularly true in the case where we are writing a web server, or performing a large number of complex calculations.</p>
@@ -151,11 +155,11 @@ We&#x27;ll get started with the futures crate to start, move on to futures_cpupo
 <p>If you've ever developed in Javascript you may already be familiar with asynchronous programming and the idea of Promises. Futures in Rust are very similar to this, but we're provided more control and more responsibility. With this comes greater power.</p>
 <h2 id="how-we-got-here">How We Got Here</h2>
 <p>Much of this async work has been in development since green threads were removed from Rust around the 0.7 release. There have been several projects related to futures and async since, their influence can be felt by what we have now and what is on the horizon.</p>
-<p>Much of the async story today is founded on the ideas and lessons learned from <code>std</code>'s green threads, <a href="https://github.com/carllerche/mio"><code>mio</code></a>, <a href="https://github.com/rustcc/coroutine-rs"><code>coroutine</code></a>, and <a href="https://github.com/tailhook/rotor"><code>rotor</code></a>. <code>mio</code> in particular is a foundation of nearly the entire async area of Rust. If you have interest in seeing high quality systems code I highly reccomend paying some attention to this project.</p>
-<p>Today, <a href="https://tokio.rs/"><code>tokio</code></a> and <a href="https://github.com/alexcrichton/futures-rs"><code>futures</code></a> are the focus of much community effort. Recently <a href="https://tokio.rs/blog/tokio-0-1/">Tokio accounced its first release</a>, while futures have been relatively stable for a couple months. This has spurned a large amount of development within the community to support and leverage these new capabilities.</p>
+<p>Much of the async story today is founded on the ideas and lessons learned from <code>std</code>'s green threads, <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio"><code>mio</code></a>, <a rel="noopener" target="_blank" href="https://github.com/rustcc/coroutine-rs"><code>coroutine</code></a>, and <a rel="noopener" target="_blank" href="https://github.com/tailhook/rotor"><code>rotor</code></a>. <code>mio</code> in particular is a foundation of nearly the entire async area of Rust. If you have interest in seeing high quality systems code I highly reccomend paying some attention to this project.</p>
+<p>Today, <a rel="noopener" target="_blank" href="https://tokio.rs/"><code>tokio</code></a> and <a rel="noopener" target="_blank" href="https://github.com/alexcrichton/futures-rs"><code>futures</code></a> are the focus of much community effort. Recently <a rel="noopener" target="_blank" href="https://tokio.rs/blog/tokio-0-1/">Tokio accounced its first release</a>, while futures have been relatively stable for a couple months. This has spurned a large amount of development within the community to support and leverage these new capabilities.</p>
 <h2 id="getting-started">Getting Started</h2>
 <p>The <code>futures</code> crate offers a number of structures and abstractions to <em>enable</em> building asynchronous code. By itself it's quite simple, and through its clever design it is fundamentally a zero cost abstraction. This is an important thing to keep in mind as we work through our examples: Writing code with futures should have no performance overhead over code without.</p>
-<p>When compiled futures <a href="https://aturon.github.io/blog/2016/08/11/futures/">boil down to actual state machines</a> while still allowing us to write our code in a relatively familiar 'callback style' pattern. If you've already been using Rust then working with Futures will feel very similar to how iterators feel.</p>
+<p>When compiled futures <a rel="noopener" target="_blank" href="https://aturon.github.io/blog/2016/08/11/futures/">boil down to actual state machines</a> while still allowing us to write our code in a relatively familiar 'callback style' pattern. If you've already been using Rust then working with Futures will feel very similar to how iterators feel.</p>
 <p>One of the things we'll commonly do in this section is &quot;sleep a little bit&quot; on a thread to simulate some asynchronous action. In order to do this let's create a little function:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> rand;
@@ -315,7 +319,7 @@ Job is done. Values returned in order: true
 <p>Remember, futures are a basic building block, not a batteries included solution. They are intended to be built on top of.</p>
 </blockquote>
 <p>We'll cover one more example which will feel fairly familiar to people who have used the channels from <code>std</code>, then we'll start doing more interesting stuff.</p>
-<p>The next primitive from <code>futures</code> we'll use is the <a href="https://docs.rs/futures/0.1.10/futures/sync/mpsc/fn.channel.html"><code>futures::sync::mpsc::channel</code></a> which behaves similar to the <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html"><code>std::sync::mpsc::channel</code></a>. We'll build a channel then pass off the sender <code>tx</code> to another thread, then we'll fire a series of messages along the channel. The <code>rx</code> side of the channel can then be used similarly to an <code>Iterator</code>.</p>
+<p>The next primitive from <code>futures</code> we'll use is the <a rel="noopener" target="_blank" href="https://docs.rs/futures/0.1.10/futures/sync/mpsc/fn.channel.html"><code>futures::sync::mpsc::channel</code></a> which behaves similar to the <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html"><code>std::sync::mpsc::channel</code></a>. We'll build a channel then pass off the sender <code>tx</code> to another thread, then we'll fire a series of messages along the channel. The <code>rx</code> side of the channel can then be used similarly to an <code>Iterator</code>.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
@@ -403,7 +407,7 @@ SUM 3696
 <p>Now that we're familiar with these basic ideas we can move on to working with <code>futures_cpupool</code>.</p>
 <h2 id="dipping-our-toes-into-the-cpu-pool">Dipping Our Toes Into the CPU Pool</h2>
 <p>Earlier we alluded to the idea of using futures with a CPU pool where we didn't have to manage which thread did which work, but in our examples so far we've still had to manually spin up threads. So let's fix that.</p>
-<p>The <a href="https://docs.rs/futures-cpupool/0.1.3/futures_cpupool/"><code>futures_cpupool</code></a> crate offers us this functionality. Let's take a look at a basic example which does nearly the same thing as our second example above:</p>
+<p>The <a rel="noopener" target="_blank" href="https://docs.rs/futures-cpupool/0.1.3/futures_cpupool/"><code>futures_cpupool</code></a> crate offers us this functionality. Let's take a look at a basic example which does nearly the same thing as our second example above:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
 </span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> fun_with_futures;
@@ -520,7 +524,7 @@ Job is done. Values returned in order: true
 </span></code></pre>
 <p>This means that we can create a CPU pool and delegate arbitrary tasks to it throughout the lifetime of our program. It may be that you want to create multiple pools to prevent starvation, for example a pool with 2 workers for network connections, and another with 2 workers for delayed jobs.</p>
 <h2 id="visiting-tokio-s-core">Visiting Tokio's Core</h2>
-<p>The <a href="https://tokio.rs/"><code>tokio</code></a> project has been developed closely alongside of <code>futures</code> and the projects share many authors. The project has a number of crates intended for building asynchronous applications. In the <code>tokio-core</code> crate there are things like the main event loop, TCP handlers, and timeouts. Building on top of that are crates such as <code>tokio-proto</code> and <code>tokio-service</code> which build on top of these constructs.</p>
+<p>The <a rel="noopener" target="_blank" href="https://tokio.rs/"><code>tokio</code></a> project has been developed closely alongside of <code>futures</code> and the projects share many authors. The project has a number of crates intended for building asynchronous applications. In the <code>tokio-core</code> crate there are things like the main event loop, TCP handlers, and timeouts. Building on top of that are crates such as <code>tokio-proto</code> and <code>tokio-service</code> which build on top of these constructs.</p>
 <p>We'll start with just <code>tokio-core</code> and doing a simple HTTP GET request. Note since we're not actually using a HTTP client we need to handle all the details ourselves. Here's what that looks like:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
@@ -566,7 +570,7 @@ Job is done. Values returned in order: true
     </span><span style="color:#c0c5ce;">println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, String::from_utf8(data).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">());
 }
 </span></code></pre>
-<p>This looks a bit different than what we've previously been doing with our futures. <a href="https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Core.html"><code>Core::new()</code></a> is how we create an event loop, or 'Reactor', which we can get <a href="https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Handle.html"><code>Handle</code>s</a> which we use when issuing tasks such as <code>TcpStream::Connect</code>. You can learn more about the basics of the Reactor <a href="https://tokio.rs/docs/getting-started/reactor/">here</a>.</p>
+<p>This looks a bit different than what we've previously been doing with our futures. <a rel="noopener" target="_blank" href="https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Core.html"><code>Core::new()</code></a> is how we create an event loop, or 'Reactor', which we can get <a rel="noopener" target="_blank" href="https://docs.rs/tokio-core/0.1.4/tokio_core/reactor/struct.Handle.html"><code>Handle</code>s</a> which we use when issuing tasks such as <code>TcpStream::Connect</code>. You can learn more about the basics of the Reactor <a rel="noopener" target="_blank" href="https://tokio.rs/docs/getting-started/reactor/">here</a>.</p>
 <p>Working with the types provided by Tokio is slightly different than working with those provided by <code>std</code>, however many of the ideas and concepts are the same. Many of the changes are due to the differences between syncronous and asynchronous I/O.</p>
 <p>Near the end of the example we have <code>core.run()</code> which is a way to fire off <strong>one off</strong> tasks and get a return value from them, similar to how we were using futures. Tokio also provides a <code>spawn()</code> and <code>spawn_fn()</code> functions which are executed in the background and must do their own handling of errors, making it ideal for tasks such as responding to new connections.</p>
 <p>Let's play with <code>spawn_fn()</code> in our next example by making a simple server.</p>
@@ -621,7 +625,7 @@ Job is done. Values returned in order: true
 </span></code></pre>
 <p>Running <code>echo &quot;Test&quot; | nc 127.0.0.1 8080</code> in another terminal echos back the data sent. </p>
 <p>However, our example here isn't very useful, or idiomatic! For example, we can't use something like <code>telnet</code> or <code>curl</code> to interact with it. It's a start though. Let's do better.</p>
-<p>We'll improve on our previous example by using a <a href="https://docs.rs/tokio-core/0.1.4/tokio_core/io/trait.Codec.html"><code>Codec</code></a>. <code>Codec</code>s allow us to describe how to encode and decode the frames a <code>TcpStream</code> (or anything else that can be <code>framed()</code>). It asks us to define an <code>In</code> and an <code>Out</code> type as well as <code>encode()</code> and <code>decode()</code> functions.</p>
+<p>We'll improve on our previous example by using a <a rel="noopener" target="_blank" href="https://docs.rs/tokio-core/0.1.4/tokio_core/io/trait.Codec.html"><code>Codec</code></a>. <code>Codec</code>s allow us to describe how to encode and decode the frames a <code>TcpStream</code> (or anything else that can be <code>framed()</code>). It asks us to define an <code>In</code> and an <code>Out</code> type as well as <code>encode()</code> and <code>decode()</code> functions.</p>
 <p>Here's what our example with <code>EchoCodec</code> could look like:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> futures;
@@ -830,7 +834,7 @@ Job is done. Values returned in order: true
 <p><code>tokio-core</code> is, by definition, minimal. The <code>tokio-proto</code> and <code>tokio-service</code> crates build atop it to create common abstractions which we can use for various applications.</p>
 <p>In this next example we'll build off our previous example of our naive HTTP server. Since the code chunks are starting to get significant let's work with isolated bits and we'll show the full example at the very end.</p>
 <p>Our goal will be to build an ultra simple web server that responds to GET/POST requests. A POST to <code>/cats</code> with the data <code>meow</code> should return a <code>200</code> OK with the old value (if any) as the data, and any future GET to <code>/cats</code> should return <code>meow</code> as well until it is replaced. Our goal is simplicity and learning, not being robust or perfect.</p>
-<p>First, we'll go ahead and define our protocol. We'll use a simple pipelined, non-streaming protocol. This code is quite generic and will generally look quite similar for different implementations. <code>tokio-proto</code> allow us to define the general style of our network. The <a href="https://docs.rs/tokio-proto/0.1.0/tokio_proto/"><code>tokio-proto</code> docs</a> provide a good explanation of the differences.</p>
+<p>First, we'll go ahead and define our protocol. We'll use a simple pipelined, non-streaming protocol. This code is quite generic and will generally look quite similar for different implementations. <code>tokio-proto</code> allow us to define the general style of our network. The <a rel="noopener" target="_blank" href="https://docs.rs/tokio-proto/0.1.0/tokio_proto/"><code>tokio-proto</code> docs</a> provide a good explanation of the differences.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">tokio_proto::pipeline::ServerProto;
 
@@ -929,7 +933,7 @@ Job is done. Values returned in order: true
 </span></code></pre>
 <p>This is great, we've created a little network connected database with a &quot;REST-ish&quot; API. I hope this has taught you a bit about Futures and Tokio, and inspired you to play around further! </p>
 <blockquote>
-<p>This post was supported in part through a time allocation from <a href="http://asquera.de/">Asquera</a> and can be found <a href="http://asquera.de/blog/2017-03-01/the-future-with-futures/">here</a>. Thanks!</p>
+<p>This post was supported in part through a time allocation from <a rel="noopener" target="_blank" href="http://asquera.de/">Asquera</a> and can be found <a rel="noopener" target="_blank" href="http://asquera.de/blog/2017-03-01/the-future-with-futures/">here</a>. Thanks!</p>
 </blockquote>
 <h2 id="complete-tokio-example">Complete Tokio Example</h2>
 <pre style="background-color:#2b303b;">
@@ -1119,16 +1123,16 @@ Job is done. Values returned in order: true
 }
 </span><span style="color:#65737e;">// Throw some data at it with `curl 127.0.0.1 8080/foo` and `curl 127.0.0.1 8080 --data bar`
 </span></code></pre>
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

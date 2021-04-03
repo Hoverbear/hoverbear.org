@@ -49,7 +49,8 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Ethan Dow</figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">New Roots part 5, Erecting Container Infrastructure</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -146,12 +150,12 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
         </ol>
     </nav>
 
-            
-    <p>This is the fifth part of an ongoing series on configuring a new server. In our <a href="/2016/05/09/new-roots-4/">last post</a> we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.</p>
+        
+            <p>This is the fifth part of an ongoing series on configuring a new server. In our <a href="/2016/05/09/new-roots-4/">last post</a> we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.</p>
 <p>Before we get around to setting things up, let's describe the what we're up to.</p>
 <span id="continue-reading"></span>
 <p>Currently, the only external service the server is running is <code>ssh</code>. We'd like our server to host more services. These services are likely to be both internal services like databases, and external services like HTTP/HTTPS hosts. Since the IPv4 space is increasingly crowded we'd like to do all of these things from one IPv4 address too.</p>
-<p>There are lots of ways to provide isolation to these services. These include virtual machines through something like <a href="http://xenproject.org/">Xen</a>, containers through something like <a href="https://www.docker.com/">Docker</a>, or even just chroots. Isolation isn't just for security, it's one way to help increase your security <em>somewhat</em> but it isn't a silver bullet. Light solutions like containers have very little overhead though so the benefits tend to outweigh the costs.</p>
+<p>There are lots of ways to provide isolation to these services. These include virtual machines through something like <a rel="noopener" target="_blank" href="http://xenproject.org/">Xen</a>, containers through something like <a rel="noopener" target="_blank" href="https://www.docker.com/">Docker</a>, or even just chroots. Isolation isn't just for security, it's one way to help increase your security <em>somewhat</em> but it isn't a silver bullet. Light solutions like containers have very little overhead though so the benefits tend to outweigh the costs.</p>
 <p>We'll use containers, because they're entertaining and fun to use. This is a laboratory, remember? We're suposed to have fun and play with new things.</p>
 <h2 id="our-first-container">Our First Container</h2>
 <p>We'll be using <code>machinectl</code> to work with our containers. You may already know Docker, CoreOS's <code>rkt</code>, or <code>lxc</code>, and you're more than welcome to use any of those. The important thing is to only use <strong>one</strong> on this machine. You don't want to be managing multiple container providers. Good news is they're all pretty much compatible with one another, so if you use <code>machinectl</code> you can still use Docker images.</p>
@@ -180,7 +184,7 @@ base subvolume yes 277.6M Wed 2016-05-11 15:52:43 PDT n/a
 
 1 images listed.
 </span></code></pre>
-<p>We can test out the image with <code>machinectl start base</code>. If you get an &quot;Operation not supported&quot; error here it's because you updated your kernel and haven't restarted. Later we'll talk about <a href="https://wiki.archlinux.org/index.php/kexec"><code>kexec</code></a> to help with this problem.</p>
+<p>We can test out the image with <code>machinectl start base</code>. If you get an &quot;Operation not supported&quot; error here it's because you updated your kernel and haven't restarted. Later we'll talk about <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/kexec"><code>kexec</code></a> to help with this problem.</p>
 <p>You can get a shell into the container with <code>machinectl shell base</code>. You'll probably notice there is no network connection. That's because our firewall is blocking us! You can check this by observing <code>iptables -nvL</code> and watching the packet counts go up on the <code>icmp-port-unreachable</code> filter.</p>
 <p>Editing our <code>/etc/iptables/iptables.rules</code> we can add the green lines:</p>
 <pre style="background-color:#2b303b;">
@@ -210,9 +214,9 @@ base subvolume yes 277.6M Wed 2016-05-11 15:52:43 PDT n/a
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl read-only upgrade
 </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> machinectl rename upgrade base
 </span></code></pre><h2 id="orcestration">Orcestration</h2>
-<p>At this point you might have identified a potential problem coming up. <em>How do we create and maintain all these gosh darn containers?</em> Well, that's a <strong>great</strong> question! We're going to try using <a href="https://docs.puppet.com/puppet/">Puppet</a>!</p>
+<p>At this point you might have identified a potential problem coming up. <em>How do we create and maintain all these gosh darn containers?</em> Well, that's a <strong>great</strong> question! We're going to try using <a rel="noopener" target="_blank" href="https://docs.puppet.com/puppet/">Puppet</a>!</p>
 <p>This is a very different strategy compared to that taken by Docker. Docker uses declarative <code>Dockerfile</code>s to build images, then you upgrade by either replacing the current running container, or executing commands via the <code>run</code> subcommand. With <code>puppet</code> we'll be able to easily execute pre-defined provisioning scripts and maintain our running containers.</p>
-<p>Also, I want to learn Puppet, so this is a great excuse. You can review the Puppet docs as well as <a href="https://www.digitalocean.com/community/tutorial_series/how-to-use-puppet-to-manage-your-servers-2">this guide by Digital Ocean</a>. Our plan is a bit different than those.</p>
+<p>Also, I want to learn Puppet, so this is a great excuse. You can review the Puppet docs as well as <a rel="noopener" target="_blank" href="https://www.digitalocean.com/community/tutorial_series/how-to-use-puppet-to-manage-your-servers-2">this guide by Digital Ocean</a>. Our plan is a bit different than those.</p>
 <p>Let's start by creating a <code>puppet</code> container from our base.</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">machinectl</span><span style="color:#c0c5ce;"> clone base puppet
@@ -307,7 +311,7 @@ systemctl</span><span style="color:#c0c5ce;"> enable puppet
 </span></code></pre>
 <p>Then <code>poweroff</code> it and mark it read only again with <code>machinectl read-only base true</code>. Now when we clone it the new containers will automatically run puppet.</p>
 <h2 id="fixing-an-anti-feature">Fixing an Anti-Feature</h2>
-<p>A note, if you <code>machinectl remove $MACHINE</code> systemd will, in rather user hostile manner, delete your <code>/etc/systemd/nspawn/$MACHINE.nspawn</code> file, with no output, <a href="https://www.freedesktop.org/software/systemd/man/machinectl.html#remove%20NAME...">no warning</a>, or flag to disable this anti-feature.</p>
+<p>A note, if you <code>machinectl remove $MACHINE</code> systemd will, in rather user hostile manner, delete your <code>/etc/systemd/nspawn/$MACHINE.nspawn</code> file, with no output, <a rel="noopener" target="_blank" href="https://www.freedesktop.org/software/systemd/man/machinectl.html#remove%20NAME...">no warning</a>, or flag to disable this anti-feature.</p>
 <p>So let's fix it! In fact, we can make our <code>/etc/sytemd/network/</code> and <code>/etc/systemd/nspawn</code> folders both subvolumes for safe keeping. With <code>config/puppetlabs/</code> also as subvolume our primary container configuration will be stored safely in subvolumes.</p>
 <p>Reviewing <code>btrfs subvolume list /</code> you may notice that our machines have been creating subvolumes as they go. This is great. We can use these for snapshots later. We'll create a <code>config/network</code> and <code>config/nspawn</code>. Recall that we're 'in' a subvolume already so we need to actually mount the true root for this again.</p>
 <pre style="background-color:#2b303b;">
@@ -335,7 +339,7 @@ systemctl</span><span style="color:#c0c5ce;"> enable puppet
 <h2 id="inter-container-networking">Inter-Container Networking</h2>
 <p>Right now if you start up <code>base</code> and try to <code>ping puppet</code> from it things it won't work. You can observe the differences in their IP addresses. Mine were <code>169.254.143.177/16</code> and <code>169.254.221.43/16</code> which are on different subnets. We need some what to bring them together.</p>
 <p>I tried a few ways of doing this (actually spent 6 days trying different ideas) and ended up on this because it's the simplest and seems easiest to understand.</p>
-<p>First we'll go ahead and create a bridge. A bridge will let us join all the containers together on a single network so they can resolve each others names. For now this is sufficient, though there is some documentation suggestion <a href="http://doger.io/#networking">VLANs</a> can be used to improve this system. Perhaps we'll explore that later.</p>
+<p>First we'll go ahead and create a bridge. A bridge will let us join all the containers together on a single network so they can resolve each others names. For now this is sufficient, though there is some documentation suggestion <a rel="noopener" target="_blank" href="http://doger.io/#networking">VLANs</a> can be used to improve this system. Perhaps we'll explore that later.</p>
 <p>On our 'root' host:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;</span><span style="color:#b48ead;">EOF </span><span style="color:#c0c5ce;">&gt; /config/network/br-internal.netdev
@@ -534,18 +538,18 @@ Port=443
 <h2 id="system-evolution">System Evolution</h2>
 <p>Over time our system will inevitably change, grow, and decay. We've been spending time to make sure that whatever happens we'll have the tools to keep going. We haven't gone out of our way to over-engineer anything so far, we've just made what we need with a few sharp tools.</p>
 <p>As we keep moving ahead we'll discover more needs and eventually build up our services to be better and stronger as a whole, but for now we have the basis to start our work. <code>nspawn</code> containers are persistent, but we can remove them whenever we want and re-create them with a new configuration. Our Puppet master will re-configure new images the same as old ones, and what we extend out with that can be retroactively applied to all. The key is for us to maintain a persisting copy of the data necessary in a safe space. BTRFS and the <code>Bind=</code> option of <code>nspawn</code> enable this.</p>
-<p>In our next post we'll explore how to deploy a basic folder based <code>nginx</code> host and <a href="https://github.com/RustFestEU/call4papers">the RustFestEU Call for Papers</a> site. Then, it'll go live! Whoa! But first, let's take a break. That post was <strong>so</strong> long!</p>
+<p>In our next post we'll explore how to deploy a basic folder based <code>nginx</code> host and <a rel="noopener" target="_blank" href="https://github.com/RustFestEU/call4papers">the RustFestEU Call for Papers</a> site. Then, it'll go live! Whoa! But first, let's take a break. That post was <strong>so</strong> long!</p>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

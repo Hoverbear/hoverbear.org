@@ -48,7 +48,8 @@
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -64,25 +65,29 @@
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Init - Runlevels and Targets</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -96,9 +101,8 @@
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -144,8 +148,8 @@
         </ol>
     </nav>
 
-            
-    <p>In this post, we'll look at how runlevels work in two major init systems, systemd and OpenRC. If you're interested in trying out <code>systemd</code>, I'd suggest using an <a href="https://www.archlinux.org/download/">Arch Linux Live ISO</a>. For those interested in trying OpenRC, check out <a href="http://www.funtoo.org/Funtoo_Linux_Installation">Funtoo</a>. Both of these will work great in your favorite virtualization solution.</p>
+        
+            <p>In this post, we'll look at how runlevels work in two major init systems, systemd and OpenRC. If you're interested in trying out <code>systemd</code>, I'd suggest using an <a rel="noopener" target="_blank" href="https://www.archlinux.org/download/">Arch Linux Live ISO</a>. For those interested in trying OpenRC, check out <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Linux_Installation">Funtoo</a>. Both of these will work great in your favorite virtualization solution.</p>
 <span id="continue-reading"></span><h1 id="openrc">OpenRC</h1>
 <p>OpenRC uses runlevels in very much the same way as sysvinit (or BSD init). At any given time the system is in one of the defined runlevels, there are three internal runlevels and four user defined runlevels.</p>
 <p><strong>Internal Runlevels:</strong></p>
@@ -166,7 +170,7 @@
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sysinit</span><span style="color:#c0c5ce;"> -&gt; boot -&gt; default -&gt; shutdown
 </span></code></pre>
 <p>The services controlled by a particular runlevel are controlled by <code>/etc/inittab</code> and via the <code>rc-update</code> command.</p>
-<p>On a modern <a href="http://www.funtoo.org/Funtoo_Hosting">Funtoo LXC Container</a>, your runlevels  might look like this:</p>
+<p>On a modern <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Hosting">Funtoo LXC Container</a>, your runlevels  might look like this:</p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">± </span><span style="color:#65737e;"># rc-update -v
 </span><span style="color:#c0c5ce;">             bootmisc | </span><span style="color:#bf616a;">boot
@@ -232,7 +236,7 @@
 <code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rc-update</span><span style="color:#c0c5ce;"> del &lt;service&gt; &lt;runlevel&gt;
 </span></code></pre>
 <p>Changing between runlevels is done via the <code>rc &lt;runlevel&gt;</code> command, but most users will never need to do this as runlevels are (mostly) managed by the system.</p>
-<p>In the case where a user does want to change runlevels in this way, it is often such that they are utilizing <a href="http://www.funtoo.org/Stacked_Runlevels">Stacked Runlevels</a>.</p>
+<p>In the case where a user does want to change runlevels in this way, it is often such that they are utilizing <a rel="noopener" target="_blank" href="http://www.funtoo.org/Stacked_Runlevels">Stacked Runlevels</a>.</p>
 <p>For example, if a user wanted to differentiate which services were running on their laptop when it was powered or on battery, they could create two separate runlevels stacked atop <code>default</code>. While plugged in, the laptop could be running test databases or any number of services, but after changing runlevels these services could be disabled to save on battery.</p>
 <h4 id="benefits">Benefits</h4>
 <ul>
@@ -335,28 +339,28 @@ UNIT</span><span style="color:#c0c5ce;">                   LOAD      ACTIVE   SU
 </ul>
 <h1 id="further-reading">Further Reading</h1>
 <ul>
-<li><a href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
-<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
-<li><a href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
-<li><a href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
-<li><a href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
-<li><a href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
-<li><a href="http://www.funtoo.org/Stacked_Runlevels">Stacked Rulevels (Funtoo Wiki)</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
+<li><a rel="noopener" target="_blank" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
+<li><a rel="noopener" target="_blank" href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
+<li><a rel="noopener" target="_blank" href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
+<li><a rel="noopener" target="_blank" href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.funtoo.org/Stacked_Runlevels">Stacked Rulevels (Funtoo Wiki)</a></li>
 </ul>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 

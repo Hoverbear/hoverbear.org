@@ -49,7 +49,8 @@ With systemd, daemon configuration is handled by .toml configuration files. With
     
 
     <body>
-        <div id="hero-wrapper">
+        
+    <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
@@ -65,25 +66,29 @@ With systemd, daemon configuration is handled by .toml configuration files. With
     </figure>
 </div>
 
-<header>
-    <div class="hero-wrapper-content">
+    <header>
+    <div class="content">
         <h1><a href="https:&#x2F;&#x2F;hoverbear.org">Init - Configuration</a></h1>
 
-
         <nav id="tree"><ul><li>
-                                <a href="https://hoverbear.org/about/">
-                                    About
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/consulting/">
-                                    Consulting
-                                </a>&nbsp;
-                            </li><li>
-                                <a href="https://hoverbear.org/blog/">
-                                    Blog
-                                </a>&nbsp;
-                            </li></ul><ul></ul><ul></ul>
-        </nav>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/">
+                Research Codex
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
 
         <div class="metadata">
             <p class="description">
@@ -97,9 +102,8 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 
     </div>
 </header>
-
-        <main>
-            
+    <main>
+        
     <nav id=toc>
         <ol>
             
@@ -138,8 +142,8 @@ With systemd, daemon configuration is handled by .toml configuration files. With
         </ol>
     </nav>
 
-            
-    <p>An initialization system's main interface with the user is through it's configuration scripts and service files. Let's take a look at what this looks like for <code>systemd</code> and OpenRC.</p>
+        
+            <p>An initialization system's main interface with the user is through it's configuration scripts and service files. Let's take a look at what this looks like for <code>systemd</code> and OpenRC.</p>
 <p>With systemd, daemon configuration is handled by <code>.toml</code> configuration files. With OpenRC, this task is performed by shell scripts.</p>
 <span id="continue-reading"></span><h1 id="daemons-and-services">Daemons and services</h1>
 <p>systemd stores service files in <code>/etc/systemd/system/</code> (user-provided) or <code>/usr/lib/systemd/system/</code> (package-provided). <code>.service</code> files are used to declare configuration.</p>
@@ -210,14 +214,14 @@ With systemd, daemon configuration is handled by .toml configuration files. With
   eend </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">?
 </span><span style="color:#c0c5ce;">}
 </span></code></pre>
-<p>An important distinction to note is that while systemd's configuration is <strong>declarative</strong>, OpenRC's configuration is <strong>programmatic</strong>. The decision to use a declarative method was explained in <a href="http://0pointer.de/blog/projects/systemd.html">this</a> article under the &quot;Keeping the First User PID Small&quot; heading.</p>
+<p>An important distinction to note is that while systemd's configuration is <strong>declarative</strong>, OpenRC's configuration is <strong>programmatic</strong>. The decision to use a declarative method was explained in <a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd.html">this</a> article under the &quot;Keeping the First User PID Small&quot; heading.</p>
 <blockquote>
 <p>Shell is fast and shell is slow. It is fast to hack, but slow in execution. The classic sysvinit boot logic is modelled around shell scripts.</p>
 </blockquote>
 <p>One of systemd's main goals, at least in regards to services, is to start them <strong>fast</strong>, and for this reason they are willing to sacrifice some flexibility. Due to successful deployments of systemd in Arch Linux and Fedora (among others), this idea has been proven feasible.</p>
 <p>For many services, a full blown shell script is not necessary. For example, with OpenRC's <code>sshd</code> script the <code>start</code> and <code>stop</code> jobs really only check the configuration of the service (<code>checkconfig</code> is defined elsewhere in the file) and then invoke <code>start-stop-daemon</code>. It's possible to simply call a shell script from a systemd service, but this forces the use of multiple files, and results in a loss of the speed gained from not utilizing the shell.</p>
 <h2 id="dependencies">Dependencies</h2>
-<p>In systemd dependencies are handled via the declarations <code>Wants</code>, <code>Requires</code>, and <code>After</code> in the <code>[Unit]</code> section of the <code>.service</code>. For more info visit <a href="https://wiki.archlinux.org/index.php/systemd#Handling_dependencies">Arch Linux's SystemD Dependencies Section</a>. For example:</p>
+<p>In systemd dependencies are handled via the declarations <code>Wants</code>, <code>Requires</code>, and <code>After</code> in the <code>[Unit]</code> section of the <code>.service</code>. For more info visit <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/systemd#Handling_dependencies">Arch Linux's SystemD Dependencies Section</a>. For example:</p>
 <p><strong>/etc/systemd/system/A.service</strong></p>
 <pre style="background-color:#2b303b;">
 <code class="language-toml" data-lang="toml"><span style="color:#c0c5ce;">[Unit]
@@ -235,7 +239,7 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 </span><span style="color:#bf616a;">After</span><span style="color:#c0c5ce;">=</span><span style="background-color:#bf616a;color:#2b303b;">A.service</span><span style="color:#c0c5ce;">
 </span></code></pre>
 <p>It's rather fascinating that <code>Requires</code> and <code>Wants</code> do not imply <code>After</code> for their specified services. It does make sense though, many services do not immediately require their attached services.</p>
-<p>For OpenRC, dependencies are handled by the <code>depend</code> function of the script. For more info visit <a href="http://www.funtoo.org/Package:OpenRC">The Funtoo OpenRC Page</a>.</p>
+<p>For OpenRC, dependencies are handled by the <code>depend</code> function of the script. For more info visit <a rel="noopener" target="_blank" href="http://www.funtoo.org/Package:OpenRC">The Funtoo OpenRC Page</a>.</p>
 <p><strong>/etc/init.d/nginx</strong></p>
 <pre style="background-color:#2b303b;">
 <code class="language-bash" data-lang="bash"><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
@@ -255,10 +259,10 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>Systemd uses a number of extra file types. Some examples are:</p>
 <ul>
 <li><code>.wants</code>, a folder with symlinks to services that are a needed by a target. For example, <code>/usr/lib/systemd/system/multi-user.target</code> has a cooresponding folder <code>/usr/lib/systemd/system/multi-user.target.wants</code> with symlinks to service files like <code>systemd-logind.service</code>, and <code>systemd-user-sessions.service</code> on CentOS 7.</li>
-<li><code>.socket</code>, denotes a <a href="http://www.freedesktop.org/software/systemd/man/systemd.socket.html">socket activated</a> configuration. It's possible to set up certain services in systemd to not start until their socket is activated on the system.</li>
-<li><code>.timer</code>, denotes a <a href="http://www.freedesktop.org/software/systemd/man/systemd.timer.html">timer based</a> activation. This fulfills some of the same roles as programs like <code>vixiecron</code> and <code>fcron</code>.</li>
+<li><code>.socket</code>, denotes a <a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.socket.html">socket activated</a> configuration. It's possible to set up certain services in systemd to not start until their socket is activated on the system.</li>
+<li><code>.timer</code>, denotes a <a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.timer.html">timer based</a> activation. This fulfills some of the same roles as programs like <code>vixiecron</code> and <code>fcron</code>.</li>
 </ul>
-<p>OpenRC allows for files in <code>/etc/conf.d</code> to be sourced for scripts of the same name in <code>/etc/init.d</code>. The advantage of this is that most scripts in <code>/etc/init.d</code> won't need to be modified (and thus can be updated safely). This is a collary to the <a href="http://12factor.net/config">Store config in the environment</a> section of the 12factor methodology.</p>
+<p>OpenRC allows for files in <code>/etc/conf.d</code> to be sourced for scripts of the same name in <code>/etc/init.d</code>. The advantage of this is that most scripts in <code>/etc/init.d</code> won't need to be modified (and thus can be updated safely). This is a collary to the <a rel="noopener" target="_blank" href="http://12factor.net/config">Store config in the environment</a> section of the 12factor methodology.</p>
 <blockquote>
 <p>Encourage the separation of configuration and runtime.</p>
 </blockquote>
@@ -328,28 +332,28 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>OpenRC's sysvinit based startup shows it's age, but the system's lack of opinionation offers huge benefits. With OpenRC, there is no persistent daemon, though integration with supervision tools like <code>s6</code> and <code>monit</code> exist. OpenRC also plays nice with <code>*cron</code>. Keeping itself in a limited scope, and maintaining the &quot;Do one thing and do it well&quot; philosophy that gave rise to the UNIX ecosystem. It has worn it's age well, however it's reliance on old assumptions about the lifecycle of a system boot limits it's capabilities.</p>
 <h1 id="further-reading">Further Reading</h1>
 <ul>
-<li><a href="http://www.funtoo.org/Package:OpenRC">OpenRC Dependencies</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
-<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
-<li><a href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
-<li><a href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
-<li><a href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
-<li><a href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
-<li><a href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.funtoo.org/Package:OpenRC">OpenRC Dependencies</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
+<li><a rel="noopener" target="_blank" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
+<li><a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
+<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
+<li><a rel="noopener" target="_blank" href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
+<li><a rel="noopener" target="_blank" href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
+<li><a rel="noopener" target="_blank" href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
 </ul>
 
-
-        </main>
         
-        <footer class="post-footer">
+    </main>
+    <footer class="post-footer">
     <p>
         Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
-</footer><pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
-">c8e35c5837bc68f1b18f48eb23b364ca1f5e3dad
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e4ca737d06d5e791610343bfb8317675e21fbef8
+">e4ca737d06d5e791610343bfb8317675e21fbef8
 </a></pre>
     </body>
 
