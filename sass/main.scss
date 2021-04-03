@@ -36,10 +36,24 @@ svg.logo {
   display: block;
   max-width: 100vw;
   max-height: 80vh;
+
+  animation: fade-in;
+  animation-timing-function:ease-in;
+  animation-delay: .25s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-duration: 1.5s;
+
   #bear {
-    fill: #231f20;
+    fill: white;
     opacity: 0;
-    animation: 1.5s fade-in ease-in 3s 1 forwards;
+
+    animation: fade-in;
+    animation-timing-function:ease-in;
+    animation-delay: 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-duration: 1.5s;
   }
 
   #star-links {
@@ -50,10 +64,10 @@ svg.logo {
     line {
       opacity: 0;
       animation: twinkle;
-      animation-fill-mode: forwards;
       animation-timing-function: ease-in;
-      animation-iteration-count: infinite;
-      animation-delay: 2s;
+      animation-delay: 3s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
     }
 
     @for $i from 1 through 20 {
@@ -69,10 +83,9 @@ svg.logo {
     circle {
       opacity: 0;
       animation: twinkle;
-      animation-fill-mode: forwards;
+      animation-fill-mode: both;
       animation-timing-function: ease-in;
       animation-iteration-count: infinite;
-      animation-delay: 1s;
     }
 
     @for $i from 1 through 20 {
