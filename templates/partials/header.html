@@ -19,7 +19,7 @@
 
 <header>
     <div class="content">
-        <h1><a id="main-title" href="{{ config.base_url }}">
+        <h1 id="main-title"><a id="main-link" href="{{ config.base_url }}">
             {{ title }}
         </a></h1>
 
@@ -31,9 +31,21 @@
                     let current_lang = "english";
                     let num_languages = langs.length;
                     window.setInterval(function() {
-                        let new_lang = langs[Math.floor(Math.random() * num_languages)];
+                        let new_lang;
+                        // Guard against same result.
+                        do {
+                            new_lang = langs[Math.floor(Math.random() * num_languages)];
+                        } while (current_lang == new_lang);
+
                         let new_display = data[new_lang].display;
-                        document.getElementById("main-title").innerText = `${new_display} Consulting`;
+                        let main_title = document.getElementById("main-link");
+                        let old_animation = main_title.style.animation;
+                        // Reflow
+                        main_title.style.opacity = 0;
+                        main_title.style.animation = 'none';
+                        main_title.offsetHeight;
+                        main_title.style.animation = old_animation;
+                        main_title.innerText = `${new_display} Consulting`;
                     }, 5000);
                 })()
             </script>

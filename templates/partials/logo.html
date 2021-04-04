@@ -1,5 +1,10 @@
-<svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 580" preserveAspectRatio="xMinYMin">
-  <g id="logo">
+<svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2160 1444" preserveAspectRatio="xMidYMid slice">
+  <g id="starfield">
+    {%- for idx in range(end=600) -%}
+      <circle cx="{{ get_random(start=0, end=2160) }}" cy="{{ get_random(start=0, end=1444) }}" r="{{ get_random(start=10, end=100) | float / 30 }}" />
+    {%- endfor -%}
+  </g>
+  <g id="logo" transform="translate(780 322)">
     <g id="stars">
       <circle cx="7.33" cy="324.47" r="7.33"/>
       <circle cx="54.22" cy="268.25" r="4.89"/>

@@ -32,10 +32,8 @@ div#splash {
 }
 
 svg.logo {
-  padding: 2vh 2vw;
-  display: block;
-  max-width: 100vw;
-  max-height: 80vh;
+  width: 100vw;
+  height: 100vh;
 
   animation: fade-in;
   animation-timing-function:ease-in;
@@ -72,25 +70,26 @@ svg.logo {
 
     @for $i from 1 through 20 {
       line:nth-child(1n + #{$i}) {
-        animation-duration: #{3 + ($i * 2)}s;
+        animation-duration: #{random(10) * 2}s;
+        animation-timing-function: cubic-bezier(#{random()},#{random()},#{random()},#{random()});
       }
     }
   }
 
-  #stars {
+  #stars, #starfield {
     fill: #808285;
 
     circle {
       opacity: 0;
       animation: twinkle;
       animation-fill-mode: both;
-      animation-timing-function: ease-in;
       animation-iteration-count: infinite;
     }
 
     @for $i from 1 through 20 {
-      circle:nth-child(1n + #{$i}) {
-        animation-duration: #{3 + ($i * 2)}s;
+      circle:nth-child(20n + #{$i}) {
+        animation-duration: #{random(10) * 2}s;
+        animation-timing-function: cubic-bezier(#{random()},#{random()},#{random()},#{random()});
       }
     }
   }
@@ -125,6 +124,7 @@ header {
     & > h1 > a {
       font-size: 3rem;
       color: var(--color-text);
+      animation: .5s fade-in ease-in 0s 1 forwards;
     }
     & > nav#tree > ul > li > a {
       color: var(--color-text);
