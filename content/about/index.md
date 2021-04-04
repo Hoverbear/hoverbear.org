@@ -11,7 +11,7 @@ photographer = "Ana Hobden"
 
 Hello,
 
-My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.' I also go by [**Hoverbear**, or any of it's translations]((#translations-of-hoverbear)).
+My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.' I also go by [**Hoverbear**, or any of it's translations](#translations-of-hoverbear).
 
 I live in Lək̓ʷəŋən territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conveniently located close to Vancouver and Seattle, with connections to most of the world.
 w
