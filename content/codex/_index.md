@@ -5,7 +5,7 @@ sort_by = "weight"
 template = "blog/list.html"
 
 [extra]
-in_menu = true
+in_menu = false
 
 [extra.image]
 path = "cover.jpg"
