@@ -3,5 +3,7 @@
 {%- for lang, data in internationalized_hoverbear -%}
     {%- if loop.first != true and internationalized_hoverbear | length > 2 -%},{%- endif -%}
     {%- if loop.last and internationalized_hoverbear | length > 1 -%}&nbsp;and{%- endif -%}
-    &nbsp;{{ data.display }} (<i>{{ data.pronounce }}</i>) in {{ lang | capitalize }}
+    &nbsp;{{ data.display }}
+    {%- if data.display != data.pronounce %} (<i>{{ data.pronounce }}</i>){%- endif -%}
+    in {{ lang | capitalize }}
 {%- endfor -%}
