@@ -49,7 +49,7 @@ Currently, I'm a staff Senior Engineer at [Maya Data](https://mayadata.io/) work
 
 I have been honoured with many translations of my nickname into a variety of languages. You are welcome to call me by these names as well.
 
-My nick translates خرس بالزن (*khers-e-balzan*) in Farsi, ಹಾರುವ ಕರಡಿ (*Haruva Karadi*) in Kannada, منڈلاتا ہوا ریچھ (*Mandlata Hua Reech*) in Urdu, , मंडराता भालू (*Mandaraata bhaloo*) in Hindi, ఎగిరే ఎలుగుబంటి (*Egire elugubaṇṭi*) in Telugu, பறக்கும் கரடி (*Parakkum karadi*) in Tamil, ਮੰਡਰਾਉਂਦਾ ਰਿੱਛ (*Mandaraunda richh*) in Punjabi, उडतं अस्वल (*Udta aswal*) in Marathi, പറക്കുന്ന കരടി (*Parakkunna karadi*) in Malayalam, ଉଡ଼ନ୍ତା ଭାଲୁ (*Udawntaa bhaalu*) in Odia, Udne bhaalu in Nepali, 飘飘熊 (*Piāo piāo xióng*) in Mandarin, Schwebebär in German, Парящий Медведь (*Paryashchiy Medved'*) in Russian, Очучы Аю in Tartar, Gaudotājlācis in Latvian, Zweefbeer in Dutch, Flotatzen duen hartza in Euskara, or Latający Miś in Polish. You are welcome to address me by any of them.
+My nick translates to {{ internationalized_hoverbear() }}. You are welcome to address me by any of them.
 
 I am always seeking to learn new translations, particularly for Restigouche Míkmaq (which I believe would combine Āoonpitkōgwĕk and Noosĕ'skw), lək̓ʷəŋiʔnəŋ, or W̱SÁNEĆ.
 

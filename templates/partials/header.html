@@ -8,6 +8,7 @@
     {%- set title = page_or_section.title -%}
 {%- else -%}
     {%- set title = config.title -%}
+    {%- set internationalized_hoverbear_title = true -%}
 {%- endif -%}
 
 {%- if page_or_section.description -%}
@@ -18,7 +19,25 @@
 
 <header>
     <div class="content">
-        <h1><a href="{{ config.base_url }}">{{ title }}</a></h1>
+        <h1><a id="main-title" href="{{ config.base_url }}">
+            {{ title }}
+        </a></h1>
+
+        {%- if internationalized_hoverbear_title -%}
+            <script defer async>
+                (function internationalize_hoverbear() {
+                    const data = {{ load_data(path="static/internationalized-hoverbear.json") | json_encode | safe }};
+                    const langs = Object.keys(data);
+                    let current_lang = "english";
+                    let num_languages = langs.length;
+                    window.setInterval(function() {
+                        let new_lang = langs[Math.floor(Math.random() * num_languages)];
+                        let new_display = data[new_lang].display;
+                        document.getElementById("main-title").innerText = `${new_display} Consulting`;
+                    }, 5000);
+                })()
+            </script>
+        {%- endif %}
 
         {% include "partials/page-tree.html" %}
 
@@ -35,6 +54,5 @@
                 </p>
             {%- endif %}
         </div>
-
     </div>
 </header>
