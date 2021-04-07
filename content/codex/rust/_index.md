@@ -2,7 +2,7 @@
 title = "Rust at Scale"
 description = "Shipping safe, fast, and fun."
 sort_by = "weight"
-template = "blog/list.html"
+template =  "blog/list.html"
 
 [extra]
 in_menu = true

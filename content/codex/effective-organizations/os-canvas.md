@@ -2,7 +2,7 @@
 title = "Operating System Canvas"
 description = "Exploring and understanding the dimensions of an organization."
 sort_by = "weight"
-template = "blog/single.html"
+template =  "blog/single.html"
 weight = 0
 
 [extra]

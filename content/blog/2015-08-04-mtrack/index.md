@@ -1,7 +1,7 @@
 +++
 title = "Trackpad Drivers for Linux on a Mac"
 aliases = ["2015/08/04/mtrack/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Arch Linux",

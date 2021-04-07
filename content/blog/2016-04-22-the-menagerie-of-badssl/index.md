@@ -1,7 +1,7 @@
 +++
 title = "The Menagerie of Badssl"
 aliases = ["2016/04/22/The-Menagerie-of-Badssl/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "UVic",

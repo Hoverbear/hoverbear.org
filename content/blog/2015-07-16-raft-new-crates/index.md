@@ -1,7 +1,7 @@
 +++
 title = "Raft: New Crates!"
 aliases = ["2015/07/16/raft-new-crates/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

@@ -2,7 +2,7 @@
 title = "The Entanglement of Purpose & Success"
 description = "Gathering the wood, sparking the embers, and tending the flame."
 sort_by = "date"
-template = "blog/single.html"
+template =  "blog/single.html"
 
 [taxonomies]
 tags = [

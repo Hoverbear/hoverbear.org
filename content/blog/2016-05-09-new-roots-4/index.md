@@ -1,7 +1,7 @@
 +++
 title = "New Roots part 4, Making it 127.0.0.1"
 published = "false"
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Infrastructure",

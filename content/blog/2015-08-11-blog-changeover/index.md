@@ -1,7 +1,7 @@
 +++
 title = "Blog Changeover"
 aliases = ["2015/08/11/blog-changeover/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 +++
 
 I've moved my feed over from [Ghost](https://ghost.org/) to [Jekyll](http://jekyllrb.com/)! It took several hours spread across several days to transfer all of my posts out of Ghost since it's (experimental) export functionality just dumps a bunch of junk into a JSON document.

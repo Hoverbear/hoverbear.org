@@ -1,7 +1,7 @@
 +++
 title = "Photography from Last Decade"
 aliases = ["2015/04/10/photoghaphy-last-decade/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 +++
 
 I did a fair amount of photography and digital imaging in high school. Please, enjoy.

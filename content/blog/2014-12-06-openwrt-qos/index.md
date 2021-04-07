@@ -1,7 +1,7 @@
 +++
 title = "OpenWRT QoS"
 aliases = ["2014/12/06/openwrt-qos/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials",

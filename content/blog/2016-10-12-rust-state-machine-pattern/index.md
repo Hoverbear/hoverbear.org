@@ -1,7 +1,7 @@
 +++
 title = "Pretty State Machine Patterns in Rust"
 aliases = ["2016/10/12/rust-state-machine-pattern/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

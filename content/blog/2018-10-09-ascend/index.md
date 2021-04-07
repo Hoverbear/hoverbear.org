@@ -2,7 +2,7 @@
 title = "Ascend"
 description = "Don't be afraid of the mountains at your doorstep."
 aliases = ["2018/10/09/ascend/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Personal",

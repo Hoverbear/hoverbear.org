@@ -1,7 +1,7 @@
 +++
 title = "The Path to Rust on the Web"
 aliases = ["2017/04/06/the-path-to-rust-on-the-web/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

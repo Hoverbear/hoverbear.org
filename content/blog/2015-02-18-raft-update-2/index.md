@@ -1,7 +1,7 @@
 +++
 title = "Raft: Progress on the Log"
 aliases = ["2015/02/18/raft-update-2/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

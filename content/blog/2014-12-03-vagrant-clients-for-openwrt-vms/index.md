@@ -1,7 +1,7 @@
 +++
 title = "Vagrant Clients for OpenWRT VMs"
 aliases = ["2014/12/03/vagrant-clients-for-openwrt-vms/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials",

@@ -1,7 +1,7 @@
 +++
 title = "Deploying Immutant to Wildfly"
 aliases = ["2014/07/22/deploying-immutant-to-wildfly/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "UVic",

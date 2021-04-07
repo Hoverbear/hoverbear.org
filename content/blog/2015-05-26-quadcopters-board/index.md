@@ -1,7 +1,7 @@
 +++
 title = "Quadcopters: The Board"
 aliases = ["2015/05/26/quadcopters-board/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Quadcopters",

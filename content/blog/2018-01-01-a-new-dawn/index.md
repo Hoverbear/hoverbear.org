@@ -2,7 +2,7 @@
 title = "A New Year Dawns"
 description = "A look into the future"
 aliases = ["2018/01/01/a-new-dawn/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Personal",

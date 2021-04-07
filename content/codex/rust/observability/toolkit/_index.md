@@ -1,7 +1,7 @@
 +++
 title = "Toolkit"
 description = "Emitting logs, metrics, and tracing data."
-template = "blog/list.html"
+template =  "blog/list.html"
 sort_by = "weight"
 weight = 0
 

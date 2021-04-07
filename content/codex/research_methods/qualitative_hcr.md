@@ -2,7 +2,7 @@
 title = "Qualitative Human-Centered Research"
 description = "Described as a way to bring flexibility to research."
 sort_by = "weight"
-template = "blog/single.html"
+template =  "blog/single.html"
 weight = 0
 
 [extra]

@@ -1,7 +1,7 @@
 +++
 title = "New Roots part 3, Services & Hardening"
 published = "false"
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Infrastructure",

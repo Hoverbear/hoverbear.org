@@ -1,7 +1,7 @@
 +++
 title = "A First Look at DACS"
 aliases = ["2014/11/17/first-look-at-dacs/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "UVic",

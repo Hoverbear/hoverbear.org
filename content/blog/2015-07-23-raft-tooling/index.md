@@ -1,7 +1,7 @@
 +++
 title = "Raft: Tooling & Infra Update"
 aliases = ["2015/07/23/raft-tooling/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

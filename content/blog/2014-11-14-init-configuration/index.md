@@ -1,7 +1,7 @@
 +++
 title = "Init - Configuration"
 aliases = ["2014/11/14/init-configuration/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials"

@@ -1,7 +1,7 @@
 +++
 title = "Gathering Our Voices 2016"
 aliases = ["2016/03/25/gathering-our-voices/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "BCAAFC",

@@ -2,7 +2,7 @@
 title = "Environments"
 description = "Notes on using a variety of environments I immerse myself in."
 sort_by = "weight"
-template = "blog/list.html"
+template =  "blog/list.html"
 
 [extra]
 in_menu = true

@@ -1,7 +1,7 @@
 +++
 title = "Setting up a Rust Development Environment"
 aliases = ["2017/03/03/setting-up-a-rust-devenv/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

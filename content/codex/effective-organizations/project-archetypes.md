@@ -2,7 +2,7 @@
 title = "Project Archetypes"
 description = "How open source organizations are structured."
 sort_by = "weight"
-template = "blog/single.html"
+template =  "blog/single.html"
 weight = 0
 
 [extra]

@@ -2,7 +2,7 @@
 title = "Effective Organizations"
 description = "Yearning for the vast and endless sea together."
 sort_by = "weight"
-template = "blog/list.html"
+template =  "blog/list.html"
 
 [extra]
 in_menu = true

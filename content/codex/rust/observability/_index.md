@@ -2,7 +2,7 @@
 title = "Observability"
 description = "No blocking, please."
 sort_by = "weight"
-template = "blog/list.html"
+template =  "blog/list.html"
 
 [extra]
 in_menu = true

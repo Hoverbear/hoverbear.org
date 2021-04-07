@@ -2,7 +2,7 @@
 title = "Optional Arguments in Rust"
 description = "Exploring Rust UX and API design."
 aliases = ["2018/11/04/optional-arguments/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

@@ -1,5 +1,5 @@
 +++
-layout = "page"
+template = "page.html"
 title = "Consulting Services"
 description = "Building capacity and capability for a more hopeful future."
 [extra]

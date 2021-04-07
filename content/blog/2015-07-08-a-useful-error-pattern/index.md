@@ -1,7 +1,7 @@
 +++
 title = "Collecting Results from Collections"
 aliases = ["2015/07/08/a-useful-error-pattern/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Rust",

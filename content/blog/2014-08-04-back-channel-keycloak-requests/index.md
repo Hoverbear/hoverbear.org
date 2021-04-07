@@ -1,7 +1,7 @@
 +++
 title = "Back Channel Keycloak Requests"
 aliases = ["2014/08/04/back-channel-keycloak-requests/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "UVic",

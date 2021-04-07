@@ -1,7 +1,7 @@
 +++
 title = "On C-51"
 aliases = ["2015/02/26/on-c51/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Personal",

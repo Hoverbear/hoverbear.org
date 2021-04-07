@@ -1,7 +1,7 @@
 +++
 title = "The Future with Futures"
 aliases = ["2017/03/01/the-future-with-futures/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

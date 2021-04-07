@@ -1,7 +1,7 @@
 +++
 title = "Good Practice"
 description = "Strategies for building systems you can reason about."
-template = "blog/list.html"
+template =  "blog/list.html"
 sort_by = "weight"
 weight = 0
 

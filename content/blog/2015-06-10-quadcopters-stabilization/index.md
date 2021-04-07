@@ -1,7 +1,7 @@
 +++
 title = "Quadcopters: Stabilization"
 aliases = ["2015/06/10/quadcopters-stabilization/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Quadcopters",

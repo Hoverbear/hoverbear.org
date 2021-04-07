@@ -1,7 +1,7 @@
 +++
 title = "Arduino: Motor Fun!"
 aliases = ["2015/06/02/arduino-motor-fun/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Quadcopters",

@@ -1,5 +1,5 @@
 +++
-layout = "article"
+template = "page.html"
 title = "Ana, Hoverbear 🐻"
 description = "I have been, and will be, many things, but what I shall always be, is me."
 [extra]

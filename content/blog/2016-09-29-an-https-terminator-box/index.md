@@ -1,7 +1,7 @@
 +++
 title = "An HTTPS Terminator Box"
 aliases = ["2016/09/29/an-https-terminator-box/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Infrastructure",

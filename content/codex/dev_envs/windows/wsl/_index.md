@@ -2,7 +2,7 @@
 title = "WSL"
 description = "The so-called Windows Subsystem for Linux."
 sort_by = "weight"
-template = "blog/list.html"
+template =  "blog/list.html"
 
 [extra]
 in_menu = true

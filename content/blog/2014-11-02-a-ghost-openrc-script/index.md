@@ -1,7 +1,7 @@
 +++
 title = "A Ghost OpenRC Script"
 aliases = ["2014/11/02/a-ghost-openrc-script/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials"

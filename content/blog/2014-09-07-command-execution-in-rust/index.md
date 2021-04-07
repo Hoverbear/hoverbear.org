@@ -1,7 +1,7 @@
 +++
 title = "Command Execution in Rust"
 aliases = ["2014/09/07/command-execution-in-rust/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

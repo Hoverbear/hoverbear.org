@@ -1,7 +1,7 @@
 +++
 title = "Arch Docker Baseimage"
 aliases = ["2014/07/14/arch-docker-baseimage/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Containers",

@@ -1,7 +1,7 @@
 +++
 title = "Integrating Immutant and Keycloak"
 aliases = ["2014/07/25/integrating-immutant-and-keycloak/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "UVic",

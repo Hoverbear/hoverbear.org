@@ -1,7 +1,7 @@
 +++
 title = "Raft Experiences and Repo Made Public!"
 aliases = ["2015/02/05/raft-update-1/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

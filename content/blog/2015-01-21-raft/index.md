@@ -1,7 +1,7 @@
 +++
 title = "Raft in Rust"
 aliases = ["2015/01/21/raft/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

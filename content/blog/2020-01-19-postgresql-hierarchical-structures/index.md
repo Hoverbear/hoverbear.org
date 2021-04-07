@@ -1,7 +1,7 @@
 +++
 title = "Hierarchical Structures in PostgreSQL"
 description = "Modelling hierarchical/team/categorical/tag data with arbitrary depths."
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Tutorials",

@@ -1,7 +1,7 @@
 +++
 title = "Site Redesign"
 aliases = ["2016/04/06/Site-Redesign/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [extra]
 [extra.image]
 path =  "cover.jpg"

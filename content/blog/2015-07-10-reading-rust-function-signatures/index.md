@@ -1,7 +1,7 @@
 +++
 title = "Reading Rust Function Signatures"
 aliases = ["2015/07/10/reading-rust-function-signatures/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

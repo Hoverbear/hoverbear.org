@@ -1,7 +1,7 @@
 +++
 title = "The Raft-rs Rust Meetup"
 aliases = ["2015/08/27/meetup/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

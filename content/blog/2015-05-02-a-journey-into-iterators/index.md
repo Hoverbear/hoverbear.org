@@ -1,7 +1,7 @@
 +++
 title = "A Journey into Iterators"
 aliases = ["2015/05/02/a-journey-into-iterators/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

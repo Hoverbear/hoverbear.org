@@ -1,7 +1,7 @@
 +++
 title = "New Roots part 1, Choosing a Server"
 published = "false"
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Infrastructure"

@@ -1,7 +1,7 @@
 +++
 title = "Raft So Far"
 aliases = ["2015/01/25/raft-so-far/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

@@ -1,7 +1,7 @@
 +++
 title = "The Way Forward"
 aliases = ["2015/12/30/The-Way-Forward/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Personal",

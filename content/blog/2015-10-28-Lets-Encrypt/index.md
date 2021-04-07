@@ -1,7 +1,7 @@
 +++
 title = "It's a Let's Encrypt Beta!"
 aliases = ["2015/10/28/Lets-Encrypt/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tooling",

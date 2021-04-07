@@ -1,7 +1,7 @@
 +++
 title = "Why Benchmarking Distributed Databases Is So Hard"
 description = "Exploring the complexities of benchmarking distributed systems."
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Infrastructure"

@@ -1,7 +1,7 @@
 +++
 title = "First look at Cap'n Proto in Rust"
 aliases = ["2015/02/11/capn-proto-in-rust/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

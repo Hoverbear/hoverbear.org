@@ -1,7 +1,7 @@
 +++
 title = "Init - Runlevels and Targets"
 aliases = ["2014/09/29/init-runlevels-and-targets/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials",

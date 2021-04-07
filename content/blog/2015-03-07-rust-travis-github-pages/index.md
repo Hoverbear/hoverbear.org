@@ -1,7 +1,7 @@
 +++
 title = "Rust, Travis, and Github Pages"
 aliases = ["2015/03/07/rust-travis-github-pages/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

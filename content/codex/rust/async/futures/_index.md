@@ -1,7 +1,7 @@
 +++
 title = "Futures"
 description = "The world at 88 mph"
-template = "blog/list.html"
+template =  "blog/list.html"
 sort_by = "weight"
 weight = 0
 

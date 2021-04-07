@@ -1,7 +1,7 @@
 +++
 title = "Arch Linux on Docker Revisited"
 aliases = ["2016/01/13/docker-archlinux/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
  "Containers",

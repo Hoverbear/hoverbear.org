@@ -1,6 +1,6 @@
 +++
 title = "Starting with Immutant"
-layout = "blog/single.html"
+template = "blog/single.html"
 aliases = ["2014/07/14/starting-with-immutant/"]
 [taxonomies]
 tags = [

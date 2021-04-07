@@ -1,7 +1,7 @@
 +++
 title = "ACM papers in Pandoc"
 aliases = ["2015/06/16/acm-papers-in-pandoc/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tooling",

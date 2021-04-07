@@ -1,7 +1,7 @@
 +++
 title = "Longest Common Increasing Sequence"
 aliases = ["2014/11/15/lcis/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials",

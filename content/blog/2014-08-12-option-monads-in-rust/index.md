@@ -1,7 +1,7 @@
 +++
 title = "Option Monads in Rust"
 aliases = ["2014/08/12/option-monads-in-rust/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

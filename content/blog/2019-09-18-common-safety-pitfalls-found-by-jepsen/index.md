@@ -1,7 +1,7 @@
 +++
 title = "Common Safety Pitfalls found by Jepsen"
 description = "Learning about Jepsen and doing a survey of published analyses."
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Infrastructure"

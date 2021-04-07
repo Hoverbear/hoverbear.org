@@ -1,7 +1,7 @@
 +++
 title = "Understanding Over Guesswork"
 aliases = ["2015/09/12/understand-over-guesswork/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

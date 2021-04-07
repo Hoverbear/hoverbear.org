@@ -1,7 +1,7 @@
 +++
 title = "Finding direction, defining goals"
 description = "Charting a course to a more hopeful future."
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Personal",

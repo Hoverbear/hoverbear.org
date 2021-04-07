@@ -1,7 +1,7 @@
 +++
 title = "Raft: Status Update"
 aliases = ["2015/04/08/raft-the-next-generation-3/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

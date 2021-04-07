@@ -1,7 +1,7 @@
 +++
 title = "Learning Cap'n Proto RPC"
 aliases = ["2015/03/09/learning-capn-proto-rpc/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

@@ -1,7 +1,7 @@
 +++
 title = "OpenWRT in Virtualbox"
 aliases = ["2014/11/23/openwrt-in-virtualbox/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Tutorials",

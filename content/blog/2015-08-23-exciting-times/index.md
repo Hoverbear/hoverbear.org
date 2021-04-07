@@ -1,7 +1,7 @@
 +++
 title = "Exciting Times"
 aliases = ["2015/08/23/exciting-times/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

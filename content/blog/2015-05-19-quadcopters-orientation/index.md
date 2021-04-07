@@ -1,7 +1,7 @@
 +++
 title = "Quadcopters: Orientation"
 aliases = ["2015/05/19/quadcopters-orientation/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Quadcopters",

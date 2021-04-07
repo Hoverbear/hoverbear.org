@@ -1,7 +1,7 @@
 +++
 title = "Parsing Arguments in Rust"
 aliases = ["2014/11/15/command-line-args-in-rust/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

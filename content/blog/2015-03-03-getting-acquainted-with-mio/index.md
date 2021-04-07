@@ -1,7 +1,7 @@
 +++
 title = "Getting Acquainted with MIO"
 aliases = ["2015/03/03/getting-acquainted-with-mio/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Raft",

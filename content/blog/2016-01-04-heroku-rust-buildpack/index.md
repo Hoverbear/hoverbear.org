@@ -1,7 +1,7 @@
 +++
 title = "A Rust Heroku Buildpack"
 aliases = ["2016/01/04/Heroku-Rust-Buildpack/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

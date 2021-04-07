@@ -2,7 +2,7 @@
 title = "Learning to Tread the Dawn"
 description = "Recent thoughts and learnings"
 aliases = ["2018/08/03/treading-dawn/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
     "Personal"

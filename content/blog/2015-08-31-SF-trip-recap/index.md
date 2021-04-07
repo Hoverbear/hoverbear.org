@@ -1,7 +1,7 @@
 +++
 title = "Photos: San Fransisco Trip"
 aliases = ["2015/08/31/SF-trip-recap/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Rust",

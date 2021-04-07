@@ -2,7 +2,7 @@
 title = "Articles"
 description = "A chronological log of my public, article-style writing."
 sort_by = "date"
-template = "blog/list.html"
+template =  "blog/list.html"
 
 [extra]
 in_menu = true

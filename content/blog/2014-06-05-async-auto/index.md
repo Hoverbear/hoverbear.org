@@ -1,7 +1,7 @@
 +++
 title = "Async Auto"
 aliases = ["2014/06/05/async-auto/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Javascript",

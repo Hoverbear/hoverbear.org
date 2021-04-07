@@ -1,7 +1,7 @@
 +++
 title = "Gathering Our Voices 2014"
 aliases = ["2014/03/21/gathering-our-voices/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Events",

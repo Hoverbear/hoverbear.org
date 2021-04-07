@@ -1,7 +1,7 @@
 +++
 title = "Winds of Change"
 aliases = ["2016/07/13/winds-of-change/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Personal",

@@ -1,7 +1,7 @@
 +++
 title = "Reflections on a Quarter Century"
 aliases = ["2015/04/23/reflections-on-a-quarter-century/"]
-layout = "blog/single.html"
+template = "blog/single.html"
 [taxonomies]
 tags = [
   "Personal",
