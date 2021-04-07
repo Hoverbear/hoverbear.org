@@ -10,6 +10,6 @@ in_menu = true
 [extra.image]
 path = "cover.jpg"
 colocated = true
-photographer = "Anthony Rosset"
-source = "https://unsplash.com/photos/GnlV0Jgbi6g"
+photographer = "Kobi Li"
+source = "https://unsplash.com/photos/-N0cgDSF_MI"
 +++
