@@ -1,13 +1,14 @@
 {% extends "default.html" %}
 
-{% block page %}
+{% block body %}
     {% include "partials/hero.html" %}
     {% include "partials/header.html" %}
+
     <main>
         {% include "partials/toc.html" %}
-        {% block content %}
+        {% block main %}
             {{ page.content | safe }}
-        {% endblock content %}
+        {% endblock main %}
     </main>
     {% include "partials/footer.html" %}
-{% endblock page %}
+{% endblock body %}

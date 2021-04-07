@@ -1,6 +1,6 @@
 {% extends "page.html" %}
 
-{% block content %}
+{% block main %}
   {{ section.content | safe }}
   <hr>
   {% for post in section.pages | default(value=[])  %}
@@ -15,4 +15,4 @@
       <hr>
     {% endif %}
   {% endfor %}
-{% endblock content %}
+{% endblock main %}
