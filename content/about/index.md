@@ -14,7 +14,7 @@ Hello,
 My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.' I also go by [**Hoverbear**, or any of it's translations](#translations-of-hoverbear).
 
 I live in Lək̓ʷəŋən territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conveniently located close to Vancouver and Seattle, with connections to most of the world.
-w
+
 You may know of me because of my background in technology, but there is much more that defines me. My [partner](https://twitter.com/j_dowadi) and I love going hiking, road tripping, and camping with our Golden Retriever, [*Nami*](https://twitter.com/nami_num_nums). We're also avid video gamers, chefs, and bakers. You can get an idea of the projects I've been involved with by checking the rest of this site, as well as my [Github profile](https://github.com/hoverbear/). Things like Rust, distributed consensus, storage, networking, automation, operations, WASM, and embedded are within my interests.
 
 I have ancestral ties to Norway, France, England, and the Listuguj Mi'kmaq. I am a patchwork. Humanity is a patchwork, and it is beautiful. I will not view you worse because of your ethnicity, sexuality, gender, physique, disabilities, or anything else. I will do my best to respect your wishes around how you define yourself, and will apologize when I make mistakes. The only reason I will treat you differently or disrespect you is if I see you disrespecting or harming others. We're all in this together, we've all suffered enough.
@@ -40,9 +40,9 @@ Later, I moved home. [PingCAP](http://pingcap.com/) recruited me as a Senior Eng
 
 At the start of 2020, life lead me to start my own consultancy. Through it, I am able to work internationally, create partnerships, and spark ideas. I had the pleasure of taking on a long term maintenance role in [Vector](https://vector.dev/), as well as running workshops with [Ferrous Systems](https://ferrous-systems.com/).
 
-My company is a contributor to the [Natives in Tech](https://nativesintech.org/) organization, and plans to become involved in more. It was a supporter of [Natives in Tech Conference 2020](https://www.youtube.com/watch?v=kV8IpFhZmHs). The company is only involved in supporting Indigenous led efforts at this time.
+My company is a contributor to the [Natives in Tech](https://nativesintech.org/) organization, and plans to become involved in more. It was a supporter of [Natives in Tech Conference 2020](https://www.youtube.com/watch?v=kV8IpFhZmHs). The company has only been involved in supporting Indigenous led efforts since the start of 2021.
 
-Currently, I'm a staff Senior Engineer at [Maya Data](https://mayadata.io/) working mostly on [Mayastor](https://github.com/openebs/Mayastor). We're working on next generation storage technology.
+At the start of 2021, I was a Senior Engineer at [Maya Data](https://mayadata.io/) working on [Mayastor](https://github.com/openebs/Mayastor).
 
 
 # Translations of 'Hoverbear'
@@ -57,13 +57,12 @@ I am always seeking to learn new translations, particularly for Restigouche Mík
 
 **Want to verbally introduce me at an event?** Please, use this:
 
-> Ana is a Senior Engineer on [Mayastor](https://github.com/openebs/Mayastor), she's from Pacific Northwest, and  takes care of a golden retriever named [*Nami*](https://twitter.com/nami_num_nums) with her partner.
+> Ana is a hacker working in the Rust and Nix ecosystems. She's from Lək̓ʷəŋən territory in the Pacific Northwest, and holds a B.Sc. in Computer Science from the University of Victoria. She takes care of a golden retriever named [*Nami*](https://twitter.com/nami_num_nums) with her partner.
 
 **Including my biography/about on a website?** Please, use this.
 
-> Ana is a Senior Engineer working on [Mayastor](https://github.com/openebs/Mayastor) at [Maya Data](https://mayadata.io/). She lives on Lək̓ʷəŋən territory in the Pacific Northwest, holds a B.Sc. in Computer Science from the University of Victoria, and takes care of a golden retriever named [*Nami*](https://twitter.com/nami_num_nums) with her partner.
+> Ana is a hacker working in the Rust and Nix ecosystems. She's from Lək̓ʷəŋən territory in the Pacific Northwest, and holds a B.Sc. in Computer Science from the University of Victoria. She takes care of a golden retriever named [*Nami*](https://twitter.com/nami_num_nums) with her partner.
 > 
->
 >
 > An eager conversationalist, she'd love to discuss NVMeoF, rDMA, Rust, Open Source sustainability, distributed consensus, data center technology, and renewable energy. Particularly with underrepresented people, those working with non-profits, or STEAM outreach done through community partnerships.
 
