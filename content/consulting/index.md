@@ -11,7 +11,7 @@ photographer = "Ana Hobden"
 +++
 
 
-> **Currently, services are only available to Indigeous led organizations, or by referral.**
+> **Currently, services are only available to Indigenous led organizations, or by referral.**
 
 
 Doing good work is incredibly hard work. The world is constantly weathering your organization with new challenges to overcome and new opportunities to grasp. I work with your organization over the long term to create capacity and capability amongst your team, preparing them for what is to come. I advocate for practical solutions and foster cooperation over competition.
