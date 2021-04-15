@@ -64,6 +64,6 @@ I am always seeking to learn new translations, particularly for Restigouche Mík
 > Ana is a hacker working in the Rust and Nix ecosystems. She's from Lək̓ʷəŋən territory in the Pacific Northwest, and holds a B.Sc. in Computer Science from the University of Victoria. She takes care of a golden retriever named [*Nami*](https://twitter.com/nami_num_nums) with her partner.
 > 
 >
-> An eager conversationalist, she'd love to discuss NVMeoF, rDMA, Rust, Open Source sustainability, distributed consensus, data center technology, and renewable energy. Particularly with underrepresented people, those working with non-profits, or STEAM outreach done through community partnerships.
+> An eager conversationalist, she'd love to discuss NVMeoF, rDMA, Rust, Open Source sustainability, distributed consensus, declarative systems, and databases. Particularly with Indigenous or other underrepresented people, those working with non-profits, or in STEAM outreach done through community partnerships.
 
 Thank you for respecting me.
