@@ -119,39 +119,39 @@ async.auto() is a function offered by the libary which allows you to declare a s
               alt="Graph" />
     </figure>
 <p>With <code>async</code> this could be modelled like so:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-javascript" data-lang="javascript"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">init</span><span style="color:#c0c5ce;">() {
-	</span><span style="color:#bf616a;">async</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">auto</span><span style="color:#c0c5ce;">({
-		dbConn: </span><span style="color:#bf616a;">dbConn</span><span style="color:#c0c5ce;">,
-		schemas: [ &#39;</span><span style="color:#a3be8c;">dbConn</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">schemas </span><span style="color:#c0c5ce;">],
-		http: </span><span style="color:#bf616a;">http</span><span style="color:#c0c5ce;">,
-		httpMiddleware: [ &#39;</span><span style="color:#a3be8c;">http</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">httpMiddleware </span><span style="color:#c0c5ce;">],
-		routes: [ &#39;</span><span style="color:#a3be8c;">http</span><span style="color:#c0c5ce;">&#39;, &#39;</span><span style="color:#a3be8c;">schemas</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#bf616a;">routes </span><span style="color:#c0c5ce;">]
-	}, </span><span style="color:#bf616a;">listen</span><span style="color:#c0c5ce;">);
+<pre style="background-color:#212733;">
+<code class="language-javascript" data-lang="javascript"><span style="color:#ccc9c2;">(</span><span style="color:#ffa759;">function </span><span style="color:#ffd580;">init</span><span style="color:#ccc9c2;">() {
+	async</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">auto</span><span style="color:#ccc9c2;">({
+		dbConn</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">dbConn</span><span style="color:#ccc9c2cc;">,
+		</span><span style="color:#ccc9c2;">schemas</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&#39;dbConn&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">schemas ]</span><span style="color:#ccc9c2cc;">,
+		</span><span style="color:#ccc9c2;">http</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">http</span><span style="color:#ccc9c2cc;">,
+		</span><span style="color:#ccc9c2;">httpMiddleware</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&#39;http&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">httpMiddleware ]</span><span style="color:#ccc9c2cc;">,
+		</span><span style="color:#ccc9c2;">routes</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&#39;http&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&#39;schemas&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">routes ]
+	}</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">listen)</span><span style="color:#ccc9c2cc;">;
 
-	</span><span style="color:#65737e;">// Definitions of functions below.
-</span><span style="color:#c0c5ce;">}());
+	</span><span style="font-style:italic;color:#5c6773;">// Definitions of functions below.
+</span><span style="color:#ccc9c2;">}())</span><span style="color:#ccc9c2cc;">;
 </span></code></pre>
 <p>The first parameter of the function is an object of tasks. They follow the format <code>taskName: function</code> or <code>taskName: [dependencies, function]</code>. Tasks with dependencies will only start when those have been resolved.</p>
 <p>So async helps with the handling of dependencies, but can we handle dependant state?</p>
 <p>For example, <code>dbConn</code> produces a <code>connection</code> variable, and <code>schemas</code> consumes it. The two functions look like this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-javascript" data-lang="javascript"><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">dbConn</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">) {
-	</span><span style="color:#b48ead;">var </span><span style="color:#bf616a;">connection </span><span style="color:#c0c5ce;">= </span><span style="color:#bf616a;">db</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">connect</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">someString</span><span style="color:#c0c5ce;">).</span><span style="color:#bf616a;">connection
-	connection</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">success</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">() {
-		</span><span style="color:#65737e;">// Return `connection` into the `results`
-		</span><span style="color:#8fa1b3;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">);
-	});
-	</span><span style="color:#bf616a;">connection</span><span style="color:#c0c5ce;">.</span><span style="color:#8fa1b3;">on</span><span style="color:#c0c5ce;">(&#39;</span><span style="color:#a3be8c;">error</span><span style="color:#c0c5ce;">&#39;, </span><span style="color:#b48ead;">function </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">error</span><span style="color:#c0c5ce;">) {
-		</span><span style="color:#8fa1b3;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">error</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
-	});
-}
+<pre style="background-color:#212733;">
+<code class="language-javascript" data-lang="javascript"><span style="color:#ffa759;">function </span><span style="color:#ffd580;">dbConn</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">callback</span><span style="color:#ccc9c2;">) {
+	</span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">connection </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">db</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">connect</span><span style="color:#ccc9c2;">(someString)</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">connection
+	connection</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">on</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&#39;success&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">function </span><span style="color:#ccc9c2;">() {
+		</span><span style="font-style:italic;color:#5c6773;">// Return `connection` into the `results`
+		</span><span style="color:#ffd580;">callback</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">null</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">connection)</span><span style="color:#ccc9c2cc;">;
+	</span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
+	</span><span style="color:#ccc9c2;">connection</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">on</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&#39;error&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">function </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">error</span><span style="color:#ccc9c2;">) {
+		</span><span style="color:#ffd580;">callback</span><span style="color:#ccc9c2;">(error</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">null</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+	</span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#b48ead;">function </span><span style="color:#8fa1b3;">schemas</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">callback</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">results</span><span style="color:#c0c5ce;">) {
-	</span><span style="color:#65737e;">// Do a bunch of stuff.
+</span><span style="color:#ffa759;">function </span><span style="color:#ffd580;">schemas</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">callback</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">results</span><span style="color:#ccc9c2;">) {
+	</span><span style="font-style:italic;color:#5c6773;">// Do a bunch of stuff.
 	// results.dbConn has the connection.
-	</span><span style="color:#8fa1b3;">callback</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">null</span><span style="color:#c0c5ce;">);
-}
+	</span><span style="color:#ffd580;">callback</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">null</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>The result values of any task which another depends on are populated into the <code>results</code> parameter.</p>
 <p>Finally, the <code>listen</code> function accepts a final <code>(error, results)</code>. Note it's called as soon as <strong>any</strong> task returns an error, so always make sure to handle errors. Finally, <code>results</code> will have all of the return values of the tasks which were composed.</p>
@@ -165,8 +165,8 @@ async.auto() is a function offered by the libary which allows you to declare a s
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

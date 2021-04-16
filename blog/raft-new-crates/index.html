@@ -132,43 +132,43 @@ As a result of Raft development two new crates have been put together for genera
 <span id="continue-reading"></span><h2 id="a-useful-error-pattern">A Useful Error Pattern</h2>
 <p>Working with Raft we discovered a useful error pattern for making use of things like <code>try!()</code>. Let's quickly recap on why error handling can be a pain sometimes.</p>
 <p>Let's say you're off happily using <code>.read()</code> on some file descriptor (maybe a <code>TcpStream</code>) and than performing some action which may also result in an error. So you write a function like so:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::Read;
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">read_and_action</span><span style="color:#c0c5ce;">&lt;R: Read&gt;(</span><span style="color:#bf616a;">reader</span><span style="color:#c0c5ce;">: R) -&gt; Result&lt;String, _&gt; {
-	</span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> buf = Vec::with_capacity(</span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">);
-    try!(reader.</span><span style="color:#96b5b4;">read</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> buf));
-    try!(String::from_utf8(buf))
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">io</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Read</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">read_and_action</span><span style="color:#ccc9c2;">&lt;R</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Read&gt;(</span><span style="color:#ffcc66;">reader</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> R) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#ccc9c2;">, </span><span style="color:#f29e74;">_</span><span style="color:#ccc9c2;">&gt; {
+	</span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> buf </span><span style="color:#f29e74;">= </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">with_capacity(</span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">try!</span><span style="color:#ccc9c2;">(reader</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">read</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> buf))</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">try!</span><span style="color:#ccc9c2;">(</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from_utf8(buf))
 }
 </span></code></pre>
 <p>But wait! There is a problem here! The first <code>try!()</code> and the second <code>try!()</code> have <em>different errors</em> that they might return. <strong>This won't work.</strong> Even worse, in a sufficiently complex library or application there can be many <code>Error</code> types in play!</p>
 <p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a rel="noopener" target="_blank" href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#65737e;">/// A simple convienence type.
-</span><span style="color:#b48ead;">pub type </span><span style="color:#c0c5ce;">Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// A simple convienence type.
+</span><span style="color:#ffa759;">pub type </span><span style="color:#73d0ff;">Result</span><span style="color:#f29e74;">&lt;</span><span style="color:#ccc9c2;">T</span><span style="color:#f29e74;">&gt; = </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">result</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Result&lt;T, Error&gt;</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#65737e;">// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
-</span><span style="color:#c0c5ce;">wrapped_enum!{
-    #[</span><span style="color:#bf616a;">derive</span><span style="color:#c0c5ce;">(Debug)]
-    </span><span style="color:#b48ead;">pub enum </span><span style="color:#c0c5ce;">Error {
-    	</span><span style="color:#65737e;">// Cap&#39;n Proto Errors
-</span><span style="color:#c0c5ce;">        CapnProto(capnp::Error),
-        </span><span style="color:#65737e;">// Cap&#39;n Proto schema errors
-</span><span style="color:#c0c5ce;">        SchemaError(capnp::NotInSchema),
-        </span><span style="color:#65737e;">// std::io errors
-</span><span style="color:#c0c5ce;">        Io(io::Error),
-        </span><span style="color:#65737e;">// Our very own!
-</span><span style="color:#c0c5ce;">        Raft(RaftError),
-    }
+</span><span style="font-style:italic;color:#5c6773;">// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
+</span><span style="color:#f28779;">wrapped_enum!</span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">derive</span><span style="color:#ccc9c2;">(Debug)]
+    </span><span style="color:#ffa759;">pub enum </span><span style="color:#73d0ff;">Error </span><span style="color:#ccc9c2;">{
+    	</span><span style="font-style:italic;color:#5c6773;">// Cap&#39;n Proto Errors
+</span><span style="color:#ccc9c2;">        CapnProto(capnp</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Error)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5c6773;">// Cap&#39;n Proto schema errors
+</span><span style="color:#ccc9c2;">        SchemaError(capnp</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">NotInSchema)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5c6773;">// std::io errors
+</span><span style="color:#ccc9c2;">        Io(io</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Error)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5c6773;">// Our very own!
+</span><span style="color:#ccc9c2;">        Raft(RaftError)</span><span style="color:#ccc9c2cc;">,
+    </span><span style="color:#ccc9c2;">}
 }
 
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">fmt::Display </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Error {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">fmt</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">f</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut </span><span style="color:#c0c5ce;">fmt::Formatter) -&gt; fmt::Result {
-        </span><span style="color:#b48ead;">match </span><span style="color:#c0c5ce;">*</span><span style="color:#bf616a;">self </span><span style="color:#c0c5ce;">{
-            Error::CapnProto(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Display::fmt(error, f),
-            Error::SchemaError(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Display::fmt(error, f),
-            Error::Io(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Display::fmt(error, f),
-            Error::Raft(</span><span style="color:#b48ead;">ref</span><span style="color:#c0c5ce;"> error) =&gt; fmt::Debug::fmt(error, f),
-        }
+</span><span style="color:#ffa759;">impl </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Display </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Error </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">fmt</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">f</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Formatter) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Result {
+        </span><span style="color:#ffa759;">match </span><span style="color:#f29e74;">*</span><span style="font-style:italic;color:#5ccfe6;">self </span><span style="color:#ccc9c2;">{
+            Error</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">CapnProto(</span><span style="color:#ffa759;">ref</span><span style="color:#ccc9c2;"> error) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Display</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">fmt(error</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> f)</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">Error</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">SchemaError(</span><span style="color:#ffa759;">ref</span><span style="color:#ccc9c2;"> error) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Display</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">fmt(error</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> f)</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">Error</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Io(</span><span style="color:#ffa759;">ref</span><span style="color:#ccc9c2;"> error) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Display</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">fmt(error</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> f)</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">Error</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Raft(</span><span style="color:#ffa759;">ref</span><span style="color:#ccc9c2;"> error) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">fmt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Debug</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">fmt(error</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> f)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
 }
 </span></code></pre>
@@ -180,20 +180,20 @@ As a result of Raft development two new crates have been put together for genera
 <p>One problem we identified, however, was that sometimes it was very difficult to identify the source of a log message. Asking &quot;Did it come from <code>foo</code> or <code>bar</code>?&quot; is only fun so many times.</p>
 <p>James and Dan put together the <a rel="noopener" target="_blank" href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
 <p>When we use this crate with tests (which makes it all that much more awesome!) we use the following macro.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#65737e;">/// Prepares the environment testing. Should be called as the first line of every test with the
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// Prepares the environment testing. Should be called as the first line of every test with the
 /// name of the test as the only argument.
-</span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">cfg</span><span style="color:#c0c5ce;">(test)]
-</span><span style="color:#96b5b4;">macro_rules! </span><span style="color:#c0c5ce;">setup_test {
-    (</span><span style="color:#bf616a;">$test_name</span><span style="color:#c0c5ce;">:</span><span style="color:#b48ead;">expr</span><span style="color:#c0c5ce;">) =&gt; (
-        </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">_ = env_logger::init();
-        push_log_scope!(</span><span style="color:#bf616a;">$test_name</span><span style="color:#c0c5ce;">);
-    );
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">cfg</span><span style="color:#ccc9c2;">(test)]
+</span><span style="color:#f28779;">macro_rules! </span><span style="color:#73d0ff;">setup_test </span><span style="color:#ccc9c2;">{
+    (</span><span style="color:#ffcc66;">$test_name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ffa759;">expr</span><span style="color:#ccc9c2;">) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">(
+        </span><span style="color:#ffa759;">let </span><span style="color:#f29e74;">_ = </span><span style="color:#ccc9c2;">env_logger</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">init()</span><span style="color:#ccc9c2cc;">;
+        </span><span style="color:#f28779;">push_log_scope!</span><span style="color:#ccc9c2;">($test_name)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>Now our logs look like this:</p>
-<pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">INFO:raft::replica: test_apply_client_message: ElectionTimeout
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">INFO:raft::replica: test_apply_client_message: ElectionTimeout
 INFO:raft::replica: test_election_3: ElectionTimeout
 INFO:raft::replica: test_election_2: ElectionTimeout
 INFO:raft::replica: test_apply_client_message: transitioning to Leader
@@ -217,8 +217,8 @@ DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0,
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

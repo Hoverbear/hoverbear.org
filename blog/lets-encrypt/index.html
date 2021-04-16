@@ -119,15 +119,15 @@
         <p>I was privileged to recieve one of the early <a rel="noopener" target="_blank" href="https://letsencrypt.org/">Let's Encrypt</a> beta certificates for <a rel="noopener" target="_blank" href="https://hoverbear.org/">https://hoverbear.org</a>. I had an easy and fun time setting it up this evening on my <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Hosting">Funtoo Container</a> and wanted to quickly jot down how to!</p>
 <span id="continue-reading"></span><h2 id="get-er-done">Get 'er Done</h2>
 <p>I first needed some prerequisites (I already had <code>nginx</code> installed):</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> emerge</span><span style="color:#bf616a;"> -vqa</span><span style="color:#c0c5ce;"> augeas python-augeas dialog
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> emerge</span><span style="color:#ffcc66;"> -vqa</span><span style="color:#ccc9c2;"> augeas python-augeas dialog
 </span></code></pre>
 <p>Then, following the instructions provided:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/letsencrypt/letsencrypt
-</span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> letsencrypt
-</span><span style="color:#bf616a;">./letsencrypt-auto --agree-dev-preview --server </span><span style="color:#c0c5ce;">\
-  https://acme-v01.api.letsencrypt.org/directory auth
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">git</span><span style="color:#ccc9c2;"> clone https://github.com/letsencrypt/letsencrypt
+</span><span style="color:#f28779;">cd</span><span style="color:#ccc9c2;"> letsencrypt
+</span><span style="color:#ffd580;">./letsencrypt-auto</span><span style="color:#ffcc66;"> --agree-dev-preview --server </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ccc9c2;">  https://acme-v01.api.letsencrypt.org/directory auth
 </span></code></pre>
 <p>From here you'll be brought to something that looks like a <code>make menuconfig</code> when building your own kernel... But a lot easier. From here you have two options, &quot;Manual&quot; and &quot;Standalone&quot;.</p>
 <p><strong>Manual</strong> asks you for your domain then tasks you with the job of hosting a file under something like <code>$YOUR_DOMAIN/.well_known/acme-challenge/$KEY</code>.</p>
@@ -142,8 +142,8 @@
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

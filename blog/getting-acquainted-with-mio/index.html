@@ -168,7 +168,7 @@ MIO is a lightweight IO library for Rust with a focus on adding as little overhe
 </ul>
 <h2 id="hello-world">Hello, World</h2>
 <p>The following program is a nice, simple example of what MIO looks like:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>extern crate mio;
 use mio::*;
 use std::fmt::Debug;
@@ -192,18 +192,18 @@ impl&lt;T, M: Send + Debug&gt; Handler&lt;T, M&gt; for BearHandler {
 }
 </code></pre>
 <p>A <strong>lot</strong> is going on here. Let's take a closer look.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>EventLoop::&lt;(), String&gt;::new();
 </code></pre>
 <p>This creates a new <code>EventLoop</code>. The Event loop uses <code>T</code> tokens of type <code>()</code>, and channels that consume and pass <code>M: Send</code> of type <code>String</code>. You can use anything that implements <code>Send</code> for messages.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>event_loop.channel();
 </code></pre>
 <p>This gives us a channel to send <code>String</code>s. When we <code>send()</code> later our <code>BearHandler</code> wakes up and invokes <code>notify</code>.</p>
 <p>From there, <code>notify</code> prints out the message. In a real application, this is where your business logic would be to determine what to do with the message.</p>
 <h2 id="getting-a-handle-r">Getting a Handle(r)</h2>
 <p>A Handler can implement some or all of the following functions:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>pub trait Handler&lt;T: Token, M: Send&gt; {
     /// A registered IoHandle has available data to read
     fn readable(&amp;mut self, reactor: &amp;mut EventLoop&lt;T, M&gt;, hint: ReadHint, token: T);
@@ -219,7 +219,7 @@ impl&lt;T, M: Send + Debug&gt; Handler&lt;T, M&gt; for BearHandler {
 </code></pre>
 <p>So this is a lot more then just sending some <code>String</code>s around! Did you doubt me?</p>
 <p>What's really cool is your <code>Handler</code> can have a data backing since it's just a trait that you can implement yourself! Let's do that now:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>extern crate mio;
 use mio::*;
 
@@ -244,7 +244,7 @@ impl&lt;T&gt; Handler&lt;T, u64&gt; for BearHandler {
 }
 </code></pre>
 <p>Output:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>Message: 0, Total: 0
 Message: 1, Total: 1
 Message: 2, Total: 3
@@ -262,7 +262,7 @@ Message: 4, Total: 10
 </ul>
 <p>First, we'll modify the <code>BearHandler</code> to reflect these changes. First, we'll make it a proper <code>struct</code> and let it store a pair of sockets as well as it's <code>count</code>.</p>
 <p>Second, we'll implement the <code>readable</code>, <code>timeout</code>, and <code>notify</code>. Note in the <code>readable</code> we take care to drain the socket. Also, note how the <code>timeout</code> doesn't need to reset itself, we can clear it with <a rel="noopener" target="_blank" href="https://carllerche.github.io/mio/mio/struct.EventLoop.html#method.clear_timeout"><code>clear_timeout</code></a> if we want.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>impl Handler&lt;Token, u64&gt; for BearHandler {
     fn readable(&amp;mut self, _reactor: &amp;mut EventLoop&lt;Token, u64&gt;, _token: Token, _hint: ReadHint) {
         let mut buffer = buf::RingBuf::new(1024);
@@ -285,7 +285,7 @@ Message: 4, Total: 10
 }
 </code></pre>
 <p>Next, registering the various events, we'll use some of MIO's <code>mio::net</code> items:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>const LISTENER: Token = Token(0);
 const TIMEOUT:  Token = Token(1);
 fn main() {
@@ -311,7 +311,7 @@ fn main() {
 }
 </code></pre>
 <p>Output:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>Increment by: 0, Total: 0
 Increment by: 1, Total: 1
 Increment by: 2, Total: 3
@@ -361,8 +361,8 @@ Decremented, Total: 0
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

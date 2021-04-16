@@ -7,7 +7,18 @@
         <generator>Zola</generator>
         <language>en</language>
         <atom:link href="https://hoverbear.org/rss.xml" rel="self" type="application/rss+xml"/>
-        <lastBuildDate>Thu, 31 Dec 2020 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Thu, 15 Apr 2021 00:00:00 +0000</lastBuildDate>
+        <item>
+            <title>Custom live media with Nix flakes</title>
+            <pubDate>Thu, 15 Apr 2021 00:00:00 +0000</pubDate>
+            <link>https://hoverbear.org/blog/nix-flake-live-media/</link>
+            <guid>https://hoverbear.org/blog/nix-flake-live-media/</guid>
+            <description>&lt;p&gt;I&#x27;ve always been quite fond of booting live media. To test or install a new operating system, to recover an old one, find some privacy, or to do a myriad of other specialized tasks. LiveUSBs and liveCDs introduced to me a new way of thinking about my computer.&lt;&#x2F;p&gt;
+&lt;p&gt;It improved my mental model of the separation of between the machine, the UEFI (or BIOS), any bootloaders, and the operating system itself.&lt;&#x2F;p&gt;
+&lt;p&gt;As I learnt about them over 15 years ago I spent months exploring ways to use them. I used them to rescue systems for myself and others, diagnose hardware, recovery files, and quickly set up machines. &lt;&#x2F;p&gt;
+&lt;p&gt;With Nix flakes, we can define a custom live system and build it with minimal steps. This NixOS live system which could be a composition of existing NixOS modules, or an entirely new configuration.&lt;&#x2F;p&gt;
+</description>
+        </item>
         <item>
             <title>The Entanglement of Purpose &amp; Success</title>
             <pubDate>Thu, 31 Dec 2020 00:00:00 +0000</pubDate>
@@ -758,12 +769,12 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/option-monads-in-rust/</link>
             <guid>https://hoverbear.org/blog/option-monads-in-rust/</guid>
             <description>&lt;p&gt;One common monadic structure is the &lt;code&gt;Option&lt;&#x2F;code&gt; (or &lt;code&gt;Maybe&lt;&#x2F;code&gt; in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,&lt;&#x2F;p&gt;
-&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
-&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
-  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Parses a string into an integer.
-  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;from_str::&amp;lt;int&amp;gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; A valid input.
-  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;from_str::&amp;lt;int&amp;gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Potato&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Definitely invalid.
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;}
+&lt;pre style=&quot;background-color:#212733;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#ffa759;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ffd580;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;() {
+  &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#5c6773;&quot;&gt;&#x2F;&#x2F; Parses a string into an integer.
+  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;from_str&lt;&#x2F;span&gt;&lt;span style=&quot;color:#f29e74;&quot;&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;&amp;lt;int&amp;gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bae67e;&quot;&gt;&amp;quot;4&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2cc;&quot;&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#5c6773;&quot;&gt;&#x2F;&#x2F; A valid input.
+  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;from_str&lt;&#x2F;span&gt;&lt;span style=&quot;color:#f29e74;&quot;&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;&amp;lt;int&amp;gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bae67e;&quot;&gt;&amp;quot;Potato&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2cc;&quot;&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#5c6773;&quot;&gt;&#x2F;&#x2F; Definitely invalid.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2;&quot;&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;</description>
         </item>
         <item>

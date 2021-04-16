@@ -259,11 +259,11 @@
 </ul>
 <h2 id="dacs-install">DACS Install</h2>
 <p>We'll try using <a rel="noopener" target="_blank" href="https://launchpad.net/ubuntu/+source/dacs">Ubuntu's stable package</a> available in the repositories.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>sudo apt-get install dacs
 </code></pre>
 <p>A quick test reveals several <code>dacs</code> related binaries are now available.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsacl        dacs_acs
 dacsauth       dacscheck
 dacsconf       dacscookie
@@ -277,7 +277,7 @@ dacstransform  dacsversion
 dacsvfs
 </code></pre>
 <p>Since <code>dacsinit</code> is not available in this package, we'll need to configure the system manually. By default this package installs the configuration directories to <code>/etc/dacs</code> with <code>root:root</code> permissions.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsgroup=root
 dacs=/etc/dacs
 feds=$dacs/federations
@@ -292,7 +292,7 @@ install -d -g $dacsgroup -m 0770 $la/groups $la/groups/LA $la/groups/DACS
 install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
 </code></pre>
 <p>In the <code>$la/groups/DACS/jurisdictions.grp</code>:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>&lt;groups xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
  &lt;group_definition jurisdiction=&quot;LA&quot; name=&quot;jurisdictions&quot;
      mod_date=&quot;Tue, 14-Jun-2005 16:06:00 GMT&quot; type=&quot;public&quot;&gt;
@@ -304,7 +304,7 @@ install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
 &lt;/groups&gt;
 </code></pre>
 <p>In <code>$feds/dacs.conf</code>:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>&lt;Configuration xmlns=&quot;http://dss.ca/dacs/v1.4&quot;&gt;
 
  &lt;Default&gt;
@@ -320,16 +320,16 @@ install -c -g $dacsgroup -m 0660 /dev/null $la/groups/DACS/jurisdictions.grp
 &lt;/Configuration&gt;
 </code></pre>
 <p>Then set the configuration:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>rm -f $la/dacs.conf
 ln -s $feds/dacs.conf $la/dacs.conf
 </code></pre>
 <p>Next we can check the configuration with:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsconf -uj LA -q
 </code></pre>
 <p>It should output a set of variables like so:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>…
 ALLOW_HTTP_COOKIE &quot;no&quot;
 AUTH_FAIL_DELAY_SECS &quot;2&quot;
@@ -339,7 +339,7 @@ COOKIE_PATH &quot;/&quot;
 …
 </code></pre>
 <p>Next, we need to set up the federation keys.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>install -c -g $dacsgroup -m 0640 /dev/null $feds/dacstest.dss.ca/federation_keyfile
 dacskey -uj LA -q $feds/dacstest.dss.ca/federation_keyfile
 </code></pre><h2 id="dacs-authentication">DACS Authentication</h2>
@@ -347,13 +347,13 @@ dacskey -uj LA -q $feds/dacstest.dss.ca/federation_keyfile
 <p>If you're following along with me, these commands may require <code>sudo</code> because of how we set up permissions.</p>
 </blockquote>
 <p>First, lets add a <code>passwd</code> file. The identities managed by this file are not related to the local UNIX users.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>install -c -g $dacsgroup -m 0660 /dev/null $la/passwd
 dacspasswd -uj LA -q -a bear
 # Give them password `bear`
 </code></pre>
 <p>Then add to the <strong>Jurisdiction</strong> section of <code>$la/dacs.conf</code>:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>&lt;Auth id=&quot;passwd&quot;&gt;
    URL &quot;http://dodgers.dacstest.dss.ca:18123/cgi-bin/dacs/local_passwd_authenticate&quot;
    STYLE &quot;pass&quot;
@@ -361,13 +361,13 @@ dacspasswd -uj LA -q -a bear
 &lt;/Auth&gt;
 </code></pre>
 <p>Now try authenticating with:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bear
 echo $?
 # 0 means success.
 </code></pre>
 <p>Now lets make it fail:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsauth -m passwd passwd required -vfs &quot;[passwds]dacs-kwv-fs:/etc/dacs/federations/dacstest.dss.ca/LA/passwd&quot; -q -u bear -p bears
 echo $?
 # 1 means failure.
@@ -376,7 +376,7 @@ echo $?
 <p>The <code>-vfs</code> flag is important, it tells DACS where to look for the respective files.</p>
 </blockquote>
 <p>Authenticating as a UNIX user:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>useradd bear
 passwd bear # Set it to foo
 dacsauth -m unix passwd required -u bear -p foo
@@ -385,7 +385,7 @@ dacsauth -m unix passwd required -u bear -p bar
 echo $? # 1 means failure.
 </code></pre><h2 id="dacs-roles">DACS Roles</h2>
 <p>If authenticating as a UNIX user, roles in DACS are based upon the groups the user is in. For example:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsauth -r unix -u bear
 # Outputs 'bear'
 
@@ -395,11 +395,11 @@ dacsauth -r unix -u bear
 # Outputs 'bear,users'
 </code></pre>
 <p>To add roles to a DACS user, we can consult <a rel="noopener" target="_blank" href="http://dacs.dss.ca/man/dacs_authenticate.8.html#local_roles">the relevant documentation</a> which directs us to create a <code>/etc/dacs/federations/roles</code> file with contents like the following:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>bear:animals,mammals
 </code></pre>
 <p>Now we can check DACS for the roles of our user:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>dacsauth -r roles -vfs &quot;[roles]dacs-kwv-fs:/etc/dacs/federations/roles&quot; -u bear
 # animals,mammals
 </code></pre>
@@ -408,7 +408,7 @@ dacsauth -r unix -u bear
 <p>Since we've explored two common use cases for DACS, authentication and role checking. Lets look like how doing this would look from two languages, Javascript (Node) and Rust.</p>
 <h2 id="authentication">Authentication</h2>
 <p>In Javascript, it's easy to just use the <code>child_process</code> built-in library. These examples are structured such that they would fit nicely into a middleware based system like used in <code>express</code>:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>/**
  * Uses DACS' local module.
  * Determines whether the login details are valid.
@@ -479,13 +479,13 @@ function unixAuth(user, pass, next) {
 }());
 </code></pre>
 <p>Running it:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>node test.js
 # LOCAL: Successfully authenticated as `bear`
 # UNIX: Successfully authenticated as `bear`
 </code></pre>
 <p>In Rust, this task is also simple enough by using <code>Command</code>, which I've written about <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/09/07/command-execution-in-rust/">here</a> (Note it is slightly out of date):</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>use std::io::Command;
 use std::io::process::ProcessExit::ExitStatus;
 
@@ -536,7 +536,7 @@ fn test_unix_auth() {
 }
 </code></pre>
 <p>Running it:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>rustc test.rs --test
 ./test
 # running 2 tests
@@ -546,7 +546,7 @@ fn test_unix_auth() {
 # test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 </code></pre><h2 id="roles">Roles</h2>
 <p>Using a similar style of code, we can get the roles for a user like so:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>/**
 * Uses DACS' local module.
 * Determines the user's roles.
@@ -615,13 +615,13 @@ function unixRoles(user, next) {
 }());
 </code></pre>
 <p>Running it:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>nodejs test.js
 # LOCAL: `bear` has roles animals,mammals
 # UNIX: `bear` has roles bear,users
 </code></pre>
 <p>And in Rust:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>use std::io::Command;
 use std::str;
 
@@ -678,7 +678,7 @@ fn test_unix_roles() {
 }
 </code></pre>
 <p>Running it:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>rustc test.rs --test
 ./test
 # running 2 tests
@@ -706,8 +706,8 @@ fn test_unix_roles() {
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

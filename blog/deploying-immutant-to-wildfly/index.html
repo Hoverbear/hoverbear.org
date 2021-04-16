@@ -150,77 +150,77 @@ Starting from a lein new app learning command, set up your project like so:
 <p>Starting from a <code>lein new app learning</code> command, set up your project like so:</p>
 <span id="continue-reading"></span>
 <p><strong>project.clj</strong>:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">defproject </span><span style="color:#8fa1b3;">learning </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">0.1.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#d08770;">:description </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">FIXME: write description</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://example.com/FIXME</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#d08770;">:license </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:name </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">MPL</span><span style="color:#c0c5ce;">&quot;
-            </span><span style="color:#d08770;">:url </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">http://choosealicense.com/licenses/mpl-2.0/</span><span style="color:#c0c5ce;">&quot;}
-  </span><span style="color:#d08770;">:dependencies </span><span style="color:#c0c5ce;">[[org.clojure/clojure &quot;</span><span style="color:#a3be8c;">1.6.0</span><span style="color:#c0c5ce;">&quot;]
-                 [org.immutant/immutant &quot;</span><span style="color:#a3be8c;">2.x.incremental.186</span><span style="color:#c0c5ce;">&quot;]
-                 [compojure &quot;</span><span style="color:#a3be8c;">1.1.8</span><span style="color:#c0c5ce;">&quot;]]
-  </span><span style="color:#d08770;">:repositories </span><span style="color:#c0c5ce;">[[&quot;</span><span style="color:#a3be8c;">Immutant incremental builds</span><span style="color:#c0c5ce;">&quot;
-                  &quot;</span><span style="color:#a3be8c;">http://downloads.immutant.org/incremental/</span><span style="color:#c0c5ce;">&quot;]]
-  </span><span style="color:#d08770;">:plugins </span><span style="color:#c0c5ce;">[[lein-immutant &quot;</span><span style="color:#a3be8c;">2.0.0-SNAPSHOT</span><span style="color:#c0c5ce;">&quot;]]
-  </span><span style="color:#d08770;">:ring </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:handler</span><span style="color:#c0c5ce;"> learning.core/app}
-  </span><span style="color:#d08770;">:main </span><span style="color:#c0c5ce;">^</span><span style="color:#d08770;">:skip-aot</span><span style="color:#c0c5ce;"> learning.core
-  </span><span style="color:#d08770;">:target-path </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">target/%s</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#d08770;">:profiles </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:uberjar </span><span style="color:#c0c5ce;">{</span><span style="color:#d08770;">:aot :all</span><span style="color:#c0c5ce;">}})
+<pre style="background-color:#212733;">
+<code class="language-clojure" data-lang="clojure"><span style="color:#ccc9c2;">(</span><span style="color:#ffa759;">defproject </span><span style="color:#ffd580;">learning </span><span style="color:#bae67e;">&quot;0.1.0-SNAPSHOT&quot;
+  </span><span style="color:#ffcc66;">:description </span><span style="color:#bae67e;">&quot;FIXME: write description&quot;
+  </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://example.com/FIXME&quot;
+  </span><span style="color:#ffcc66;">:license </span><span style="color:#ccc9c2;">{</span><span style="color:#ffcc66;">:name </span><span style="color:#bae67e;">&quot;MPL&quot;
+            </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://choosealicense.com/licenses/mpl-2.0/&quot;</span><span style="color:#ccc9c2;">}
+  </span><span style="color:#ffcc66;">:dependencies </span><span style="color:#ccc9c2;">[[org.clojure/clojure </span><span style="color:#bae67e;">&quot;1.6.0&quot;</span><span style="color:#ccc9c2;">]
+                 [org.immutant/immutant </span><span style="color:#bae67e;">&quot;2.x.incremental.186&quot;</span><span style="color:#ccc9c2;">]
+                 [compojure </span><span style="color:#bae67e;">&quot;1.1.8&quot;</span><span style="color:#ccc9c2;">]]
+  </span><span style="color:#ffcc66;">:repositories </span><span style="color:#ccc9c2;">[[</span><span style="color:#bae67e;">&quot;Immutant incremental builds&quot;
+                  &quot;http://downloads.immutant.org/incremental/&quot;</span><span style="color:#ccc9c2;">]]
+  </span><span style="color:#ffcc66;">:plugins </span><span style="color:#ccc9c2;">[[lein-immutant </span><span style="color:#bae67e;">&quot;2.0.0-SNAPSHOT&quot;</span><span style="color:#ccc9c2;">]]
+  </span><span style="color:#ffcc66;">:ring </span><span style="color:#ccc9c2;">{</span><span style="color:#ffcc66;">:handler</span><span style="color:#ccc9c2;"> learning.core/app}
+  </span><span style="color:#ffcc66;">:main </span><span style="color:#f29e74;">^</span><span style="color:#ffcc66;">:skip-aot</span><span style="color:#ccc9c2;"> learning.core
+  </span><span style="color:#ffcc66;">:target-path </span><span style="color:#bae67e;">&quot;target/%s&quot;
+  </span><span style="color:#ffcc66;">:profiles </span><span style="color:#ccc9c2;">{</span><span style="color:#ffcc66;">:uberjar </span><span style="color:#ccc9c2;">{</span><span style="color:#ffcc66;">:aot :all</span><span style="color:#ccc9c2;">}})
 </span></code></pre>
 <p>Note how <code>lein-immutant</code> is in the <code>:plugins</code> field. This will give us access to the <code>lein immutant &lt;command&gt;</code> commands.</p>
 <p><strong>src/learning/core.clj</strong>:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-clojure" data-lang="clojure"><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">ns</span><span style="color:#c0c5ce;"> learning.core
-  (</span><span style="color:#d08770;">:use</span><span style="color:#c0c5ce;"> compojure.core)
-  (</span><span style="color:#d08770;">:require </span><span style="color:#c0c5ce;">[compojure.route    </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> route]
-            [immutant.web       </span><span style="color:#d08770;">:as</span><span style="color:#c0c5ce;"> immutant])
-  (</span><span style="color:#d08770;">:gen-class</span><span style="color:#c0c5ce;">))
+<pre style="background-color:#212733;">
+<code class="language-clojure" data-lang="clojure"><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">ns</span><span style="color:#ccc9c2;"> learning.core
+  (</span><span style="color:#ffcc66;">:use</span><span style="color:#ccc9c2;"> compojure.core)
+  (</span><span style="color:#ffcc66;">:require </span><span style="color:#ccc9c2;">[compojure.route    </span><span style="color:#ffcc66;">:as</span><span style="color:#ccc9c2;"> route]
+            [immutant.web       </span><span style="color:#ffcc66;">:as</span><span style="color:#ccc9c2;"> immutant])
+  (</span><span style="color:#ffcc66;">:gen-class</span><span style="color:#ccc9c2;">))
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">handler
-  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Comment</span><span style="color:#c0c5ce;">&quot;
-  []
-  &quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Hello World&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;)
+(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">handler
+  </span><span style="color:#bae67e;">&quot;Comment&quot;
+  </span><span style="color:#ccc9c2;">[]
+  </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot;</span><span style="color:#ccc9c2;">)
 
-(</span><span style="color:#b48ead;">defroutes </span><span style="color:#8fa1b3;">app
-  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">The router.</span><span style="color:#c0c5ce;">&quot;
-  (</span><span style="color:#bf616a;">GET </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">/learning/test</span><span style="color:#c0c5ce;">&quot; [] (</span><span style="color:#bf616a;">handler</span><span style="color:#c0c5ce;">))
-  (</span><span style="color:#bf616a;">route/not-found
-       </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;h1&gt;Page not found&lt;/h1&gt;</span><span style="color:#c0c5ce;">&quot;))
+(</span><span style="color:#ffa759;">defroutes </span><span style="color:#ffd580;">app
+  </span><span style="color:#bae67e;">&quot;The router.&quot;
+  </span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/learning/test&quot; </span><span style="color:#ccc9c2;">[] (</span><span style="color:#ffd580;">handler</span><span style="color:#ccc9c2;">))
+  (</span><span style="color:#ffd580;">route/not-found
+       </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;</span><span style="color:#ccc9c2;">))
 
-(</span><span style="color:#b48ead;">defn </span><span style="color:#8fa1b3;">-main
-  </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Start the server</span><span style="color:#c0c5ce;">&quot;
-  [&amp; args]
-  (</span><span style="color:#bf616a;">immutant/run</span><span style="color:#c0c5ce;"> app))
+(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">-main
+  </span><span style="color:#bae67e;">&quot;Start the server&quot;
+  </span><span style="color:#ccc9c2;">[&amp; args]
+  (</span><span style="color:#ffd580;">immutant/run</span><span style="color:#ccc9c2;"> app))
 </span></code></pre>
 <p>After speaking to the fine folks on the #immutant IRC channel on Freenode, we determined that Immutant seemed to have some issues with routing while running on JBoss. The route <code>/learning/test</code> <em>should</em> be just <code>/test</code> as far as I am able to tell, the problem will become apparent later.</p>
 <p><strong>Dockerfile</strong>:</p>
-<pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">FROM jboss/wildfly
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">FROM jboss/wildfly
 RUN /opt/wildfly/bin/add-user.sh hoverbear hunter2 --silent
 ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments/
 </span></code></pre><h3 id="build-the-immutant-application">Build the Immutant Application</h3>
 <p>Wildfly seems to expect <code>.war</code> files for deployment. Thankfully Immutant provides this via the plugin declared in the <code>project.clj</code>.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">lein</span><span style="color:#c0c5ce;"> immutant war
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">lein</span><span style="color:#ccc9c2;"> immutant war
 </span></code></pre>
 <p>The output should be similar to:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;"> lein immutant war
-</span><span style="color:#bf616a;">Compiling</span><span style="color:#c0c5ce;"> learning.core
-</span><span style="color:#bf616a;">Created</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT.jar
-</span><span style="color:#bf616a;">Created</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT-standalone.jar
-</span><span style="color:#bf616a;">Creating</span><span style="color:#c0c5ce;"> /home/hoverbear/learning/target/base+system+user+dev/learning.war
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">➜</span><span style="color:#ccc9c2;"> lein immutant war
+</span><span style="color:#ffd580;">Compiling</span><span style="color:#ccc9c2;"> learning.core
+</span><span style="color:#ffd580;">Created</span><span style="color:#ccc9c2;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT.jar
+</span><span style="color:#ffd580;">Created</span><span style="color:#ccc9c2;"> /home/hoverbear/learning/target/uberjar/learning-0.1.0-SNAPSHOT-standalone.jar
+</span><span style="color:#ffd580;">Creating</span><span style="color:#ccc9c2;"> /home/hoverbear/learning/target/base+system+user+dev/learning.war
 </span></code></pre>
 <p>Notice how the resulting <code>.war</code> file is the same which is ADDed by the <code>Dockerfile</code>.</p>
 <h3 id="building-the-docker-image">Building the Docker Image</h3>
 <p>Next, build the Docker image, make sure you're in the project directory.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> build</span><span style="color:#bf616a;"> -t</span><span style="color:#c0c5ce;"> wildfly-learning .
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span style="color:#ccc9c2;"> build</span><span style="color:#ffcc66;"> -t</span><span style="color:#ccc9c2;"> wildfly-learning .
 </span></code></pre>
 <p>If you haven't pulled the <code>jboss/wildfly</code> base image before, this first command might take awhile. Future builds will be very fast as it won't need to pull the base image.</p>
 <h3 id="running-the-container">Running the Container</h3>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 8080:8080</span><span style="color:#bf616a;"> -p</span><span style="color:#c0c5ce;"> 9990:9990 wildfly-learning
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span style="color:#ccc9c2;"> run</span><span style="color:#ffcc66;"> -p</span><span style="color:#ccc9c2;"> 8080:8080</span><span style="color:#ffcc66;"> -p</span><span style="color:#ccc9c2;"> 9990:9990 wildfly-learning
 </span></code></pre>
 <p>There should be a considerable log of output.</p>
 <h3 id="testing">Testing</h3>
@@ -238,8 +238,8 @@ ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

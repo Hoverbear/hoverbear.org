@@ -103,31 +103,31 @@ Turns out, .collect() can do it for you!
         
         <p>I've been playing around with a new project that uses a lot of collections of results, for example <code>Vec&lt;Result&lt;()&gt;&gt;</code> and asked some folks on Rust if they new a good way of transforming this into a <code>Result&lt;Vec&lt;()&gt;&gt;</code>.</p>
 <p>Turns out, <code>.collect()</code> can do it for you!</p>
-<span id="continue-reading"></span><pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::io::{Error, ErrorKind};
+<span id="continue-reading"></span><pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">io</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">{Error</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> ErrorKind}</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> results = vec![
-        Ok(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">),
-        Ok(</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">),
-        Ok(</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">),
-        Err(Error::new(ErrorKind::Other, &quot;</span><span style="color:#a3be8c;">I&#39;m an error!</span><span style="color:#c0c5ce;">&quot;)),
-    ];
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> results </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[
+        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5ccfe6;">Err</span><span style="color:#ccc9c2;">(Error</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(ErrorKind</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Other</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;I&#39;m an error!&quot;</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">,
+    </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> error = results.</span><span style="color:#96b5b4;">into_iter</span><span style="color:#c0c5ce;">()
-        .collect::&lt;Result&lt;Vec&lt;</span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">&gt;, Error&gt;&gt;();
-    println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, error);
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> error </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> results</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_iter</span><span style="color:#ccc9c2;">()
+        </span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">collect</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;</span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">&gt;, Error&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> error)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> results = vec![
-        Ok(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">),
-        Ok(</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">),
-        Ok(</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">),
-    ];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> okay = results.</span><span style="color:#96b5b4;">into_iter</span><span style="color:#c0c5ce;">()
-        .collect::&lt;Result&lt;Vec&lt;</span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">&gt;, Error&gt;&gt;();
-    println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, okay);
-}
-</span><span style="color:#65737e;">// Err(Error { repr: Custom(Custom
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> results </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[
+        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+    </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> okay </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> results</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_iter</span><span style="color:#ccc9c2;">()
+        </span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">collect</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;</span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">&gt;, Error&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> okay)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+</span><span style="font-style:italic;color:#5c6773;">// Err(Error { repr: Custom(Custom
 //     { kind: Other, error: StringError(&quot;I\&#39;m an error!&quot;)
 // }) })
 // Ok([0, 1, 2])
@@ -141,8 +141,8 @@ Turns out, .collect() can do it for you!
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

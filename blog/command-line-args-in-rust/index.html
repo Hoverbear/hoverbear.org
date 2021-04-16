@@ -103,26 +103,26 @@ Luckly, there is a Rust Package to play with!
         
         <p>I was reading about the <a rel="noopener" target="_blank" href="http://docopt.org/">Docopt</a> project the other day and really liked the standardized approach to <code>--help</code> prompts and argument parsing that it offers.</p>
 <p>Luckly, there is a <a rel="noopener" target="_blank" href="https://github.com/docopt/docopt.rs">Rust Package</a> to play with!</p>
-<span id="continue-reading"></span><pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> new</span><span style="color:#bf616a;"> --bin</span><span style="color:#c0c5ce;"> foo
-</span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> foo
+<span id="continue-reading"></span><pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> new</span><span style="color:#ffcc66;"> --bin</span><span style="color:#ccc9c2;"> foo
+</span><span style="color:#f28779;">cd</span><span style="color:#ccc9c2;"> foo
 </span></code></pre>
 <p>Add <code>docopt</code> to your <code>Cargo.toml</code></p>
-<pre style="background-color:#2b303b;">
-<code class="language-toml" data-lang="toml"><span style="color:#65737e;"># ...
-</span><span style="color:#c0c5ce;">[dependencies.docopt_macros]
-</span><span style="color:#bf616a;">git </span><span style="color:#c0c5ce;">= &quot;</span><span style="color:#a3be8c;">git://github.com/docopt/docopt.rs</span><span style="color:#c0c5ce;">&quot;
+<pre style="background-color:#212733;">
+<code class="language-toml" data-lang="toml"><span style="font-style:italic;color:#5c6773;"># ...
+</span><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">dependencies</span><span style="color:#ccc9c2cc;">.</span><span style="color:#73d0ff;">docopt_macros</span><span style="color:#ccc9c2;">]
+</span><span style="color:#73d0ff;">git </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;git://github.com/docopt/docopt.rs&quot;
 </span></code></pre>
 <p>Now in <code>foo/src/main.rs</code>:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> serialize;
-</span><span style="color:#b48ead;">extern crate</span><span style="color:#c0c5ce;"> docopt;
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> serialize</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> docopt</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">docopt::Docopt;
+</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">docopt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Docopt</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#65737e;">// Define a USAGE string.
-</span><span style="color:#b48ead;">static </span><span style="color:#d08770;">USAGE</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">&#39;static str </span><span style="color:#c0c5ce;">= &quot;
-</span><span style="color:#a3be8c;">Usage: foo [options] &lt;target&gt; &lt;task&gt;
+</span><span style="font-style:italic;color:#5c6773;">// Define a USAGE string.
+</span><span style="color:#ffa759;">static </span><span style="color:#ffcc66;">USAGE</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">&#39;static str </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;
+Usage: foo [options] &lt;target&gt; &lt;task&gt;
        foo (--help | --version)
 
 Task:
@@ -133,49 +133,49 @@ Task:
 Options:
     -h, --help     Show this help.
     -v, --version  Show the version.
-</span><span style="color:#c0c5ce;">&quot;;
+&quot;</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#65737e;">// Define the struct that results from those options.
-</span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">deriving</span><span style="color:#c0c5ce;">(Decodable, Show)]
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Args {
-    </span><span style="color:#bf616a;">arg_target</span><span style="color:#c0c5ce;">: Option&lt;String&gt;,
-    </span><span style="color:#bf616a;">arg_task</span><span style="color:#c0c5ce;">: Option&lt;Task&gt;,
-    </span><span style="color:#bf616a;">flag_help</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">,
-    </span><span style="color:#bf616a;">flag_version</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">bool</span><span style="color:#c0c5ce;">,
+</span><span style="font-style:italic;color:#5c6773;">// Define the struct that results from those options.
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">deriving</span><span style="color:#ccc9c2;">(Decodable</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Show)]
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Args </span><span style="color:#ccc9c2;">{
+    arg_target</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">Option</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#ccc9c2;">&gt;,
+    arg_task</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">Option</span><span style="color:#ccc9c2;">&lt;Task&gt;,
+    flag_help</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span style="color:#ccc9c2;">,
+    flag_version</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span style="color:#ccc9c2;">,
 }
 
-</span><span style="color:#65737e;">// Create a `Task` enum.
-</span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">deriving</span><span style="color:#c0c5ce;">(Show)]
-</span><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">Task { Start, Stop, Restart }
-</span><span style="color:#65737e;">// Teach Rust how to decode the `Task`
-</span><span style="color:#b48ead;">impl</span><span style="color:#c0c5ce;">&lt;E, D: serialize::Decoder&lt;E&gt;&gt; serialize::Decodable&lt;D, E&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Task {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">decode</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">data</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> D) -&gt; Result&lt;Task, E&gt; {
-        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> value = try!(data.</span><span style="color:#96b5b4;">read_str</span><span style="color:#c0c5ce;">());
-        </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> value.</span><span style="color:#96b5b4;">as_slice</span><span style="color:#c0c5ce;">() {
-            &quot;</span><span style="color:#a3be8c;">start</span><span style="color:#c0c5ce;">&quot; =&gt; Ok(Start),
-            &quot;</span><span style="color:#a3be8c;">stop</span><span style="color:#c0c5ce;">&quot; =&gt; Ok(Stop),
-            &quot;</span><span style="color:#a3be8c;">restart</span><span style="color:#c0c5ce;">&quot; =&gt; Ok(Restart),
-            other =&gt; {
-                 </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> err = format!(&quot;</span><span style="color:#a3be8c;">Could not decode &#39;</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">&#39; as task.</span><span style="color:#96b5b4;">\n</span><span style="color:#a3be8c;">Valid options are (start | stop | restart).</span><span style="color:#c0c5ce;">&quot;, other);
-                 Err(data.</span><span style="color:#96b5b4;">error</span><span style="color:#c0c5ce;">(err.</span><span style="color:#96b5b4;">as_slice</span><span style="color:#c0c5ce;">()))
+</span><span style="font-style:italic;color:#5c6773;">// Create a `Task` enum.
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">deriving</span><span style="color:#ccc9c2;">(Show)]
+</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Task </span><span style="color:#ccc9c2;">{ Start</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Stop</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Restart }
+</span><span style="font-style:italic;color:#5c6773;">// Teach Rust how to decode the `Task`
+</span><span style="color:#ffa759;">impl</span><span style="color:#ccc9c2;">&lt;E, D</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">serialize</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Decoder&lt;E&gt;&gt; serialize</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Decodable&lt;D, E&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Task </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">decode</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">data</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> D) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;Task, E&gt; {
+        </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> value </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">try!</span><span style="color:#ccc9c2;">(data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">read_str</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
+        </span><span style="color:#ffa759;">match</span><span style="color:#ccc9c2;"> value</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">as_slice</span><span style="color:#ccc9c2;">() {
+            </span><span style="color:#bae67e;">&quot;start&quot; </span><span style="color:#f29e74;">=&gt; </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(Start)</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#bae67e;">&quot;stop&quot; </span><span style="color:#f29e74;">=&gt; </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(Stop)</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#bae67e;">&quot;restart&quot; </span><span style="color:#f29e74;">=&gt; </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span style="color:#ccc9c2;">(Restart)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            other </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">{
+                 </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> err </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">format!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Could not decode &#39;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&#39; as task.</span><span style="color:#95e6cb;">\n</span><span style="color:#bae67e;">Valid options are (start | stop | restart).&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> other)</span><span style="color:#ccc9c2cc;">;
+                 </span><span style="font-style:italic;color:#5ccfe6;">Err</span><span style="color:#ccc9c2;">(data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">error</span><span style="color:#ccc9c2;">(err</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">as_slice</span><span style="color:#ccc9c2;">()))
              }
         }
     }
 }
 
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> args: Args = Docopt::new(</span><span style="color:#d08770;">USAGE</span><span style="color:#c0c5ce;">)
-        .</span><span style="color:#96b5b4;">and_then</span><span style="color:#c0c5ce;">(|</span><span style="color:#bf616a;">d</span><span style="color:#c0c5ce;">| d.</span><span style="color:#96b5b4;">decode</span><span style="color:#c0c5ce;">())
-        .</span><span style="color:#96b5b4;">unwrap_or_else</span><span style="color:#c0c5ce;">(|</span><span style="color:#bf616a;">e</span><span style="color:#c0c5ce;">| e.</span><span style="color:#96b5b4;">exit</span><span style="color:#c0c5ce;">());
-    println!(&quot;</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, args);
-}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> args</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Args </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Docopt</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#ffcc66;">USAGE</span><span style="color:#ccc9c2;">)
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">and_then</span><span style="color:#ccc9c2;">(|</span><span style="color:#ffcc66;">d</span><span style="color:#ccc9c2;">| d</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">decode</span><span style="color:#ccc9c2;">())
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap_or_else</span><span style="color:#ccc9c2;">(|</span><span style="color:#ffcc66;">e</span><span style="color:#ccc9c2;">| e</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">exit</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> args)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>Now build it, and try some tests:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cargo</span><span style="color:#c0c5ce;"> build
-</span></code></pre><pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">➜</span><span style="color:#c0c5ce;">  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo
-</span><span style="color:#65737e;"># Invalid arguments.
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> build
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">➜</span><span style="color:#ccc9c2;">  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo
+</span><span style="font-style:italic;color:#5c6773;"># Invalid arguments.
 #
 # Usage: foo [options] &lt;target&gt; &lt;task&gt;
 #        foo (--help | --version)
@@ -191,19 +191,19 @@ Options:
 # Options:
 #     -h, --help     Show this help.
 #     -v, --version  Show the version.
-</span><span style="color:#c0c5ce;">➜  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo</span><span style="color:#bf616a;"> -v
-</span><span style="color:#65737e;"># Args { arg_target: None, arg_task: None, flag_help: false, flag_version: true }
-</span><span style="color:#c0c5ce;">➜  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo bar start
-</span><span style="color:#65737e;"># Args { arg_target: Some(bar), arg_task: Some(Start), flag_help: false, flag_version: false }
-</span><span style="color:#c0c5ce;">➜  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo bar stop
-</span><span style="color:#65737e;"># Args { arg_target: Some(bar), arg_task: Some(Stop), flag_help: false, flag_version: false }
-</span><span style="color:#c0c5ce;">➜  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo bar restart
-</span><span style="color:#65737e;"># Args { arg_target: Some(bar), arg_task: Some(Restart), flag_help: false, flag_version: false }
-</span><span style="color:#c0c5ce;">➜  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo bar baz
-</span><span style="color:#65737e;"># Could not decode &#39;baz&#39; as task.
+</span><span style="color:#ccc9c2;">➜  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo</span><span style="color:#ffcc66;"> -v
+</span><span style="font-style:italic;color:#5c6773;"># Args { arg_target: None, arg_task: None, flag_help: false, flag_version: true }
+</span><span style="color:#ccc9c2;">➜  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo bar start
+</span><span style="font-style:italic;color:#5c6773;"># Args { arg_target: Some(bar), arg_task: Some(Start), flag_help: false, flag_version: false }
+</span><span style="color:#ccc9c2;">➜  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo bar stop
+</span><span style="font-style:italic;color:#5c6773;"># Args { arg_target: Some(bar), arg_task: Some(Stop), flag_help: false, flag_version: false }
+</span><span style="color:#ccc9c2;">➜  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo bar restart
+</span><span style="font-style:italic;color:#5c6773;"># Args { arg_target: Some(bar), arg_task: Some(Restart), flag_help: false, flag_version: false }
+</span><span style="color:#ccc9c2;">➜  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo bar baz
+</span><span style="font-style:italic;color:#5c6773;"># Could not decode &#39;baz&#39; as task.
 # Valid options are (start | stop | restart).
-</span><span style="color:#c0c5ce;">➜  foo git:(master) </span><span style="color:#bf616a;">✗</span><span style="color:#c0c5ce;"> ./target/foo start
-</span><span style="color:#65737e;"># Invalid arguments.
+</span><span style="color:#ccc9c2;">➜  foo git:(master) </span><span style="color:#ffd580;">✗</span><span style="color:#ccc9c2;"> ./target/foo start
+</span><span style="font-style:italic;color:#5c6773;"># Invalid arguments.
 #
 # Usage: foo [options] &lt;target&gt; &lt;task&gt;
 #        foo (--help | --version)
@@ -217,8 +217,8 @@ Options:
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

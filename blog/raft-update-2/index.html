@@ -159,7 +159,7 @@ Note: All interfaces and code are not final, and are for educational and interes
 </blockquote>
 <span id="continue-reading"></span><h2 id="hacking-up-a-persistent-log">Hacking up a Persistent Log</h2>
 <p>Probably one of the coolest little projects I worked on was writing the <code>persistent_state</code> of a <code>RaftNode</code>. This is the data that the Raft protocol requires be written on stable storage each update.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>/// Persistent state
 /// **Must be updated to stable storage before RPC response.**
 pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
@@ -171,7 +171,7 @@ pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
 </code></pre>
 <p>So, the reason this needs to be written to disk is so that in theory if we have a crash, we can recover. I haven't implemented resuming from a previous log, but I think that'll be a fun thing to do.</p>
 <p>Here's what a log looks like right now:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>➜  raft git:(master) ✗ cat /tmp/test_path
                    0                    0
 1 IkZvbyI
@@ -187,7 +187,7 @@ pub struct PersistentState&lt;T: Encodable + Decodable + Send + Clone&gt; {
 <p>Working with the new <code>Result&lt;T&gt;</code> was a bit weird as we used to use <code>Result&lt;T,E&gt;</code>. The new <code>Result&lt;T&gt;</code> handles almost identical in my experience (and you don't need to specify long errors in every function definition!).</p>
 <h3 id="creating-files">Creating Files</h3>
 <p>This was, surprisingly, a bit of a stumbling block for me. <code>File::open()</code> gives you read access, while <code>File::create()</code> gives you write, but if you're hoping to open a file then <em>read and write</em> to it, you'll need to use <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/fs/struct.OpenOptions.html"><code>OpenOptions</code></a>.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>let mut open_opts = OpenOptions::new();
 open_opts.read(true);
 open_opts.write(true);
@@ -195,7 +195,7 @@ open_opts.create(true);
 let mut file = open_opts.open(&amp;log_path).unwrap();
 </code></pre><h3 id="manipulating-files">Manipulating Files</h3>
 <p>Working with files means you generally deal with <code>Cursor</code>s into the file. You can navigate around a file like so:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>let start =
 	self.log.seek(io::SeekFrom::Start(0));
 let offset_from_start =
@@ -206,7 +206,7 @@ let current =
 	self.log.seek(io::SeekFrom::Current(0));
 </code></pre>
 <p>This is key, because it controls your position in the file for <em>most</em> other operations. You can try it out with the code below on the <a rel="noopener" target="_blank" href="http://is.gd/rnOgNO">playpen</a>.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#![feature(io)]
 #![feature(fs)]
 #![feature(path)]
@@ -235,7 +235,7 @@ fn main() {
 }
 </code></pre>
 <p>Now that we can write into files, how do we make sure we have a consistent space for data? The first line of our log contains two <code>u64</code>s which can take up to 20 digits each. Using this, we can modify our <code>write!()</code> call to use more specialize formatting options.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>write!(&amp;mut self.log, &quot;{:20} {:20}\n&quot;,
 	self.current_term, self.voted_for.unwrap_or(0))
 </code></pre>
@@ -245,7 +245,7 @@ fn main() {
 <blockquote>
 <p>Make sure to <code>.seek()</code> then build your iterator, otherwise ownership woes will be upon you!</p>
 </blockquote>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>/// Moves `line` lines into the file. Purposefully goes &quot;one extra&quot; line because the first line is metadata.
 /// Returns the number of bytes containing `line` lines.
 fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
@@ -278,7 +278,7 @@ fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
 <p>Looking forward, I'd like to not require going from the start forward every <code>.move_to()</code> call.</p>
 <h3 id="retrieving-an-entry">Retrieving an Entry</h3>
 <p>Now that we can effectively scan through the file and get the correct position, how do we retrieve entries? Here is what <code>retrieve_entry</code> looks like (Note there is <code>retrieve_entries</code> too which is very similar):</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>pub fn retrieve_entry(&amp;mut self, index: u64) -&gt; io::Result&lt;(u64, T)&gt; {
     // Move to the correct line.
     let position = self.move_to(index);
@@ -320,7 +320,7 @@ fn move_to(&amp;mut self, line: u64) -&gt; io::Result&lt;u64&gt; {
 <p>One stumbling block I had was that <code>v.parse::&lt;u64&gt;()</code> returned <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/str/trait.StrExt.html#tymethod.parse"><code>&lt;F as FromStr&gt;::Err</code></a> instead of an <code>IoError</code> like <code>io::Result&lt;_&gt;</code> expects. This means that I couldn't just <code>try!()</code> the expression. Looking at <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/io/struct.Error.html"><code>io::Error</code></a> I was able to find the <code>InvalidInput</code> variant that suited my needs.</p>
 <h3 id="purging-and-appending">Purging and Appending</h3>
 <p>Part of the Raft protocol dictates that purging and appending must be able to happen to the log. Here's purge:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>/// Do *not* invoke this unless you update the `last_index`!
 fn purge_from_bytes(&amp;mut self, from_bytes: u64) -&gt; io::Result&lt;()&gt; {
     self.log.set_len(from_bytes) // Chop off the file at the given position.
@@ -334,7 +334,7 @@ pub fn purge_from_index(&amp;mut self, from_line: u64) -&gt; io::Result&lt;()&gt
 </code></pre>
 <p>Since purging will always remove all lines <strong>after</strong> a given line, we can just use <code>.set_len()</code>, which is convienent since otherwise the only real way I've seen to remove &quot;some&quot; lines is to read in the file and write it back out again entirely, which kind of sucks.</p>
 <p>I split <code>purge_from_bytes()</code> and <code>purge_from_index()</code> up because <code>append_entries()</code> will use it. Here it is:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>/// Appends `entries` after `prev_log_index` and `prev_log_term`.
 pub fn append_entries(&amp;mut self, prev_log_index: u64, prev_log_term: u64,
                       entries: Vec&lt;(u64, T)&gt;) -&gt; io::Result&lt;()&gt; {
@@ -355,7 +355,7 @@ pub fn append_entries(&amp;mut self, prev_log_index: u64, prev_log_term: u64,
 <p>You'll notice the first line is a <code>// TODO:</code> because there are no safety checks to make sure that things are as they should be. The semantics of these checks are specified in the Raft paper, and should be easy to implement, I just haven't gotten to it yet! (Midterm week, yuck!) Otherwise, the code for this is fairly straightforward.</p>
 <h3 id="testing">Testing</h3>
 <p>One of my favorite things about Rust is the built in tooling for testing. Here's what the start of my log test looks like:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#[test]
 fn test_persistent_state() {
     let path = Path::new(&quot;/tmp/test_path&quot;);
@@ -393,8 +393,8 @@ fn test_persistent_state() {
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

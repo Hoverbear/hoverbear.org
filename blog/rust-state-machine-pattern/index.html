@@ -182,33 +182,33 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>Just to get to this web page you used one. You can model TCP as a state machine. You can model HTTP requests with one too. You can model any <em>regular</em> language, such as a regex, as a state machine. They're everywhere, hiding inside things we use every day.</p>
 <p>So, a State Machine is any <strong>'machine'</strong> which has a set of <strong>'states'</strong> and <strong>'transitions'</strong> defined between them.</p>
 <p>When we talk about a machine we're referring to the abstract concept of something which <em>does something</em>. For example, your 'Hello World!' function is a machine. It is started and eventually outputs what we expect it to. Some model which you use to interact with your database is just the same. We'll regard our most basic machine simply as a <code>struct</code> that can be created and destroyed.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Machine;
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Machine</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-  </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> my_machine = Machine; </span><span style="color:#65737e;">// Create.
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+  </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> my_machine </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Machine</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Create.
   // `my_machine` is destroyed when it falls out of scope below.
-</span><span style="color:#c0c5ce;">}
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>States are a way to reason about <em>where</em> a machine is in its process. For example, we can think about a bottle filling machine as an example. The machine is in a 'waiting' state when it is waiting for a new bottle. Once it detects a bottle it moves to the 'filling' state. Upon detecting the bottle is filled it enters the 'done' state. After the bottle is left the machine we return to the 'waiting' state.</p>
 <p>A key takeaway here is that none of the states have any information relevant for the other states. The 'filling' state doesn't care how long the 'waiting' state waited. The 'done' state doesn't care about what rate the bottle was filled at. Each state has <em>discrete responsibilities and concerns</em>. The natural way to consider these <em>variants</em> is as an <code>enum</code>.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BottleFillerState {
-  Waiting { waiting_time: std::time::Duration },
-  Filling { rate: </span><span style="color:#b48ead;">usize </span><span style="color:#c0c5ce;">},
-  Done,
-}
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">BottleFillerState </span><span style="color:#ccc9c2;">{
+  Waiting { waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration }</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">  Filling { rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">  Done</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">BottleFiller {
-  </span><span style="color:#bf616a;">state</span><span style="color:#c0c5ce;">: BottleFillerState,
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">BottleFiller </span><span style="color:#ccc9c2;">{
+  state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> BottleFillerState,
 }
 </span></code></pre>
 <p>Using an <code>enum</code> in this way means all the states are mutually exclusive, you can only be in one at a time. Rust's 'fat enums' allow us to have each of these states to carry data with them as well. As far as our current definition is concerned, everything is totally okay.</p>
 <p>But there is a bit of a problem here. When we described our bottle filling machine above we described three transitions: <code>Waiting -&gt; Filling</code>, <code>Filling -&gt; Done</code>, and <code>Done -&gt; Waiting</code>. We never described <code>Waiting -&gt; Done</code> or <code>Done -&gt; Filling</code>, those don't make sense!</p>
 <p>This brings us to the idea of transitions. One of the nicest things about a true state machine is we never have to worry about our bottle machine going from <code>Done -&gt; Filling</code>, for example. The state machine pattern should <strong>enforce</strong> that this can never happen. Ideally this would be done before we even start running our machine, at compile time.</p>
 <p>Let's look again at the transitions we described for our bottle filler in a diagram:</p>
-<pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">  +++++++++++   +++++++++++   ++++++++
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">  +++++++++++   +++++++++++   ++++++++
   |         |   |         |   |      |
   | Waiting +--&gt;+ Filling +--&gt;+ Done |
   |         |   |         |   |      |
@@ -239,36 +239,36 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>With a type system as powerful and flexible as Rusts we should be able to represent this. The truth is: there are a number of ways to try, each has valuable characteristics, and each teaches us lessons.</p>
 <h3 id="a-second-shot-with-enums">A Second Shot with Enums</h3>
 <p>As we saw above the most natural way to attempt this is an <code>enum</code>, but we noted already that you can't control which transitions are actually permitted in this case. So can we just wrap it? We sure can! Let's take a look:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">State {
-    Waiting { waiting_time: std::time::Duration },
-    Filling { rate: </span><span style="color:#b48ead;">usize </span><span style="color:#c0c5ce;">},
-    Done
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">State </span><span style="color:#ccc9c2;">{
+    Waiting { waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration }</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">    Filling { rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">    Done
 }
 
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">StateMachine { </span><span style="color:#bf616a;">state</span><span style="color:#c0c5ce;">: State }
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">StateMachine </span><span style="color:#ccc9c2;">{ state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> State }
 
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">StateMachine {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">() -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">StateMachine </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
         StateMachine {
-            state: State::Waiting { waiting_time: std::time::Duration::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">) }
+            state</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">State</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Waiting { waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">) }
         }
     }
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">to_filling</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) {
-        </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">.state = </span><span style="color:#b48ead;">match </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">.state {
-            </span><span style="color:#65737e;">// Only Waiting -&gt; Filling is valid.
-            </span><span style="color:#c0c5ce;">State::Waiting { .. } =&gt; State::Filling { rate: </span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">},
-            </span><span style="color:#65737e;">// The rest should fail.
-            </span><span style="color:#c0c5ce;">_ =&gt; panic!(&quot;</span><span style="color:#a3be8c;">Invalid state tranistion!</span><span style="color:#c0c5ce;">&quot;),
-        }
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">to_filling</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) {
+        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">match </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state {
+            </span><span style="font-style:italic;color:#5c6773;">// Only Waiting -&gt; Filling is valid.
+            </span><span style="color:#ccc9c2;">State</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Waiting { </span><span style="color:#f29e74;">.. </span><span style="color:#ccc9c2;">} </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">State</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Filling { rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">1 </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">,
+            </span><span style="font-style:italic;color:#5c6773;">// The rest should fail.
+            </span><span style="color:#f29e74;">_ =&gt; </span><span style="color:#f28779;">panic!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Invalid state tranistion!&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
-    </span><span style="color:#65737e;">// ...
-</span><span style="color:#c0c5ce;">}
+    </span><span style="font-style:italic;color:#5c6773;">// ...
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> state_machine = StateMachine::new();
-    state_machine.</span><span style="color:#96b5b4;">to_filling</span><span style="color:#c0c5ce;">();
-}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> state_machine </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">StateMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new()</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">    state_machine</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">to_filling</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>At first glance it seems okay. But notice some problems?</p>
 <ul>
@@ -286,55 +286,55 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>So let's keep looking!</p>
 <h3 id="structures-with-transitions">Structures With Transitions</h3>
 <p>So what if we just used a set of structs? We could have them all implement traits which all states should share. We could use special functions that transitioned the type into the new type! How would it look?</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// This is some functionality shared by all of the states.
-</span><span style="color:#b48ead;">trait </span><span style="color:#c0c5ce;">SharedFunctionality {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_shared_value</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">;
-}
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// This is some functionality shared by all of the states.
+</span><span style="color:#ffa759;">trait </span><span style="color:#73d0ff;">SharedFunctionality </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_shared_value</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Waiting {
-    </span><span style="color:#bf616a;">waiting_time</span><span style="color:#c0c5ce;">: std::time::Duration,
-    </span><span style="color:#65737e;">// Value shared by all states.
-    </span><span style="color:#bf616a;">shared_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Waiting </span><span style="color:#ccc9c2;">{
+    waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration,
+    </span><span style="font-style:italic;color:#5c6773;">// Value shared by all states.
+    </span><span style="color:#ccc9c2;">shared_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
 }
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">Waiting {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">() -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">Waiting </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
         Waiting {
-            waiting_time: std::time::Duration::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">),
-            shared_value: </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">,
-        }
+            waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            shared_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
-    </span><span style="color:#65737e;">// Consumes the value!
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">to_filling</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; Filling {
+    </span><span style="font-style:italic;color:#5c6773;">// Consumes the value!
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">to_filling</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> Filling {
         Filling {
-            rate: </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">,
-            shared_value: </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">,
-        }
+            rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            shared_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
 }
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">SharedFunctionality </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Waiting {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_shared_value</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">usize </span><span style="color:#c0c5ce;">{
-        </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">.shared_value
-    }
-}
-
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Filling {
-    </span><span style="color:#bf616a;">rate</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
-    </span><span style="color:#65737e;">// Value shared by all states.
-    </span><span style="color:#bf616a;">shared_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
-}
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">SharedFunctionality </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Filling {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_shared_value</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">usize </span><span style="color:#c0c5ce;">{
-        </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">.shared_value
+</span><span style="color:#ffa759;">impl </span><span style="color:#ccc9c2;">SharedFunctionality </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Waiting </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_shared_value</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">usize </span><span style="color:#ccc9c2;">{
+        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">shared_value
     }
 }
 
-</span><span style="color:#65737e;">// ...
-
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_waiting_state = Waiting::new();
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_filling_state = in_waiting_state.</span><span style="color:#96b5b4;">to_filling</span><span style="color:#c0c5ce;">();
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Filling </span><span style="color:#ccc9c2;">{
+    rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
+    </span><span style="font-style:italic;color:#5c6773;">// Value shared by all states.
+    </span><span style="color:#ccc9c2;">shared_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
 }
+</span><span style="color:#ffa759;">impl </span><span style="color:#ccc9c2;">SharedFunctionality </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Filling </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_shared_value</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">usize </span><span style="color:#ccc9c2;">{
+        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">shared_value
+    }
+}
+
+</span><span style="font-style:italic;color:#5c6773;">// ...
+
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_waiting_state </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Waiting</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new()</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_filling_state </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> in_waiting_state</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">to_filling</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>Gosh that's a buncha code! So the idea here was that all states have some common shared values along with their own specialized values. As you can see from the <code>to_filling()</code> function we can consume a given 'Waiting' state and transition it into a 'Filling' state. Let's do a little rundown:</p>
 <ul>
@@ -350,107 +350,107 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <li>It's not always clear what values are shared between all states and just one. Updating code later could be a pain due to this.</li>
 <li>Since the size of the state is variable we end up needing to wrap this in an <code>enum</code> as above for it to be usable where the state machine is simply one component of a more complex system. Here's what this could look like:</li>
 </ul>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">State {
-    Waiting(Waiting),
-    Filling(Filling),
-    Done(Done),
-}
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">State </span><span style="color:#ccc9c2;">{
+    Waiting(Waiting)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">    Filling(Filling)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">    Done(Done)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_waiting_state = State::Waiting(Waiting::new());
-    </span><span style="color:#65737e;">// This doesn&#39;t work since the `Waiting` struct is wrapped! We need to `match` to get it out.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_filling_state = State::Filling(in_waiting_state.</span><span style="color:#96b5b4;">to_filling</span><span style="color:#c0c5ce;">());
-}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_waiting_state </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">State</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Waiting(Waiting</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new())</span><span style="color:#ccc9c2cc;">;
+    </span><span style="font-style:italic;color:#5c6773;">// This doesn&#39;t work since the `Waiting` struct is wrapped! We need to `match` to get it out.
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_filling_state </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">State</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Filling(in_waiting_state</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">to_filling</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>As you can see, this isn't very ergonomic. We're getting closer to what we want though. The idea of moving between distinct types seems to be a good way forward! Before we go try something entirely different though, let's talk about a simple way to change our example that could enlighten further thinking.</p>
 <p>The Rust standard library defines two highly related traits: <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/convert/trait.From.html"><code>From</code></a> and <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/convert/trait.Into.html"><code>Into</code></a> that are extremely useful and worth checking out. An important thing to note is that implementing one of these automatically implements the other. In general implementing <code>From</code> is preferable as it's a bit more flexible. We can implement them very easily for our above example like so:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// ...
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Waiting&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Filling {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: Waiting) -&gt; Filling {
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// ...
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;Waiting&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Filling </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Waiting) </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> Filling {
         Filling {
-            rate: </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">,
-            shared_value: val.shared_value,
-        }
+            rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            shared_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">shared_value</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
 }
-</span><span style="color:#65737e;">// ...
+</span><span style="font-style:italic;color:#5c6773;">// ...
 </span></code></pre>
 <p>Not only does this give us a common function for transitioning, but it also is nice to read about in the source code! This reduces mental burden on us and makes it easier for readers to comprehend. <em>Instead of implementing custom functions we're just using a pattern already existing.</em> Building our pattern on top of already existing patterns is a great way forward.</p>
 <p>So this is cool, but how do we deal with all this nasty code repetition and the repeating <code>shared_value</code> stuff? Let's explore a bit more!</p>
 <h3 id="generically-sophistication">Generically Sophistication</h3>
 <p>In this adventure we'll combine lessons and ideas from the first two, along with a few new ideas, to get something more satisfying. The core of this is to harness the power of generics. Let's take a look at a fairly bare structure representing this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;S&gt; {
-    </span><span style="color:#bf616a;">shared_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
-    </span><span style="color:#bf616a;">state</span><span style="color:#c0c5ce;">: S
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">BottleFillingMachine</span><span style="color:#ccc9c2;">&lt;S&gt; {
+    shared_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
+    state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> S
 }
 
-</span><span style="color:#65737e;">// The following states can be the &#39;S&#39; in StateMachine&lt;S&gt;
+</span><span style="font-style:italic;color:#5c6773;">// The following states can be the &#39;S&#39; in StateMachine&lt;S&gt;
 
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Waiting {
-    </span><span style="color:#bf616a;">waiting_time</span><span style="color:#c0c5ce;">: std::time::Duration,
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Waiting </span><span style="color:#ccc9c2;">{
+    waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration,
 }
 
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Filling {
-    </span><span style="color:#bf616a;">rate</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Filling </span><span style="color:#ccc9c2;">{
+    rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
 }
 
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Done;
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Done</span><span style="color:#ccc9c2cc;">;
 </span></code></pre>
 <p>So here we're actually building the state into the type signature of the <code>BottleFillingMachine</code> itself. A state machine in the 'Filling' state is <code>BottleFillingMachine&lt;Filling&gt;</code> which is just <strong>awesome</strong> since it means when we see it as part of an error message or something we know immediately what state the machine is in.</p>
 <p>From there we can go ahead and implement <code>From&lt;T&gt;</code> for some of these specific generic variants like so:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;BottleFillingMachine&lt;Waiting&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Filling&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: BottleFillingMachine&lt;Waiting&gt;) -&gt; BottleFillingMachine&lt;Filling&gt; {
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;BottleFillingMachine&lt;Waiting&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">BottleFillingMachine</span><span style="color:#ccc9c2;">&lt;Filling&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">BottleFillingMachine&lt;Waiting&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">BottleFillingMachine&lt;Filling&gt; {
         BottleFillingMachine {
-            shared_value: val.shared_value,
-            state: Filling {
-                rate: </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">,
-            }
+            shared_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">shared_value</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Filling {
+                rate</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">}
         }
     }
 }
 
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;BottleFillingMachine&lt;Filling&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Done&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: BottleFillingMachine&lt;Filling&gt;) -&gt; BottleFillingMachine&lt;Done&gt; {
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;BottleFillingMachine&lt;Filling&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">BottleFillingMachine</span><span style="color:#ccc9c2;">&lt;Done&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">BottleFillingMachine&lt;Filling&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">BottleFillingMachine&lt;Done&gt; {
         BottleFillingMachine {
-            shared_value: val.shared_value,
-            state: Done,
-        }
+            shared_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">shared_value</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Done</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
 }
 </span></code></pre>
 <p>Defining a starting state for the machine looks like this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">BottleFillingMachine&lt;Waiting&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">shared_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">BottleFillingMachine</span><span style="color:#ccc9c2;">&lt;Waiting&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">shared_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
         BottleFillingMachine {
-            shared_value: shared_value,
-            state: Waiting {
-                waiting_time: std::time::Duration::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">),
-            }
+            shared_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> shared_value</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Waiting {
+                waiting_time</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">time</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Duration</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">}
         }
     }
 }
 </span></code></pre>
 <p>So how does it look to change between two states? Like this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_waiting = BottleFillingMachine::&lt;Waiting&gt;::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">);
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_filling = BottleFillingMachine::&lt;Filling&gt;::from(in_waiting);
-}
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_waiting </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">BottleFillingMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Waiting&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_filling </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">BottleFillingMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Filling&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(in_waiting)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>Alternatively if you're doing this inside of a function whose type signature restricts the possible outputs it might look like this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">transition_the_states</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: BottleFillingMachine&lt;Waiting&gt;) -&gt; BottleFillingMachine&lt;Filling&gt; {
-    val.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">() </span><span style="color:#65737e;">// Nice right?
-</span><span style="color:#c0c5ce;">}
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">transition_the_states</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">BottleFillingMachine&lt;Waiting&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">BottleFillingMachine&lt;Filling&gt; {
+    val</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into</span><span style="color:#ccc9c2;">() </span><span style="font-style:italic;color:#5c6773;">// Nice right?
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>What do the <strong>compile time</strong> error messages look like?</p>
-<pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">error[E0277]: the trait bound `BottleFillingMachine&lt;Done&gt;: std::convert::From&lt;BottleFillingMachine&lt;Waiting&gt;&gt;` is not satisfied
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">error[E0277]: the trait bound `BottleFillingMachine&lt;Done&gt;: std::convert::From&lt;BottleFillingMachine&lt;Waiting&gt;&gt;` is not satisfied
   --&gt; &lt;anon&gt;:50:22
    |
 50 |     let in_filling = BottleFillingMachine::&lt;Done&gt;::from(in_waiting);
@@ -481,39 +481,39 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <h3 id="getting-messy-with-the-parents">Getting Messy With the Parents</h3>
 <p>So how can we have some parent structure hold our state machine without it being a gigantic pain to interact with? Well, this circles us back around to the <code>enum</code> idea we had at first.</p>
 <p>If you recall the primary problem with the <code>enum</code> example above was that we had to deal with no ability to enforce transitions, and the only errors we got were at runtime when we did try.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span style="color:#c0c5ce;">BottleFillingMachineWrapper {
-    Waiting(BottleFillingMachine&lt;Waiting&gt;),
-    Filling(BottleFillingMachine&lt;Filling&gt;),
-    Done(BottleFillingMachine&lt;Done&gt;),
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">BottleFillingMachineWrapper </span><span style="color:#ccc9c2;">{
+    Waiting(BottleFillingMachine&lt;Waiting&gt;)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">    Filling(BottleFillingMachine&lt;Filling&gt;)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">    Done(BottleFillingMachine&lt;Done&gt;)</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">}
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Factory </span><span style="color:#ccc9c2;">{
+    bottle_filling_machine</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> BottleFillingMachineWrapper,
 }
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Factory {
-    </span><span style="color:#bf616a;">bottle_filling_machine</span><span style="color:#c0c5ce;">: BottleFillingMachineWrapper,
-}
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">Factory {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">() -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">Factory </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
         Factory {
-            bottle_filling_machine: BottleFillingMachineWrapper::Waiting(BottleFillingMachine::new(</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">)),
-        }
+            bottle_filling_machine</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Waiting(BottleFillingMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
 }
 </span></code></pre>
 <p>At this point your first reaction is likely &quot;Gosh, Hoverbear, look at that awful and long type signature!&quot; You're quite right! Frankly it's rather long, but I picked long, explanatory type names! You'll be able to use all your favorite arcane abbreviations and type aliases in your own code. Have at!</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">BottleFillingMachineWrapper {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">step</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">self</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
-        </span><span style="color:#b48ead;">match </span><span style="color:#bf616a;">self </span><span style="color:#c0c5ce;">{
-            BottleFillingMachineWrapper::Waiting(val) =&gt; BottleFillingMachineWrapper::Filling(val.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()),
-            BottleFillingMachineWrapper::Filling(val) =&gt; BottleFillingMachineWrapper::Done(val.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()),
-            BottleFillingMachineWrapper::Done(val) =&gt; BottleFillingMachineWrapper::Waiting(val.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()),
-        }
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">BottleFillingMachineWrapper </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">step</span><span style="color:#ccc9c2;">(</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
+        </span><span style="color:#ffa759;">match </span><span style="font-style:italic;color:#5ccfe6;">self </span><span style="color:#ccc9c2;">{
+            BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Waiting(val) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Filling(val</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Filling(val) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Done(val</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Done(val) </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ccc9c2;">BottleFillingMachineWrapper</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Waiting(val</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
     }
 }
 
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> the_factory = Factory::new();
-    the_factory.bottle_filling_machine = the_factory.bottle_filling_machine.</span><span style="color:#96b5b4;">step</span><span style="color:#c0c5ce;">();
-}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> the_factory </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Factory</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new()</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">    the_factory</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">bottle_filling_machine </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> the_factory</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">bottle_filling_machine</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">step</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 <p>Again you may notice that this works by <strong>consumption</strong> not mutation. Using <code>match</code> the way we are above <em>moves</em> <code>val</code> so that it can be used with <code>.into()</code> which we've already determined should consume the state. If you'd really like to use mutation you can consider having your states <code>#[derive(Clone)]</code> or even <code>Copy</code>, but that's your call.</p>
 <p>Despite this being a bit less ergonomic and pleasant to work with than we might want we still get strongly enforced state transitions and all the guarantees that come with them.</p>
@@ -529,98 +529,98 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <blockquote>
 <p><a rel="noopener" target="_blank" href="https://is.gd/4ITDyV">Playground link</a></p>
 </blockquote>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#65737e;">// The `&lt;StateA&gt;` is implied here. We don&#39;t need to add type annotations!
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_state_a = StateMachine::new(&quot;</span><span style="color:#a3be8c;">Blah blah blah</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">());
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="font-style:italic;color:#5c6773;">// The `&lt;StateA&gt;` is implied here. We don&#39;t need to add type annotations!
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_state_a </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">StateMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="color:#bae67e;">&quot;Blah blah blah&quot;</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// This is okay here. But later once we&#39;ve changed state it won&#39;t work anymore.
-</span><span style="color:#c0c5ce;">    in_state_a.some_unrelated_value;
-    println!(&quot;</span><span style="color:#a3be8c;">Starting Value: </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, in_state_a.state.start_value);
+    </span><span style="font-style:italic;color:#5c6773;">// This is okay here. But later once we&#39;ve changed state it won&#39;t work anymore.
+</span><span style="color:#ccc9c2;">    in_state_a</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">some_unrelated_value</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Starting Value: </span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> in_state_a</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">start_value)</span><span style="color:#ccc9c2cc;">;
 
 
-    </span><span style="color:#65737e;">// Transition to the new state. This consumes the old state.
+    </span><span style="font-style:italic;color:#5c6773;">// Transition to the new state. This consumes the old state.
     // Here we need type annotations (since not all StateMachines are linear in their state).
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_state_b = StateMachine::&lt;StateB&gt;::from(in_state_a);
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_state_b </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">StateMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;StateB&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(in_state_a)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// This doesn&#39;t work! The value is moved when we transition!
+    </span><span style="font-style:italic;color:#5c6773;">// This doesn&#39;t work! The value is moved when we transition!
     // in_state_a.some_unrelated_value;
     // Instead, we can use the existing value.
-</span><span style="color:#c0c5ce;">    in_state_b.some_unrelated_value;
+</span><span style="color:#ccc9c2;">    in_state_b</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">some_unrelated_value</span><span style="color:#ccc9c2cc;">;
 
-    println!(&quot;</span><span style="color:#a3be8c;">Interm Value: </span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, in_state_b.state.interm_value);
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Interm Value: </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> in_state_b</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">interm_value)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// And our final state.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> in_state_c = StateMachine::&lt;StateC&gt;::from(in_state_b);
+    </span><span style="font-style:italic;color:#5c6773;">// And our final state.
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> in_state_c </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">StateMachine</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;StateC&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(in_state_b)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// This doesn&#39;t work either! The state doesn&#39;t even contain this value.
+    </span><span style="font-style:italic;color:#5c6773;">// This doesn&#39;t work either! The state doesn&#39;t even contain this value.
     // in_state_c.state.start_value;
 
-    </span><span style="color:#c0c5ce;">println!(&quot;</span><span style="color:#a3be8c;">Final state: </span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, in_state_c.state.final_value);
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Final state: </span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> in_state_c</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">final_value)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+
+</span><span style="font-style:italic;color:#5c6773;">// Here is our pretty state machine.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">StateMachine</span><span style="color:#ccc9c2;">&lt;S&gt; {
+    some_unrelated_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
+    state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> S,
 }
 
-</span><span style="color:#65737e;">// Here is our pretty state machine.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">StateMachine&lt;S&gt; {
-    </span><span style="color:#bf616a;">some_unrelated_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
-    </span><span style="color:#bf616a;">state</span><span style="color:#c0c5ce;">: S,
-}
-
-</span><span style="color:#65737e;">// It starts, predictably, in `StateA`
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">StateMachine&lt;StateA&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: String) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+</span><span style="font-style:italic;color:#5c6773;">// It starts, predictably, in `StateA`
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">StateMachine</span><span style="color:#ccc9c2;">&lt;StateA&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
         StateMachine {
-            some_unrelated_value: </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">,
-            state: StateA::new(val)
+            some_unrelated_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">StateA</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(val)
         }
     }
 }
 
-</span><span style="color:#65737e;">// State A starts the machine with a string.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">StateA {
-    </span><span style="color:#bf616a;">start_value</span><span style="color:#c0c5ce;">: String,
+</span><span style="font-style:italic;color:#5c6773;">// State A starts the machine with a string.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">StateA </span><span style="color:#ccc9c2;">{
+    start_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String,
 }
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">StateA {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">start_value</span><span style="color:#c0c5ce;">: String) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">StateA </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">start_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
         StateA {
-            start_value: start_value,
+            start_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> start_value</span><span style="color:#ccc9c2cc;">,
+        </span><span style="color:#ccc9c2;">}
+    }
+}
+
+</span><span style="font-style:italic;color:#5c6773;">// State B goes and breaks up that String into words.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">StateB </span><span style="color:#ccc9c2;">{
+    interm_value</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#ccc9c2;">&gt;,
+}
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;StateMachine&lt;StateA&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">StateMachine</span><span style="color:#ccc9c2;">&lt;StateB&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">StateMachine&lt;StateA&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">StateMachine&lt;StateB&gt; {
+        StateMachine {
+            some_unrelated_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">some_unrelated_value</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> StateB {
+                interm_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">start_value</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">split</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot; &quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span style="color:#ccc9c2;">(|</span><span style="color:#ffcc66;">x</span><span style="color:#ccc9c2;">| x</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into</span><span style="color:#ccc9c2;">())</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">collect</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">}
         }
     }
 }
 
-</span><span style="color:#65737e;">// State B goes and breaks up that String into words.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">StateB {
-    </span><span style="color:#bf616a;">interm_value</span><span style="color:#c0c5ce;">: Vec&lt;String&gt;,
+</span><span style="font-style:italic;color:#5c6773;">// Finally, StateC gives us the length of the vector, or the word count.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">StateC </span><span style="color:#ccc9c2;">{
+    final_value</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2;">,
 }
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;StateMachine&lt;StateA&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">StateMachine&lt;StateB&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: StateMachine&lt;StateA&gt;) -&gt; StateMachine&lt;StateB&gt; {
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;StateMachine&lt;StateB&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">StateMachine</span><span style="color:#ccc9c2;">&lt;StateC&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">StateMachine&lt;StateB&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">StateMachine&lt;StateC&gt; {
         StateMachine {
-            some_unrelated_value: val.some_unrelated_value,
-            state: StateB {
-                interm_value: val.state.start_value.</span><span style="color:#96b5b4;">split</span><span style="color:#c0c5ce;">(&quot; &quot;).</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(|</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">| x.</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()).</span><span style="color:#96b5b4;">collect</span><span style="color:#c0c5ce;">(),
-            }
-        }
-    }
-}
-
-</span><span style="color:#65737e;">// Finally, StateC gives us the length of the vector, or the word count.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">StateC {
-    </span><span style="color:#bf616a;">final_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
-}
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;StateMachine&lt;StateB&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">StateMachine&lt;StateC&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: StateMachine&lt;StateB&gt;) -&gt; StateMachine&lt;StateC&gt; {
-        StateMachine {
-            some_unrelated_value: val.some_unrelated_value,
-            state: StateC {
-                final_value: val.state.interm_value.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(),
-            }
+            some_unrelated_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">some_unrelated_value</span><span style="color:#ccc9c2cc;">,
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> StateC {
+                final_value</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> val</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">state</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">interm_value</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#ccc9c2;">}
         }
     }
 }
 </span></code></pre><h3 id="a-raft-example">A Raft Example</h3>
 <p>If you've followed my posts for awhile you may know I rather enjoy thinking about Raft. Raft, and a discussion with <a rel="noopener" target="_blank" href="https://twitter.com/Argorak"><strong>@argorak</strong></a> were the primary motivators behind all of this research.</p>
 <p>Raft is a bit more complex than the above examples as it does not just have linear states where <code>A-&gt;B-&gt;C</code>. Here is the transition diagram:</p>
-<pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">++++++++++-+    ++++++++++--+    +++++++--+
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">++++++++++-+    ++++++++++--+    +++++++--+
 |          ++++-&gt;           |    |        |
 | Follower |    | Candidate ++++-&gt; Leader |
 |          &lt;+++-+           |    |        |
@@ -631,105 +631,105 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <blockquote>
 <p><a rel="noopener" target="_blank" href="https://is.gd/HDZeGR">Playground link</a></p>
 </blockquote>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// You can play around in this function.
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_follower = Raft::new(</span><span style="color:#65737e;">/* ... */</span><span style="color:#c0c5ce;">);
-    </span><span style="color:#65737e;">// Raft typically comes in groups of 3, 5, or 7. Just 1 for us. :)
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// You can play around in this function.
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> is_follower </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Raft</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(</span><span style="font-style:italic;color:#5c6773;">/* ... */</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="font-style:italic;color:#5c6773;">// Raft typically comes in groups of 3, 5, or 7. Just 1 for us. :)
 
     // Simulate this node timing out first.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_candidate = Raft::&lt;Candidate&gt;::from(is_follower);
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> is_candidate </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Raft</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Candidate&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(is_follower)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// It wins! How unexpected.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_leader = Raft::&lt;Leader&gt;::from(is_candidate);
+    </span><span style="font-style:italic;color:#5c6773;">// It wins! How unexpected.
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> is_leader </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Raft</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Leader&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(is_candidate)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// Then it fails and rejoins later, becoming a Follower again.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_follower_again = Raft::&lt;Follower&gt;::from(is_leader);
+    </span><span style="font-style:italic;color:#5c6773;">// Then it fails and rejoins later, becoming a Follower again.
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> is_follower_again </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Raft</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Follower&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(is_leader)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// And goes up for election...
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_candidate_again = Raft::&lt;Candidate&gt;::from(is_follower_again);
+    </span><span style="font-style:italic;color:#5c6773;">// And goes up for election...
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> is_candidate_again </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Raft</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Candidate&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(is_follower_again)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// But this time it fails!
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> is_follower_another_time = Raft::&lt;Follower&gt;::from(is_candidate_again);
+    </span><span style="font-style:italic;color:#5c6773;">// But this time it fails!
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> is_follower_another_time </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Raft</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;Follower&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(is_candidate_again)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+
+
+</span><span style="font-style:italic;color:#5c6773;">// This is our state machine.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Raft</span><span style="color:#ccc9c2;">&lt;S&gt; {
+    </span><span style="font-style:italic;color:#5c6773;">// ... Shared Values
+    </span><span style="color:#ccc9c2;">state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> S
 }
 
-
-</span><span style="color:#65737e;">// This is our state machine.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Raft&lt;S&gt; {
-    </span><span style="color:#65737e;">// ... Shared Values
-    </span><span style="color:#bf616a;">state</span><span style="color:#c0c5ce;">: S
-}
-
-</span><span style="color:#65737e;">// The three cluster states a Raft node can be in
+</span><span style="font-style:italic;color:#5c6773;">// The three cluster states a Raft node can be in
 
 // If the node is the Leader of the cluster services requests and replicates its state.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Leader {
-    </span><span style="color:#65737e;">// ... Specific State Values
-</span><span style="color:#c0c5ce;">}
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Leader </span><span style="color:#ccc9c2;">{
+    </span><span style="font-style:italic;color:#5c6773;">// ... Specific State Values
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#65737e;">// If it is a Candidate it is attempting to become a leader due to timeout or initialization.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Candidate {
-    </span><span style="color:#65737e;">// ... Specific State Values
-</span><span style="color:#c0c5ce;">}
+</span><span style="font-style:italic;color:#5c6773;">// If it is a Candidate it is attempting to become a leader due to timeout or initialization.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Candidate </span><span style="color:#ccc9c2;">{
+    </span><span style="font-style:italic;color:#5c6773;">// ... Specific State Values
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#65737e;">// Otherwise the node is a follower and is replicating state it receives.
-</span><span style="color:#b48ead;">struct </span><span style="color:#c0c5ce;">Follower {
-    </span><span style="color:#65737e;">// ... Specific State Values
-</span><span style="color:#c0c5ce;">}
+</span><span style="font-style:italic;color:#5c6773;">// Otherwise the node is a follower and is replicating state it receives.
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Follower </span><span style="color:#ccc9c2;">{
+    </span><span style="font-style:italic;color:#5c6773;">// ... Specific State Values
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#65737e;">// Raft starts in the Follower state
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">Raft&lt;Follower&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">new</span><span style="color:#c0c5ce;">(</span><span style="color:#65737e;">/* ... */</span><span style="color:#c0c5ce;">) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
-        </span><span style="color:#65737e;">// ...
-</span><span style="color:#c0c5ce;">        Raft {
-            </span><span style="color:#65737e;">// ...
-</span><span style="color:#c0c5ce;">            state: Follower { </span><span style="color:#65737e;">/* ... */ </span><span style="color:#c0c5ce;">}
+</span><span style="font-style:italic;color:#5c6773;">// Raft starts in the Follower state
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">Raft</span><span style="color:#ccc9c2;">&lt;Follower&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">new</span><span style="color:#ccc9c2;">(</span><span style="font-style:italic;color:#5c6773;">/* ... */</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
+        </span><span style="font-style:italic;color:#5c6773;">// ...
+</span><span style="color:#ccc9c2;">        Raft {
+            </span><span style="font-style:italic;color:#5c6773;">// ...
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Follower { </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}
         }
     }
 }
 
-</span><span style="color:#65737e;">// The following are the defined transitions between states.
+</span><span style="font-style:italic;color:#5c6773;">// The following are the defined transitions between states.
 
 // When a follower timeout triggers it begins to campaign
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Raft&lt;Follower&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Raft&lt;Candidate&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: Raft&lt;Follower&gt;) -&gt; Raft&lt;Candidate&gt; {
-        </span><span style="color:#65737e;">// ... Logic prior to transition
-</span><span style="color:#c0c5ce;">        Raft {
-            </span><span style="color:#65737e;">// ... attr: val.attr
-</span><span style="color:#c0c5ce;">            state: Candidate { </span><span style="color:#65737e;">/* ... */ </span><span style="color:#c0c5ce;">}
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;Raft&lt;Follower&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Raft</span><span style="color:#ccc9c2;">&lt;Candidate&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">Raft&lt;Follower&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">Raft&lt;Candidate&gt; {
+        </span><span style="font-style:italic;color:#5c6773;">// ... Logic prior to transition
+</span><span style="color:#ccc9c2;">        Raft {
+            </span><span style="font-style:italic;color:#5c6773;">// ... attr: val.attr
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Candidate { </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}
         }
     }
 }
 
-</span><span style="color:#65737e;">// If it doesn&#39;t receive a majority of votes it loses and becomes a follower again.
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Raft&lt;Candidate&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Raft&lt;Follower&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: Raft&lt;Candidate&gt;) -&gt; Raft&lt;Follower&gt; {
-        </span><span style="color:#65737e;">// ... Logic prior to transition
-</span><span style="color:#c0c5ce;">        Raft {
-            </span><span style="color:#65737e;">// ... attr: val.attr
-</span><span style="color:#c0c5ce;">            state: Follower { </span><span style="color:#65737e;">/* ... */ </span><span style="color:#c0c5ce;">}
+</span><span style="font-style:italic;color:#5c6773;">// If it doesn&#39;t receive a majority of votes it loses and becomes a follower again.
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;Raft&lt;Candidate&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Raft</span><span style="color:#ccc9c2;">&lt;Follower&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">Raft&lt;Candidate&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">Raft&lt;Follower&gt; {
+        </span><span style="font-style:italic;color:#5c6773;">// ... Logic prior to transition
+</span><span style="color:#ccc9c2;">        Raft {
+            </span><span style="font-style:italic;color:#5c6773;">// ... attr: val.attr
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Follower { </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}
         }
     }
 }
 
-</span><span style="color:#65737e;">// If it wins it becomes the leader.
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Raft&lt;Candidate&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Raft&lt;Leader&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: Raft&lt;Candidate&gt;) -&gt; Raft&lt;Leader&gt; {
-        </span><span style="color:#65737e;">// ... Logic prior to transition
-</span><span style="color:#c0c5ce;">        Raft {
-            </span><span style="color:#65737e;">// ... attr: val.attr
-</span><span style="color:#c0c5ce;">            state: Leader { </span><span style="color:#65737e;">/* ... */ </span><span style="color:#c0c5ce;">}
+</span><span style="font-style:italic;color:#5c6773;">// If it wins it becomes the leader.
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;Raft&lt;Candidate&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Raft</span><span style="color:#ccc9c2;">&lt;Leader&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">Raft&lt;Candidate&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">Raft&lt;Leader&gt; {
+        </span><span style="font-style:italic;color:#5c6773;">// ... Logic prior to transition
+</span><span style="color:#ccc9c2;">        Raft {
+            </span><span style="font-style:italic;color:#5c6773;">// ... attr: val.attr
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Leader { </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}
         }
     }
 }
 
-</span><span style="color:#65737e;">// If the leader becomes disconnected it may rejoin to discover it is no longer leader
-</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;Raft&lt;Leader&gt;&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Raft&lt;Follower&gt; {
-    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">val</span><span style="color:#c0c5ce;">: Raft&lt;Leader&gt;) -&gt; Raft&lt;Follower&gt; {
-        </span><span style="color:#65737e;">// ... Logic prior to transition
-</span><span style="color:#c0c5ce;">        Raft {
-            </span><span style="color:#65737e;">// ... attr: val.attr
-</span><span style="color:#c0c5ce;">            state: Follower { </span><span style="color:#65737e;">/* ... */ </span><span style="color:#c0c5ce;">}
+</span><span style="font-style:italic;color:#5c6773;">// If the leader becomes disconnected it may rejoin to discover it is no longer leader
+</span><span style="color:#ffa759;">impl </span><span style="font-style:italic;color:#5ccfe6;">From</span><span style="color:#ccc9c2;">&lt;Raft&lt;Leader&gt;&gt; </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Raft</span><span style="color:#ccc9c2;">&lt;Follower&gt; {
+    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">from</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">val</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">Raft&lt;Leader&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ccc9c2;">Raft&lt;Follower&gt; {
+        </span><span style="font-style:italic;color:#5c6773;">// ... Logic prior to transition
+</span><span style="color:#ccc9c2;">        Raft {
+            </span><span style="font-style:italic;color:#5c6773;">// ... attr: val.attr
+</span><span style="color:#ccc9c2;">            state</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Follower { </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}
         }
     }
 }
@@ -755,8 +755,8 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

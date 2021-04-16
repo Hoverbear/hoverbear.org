@@ -166,7 +166,7 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <p>The Crazyflie uses a <em>real time</em> operating system called <a rel="noopener" target="_blank" href="http://www.freertos.org/index.html">FreeRTOS</a> which is a well regarded industry standard.</p>
 <h1 id="structure">Structure</h1>
 <p><strong>C code and Arduino code are fairly similar</strong>, and the best practice is to lay out your code roughly as follows:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>// Includes
 // Definitions
 // Variables
@@ -175,7 +175,7 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <p>So what are all these? Let's break them down.</p>
 <h2 id="includes">Includes</h2>
 <p>In order to use code from other files it's necessary to bring them &quot;in scope&quot;. Includes come in two forms:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#include &lt;math.h&gt;     // Use a system provided library.
 #include &quot;FreeRTOS.h&quot; // Use from the project library.
 </code></pre>
@@ -185,7 +185,7 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 </blockquote>
 <h2 id="definitions">Definitions</h2>
 <p>Definitions are a way to assign certain values to specific names. <code>#define</code>s can be values or expressions.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#define example 1
 #define max(a,b) ((a) &gt; (b) ? (a) : (b))
 #define min(a,b) ((a) &lt; (b) ? (a) : (b))
@@ -194,7 +194,7 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <p>Consider them like &quot;macros&quot;, if we enter <code>max(1,2)</code> then our compiler will replace it with <code>((1) &gt; (2) ? (1) : (2))</code>.</p>
 <h2 id="variables">Variables</h2>
 <p>We've used variables in our Arduino experiments already. Variables are the main workhorse of <em>data storage</em>.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>int foo;
 static int bar = 2;
 const int baz = 3;
@@ -203,7 +203,7 @@ foo = 1;
 <p>Variables follow the format <code>type name = value</code>. You can also do just <code>type name</code> and <code>name</code> will be <code>null</code> (nothing) until it is set.</p>
 <p>Sometimes you'll also see things like <code>static</code> and <code>const</code> in front. <code>static</code> variables exist over the lifetime of the program and are unique inside that given code file, they are not accessible outside of it. <code>const</code> variables cannot change their value after declared.</p>
 <p>Not all variables will be simple values, for example, below we declare three <code>Axis3f</code>. When designing programs it's quite easy to create your own types to store whatever you might need.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>static Axis3f gyro; // Gyro axis data in deg/s
 static Axis3f acc;  // Accelerometer axis data in mG
 static Axis3f mag;  // Magnetometer axis data in testla
@@ -211,22 +211,22 @@ static Axis3f mag;  // Magnetometer axis data in testla
 <p>You'll see <code>float</code> occur commonly in the stabilization code, this is a decimal value like <code>0.00001</code>.</p>
 <h2 id="functions">Functions</h2>
 <p>Functions are step-by-step procedures which (generally) have an input and an output. The simplest function is this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>void foo() {}
 </code></pre>
 <p>This is a function with no input or output! <code>void</code> is the <em>return type</em>, <code>void</code> in most cases means nothing is returned. A function which takes a pair of integers and returns their sum looks like this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>int sum(int a, int b) {
 	return a+b;
 }
 </code></pre>
 <p>Functions can be invoked by calling them like so:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>int should_be_three = sum(1, 2);
 </code></pre><h1 id="understanding-the-code">Understanding the Code</h1>
 <p>The stabilization code is broken up into a few sections. We'll take the code directly from the project and go over it slowly. If anything doesn't make sense please <a href="mailto:ana+quads@hoverbear.org">email me</a> and I'll make it more clear!</p>
 <h2 id="initialization">Initialization</h2>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>void stabilizerInit(void)
 {
   if(isInit)
@@ -255,7 +255,7 @@ static Axis3f mag;  // Magnetometer axis data in testla
 </blockquote>
 <h2 id="the-task">The Task</h2>
 <p>Okay, so what does this task look like then? Let's take a look! This function is longer, so I'll be breaking it up.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>static void stabilizerTask(void* param)
 {
   uint32_t attitudeCounter = 0;
@@ -280,7 +280,7 @@ static Axis3f mag;  // Magnetometer axis data in testla
 <li><a rel="noopener" target="_blank" href="http://www.freertos.org/vtaskdelayuntil.html"><code>vTaskDelayUntil()</code></a> - This call asks the FreeRTOS to delay any execution of the task until the appropriate time, then start it again.</li>
 </ul>
 <p>You'll notice as well that there is the start of a <code>while(1)</code> loop, which is an <em>infinite loop</em>, and will keep going until it is manually exited. Let's move forward.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>// Magnetometer not yet used more then for logging.
 imu9Read(&amp;gyro, &amp;acc, &amp;mag);
 
@@ -312,7 +312,7 @@ if (imu6IsCalibrated())
 <p>The <code>sensfusion6UpdateQ()</code> and <code>sensfusion6GetEulerRPY()</code> functions pull the current quadcopter orientation from the sensors onboard. You may note that this only updates the Gyro and Accelerometer, that's because the Crazyflie does not use the Magnometer in this code yet.</p>
 <p><code>AccWZ</code> is used along with the deadband (a way to reduce the amount of data collected and save battery life) to estimate the vertical speed of the device. It appears that <code>AccMAG</code> is unused.</p>
 <p>Then <code>controllerCorrectAttitudePID()</code> is called. This takes the desired values and through a round-about method works with <a rel="noopener" target="_blank" href="https://github.com/bitcraze/crazyflie-firmware/blob/a3ecf78d2e0e70e45c8a77f4d3d068b875ab8bf4/modules/interface/pid.h#L65-L81"><code>PidObject</code></a>s to update the pointers we pass in (The <code>&amp;</code> values). <code>PidObject</code>s are used to model mathematics that drive the quadcopter.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>  // 100HZ
   if (imuHasBarometer() &amp;&amp; (++altHoldCounter &gt;= ALTHOLD_UPDATE_RATE_DIVIDER))
   {
@@ -334,7 +334,7 @@ if (imu6IsCalibrated())
   }
 </code></pre>
 <p>Next, if necessary, an altitude hold update is performed. Afterwards the three axes of movement are updated to their desired values.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>  // TODO: Investigate possibility to subtract gyro drift.
   controllerCorrectRatePID(gyro.x, -gyro.y, gyro.z,
                            rollRateDesired, pitchRateDesired, yawRateDesired);
@@ -353,7 +353,7 @@ if (imu6IsCalibrated())
   }
 </code></pre>
 <p>Here the task updates the desired rate, and updates its picture of how fast the quadcopter is actuating with its motors. Then it is updating the thrust based on input from the user or the altitude hold control.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>      if (actuatorThrust &gt; 0)
       {
 #if defined(TUNE_ROLL)
@@ -390,8 +390,8 @@ if (imu6IsCalibrated())
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

@@ -130,59 +130,59 @@
 <span id="continue-reading"></span><h2 id="sudo-less"><code>sudo</code>-less</h2>
 <p>Travis CI released <a rel="noopener" target="_blank" href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
 <p>In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">addons</span><span style="color:#c0c5ce;">:
-  </span><span style="color:#bf616a;">apt</span><span style="color:#c0c5ce;">:
-    </span><span style="color:#bf616a;">sources</span><span style="color:#c0c5ce;">:
-      - </span><span style="color:#bf616a;">ubuntu-toolchain-r-test
-    packages</span><span style="color:#c0c5ce;">:
-        </span><span style="color:#65737e;"># Needed for building Cap&#39;n Proto.
-      </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">gcc-4.8
-      </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">g++-4.8
+<pre style="background-color:#212733;">
+<code class="language-yaml" data-lang="yaml"><span style="color:#73d0ff;">addons</span><span style="color:#ccc9c2cc;">:
+  </span><span style="color:#73d0ff;">apt</span><span style="color:#ccc9c2cc;">:
+    </span><span style="color:#73d0ff;">sources</span><span style="color:#ccc9c2cc;">:
+      </span><span style="color:#ccc9c2;">- </span><span style="color:#73d0ff;">ubuntu-toolchain-r-test
+    packages</span><span style="color:#ccc9c2cc;">:
+        </span><span style="font-style:italic;color:#5c6773;"># Needed for building Cap&#39;n Proto.
+      </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">gcc-4.8
+      </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">g++-4.8
 
-</span><span style="color:#65737e;"># We need to install Cap&#39;n Proto.
-</span><span style="color:#bf616a;">install</span><span style="color:#c0c5ce;">:
-    - </span><span style="color:#a3be8c;">git clone https://github.com/kentonv/capnproto.git
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">cd capnproto/c++
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">./setup-autotools.sh
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">autoreconf -i
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">./configure --disable-shared
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">make -j5
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">export PATH=&quot;$PATH:$(pwd)&quot;
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
-    </span><span style="color:#c0c5ce;">-  </span><span style="color:#a3be8c;">cd ../..
+</span><span style="font-style:italic;color:#5c6773;"># We need to install Cap&#39;n Proto.
+</span><span style="color:#73d0ff;">install</span><span style="color:#ccc9c2cc;">:
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">git clone https://github.com/kentonv/capnproto.git
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">cd capnproto/c++
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">./setup-autotools.sh
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">autoreconf -i
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">./configure --disable-shared
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">make -j5
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">export PATH=&quot;$PATH:$(pwd)&quot;
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
+    </span><span style="color:#ccc9c2;">-  </span><span style="color:#bae67e;">cd ../..
 </span></code></pre>
 <p>Now that we've flagged <code>sudo: false</code> in our <code>.travis.yml</code> our Travis <em>wait time</em> for a build have significantly decreased. Some of our test builds take under 1:45 minutes!</p>
 <h2 id="moved-to-travis-cargo">Moved to <a rel="noopener" target="_blank" href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
 <p>Huon created the fantastic <code>travis-cargo</code> crate and we recently moved over to it! This helped clean up the <code>.travis.yml</code> a bit and opened the door for us to utilize future improvements. This took our <code>.travis.yml</code> script section from this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-yaml" data-lang="yaml"><span style="color:#65737e;"># Generate Docs
-</span><span style="color:#a3be8c;">after_success = &quot;|&quot;
-  </span><span style="color:#c0c5ce;">[ </span><span style="color:#a3be8c;">$TRAVIS_BRANCH = master </span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">&amp;</span><span style="color:#c0c5ce;">&amp;
-  [ </span><span style="color:#a3be8c;">$TRAVIS_PULL_REQUEST = false </span><span style="color:#c0c5ce;">] </span><span style="color:#b48ead;">&amp;</span><span style="color:#c0c5ce;">&amp;
-  </span><span style="color:#a3be8c;">cargo doc &amp;&amp;
+<pre style="background-color:#212733;">
+<code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6773;"># Generate Docs
+</span><span style="color:#bae67e;">after_success = &quot;|&quot;
+  </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">$TRAVIS_BRANCH = master </span><span style="color:#ccc9c2;">] </span><span style="color:#ffa759;">&amp;</span><span style="color:#73d0ff;">&amp;
+  </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">$TRAVIS_PULL_REQUEST = false </span><span style="color:#ccc9c2;">] </span><span style="color:#ffa759;">&amp;</span><span style="color:#73d0ff;">&amp;
+  </span><span style="color:#bae67e;">cargo doc &amp;&amp;
   echo &#39;&lt;meta http-equiv=refresh content=0;url=raft/index.html&gt;&#39; &gt; target/doc/index.html &amp;&amp;
   sudo pip install ghp-import &amp;&amp;
   ghp-import -n target/doc &amp;&amp;
   git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
 </span></code></pre>
 <p>To this:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-yaml" data-lang="yaml"><span style="color:#65737e;"># Load `travis-cargo`
-</span><span style="color:#bf616a;">before_script</span><span style="color:#c0c5ce;">:
-    - </span><span style="color:#bf616a;">pip install &#39;travis-cargo&#39; --user
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#bf616a;">export PATH=$HOME/.local/bin:$PATH
+<pre style="background-color:#212733;">
+<code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6773;"># Load `travis-cargo`
+</span><span style="color:#73d0ff;">before_script</span><span style="color:#ccc9c2cc;">:
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#73d0ff;">pip install &#39;travis-cargo&#39; --user
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#73d0ff;">export PATH=$HOME/.local/bin:$PATH
 
-script</span><span style="color:#c0c5ce;">:
-    - </span><span style="color:#a3be8c;">travis-cargo build
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo test
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo bench
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo doc
+script</span><span style="color:#ccc9c2cc;">:
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">travis-cargo build
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">travis-cargo test
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">travis-cargo bench
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">travis-cargo doc
 
-</span><span style="color:#65737e;"># Generate Docs and coverage
-</span><span style="color:#bf616a;">after_success</span><span style="color:#c0c5ce;">:
-    - </span><span style="color:#a3be8c;">travis-cargo doc-upload
-    </span><span style="color:#c0c5ce;">- </span><span style="color:#a3be8c;">travis-cargo coveralls --no-sudo
+</span><span style="font-style:italic;color:#5c6773;"># Generate Docs and coverage
+</span><span style="color:#73d0ff;">after_success</span><span style="color:#ccc9c2cc;">:
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">travis-cargo doc-upload
+    </span><span style="color:#ccc9c2;">- </span><span style="color:#bae67e;">travis-cargo coveralls --no-sudo
 </span></code></pre>
 <p>With <code>travis-cargo</code> our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.</p>
 <h2 id="code-coverage">Code Coverage</h2>
@@ -202,8 +202,8 @@ script</span><span style="color:#c0c5ce;">:
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

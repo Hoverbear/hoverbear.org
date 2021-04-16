@@ -238,7 +238,7 @@
 </li>
 </ul>
 <p>The resulting enum looks like:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#[derive(PartialEq, Eq, Clone)]
 pub enum NodeState {
     Follower(VecDeque&lt;Transaction&gt;),
@@ -249,7 +249,7 @@ pub enum NodeState {
 <p>These variants all store their one specific data needed for <em>only</em> their operation. Changing between state clears all of the data.</p>
 <h3 id="transactions">Transactions</h3>
 <p><code>Transaction</code>s are used to track the state of a variety of things in the library. They look like this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#[derive(PartialEq, Eq, Clone)]
 pub struct Transaction {
     pub uuid: Uuid,
@@ -270,7 +270,7 @@ pub enum TransactionState {
 </blockquote>
 <h3 id="the-tick">The Tick</h3>
 <p>Currently, most of the work done by <code>tick()</code> which runs a loop.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>loop { raft_node.tick(); }
 </code></pre>
 <p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
@@ -288,14 +288,14 @@ pub enum TransactionState {
 <h3 id="logging">Logging</h3>
 <p>I just started migrating over to the <strong>fantastic</strong> <a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
 <p>Using it, you end up with something like this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
     debug!(&quot;ID {}: FROM {:?} RECIEVED {:?}&quot;, self.own_id, source, rpc);
       // ..
     }
 </code></pre>
 <p>And this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>match checks.iter().all(|&amp;x| x) {
     true  =&gt; {
         self.persistent_state.set_voted_for(Some(source_id)).unwrap();
@@ -306,12 +306,12 @@ pub enum TransactionState {
     },
 </code></pre>
 <p>And the user is able to toggle directives at runtime, which is awesome! So set the logging level while testing a crate you can use:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>RUST_LOG=raft=debug cargo test -- --nocapture
 </code></pre>
 <p>Or use the same environment variable at runtime. You can even specifiy different log levels per crate. It's kind of neat to use a wildcard like <code>RUST_LOG=debug</code> with cargo because you actually see a considerable amount of compiler output.</p>
 <p>Here's what the test output looks like with the highest level of logging:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>running 1 test
 INFO:raft: ID 2: HANDLE timer
 DEBUG:raft: ID 2: FOLLOWER -&gt; CANDIDATE: Term 0
@@ -338,7 +338,7 @@ DEBUG:raft: ID 2:C: FROM 0 MATCHED
 // ...
 </code></pre>
 <p>On the normal level:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>     Running target/lib-800267e679b6e5c6
 
 running 1 test
@@ -352,7 +352,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
 <p>As I mentioned, the interface with the consuming library is in need of rework, so it's not very clean.</p>
 </blockquote>
 <p>Here is the current most basic possible functioning hunk of code to fire up a cluster:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>let nodes = vec![
     (0, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 }),
     (1, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11111 }),
@@ -376,7 +376,7 @@ let (log_2_sender, log_2_reciever) = RaftNode::&lt;String&gt;::start(
 );
 </code></pre>
 <p>Here is the current code to make an append request and check that it at least got to the leader:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>// Make a test send to that port.
 let test_command = ClientRequest::AppendRequest(AppendRequest {
     entries: vec![&quot;foo&quot;.to_string()],
@@ -391,7 +391,7 @@ let event = log_0_reciever.try_recv()
 assert!(event.is_ok()); // Workaround until we build a proper stream.
 </code></pre>
 <p>Here is the how to check an for items in an index, notice the graceful failing of &quot;overasking&quot;:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>// Test Index.
 let test_index = ClientRequest::IndexRange(IndexRange {
         start_index: 0,
@@ -427,8 +427,8 @@ assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

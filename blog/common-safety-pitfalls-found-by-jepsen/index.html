@@ -305,8 +305,8 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>Split brains were a regular problem in many Jepsen analyses. A split-brain occurs when a cluster somehow promotes multiple leaders in a cluster that should only have a single leader.</p>
 <p>While many projects test trivial partition scenarios (such as <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{D, E}</code>), there were cases, such as Elasticsearch testing a &quot;bridge&quot;, where nodes on each side of a partition were only partially disconnected, yielding split brains.</p>
 <p>An example of this is <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{C,D,E}</code>, where <code>C</code> is a bridge between the two partitions.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-markdown" data-lang="markdown"><span style="color:#c0c5ce;">A - C - E
+<pre style="background-color:#212733;">
+<code class="language-markdown" data-lang="markdown"><span style="color:#ccc9c2;">A - C - E
  \ / \ /
   B   D
 </span></code></pre>
@@ -316,12 +316,12 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>Some projects suffered from connection behaviors that are not ideal for operators. TiKV issue <a rel="noopener" target="_blank" href="https://github.com/tikv/tikv/issues/4500">#4500</a> is an interesting example of this. TiKV 2.1.7 would retry a failed PD connection for up to 60 seconds on startup. However, if it lost connection to PD while online, it would retry until recovery.</p>
 <p>In this case, if PD failed, then TiKV failed before PD recovered. This could lead to a state where TiKV nodes would never recover.</p>
 <p>Here's an example of a problematic case involving 1 TiKV node, and 1 PD node:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#96b5b4;">kill</span><span style="color:#c0c5ce;">(pd);
-</span><span style="color:#96b5b4;">restart</span><span style="color:#c0c5ce;">(tikv);
-</span><span style="color:#96b5b4;">sleep</span><span style="color:#c0c5ce;">(</span><span style="color:#d08770;">61_000</span><span style="color:#c0c5ce;">);
-</span><span style="color:#96b5b4;">recover</span><span style="color:#c0c5ce;">(pd);
-</span><span style="color:#65737e;">// TiKV never recovers connection.
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#f28779;">kill</span><span style="color:#ccc9c2;">(pd)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#f28779;">restart</span><span style="color:#ccc9c2;">(tikv)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#f28779;">sleep</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">61_000</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#f28779;">recover</span><span style="color:#ccc9c2;">(pd)</span><span style="color:#ccc9c2cc;">;
+</span><span style="font-style:italic;color:#5c6773;">// TiKV never recovers connection.
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://jepsen.io/analyses/dgraph-1-0-2">Dgraph behaved similarly</a> with interactions between it's Alpha and Zero nodes.</p>
 <h3 id="inappropriate-retries">Inappropriate retries</h3>
@@ -345,10 +345,10 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <h3 id="error-message-compatibility">Error message compatibility</h3>
 <p>In <a href="(https://aphyr.com/posts/317-call-me-maybe-elasticsearch)">ElasticSearch - 2014-06-15 - 1.1.0</a> it was noted that different JVMs serialize classes differently (e.g., InetAddress), meaning it was possible clients and servers would be unable to correctly communicate error messages from a different node.</p>
 <p>This is <a rel="noopener" target="_blank" href="https://github.com/elastic/elasticsearch/issues/3145">issue #3145</a>:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-java" data-lang="java"><span style="color:#c0c5ce;">[</span><span style="color:#d08770;">2013</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">06</span><span style="color:#c0c5ce;">-</span><span style="color:#d08770;">05 0</span><span style="background-color:#bf616a;color:#2b303b;">9</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">35</span><span style="color:#c0c5ce;">:</span><span style="color:#d08770;">20</span><span style="color:#c0c5ce;">,</span><span style="color:#d08770;">480</span><span style="color:#c0c5ce;">][</span><span style="color:#d08770;">WARN</span><span style="color:#c0c5ce;"> ][action.index         	] [es-</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">] </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to perform index on replica [rules][</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
-org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportException</span><span style="color:#c0c5ce;">: </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to deserialize exception response from stream
-</span><span style="color:#ebcb8b;">Caused</span><span style="color:#c0c5ce;"> by: org.elasticsearch.transport.</span><span style="color:#ebcb8b;">TransportSerializationException</span><span style="color:#c0c5ce;">: </span><span style="color:#ebcb8b;">Failed</span><span style="color:#c0c5ce;"> to deserialize exception response from stream
+<pre style="background-color:#212733;">
+<code class="language-java" data-lang="java"><span style="color:#ccc9c2;">[</span><span style="color:#ffcc66;">2013</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">06</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">05 0</span><span style="color:#ff3333;">9</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">35</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">20</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">480</span><span style="color:#ccc9c2;">][</span><span style="color:#ffcc66;">WARN</span><span style="color:#ccc9c2;"> ][action</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">index         	] [es</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">] </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span style="color:#ccc9c2;"> to perform index on replica [rules][</span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2;">]
+</span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">RemoteTransportException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span style="color:#ccc9c2;"> to deserialize exception response from stream
+</span><span style="font-style:italic;color:#5ccfe6;">Caused</span><span style="color:#ccc9c2;"> by</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">TransportSerializationException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span style="color:#ccc9c2;"> to deserialize exception response from stream
 </span></code></pre>
 <p>Using tools such as <a rel="noopener" target="_blank" href="https://developers.google.com/protocol-buffers/">Protobuf</a> or <a rel="noopener" target="_blank" href="https://capnproto.org/">Cap'n Proto</a> can help prevent these kinds of issues, as they have a well defined backward compatibility semantic.</p>
 <h2 id="how-we-use-jepsen-with-tidb">How we use Jepsen with TiDB</h2>
@@ -719,8 +719,8 @@ org.elasticsearch.transport.</span><span style="color:#ebcb8b;">RemoteTransportE
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

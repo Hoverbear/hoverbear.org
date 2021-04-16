@@ -138,13 +138,13 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 <h2 id="playing-around">Playing Around</h2>
 <p>What's a good blog post without some fun examples?</p>
 <p><strong>Spawning 10 Arch containers in parallel and having them all pipe to the same file:</strong></p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">{1..10}; </span><span style="color:#b48ead;">do </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> --rm -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/here hoverbear/archlinux /bin/bash</span><span style="color:#bf616a;"> -c </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">echo </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">i</span><span style="color:#a3be8c;"> &gt;&gt; here/checkin</span><span style="color:#c0c5ce;">&quot; &amp;); </span><span style="color:#b48ead;">done
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffa759;">for</span><span style="color:#ccc9c2;"> i </span><span style="color:#ffa759;">in </span><span style="color:#ccc9c2;">{1..10}</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">do </span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">docker</span><span style="color:#ccc9c2;"> run</span><span style="color:#ffcc66;"> --rm -v </span><span style="color:#ccc9c2;">$(</span><span style="color:#ffd580;">pwd</span><span style="color:#ccc9c2;">):/here hoverbear/archlinux /bin/bash</span><span style="color:#ffcc66;"> -c </span><span style="color:#bae67e;">&quot;echo $</span><span style="color:#ccc9c2;">i</span><span style="color:#bae67e;"> &gt;&gt; here/checkin&quot; </span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">)</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">done
 </span></code></pre>
 <p>A few seconds later:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span style="color:#c0c5ce;"> cat checkin
-</span><span style="color:#bf616a;">6
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> cat checkin
+</span><span style="color:#ffd580;">6
 3
 4
 5
@@ -156,32 +156,32 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 9
 </span></code></pre>
 <p><strong>Making an image to build your favorite Rust project:</strong></p>
-<pre style="background-color:#2b303b;">
-<code class="language-dockerfile" data-lang="dockerfile"><span style="color:#b48ead;">FROM</span><span style="color:#c0c5ce;"> hoverbear/archlinux
-</span><span style="color:#b48ead;">MAINTAINER </span><span style="color:#c0c5ce;">Ana Hobden &lt;ana@hoverbear.org&gt;
+<pre style="background-color:#212733;">
+<code class="language-dockerfile" data-lang="dockerfile"><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> hoverbear/archlinux
+</span><span style="color:#ffa759;">MAINTAINER </span><span style="color:#ccc9c2;">Ana Hobden &lt;ana@hoverbear.org&gt;
 
-</span><span style="color:#65737e;"># It&#39;s always a good idea to update Arch, then install deps.
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">pacman -Syu
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">pacman -S git file awk gcc --noconfirm
+</span><span style="font-style:italic;color:#5c6773;"># It&#39;s always a good idea to update Arch, then install deps.
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">pacman -Syu
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">pacman -S git file awk gcc --noconfirm
 
-</span><span style="color:#65737e;"># Install Multirust
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">git clone --recursive https://github.com/brson/multirust
-</span><span style="color:#b48ead;">WORKDIR </span><span style="color:#c0c5ce;">multirust
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">git submodule update --init
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">./build.sh
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">./install.sh
+</span><span style="font-style:italic;color:#5c6773;"># Install Multirust
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">git clone --recursive https://github.com/brson/multirust
+</span><span style="color:#ffa759;">WORKDIR </span><span style="color:#ccc9c2;">multirust
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">git submodule update --init
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">./build.sh
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">./install.sh
 
-</span><span style="color:#b48ead;">RUN </span><span style="color:#c0c5ce;">multirust default &quot;</span><span style="color:#a3be8c;">nightly</span><span style="color:#c0c5ce;">&quot;
+</span><span style="color:#ffa759;">RUN </span><span style="color:#ccc9c2;">multirust default </span><span style="color:#bae67e;">&quot;nightly&quot;
 
-</span><span style="color:#65737e;"># /source - Should mount the user code.
-</span><span style="color:#b48ead;">VOLUME </span><span style="color:#c0c5ce;">[ &quot;</span><span style="color:#a3be8c;">/source</span><span style="color:#c0c5ce;">&quot; ]
+</span><span style="font-style:italic;color:#5c6773;"># /source - Should mount the user code.
+</span><span style="color:#ffa759;">VOLUME </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&quot;/source&quot;</span><span style="color:#ccc9c2;"> ]
 
-</span><span style="color:#65737e;"># Change the Workdir to /source
-</span><span style="color:#b48ead;">WORKDIR </span><span style="color:#c0c5ce;">/source
+</span><span style="font-style:italic;color:#5c6773;"># Change the Workdir to /source
+</span><span style="color:#ffa759;">WORKDIR </span><span style="color:#ccc9c2;">/source
 </span></code></pre>
 <p>Running it inside your favorite project folder:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span style="color:#c0c5ce;"> run</span><span style="color:#bf616a;"> -t -i --rm</span><span style="color:#c0c5ce;">=true</span><span style="color:#bf616a;"> -v </span><span style="color:#c0c5ce;">$(</span><span style="color:#bf616a;">pwd</span><span style="color:#c0c5ce;">):/source rust cargo build
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span style="color:#ccc9c2;"> run</span><span style="color:#ffcc66;"> -t -i --rm</span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;">true</span><span style="color:#ffcc66;"> -v </span><span style="color:#ccc9c2;">$(</span><span style="color:#ffd580;">pwd</span><span style="color:#ccc9c2;">):/source rust cargo build
 </span></code></pre>
 <p>You can even get this image <a rel="noopener" target="_blank" href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
 <h2 id="conclusion">Conclusion</h2>
@@ -194,8 +194,8 @@ With nothing broken, I knew I only had one choice. I had to improve it!
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

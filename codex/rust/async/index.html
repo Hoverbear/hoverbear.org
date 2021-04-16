@@ -170,16 +170,16 @@
 <h1 id="creating-futures-from-thin-air">Creating Futures from thin air</h1>
 <p>The laziest possible future we can make, is a <a rel="noopener" target="_blank" href="https://docs.rs/futures/latest/futures/future/fn.lazy.html"><code>futures::future::lazy</code></a>. It's right there in the name.</p>
 <p>It takes a closure and runs it later poll it.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">core::future::Future;
-</span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">futures::executor::block_on;
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">core</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">future</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Future</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">futures</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">executor</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">block_on</span><span style="color:#ccc9c2cc;">;
 
-#[</span><span style="color:#bf616a;">tokio</span><span style="color:#c0c5ce;">::</span><span style="color:#bf616a;">main</span><span style="color:#c0c5ce;">]
-async </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">main</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> input = futures::lazy(|_| </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">);
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> output = </span><span style="color:#96b5b4;">block_on</span><span style="color:#c0c5ce;">(input)
-    tracing::
-}
+#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">tokio</span><span style="color:#ccc9c2;">::</span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">]
+async </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> input </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">futures</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">lazy(|_| </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> output </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">block_on</span><span style="color:#ccc9c2;">(input)
+    tracing</span><span style="color:#f29e74;">::
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
 		</div>
 
@@ -202,8 +202,8 @@ async </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;"
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

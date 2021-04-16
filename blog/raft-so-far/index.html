@@ -132,7 +132,7 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 <span id="continue-reading"></span><h2 id="client-interface">Client Interface</h2>
 <p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
 <p>I wanted to remove the complexity of having to make network requests outside of the Node. If you're participating in a Raft cluster you don't want to have to think about it, you just want to read logs and append logs. Raft's goal is to implement a replicated log, or state machine.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
 					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
 enum ClientRequest&lt;T&gt; {
@@ -163,7 +163,7 @@ enum ClientResponse&lt;T&gt; {
 <h2 id="remote-procedure-calls">Remote Procedure Calls</h2>
 <p>Inside of the <code>RaftNode</code>'s thread it binds on a UDP socket and listens for <code>RemoteProcedureCall</code> data. These requests are encoded and decoded through the <code>rustc-serialize</code> crato, but in the future <code>serde</code> will probably replace it.</p>
 <p>A <code>RemoteProcedureCall</code> looks almost identical to those dictated in the Raft paper:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
 pub enum RemoteProcedureCall&lt;T&gt; {
     AppendEntries {
@@ -206,8 +206,8 @@ pub enum RemoteProcedureResponse {
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

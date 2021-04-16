@@ -143,11 +143,11 @@ $$</p>
 <p>The recurrence we defined above is an <strong>optimal substructure</strong> since it will allow us to utilize overlapping calls. (Like $$ LCIS(s_1...s_2, t_1...t_2) $$)</p>
 <p>Examining the problem closely, It's possible to solve this problem using two arrays instead of a matrix. We'll use $$ c $$ which stores the length of the LCIS ending at a given element $$ i $$ and $$ p $$ which stores the previous element of the LCIS (used for reconstruction).</p>
 <p>The Rust code below is well commented and includes a number of tests.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::cmp::max;
-</span><span style="color:#b48ead;">use </span><span style="color:#c0c5ce;">std::collections::RingBuf;
+<pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">cmp</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">max</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">collections</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">RingBuf</span><span style="color:#ccc9c2cc;">;
 
-</span><span style="color:#65737e;">/// Longest Common Increasing Sequence
+</span><span style="font-style:italic;color:#5c6773;">/// Longest Common Increasing Sequence
 ///
 /// Accepts two `Vec&lt;int&gt;`s and returning a `Vec&lt;int&gt;` Which is the LCIS.
 ///
@@ -155,158 +155,158 @@ $$</p>
 /// For example, `[5, 3, 6, 2, 7, 1, 8]` and `[1i, 2, 3, 4, 5, 6, 7, 8, 9]` have
 /// multiple valid results: `[5i, 6, 7, 8]`, `[3i, 6, 7, 8]`, ...
 ///
-</span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">lcis</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">s</span><span style="color:#c0c5ce;">: Vec&lt;int&gt;, </span><span style="color:#bf616a;">t</span><span style="color:#c0c5ce;">: Vec&lt;int&gt;) -&gt; Vec&lt;int&gt; {
-    </span><span style="color:#65737e;">// Convient access.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> size = </span><span style="color:#96b5b4;">max</span><span style="color:#c0c5ce;">(s.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(), t.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">());
-    </span><span style="color:#65737e;">// We&#39;ll index into the largest for returning the path.
-    </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">(largest, smallest) = {
-        </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> s.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">() == size {
-            (s, t)
-        } </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{
-            (t, s)
+</span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">lcis</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">s</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;int&gt;, </span><span style="color:#ffcc66;">t</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;int&gt;) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;int&gt; {
+    </span><span style="font-style:italic;color:#5c6773;">// Convient access.
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> size </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">max</span><span style="color:#ccc9c2;">(s</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
+    </span><span style="font-style:italic;color:#5c6773;">// We&#39;ll index into the largest for returning the path.
+    </span><span style="color:#ffa759;">let </span><span style="color:#ccc9c2;">(largest</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> smallest) </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
+        </span><span style="color:#ffa759;">if</span><span style="color:#ccc9c2;"> s</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">() </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> size {
+            (s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)
+        } </span><span style="color:#ffa759;">else </span><span style="color:#ccc9c2;">{
+            (t</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> s)
         }
-    };
-    </span><span style="color:#65737e;">// Length of the LCIS ending at `i`
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> c = Vec::&lt;uint&gt;::from_elem(size, </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">);
-    </span><span style="color:#65737e;">// Index of the previous element.
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> p = Vec::&lt;int&gt;::from_elem(size, </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">);
+    }</span><span style="color:#ccc9c2cc;">;
+    </span><span style="font-style:italic;color:#5c6773;">// Length of the LCIS ending at `i`
+    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> c </span><span style="color:#f29e74;">= </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2cc;">::</span><span style="color:#ccc9c2;">&lt;uint&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from_elem(size</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="font-style:italic;color:#5c6773;">// Index of the previous element.
+    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> p </span><span style="color:#f29e74;">= </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2cc;">::</span><span style="color:#ccc9c2;">&lt;int&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from_elem(size</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
 
-    </span><span style="color:#65737e;">// Outer Loop
-    </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i in </span><span style="color:#96b5b4;">range</span><span style="color:#c0c5ce;">(0u, smallest.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">()) {
-        </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> cur, </span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> last) = (</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, -</span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">);
-        </span><span style="color:#65737e;">// Inner Loop
-        </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> j in </span><span style="color:#96b5b4;">range</span><span style="color:#c0c5ce;">(0u, largest.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">()) {
-            </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> smallest[i] == largest[j] &amp;&amp; cur+</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">&gt; c[j] {
-                </span><span style="color:#65737e;">// This LCIS larger then our current.
-</span><span style="color:#c0c5ce;">                c[j] = cur + </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">;
-                p[j] = last;
-            }
-            </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> smallest[i] &gt; largest[j] &amp;&amp; cur &lt; c[j] {
-                cur = c[j];
-                last = j as int;
-            }
+    </span><span style="font-style:italic;color:#5c6773;">// Outer Loop
+    </span><span style="color:#ffa759;">for</span><span style="color:#ccc9c2;"> i </span><span style="color:#f29e74;">in </span><span style="color:#f28779;">range</span><span style="color:#ccc9c2;">(0u</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> smallest</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">()) {
+        </span><span style="color:#ffa759;">let </span><span style="color:#ccc9c2;">(</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> cur</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> last) </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+        </span><span style="font-style:italic;color:#5c6773;">// Inner Loop
+        </span><span style="color:#ffa759;">for</span><span style="color:#ccc9c2;"> j </span><span style="color:#f29e74;">in </span><span style="color:#f28779;">range</span><span style="color:#ccc9c2;">(0u</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> largest</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">()) {
+            </span><span style="color:#ffa759;">if</span><span style="color:#ccc9c2;"> smallest[i] </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> largest[j] </span><span style="color:#f29e74;">&amp;&amp;</span><span style="color:#ccc9c2;"> cur</span><span style="color:#f29e74;">+</span><span style="color:#ffcc66;">1 </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> c[j] {
+                </span><span style="font-style:italic;color:#5c6773;">// This LCIS larger then our current.
+</span><span style="color:#ccc9c2;">                c[j] </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> cur </span><span style="color:#f29e74;">+ </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">                p[j] </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> last</span><span style="color:#ccc9c2cc;">;
+            </span><span style="color:#ccc9c2;">}
+            </span><span style="color:#ffa759;">if</span><span style="color:#ccc9c2;"> smallest[i] </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> largest[j] </span><span style="color:#f29e74;">&amp;&amp;</span><span style="color:#ccc9c2;"> cur </span><span style="color:#f29e74;">&lt;</span><span style="color:#ccc9c2;"> c[j] {
+                cur </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> c[j]</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">                last </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> j </span><span style="color:#f29e74;">as</span><span style="color:#ccc9c2;"> int</span><span style="color:#ccc9c2cc;">;
+            </span><span style="color:#ccc9c2;">}
         }
     }
 
-    </span><span style="color:#65737e;">// Find the length and end of the sequence.
-    </span><span style="color:#b48ead;">let </span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> length, </span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> index) = (0u, 0u);
-    </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i in </span><span style="color:#96b5b4;">range</span><span style="color:#c0c5ce;">(0u, size) {
-        </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> c[i] &gt; length {
-            length = c[i];
-            index = i;
-        }
+    </span><span style="font-style:italic;color:#5c6773;">// Find the length and end of the sequence.
+    </span><span style="color:#ffa759;">let </span><span style="color:#ccc9c2;">(</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> length</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> index) </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">(0u</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> 0u)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">for</span><span style="color:#ccc9c2;"> i </span><span style="color:#f29e74;">in </span><span style="color:#f28779;">range</span><span style="color:#ccc9c2;">(0u</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> size) {
+        </span><span style="color:#ffa759;">if</span><span style="color:#ccc9c2;"> c[i] </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> length {
+            length </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> c[i]</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">            index </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> i</span><span style="color:#ccc9c2cc;">;
+        </span><span style="color:#ccc9c2;">}
     }
 
-    </span><span style="color:#65737e;">// Find the sequence.
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> sequence = </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> length &gt; </span><span style="color:#d08770;">0 </span><span style="color:#c0c5ce;">{
-        </span><span style="color:#65737e;">// You can&#39;t push onto the front of a vector, this is easier.
-        </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> seq = RingBuf::&lt;int&gt;::with_capacity(size);
-        </span><span style="color:#65737e;">// `-1` means we&#39;re at the start of the sequence.
-        </span><span style="color:#b48ead;">while</span><span style="color:#c0c5ce;"> index != -</span><span style="color:#d08770;">1 </span><span style="color:#c0c5ce;">{
-            </span><span style="color:#65737e;">// Add to the sequence.
-</span><span style="color:#c0c5ce;">            seq.</span><span style="color:#96b5b4;">push_front</span><span style="color:#c0c5ce;">(largest[index]);
-            </span><span style="color:#65737e;">// Set index to the previous.
-</span><span style="color:#c0c5ce;">            index = p[index] as uint;
-        }
-        </span><span style="color:#65737e;">// Send it back to a vector.
+    </span><span style="font-style:italic;color:#5c6773;">// Find the sequence.
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> sequence </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">if</span><span style="color:#ccc9c2;"> length </span><span style="color:#f29e74;">&gt; </span><span style="color:#ffcc66;">0 </span><span style="color:#ccc9c2;">{
+        </span><span style="font-style:italic;color:#5c6773;">// You can&#39;t push onto the front of a vector, this is easier.
+        </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> seq </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">RingBuf</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;int&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">with_capacity(size)</span><span style="color:#ccc9c2cc;">;
+        </span><span style="font-style:italic;color:#5c6773;">// `-1` means we&#39;re at the start of the sequence.
+        </span><span style="color:#ffa759;">while</span><span style="color:#ccc9c2;"> index </span><span style="color:#f29e74;">!= -</span><span style="color:#ffcc66;">1 </span><span style="color:#ccc9c2;">{
+            </span><span style="font-style:italic;color:#5c6773;">// Add to the sequence.
+</span><span style="color:#ccc9c2;">            seq</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">push_front</span><span style="color:#ccc9c2;">(largest[index])</span><span style="color:#ccc9c2cc;">;
+            </span><span style="font-style:italic;color:#5c6773;">// Set index to the previous.
+</span><span style="color:#ccc9c2;">            index </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> p[index] </span><span style="color:#f29e74;">as</span><span style="color:#ccc9c2;"> uint</span><span style="color:#ccc9c2cc;">;
+        </span><span style="color:#ccc9c2;">}
+        </span><span style="font-style:italic;color:#5c6773;">// Send it back to a vector.
         // TODO: Make this better.
-</span><span style="color:#c0c5ce;">        seq.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">map</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">| x).</span><span style="color:#96b5b4;">collect</span><span style="color:#c0c5ce;">()
-    } </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{
-        </span><span style="color:#65737e;">// An empty set.
-        </span><span style="color:#c0c5ce;">Vec::&lt;int&gt;::new()
-    };
-    sequence
+</span><span style="color:#ccc9c2;">        seq</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span style="color:#ccc9c2;">()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span style="color:#ccc9c2;">(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span style="color:#ccc9c2;">| x)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">collect</span><span style="color:#ccc9c2;">()
+    } </span><span style="color:#ffa759;">else </span><span style="color:#ccc9c2;">{
+        </span><span style="font-style:italic;color:#5c6773;">// An empty set.
+        </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2cc;">::</span><span style="color:#ccc9c2;">&lt;int&gt;</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new()
+    }</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">    sequence
 }
 
-</span><span style="color:#65737e;">/// Single result LCIS Test Suite
+</span><span style="font-style:italic;color:#5c6773;">/// Single result LCIS Test Suite
 ///
 /// These tests we know the (only) answer to, so we can test for the answer.
-</span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">all</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result == goal, &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">all</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">none</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![4i, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result == goal, &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">none</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[4i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">continuous_start</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result == goal, &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">continuous_start</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">reversed_sizes</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result == goal, &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">reversed_sizes</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">continuous_end</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![4i, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![4i, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result == goal, &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">continuous_end</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[4i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[4i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">bidirection</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![10i, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">9</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">9</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">10</span><span style="color:#c0c5ce;">]; </span><span style="color:#65737e;">// Skip 5 so it&#39;s unique
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result == goal, &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">bidirection</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[10i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">9</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">8</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">8</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">9</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Skip 5 so it&#39;s unique
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#65737e;">// From http://blog.codechef.com/2009/05/19/211/
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![4i, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">50</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![3i, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">() == goal.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(), &quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">example</span><span style="color:#ccc9c2;">() {
+    </span><span style="font-style:italic;color:#5c6773;">// From http://blog.codechef.com/2009/05/19/211/
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[4i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">50</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[3i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">() </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#65737e;">/// Multiple Results Test Suite
+</span><span style="font-style:italic;color:#5c6773;">/// Multiple Results Test Suite
 ///
 /// These results we know only the length of, but we can test the validity the
 /// sequence.
-</span><span style="color:#c0c5ce;">#[</span><span style="color:#bf616a;">cfg</span><span style="color:#c0c5ce;">(test)]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">validity_test</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">sequence</span><span style="color:#c0c5ce;">: Vec&lt;int&gt;) {
-    </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i in </span><span style="color:#96b5b4;">range</span><span style="color:#c0c5ce;">(0u, sequence.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">() - </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">) {
-        assert!(sequence[i] &lt; sequence[i + </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">],
-            &quot;</span><span style="color:#a3be8c;">Not a valid LCIS: {}</span><span style="color:#c0c5ce;">&quot;, sequence);
-    }
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">cfg</span><span style="color:#ccc9c2;">(test)]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">validity_test</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">sequence</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;int&gt;) {
+    </span><span style="color:#ffa759;">for</span><span style="color:#ccc9c2;"> i </span><span style="color:#f29e74;">in </span><span style="color:#f28779;">range</span><span style="color:#ccc9c2;">(0u</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> sequence</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">() </span><span style="color:#f29e74;">- </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">) {
+        </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(sequence[i] </span><span style="color:#f29e74;">&lt;</span><span style="color:#ccc9c2;"> sequence[i </span><span style="color:#f29e74;">+ </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">,
+            </span><span style="color:#bae67e;">&quot;Not a valid LCIS: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> sequence)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ccc9c2;">}
 }
 
-#[</span><span style="color:#bf616a;">test</span><span style="color:#c0c5ce;">]
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">staggered</span><span style="color:#c0c5ce;">() {
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> s = vec![5i, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> t = vec![1i, </span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">5</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">9</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> goal = vec![5i, </span><span style="color:#d08770;">6</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">7</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">];
-    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = </span><span style="color:#96b5b4;">lcis</span><span style="color:#c0c5ce;">(s, t);
-    assert!(result.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">() == goal.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(),
-    	&quot;</span><span style="color:#a3be8c;">Goal: {}, Result: {}</span><span style="color:#c0c5ce;">&quot;, goal, result);
-    </span><span style="color:#96b5b4;">validity_test</span><span style="color:#c0c5ce;">(result);
-}
+</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">test</span><span style="color:#ccc9c2;">]
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">staggered</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> s </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[5i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">8</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> t </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[1i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">8</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">9</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> goal </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[5i</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">7</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">8</span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> result </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">lcis</span><span style="color:#ccc9c2;">(s</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> t)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">assert!</span><span style="color:#ccc9c2;">(result</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">() </span><span style="color:#f29e74;">==</span><span style="color:#ccc9c2;"> goal</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">len</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">,
+    	</span><span style="color:#bae67e;">&quot;Goal: {}, Result: {}&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> goal</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> result)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#f28779;">validity_test</span><span style="color:#ccc9c2;">(result)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
     </main>
     <footer class="post-footer">
@@ -315,8 +315,8 @@ $$</p>
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

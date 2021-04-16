@@ -168,7 +168,7 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 <h3 id="data-interchange">Data Interchange</h3>
 <p>Probably one of the most interesting (and meaningful) changes I've made was moving my previous enum structs into seperate enums and structs.</p>
 <p>Simply, this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>enum ClientRequest&lt;T&gt; {
     IndexRange {
         start_index: u64,
@@ -182,7 +182,7 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 }
 </code></pre>
 <p>Became this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
 pub enum ClientRequest&lt;T&gt; {
     /// Gets the log entries from start to end.
@@ -211,7 +211,7 @@ pub struct AppendRequest&lt;T&gt; {
 </ol>
 <p><em>What's the downside?</em> Creating a new <code>AppendRequest</code> without the use of a helper function can look a little gross: <code>ClientRequest::AppendRequest(AppendRequest { ... })</code></p>
 <p>But a helper can mask this grossness:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>impl&lt;T&gt; ClientRequest&lt;T&gt; {
     /// Returns (term, success)
     pub fn index_range(start: u64, end: u64) -&gt; ClientRequest&lt;T&gt; {
@@ -232,7 +232,7 @@ pub struct AppendRequest&lt;T&gt; {
 }
 </code></pre><h3 id="interfacing">Interfacing</h3>
 <p>A <code>RaftNode</code> now is spawned via the following function</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
 (Sender&lt;ClientRequest&lt;T&gt;&gt;, Receiver&lt;Result&lt;Vec&lt;T&gt;, String&gt;&gt;)
 </code></pre>
@@ -246,7 +246,7 @@ pub struct AppendRequest&lt;T&gt; {
 <h2 id="experience">Experience</h2>
 <h3 id="decoding-socket-data">Decoding Socket Data</h3>
 <p>I had all sorts of fun implementing the following code in the loop's main <code>tick()</code> function:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>match self.socket.recv_from(&amp;mut read_buffer) {
     Ok((num_read, source)) =&gt; { // Something on the socket.
         // This is possibly an RPC from another node. Try to parse it out
@@ -277,7 +277,7 @@ pub struct AppendRequest&lt;T&gt; {
 <h3 id="dealing-with-the-state-machine">Dealing with the State (Machine)</h3>
 <p>I read <a rel="noopener" target="_blank" href="https://gist.github.com/bvssvni/8970459">this gist</a> with great interest, however I've yet to determine how to go about implementing a truly type-safe state machine for Raft right now. I'd like to do this in the future, and I'd be thrilled if someone could help with advice, mentorship, or pull requests on how to accomplish this.</p>
 <p>Currently, all of the data event handlers look roughly like this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
     match self.state {
         Leader(ref state) =&gt; {
@@ -294,7 +294,7 @@ pub struct AppendRequest&lt;T&gt; {
 </code></pre><h3 id="dealing-with-non-pollables">Dealing with Non-Pollables</h3>
 <p>One thing I noticed while working with Rust's <code>UdpSocket</code> imeplementation is there is no way to <code>poll()</code> the socket to see if there is data, so any time the socket is checked you <em>must</em> handle the data immediately. I'm currently avoiding having FIFO queues for the various data but that might end up being a requirement.</p>
 <p>For those wondering, you can make a socket non-blocking by using this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>let mut socket = UdpSocket::bind(own_socket_addr)
     .unwrap();
 socket.set_read_timeout(Some(0));
@@ -318,8 +318,8 @@ socket.set_read_timeout(Some(0));
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

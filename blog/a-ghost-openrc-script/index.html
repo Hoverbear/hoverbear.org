@@ -115,45 +115,45 @@ The script exports the $NODE_ENV to production.
 <li>The script runs Ghost as <code>$GHOST_USER:$GHOST_GROUP</code>.</li>
 <li>The script exports the <code>$NODE_ENV</code> to <code>production</code>.</li>
 </ul>
-<span id="continue-reading"></span><pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#65737e;">#!/sbin/runscript
+<span id="continue-reading"></span><pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;">#!/sbin/runscript
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
-</span><span style="color:#bf616a;">PATH</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/sbin:/usr/sbin:/bin:/usr/bin
-</span><span style="color:#bf616a;">DESC</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Ghost</span><span style="color:#c0c5ce;">&quot;
-</span><span style="color:#bf616a;">NAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ghost
-</span><span style="color:#bf616a;">GHOST_ROOT</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/var/ghost
-</span><span style="color:#bf616a;">GHOST_GROUP</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ghost
-</span><span style="color:#bf616a;">GHOST_USER</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">ghost
-</span><span style="color:#bf616a;">DAEMON</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/usr/bin/node
-</span><span style="color:#bf616a;">DAEMON_ARGS</span><span style="color:#c0c5ce;">=&quot;$</span><span style="color:#bf616a;">GHOST_ROOT</span><span style="color:#a3be8c;">/index.js</span><span style="color:#c0c5ce;">&quot;
-</span><span style="color:#bf616a;">PIDFILE</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/var/run/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">NAME</span><span style="color:#a3be8c;">.pid
-</span><span style="color:#bf616a;">SCRIPTNAME</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">/etc/init.d/</span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">NAME
-</span><span style="color:#b48ead;">export </span><span style="color:#bf616a;">NODE_ENV</span><span style="color:#c0c5ce;">=</span><span style="color:#a3be8c;">production
-</span><span style="color:#96b5b4;">source</span><span style="color:#c0c5ce;"> /lib64/rc/sh/functions.sh
+</span><span style="color:#ccc9c2;">PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/sbin:/usr/sbin:/bin:/usr/bin
+</span><span style="color:#ccc9c2;">DESC</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;Ghost&quot;
+</span><span style="color:#ccc9c2;">NAME</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ghost
+</span><span style="color:#ccc9c2;">GHOST_ROOT</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/var/ghost
+</span><span style="color:#ccc9c2;">GHOST_GROUP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ghost
+</span><span style="color:#ccc9c2;">GHOST_USER</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ghost
+</span><span style="color:#ccc9c2;">DAEMON</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/usr/bin/node
+</span><span style="color:#ccc9c2;">DAEMON_ARGS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">GHOST_ROOT</span><span style="color:#bae67e;">/index.js&quot;
+</span><span style="color:#ccc9c2;">PIDFILE</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/var/run/$</span><span style="color:#ccc9c2;">NAME</span><span style="color:#bae67e;">.pid
+</span><span style="color:#ccc9c2;">SCRIPTNAME</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/etc/init.d/$</span><span style="color:#ccc9c2;">NAME
+</span><span style="color:#ffa759;">export </span><span style="color:#ccc9c2;">NODE_ENV</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">production
+</span><span style="color:#f28779;">source</span><span style="color:#ccc9c2;"> /lib64/rc/sh/functions.sh
 
-</span><span style="color:#8fa1b3;">depend</span><span style="color:#c0c5ce;">() {
-  </span><span style="color:#bf616a;">use</span><span style="color:#c0c5ce;"> logger dns
-  </span><span style="color:#bf616a;">need</span><span style="color:#c0c5ce;"> net
+</span><span style="color:#ffd580;">depend</span><span style="color:#ccc9c2;">() {
+  </span><span style="color:#ffd580;">use</span><span style="color:#ccc9c2;"> logger dns
+  </span><span style="color:#ffd580;">need</span><span style="color:#ccc9c2;"> net
 }
 
-</span><span style="color:#8fa1b3;">start</span><span style="color:#c0c5ce;">() {
-  </span><span style="color:#bf616a;">ebegin </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Starting </span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">{</span><span style="color:#bf616a;">DESC</span><span style="color:#a3be8c;">}</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#bf616a;">start-stop-daemon --start --quiet   </span><span style="color:#c0c5ce;">\
-</span><span style="color:#bf616a;">    --user </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">GHOST_USER</span><span style="color:#c0c5ce;">:$</span><span style="color:#bf616a;">GHOST_GROUP   </span><span style="color:#c0c5ce;">\
-</span><span style="color:#bf616a;">    --chdir </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">GHOST_ROOT --background  </span><span style="color:#c0c5ce;">\
-</span><span style="color:#bf616a;">    --make-pidfile --pidfile </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">PIDFILE </span><span style="color:#c0c5ce;">\
-</span><span style="color:#bf616a;">    --exec </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">DAEMON</span><span style="color:#c0c5ce;"> -- $</span><span style="color:#bf616a;">DAEMON_ARGS
-  eend </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">?
-</span><span style="color:#c0c5ce;">}
+</span><span style="color:#ffd580;">start</span><span style="color:#ccc9c2;">() {
+  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Starting $</span><span style="color:#ccc9c2;">{DESC}</span><span style="color:#bae67e;">&quot;
+  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --start --quiet   </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">    --user </span><span style="color:#ccc9c2;">$GHOST_USER:$GHOST_GROUP   </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">    --chdir </span><span style="color:#ccc9c2;">$GHOST_ROOT</span><span style="color:#ffcc66;"> --background  </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">    --make-pidfile --pidfile </span><span style="color:#ccc9c2;">$PIDFILE </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">    --exec </span><span style="color:#ccc9c2;">$DAEMON</span><span style="color:#f29e74;"> -- </span><span style="color:#ccc9c2;">$DAEMON_ARGS
+  </span><span style="color:#ffd580;">eend </span><span style="color:#ccc9c2;">$</span><span style="font-style:italic;color:#5ccfe6;">?
+</span><span style="color:#ccc9c2;">}
 
-</span><span style="color:#8fa1b3;">stop</span><span style="color:#c0c5ce;">() {
-  </span><span style="color:#bf616a;">ebegin </span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Stopping </span><span style="color:#c0c5ce;">$</span><span style="color:#a3be8c;">{</span><span style="color:#bf616a;">DESC</span><span style="color:#a3be8c;">}</span><span style="color:#c0c5ce;">&quot;
-  </span><span style="color:#bf616a;">start-stop-daemon --stop --quiet     </span><span style="color:#c0c5ce;">\
-</span><span style="color:#bf616a;">  	--retry</span><span style="color:#c0c5ce;">=TERM/30/KILL/5</span><span style="color:#bf616a;"> --pidfile </span><span style="color:#c0c5ce;">\
-    $</span><span style="color:#bf616a;">PIDFILE --exec </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">DAEMON
-  eend </span><span style="color:#c0c5ce;">$</span><span style="color:#bf616a;">?
-</span><span style="color:#c0c5ce;">}
+</span><span style="color:#ffd580;">stop</span><span style="color:#ccc9c2;">() {
+  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Stopping $</span><span style="color:#ccc9c2;">{DESC}</span><span style="color:#bae67e;">&quot;
+  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --stop --quiet     </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">  	--retry</span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;">TERM/30/KILL/5</span><span style="color:#ffcc66;"> --pidfile </span><span style="color:#ccc9c2cc;">\
+    </span><span style="color:#ccc9c2;">$PIDFILE</span><span style="color:#ffcc66;"> --exec </span><span style="color:#ccc9c2;">$DAEMON
+  </span><span style="color:#ffd580;">eend </span><span style="color:#ccc9c2;">$</span><span style="font-style:italic;color:#5ccfe6;">?
+</span><span style="color:#ccc9c2;">}
 </span></code></pre>
     </main>
     <footer class="post-footer">
@@ -162,8 +162,8 @@ The script exports the $NODE_ENV to production.
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

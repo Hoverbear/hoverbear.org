@@ -150,25 +150,25 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
 </blockquote>
 <h2 id="getting-it-set-up">Getting it set up</h2>
 <p>Getting WSL set up has a few steps, first you'll need to add some Windows optional Features.</p>
-<pre style="background-color:#2b303b;">
-<code class="language-powershell" data-lang="powershell"><span style="color:#65737e;"># In an administrator powershell
-</span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><span style="color:#c0c5ce;">-Online -FeatureName &quot;</span><span style="color:#a3be8c;">Microsoft-Windows-Subsystem-Linux</span><span style="color:#c0c5ce;">&quot;
-</span><span style="color:#96b5b4;">Enable-WindowsOptionalFeature </span><span style="color:#c0c5ce;">-Online -FeatureName &quot;</span><span style="color:#a3be8c;">VirtualMachinePlatform</span><span style="color:#c0c5ce;">&quot; 
-wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#c0c5ce;">-version </span><span style="color:#d08770;">2
+<pre style="background-color:#212733;">
+<code class="language-powershell" data-lang="powershell"><span style="font-style:italic;color:#5c6773;"># In an administrator powershell
+</span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">Online </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">FeatureName </span><span style="color:#bae67e;">&quot;Microsoft-Windows-Subsystem-Linux&quot;
+</span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">Online </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">FeatureName </span><span style="color:#bae67e;">&quot;VirtualMachinePlatform&quot; 
+</span><span style="color:#ccc9c2;">wsl </span><span style="color:#f29e74;">--</span><span style="color:#f28779;">set-default</span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">version </span><span style="color:#ffcc66;">2
 </span></code></pre>
 <p>Next, head on over to the Windows Store and install <a rel="noopener" target="_blank" href="https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab">'Ubuntu'</a>. Once it's downloaded you should launch it and do the first time setup. It'll ask you to put a username and password.</p>
 <p>At the point, you have a WSL2 installation of Ubuntu. To verify:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-powershell" data-lang="powershell"><span style="color:#c0c5ce;">$ wsl -l -v
+<pre style="background-color:#212733;">
+<code class="language-powershell" data-lang="powershell"><span style="color:#ccc9c2;">$ wsl </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">l </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">v
   NAME      STATE           VERSION
-* Ubuntu    Running         </span><span style="color:#d08770;">2
+</span><span style="color:#f29e74;">*</span><span style="color:#ccc9c2;"> Ubuntu    Running         </span><span style="color:#ffcc66;">2
 </span></code></pre>
 <p>To access Ubuntu type <code>wsl</code> from Powershell, or open the 'Ubuntu' app in your Start Menu.</p>
 <h2 id="updating-ubuntu">Updating Ubuntu</h2>
 <p>The Ubuntu version you should have is Ubuntu 18.04. (Check with <code>lsb_release -r</code>) In order to upgrade it to Ubuntu 19.04 </p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">wsl</span><span style="color:#c0c5ce;"> sudo sed</span><span style="color:#bf616a;"> -i </span><span style="color:#c0c5ce;">&#39;</span><span style="color:#a3be8c;">s/Prompt=lts/Prompt=normal/g</span><span style="color:#c0c5ce;">&#39; /etc/update-manager/release-upgrades
-</span><span style="color:#bf616a;">wsl</span><span style="color:#c0c5ce;"> sudo do-release-upgrade
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">wsl</span><span style="color:#ccc9c2;"> sudo sed</span><span style="color:#ffcc66;"> -i </span><span style="color:#bae67e;">&#39;s/Prompt=lts/Prompt=normal/g&#39;</span><span style="color:#ccc9c2;"> /etc/update-manager/release-upgrades
+</span><span style="color:#ffd580;">wsl</span><span style="color:#ccc9c2;"> sudo do-release-upgrade
 </span></code></pre>
 <p>If the process asks you about &quot;restart services during package upgrades without asking&quot; you should pick <strong>no</strong>! If it asks you for a list of services to restart, just have it empty.</p>
 <blockquote>
@@ -178,8 +178,8 @@ wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#
 <p>For any new configuration files (such as <code>sshd</code>) select <strong>install the package maintainer's version</strong>.</p>
 <p>Then, let it 'restart', restart the WSL machine with <code>wsl --shutdown</code> from a Powershell.</p>
 <p>Open up a Ubuntu shell and check <code>lsb_release -r</code> again. For me it says 19.04. This means I need to upgrade again to get to 19.10!</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">wsl</span><span style="color:#c0c5ce;"> sudo do-release-upgrade
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">wsl</span><span style="color:#ccc9c2;"> sudo do-release-upgrade
 </span></code></pre>
 <p>Following the same procedure, <code>lsb_release -r</code> for me now shows 19.10.</p>
 <h2 id="better-terminals">Better terminals</h2>
@@ -215,30 +215,30 @@ wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#
 <h2 id="configuring-wsl">Configuring WSL</h2>
 <p>Typically, you won't want your WSL instance to be able to consume all your resources. You may also want to disable things like swap.</p>
 <p>Save a file to <code>%UserProfile%/.wslconfig</code> with contents like the following:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-ini" data-lang="ini"><span style="color:#b48ead;">[wsl2]
-</span><span style="color:#bf616a;">memory</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">12GB
-</span><span style="color:#bf616a;">swap</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">0
+<pre style="background-color:#212733;">
+<code class="language-ini" data-lang="ini"><span style="color:#ffa759;">[wsl2]
+</span><span style="color:#ffcc66;">memory</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">12GB
+swap</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0
 </span></code></pre>
 <p>To apply these changes, run <code>wsl --shutdown</code> and open up a new Ubuntu terminal.</p>
 <h2 id="passwordless-sudo">Passwordless <code>sudo</code></h2>
 <p>Having to deal with passwords in a dev VM is kind of annoying. Let's turn that off in Ubuntu:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /etc/sudoers.d/sudo
-</span><span style="color:#a3be8c;">%sudo         ALL = (ALL) NOPASSWD: ALL
-</span><span style="color:#b48ead;">EOF
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /etc/sudoers.d/sudo
+</span><span style="color:#bae67e;">%sudo         ALL = (ALL) NOPASSWD: ALL
+</span><span style="color:#ffa759;">EOF
 </span></code></pre><h2 id="set-up-ssh-keys">Set up SSH keys</h2>
 <p>If you've already rolled keys with Window's built-in <code>ssh-keygen</code> you should copy over your existing key.</p>
 <p>In your Ubuntu shell (change your user if it's different between Windows and Linux):</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p ~</span><span style="color:#c0c5ce;">/.ssh
-</span><span style="color:#bf616a;">cp -r</span><span style="color:#c0c5ce;"> /mnt/c/Users/$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/.ssh/* </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/.ssh/
-</span><span style="color:#bf616a;">chmod -R</span><span style="color:#c0c5ce;"> o-rwx,g-rwx </span><span style="color:#bf616a;">~</span><span style="color:#c0c5ce;">/.ssh/*
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh
+</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -r</span><span style="color:#ccc9c2;"> /mnt/c/Users/$USER/.ssh/</span><span style="color:#f29e74;">* </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh/
+</span><span style="color:#ffd580;">chmod</span><span style="color:#ffcc66;"> -R</span><span style="color:#ccc9c2;"> o-rwx,g-rwx </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh/</span><span style="color:#f29e74;">*
 </span></code></pre>
 <p>If you haven't already, roll some keys in Linux and copy them the other way:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">mkdir -p</span><span style="color:#c0c5ce;"> /mnt/c/Users/$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/.ssh/
-</span><span style="color:#bf616a;">cp -r ~</span><span style="color:#c0c5ce;">/.ssh/* /mnt/c/Users/$</span><span style="color:#bf616a;">USER</span><span style="color:#c0c5ce;">/.ssh/
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span style="color:#ccc9c2;"> /mnt/c/Users/$USER/.ssh/
+</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -r </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh/</span><span style="color:#f29e74;">*</span><span style="color:#ccc9c2;"> /mnt/c/Users/$USER/.ssh/
 </span></code></pre>
 <p>Unfortunately we can't easily link them since they're on different devices.</p>
 <h2 id="get-systemd-functional">Get <code>systemd</code> functional</h2>
@@ -249,12 +249,12 @@ wsl --</span><span style="color:#96b5b4;">set-default</span><span style="color:#
 <p>Ubuntu 20.20? Daemonize is moved according to <a rel="noopener" target="_blank" href="https://twitter.com/ram0973/status/1253647608670814217">@ram0973</a> found
 it on the <code>/usr/bin/daemonize</code> path.</p>
 </blockquote>
-<pre style="background-color:#2b303b;">
-<code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> apt-get install</span><span style="color:#bf616a;"> -yqq</span><span style="color:#c0c5ce;"> daemonize dbus-user-session
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /usr/sbin/start-systemd-namespace &gt; /dev/null
-</span><span style="color:#65737e;">#!/bin/bash
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> apt-get install</span><span style="color:#ffcc66;"> -yqq</span><span style="color:#ccc9c2;"> daemonize dbus-user-session
+</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /usr/sbin/start-systemd-namespace </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> /dev/null
+</span><span style="font-style:italic;color:#5c6773;">#!/bin/bash
 
-</span><span style="color:#a3be8c;">SYSTEMD_PID=$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)
+</span><span style="color:#bae67e;">SYSTEMD_PID=$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)
 if [ -z &quot;$SYSTEMD_PID&quot; ] || [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
     export PRE_NAMESPACE_PATH=&quot;$PATH&quot;
     (set -o posix; set) | \
@@ -292,12 +292,12 @@ fi
 if [ -n &quot;$PRE_NAMESPACE_PATH&quot; ]; then
     export PATH=&quot;$PRE_NAMESPACE_PATH&quot;
 fi
-</span><span style="color:#b48ead;">EOF
-</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> chmod +x /usr/sbin/start-systemd-namespace
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /usr/sbin/enter-systemd-namespace &gt; /dev/null
-</span><span style="color:#65737e;">#!/bin/bash
+</span><span style="color:#ffa759;">EOF
+</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> chmod +x /usr/sbin/start-systemd-namespace
+</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /usr/sbin/enter-systemd-namespace </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> /dev/null
+</span><span style="font-style:italic;color:#5c6773;">#!/bin/bash
 
-</span><span style="color:#a3be8c;">if [ &quot;$UID&quot; != 0 ]; then
+</span><span style="color:#bae67e;">if [ &quot;$UID&quot; != 0 ]; then
     echo &quot;You need to run $0 through sudo&quot;
     exit 1
 fi
@@ -322,23 +322,23 @@ if [ -n &quot;$SYSTEMD_PID&quot; ] &amp;&amp; [ &quot;$SYSTEMD_PID&quot; != &quo
     fi
     echo &quot;Existential crisis&quot;
 fi
-</span><span style="color:#b48ead;">EOF
-</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> chmod +x /usr/sbin/enter-systemd-namespace
-</span><span style="color:#bf616a;">cat </span><span style="color:#c0c5ce;">&lt;&lt;-&#39;</span><span style="color:#b48ead;">EOF</span><span style="color:#c0c5ce;">&#39; | </span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> tee</span><span style="color:#bf616a;"> -a</span><span style="color:#c0c5ce;"> /etc/sudoers.d/wsl &gt; /dev/null
-</span><span style="color:#a3be8c;">Defaults        env_keep += WSLPATH
+</span><span style="color:#ffa759;">EOF
+</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> chmod +x /usr/sbin/enter-systemd-namespace
+</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /etc/sudoers.d/wsl </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> /dev/null
+</span><span style="color:#bae67e;">Defaults        env_keep += WSLPATH
 Defaults        env_keep += WSLENV
 Defaults        env_keep += WSL_INTEROP
 Defaults        env_keep += WSL_DISTRO_NAME
 Defaults        env_keep += PRE_NAMESPACE_PATH
 %sudo ALL=(ALL) NOPASSWD: /usr/sbin/enter-systemd-namespace
-</span><span style="color:#b48ead;">EOF
-</span><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> sed</span><span style="color:#bf616a;"> -i</span><span style="color:#c0c5ce;"> 2a&quot;</span><span style="color:#a3be8c;"># Start or enter a PID namespace in WSL2\nsource /usr/sbin/start-systemd-namespace\n</span><span style="color:#c0c5ce;">&quot; /etc/bash.bashrc
+</span><span style="color:#ffa759;">EOF
+</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> sed</span><span style="color:#ffcc66;"> -i</span><span style="color:#ccc9c2;"> 2a</span><span style="color:#bae67e;">&quot;# Start or enter a PID namespace in WSL2\nsource /usr/sbin/start-systemd-namespace\n&quot;</span><span style="color:#ccc9c2;"> /etc/bash.bashrc
 </span></code></pre>
 <p>In Powershell, set some final knobs then restart WSL:</p>
-<pre style="background-color:#2b303b;">
-<code class="language-powershell" data-lang="powershell"><span style="color:#96b5b4;">cmd.exe </span><span style="color:#c0c5ce;">/C setx WSLENV BASH_ENV/u
-</span><span style="color:#96b5b4;">cmd.exe </span><span style="color:#c0c5ce;">/C setx BASH_ENV /etc/bash.bashrc
-wsl --shutdown
+<pre style="background-color:#212733;">
+<code class="language-powershell" data-lang="powershell"><span style="color:#f28779;">cmd.exe </span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">C setx WSLENV BASH_ENV</span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">u
+</span><span style="color:#f28779;">cmd.exe </span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">C setx BASH_ENV </span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">etc</span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">bash.bashrc
+wsl </span><span style="color:#f29e74;">--</span><span style="color:#ccc9c2;">shutdown
 </span></code></pre>
 <p>Finally, install <code>docker.io</code> with <code>apt</code> and have a try:</p>
 <figure class="enriched ">
@@ -362,8 +362,8 @@ wsl --shutdown
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 

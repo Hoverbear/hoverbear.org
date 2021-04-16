@@ -153,12 +153,12 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
 </ul>
 <h2 id="making-a-demo-project">Making a Demo Project</h2>
 <p>Let's make a demo repository to play.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>cargo new travis-demo
 cd travis-demo
 </code></pre>
 <p>For simplicity, we'll replace the contents of <code>src/lib.rs</code> with the following:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#![crate_name = &quot;travis-demo&quot;]
 #![crate_type = &quot;lib&quot;]
 
@@ -190,7 +190,7 @@ fn it_works() {
               alt="Our Documentation" />
     </figure>
 <p>Finally, push this project up to Github (You'll need to make it on Github!):</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>git add Cargo.toml src .gitignore
 git commit -m &quot;Initial commit.&quot;
 git remote add origin git@github.com:Hoverbear/travis-demo.git
@@ -223,7 +223,7 @@ git push -u origin master
 </blockquote>
 <p>Travis uses a <code>.travis.yml</code> to configure how it works. You can read more about it <a rel="noopener" target="_blank" href="http://docs.travis-ci.com/user/build-configuration/">here</a>.</p>
 <p>We can add the following to ours:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>language: rust
 after_success: |
   [ $TRAVIS_BRANCH = master ] &amp;&amp;
@@ -274,14 +274,14 @@ after_success: |
 <p>Once you hit &quot;Generate Token&quot; you'll return to the previous page and see a green highlighted key. <strong>Copy that, you won't see it again!</strong></p>
 <p>Now, install the <a rel="noopener" target="_blank" href="https://github.com/travis-ci/travis.rb#installation">Travis Gem</a>. Then you need to authenticate using <code>travis login</code> using your Github credentials.</p>
 <p>Once Travis is installed and logged in, you can run this, where <code>$YOUR_TOKEN</code> is the one we copied earlier.</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
 </code></pre>
 <p>This command should automatically add a few lines to your <code>.travis.yml</code>.</p>
 <blockquote>
 <p><strong>Why encrypt?</strong> Because it's probably a bad idea to store an access token for your Github account in the clear.</p>
 </blockquote>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>git add .travis.yml
 git commit -m &quot;Add Travis&quot;
 git push
@@ -305,11 +305,11 @@ git push
 <p>Unfortunately, the first build of a <code>gh-pages</code> branch can take awhile to become available. <em>So just relax, and lets tinker with things a bit.</em></p>
 <p>Let's go back to your <code>src/lib.rs</code> and add a couple more declarations.</p>
 <p><strong>To set a base URL</strong> you can add this:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#![doc(html_root_url = &quot;https://hoverbear.github.io/travis-demo/&quot;)]
 </code></pre>
 <p><strong>To set an image for the documentation</strong> you can add an image to your Github repository and do something like the following:</p>
-<pre style="background-color:#2b303b;">
+<pre style="background-color:#212733;">
 <code>#![doc(html_logo_url = &quot;https://raw.githubusercontent.com/Hoverbear/travis-demo/master/demo.png&quot;)]
 </code></pre>
 <p>Once you change those, commit them, push it to <code>origin master</code>, and visit Travis again. You can see Travis will take the new revision and test it as well. (You can see there is even a &quot;Build Log&quot;) Once the test succeeds you'll see, again, how it builds docs and sets them up.</p>
@@ -358,8 +358,8 @@ git push
         or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
     </p>
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/c276aa685996120ae9c0047a6b6be01f3b22b967
-">c276aa685996120ae9c0047a6b6be01f3b22b967
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/356b72a17434922f9021ba1740f2a2876cc76454
+">356b72a17434922f9021ba1740f2a2876cc76454
 </a></pre>
     </body>
 
