@@ -1,25 +1,31 @@
 div.post-meta {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
 div.posted-on {
-  &:before {
-    content: "Posted on \A";
-    white-space: pre;
+  &::before {
+    content: "Posted on ";
   }
 }
 
 div.reading-time {
-  &:before {
-    content: "Read in \A";
-    white-space: pre;
+  &::before {
+    content: "Read in ";
   }
 }
 
 div.tags {
-  &:before {
-    content: "Tagged \A";
-    white-space: pre;
+  &::before {
+    content: "Tagged ";
   }
 }
+
+
+@media only screen and (min-width : 500px) {
+  div.post-meta {
+    flex-direction: row;
+  }
+}
+
