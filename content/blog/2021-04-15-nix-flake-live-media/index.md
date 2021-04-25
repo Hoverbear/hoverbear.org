@@ -41,10 +41,6 @@ Here's a small example flake that shows a configuration definition which can be 
   inputs.nixos.url = "github:nixos/nixpkgs/nixos-unstable";
   outputs = { self, nixos }: {
 
-    # Package for `nix build` output.
-    packages."x86_64-linux".exampleIso =
-        self.nixosConfigurations.exampleIso.config.system.build.isoImage;
-
     nixosConfigurations = let
       # Shared base configuration.
       exampleBase = {
@@ -83,7 +79,7 @@ git add flake.nix
 Then an `exampleIso` could be produced with the following invocation:
 
 ```bash
-nix build .#exampleIso
+nix build .#nixosConfigurations.exampleIso.config.system.build.isoImage
 ```
 
 Nix will output an ISO (and some other things) to `./result/`. Then, the operator could install it to media:
@@ -124,10 +120,6 @@ While I've not had much luck with cross compiling live media for different archi
 }
 ```
 
-Then boldly build the ISO through direct address (after you change the architectures in the example above):
-
-```bash
-nix build --flake .#packages.aarch64-linux.exampleIso
-```
+Then boldly build the ISO as you normally would.
 
 You can also use this idea to create recovery media with custom hardware support, like [the SolidRun LX2K](https://github.com/Hoverbear/lx2k-nix).
