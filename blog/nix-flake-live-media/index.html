@@ -74,12 +74,12 @@ With Nix flakes, we can define a custom live system and build it with minimal st
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -95,7 +95,7 @@ With Nix flakes, we can define a custom live system and build it with minimal st
                 </p>
 
             <p class="date">
-                    Posted on 2021-04-15, around 4 minutes of reading.
+                    Posted on 2021-04-15, around 3 minutes of reading.
                 </p>
         </div>
     </div>
@@ -142,10 +142,6 @@ With Nix flakes, we can define a custom live system and build it with minimal st
   </span><span style="color:#ffcc66;">inputs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">url </span><span style="color:#ff3333;">= </span><span style="color:#bae67e;">&quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color:#ff3333;">;
   </span><span style="color:#ffcc66;">outputs </span><span style="color:#ff3333;">= </span><span style="color:#ccc9c2;">{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixos </span><span style="color:#ccc9c2;">}: {
 
-    </span><span style="font-style:italic;color:#5c6773;"># Package for `nix build` output.
-    </span><span style="color:#ffd580;">packages</span><span style="color:#ccc9c2;">.</span><span style="color:#bae67e;">&quot;x86_64-linux&quot;</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">exampleIso </span><span style="color:#f29e74;">=
-        </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosConfigurations</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">exampleIso</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">config</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">system</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">build</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">isoImage</span><span style="color:#ccc9c2cc;">;
-
     </span><span style="color:#ffd580;">nixosConfigurations </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">let
       </span><span style="font-style:italic;color:#5c6773;"># Shared base configuration.
       </span><span style="color:#ffd580;">exampleBase </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
@@ -178,7 +174,7 @@ With Nix flakes, we can define a custom live system and build it with minimal st
 </span></code></pre>
 <p>Then an <code>exampleIso</code> could be produced with the following invocation:</p>
 <pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> build .#exampleIso
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> build .#nixosConfigurations.exampleIso.config.system.build.isoImage
 </span></code></pre>
 <p>Nix will output an ISO (and some other things) to <code>./result/</code>. Then, the operator could install it to media:</p>
 <pre style="background-color:#212733;">
@@ -205,10 +201,7 @@ With Nix flakes, we can define a custom live system and build it with minimal st
   </span><span style="color:#ffd580;">boot</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">binfmt</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">emulatedSystems </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&quot;aarch64-linux&quot; </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
 </span><span style="color:#ccc9c2;">}
 </span></code></pre>
-<p>Then boldly build the ISO through direct address (after you change the architectures in the example above):</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> build</span><span style="color:#ffcc66;"> --flake</span><span style="color:#ccc9c2;"> .#packages.aarch64-linux.exampleIso
-</span></code></pre>
+<p>Then boldly build the ISO as you normally would.</p>
 <p>You can also use this idea to create recovery media with custom hardware support, like <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/lx2k-nix">the SolidRun LX2K</a>.</p>
 
     </main>
@@ -216,8 +209,8 @@ With Nix flakes, we can define a custom live system and build it with minimal st
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/117fc0b6a65154d073f1cb211a6bea4ae9f0a88d
-">117fc0b6a65154d073f1cb211a6bea4ae9f0a88d
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/608f01207620e9befcdc90672a2b37ed923f8bee
+">608f01207620e9befcdc90672a2b37ed923f8bee
 </a></pre>
     </body>
 
