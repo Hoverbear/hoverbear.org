@@ -22,6 +22,7 @@
     
         <!-- Various Twitter related content. -->
         <meta name="twitter:card" content="summary_large_image">
+        
         {%- if page.extra.image.path -%}
             {%- set image = image::colocated_asset(path=page.extra.image.path) | trim -%}
         {% elif section.extra.image.path %}
@@ -29,26 +30,44 @@
         {%- else -%}
             {%- set image = '../static/' ~ config.extra.cover.path -%}
         {%- endif -%}
-        <meta name="twitter:image" content="{{ resize_image(path=image, width=3840, height=2160, op='fit_width') }}">
-        <meta name="twitter:site" content="@{{ config.extra.twitter }}">
-        <meta name="twitter:creator" content="@{{ config.extra.twitter }}">
+        
+        <meta name="twitter:image" content="{{ resize_image(path=image, width=3840, height=2160, op='fit_width') }}"/>
+        <meta property='og:image' content="{{ resize_image(path=image, width=3840, height=2160, op='fit_width') }}"/>
+        <meta name="twitter:site" content="@{{ config.extra.twitter }}"/>
+        <meta name="twitter:creator" content="@{{ config.extra.twitter }}"/>
+        
         {% if page.title %}
-            <meta name="twitter:title" content="{{ page.title | striptags }}">
+            <meta name="twitter:title" content="{{ page.title | striptags }}"/>
+            <meta property='og:title' content="{{ page.title | striptags }}"/>
         {% elif section.title %}
-            <meta name="twitter:title" content="{{ section.title | striptags }}">
+            <meta name="twitter:title" content="{{ section.title | striptags }}"/>
+            <meta property='og:title' content="{{ section.title | striptags }}"/>
         {% else %}
-            <meta name="twitter:title" content="{{ config.title | striptags }}">
+            <meta name="twitter:title" content="{{ config.title | striptags }}"/>
+            <meta property='og:title' content="{{ config.title | striptags }}"/>
         {% endif %}
-        {% if page.summary %}
-            <meta name="twitter:description" content="{{ page.summary | striptags }}">
-        {% elif section.summary %}
-            <meta name="twitter:description" content="{{ section.summary | striptags }}">
+
+        {% if page.permalink %}
+            <meta property='og:url' content="{{ page.permalink | striptags }}"/>
+        {% elif section.title %}
+            <meta property='og:url' content="{{ section.permalink | striptags }}"/>
         {% else %}
-            <meta name="twitter:description" content="{{ config.description | striptags }}">
+            <meta property='og:url' content="{{ config.base_url | striptags }}"/>
+        {% endif %}
+
+        {% if page.summary %}
+            <meta name="twitter:description" content="{{ page.summary | striptags }}"/>
+            <meta property='og:description' content="{{ page.summary | striptags }}"/>
+        {% elif section.summary %}
+            <meta name="twitter:description" content="{{ section.summary | striptags }}"/>
+            <meta property='og:description' content="{{ section.summary | striptags }}"/>
+        {% else %}
+            <meta name="twitter:description" content="{{ config.description | striptags }}"/>
+            <meta property='og:description' content="{{ config.description | striptags }}"/>
         {% endif %}
     
         <!-- Talk about the homepage and the rss feed. -->
-        <!-- <link rel="canonical" href="{{ config.base_url }}"> -->
+        <link rel="canonical" href="{{ config.base_url }}">
         <link rel="alternate" type="application/rss+xml" href="{{ config.base_url }}/rss.xml">
     
         <!-- Stylesheets are fun -->
