@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Using rust-bindgen in Nix
+        </title>
+        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2d932b616586a27500.jpg">
+        <meta name="twitter:site" content="@a_hoverbear">
+        <meta name="twitter:creator" content="@a_hoverbear">
+        
+            <meta name="twitter:title" content="Using rust-bindgen in Nix">
+        
+        
+            <meta name="twitter:description" content="While building the Nix packages for pl&#x2F;Rust I bumped into a curious issue: I couldn&#x27;t link to stdio.h, or stdbool.h! They were clearly on my path, too.
+It flummoxed me for quite some time, but exploring the firefox package lead to a way forward. It was rust-bindgen not finding libraries!
+">
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+
+    <body>
+        
+    <div id="hero-wrapper">
+    <figure class="enriched ">
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/4XS-RtLwS_0">James Bruce</a></figcaption>
+        <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f75a3dbe11a3c9e100.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2d932b616586a27500.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6392e1992f533f6e00.jpg"
+              alt="Photo" />
+    </figure>
+</div>
+
+    <header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+            Using rust-bindgen in Nix
+        </a></h1>
+
+        <nav id="tree"><ul><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
+
+        <div class="metadata">
+            <p class="description">
+                    Getting things linking.
+                </p>
+
+            <p class="date">
+                    Posted on 2021-05-04, around 8 minutes of reading.
+                </p>
+        </div>
+    </div>
+</header>
+
+    <main>
+        
+    <nav id=toc>
+        <ol>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#why-rust-bindgen-fails">Why rust-bindgen fails</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#missing-paths-from-gcc-wrapper">Missing paths from gcc-wrapper</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#additional-paths">Additional paths</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#what-do-to-about-it">What do to about it</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#worked-example">Worked Example</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#files">Files</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#working-output">Working output</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/rust-bindgen-in-nix/#reproducing-the-issue">Reproducing the issue</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+        <p>While building the Nix packages for <a rel="noopener" target="_blank" href="https://github.com/zombodb/plrust">pl/Rust</a> I bumped into a curious issue: I couldn't link to <code>stdio.h</code>, or <code>stdbool.h</code>! They were clearly on my path, too.</p>
+<p>It flummoxed me for quite some time, but exploring the <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/common.nix#L247-L253"><code>firefox</code></a> package lead to a way forward. It was <a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust-bindgen"><code>rust-bindgen</code></a> not finding libraries!</p>
+<span id="continue-reading"></span><h1 id="why-rust-bindgen-fails">Why <code>rust-bindgen</code> fails</h1>
+<p>In my case, there were multiple problems, but the problem solving of the first issue lead to me being able to handle the second much easier.</p>
+<h2 id="missing-paths-from-gcc-wrapper">Missing paths from <code>gcc-wrapper</code></h2>
+<p>Bindgen uses <a rel="noopener" target="_blank" href="https://clang.llvm.org/doxygen/group__CINDEX.html"><code>libclang</code></a> instead of calling <code>$CC</code>. This means it interacts poorly which NixOS, whose <code>rustPlatform.buildRustPackage</code> sets a <code>$CC</code> for <code>rustc</code> to use.</p>
+<p>You can see on the last line here:</p>
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> nix build</span><span style="color:#ffcc66;"> --print-build-logs
+</span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span style="color:#ffcc66;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> Executing cargoBuildHook
+</span><span style="color:#ffd580;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> ++ env CC_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/cc CXX_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/c++ CC_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/cc CXX_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/c++ cargo build</span><span style="color:#ffcc66;"> -j</span><span style="color:#ccc9c2;"> 32</span><span style="color:#ffcc66;"> --target</span><span style="color:#ccc9c2;"> x86_64-unknown-linux-gnu</span><span style="color:#ffcc66;"> --frozen --release
+</span></code></pre>
+<p>This means when <code>rust-bindgen</code> runs, it doesn't have knowledge about all those paths it <em>probably maybe should</em> have as provided by the <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/54d0d2b43b5d0b7ee21c30a99012162ecab3f931/pkgs/build-support/cc-wrapper/default.nix#L323-L377"><code>gcc-wrapper</code></a>.</p>
+<p>The <code>gcc-wrapper</code> derivation includes several support files in <code>$out/nix-support</code> we can utilize to work around this problem.</p>
+<h2 id="additional-paths">Additional paths</h2>
+<p>The libraries from <code>gcc-wrapper</code> aren't always enough though. It's common to need additional libraries, such as something like <code>stddef.h</code> which is available in the <code>gcc</code> includes.</p>
+<p>In these cases, we can often find the pathes of the relevant libraries by looking at the output from <code>cpp -v /dev/null -o /dev/null</code> (as recommended by the <a rel="noopener" target="_blank" href="https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html"><code>gcc</code> docs</a>) in the <code>preBuild</code> phase, and investigating <code>nix build .#doggo --print-build-logs</code>:</p>
+<pre style="background-color:#212733;">
+<code class="language-nix" data-lang="nix"><span style="color:#ffcc66;">rustPlatform</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">buildRustPackage </span><span style="color:#ffa759;">rec </span><span style="color:#ccc9c2;">{
+  </span><span style="font-style:italic;color:#5c6773;"># ...
+  </span><span style="color:#ffd580;">preBuild </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;&#39;
+    cpp -v /dev/null -o /dev/null
+  &#39;&#39;</span><span style="color:#ccc9c2cc;">;
+  </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span style="color:#ccc9c2;">}
+</span></code></pre>
+<p>That would output a list of paths you could search to find the relevant header:</p>
+<pre style="background-color:#212733;">
+<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> nix build .#doggo</span><span style="color:#ffcc66;"> --print-build-logs
+</span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span style="color:#ffcc66;">doggo</span><span style="color:#f29e74;">&gt; </span><span style="font-style:italic;color:#5c6773;">#include &quot;...&quot; search starts here:
+</span><span style="color:#ccc9c2;">doggo</span><span style="color:#f29e74;">&gt; </span><span style="font-style:italic;color:#5c6773;">#include &lt;...&gt; search starts here:
+</span><span style="color:#ccc9c2;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;">  /nix/store/q8rv03yvqsfipnxwyj0sb6lqs50y5b3q-gcc-10.2.0/lib/gcc/x86_64-unknown-linux-gnu/10.2.0/include
+</span><span style="color:#ffd580;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;">  /nix/store/q8rv03yvqsfipnxwyj0sb6lqs50y5b3q-gcc-10.2.0/include
+</span><span style="color:#ffd580;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;">  /nix/store/q8rv03yvqsfipnxwyj0sb6lqs50y5b3q-gcc-10.2.0/lib/gcc/x86_64-unknown-linux-gnu/10.2.0/include-fixed
+</span><span style="color:#ffd580;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;">  /nix/store/vr4977307zkjprfkivi4lgbzlvig3y9j-glibc-2.32-40-dev/include
+</span><span style="color:#ffd580;">doggo</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> End of search list.
+</span></code></pre>
+<p>Once you've found the path, you can 'nixify' it into something like this:</p>
+<pre style="background-color:#212733;">
+<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># This:
+</span><span style="color:#bae67e;">/nix/store/q8rv03yvqsfipnxwyj0sb6lqs50y5b3q-gcc-10.2.0/lib/gcc/x86_64-unknown-linux-gnu/10.2.0/include
+</span><span style="font-style:italic;color:#5c6773;"># Into:
+</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/lib/gcc</span><span style="color:#f29e74;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">hostPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">config</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#f29e74;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/include
+</span></code></pre>
+<p>You'll be able to add that path in later.</p>
+<h1 id="what-do-to-about-it">What do to about it</h1>
+<p>While chatting with the clever <a rel="noopener" target="_blank" href="https://jaredweakly.com/">Jared Weakly</a> we noticed that we could tell <code>rust-bindgen</code> about these <code>CFLAGS</code> via <a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust-bindgen#environment-variables"><code>BINDGEN_EXTRA_CLANG_ARGS</code></a></p>
+<p>What we gleaned from the <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/common.nix#L247-L253"><code>firefox</code></a> was to add something like this to the <code>preBuild</code>:</p>
+<pre style="background-color:#212733;">
+<code class="language-nix" data-lang="nix"><span style="color:#ffcc66;">rustPlatform</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">buildRustPackage </span><span style="color:#ffa759;">rec </span><span style="color:#ccc9c2;">{
+  </span><span style="color:#ffd580;">preBuild </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;&#39;
+    # From: https://github.com/NixOS/nixpkgs/blob/1fab95f5190d087e66a3502481e34e15d62090aa/pkgs/applications/networking/browsers/firefox/common.nix#L247-L253
+    # Set C flags for Rust&#39;s bindgen program. Unlike ordinary C
+    # compilation, bindgen does not invoke $CC directly. Instead it
+    # uses LLVM&#39;s libclang. To make sure all necessary flags are
+    # included we need to look in a few places.
+    export BINDGEN_EXTRA_CLANG_ARGS=&quot;$(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/libc-crt1-cflags) \
+      $(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/libc-cflags) \
+      $(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/cc-cflags) \
+      $(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/libcxx-cxxflags) \
+      </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">optionalString stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">isClang </span><span style="font-style:italic;color:#bae67e;">&quot;-idirafter </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/lib/clang/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include&quot;</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;"> \
+      </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">optionalString stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">isGNU </span><span style="font-style:italic;color:#bae67e;">&quot;-isystem </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include/c++/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;"> -isystem </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include/c++/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">hostPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">config</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">}
+</span><span style="color:#bae67e;">    &quot;
+  &#39;&#39;</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+</span></code></pre>
+<p>For my additional path (<code>stddef.h</code> from <code>${stdenv.cc.cc}/lib/gcc/${stdenv.hostPlatform.config}/${lib.getVersion stdenv.cc.cc}/include</code>) I changed the last line of the export to include it with an <code>-idirafter</code> flag:</p>
+<pre style="background-color:#212733;">
+<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># ...
+</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">optionalString stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">isGNU </span><span style="font-style:italic;color:#bae67e;">&quot;-isystem </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include/c++/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;"> -isystem </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include/c++/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">hostPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">config</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;"> -idirafter </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/lib/gcc/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">hostPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">config</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include&quot;</span><span style="font-style:italic;color:#ccc9c2;">}
+</span><span style="font-style:italic;color:#5c6773;"># ...
+</span></code></pre><h1 id="worked-example">Worked Example</h1>
+<p>Let's work this example to make sure it's true!</p>
+<h2 id="files">Files</h2>
+<p>Create some files in a scratch directory:</p>
+<pre style="background-color:#212733;">
+<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
+</span><span style="color:#ccc9c2;">{
+  </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;A bindgen demo.&quot;</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="color:#ffd580;">inputs </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
+    </span><span style="color:#ffd580;">nixpkgs</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:NixOS/nixpkgs/nixpkgs-unstable&quot;</span><span style="color:#ccc9c2cc;">;
+  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="color:#ffd580;">outputs </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixpkgs </span><span style="color:#ccc9c2;">}:
+    </span><span style="color:#ffa759;">let
+      </span><span style="color:#ffd580;">supportedSystems </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&quot;x86_64-linux&quot; &quot;aarch64-linux&quot; </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+      </span><span style="color:#ffd580;">forAllSystems </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">f</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">genAttrs supportedSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">f system</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">in
+    </span><span style="color:#ccc9c2;">{
+      </span><span style="color:#ffd580;">defaultPackage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">: (</span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span style="color:#ccc9c2;">{
+        </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+        </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+      </span><span style="color:#ccc9c2;">})</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">doggo</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+
+      </span><span style="color:#ffd580;">overlay </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">prev</span><span style="color:#ccc9c2;">: {
+        </span><span style="color:#ffd580;">doggo </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">callPackage </span><span style="color:#bae67e;">./. </span><span style="color:#ccc9c2;">{ }</span><span style="color:#ccc9c2cc;">;
+      </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
+</span><span style="color:#ccc9c2;">{ </span><span style="color:#ffcc66;">lib
+</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">rustPlatform
+</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">stdenv
+</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">hostPlatform
+</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">llvmPackages
+</span><span style="color:#ccc9c2;">}:
+
+</span><span style="color:#ffa759;">let
+    </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">in
+</span><span style="color:#ffcc66;">rustPlatform</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">buildRustPackage </span><span style="color:#ffa759;">rec </span><span style="color:#ccc9c2;">{
+  </span><span style="color:#ffd580;">pname </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">;
+  </span><span style="color:#ffd580;">version </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">version</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="color:#ffd580;">src </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">./.</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="font-style:italic;color:#5c6773;">#cargoSha256 = lib.fakeSha256;
+  </span><span style="color:#ffd580;">cargoSha256 </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;k7SDJdjHa5oqgi173aRZcLbBsQcc7ohJqiK7zY2HMP8=&quot;</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="color:#ffd580;">LIBCLANG_PATH </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">llvmPackages</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">libclang</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/lib&quot;</span><span style="color:#ccc9c2cc;">;
+  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="color:#ffd580;">preBuild </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;&#39;
+    # From: https://github.com/NixOS/nixpkgs/blob/1fab95f5190d087e66a3502481e34e15d62090aa/pkgs/applications/networking/browsers/firefox/common.nix#L247-L253
+    # Set C flags for Rust&#39;s bindgen program. Unlike ordinary C
+    # compilation, bindgen does not invoke $CC directly. Instead it
+    # uses LLVM&#39;s libclang. To make sure all necessary flags are
+    # included we need to look in a few places.
+    export BINDGEN_EXTRA_CLANG_ARGS=&quot;$(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/libc-crt1-cflags) \
+      $(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/libc-cflags) \
+      $(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/cc-cflags) \
+      $(&lt; </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nix-support/libcxx-cxxflags) \
+      </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">optionalString stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">isClang </span><span style="font-style:italic;color:#bae67e;">&quot;-idirafter </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/lib/clang/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include&quot;</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;"> \
+      </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">optionalString stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">isGNU </span><span style="font-style:italic;color:#bae67e;">&quot;-isystem </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include/c++/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;"> -isystem </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include/c++/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">hostPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">config</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;"> -idirafter </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/lib/gcc/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">hostPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">config</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">getVersion stdenv</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">cc</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="font-style:italic;color:#bae67e;">/include&quot;</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;"> \
+    &quot;
+  &#39;&#39;</span><span style="color:#ccc9c2cc;">;
+
+  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span style="color:#ccc9c2;">; {
+    </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">description</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffd580;">homepage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">homepage</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffd580;">license </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">licenses</span><span style="color:#ccc9c2;">; [ </span><span style="color:#ffcc66;">mit </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffd580;">maintainers </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">maintainers</span><span style="color:#ccc9c2;">; [ </span><span style="color:#ffcc66;">hoverbear </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
+  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-c" data-lang="c"><span style="font-style:italic;color:#5c6773;">// wrapper.h
+</span><span style="color:#ffa759;">#include </span><span style="color:#bae67e;">&quot;doggo.h&quot;
+</span><span style="color:#ffa759;">#include </span><span style="color:#bae67e;">&lt;stdio.h&gt;
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-c" data-lang="c"><span style="font-style:italic;color:#5c6773;">// doggo.h
+</span><span style="color:#ffa759;">typedef struct</span><span style="color:#ccc9c2;"> Doggo {
+    </span><span style="color:#ffa759;">int</span><span style="color:#ccc9c2;"> breed</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">} </span><span style="color:#73d0ff;">Doggo</span><span style="color:#ccc9c2cc;">;
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-toml" data-lang="toml"><span style="font-style:italic;color:#5c6773;"># Cargo.toml
+</span><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">package</span><span style="color:#ccc9c2;">]
+</span><span style="color:#73d0ff;">name </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;doggo&quot;
+</span><span style="color:#73d0ff;">description </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;A demo.&quot;
+</span><span style="color:#73d0ff;">homepage </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;hoverbear.org&quot;
+</span><span style="color:#73d0ff;">version </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;0.1.0&quot;
+</span><span style="color:#73d0ff;">authors </span><span style="color:#ccc9c2;">= [</span><span style="color:#bae67e;">&quot;Ana Hobden &lt;operator@hoverbear.org&gt;&quot;</span><span style="color:#ccc9c2;">]
+</span><span style="color:#73d0ff;">edition </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;2018&quot;
+
+</span><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">dependencies</span><span style="color:#ccc9c2;">]
+
+[</span><span style="color:#73d0ff;">build-dependencies</span><span style="color:#ccc9c2;">]
+</span><span style="color:#73d0ff;">bindgen </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;0.53.1&quot;
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// src/main.rs
+</span><span style="color:#f28779;">include!</span><span style="color:#ccc9c2;">(</span><span style="color:#f28779;">concat!</span><span style="color:#ccc9c2;">(</span><span style="color:#f28779;">env!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;OUT_DIR&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;/bindings.rs&quot;</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">;
+
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Hello, world </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">!&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Doggo {
+        breed</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">,
+    </span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+</span></code></pre><pre style="background-color:#212733;">
+<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// build.rs
+</span><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> bindgen</span><span style="color:#ccc9c2cc;">;
+
+</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">env</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">path</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">PathBuf</span><span style="color:#ccc9c2cc;">;
+
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
+    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;cargo:rerun-if-changed=wrapper.h&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> bindings </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">bindgen</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Builder</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">default()
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">header</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;wrapper.h&quot;</span><span style="color:#ccc9c2;">)
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">parse_callbacks</span><span style="color:#ccc9c2;">(</span><span style="font-style:italic;color:#5ccfe6;">Box</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(bindgen</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">CargoCallbacks))
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">generate</span><span style="color:#ccc9c2;">()
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">expect</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Unable to generate bindings&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> out_path </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">PathBuf</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(env</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">var(</span><span style="color:#bae67e;">&quot;OUT_DIR&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">    bindings
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">write_to_file</span><span style="color:#ccc9c2;">(out_path</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">join</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;bindings.rs&quot;</span><span style="color:#ccc9c2;">))
+        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">expect</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Couldn&#39;t write bindings!&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2;">}
+</span></code></pre><h2 id="working-output">Working output</h2>
+<p>Running <code>nix build --print-build-logs</code> should output something like:</p>
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">$ nix build --print-build-logs --rebuild
+warning: Git tree &#39;/home/ana/scratch&#39; is dirty
+doggo&gt; unpacking sources
+doggo&gt; unpacking source archive /nix/store/xwxksd08px6pmhxwq0wh09hsva51smf7-4bcjjs5zg4mxzhs9qrcz2rjf8ck5wvp1-source
+doggo&gt; source root is 4bcjjs5zg4mxzhs9qrcz2rjf8ck5wvp1-source
+doggo&gt; Executing cargoSetupPostUnpackHook
+doggo&gt; unpacking source archive /nix/store/isna8kr86v18plg2ln91i6n85pm2v7cw-doggo-0.1.0-vendor.tar.gz
+doggo&gt; Finished cargoSetupPostUnpackHook
+doggo&gt; patching sources
+doggo&gt; Executing cargoSetupPostPatchHook
+doggo&gt; Validating consistency between /build/4bcjjs5zg4mxzhs9qrcz2rjf8ck5wvp1-source//Cargo.lock and /build/doggo-0.1.0-vendor.tar.gz/Cargo.lock
+doggo&gt; Finished cargoSetupPostPatchHook
+doggo&gt; configuring
+doggo&gt; building
+doggo&gt; Executing cargoBuildHook
+doggo&gt; ++ env CC_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/cc CXX_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/c++ CC_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/cc CXX_x86_64-unknown-linux-gnu=/nix/store/zzvq5qwlm2xikawfqxb0q8gl2bw391a9-gcc-wrapper-10.2.0/bin/c++ cargo build -j 32 --target x86_64-unknown-linux-gnu --frozen --release
+# ...
+doggo&gt;     Finished release [optimized] target(s) in 9.44s
+doggo&gt; Executing cargoInstallPostBuildHook
+doggo&gt; Finished cargoInstallPostBuildHook
+doggo&gt; Finished cargoBuildHook
+doggo&gt; installing
+doggo&gt; Executing cargoInstallHook
+doggo&gt; Finished cargoInstallHook
+doggo&gt; post-installation fixup
+doggo&gt; shrinking RPATHs of ELF executables and libraries in /nix/store/yl3z0gaw618wmzxzn57hyx578lfi3sqz-doggo-0.1.0
+doggo&gt; shrinking /nix/store/yl3z0gaw618wmzxzn57hyx578lfi3sqz-doggo-0.1.0/bin/doggo
+doggo&gt; strip is /nix/store/5xyjd2qiily84lcv2w2grmwsb8r1hqpr-binutils-2.35.1/bin/strip
+doggo&gt; stripping (with command strip and flags -S) in /nix/store/yl3z0gaw618wmzxzn57hyx578lfi3sqz-doggo-0.1.0/bin
+doggo&gt; patching script interpreter paths in /nix/store/yl3z0gaw618wmzxzn57hyx578lfi3sqz-doggo-0.1.0
+doggo&gt; checking for references to /build/ in /nix/store/yl3z0gaw618wmzxzn57hyx578lfi3sqz-doggo-0.1.0..
+</span></code></pre><h2 id="reproducing-the-issue">Reproducing the issue</h2>
+<p>To reproduce the issue, try removing the <code>preBuild</code> step from the <code>default.nix</code> you created:</p>
+<pre style="background-color:#212733;">
+<code><span style="color:#ccc9c2;">doggo&gt;    Compiling doggo v0.1.0 (/build/kihmwg0msazwl8x84yahp73k1jn816d9-source)
+doggo&gt; error: failed to run custom build command for `doggo v0.1.0 (/build/kihmwg0msazwl8x84yahp73k1jn816d9-source)`
+doggo&gt; Caused by:
+doggo&gt;   process didn&#39;t exit successfully: `/build/kihmwg0msazwl8x84yahp73k1jn816d9-source/target/release/build/doggo-12463103eef102f1/build-script-build` (exit code: 101)
+doggo&gt;   --- stdout
+doggo&gt;   cargo:rerun-if-changed=wrapper.h
+doggo&gt;   --- stderr
+doggo&gt;   wrapper.h:2:10: fatal error: &#39;stdio.h&#39; file not found
+doggo&gt;   wrapper.h:2:10: fatal error: &#39;stdio.h&#39; file not found, err: true
+doggo&gt;   thread &#39;main&#39; panicked at &#39;Unable to generate bindings: ()&#39;, build.rs:12:10
+doggo&gt;   note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: builder for &#39;/nix/store/kb7rc2hv289gbd9blfviiirzmcra7cm3-doggo-0.1.0.drv&#39; failed with exit code 101;
+       last 10 log lines:
+       &gt; Caused by:
+       &gt;   process didn&#39;t exit successfully: `/build/kihmwg0msazwl8x84yahp73k1jn816d9-source/target/release/build/doggo-12463103eef102f1/build-script-build` (exit code: 101)
+       &gt;   --- stdout
+       &gt;   cargo:rerun-if-changed=wrapper.h
+       &gt;
+       &gt;   --- stderr
+       &gt;   wrapper.h:2:10: fatal error: &#39;stdio.h&#39; file not found
+       &gt;   wrapper.h:2:10: fatal error: &#39;stdio.h&#39; file not found, err: true
+       &gt;   thread &#39;main&#39; panicked at &#39;Unable to generate bindings: ()&#39;, build.rs:12:10
+       &gt;   note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+       For full logs, run &#39;nix log /nix/store/kb7rc2hv289gbd9blfviiirzmcra7cm3-doggo-0.1.0.drv&#39;.
+</span></code></pre>
+<p>If you try removing <code>#include &lt;stdio.h&gt;</code> from the <code>wrapper.h</code> this error will be resolved, but your program will likely want <code>stdio.h</code>.</p>
+<p>Whew! That's it! Writing about this really helped me sort it out in my head better! Thanks for reading!</p>
+
+    </main>
+    <footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/8679adcf7b99f689b5c359682b6e1c0f3bc36a8b
+">8679adcf7b99f689b5c359682b6e1c0f3bc36a8b
+</a></pre>
+    </body>
+
+</html>
