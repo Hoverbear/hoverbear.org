@@ -17,7 +17,7 @@ source = "https://unsplash.com/photos/4XS-RtLwS_0"
 
 While building the Nix packages for [pl/Rust][repo-plrust] I bumped into a curious issue: I couldn't link to `stdio.h`, or `stdbool.h`! They were clearly on my path, too.
 
-It flummoxed me for quite some time, but exploring the [`firefox`][pkgs-firefox-bindgen] package lead to a way forward. It was [`rust-bindgen`][repo-rust-bindgen] not finding libraries!
+It flummoxed me for quite some time, but exploring the [`firefox`][pkgs-firefox-bindgen] package led to a way forward. It was [`rust-bindgen`][repo-rust-bindgen] not finding libraries!
 
 <!-- more -->
 
