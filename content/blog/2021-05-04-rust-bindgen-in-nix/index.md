@@ -84,7 +84,7 @@ ${stdenv.cc.cc}/lib/gcc/${stdenv.hostPlatform.config}/${lib.getVersion stdenv.cc
 
 You'll be able to add that path in later.
 
-# What do to about it
+# What to do about it
 
 While chatting with the clever [Jared Weakly][jared-weakly] we noticed that we could tell `rust-bindgen` about these `CFLAGS` via [`BINDGEN_EXTRA_CLANG_ARGS`][docs-rust-bindgen-cflags]
 
