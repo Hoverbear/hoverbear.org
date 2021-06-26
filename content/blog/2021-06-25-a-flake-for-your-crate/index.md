@@ -15,7 +15,7 @@ photographer = "Ahmed Sobah"
 source = "https://unsplash.com/photos/Cbo4Bxx7SaA"
 +++
 
-[Nix (PDF)](https://edolstra.github.io/pubs/phd-thesis.pdf) provides users a way to access the massive [Nixpkgs](https://github.com/NixOS/nixpkgs) library of packages, create reproducable buildss of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, *Flakes*, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)
+[Nix (PDF)](https://edolstra.github.io/pubs/phd-thesis.pdf) provides users a way to access the massive [Nixpkgs](https://github.com/NixOS/nixpkgs) library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, *Flakes*, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)
 
 Let's explore how we can make our Rust crate usable as a Nix flake. At the end of this, any `nix` user with Flakes enabled should be able to run your project with something like `nix run github:user/project`. They'll be able to add your repository as a [Nix overlay](https://nixos.wiki/wiki/Overlays), install the package, do interactive builds, or create a portable bundle of it.
 
