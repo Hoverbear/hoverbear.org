@@ -182,7 +182,14 @@ This file is specific to our crate! It is a Nix package. Let's break it down, to
 * **A `let ... in` binding:** Here we set a variable which when accessed evaluates the `Cargo.toml`.
 * **A `naersk` call:** [`naersk`](https://github.com/nmattia/naersk) is an improvement over the
   [`nixpkgs.buildRustPackage`](https://nixos.org/manual/nixpkgs/stable/#rust) traditionally available.
-* **A `src` location:** This
+* **A `src` location:** This is the location of your code!
+* **`buildInputs`:** A list of dependencies your crate needs at build time.
+* **`checkInputs`:** A list of dependencies for your crate at test time.
+* **`doCheck`:** If Nix should run checks (`cargo test`).
+* **`CARGO_BUILD_INCREMENTAL` and `RUST_BACKTRACE`:** Environment variables we opt to set.
+* **`copyLibs`:** If Nix should copy over built libraries as well.
+* **`name` and `version`:** Derived from your `Cargo.toml`.
+* **`meta`:** Some metadata about the package. Optionally you can set `mainProgram = "thing"` here.
 
 ```nix
 # default.nix
@@ -246,7 +253,7 @@ naersk.lib."${targetPlatform.system}".buildPackage rec {
 
 Then `git add default.nix`.
 
-> While you could *technically* moosh these together, I think it's much nicer to keep them separate.
+> While you could *technically* moosh `flake.nix` & `default.nix` together, I think it's much nicer to keep them separate.
 
 ## Optional: `nix-direnv` & `.envrc`
 
