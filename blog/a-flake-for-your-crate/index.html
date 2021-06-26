@@ -104,7 +104,7 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
                 </p>
 
             <p class="date">
-                    Posted on 2021-06-25, around 7 minutes of reading.
+                    Posted on 2021-06-25, around 8 minutes of reading.
                 </p>
         </div>
     </div>
@@ -330,7 +330,14 @@ expression.</li>
 <li><strong>A <code>let ... in</code> binding:</strong> Here we set a variable which when accessed evaluates the <code>Cargo.toml</code>.</li>
 <li><strong>A <code>naersk</code> call:</strong> <a rel="noopener" target="_blank" href="https://github.com/nmattia/naersk"><code>naersk</code></a> is an improvement over the
 <a rel="noopener" target="_blank" href="https://nixos.org/manual/nixpkgs/stable/#rust"><code>nixpkgs.buildRustPackage</code></a> traditionally available.</li>
-<li><strong>A <code>src</code> location:</strong> This</li>
+<li><strong>A <code>src</code> location:</strong> This is the location of your code!</li>
+<li><strong><code>buildInputs</code>:</strong> A list of dependencies your crate needs at build time.</li>
+<li><strong><code>checkInputs</code>:</strong> A list of dependencies for your crate at test time.</li>
+<li><strong><code>doCheck</code>:</strong> If Nix should run checks (<code>cargo test</code>).</li>
+<li><strong><code>CARGO_BUILD_INCREMENTAL</code> and <code>RUST_BACKTRACE</code>:</strong> Environment variables we opt to set.</li>
+<li><strong><code>copyLibs</code>:</strong> If Nix should copy over built libraries as well.</li>
+<li><strong><code>name</code> and <code>version</code>:</strong> Derived from your <code>Cargo.toml</code>.</li>
+<li><strong><code>meta</code>:</strong> Some metadata about the package. Optionally you can set <code>mainProgram = &quot;thing&quot;</code> here.</li>
 </ul>
 <pre style="background-color:#212733;">
 <code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
@@ -393,7 +400,7 @@ expression.</li>
 </span></code></pre>
 <p>Then <code>git add default.nix</code>.</p>
 <blockquote>
-<p>While you could <em>technically</em> moosh these together, I think it's much nicer to keep them separate.</p>
+<p>While you could <em>technically</em> moosh <code>flake.nix</code> &amp; <code>default.nix</code> together, I think it's much nicer to keep them separate.</p>
 </blockquote>
 <h2 id="optional-nix-direnv-envrc">Optional: <code>nix-direnv</code> &amp; <code>.envrc</code></h2>
 <p>In order to hook into <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv"><code>nix-direnv</code></a>:</p>
@@ -497,8 +504,8 @@ expression.</li>
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/945a4d1eebfff004095a6bc1e260259113b1bac4
-">945a4d1eebfff004095a6bc1e260259113b1bac4
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e38bd4b8ecbf1a44f73ff5adc170d0f95868db5d
+">e38bd4b8ecbf1a44f73ff5adc170d0f95868db5d
 </a></pre>
     </body>
 
