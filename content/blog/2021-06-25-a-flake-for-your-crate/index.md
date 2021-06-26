@@ -379,6 +379,6 @@ I also find [nix.dev](https://nix.dev/), [nixos.wiki](https://nixos.wiki/), and 
 
 **Need something more personal?**
 
-These days my consultancy is working with Indigenous organizations or persons. If you call into one of those categories, please contact me at [*consulting@hoverbear.org*](mailto:consulting@hoverbear.org).
+These days my consultancy is working with Indigenous organizations or persons. If you fall into one of those categories, please contact me at [*consulting@hoverbear.org*](mailto:consulting@hoverbear.org).
 
 If you're a tech startup, or anyone else, I would love to recommend you to use the services of [Determinate Systems](https://determinate.systems/) for Nix problems, and [Ferrous Systems](https://ferrous-systems.com/) for Rust problems. They are owned and operated by people I trust.
