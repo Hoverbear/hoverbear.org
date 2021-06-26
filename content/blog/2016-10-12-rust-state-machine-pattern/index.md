@@ -127,7 +127,7 @@ impl StateMachine {
             // Only Waiting -> Filling is valid.
             State::Waiting { .. } => State::Filling { rate: 1 },
             // The rest should fail.
-            _ => panic!("Invalid state tranistion!"),
+            _ => panic!("Invalid state transition!"),
         }
     }
     // ...
