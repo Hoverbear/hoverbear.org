@@ -268,8 +268,6 @@ SELECT * FROM teams WHERE path @ 'Product';
 
 | name | slug | path |
 | :--- | :--- | :--- |
-| Engineering | Engineering | Engineering |
-| Geschäftstätigkeit | Operations | Engineering.Operations |
 | Product | Product | Engineering.Product |
 | Interns | Interns | Engineering.Product.Interns |
 
