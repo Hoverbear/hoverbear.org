@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -66,14 +66,14 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +85,12 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -178,8 +178,7 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 <p>If you're used to C++, C, or the other systemsy languages hopefully this should all seem very familiar, despite the syntax differences. Ideally by the end of your article you'll think more about your function signatures as you write them!</p>
 <h1 id="baby-steps">Baby Steps</h1>
 <p>Your first function definition in Rust almost definitely looks like this:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {}
 </span></code></pre>
 <p>So since you've already most likely wrote this let's start here!</p>
 <ul>
@@ -189,62 +188,56 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 <li><code>{}</code>: Are the delimiters for the inside of a function. In this case, it's empty.</li>
 </ul>
 <p>So what would we write for a function that does nothing useful?</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">do_nothing_useful</span><span style="color:#ccc9c2;">() {}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">do_nothing_useful</span><span>() {}
 </span></code></pre>
 <p>Great, now you too can do nothing useful!</p>
 <h1 id="visibility">Visibility</h1>
 <p>By default, all functions are private and cannot be used outside of the module they are in. Making them usable by a different module is simple.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">mod </span><span style="color:#73d0ff;">dog </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">private_function</span><span style="color:#ccc9c2;">() {}
-    </span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">public_function</span><span style="color:#ccc9c2;">() {}
-}
-
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">mod </span><span style="color:#73d0ff;">dog </span><span>{
+</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">private_function</span><span>() {}
+</span><span>    </span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">public_function</span><span>() {}
+</span><span>}
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;">// Optional to avoid `foo::`
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">dog</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">public_function</span><span style="color:#ccc9c2cc;">;
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    dog</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">public_function()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="font-style:italic;color:#5c6773;">// With `use`
-    </span><span style="color:#f28779;">public_function</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+</span><span style="color:#ffa759;">use </span><span>dog</span><span style="color:#f29e74;">::</span><span>public_function</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    dog</span><span style="color:#f29e74;">::</span><span>public_function()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// With `use`
+</span><span>    </span><span style="color:#f28779;">public_function</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Like mutability, Rust is conservative in its assumptions about things like visibility. If you try to use a private function the compiler will let you know and help point you to where you need to make the function public.</p>
 <p>If you have a function like <code>foo::bar::baz::rad()</code> in your project and want to make it usable as <code>foo::rad()</code> add <code>pub use bar::baz::rad;</code> to your <code>foo</code> module. This is called re-exporting.</p>
 <h1 id="simple-parameters">Simple Parameters</h1>
 <p>No longer happy with <code>do_nothing_useful()</code> you decide to adopt a dog. Good for you! Now you have a new problem, you have to walk it and play with it!</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog_name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String) {}
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">play_with</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog_name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String, </span><span style="color:#ffcc66;">game_name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String) {}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span>(</span><span style="color:#ffcc66;">dog_name</span><span style="color:#ccc9c2cc;">:</span><span> String) {}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">play_with</span><span>(</span><span style="color:#ffcc66;">dog_name</span><span style="color:#ccc9c2cc;">:</span><span> String, </span><span style="color:#ffcc66;">game_name</span><span style="color:#ccc9c2cc;">:</span><span> String) {}
 </span></code></pre>
 <p>Parameters are declared <code>variable_name: Type</code>, and are comma seperated. But c'mon! Our dog is a lot more than just a <code>String</code>! Good news, you can use your own types too.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog</span><span style="color:#ccc9c2cc;">;  </span><span style="font-style:italic;color:#5c6773;">// Let&#39;s not go overboard.
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog</span><span style="color:#ccc9c2cc;">;  </span><span style="font-style:italic;color:#5c6773;">// Let&#39;s not go overboard.
 </span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Game</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Simple types in demos!
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Dog) {}
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">play_with</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Dog, </span><span style="color:#ffcc66;">game</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Game) {}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span>(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">:</span><span> Dog) {}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">play_with</span><span>(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">:</span><span> Dog, </span><span style="color:#ffcc66;">game</span><span style="color:#ccc9c2cc;">:</span><span> Game) {}
 </span></code></pre>
 <p>Great, looking better already. Let's get that awesome day started.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Dog</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">walk_dog</span><span style="color:#ccc9c2;">(rover)</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> fetch </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Game</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">play_with</span><span style="color:#ccc9c2;">(rover</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> fetch)</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Compiler Error!
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> rover </span><span style="color:#f29e74;">=</span><span> Dog</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">walk_dog</span><span>(rover)</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ffa759;">let</span><span> fetch </span><span style="color:#f29e74;">=</span><span> Game</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">play_with</span><span>(rover</span><span style="color:#ccc9c2cc;">,</span><span> fetch)</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Compiler Error!
+</span><span>}
 </span></code></pre>
 <p>Whoa whoa! That's a perfectly good day the compiler is totally <em>ruining</em> for us! Rover is going to be super sad.</p>
 <p>Let's look at the error:</p>
-<pre style="background-color:#212733;">
-<code><span style="color:#ccc9c2;">&lt;anon&gt;:11:15: 11:20 error: use of moved value: `rover`
-&lt;anon&gt;:11     play_with(rover, fetch);
-                        ^~~~~
-&lt;anon&gt;:9:14: 9:19 note: `rover` moved here because it has type `Dog`, which is non-copyable
-&lt;anon&gt;:9     walk_dog(rover);
-                      ^~~~~
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>&lt;anon&gt;:11:15: 11:20 error: use of moved value: `rover`
+</span><span>&lt;anon&gt;:11     play_with(rover, fetch);
+</span><span>                        ^~~~~
+</span><span>&lt;anon&gt;:9:14: 9:19 note: `rover` moved here because it has type `Dog`, which is non-copyable
+</span><span>&lt;anon&gt;:9     walk_dog(rover);
+</span><span>                      ^~~~~
 </span></code></pre>
 <p>Here the compiler is telling us that <code>rover</code> was <em>moved</em> when we passed it into <code>walk_dog()</code>. That's because <code>fn walk_dog(dog: Dog) {}</code> accepts a <code>Dog</code> value and we haven't tell the compiler they are copyable! Values with <code>Copy</code> are implictly copied when passed to functions. You can make something <code>Copy</code> by adding <code>#[derive(Copy)]</code> above the declaration.</p>
 <p><strong>We're going to keep <code>Dog</code> not copyable because, gosh darnit, you can't copy dogs.</strong> So how do we fix this?</p>
@@ -256,59 +249,54 @@ This article assumes some knowledge of Rust, glossing over a bit of the book sho
 </blockquote>
 <p>Instead of moving our <code>Dog</code> into the <code>walk_dog()</code> function we really just want to <em>lend</em> the function our <code>Dog</code>. When you walk your dog it (generally) ends up coming back to the house with you, right?</p>
 <p>Rust uses <code>&amp;</code> to symbolize a borrow. Borrowing something tells the compiler that when the function is done the ownership of the value returns back to the caller.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">Dog) {}
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">play_with</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">Dog, </span><span style="color:#ffcc66;">game</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Game) {}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span>(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span>Dog) {}
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">play_with</span><span>(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span>Dog, </span><span style="color:#ffcc66;">game</span><span style="color:#ccc9c2cc;">:</span><span> Game) {}
 </span></code></pre>
 <p>There are immutable borrows as well as mutable borrows (<code>&amp;mut</code>). You can have an immutable borrow passed to any number of things at once, and a mutable borrow only passed to one thing at a time. This provides data safety.</p>
 <p>So our new borrowing functions don't really cut it, do they? We can't even mutate the <code>Dog</code>! Let's try anyways to see the error message.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span style="color:#ccc9c2;">{
-    walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">Dog) {
-    dog</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">walk_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">rover)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">assert_eq!</span><span style="color:#ccc9c2;">(rover</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span>{
+</span><span>    walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_dog</span><span>(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span>Dog) {
+</span><span>    dog</span><span style="color:#f29e74;">.</span><span>walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> rover </span><span style="color:#f29e74;">=</span><span> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span>}</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">walk_dog</span><span>(</span><span style="color:#f29e74;">&amp;</span><span>rover)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">assert_eq!</span><span>(rover</span><span style="color:#f29e74;">.</span><span>walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>As we expected:</p>
-<pre style="background-color:#212733;">
-<code><span style="color:#ccc9c2;">&lt;anon&gt;:6:5: 6:22 error: cannot assign to immutable field `dog.walked`
-&lt;anon&gt;:6     dog.walked = true;
-             ^~~~~~~~~~~~~~~~~
-error: aborting due to previous error
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>&lt;anon&gt;:6:5: 6:22 error: cannot assign to immutable field `dog.walked`
+</span><span>&lt;anon&gt;:6     dog.walked = true;
+</span><span>             ^~~~~~~~~~~~~~~~~
+</span><span>error: aborting due to previous error
 </span></code></pre>
 <p>Changing the function signature to <code>fn walk_dog(dog: &amp;mut Dog) {}</code> and updating our <code>main()</code> we can solve this.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">walk_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> rover)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">assert_eq!</span><span style="color:#ccc9c2;">(rover</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let mut</span><span> rover </span><span style="color:#f29e74;">=</span><span> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span>}</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">walk_dog</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> rover)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">assert_eq!</span><span>(rover</span><span style="color:#f29e74;">.</span><span>walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>As you can see, the function signature tells the programmer <em>if a value is mutable</em> and <em>if the value is consumed or referenced</em>.</p>
 <h1 id="returning">Returning</h1>
 <p>Let's revisit exactly <em>how</em> we get Rover, because thats how we can explore return types! Let's say we want a function <code>adopt_dog()</code> which takes a name and gives us a <code>Dog</code>.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span style="color:#ccc9c2;">{
-    name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String,
-    walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span style="color:#ccc9c2;">,
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">adopt_dog</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String) </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> Dog {
-    Dog { name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> name</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span style="color:#ccc9c2;">}
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">adopt_dog</span><span style="color:#ccc9c2;">(</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(</span><span style="color:#bae67e;">&quot;Rover&quot;</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">assert_eq!</span><span style="color:#ccc9c2;">(rover</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">name</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Rover&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span>{
+</span><span>    name</span><span style="color:#ccc9c2cc;">:</span><span> String,
+</span><span>    walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">adopt_dog</span><span>(</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">:</span><span> String) </span><span style="color:#ccc9c2cc;">-&gt;</span><span> Dog {
+</span><span>    Dog { name</span><span style="color:#ccc9c2cc;">:</span><span> name</span><span style="color:#ccc9c2cc;">,</span><span> walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span>}
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> rover </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">adopt_dog</span><span>(</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#f29e74;">::</span><span>from(</span><span style="color:#bae67e;">&quot;Rover&quot;</span><span>))</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">assert_eq!</span><span>(rover</span><span style="color:#f29e74;">.</span><span>name</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Rover&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>So the <code>-&gt; Dog</code> part of the function signature tells us that the function returns a <code>Dog</code>. Note that the <code>name</code> is <em>moved</em> in and given to the dog, not copied or cloned.</p>
 <h1 id="inside-traits">Inside Traits</h1>
@@ -318,74 +306,71 @@ error: aborting due to previous error
 <li>The <code>self</code> parameter which specifies the borrowing/moving/mutability of the structure instance. In <code>walk()</code> below we take a mutable borrow, a bare <code>self</code> moves the value.</li>
 </ul>
 <p>An example:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// ... `Dog` struct from before.
-</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">Dog </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">adopt</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span style="color:#ccc9c2;">{
-        Dog { name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> name</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span style="color:#ccc9c2;">}
-    }
-    </span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">walk</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) {
-        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true
-    </span><span style="color:#ccc9c2;">}
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Dog</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">adopt(</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from(</span><span style="color:#bae67e;">&quot;Rover&quot;</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">assert_eq!</span><span style="color:#ccc9c2;">(rover</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">name</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Rover&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    rover</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">assert_eq!</span><span style="color:#ccc9c2;">(rover</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-</span></code></pre><h1 id="generics">Generics</h1>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// ... `Dog` struct from before.
+</span><span style="color:#ffa759;">impl </span><span style="color:#73d0ff;">Dog </span><span>{
+</span><span>    </span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">adopt</span><span>(</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">:</span><span> String) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">Self </span><span>{
+</span><span>        Dog { name</span><span style="color:#ccc9c2cc;">:</span><span> name</span><span style="color:#ccc9c2cc;">,</span><span> walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false </span><span>}
+</span><span>    }
+</span><span>    </span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">walk</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span>) {
+</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span>walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let mut</span><span> rover </span><span style="color:#f29e74;">= </span><span>Dog</span><span style="color:#f29e74;">::</span><span>adopt(</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#f29e74;">::</span><span>from(</span><span style="color:#bae67e;">&quot;Rover&quot;</span><span>))</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">assert_eq!</span><span>(rover</span><span style="color:#f29e74;">.</span><span>name</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Rover&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    rover</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">assert_eq!</span><span>(rover</span><span style="color:#f29e74;">.</span><span>walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span></code></pre>
+<h1 id="generics">Generics</h1>
 <p>Let's face it, there are a lot of different kinds of dogs! But moreso, there are a lot of types of animals! Some of these we might want to walk too, like our <code>Bear</code>.</p>
 <p>Generics let us do this. We can have a <code>Dog</code> and <code>Bear</code> struct that implement the <code>Walk</code> trait, then have a <code>walk_pet()</code> function accept any <code>Walk</code> traited structure!</p>
 <p>Generics are specified to functions in between the name and the parameters using sharp brackets. The important thing to note about generics is when you're accepting a generic <em>you may only use the functions from the constraints</em>. This means that if you pass a <code>Read</code> to a function that wants <code>Write</code>, it still can't <code>Read</code> in it unless the constraints include it.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span style="color:#ccc9c2;">{ walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span style="color:#ccc9c2;">, }
-</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Bear </span><span style="color:#ccc9c2;">{ walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span style="color:#ccc9c2;">, }
-
-</span><span style="color:#ffa759;">trait </span><span style="color:#73d0ff;">Walk </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-</span><span style="color:#ffa759;">impl </span><span style="color:#ccc9c2;">Walk </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Dog </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) {
-        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true
-    </span><span style="color:#ccc9c2;">}
-}
-</span><span style="color:#ffa759;">impl </span><span style="color:#ccc9c2;">Walk </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Bear </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) {
-        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true
-    </span><span style="color:#ccc9c2;">}
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_pet</span><span style="color:#ccc9c2;">&lt;W</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Walk&gt;(</span><span style="color:#ffcc66;">pet</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> W) {
-    </span><span style="font-style:italic;color:#5c6773;">// Try setting `pet.walked` here!
-    // You can&#39;t!
-</span><span style="color:#ccc9c2;">    pet</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_pet_2</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">pet</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> Walk) {
-    </span><span style="font-style:italic;color:#5c6773;">// Try setting `pet.walked` here!
-    // You can&#39;t!
-</span><span style="color:#ccc9c2;">    pet</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">walk_pet</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> rover)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">assert_eq!</span><span style="color:#ccc9c2;">(rover</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span>{ walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span>, }
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Bear </span><span>{ walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool</span><span>, }
+</span><span>
+</span><span style="color:#ffa759;">trait </span><span style="color:#73d0ff;">Walk </span><span>{
+</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span style="color:#ffa759;">impl </span><span>Walk </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Dog </span><span>{
+</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span>) {
+</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span>walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true
+</span><span>    }
+</span><span>}
+</span><span style="color:#ffa759;">impl </span><span>Walk </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Bear </span><span>{
+</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span>) {
+</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span>walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_pet</span><span>&lt;W</span><span style="color:#ccc9c2cc;">:</span><span> Walk&gt;(</span><span style="color:#ffcc66;">pet</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> W) {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Try setting `pet.walked` here!
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// You can&#39;t!
+</span><span>    pet</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_pet_2</span><span>(</span><span style="color:#ffcc66;">pet</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> Walk) {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Try setting `pet.walked` here!
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// You can&#39;t!
+</span><span>    pet</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let mut</span><span> rover </span><span style="color:#f29e74;">=</span><span> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">, </span><span>}</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">walk_pet</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> rover)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">assert_eq!</span><span>(rover</span><span style="color:#f29e74;">.</span><span>walked</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">true</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>You can also use a different <code>where</code> syntax as function signatures with complex generics can get rather long.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_pet</span><span style="color:#ccc9c2;">&lt;W&gt;(</span><span style="color:#ffcc66;">pet</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> W)
-</span><span style="color:#ffa759;">where</span><span style="color:#ccc9c2;"> W</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Walk {
-    pet</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk_pet</span><span>&lt;W&gt;(</span><span style="color:#ffcc66;">pet</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> W)
+</span><span style="color:#ffa759;">where</span><span> W</span><span style="color:#ccc9c2cc;">:</span><span> Walk {
+</span><span>    pet</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">walk</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>If you have multiple generics you can comma seperate them in both cases. If you'd like more than one trait contraint you can use <code>where W: Walk + Read</code> or <code>&lt;W: Walk + Read&gt;</code>.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">stuff</span><span style="color:#ccc9c2;">&lt;R, W&gt;(</span><span style="color:#ffcc66;">r</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">R, </span><span style="color:#ffcc66;">w</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> W)
-</span><span style="color:#ffa759;">where</span><span style="color:#ccc9c2;"> W</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Write, R</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Read + Clone {}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">stuff</span><span>&lt;R, W&gt;(</span><span style="color:#ffcc66;">r</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span>R, </span><span style="color:#ffcc66;">w</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> W)
+</span><span style="color:#ffa759;">where</span><span> W</span><span style="color:#ccc9c2cc;">:</span><span> Write, R</span><span style="color:#ccc9c2cc;">:</span><span> Read + Clone {}
 </span></code></pre>
 <p>Look at all of the information you can derive from that function signature! It's not helpfully named but you can still tell <em>almost for sure</em> what it does!</p>
 <p>There are also these crazy things called <strong>Associated Types</strong> which are used in stuff like <code>Iterator</code>. When being written in a signature you want to use something like <code>Iterator&lt;Item=Dog&gt;</code> to say an iterator of <code>Dog</code>s.</p>
@@ -394,27 +379,26 @@ error: aborting due to previous error
 <blockquote>
 <p>You should definitely use the <code>where</code> syntax here.</p>
 </blockquote>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span style="color:#ccc9c2;">{
-    walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">do_with</span><span style="color:#ccc9c2;">&lt;F&gt;(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> Dog, </span><span style="color:#ffcc66;">action</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> F)
-</span><span style="color:#ffa759;">where</span><span style="color:#ccc9c2;"> F</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Fn(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> Dog) {
-    </span><span style="color:#f28779;">action</span><span style="color:#ccc9c2;">(dog)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> Dog) {
-    dog</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> rover </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-    </span><span style="font-style:italic;color:#5c6773;">// Fn
-    </span><span style="color:#f28779;">do_with</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> rover</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> walk)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="font-style:italic;color:#5c6773;">// Closure
-    </span><span style="color:#f28779;">do_with</span><span style="color:#ccc9c2;">(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span style="color:#ccc9c2;"> rover</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">|</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2;">| dog</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Dog </span><span>{
+</span><span>    walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">bool
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">do_with</span><span>&lt;F&gt;(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> Dog, </span><span style="color:#ffcc66;">action</span><span style="color:#ccc9c2cc;">:</span><span> F)
+</span><span style="color:#ffa759;">where</span><span> F</span><span style="color:#ccc9c2cc;">:</span><span> Fn(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> Dog) {
+</span><span>    </span><span style="color:#f28779;">action</span><span>(dog)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">walk</span><span>(</span><span style="color:#ffcc66;">dog</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> Dog) {
+</span><span>    dog</span><span style="color:#f29e74;">.</span><span>walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let mut</span><span> rover </span><span style="color:#f29e74;">=</span><span> Dog { walked</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">, </span><span>}</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Fn
+</span><span>    </span><span style="color:#f28779;">do_with</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> rover</span><span style="color:#ccc9c2cc;">,</span><span> walk)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Closure
+</span><span>    </span><span style="color:#f28779;">do_with</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> rover</span><span style="color:#ccc9c2cc;">, </span><span>|</span><span style="color:#ffcc66;">dog</span><span>| dog</span><span style="color:#f29e74;">.</span><span>walked </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Functions in Rust implement traits which determine where (and how) they are passed:</p>
 <ul>
@@ -444,8 +428,7 @@ error: aborting due to previous error
 <p>Modern Rust has a really robust and effective <em>lifetime ellision</em> which removes the vast majority of lifetime gymnastics we used to need to concern ourselves with. But <em>when</em> you do things can start to untangle.</p>
 <p>So, if you start dealing with a lot of lifetimes, your first step should really be to <strong>sit back and think about it</strong>. Unless your code is quite complex it's quite likely you won't need to deal with lifetimes. If you're bumping into lifetimes in a simple example your notion of the problem is probably <strong>incorrect</strong>.</p>
 <p>Here is a function with lifetimes from <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.as_slice"><code>Option</code>'s implementation</a>.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ccc9c2;">as_slice&lt;</span><span style="color:#ffa759;">&#39;a</span><span style="color:#ccc9c2;">&gt;(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">&#39;a </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">&#39;a </span><span style="color:#ccc9c2;">[T]
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>as_slice&lt;</span><span style="color:#ffa759;">&#39;a</span><span>&gt;(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">&#39;a </span><span style="font-style:italic;color:#5ccfe6;">self</span><span>) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">&#39;a </span><span>[T]
 </span></code></pre>
 <p>Lifetimes are denoted by the tick (<code>'</code>) and given a name. In this case, <code>'a</code> but they can also be things like <code>'burrito</code> if you prefer inside jokes. Essentially what this is saying is:</p>
 <blockquote>
@@ -454,31 +437,26 @@ error: aborting due to previous error
 <p>Great! I'm really not qualified to write anymore about lifetimes but if you have anything to add let me know and I'll credit you for sure.</p>
 <h1 id="challenge-time">Challenge Time</h1>
 <p>Below, you'll find a set of functions pulled from the standard library along with links to their documentation. Can you tell from their function signature what they do? (For added fun, I've removed the function name!)</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `File`
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span style="color:#ccc9c2;">&lt;P</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">AsRef</span><span style="color:#ccc9c2;">&lt;Path&gt;&gt;(</span><span style="color:#ffcc66;">path</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> P) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;File&gt;
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `File`
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span>&lt;P</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">AsRef</span><span>&lt;Path&gt;&gt;(</span><span style="color:#ffcc66;">path</span><span style="color:#ccc9c2cc;">:</span><span> P) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span>&lt;File&gt;
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/stable/std/fs/struct.File.html#method.create">Source</a></p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Option&lt;T&gt;`
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span style="color:#ccc9c2;">&lt;E, T&gt;(</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">err</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> E) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;T, E&gt;
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Option&lt;T&gt;`
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span>&lt;E, T&gt;(</span><span style="color:#ffcc66;">self</span><span>, </span><span style="color:#ffcc66;">err</span><span style="color:#ccc9c2cc;">:</span><span> E) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span>&lt;T, E&gt;
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/stable/core/option/enum.Option.html#method.ok_or">Source</a></p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Iterator&lt;Item=T&gt;`
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span style="color:#ccc9c2;">&lt;B</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">FromIterator&lt;</span><span style="color:#ffa759;">Self</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Item&gt;&gt;(</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">) </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> B
-</span><span style="color:#ffa759;">where Self</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Sized
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Iterator&lt;Item=T&gt;`
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span>&lt;B</span><span style="color:#ccc9c2cc;">: </span><span>FromIterator&lt;</span><span style="color:#ffa759;">Self</span><span style="color:#f29e74;">::</span><span>Item&gt;&gt;(</span><span style="color:#ffcc66;">self</span><span>) </span><span style="color:#ccc9c2cc;">-&gt;</span><span> B
+</span><span style="color:#ffa759;">where Self</span><span style="color:#ccc9c2cc;">:</span><span> Sized
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.collect">Source</a></p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Iterator&lt;Item=T&gt;`
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span style="color:#ccc9c2;">&lt;B, F&gt;(</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">init</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> B, </span><span style="color:#ffcc66;">f</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> F) </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> B
-</span><span style="color:#ffa759;">where Self</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Sized, F</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> FnMut(B, </span><span style="color:#ffa759;">Self</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Item) -&gt; B
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Iterator&lt;Item=T&gt;`
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span>&lt;B, F&gt;(</span><span style="color:#ffcc66;">self</span><span>, </span><span style="color:#ffcc66;">init</span><span style="color:#ccc9c2cc;">:</span><span> B, </span><span style="color:#ffcc66;">f</span><span style="color:#ccc9c2cc;">:</span><span> F) </span><span style="color:#ccc9c2cc;">-&gt;</span><span> B
+</span><span style="color:#ffa759;">where Self</span><span style="color:#ccc9c2cc;">:</span><span> Sized, F</span><span style="color:#ccc9c2cc;">:</span><span> FnMut(B, </span><span style="color:#ffa759;">Self</span><span style="color:#f29e74;">::</span><span>Item) -&gt; B
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/stable/core/iter/trait.Iterator.html#method.fold">Source</a></p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Result&lt;T,E&gt;`
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span style="color:#ccc9c2;">&lt;F, O</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">FnOnce</span><span style="color:#ccc9c2;">(E) </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> F&gt;(</span><span style="color:#ffcc66;">self</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">op</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> O) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span style="color:#ccc9c2;">&lt;T, F&gt;
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">// In `Result&lt;T,E&gt;`
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">name</span><span>&lt;F, O</span><span style="color:#ccc9c2cc;">: </span><span style="font-style:italic;color:#5ccfe6;">FnOnce</span><span>(E) </span><span style="color:#ccc9c2cc;">-&gt;</span><span> F&gt;(</span><span style="color:#ffcc66;">self</span><span>, </span><span style="color:#ffcc66;">op</span><span style="color:#ccc9c2cc;">:</span><span> O) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span>&lt;T, F&gt;
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/stable/core/result/enum.Result.html#method.map_err">Source</a></p>
 <p>I hope that went <strong>fantastically</strong>, I was just over here cheering you on!</p>
@@ -488,8 +466,8 @@ error: aborting due to previous error
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

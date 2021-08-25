@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ With systemd, daemon configuration is handled by .toml configuration files. With
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ With systemd, daemon configuration is handled by .toml configuration files. With
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -156,70 +156,68 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>systemd stores service files in <code>/etc/systemd/system/</code> (user-provided) or <code>/usr/lib/systemd/system/</code> (package-provided). <code>.service</code> files are used to declare configuration.</p>
 <p>OpenRC stores scripts in <code>/etc/init.d/</code>, the scripts are typically standalone, configuration does not require multiple separate files.</p>
 <p>Here is the contents of <code>/etc/systemd/system/sshd.service</code> on a Fedora 20 system:</p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">Unit</span><span style="color:#ccc9c2;">]
-</span><span style="color:#73d0ff;">Description</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">OpenSSH server daemon
-</span><span style="color:#73d0ff;">After</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">syslog.target network.target auditd.service
-
-</span><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">Service</span><span style="color:#ccc9c2;">]
-</span><span style="color:#73d0ff;">EnvironmentFile</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">/etc/sysconfig/sshd
-</span><span style="color:#73d0ff;">ExecStartPre</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">/usr/sbin/sshd-keygen
-</span><span style="color:#73d0ff;">ExecStart</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">/usr/sbin/sshd -D $OPTIONS
-</span><span style="color:#73d0ff;">ExecReload</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">/bin/kill -HUP $MAINPID
-</span><span style="color:#73d0ff;">KillMode</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">process
-</span><span style="color:#73d0ff;">Restart</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">on-failure
-</span><span style="color:#73d0ff;">RestartSec</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">42s
-
-</span><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">Install</span><span style="color:#ccc9c2;">]
-</span><span style="color:#73d0ff;">WantedBy</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">multi-user.target
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Unit</span><span>]
+</span><span style="color:#73d0ff;">Description</span><span>=</span><span style="color:#ff3333;">OpenSSH server daemon
+</span><span style="color:#73d0ff;">After</span><span>=</span><span style="color:#ff3333;">syslog.target network.target auditd.service
+</span><span>
+</span><span>[</span><span style="color:#73d0ff;">Service</span><span>]
+</span><span style="color:#73d0ff;">EnvironmentFile</span><span>=</span><span style="color:#ff3333;">/etc/sysconfig/sshd
+</span><span style="color:#73d0ff;">ExecStartPre</span><span>=</span><span style="color:#ff3333;">/usr/sbin/sshd-keygen
+</span><span style="color:#73d0ff;">ExecStart</span><span>=</span><span style="color:#ff3333;">/usr/sbin/sshd -D $OPTIONS
+</span><span style="color:#73d0ff;">ExecReload</span><span>=</span><span style="color:#ff3333;">/bin/kill -HUP $MAINPID
+</span><span style="color:#73d0ff;">KillMode</span><span>=</span><span style="color:#ff3333;">process
+</span><span style="color:#73d0ff;">Restart</span><span>=</span><span style="color:#ff3333;">on-failure
+</span><span style="color:#73d0ff;">RestartSec</span><span>=</span><span style="color:#ff3333;">42s
+</span><span>
+</span><span>[</span><span style="color:#73d0ff;">Install</span><span>]
+</span><span style="color:#73d0ff;">WantedBy</span><span>=</span><span style="color:#ff3333;">multi-user.target
 </span></code></pre>
 <p>For comparison, this is an excerpt of <code>/etc/init.d/sshd</code> on Funtoo Linux, not the entire file:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">depend</span><span style="color:#ccc9c2;">() {
-  </span><span style="color:#ffd580;">use</span><span style="color:#ccc9c2;"> logger dns
-  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{rc_need</span><span style="color:#f29e74;">+</span><span style="color:#bae67e;">set</span><span style="color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;set&quot; </span><span style="color:#f28779;">]</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
-    </span><span style="color:#f28779;">: </span><span style="font-style:italic;color:#5c6773;"># Do nothing, the user has explicitly set rc_need
-</span><span style="color:#ccc9c2;">  else
-    warn_addr</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&#39;
-    </span><span style="color:#ffa759;">for</span><span style="color:#ccc9c2;"> x </span><span style="color:#ffa759;">in </span><span style="color:#ccc9c2;">$(</span><span style="color:#ffd580;">awk </span><span style="color:#bae67e;">&#39;/^ListenAddress/{ print $2 }&#39; &quot;$</span><span style="color:#ccc9c2;">SSHD_CONFIG</span><span style="color:#bae67e;">&quot; </span><span style="color:#ffcc66;">2</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;">/dev/null) </span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">do
-      case </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">x</span><span style="color:#bae67e;">&quot; </span><span style="color:#ffa759;">in
-        </span><span style="color:#ccc9c2;">0.0.0.0</span><span style="color:#f29e74;">|</span><span style="color:#ccc9c2;">0.0.0.0:</span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2cc;">;;
-        </span><span style="color:#ccc9c2;">::</span><span style="color:#f29e74;">|</span><span style="color:#95e6cb;">\[</span><span style="color:#ccc9c2;">::</span><span style="color:#95e6cb;">\]</span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2cc;">;;
-        </span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2;">warn_addr</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{warn_addr} </span><span style="color:#bae67e;">$</span><span style="color:#ccc9c2;">x</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">;;
-      </span><span style="color:#ffa759;">esac
-    done
-    </span><span style="color:#f28779;">unset</span><span style="color:#ccc9c2;"> x
-    </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{warn_addr</span><span style="color:#f29e74;">:+</span><span style="color:#bae67e;">set</span><span style="color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;set&quot; </span><span style="color:#f28779;">]</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
-      </span><span style="color:#ffd580;">need</span><span style="color:#ccc9c2;"> net
-      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;You are binding an interface in ListenAddress statement in your sshd_config!&quot;
-      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;You must add rc_need=</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#bae67e;">net.FOO</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#bae67e;"> to your /etc/conf.d/sshd&quot;
-      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;where FOO is the interface(s) providing the following address(es):&quot;
-      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{warn_addr}</span><span style="color:#bae67e;">&quot;
-    </span><span style="color:#ffa759;">fi
-    </span><span style="color:#f28779;">unset</span><span style="color:#ccc9c2;"> warn_addr
-  </span><span style="color:#ffa759;">fi
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffd580;">start</span><span style="color:#ccc9c2;">() {
-  </span><span style="color:#ffd580;">checkconfig </span><span style="color:#f29e74;">|| </span><span style="color:#ffa759;">return</span><span style="color:#ccc9c2;"> 1
-
-  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Starting $</span><span style="color:#ccc9c2;">{SVCNAME}</span><span style="color:#bae67e;">&quot;
-  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --start --exec </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{SSHD_BINARY}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">      --pidfile </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{SSHD_PIDFILE}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#f29e74;">      -- </span><span style="color:#ccc9c2;">${SSHD_OPTS}
-  </span><span style="color:#ffd580;">eend </span><span style="color:#ccc9c2;">$</span><span style="font-style:italic;color:#5ccfe6;">?
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffd580;">stop</span><span style="color:#ccc9c2;">() {
-  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{RC_CMD}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;restart&quot; </span><span style="color:#f28779;">] </span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
-    </span><span style="color:#ffd580;">checkconfig </span><span style="color:#f29e74;">|| </span><span style="color:#ffa759;">return</span><span style="color:#ccc9c2;"> 1
-  </span><span style="color:#ffa759;">fi
-
-  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Stopping $</span><span style="color:#ccc9c2;">{SVCNAME}</span><span style="color:#bae67e;">&quot;
-  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --stop --exec </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{SSHD_BINARY}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">      --pidfile </span><span style="color:#bae67e;">&quot;$</span><span style="color:#ccc9c2;">{SSHD_PIDFILE}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;"> --quiet
-  </span><span style="color:#ffd580;">eend </span><span style="color:#ccc9c2;">$</span><span style="font-style:italic;color:#5ccfe6;">?
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">depend</span><span>() {
+</span><span>  </span><span style="color:#ffd580;">use</span><span> logger dns
+</span><span>  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span>{rc_need</span><span style="color:#f29e74;">+</span><span style="color:#bae67e;">set</span><span>}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;set&quot; </span><span style="color:#f28779;">]</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
+</span><span>    </span><span style="color:#f28779;">: </span><span style="font-style:italic;color:#5c6773;"># Do nothing, the user has explicitly set rc_need
+</span><span>  </span><span style="color:#ffa759;">else
+</span><span>    warn_addr</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&#39;
+</span><span>    </span><span style="color:#ffa759;">for</span><span> x </span><span style="color:#ffa759;">in </span><span>$(</span><span style="color:#ffd580;">awk </span><span style="color:#bae67e;">&#39;/^ListenAddress/{ print $2 }&#39; &quot;$</span><span>SSHD_CONFIG</span><span style="color:#bae67e;">&quot; </span><span style="color:#ffcc66;">2</span><span style="color:#f29e74;">&gt;</span><span>/dev/null) </span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">do
+</span><span>      </span><span style="color:#ffa759;">case </span><span style="color:#bae67e;">&quot;$</span><span>x</span><span style="color:#bae67e;">&quot; </span><span style="color:#ffa759;">in
+</span><span>        0.0.0.0</span><span style="color:#f29e74;">|</span><span>0.0.0.0:</span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2cc;">;;
+</span><span>        ::</span><span style="color:#f29e74;">|</span><span style="color:#95e6cb;">\[</span><span>::</span><span style="color:#95e6cb;">\]</span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2cc;">;;
+</span><span>        </span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span>warn_addr</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;$</span><span>{warn_addr} </span><span style="color:#bae67e;">$</span><span>x</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">;;
+</span><span>      </span><span style="color:#ffa759;">esac
+</span><span>    </span><span style="color:#ffa759;">done
+</span><span>    </span><span style="color:#f28779;">unset</span><span> x
+</span><span>    </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span>{warn_addr</span><span style="color:#f29e74;">:+</span><span style="color:#bae67e;">set</span><span>}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;set&quot; </span><span style="color:#f28779;">]</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
+</span><span>      </span><span style="color:#ffd580;">need</span><span> net
+</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;You are binding an interface in ListenAddress statement in your sshd_config!&quot;
+</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;You must add rc_need=</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#bae67e;">net.FOO</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#bae67e;"> to your /etc/conf.d/sshd&quot;
+</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;where FOO is the interface(s) providing the following address(es):&quot;
+</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;$</span><span>{warn_addr}</span><span style="color:#bae67e;">&quot;
+</span><span>    </span><span style="color:#ffa759;">fi
+</span><span>    </span><span style="color:#f28779;">unset</span><span> warn_addr
+</span><span>  </span><span style="color:#ffa759;">fi
+</span><span>}
+</span><span>
+</span><span style="color:#ffd580;">start</span><span>() {
+</span><span>  </span><span style="color:#ffd580;">checkconfig </span><span style="color:#f29e74;">|| </span><span style="color:#ffa759;">return</span><span> 1
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Starting $</span><span>{SVCNAME}</span><span style="color:#bae67e;">&quot;
+</span><span>  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --start --exec </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_BINARY}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">      --pidfile </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_PIDFILE}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#f29e74;">      -- </span><span>${SSHD_OPTS}
+</span><span>  </span><span style="color:#ffd580;">eend </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">?
+</span><span>}
+</span><span>
+</span><span style="color:#ffd580;">stop</span><span>() {
+</span><span>  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span>{RC_CMD}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;restart&quot; </span><span style="color:#f28779;">] </span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
+</span><span>    </span><span style="color:#ffd580;">checkconfig </span><span style="color:#f29e74;">|| </span><span style="color:#ffa759;">return</span><span> 1
+</span><span>  </span><span style="color:#ffa759;">fi
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Stopping $</span><span>{SVCNAME}</span><span style="color:#bae67e;">&quot;
+</span><span>  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --stop --exec </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_BINARY}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
+</span><span style="color:#ffcc66;">      --pidfile </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_PIDFILE}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;"> --quiet
+</span><span>  </span><span style="color:#ffd580;">eend </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">?
+</span><span>}
 </span></code></pre>
 <p>An important distinction to note is that while systemd's configuration is <strong>declarative</strong>, OpenRC's configuration is <strong>programmatic</strong>. The decision to use a declarative method was explained in <a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd.html">this</a> article under the &quot;Keeping the First User PID Small&quot; heading.</p>
 <blockquote>
@@ -230,29 +228,26 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <h2 id="dependencies">Dependencies</h2>
 <p>In systemd dependencies are handled via the declarations <code>Wants</code>, <code>Requires</code>, and <code>After</code> in the <code>[Unit]</code> section of the <code>.service</code>. For more info visit <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/systemd#Handling_dependencies">Arch Linux's SystemD Dependencies Section</a>. For example:</p>
 <p><strong>/etc/systemd/system/A.service</strong></p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">Unit</span><span style="color:#ccc9c2;">]
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Unit</span><span>]
 </span><span style="font-style:italic;color:#5c6773;"># Optionally depends on `C` and `D`.
-</span><span style="color:#73d0ff;">Wants</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">C.service D.service
+</span><span style="color:#73d0ff;">Wants</span><span>=</span><span style="color:#ff3333;">C.service D.service
 </span><span style="font-style:italic;color:#5c6773;"># Start after `D`, but concurrently with `C`
-</span><span style="color:#73d0ff;">After</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">D.service
+</span><span style="color:#73d0ff;">After</span><span>=</span><span style="color:#ff3333;">D.service
 </span></code></pre>
 <p><strong>/etc/systemd/system/B.service</strong></p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">Unit</span><span style="color:#ccc9c2;">]
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Unit</span><span>]
 </span><span style="font-style:italic;color:#5c6773;"># Strictly depend on A and Networking.
-</span><span style="color:#73d0ff;">Requires</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">A.service Networking.target
+</span><span style="color:#73d0ff;">Requires</span><span>=</span><span style="color:#ff3333;">A.service Networking.target
 </span><span style="font-style:italic;color:#5c6773;"># Start after `A`, but concurrently with `Networking`
-</span><span style="color:#73d0ff;">After</span><span style="color:#ccc9c2;">=</span><span style="color:#ff3333;">A.service
+</span><span style="color:#73d0ff;">After</span><span>=</span><span style="color:#ff3333;">A.service
 </span></code></pre>
 <p>It's rather fascinating that <code>Requires</code> and <code>Wants</code> do not imply <code>After</code> for their specified services. It does make sense though, many services do not immediately require their attached services.</p>
 <p>For OpenRC, dependencies are handled by the <code>depend</code> function of the script. For more info visit <a rel="noopener" target="_blank" href="http://www.funtoo.org/Package:OpenRC">The Funtoo OpenRC Page</a>.</p>
 <p><strong>/etc/init.d/nginx</strong></p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">depend</span><span style="color:#ccc9c2;">() {
-	</span><span style="color:#ffd580;">need</span><span style="color:#ccc9c2;"> net
-	</span><span style="color:#ffd580;">use</span><span style="color:#ccc9c2;"> dns logger netmount
-}
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">depend</span><span>() {
+</span><span>	</span><span style="color:#ffd580;">need</span><span> net
+</span><span>	</span><span style="color:#ffd580;">use</span><span> dns logger netmount
+</span><span>}
 </span></code></pre>
 <p>There are five options:</p>
 <ul>
@@ -275,63 +270,61 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 </blockquote>
 <p>Here we can see the origin of the <code>${SSHD_OPTS}</code> from the earlier example of <code>/etc/init.d/sshd</code>:</p>
 <p><strong>/etc/conf.d/sshd</strong>:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># /etc/conf.d/sshd: config file for /etc/init.d/sshd
-# Where is your sshd_config file stored?
-</span><span style="color:#ccc9c2;">SSHD_CONFDIR</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;/etc/ssh&quot;
-
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># /etc/conf.d/sshd: config file for /etc/init.d/sshd
+</span><span style="font-style:italic;color:#5c6773;"># Where is your sshd_config file stored?
+</span><span>SSHD_CONFDIR</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;/etc/ssh&quot;
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Any random options you want to pass to sshd.
-# See the sshd(8) manpage for more info.
-</span><span style="color:#ccc9c2;">SSHD_OPTS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;&quot;
-
+</span><span style="font-style:italic;color:#5c6773;"># See the sshd(8) manpage for more info.
+</span><span>SSHD_OPTS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;&quot;
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Pid file to use (needs to be absolute path).
-#SSHD_PIDFILE=&quot;/var/run/sshd.pid&quot;
-
-
-# Path to the sshd binary (needs to be absolute path).
-#SSHD_BINARY=&quot;/usr/sbin/sshd&quot;
-</span></code></pre><h1 id="configuring-init-itself">Configuring Init Itself</h1>
+</span><span style="font-style:italic;color:#5c6773;">#SSHD_PIDFILE=&quot;/var/run/sshd.pid&quot;
+</span><span>
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Path to the sshd binary (needs to be absolute path).
+</span><span style="font-style:italic;color:#5c6773;">#SSHD_BINARY=&quot;/usr/sbin/sshd&quot;
+</span></code></pre>
+<h1 id="configuring-init-itself">Configuring Init Itself</h1>
 <p>OpenRC is configured the same way as most traditional Linux/BSD services are configured. The default configuration on Funtoo is well commented and usually self-explanatory, even including gotchas in their notes. There are a few knobs to tweak based on user preferences.</p>
 <p><strong>/etc/rc.conf</strong>:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Set to &quot;YES&quot; if you want the rc system to try and start services
-# in parallel for a slight speed improvement. When running in parallel we
-# prefix the service output with its name as the output will get
-# jumbled up.
-# WARNING: whilst we have improved parallel, it can still potentially lock
-# the boot process. Don&#39;t file bugs about this unless you can supply
-# patches that fix it without breaking other things!
-</span><span style="color:#ccc9c2;">rc_parallel</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;YES&quot;
-
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Set to &quot;YES&quot; if you want the rc system to try and start services
+</span><span style="font-style:italic;color:#5c6773;"># in parallel for a slight speed improvement. When running in parallel we
+</span><span style="font-style:italic;color:#5c6773;"># prefix the service output with its name as the output will get
+</span><span style="font-style:italic;color:#5c6773;"># jumbled up.
+</span><span style="font-style:italic;color:#5c6773;"># WARNING: whilst we have improved parallel, it can still potentially lock
+</span><span style="font-style:italic;color:#5c6773;"># the boot process. Don&#39;t file bugs about this unless you can supply
+</span><span style="font-style:italic;color:#5c6773;"># patches that fix it without breaking other things!
+</span><span>rc_parallel</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;YES&quot;
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># rc_logger launches a logging daemon to log the entire rc process to
-# /var/log/rc.log
-# NOTE: Linux systems require the devfs service to be started before
-# logging can take place and as such cannot log the sysinit runlevel.
-</span><span style="color:#ccc9c2;">rc_logger</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;YES&quot;
+</span><span style="font-style:italic;color:#5c6773;"># /var/log/rc.log
+</span><span style="font-style:italic;color:#5c6773;"># NOTE: Linux systems require the devfs service to be started before
+</span><span style="font-style:italic;color:#5c6773;"># logging can take place and as such cannot log the sysinit runlevel.
+</span><span>rc_logger</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;YES&quot;
 </span></code></pre>
 <p>systemd's configuration is similarly accessible in <code>/etc/systemd/*.conf</code>, from there it's possible to set things like the default CPU limits for processes and other things.</p>
 <p><strong>/etc/systemd/system.conf</strong>:</p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">Manager</span><span style="color:#ccc9c2;">]
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Manager</span><span>]
 </span><span style="font-style:italic;color:#5c6773;">#CPUAffinity=1 2
-#DefaultStandardOutput=journal
-#DefaultStandardError=inherit
-#JoinControllers=cpu,cpuacct net_cls,net_prio
-#RuntimeWatchdogSec=0
-#ShutdownWatchdogSec=10min
-#CapabilityBoundingSet=
-#TimerSlackNSec=
-#DefaultTimeoutStartSec=90s
-#DefaultTimeoutStopSec=90s
-#DefaultRestartSec=100ms
-#DefaultStartLimitInterval=10s
-#DefaultStartLimitBurst=5
-#DefaultEnvironment=
-#DefaultLimitCPU=
-#DefaultLimitFSIZE=
-#DefaultLimitDATA=
-#DefaultLimitSTACK=
-#DefaultLimitCORE=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultStandardOutput=journal
+</span><span style="font-style:italic;color:#5c6773;">#DefaultStandardError=inherit
+</span><span style="font-style:italic;color:#5c6773;">#JoinControllers=cpu,cpuacct net_cls,net_prio
+</span><span style="font-style:italic;color:#5c6773;">#RuntimeWatchdogSec=0
+</span><span style="font-style:italic;color:#5c6773;">#ShutdownWatchdogSec=10min
+</span><span style="font-style:italic;color:#5c6773;">#CapabilityBoundingSet=
+</span><span style="font-style:italic;color:#5c6773;">#TimerSlackNSec=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultTimeoutStartSec=90s
+</span><span style="font-style:italic;color:#5c6773;">#DefaultTimeoutStopSec=90s
+</span><span style="font-style:italic;color:#5c6773;">#DefaultRestartSec=100ms
+</span><span style="font-style:italic;color:#5c6773;">#DefaultStartLimitInterval=10s
+</span><span style="font-style:italic;color:#5c6773;">#DefaultStartLimitBurst=5
+</span><span style="font-style:italic;color:#5c6773;">#DefaultEnvironment=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitCPU=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitFSIZE=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitDATA=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitSTACK=
+</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitCORE=
 </span></code></pre>
 <p><code>journald.conf</code> offers configuration options on the journal, or logger.</p>
 <h1 id="thoughts">Thoughts</h1>
@@ -356,8 +349,8 @@ With systemd, daemon configuration is handled by .toml configuration files. With
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

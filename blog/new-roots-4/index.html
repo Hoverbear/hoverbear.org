@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -66,14 +66,14 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Olivier Guillard</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;56a685959943722400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f973fc698f0bdbb300.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca68e3fdaa7db2f800.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +85,12 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -161,263 +161,255 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <h2 id="the-shell">The Shell</h2>
 <p>The prompt you've been typing all these commands at is your shell. There are lots of different shells, this one is <code>bash</code>. I've enjoyed using <code>zsh</code> and <code>fish</code> before as well.  Since this is our 'root' we're just going to stick with the built-in defaults, we can choose a <em>fancy</em> shell to load with lots of sketchy plugins in our less privileged container!</p>
 <p><code>bash</code> looks for configuration in <code>/etc/bash.bashrc</code> which is overridden by <code>~/.bashrc</code>. We'll remove these user specific files then edit the system-wide file.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rm </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.bashrc
-</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> rm /root/.bashrc
-</span><span style="color:#ffd580;">vim</span><span style="color:#ccc9c2;"> /etc/bash.bashrc
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rm </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.bashrc
+</span><span style="color:#ffd580;">sudo</span><span> rm /root/.bashrc
+</span><span style="color:#ffd580;">vim</span><span> /etc/bash.bashrc
 </span></code></pre>
 <p>Below I've included a commented configuration to explain many settings.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;">#
-# /etc/bash.bashrc
-#
-
-# If not running interactively, don&#39;t do anything.
-</span><span style="color:#f28779;">[[ </span><span style="color:#ccc9c2;">$</span><span style="font-style:italic;color:#5ccfe6;">- </span><span style="color:#f29e74;">!= *</span><span style="color:#ccc9c2;">i</span><span style="color:#f29e74;">* </span><span style="color:#f28779;">]] </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#ffa759;">return
-
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;">#
+</span><span style="font-style:italic;color:#5c6773;"># /etc/bash.bashrc
+</span><span style="font-style:italic;color:#5c6773;">#
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># If not running interactively, don&#39;t do anything.
+</span><span style="color:#f28779;">[[ </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">- </span><span style="color:#f29e74;">!= *</span><span>i</span><span style="color:#f29e74;">* </span><span style="color:#f28779;">]] </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#ffa759;">return
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Use extra globing features. See man bash, search extglob.
-</span><span style="color:#ccc9c2;">shopt -s extglob
+</span><span style="color:#f28779;">shopt</span><span> -s extglob
 </span><span style="font-style:italic;color:#5c6773;"># Include .files when globbing.
-</span><span style="color:#ccc9c2;">shopt -s dotglob
+</span><span style="color:#f28779;">shopt</span><span> -s dotglob
 </span><span style="font-style:italic;color:#5c6773;"># When a glob expands to nothing, make it an empty string instead of the literal characters.
-</span><span style="color:#ccc9c2;">shopt -s nullglob
+</span><span style="color:#f28779;">shopt</span><span> -s nullglob
 </span><span style="font-style:italic;color:#5c6773;"># A command name that is the name of a directory is executed as if it were the argument to the cd command.
-</span><span style="color:#ccc9c2;">shopt -s autocd
+</span><span style="color:#f28779;">shopt</span><span> -s autocd
 </span><span style="font-style:italic;color:#5c6773;"># Let bash update the window size if we resize it.
-</span><span style="color:#ccc9c2;">shopt -s checkwinsize
-
+</span><span style="color:#f28779;">shopt</span><span> -s checkwinsize
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># This is what you see between every command.
-# Make your own at http://bashrcgenerator.com/
-</span><span style="color:#ccc9c2;">PS1=</span><span style="color:#bae67e;">&quot;\[\033[38;5;10m\]\u\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]\[\033[38;5;7m\]@\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]\[\033[38;5;9m\]\H\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]\[\033[38;5;12m\]\w\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]\[\033[38;5;3m\] $</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">systemctl</span><span style="color:#bae67e;"> is-system-running</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;"> \[\033[38;5;15m\]\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> bold</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]</span><span style="color:#95e6cb;">\$</span><span style="color:#bae67e;">?\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\] \n\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]\[\033[38;5;7m\]\t\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]\[\033[38;5;15m\] \[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> bold</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\]</span><span style="color:#95e6cb;">\\</span><span style="color:#bae67e;">$\[$</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span style="color:#ccc9c2;">)</span><span style="color:#bae67e;">\] &quot;
+</span><span style="font-style:italic;color:#5c6773;"># Make your own at http://bashrcgenerator.com/
+</span><span>PS1</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;\[\033[38;5;10m\]\u\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;7m\]@\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;9m\]\H\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;12m\]\w\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;3m\] $</span><span>(</span><span style="color:#ffd580;">systemctl</span><span style="color:#bae67e;"> is-system-running</span><span>)</span><span style="color:#bae67e;"> \[\033[38;5;15m\]\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> bold</span><span>)</span><span style="color:#bae67e;">\]</span><span style="color:#95e6cb;">\$</span><span style="color:#bae67e;">?\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\] \n\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;7m\]\t\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;15m\] \[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> bold</span><span>)</span><span style="color:#bae67e;">\]</span><span style="color:#95e6cb;">\\</span><span style="color:#bae67e;">$\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\] &quot;
 </span><span style="font-style:italic;color:#5c6773;"># The rest can really just be left default.
-</span><span style="color:#ccc9c2;">PS2=</span><span style="color:#bae67e;">&#39;&gt; &#39;
-</span><span style="color:#ccc9c2;">PS3</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&gt; &#39;
-</span><span style="color:#ccc9c2;">PS4</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;+ &#39;
-
+</span><span>PS2</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&gt; &#39;
+</span><span>PS3</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&gt; &#39;
+</span><span>PS4</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;+ &#39;
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Set up bash completion.
-</span><span style="color:#f28779;">[ </span><span style="color:#ffcc66;">-r</span><span style="color:#ccc9c2;"> /usr/share/bash-completion/bash_completion   </span><span style="color:#f28779;">] </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#f28779;">.</span><span style="color:#ccc9c2;"> /usr/share/bash-completion/bash_completion
-
+</span><span style="color:#f28779;">[ </span><span style="color:#ffcc66;">-r</span><span> /usr/share/bash-completion/bash_completion   </span><span style="color:#f28779;">] </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#f28779;">.</span><span> /usr/share/bash-completion/bash_completion
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># This tells grep to use color when appropriate.
-</span><span style="color:#ccc9c2;">export GREP_OPTIONS=</span><span style="color:#bae67e;">&#39;--color=auto&#39;
+</span><span style="color:#ffa759;">export </span><span>GREP_OPTIONS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;--color=auto&#39;
 </span><span style="font-style:italic;color:#5c6773;"># Configures the default editor, we installed nvim earlier.
-</span><span style="color:#ccc9c2;">export EDITOR=</span><span style="color:#bae67e;">&#39;nvim&#39;
-
+</span><span style="color:#ffa759;">export </span><span>EDITOR</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;nvim&#39;
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Get colors in ls by default
-</span><span style="color:#ccc9c2;">alias ls=</span><span style="color:#bae67e;">&quot;ls --color=auto&quot;
+</span><span style="color:#f28779;">alias </span><span style="color:#ffd580;">ls</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;ls --color=auto&quot;
 </span></code></pre>
 <p>Now test it out by running <code>bash</code>, your prompt should change. If it looks good <code>exit</code> then <code>exit</code> again and reconnect. This configuration is by no means exotic or impressive, it's just some nice basics.</p>
 <p>The prompt is intended to clearly communicate where, and who, you are, as well as the exit code. Time can sometimes be useful, so I included it as well. It's all also nicely color coded. Here's how it's structured:</p>
-<pre style="background-color:#212733;">
-<code><span style="color:#ccc9c2;">user@full.domain.name/current/directory (system state) (last exit code)
-(time) $
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>user@full.domain.name/current/directory (system state) (last exit code)
+</span><span>(time) $
 </span></code></pre>
 <p><code>(system state)</code> refers to the output of <code>systemctl is-system-running</code> which will output based on <a rel="noopener" target="_blank" href="https://www.freedesktop.org/software/systemd/man/systemctl.html#is-system-running">this</a> list. In most cases it will either be <code>running</code> if everything is good, or <code>degraded</code> if some service has failed.</p>
 <p><code>(last exit code)</code> will be <code>0</code> if the last command exited successfully, and a different number if it did not.</p>
 <figure class="enriched ">
         <figcaption>My prompt</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fdb8256c62c2010a00.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;da9f2b5ec6c944e400.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4990a9c556a8832700.jpg"
+              src="[object]"
               alt="My prompt" />
     </figure>
 <h2 id="the-multiplexer">The Multiplexer</h2>
 <p>Shell multiplexing is a great way to maintain a workspace on a remote machine. The idea is to have a daemon which holds onto your shell sessions for you and essentially acts as a 'window manager' for your various shell panes. You're then able to 'detach' and 'reattach' to these sessions whenever you want.</p>
 <p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">pacman</span><span style="color:#ffcc66;"> -S</span><span style="color:#ccc9c2;"> tmux
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">pacman</span><span style="color:#ffcc66;"> -S</span><span> tmux
 </span></code></pre>
 <p>The global configuration for <code>tmux</code> lives at <code>/etc/tmux.conf</code> and we can just configure a couple settings:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Use a 256 color configuration.
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g default-terminal </span><span style="color:#bae67e;">&quot;screen-256color&quot;
-
- </span><span style="font-style:italic;color:#5c6773;"># Start windows and panes at 1, not 0.
-</span><span style="color:#ccc9c2;">set -g base-index 1
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g pane-base-index 1
-
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Use a 256 color configuration.
+</span><span style="color:#f28779;">set</span><span> -g default-terminal </span><span style="color:#bae67e;">&quot;screen-256color&quot;
+</span><span>
+</span><span> </span><span style="font-style:italic;color:#5c6773;"># Start windows and panes at 1, not 0.
+</span><span style="color:#f28779;">set</span><span> -g base-index 1
+</span><span style="color:#f28779;">set</span><span> -g pane-base-index 1
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># So the history doesn&#39;t go on forever.
-</span><span style="color:#ccc9c2;">set -g history-limit 10000
-
+</span><span style="color:#f28779;">set</span><span> -g history-limit 10000
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Split panes using | and -, this makes more sense!
-</span><span style="color:#ccc9c2;">bind </span><span style="color:#95e6cb;">\ </span><span style="color:#ccc9c2;">split-window </span><span style="color:#ffcc66;">-h
-</span><span style="color:#f28779;">bind</span><span style="color:#ccc9c2;"> - split-window -v
+</span><span style="color:#f28779;">bind </span><span style="color:#95e6cb;">\ </span><span>split-window -h
+</span><span style="color:#f28779;">bind</span><span> - split-window -v
 </span><span style="color:#ffd580;">unbind </span><span style="color:#bae67e;">&#39;&quot;&#39;
-</span><span style="color:#ffd580;">unbind </span><span style="color:#ccc9c2;">%
-
+</span><span style="color:#ffd580;">unbind </span><span>%
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Don&#39;t rename windows automatically. Rename with Ctl+B followed by ,
-</span><span style="color:#ccc9c2;">set</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> allow-rename off
-
+</span><span style="color:#f28779;">set</span><span> -g allow-rename off
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;">###
-# Theme below.
-###
-# Panes
-</span><span style="color:#ccc9c2;">set</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> pane-border-bg colour235
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g pane-border-fg colour238
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g pane-active-border-bg colour236
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g pane-active-border-fg colour10
-
+</span><span style="font-style:italic;color:#5c6773;"># Theme below.
+</span><span style="font-style:italic;color:#5c6773;">###
+</span><span style="font-style:italic;color:#5c6773;"># Panes
+</span><span style="color:#f28779;">set</span><span> -g pane-border-bg colour235
+</span><span style="color:#f28779;">set</span><span> -g pane-border-fg colour238
+</span><span style="color:#f28779;">set</span><span> -g pane-active-border-bg colour236
+</span><span style="color:#f28779;">set</span><span> -g pane-active-border-fg colour10
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Messaging
-</span><span style="color:#ccc9c2;">set -g message-attr bold
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g message-fg colour232
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g message-bg colour166
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g message-command-fg blue
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g message-command-bg black
-
+</span><span style="color:#f28779;">set</span><span> -g message-attr bold
+</span><span style="color:#f28779;">set</span><span> -g message-fg colour232
+</span><span style="color:#f28779;">set</span><span> -g message-bg colour166
+</span><span style="color:#f28779;">set</span><span> -g message-command-fg blue
+</span><span style="color:#f28779;">set</span><span> -g message-command-bg black
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Window mode
-</span><span style="color:#ccc9c2;">setw -g mode-bg colour6
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> mode-fg colour0
-
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-bg colour6
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-fg colour0
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Window status
-</span><span style="color:#ccc9c2;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-current-fg colour10
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-current-bg colour238
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-current-attr bold
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-current-format </span><span style="color:#bae67e;">&#39; #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour10]#F &#39;
-
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-fg colour138
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-bg colour235
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-attr none
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-format </span><span style="color:#bae67e;">&#39; #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F &#39;
-
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-bell-attr bold
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-bell-fg colour255
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> window-status-bell-bg colour1
-
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-fg colour10
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-bg colour238
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-attr bold
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-format </span><span style="color:#bae67e;">&#39; #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour10]#F &#39;
+</span><span>
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-fg colour138
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bg colour235
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-attr none
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-format </span><span style="color:#bae67e;">&#39; #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F &#39;
+</span><span>
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bell-attr bold
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bell-fg colour255
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bell-bg colour1
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Info on left
-</span><span style="color:#ccc9c2;">set</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> status-left </span><span style="color:#bae67e;">&#39;&#39;
-
+</span><span style="color:#f28779;">set</span><span> -g status-left </span><span style="color:#bae67e;">&#39;&#39;
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># Modes
-</span><span style="color:#ccc9c2;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> clock-mode-colour colour135
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> mode-attr bold
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> mode-fg colour196
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> mode-bg colour238
-
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> clock-mode-colour colour135
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-attr bold
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-fg colour196
+</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-bg colour238
+</span><span>
 </span><span style="font-style:italic;color:#5c6773;"># The statusbar
-</span><span style="color:#ccc9c2;">set</span><span style="color:#ffcc66;"> -g</span><span style="color:#ccc9c2;"> status-position bottom
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-bg colour233
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-fg colour137
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-justify left
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-interval 2
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-attr dim
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-left </span><span style="color:#bae67e;">&#39;&#39;
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-right </span><span style="color:#bae67e;">&#39;#[bgcolour=0]#[fg=colour10]#(echo $USER)#[fg=colour7]@#[fg=colour9]#(hostname) #[fg=colour3]#(systemctl is-system-running) &#39;
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-right-length 50
-</span><span style="color:#f28779;">set</span><span style="color:#ccc9c2;"> -g status-left-length 20
+</span><span style="color:#f28779;">set</span><span> -g status-position bottom
+</span><span style="color:#f28779;">set</span><span> -g status-bg colour233
+</span><span style="color:#f28779;">set</span><span> -g status-fg colour137
+</span><span style="color:#f28779;">set</span><span> -g status-justify left
+</span><span style="color:#f28779;">set</span><span> -g status-interval 2
+</span><span style="color:#f28779;">set</span><span> -g status-attr dim
+</span><span style="color:#f28779;">set</span><span> -g status-left </span><span style="color:#bae67e;">&#39;&#39;
+</span><span style="color:#f28779;">set</span><span> -g status-right </span><span style="color:#bae67e;">&#39;#[bgcolour=0]#[fg=colour10]#(echo $USER)#[fg=colour7]@#[fg=colour9]#(hostname) #[fg=colour3]#(systemctl is-system-running) &#39;
+</span><span style="color:#f28779;">set</span><span> -g status-right-length 50
+</span><span style="color:#f28779;">set</span><span> -g status-left-length 20
 </span></code></pre>
 <p>Launching <code>tmux</code> you can create new 'tabs' with <code>Ctl+b c</code> (press <code>Control</code> and <code>b</code>, then let go and press <code>c</code>). You can rename them with <code>Ctl+b ,</code>. You can split them with <code>Ctl+\</code> and <code>Ctl+-</code> respectively. You can move between splits with <code>Ctl+b left</code> and <code>Ctl+b right</code>. With <code>Ctl+b 1</code> or any number you can change 'tabs'.</p>
 <p>You can <strong>detach</strong> <code>tmux</code> with <code>Ctl+b d</code> and you can <strong>re-attach</strong> with <code>tmux a</code> later on. Sessions will persist between logins but not between reboots.</p>
 <figure class="enriched ">
         <figcaption>Example of tmux</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed6c4dc15bf5d08700.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f8381fb3a47d6bc300.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;30006dc003920e9900.jpg"
+              src="[object]"
               alt="Example of tmux" />
     </figure>
 <h2 id="editing-the-editor">Editing the Editor</h2>
 <p>Earlier we installed <code>nvim</code> with <code>pacman -S neovim</code>. <a rel="noopener" target="_blank" href="https://neovim.io/">Neovim</a> is a minimal modern recreation of <code>vim</code> which itself was a recreation of <code>vi</code>. There are also editors like <code>emacs</code>, <code>ed</code>, and <code>nano</code>.</p>
 <p>The <code>nvim</code> systemwide configuration is stored at <code>/etc/xdg/nvim/init.vim</code>, and you might need to create the folder with <code>mkdir -p /etc/xdg/nvim/</code>.</p>
 <p>Inside we can do some basic configuration:</p>
-<pre style="background-color:#212733;">
-<code class="language-vimrc" data-lang="vimrc"><span style="color:#ccc9c2;">&quot; Be improved
-set nocompatible
-
-&quot; General
-set number      &quot; Show line numbers
-set history=700 &quot; Commands
-set autoread
-set magic       &quot; Regex related
-set showmatch   &quot; Brackets
-set mouse=a     &quot; Enable all mouse interaction.
-filetype plugin on
-syntax enable
-set ttyfast     &quot; Improve smoothness
-set lazyredraw  &quot; Don&#39;t redraw while executing macros
-set showcmd     &quot; Show partially typed commands at the bottom
-set wrap        &quot; Soft wrap lines
-
-&quot; Indents
-set expandtab
-set smarttab
-set shiftwidth=4
-set tabstop=4
-set ai &quot; Auto Indent
-set si &quot; Smart Indent
-
-&quot; Peace and quiet
-&quot; (Side note: Vim does a &#39;bell&#39; very often)
-set noerrorbells
-set novisualbell
-
-&quot; Searching
-set ignorecase
-set smartcase
-set hlsearch
-set incsearch
-
-&quot; Don&#39;t do some legacy-related things like temporary swapfiles.
-set nobackup
-set nowb
-set noswapfile
-
-&quot; Tell vim to remember certain things when we exit
-&quot;  &#39;10  :  marks will be remembered for up to 10 previously edited files
-&quot;  &quot;100 :  will save up to 100 lines for each register
-&quot;  :20  :  up to 20 lines of command-line history will be remembered
-&quot;  %    :  saves and restores the buffer list
-&quot;  n... :  where to save the viminfo files
-set viminfo=&#39;10,\&quot;100,:20,%,n~/.viminfo
-
-&quot; Automagically restore files we were editing to the line we were on.
-function! RestoreLine()
-  if line(&quot;&#39;\&quot;&quot;) &lt;= line(&quot;$&quot;)
-    normal! g`&quot;
-    return 1
-  endif
-endfunction
-augroup restoreLine
-  autocmd!
-  autocmd BufWinEnter * call RestoreLine()
-augroup END
-
-&quot; Colorscheme
-colorscheme spacegrey
+<pre data-lang="vimrc" style="background-color:#212733;color:#ccc9c2;" class="language-vimrc "><code class="language-vimrc" data-lang="vimrc"><span>&quot; Be improved
+</span><span>set nocompatible
+</span><span>
+</span><span>&quot; General
+</span><span>set number      &quot; Show line numbers
+</span><span>set history=700 &quot; Commands
+</span><span>set autoread
+</span><span>set magic       &quot; Regex related
+</span><span>set showmatch   &quot; Brackets
+</span><span>set mouse=a     &quot; Enable all mouse interaction.
+</span><span>filetype plugin on
+</span><span>syntax enable
+</span><span>set ttyfast     &quot; Improve smoothness
+</span><span>set lazyredraw  &quot; Don&#39;t redraw while executing macros
+</span><span>set showcmd     &quot; Show partially typed commands at the bottom
+</span><span>set wrap        &quot; Soft wrap lines
+</span><span>
+</span><span>&quot; Indents
+</span><span>set expandtab
+</span><span>set smarttab
+</span><span>set shiftwidth=4
+</span><span>set tabstop=4
+</span><span>set ai &quot; Auto Indent
+</span><span>set si &quot; Smart Indent
+</span><span>
+</span><span>&quot; Peace and quiet
+</span><span>&quot; (Side note: Vim does a &#39;bell&#39; very often)
+</span><span>set noerrorbells
+</span><span>set novisualbell
+</span><span>
+</span><span>&quot; Searching
+</span><span>set ignorecase
+</span><span>set smartcase
+</span><span>set hlsearch
+</span><span>set incsearch
+</span><span>
+</span><span>&quot; Don&#39;t do some legacy-related things like temporary swapfiles.
+</span><span>set nobackup
+</span><span>set nowb
+</span><span>set noswapfile
+</span><span>
+</span><span>&quot; Tell vim to remember certain things when we exit
+</span><span>&quot;  &#39;10  :  marks will be remembered for up to 10 previously edited files
+</span><span>&quot;  &quot;100 :  will save up to 100 lines for each register
+</span><span>&quot;  :20  :  up to 20 lines of command-line history will be remembered
+</span><span>&quot;  %    :  saves and restores the buffer list
+</span><span>&quot;  n... :  where to save the viminfo files
+</span><span>set viminfo=&#39;10,\&quot;100,:20,%,n~/.viminfo
+</span><span>
+</span><span>&quot; Automagically restore files we were editing to the line we were on.
+</span><span>function! RestoreLine()
+</span><span>  if line(&quot;&#39;\&quot;&quot;) &lt;= line(&quot;$&quot;)
+</span><span>    normal! g`&quot;
+</span><span>    return 1
+</span><span>  endif
+</span><span>endfunction
+</span><span>augroup restoreLine
+</span><span>  autocmd!
+</span><span>  autocmd BufWinEnter * call RestoreLine()
+</span><span>augroup END
+</span><span>
+</span><span>&quot; Colorscheme
+</span><span>colorscheme spacegrey
 </span></code></pre>
 <p>Now we need to fetch the colorscheme, <em>Spacegrey</em>.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span style="color:#ccc9c2;"> /etc/xdg/nvim/colors/
-</span><span style="color:#ffd580;">curl</span><span style="color:#ccc9c2;"> https://raw.githubusercontent.com/ajh17/Spacegray.vim/master/colors/spacegray.vim</span><span style="color:#ffcc66;"> -o</span><span style="color:#ccc9c2;"> /etc/xdg/nvim/colors/spacegrey.vim
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span> /etc/xdg/nvim/colors/
+</span><span style="color:#ffd580;">curl</span><span> https://raw.githubusercontent.com/ajh17/Spacegray.vim/master/colors/spacegray.vim</span><span style="color:#ffcc66;"> -o</span><span> /etc/xdg/nvim/colors/spacegrey.vim
 </span></code></pre>
 <p>At this point <code>nvim</code> is quite capable of doing any task we might need of it. Triumph in this by telling the system you and it are officially in a relationship.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt; </span><span style="color:#ffa759;">EOF </span><span style="color:#f29e74;">&gt;&gt;</span><span style="color:#ccc9c2;"> /etc/bash.bashrc
-
-</span><span style="font-style:italic;color:#5c6773;"># Use nvim
-</span><span style="color:#ccc9c2;">export EDITOR=nvim
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt; </span><span style="color:#ffa759;">EOF </span><span style="color:#f29e74;">&gt;&gt;</span><span> /etc/bash.bashrc
+</span><span style="color:#bae67e;">
+</span><span style="color:#bae67e;"># Use nvim
+</span><span style="color:#bae67e;">export EDITOR=nvim
 </span><span style="color:#ffa759;">EOF
-</span></code></pre><h2 id="final-steps">Final Steps</h2>
+</span></code></pre>
+<h2 id="final-steps">Final Steps</h2>
 <p>Since it's probably been a couple days since you started this process, it's also a good idea to update:</p>
 <ol>
 <li>Check the <a rel="noopener" target="_blank" href="https://www.archlinux.org/">Arch Frontpage</a> in case there is any news item you need to be aware of.</li>
 <li>Issue <code>pacman -Syu</code>.</li>
 </ol>
 <p>Before moving on it might be a good idea to make a snapshot of what we have so far, this way we can roll back. This is a very cool feature of BTRFS and one of the main reasons I use it. Since this is technically our <code>/</code> the process is a bit more involved than usual.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># First, mount the BTRFS volume somewhere plainly, no subvolume.
-</span><span style="color:#ffd580;">mount</span><span style="color:#ffcc66;"> -o</span><span style="color:#ccc9c2;"> compress=lzo /dev/sda /mnt/
-</span><span style="color:#f28779;">cd</span><span style="color:#ccc9c2;"> /mnt
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># First, mount the BTRFS volume somewhere plainly, no subvolume.
+</span><span style="color:#ffd580;">mount</span><span style="color:#ffcc66;"> -o</span><span> compress=lzo /dev/sda /mnt/
+</span><span style="color:#f28779;">cd</span><span> /mnt
 </span><span style="font-style:italic;color:#5c6773;"># Create a read-only snapshot of `root` called `root-fresh`.
-</span><span style="color:#ccc9c2;">sudo btrfs subvolume snapshot -r root root-fresh
+</span><span style="color:#ffd580;">sudo</span><span> btrfs subvolume snapshot</span><span style="color:#ffcc66;"> -r</span><span> root root-fresh
 </span></code></pre>
 <p>If you ever find yourself in a situation where you just need to restart all over again, this is a snapshot you can use so you don't have to re-do all your configuration and setup. You <strong>would</strong> just have to:</p>
 <ul>
@@ -433,14 +425,14 @@ colorscheme spacegrey
 <figure class="enriched ">
         <figcaption>An Example</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a21dbbe2ed97548700.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4f5c212ca56b519200.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;15cc12bb6628cc7d00.jpg"
+              src="[object]"
               alt="An Example" />
     </figure>
 <p>What's perhaps most important to remember throughout this process is that you kept this system very clean. Next post we'll discuss using containers to construct virtual environments, which we can be much more <em>messy</em> with!</p>
@@ -450,8 +442,8 @@ colorscheme spacegrey
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -62,14 +62,14 @@
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -81,12 +81,12 @@
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -172,74 +172,70 @@
 <li><code>single</code>: Single-user mode.</li>
 </ul>
 <p>A system transitions between runlevels like so:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sysinit</span><span style="color:#ccc9c2;"> -</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> boot -</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> default -</span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> shutdown
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sysinit</span><span> -</span><span style="color:#f29e74;">&gt;</span><span> boot -</span><span style="color:#f29e74;">&gt;</span><span> default -</span><span style="color:#f29e74;">&gt;</span><span> shutdown
 </span></code></pre>
 <p>The services controlled by a particular runlevel are controlled by <code>/etc/inittab</code> and via the <code>rc-update</code> command.</p>
 <p>On a modern <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Hosting">Funtoo LXC Container</a>, your runlevels  might look like this:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">± </span><span style="font-style:italic;color:#5c6773;"># rc-update -v
-</span><span style="color:#ccc9c2;">             bootmisc </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-         busybox-ntpd </span><span style="color:#f29e74;">|
-     </span><span style="color:#ffd580;">busybox-watchdog </span><span style="color:#f29e74;">|
-          </span><span style="color:#ffd580;">consolefont </span><span style="color:#f29e74;">|
-                 </span><span style="color:#ffd580;">dbus </span><span style="color:#f29e74;">|
-                </span><span style="color:#ffd580;">devfs </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-               dhcpcd </span><span style="color:#f29e74;">|
-                </span><span style="color:#ffd580;">dmesg </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-                 fsck </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-           git-daemon </span><span style="color:#f29e74;">|
-                  </span><span style="color:#ffd580;">gpm </span><span style="color:#f29e74;">|
-             </span><span style="color:#ffd580;">hostname </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-              hwclock </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-             iptables </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-              keymaps </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-            killprocs </span><span style="color:#f29e74;">|              </span><span style="color:#ffd580;">shutdown
-    kmod-static-nodes </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-                </span><span style="color:#ffa759;">local </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-           localmount </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-              modules </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-             mount-ro </span><span style="color:#f29e74;">|              </span><span style="color:#ffd580;">shutdown
-                 mtab </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-               murmur </span><span style="color:#f29e74;">|
-           </span><span style="color:#ffd580;">netif.eth0 </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-             netif.lo </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-           netif.tmpl </span><span style="color:#f29e74;">|
-             </span><span style="color:#ffd580;">netmount </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-                nginx </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-              numlock </span><span style="color:#f29e74;">|
-              </span><span style="color:#ffd580;">openvpn </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-              pciparm </span><span style="color:#f29e74;">|
-              </span><span style="color:#ffd580;">postfix </span><span style="color:#f29e74;">|
-               </span><span style="color:#ffd580;">procfs </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-            pydoc-2.7 </span><span style="color:#f29e74;">|
-            </span><span style="color:#ffd580;">pydoc-3.3 </span><span style="color:#f29e74;">|
-            </span><span style="color:#ffd580;">pydoc-3.4 </span><span style="color:#f29e74;">|
-                </span><span style="color:#ffd580;">redis </span><span style="color:#f29e74;">|
-                 </span><span style="color:#ffd580;">root </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-               rsyncd </span><span style="color:#f29e74;">|
-            </span><span style="color:#ffd580;">savecache </span><span style="color:#f29e74;">|              </span><span style="color:#ffd580;">shutdown
-                 sshd </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
-                 swap </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-            swapfiles </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-              swclock </span><span style="color:#f29e74;">|
-               </span><span style="color:#ffd580;">sysctl </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-                sysfs </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-         termencoding </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-         tmpfiles.dev </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-       tmpfiles.setup </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-                 udev </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-           udev-mount </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
-       udev-postmount </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
-              urandom </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">± </span><span style="font-style:italic;color:#5c6773;"># rc-update -v
+</span><span>             </span><span style="color:#ffd580;">bootmisc </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>         </span><span style="color:#ffd580;">busybox-ntpd </span><span style="color:#f29e74;">|
+</span><span>     </span><span style="color:#ffd580;">busybox-watchdog </span><span style="color:#f29e74;">|
+</span><span>          </span><span style="color:#ffd580;">consolefont </span><span style="color:#f29e74;">|
+</span><span>                 </span><span style="color:#ffd580;">dbus </span><span style="color:#f29e74;">|
+</span><span>                </span><span style="color:#ffd580;">devfs </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>               </span><span style="color:#ffd580;">dhcpcd </span><span style="color:#f29e74;">|
+</span><span>                </span><span style="color:#ffd580;">dmesg </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>                 </span><span style="color:#ffd580;">fsck </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>           </span><span style="color:#ffd580;">git-daemon </span><span style="color:#f29e74;">|
+</span><span>                  </span><span style="color:#ffd580;">gpm </span><span style="color:#f29e74;">|
+</span><span>             </span><span style="color:#ffd580;">hostname </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>              </span><span style="color:#ffd580;">hwclock </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>             </span><span style="color:#ffd580;">iptables </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>              </span><span style="color:#ffd580;">keymaps </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>            </span><span style="color:#ffd580;">killprocs </span><span style="color:#f29e74;">|              </span><span style="color:#ffd580;">shutdown
+</span><span>    </span><span style="color:#ffd580;">kmod-static-nodes </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>                </span><span style="color:#ffa759;">local </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>           </span><span style="color:#ffd580;">localmount </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>              </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>             </span><span style="color:#ffd580;">mount-ro </span><span style="color:#f29e74;">|              </span><span style="color:#ffd580;">shutdown
+</span><span>                 </span><span style="color:#ffd580;">mtab </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>               </span><span style="color:#ffd580;">murmur </span><span style="color:#f29e74;">|
+</span><span>           </span><span style="color:#ffd580;">netif.eth0 </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>             </span><span style="color:#ffd580;">netif.lo </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>           </span><span style="color:#ffd580;">netif.tmpl </span><span style="color:#f29e74;">|
+</span><span>             </span><span style="color:#ffd580;">netmount </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>                </span><span style="color:#ffd580;">nginx </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>              </span><span style="color:#ffd580;">numlock </span><span style="color:#f29e74;">|
+</span><span>              </span><span style="color:#ffd580;">openvpn </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>              </span><span style="color:#ffd580;">pciparm </span><span style="color:#f29e74;">|
+</span><span>              </span><span style="color:#ffd580;">postfix </span><span style="color:#f29e74;">|
+</span><span>               </span><span style="color:#ffd580;">procfs </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>            </span><span style="color:#ffd580;">pydoc-2.7 </span><span style="color:#f29e74;">|
+</span><span>            </span><span style="color:#ffd580;">pydoc-3.3 </span><span style="color:#f29e74;">|
+</span><span>            </span><span style="color:#ffd580;">pydoc-3.4 </span><span style="color:#f29e74;">|
+</span><span>                </span><span style="color:#ffd580;">redis </span><span style="color:#f29e74;">|
+</span><span>                 </span><span style="color:#ffd580;">root </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>               </span><span style="color:#ffd580;">rsyncd </span><span style="color:#f29e74;">|
+</span><span>            </span><span style="color:#ffd580;">savecache </span><span style="color:#f29e74;">|              </span><span style="color:#ffd580;">shutdown
+</span><span>                 </span><span style="color:#ffd580;">sshd </span><span style="color:#f29e74;">|      </span><span style="color:#ffd580;">default
+</span><span>                 </span><span style="color:#ffd580;">swap </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>            </span><span style="color:#ffd580;">swapfiles </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>              </span><span style="color:#ffd580;">swclock </span><span style="color:#f29e74;">|
+</span><span>               </span><span style="color:#ffd580;">sysctl </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>                </span><span style="color:#ffd580;">sysfs </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>         </span><span style="color:#ffd580;">termencoding </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>         </span><span style="color:#ffd580;">tmpfiles.dev </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>       </span><span style="color:#ffd580;">tmpfiles.setup </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>                 </span><span style="color:#ffd580;">udev </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>           </span><span style="color:#ffd580;">udev-mount </span><span style="color:#f29e74;">|                       </span><span style="color:#ffd580;">sysinit
+</span><span>       </span><span style="color:#ffd580;">udev-postmount </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
+</span><span>              </span><span style="color:#ffd580;">urandom </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">boot
 </span></code></pre>
 <p>Services can be added to runlevels with:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rc-update</span><span style="color:#ccc9c2;"> add </span><span style="color:#f29e74;">&lt;</span><span style="color:#ccc9c2;">service</span><span style="color:#f29e74;">&gt; &lt;</span><span style="color:#ccc9c2;">runlevel</span><span style="color:#f29e74;">&gt;
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rc-update</span><span> add </span><span style="color:#f29e74;">&lt;</span><span>service</span><span style="color:#f29e74;">&gt; &lt;</span><span>runlevel</span><span style="color:#f29e74;">&gt;
 </span></code></pre>
 <p>Or removed with:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rc-update</span><span style="color:#ccc9c2;"> del </span><span style="color:#f29e74;">&lt;</span><span style="color:#ccc9c2;">service</span><span style="color:#f29e74;">&gt; &lt;</span><span style="color:#ccc9c2;">runlevel</span><span style="color:#f29e74;">&gt;
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rc-update</span><span> del </span><span style="color:#f29e74;">&lt;</span><span>service</span><span style="color:#f29e74;">&gt; &lt;</span><span>runlevel</span><span style="color:#f29e74;">&gt;
 </span></code></pre>
 <p>Changing between runlevels is done via the <code>rc &lt;runlevel&gt;</code> command, but most users will never need to do this as runlevels are (mostly) managed by the system.</p>
 <p>In the case where a user does want to change runlevels in this way, it is often such that they are utilizing <a rel="noopener" target="_blank" href="http://www.funtoo.org/Stacked_Runlevels">Stacked Runlevels</a>.</p>
@@ -268,72 +264,70 @@
 <p>It's important to understand that these are not necessarily the only active targets. In the case of the <code>graphical</code> target, a display manager service like <code>kdm</code> might be started, this target would also activate the <code>multi-user</code> target.</p>
 <p>The <code>multi-user</code> target might also activate a service like <code>dbus</code>, and another target named <code>basic</code>. This is interesting because it allows us to cleanly compose and extend the system to suit our needs.</p>
 <p>A <code>.target</code> file resides in <code>/usr/lib/systemd/system</code> or <code>/usr/lib/systemd/system/</code> and looks like this:</p>
-<pre style="background-color:#212733;">
-<code><span style="color:#ccc9c2;">[Unit]
-Description=Graphical Interface
-Documentation=man:systemd.special(7)
-Requires=multi-user.target
-After=multi-user.target
-Conflicts=rescue.target
-Wants=display-manager.service
-AllowIsolate=yes
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>[Unit]
+</span><span>Description=Graphical Interface
+</span><span>Documentation=man:systemd.special(7)
+</span><span>Requires=multi-user.target
+</span><span>After=multi-user.target
+</span><span>Conflicts=rescue.target
+</span><span>Wants=display-manager.service
+</span><span>AllowIsolate=yes
 </span></code></pre>
 <p>This file would be accompanied by a <code>&lt;target&gt;.wants</code> directory containing the services it should enable.</p>
 <p>Targets can be controlled very similar to systemd's <code>.service</code> unit files, you just need to add <code>.target</code> at the end.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">systemctl</span><span style="color:#ccc9c2;"> status graphical.target
-</span><span style="color:#ffd580;">± </span><span style="color:#ccc9c2;">% systemctl status graphical.target
-</span><span style="color:#ffd580;">graphical.target</span><span style="color:#ccc9c2;"> - Graphical Interface
-</span><span style="color:#ffd580;">Loaded:</span><span style="color:#ccc9c2;"> loaded (/lib/systemd/system/graphical.target</span><span style="color:#f29e74;">; </span><span style="color:#ffd580;">enabled</span><span style="color:#ccc9c2;">)
-</span><span style="color:#ffd580;">Active:</span><span style="color:#ccc9c2;"> active since Thu 2014-09-25 21:21:26 PDT</span><span style="color:#f29e74;">; </span><span style="color:#ffd580;">4</span><span style="color:#ccc9c2;"> days ago
-</span><span style="color:#ffd580;">Docs:</span><span style="color:#ccc9c2;"> man:systemd.special(7)
-
- </span><span style="color:#ffd580;">Sep</span><span style="color:#ccc9c2;"> 25 21:21:26 aluminum systemd</span><span style="color:#ffa759;">[</span><span style="color:#ccc9c2;">1</span><span style="color:#ffa759;">]</span><span style="color:#ccc9c2;">: Starting Graphical Interface.
- </span><span style="color:#ffd580;">Sep</span><span style="color:#ccc9c2;"> 25 21:21:26 aluminum systemd</span><span style="color:#ffa759;">[</span><span style="color:#ccc9c2;">1</span><span style="color:#ffa759;">]</span><span style="color:#ccc9c2;">: Reached target Graphical Interface.
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">systemctl</span><span> status graphical.target
+</span><span style="color:#ffd580;">± </span><span>% systemctl status graphical.target
+</span><span style="color:#ffd580;">graphical.target</span><span> - Graphical Interface
+</span><span style="color:#ffd580;">Loaded:</span><span> loaded (/lib/systemd/system/graphical.target</span><span style="color:#f29e74;">; </span><span style="color:#ffd580;">enabled</span><span>)
+</span><span style="color:#ffd580;">Active:</span><span> active since Thu 2014-09-25 21:21:26 PDT</span><span style="color:#f29e74;">; </span><span style="color:#ffd580;">4</span><span> days ago
+</span><span style="color:#ffd580;">Docs:</span><span> man:systemd.special(7)
+</span><span>
+</span><span> </span><span style="color:#ffd580;">Sep</span><span> 25 21:21:26 aluminum systemd</span><span style="color:#ffa759;">[</span><span>1</span><span style="color:#ffa759;">]</span><span>: Starting Graphical Interface.
+</span><span> </span><span style="color:#ffd580;">Sep</span><span> 25 21:21:26 aluminum systemd</span><span style="color:#ffa759;">[</span><span>1</span><span style="color:#ffa759;">]</span><span>: Reached target Graphical Interface.
 </span></code></pre>
 <p>The <code>.target</code> based approach allows for various services to be grouped in a logical manner. For example, is is the state of targets on a modern Fedora Desktop:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">± </span><span style="color:#ccc9c2;">% systemctl list-units</span><span style="color:#ffcc66;"> --type</span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;">target</span><span style="color:#ffcc66;"> --all
-</span><span style="color:#ffd580;">UNIT</span><span style="color:#ccc9c2;">                   LOAD      ACTIVE   SUB    DESCRIPTION
-</span><span style="color:#ffd580;">basic.target</span><span style="color:#ccc9c2;">           loaded    active   active Basic System
-</span><span style="color:#ffd580;">bluetooth.target</span><span style="color:#ccc9c2;">       loaded    active   active Bluetooth
-</span><span style="color:#ffd580;">cryptsetup-pre.target</span><span style="color:#ccc9c2;">  loaded    inactive dead   Encrypted Volumes (Pre)
-</span><span style="color:#ffd580;">cryptsetup.target</span><span style="color:#ccc9c2;">      loaded    active   active Encrypted Volumes
-</span><span style="color:#ffd580;">emergency.target</span><span style="color:#ccc9c2;">       loaded    inactive dead   Emergency Mode
-</span><span style="color:#ffd580;">final.target</span><span style="color:#ccc9c2;">           loaded    inactive dead   Final Step
-</span><span style="color:#ffd580;">getty.target</span><span style="color:#ccc9c2;">           loaded    active   active Login Prompts
-</span><span style="color:#ffd580;">graphical.target</span><span style="color:#ccc9c2;">       loaded    active   active Graphical Interface
-</span><span style="color:#ffd580;">local-fs-pre.target</span><span style="color:#ccc9c2;">    loaded    active   active Local File Systems (Pre)
-</span><span style="color:#ffd580;">local-fs.target</span><span style="color:#ccc9c2;">        loaded    active   active Local File Systems
-</span><span style="color:#ffd580;">multi-user.target</span><span style="color:#ccc9c2;">      loaded    active   active Multi-User System
-</span><span style="color:#ffd580;">network-online.target</span><span style="color:#ccc9c2;">  loaded    inactive dead   Network is Online
-</span><span style="color:#ffd580;">network.target</span><span style="color:#ccc9c2;">         loaded    active   active Network
-</span><span style="color:#ffd580;">nfs.target</span><span style="color:#ccc9c2;">             loaded    active   active Network File System Server
-</span><span style="color:#ffd580;">nss-user-lookup.target</span><span style="color:#ccc9c2;"> loaded    inactive dead   User and Group Name Lookups
-</span><span style="color:#ffd580;">paths.target</span><span style="color:#ccc9c2;">           loaded    active   active Paths
-</span><span style="color:#ffd580;">remote-fs-pre.target</span><span style="color:#ccc9c2;">   loaded    inactive dead   Remote File Systems (Pre)
-</span><span style="color:#ffd580;">remote-fs.target</span><span style="color:#ccc9c2;">       loaded    active   active Remote File Systems
-</span><span style="color:#ffd580;">rescue.target</span><span style="color:#ccc9c2;">          loaded    inactive dead   Rescue Mode
-</span><span style="color:#ffd580;">shutdown.target</span><span style="color:#ccc9c2;">        loaded    inactive dead   Shutdown
-</span><span style="color:#ffd580;">sleep.target</span><span style="color:#ccc9c2;">           loaded    inactive dead   Sleep
-</span><span style="color:#ffd580;">slices.target</span><span style="color:#ccc9c2;">          loaded    active   active Slices
-</span><span style="color:#ffd580;">sockets.target</span><span style="color:#ccc9c2;">         loaded    active   active Sockets
-</span><span style="color:#ffd580;">sound.target</span><span style="color:#ccc9c2;">           loaded    active   active Sound Card
-</span><span style="color:#ffd580;">suspend.target</span><span style="color:#ccc9c2;">         loaded    active   active Suspend
-</span><span style="color:#ffd580;">swap.target</span><span style="color:#ccc9c2;">            loaded    active   active Swap
-</span><span style="color:#ffd580;">sysinit.target</span><span style="color:#ccc9c2;">         loaded    active   active System Initialization
-</span><span style="color:#ffd580;">syslog.target</span><span style="color:#ccc9c2;">          not-found inactive dead   syslog.target
-</span><span style="color:#ffd580;">time-sync.target</span><span style="color:#ccc9c2;">       loaded    inactive dead   System Time Synchronized
-</span><span style="color:#ffd580;">timers.target</span><span style="color:#ccc9c2;">          loaded    active   active Timers
-</span><span style="color:#ffd580;">umount.target</span><span style="color:#ccc9c2;">          loaded    inactive dead   Unmount All Filesystems
-
-</span><span style="color:#ffd580;">LOAD</span><span style="color:#ccc9c2;">   = Reflects whether the unit definition was properly loaded.
-</span><span style="color:#ffd580;">ACTIVE</span><span style="color:#ccc9c2;"> = The high-level unit activation state, i.e. generalization of SUB.
-</span><span style="color:#ffd580;">SUB</span><span style="color:#ccc9c2;">    = The low-level unit activation state, values depend on unit type.
-
-</span><span style="color:#ffd580;">31</span><span style="color:#ccc9c2;"> loaded units listed.
-</span><span style="color:#ffd580;">To</span><span style="color:#ccc9c2;"> show all installed unit files use </span><span style="color:#bae67e;">&#39;systemctl list-unit-files&#39;</span><span style="color:#ccc9c2;">.
-</span></code></pre><h4 id="benefits-1">Benefits</h4>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">± </span><span>% systemctl list-units</span><span style="color:#ffcc66;"> --type</span><span style="color:#f29e74;">=</span><span>target</span><span style="color:#ffcc66;"> --all
+</span><span style="color:#ffd580;">UNIT</span><span>                   LOAD      ACTIVE   SUB    DESCRIPTION
+</span><span style="color:#ffd580;">basic.target</span><span>           loaded    active   active Basic System
+</span><span style="color:#ffd580;">bluetooth.target</span><span>       loaded    active   active Bluetooth
+</span><span style="color:#ffd580;">cryptsetup-pre.target</span><span>  loaded    inactive dead   Encrypted Volumes (Pre)
+</span><span style="color:#ffd580;">cryptsetup.target</span><span>      loaded    active   active Encrypted Volumes
+</span><span style="color:#ffd580;">emergency.target</span><span>       loaded    inactive dead   Emergency Mode
+</span><span style="color:#ffd580;">final.target</span><span>           loaded    inactive dead   Final Step
+</span><span style="color:#ffd580;">getty.target</span><span>           loaded    active   active Login Prompts
+</span><span style="color:#ffd580;">graphical.target</span><span>       loaded    active   active Graphical Interface
+</span><span style="color:#ffd580;">local-fs-pre.target</span><span>    loaded    active   active Local File Systems (Pre)
+</span><span style="color:#ffd580;">local-fs.target</span><span>        loaded    active   active Local File Systems
+</span><span style="color:#ffd580;">multi-user.target</span><span>      loaded    active   active Multi-User System
+</span><span style="color:#ffd580;">network-online.target</span><span>  loaded    inactive dead   Network is Online
+</span><span style="color:#ffd580;">network.target</span><span>         loaded    active   active Network
+</span><span style="color:#ffd580;">nfs.target</span><span>             loaded    active   active Network File System Server
+</span><span style="color:#ffd580;">nss-user-lookup.target</span><span> loaded    inactive dead   User and Group Name Lookups
+</span><span style="color:#ffd580;">paths.target</span><span>           loaded    active   active Paths
+</span><span style="color:#ffd580;">remote-fs-pre.target</span><span>   loaded    inactive dead   Remote File Systems (Pre)
+</span><span style="color:#ffd580;">remote-fs.target</span><span>       loaded    active   active Remote File Systems
+</span><span style="color:#ffd580;">rescue.target</span><span>          loaded    inactive dead   Rescue Mode
+</span><span style="color:#ffd580;">shutdown.target</span><span>        loaded    inactive dead   Shutdown
+</span><span style="color:#ffd580;">sleep.target</span><span>           loaded    inactive dead   Sleep
+</span><span style="color:#ffd580;">slices.target</span><span>          loaded    active   active Slices
+</span><span style="color:#ffd580;">sockets.target</span><span>         loaded    active   active Sockets
+</span><span style="color:#ffd580;">sound.target</span><span>           loaded    active   active Sound Card
+</span><span style="color:#ffd580;">suspend.target</span><span>         loaded    active   active Suspend
+</span><span style="color:#ffd580;">swap.target</span><span>            loaded    active   active Swap
+</span><span style="color:#ffd580;">sysinit.target</span><span>         loaded    active   active System Initialization
+</span><span style="color:#ffd580;">syslog.target</span><span>          not-found inactive dead   syslog.target
+</span><span style="color:#ffd580;">time-sync.target</span><span>       loaded    inactive dead   System Time Synchronized
+</span><span style="color:#ffd580;">timers.target</span><span>          loaded    active   active Timers
+</span><span style="color:#ffd580;">umount.target</span><span>          loaded    inactive dead   Unmount All Filesystems
+</span><span>
+</span><span style="color:#ffd580;">LOAD</span><span>   = Reflects whether the unit definition was properly loaded.
+</span><span style="color:#ffd580;">ACTIVE</span><span> = The high-level unit activation state, i.e. generalization of SUB.
+</span><span style="color:#ffd580;">SUB</span><span>    = The low-level unit activation state, values depend on unit type.
+</span><span>
+</span><span style="color:#ffd580;">31</span><span> loaded units listed.
+</span><span style="color:#ffd580;">To</span><span> show all installed unit files use </span><span style="color:#bae67e;">&#39;systemctl list-unit-files&#39;</span><span>.
+</span></code></pre>
+<h4 id="benefits-1">Benefits</h4>
 <ul>
 <li><strong>Composition</strong>: Allows for services to be composed together in logical, user-defined groups easily.</li>
 <li><strong>Configuration</strong>: It's simple to add custom targets.</li>
@@ -362,8 +356,8 @@ AllowIsolate=yes
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

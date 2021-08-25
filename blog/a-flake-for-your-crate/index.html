@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f8922201499b7b3c00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f8922201499b7b3c00.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/Cbo4Bxx7SaA">Ahmed Sobah</a></figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;50818073f1e630d500.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f8922201499b7b3c00.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc25207b29840f7600.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -192,36 +192,34 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
 <span id="continue-reading"></span><h1 id="prerequisites">Prerequisites</h1>
 <p>Before we get started, you'll need a Nix with the <code>flakes</code> feature enabled. Let's do that!</p>
 <h2 id="if-using-nixos">If using <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS">NixOS</a>:</h2>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="color:#ccc9c2;">{
-  </span><span style="font-style:italic;color:#5c6773;"># Use edge NixOS.
-  </span><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">extraOptions </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;&#39;
-    experimental-features = nix-command flakes
-  &#39;&#39;</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">package </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixUnstable</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="color:#ffd580;">nixpkgs</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">config</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">allowUnfree </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span>{
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># Use edge NixOS.
+</span><span>  </span><span style="color:#ffd580;">nix</span><span>.</span><span style="color:#ffd580;">extraOptions </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;&#39;
+</span><span style="color:#bae67e;">    experimental-features = nix-command flakes
+</span><span style="color:#bae67e;">  &#39;&#39;</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">nix</span><span>.</span><span style="color:#ffd580;">package </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixUnstable</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">nixpkgs</span><span>.</span><span style="color:#ffd580;">config</span><span>.</span><span style="color:#ffd580;">allowUnfree </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Then do a <code>nixos-rebuild switch</code> to activate it. You may also want to enable <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv#via-configurationnix-in-nixos"><code>nix-direnv</code></a>.</p>
 <h2 id="if-using-nix">If using <a rel="noopener" target="_blank" href="https://nixos.org/manual/nix/unstable/introduction.html">Nix</a></h2>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.config/nix/
-</span><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;experimental-features = nix-command flakes&quot; </span><span style="color:#f29e74;">&gt;&gt; </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.config/nix/nix.conf
-</span><span style="color:#ffd580;">nix-env</span><span style="color:#ffcc66;"> -iA</span><span style="color:#ccc9c2;"> nixpkgs.nixUnstable
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.config/nix/
+</span><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;experimental-features = nix-command flakes&quot; </span><span style="color:#f29e74;">&gt;&gt; </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.config/nix/nix.conf
+</span><span style="color:#ffd580;">nix-env</span><span style="color:#ffcc66;"> -iA</span><span> nixpkgs.nixUnstable
 </span></code></pre>
 <p>You may also want to enable <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv#with-nix-env"><code>nix-direnv</code></a>.</p>
 <h1 id="setup">Setup</h1>
 <p>For this article, I'll create a new crate. You can use your existing crate! You should also ensure it's a Git repository. (Flakes require this!)</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ccc9c2;">cargo init scratch
-cd scratch
-nvim Cargo</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">toml
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>cargo init scratch
+</span><span>cd scratch
+</span><span>nvim Cargo</span><span style="color:#f29e74;">.</span><span>toml
 </span><span style="font-style:italic;color:#5c6773;">// Add a `description = &quot;boop&quot;` field under `[package]`!
-
-</span><span style="color:#ccc9c2;">git init
-git add src</span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;"> Cargo</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">toml
-</span></code></pre><h2 id="flake-nix"><code>flake.nix</code></h2>
+</span><span>
+</span><span>git init
+</span><span>git add src</span><span style="color:#f29e74;">/</span><span> Cargo</span><span style="color:#f29e74;">.</span><span>toml
+</span></code></pre>
+<h2 id="flake-nix"><code>flake.nix</code></h2>
 <p>Next, we'll create a <code>flake.nix</code>. This is the coarse equivalent of a <code>Cargo.toml</code> file in Rust. (In fact, later we'll even see a <code>flake.lock</code>, just like Cargo!)</p>
 <p><a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/Flakes">Flakes</a> are a Nix file with a predetermined schema. The <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/Flakes#Flake_schema">wiki page</a> includes a schema.</p>
 <p>Our flake will have three items in the root:</p>
@@ -239,87 +237,86 @@ git add src</span><span style="color:#f29e74;">/</span><span style="color:#ccc9c
 <li><strong><code>devShell</code>:</strong> An environment for when <code>nix develop</code> is run. This is also used in <code>nix-direnv</code>.</li>
 </ul>
 <p>You shouldn't need to make many changes to this file, <strong>but you should customize the <code>description</code> and remove any platforms you don't support</strong>.</p>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
-</span><span style="color:#ccc9c2;">{
-  </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;My cute Rust crate!&quot;</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="color:#ffd580;">inputs </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffd580;">nixpkgs</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:NixOS/nixpkgs/nixpkgs-unstable&quot;</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffd580;">naersk</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:nmattia/naersk&quot;</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffd580;">naersk</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">inputs</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">nixpkgs</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">follows </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;nixpkgs&quot;</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="color:#ffd580;">outputs </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">naersk </span><span style="color:#ccc9c2;">}:
-    </span><span style="color:#ffa759;">let
-      </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ffd580;">supportedSystems </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&quot;x86_64-linux&quot; &quot;aarch64-linux&quot; &quot;x86_64-darwin&quot; </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ffd580;">forAllSystems </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">f</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">genAttrs supportedSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">f system</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffa759;">in
-    </span><span style="color:#ccc9c2;">{
-      </span><span style="color:#ffd580;">overlay </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">prev</span><span style="color:#ccc9c2;">: {
-        </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">callPackage </span><span style="color:#bae67e;">./. </span><span style="color:#ccc9c2;">{ </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">naersk</span><span style="color:#ccc9c2cc;">; </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-
-      </span><span style="color:#ffd580;">packages </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">:
-        </span><span style="color:#ffa759;">let
-          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span style="color:#ccc9c2;">{
-            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[
-              </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay
-            </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-          </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffa759;">in
-        </span><span style="color:#ccc9c2;">{
-          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
-
-
-      </span><span style="color:#ffd580;">defaultPackage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">: (</span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span style="color:#ccc9c2;">{
-        </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ccc9c2;">})</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-
-      </span><span style="color:#ffd580;">checks </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">:
-        </span><span style="color:#ffa759;">let
-          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span style="color:#ccc9c2;">{
-            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[
-              </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay
-            </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-          </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffa759;">in
-        </span><span style="color:#ccc9c2;">{
-          </span><span style="color:#ffd580;">format </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">runCommand </span><span style="color:#bae67e;">&quot;check-format&quot;
-            </span><span style="color:#ccc9c2;">{
-              </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span style="color:#ccc9c2;">; [ </span><span style="color:#ffcc66;">rustfmt cargo </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-            </span><span style="color:#ccc9c2;">} </span><span style="color:#bae67e;">&#39;&#39;
-            </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">rustfmt</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/bin/cargo-fmt fmt --manifest-path </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#bae67e;">./.</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/Cargo.toml -- --check
-            </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">nixpkgs-fmt</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/bin/nixpkgs-fmt --check </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#bae67e;">./.</span><span style="font-style:italic;color:#ccc9c2;">}
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
+</span><span>{
+</span><span>  </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;My cute Rust crate!&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">inputs </span><span style="color:#f29e74;">= </span><span>{
+</span><span>    </span><span style="color:#ffd580;">nixpkgs</span><span>.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:NixOS/nixpkgs/nixpkgs-unstable&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffd580;">naersk</span><span>.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:nmattia/naersk&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffd580;">naersk</span><span>.</span><span style="color:#ffd580;">inputs</span><span>.</span><span style="color:#ffd580;">nixpkgs</span><span>.</span><span style="color:#ffd580;">follows </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;nixpkgs&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>  }</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">outputs </span><span style="color:#f29e74;">= </span><span>{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">naersk </span><span>}:
+</span><span>    </span><span style="color:#ffa759;">let
+</span><span>      </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span>))</span><span style="color:#ccc9c2cc;">;
+</span><span>      </span><span style="color:#ffd580;">supportedSystems </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#bae67e;">&quot;x86_64-linux&quot; &quot;aarch64-linux&quot; &quot;x86_64-darwin&quot; </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>      </span><span style="color:#ffd580;">forAllSystems </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">f</span><span>: </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">genAttrs supportedSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>: </span><span style="color:#ffcc66;">f system</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">in
+</span><span>    {
+</span><span>      </span><span style="color:#ffd580;">overlay </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span>: </span><span style="color:#ffcc66;">prev</span><span>: {
+</span><span>        </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">callPackage </span><span style="color:#bae67e;">./. </span><span>{ </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">naersk</span><span style="color:#ccc9c2cc;">; </span><span>}</span><span style="color:#ccc9c2cc;">;
+</span><span>      }</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>      </span><span style="color:#ffd580;">packages </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>:
+</span><span>        </span><span style="color:#ffa759;">let
+</span><span>          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
+</span><span>            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+</span><span>            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[
+</span><span>              </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay
+</span><span>            ]</span><span style="color:#ccc9c2cc;">;
+</span><span>          }</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffa759;">in
+</span><span>        {
+</span><span>          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>        })</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>
+</span><span>      </span><span style="color:#ffd580;">defaultPackage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>: (</span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
+</span><span>        </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>      })</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>      </span><span style="color:#ffd580;">checks </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>:
+</span><span>        </span><span style="color:#ffa759;">let
+</span><span>          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
+</span><span>            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+</span><span>            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[
+</span><span>              </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay
+</span><span>            ]</span><span style="color:#ccc9c2cc;">;
+</span><span>          }</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffa759;">in
+</span><span>        {
+</span><span>          </span><span style="color:#ffd580;">format </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">runCommand </span><span style="color:#bae67e;">&quot;check-format&quot;
+</span><span>            {
+</span><span>              </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [ </span><span style="color:#ffcc66;">rustfmt cargo </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>            } </span><span style="color:#bae67e;">&#39;&#39;
+</span><span style="color:#bae67e;">            </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">rustfmt</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/bin/cargo-fmt fmt --manifest-path </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#bae67e;">./.</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/Cargo.toml -- --check
+</span><span style="color:#bae67e;">            </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">nixpkgs-fmt</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/bin/nixpkgs-fmt --check </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#bae67e;">./.</span><span style="font-style:italic;color:#ccc9c2;">}
 </span><span style="color:#bae67e;">            touch $out # it worked!
-          &#39;&#39;</span><span style="color:#ccc9c2cc;">;
-          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ffd580;">devShell </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">system</span><span style="color:#ccc9c2;">:
-        </span><span style="color:#ffa759;">let
-          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span style="color:#ccc9c2;">{
-            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-          </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffa759;">in
-        </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">mkShell </span><span style="color:#ccc9c2;">{
-          </span><span style="color:#ffd580;">inputsFrom </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span style="color:#ccc9c2;">; [
-            </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;
-          </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-          </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span style="color:#ccc9c2;">; [
-            </span><span style="color:#ffcc66;">rustfmt
-            nixpkgs-fmt
-          </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-          </span><span style="color:#ffd580;">LIBCLANG_PATH </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">llvmPackages</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">libclang</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/lib&quot;</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
+</span><span style="color:#bae67e;">          &#39;&#39;</span><span style="color:#ccc9c2cc;">;
+</span><span>          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>        })</span><span style="color:#ccc9c2cc;">;
+</span><span>      </span><span style="color:#ffd580;">devShell </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>:
+</span><span>        </span><span style="color:#ffa759;">let
+</span><span>          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
+</span><span>            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+</span><span>            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>          }</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffa759;">in
+</span><span>        </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">mkShell </span><span>{
+</span><span>          </span><span style="color:#ffd580;">inputsFrom </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [
+</span><span>            </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;
+</span><span>          ]</span><span style="color:#ccc9c2cc;">;
+</span><span>          </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [
+</span><span>            </span><span style="color:#ffcc66;">rustfmt
+</span><span>            </span><span style="color:#ffcc66;">nixpkgs-fmt
+</span><span>          ]</span><span style="color:#ccc9c2cc;">;
+</span><span>          </span><span style="color:#ffd580;">LIBCLANG_PATH </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">llvmPackages</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">libclang</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/lib&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>        })</span><span style="color:#ccc9c2cc;">;
+</span><span>    }</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
 </span></code></pre>
 <p>Then <code>git add flake.nix</code>.</p>
 <h2 id="default-nix"><code>default.nix</code></h2>
@@ -339,9 +336,8 @@ expression.</li>
 <li><strong><code>name</code> and <code>version</code>:</strong> Derived from your <code>Cargo.toml</code>.</li>
 <li><strong><code>meta</code>:</strong> Some metadata about the package. Optionally you can set <code>mainProgram = &quot;thing&quot;</code> here.</li>
 </ul>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span style="color:#ccc9c2;">{ </span><span style="color:#ffcc66;">lib
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
+</span><span>{ </span><span style="color:#ffcc66;">lib
 </span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">naersk
 </span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">stdenv
 </span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">clangStdenv
@@ -352,51 +348,51 @@ expression.</li>
 </span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">rustfmt
 </span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">cargo
 </span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">rustc
-  </span><span style="font-style:italic;color:#5c6773;"># , llvmPackages # Optional
-  # , protobuf     # Optional
-</span><span style="color:#ccc9c2;">}:
-
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># , llvmPackages # Optional
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># , protobuf     # Optional
+</span><span>}:
+</span><span>
 </span><span style="color:#ffa759;">let
-  </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span style="color:#ccc9c2;">))</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span>))</span><span style="color:#ccc9c2cc;">;
 </span><span style="color:#ffa759;">in
-
-</span><span style="color:#ffcc66;">naersk</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">targetPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">system</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">buildPackage </span><span style="color:#ffa759;">rec </span><span style="color:#ccc9c2;">{
-  </span><span style="color:#ffd580;">src </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">./.</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[
-    </span><span style="color:#ffcc66;">rustfmt
-    pkg-config
-    cargo
-    rustc
-    libiconv
-  </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">checkInputs </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#ffcc66;">cargo rustc </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">CARGO_BUILD_INCREMENTAL </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;false&quot;</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">RUST_BACKTRACE </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;full&quot;</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">copyLibs </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="font-style:italic;color:#5c6773;"># Optional things you might need:
-  #
-  # If you depend on `libclang`:
-  # LIBCLANG_PATH = &quot;${llvmPackages.libclang}/lib&quot;;
-  #
-  # If you depend on protobuf:
-  # PROTOC = &quot;${protobuf}/bin/protoc&quot;;
-  # PROTOC_INCLUDE = &quot;${protobuf}/include&quot;;
-
-  </span><span style="color:#ffd580;">name </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">version </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">version</span><span style="color:#ccc9c2cc;">;
-
-  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span style="color:#ccc9c2;">; {
-    </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">description</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffd580;">homepage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">homepage</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffd580;">license </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">licenses</span><span style="color:#ccc9c2;">; [ </span><span style="color:#ffcc66;">mit </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffd580;">maintainers </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">maintainers</span><span style="color:#ccc9c2;">; [ ]</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
+</span><span>
+</span><span style="color:#ffcc66;">naersk</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">targetPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">system</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">buildPackage </span><span style="color:#ffa759;">rec </span><span>{
+</span><span>  </span><span style="color:#ffd580;">src </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">./.</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span>[
+</span><span>    </span><span style="color:#ffcc66;">rustfmt
+</span><span>    </span><span style="color:#ffcc66;">pkg-config
+</span><span>    </span><span style="color:#ffcc66;">cargo
+</span><span>    </span><span style="color:#ffcc66;">rustc
+</span><span>    </span><span style="color:#ffcc66;">libiconv
+</span><span>  ]</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">checkInputs </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">cargo rustc </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">CARGO_BUILD_INCREMENTAL </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;false&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">RUST_BACKTRACE </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;full&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">copyLibs </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># Optional things you might need:
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">#
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># If you depend on `libclang`:
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># LIBCLANG_PATH = &quot;${llvmPackages.libclang}/lib&quot;;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">#
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># If you depend on protobuf:
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># PROTOC = &quot;${protobuf}/bin/protoc&quot;;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># PROTOC_INCLUDE = &quot;${protobuf}/include&quot;;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">name </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">version </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">version</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
+</span><span>    </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">description</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffd580;">homepage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">homepage</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffd580;">license </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">licenses</span><span>; [ </span><span style="color:#ffcc66;">mit </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffd580;">maintainers </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">maintainers</span><span>; [ ]</span><span style="color:#ccc9c2cc;">;
+</span><span>  }</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
 </span></code></pre>
 <p>Then <code>git add default.nix</code>.</p>
 <blockquote>
@@ -404,9 +400,8 @@ expression.</li>
 </blockquote>
 <h2 id="optional-nix-direnv-envrc">Optional: <code>nix-direnv</code> &amp; <code>.envrc</code></h2>
 <p>In order to hook into <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv"><code>nix-direnv</code></a>:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;use flake&quot; </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> .envrc
-</span><span style="color:#ffd580;">direnv</span><span style="color:#ccc9c2;"> reload
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;use flake&quot; </span><span style="color:#f29e74;">&gt;</span><span> .envrc
+</span><span style="color:#ffd580;">direnv</span><span> reload
 </span></code></pre>
 <p>Then <code>git add .envrc</code>.</p>
 <h1 id="make-sure-it-works">Make sure it works</h1>
@@ -414,85 +409,81 @@ expression.</li>
 <blockquote>
 <p>If you did not opt to use <code>nix-direnv</code>, now you need to call <code>nix develop .</code> to enter the full development shell.</p>
 </blockquote>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> fetch
-</span><span style="color:#ffd580;">git</span><span style="color:#ccc9c2;"> add Cargo.lock
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> fetch
+</span><span style="color:#ffd580;">git</span><span> add Cargo.lock
 </span></code></pre>
 <p>At this point you can try out <code>cargo build</code> and other relevant commands. They should work and use the libraries and tools provided by Nix.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> check
-</span><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> build
-</span><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> run</span><span style="color:#ffcc66;"> --release
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> check
+</span><span style="color:#ffd580;">cargo</span><span> build
+</span><span style="color:#ffd580;">cargo</span><span> run</span><span style="color:#ffcc66;"> --release
 </span></code></pre>
 <p>Go ahead and test a build:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Precautionary formatting...
-</span><span style="color:#ffd580;">nixpkgs-fmt</span><span style="color:#ccc9c2;"> ./.
-
-</span><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> flake check
-</span><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> build .
-</span><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> run .
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Precautionary formatting...
+</span><span style="color:#ffd580;">nixpkgs-fmt</span><span> ./.
+</span><span>
+</span><span style="color:#ffd580;">nix</span><span> flake check
+</span><span style="color:#ffd580;">nix</span><span> build .
+</span><span style="color:#ffd580;">nix</span><span> run .
 </span></code></pre>
 <blockquote>
 <p>Get trouble? Try running <code>nix build --print-build-logs --keep-failed</code> to be able to see logs and check the workdir.</p>
 </blockquote>
 <p>Here's it working:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> nix run .
-</span><span style="color:#ffd580;">Hello,</span><span style="color:#ccc9c2;"> world!
-</span></code></pre><h1 id="in-the-real-world">In the real world</h1>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> nix run .
+</span><span style="color:#ffd580;">Hello,</span><span> world!
+</span></code></pre>
+<h1 id="in-the-real-world">In the real world</h1>
 <p>So how does this do on other crates? I test these files to several other popular Rust packages, here's what I needed to change for each:</p>
 <h3 id="ripgrep"><a rel="noopener" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a></h3>
 <p>I had to set <code>mainProgram</code> within the <code>meta</code> of <code>default.nix</code>:</p>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span style="color:#ccc9c2;">{ </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}:
-{
-  </span><span style="font-style:italic;color:#5c6773;"># ...
-  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span style="color:#ccc9c2;">; {
-    </span><span style="font-style:italic;color:#5c6773;"># ...
-    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;rg&quot;</span><span style="color:#ccc9c2cc;">;  
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">} 
-</span></code></pre><h3 id="bottom"><a rel="noopener" target="_blank" href="https://github.com/ClementTsang/bottom"><code>bottom</code></a></h3>
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
+</span><span>{ </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span>}:
+</span><span>{
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;rg&quot;</span><span style="color:#ccc9c2cc;">;  
+</span><span>  }</span><span style="color:#ccc9c2cc;">;
+</span><span>} 
+</span></code></pre>
+<h3 id="bottom"><a rel="noopener" target="_blank" href="https://github.com/ClementTsang/bottom"><code>bottom</code></a></h3>
 <p>I also had to set <code>mainProgram</code> to <code>btm</code>. I also had to set <code>doCheck = true</code> in <code>default.nix</code>, as the tests depended on floating environment variables the build didn't have.</p>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span style="color:#ccc9c2;">{ </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span style="color:#ccc9c2;">}:
-{
-  </span><span style="font-style:italic;color:#5c6773;"># ...
-  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span style="color:#ccc9c2;">; {
-    </span><span style="font-style:italic;color:#5c6773;"># ...
-    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;btm&quot;</span><span style="color:#ccc9c2cc;">;  
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">} 
-</span></code></pre><h3 id="nushell-nu"><a rel="noopener" target="_blank" href="https://github.com/nushell/nushell">Nushell (<code>nu</code>)</a></h3>
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
+</span><span>{ </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span>}:
+</span><span>{
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;btm&quot;</span><span style="color:#ccc9c2cc;">;  
+</span><span>  }</span><span style="color:#ccc9c2cc;">;
+</span><span>} 
+</span></code></pre>
+<h3 id="nushell-nu"><a rel="noopener" target="_blank" href="https://github.com/nushell/nushell">Nushell (<code>nu</code>)</a></h3>
 <p><code>nu</code> uses <em>recursive git dependencies</em> which are an issue for Naersk right now (<a rel="noopener" target="_blank" href="https://github.com/nmattia/naersk/issues/162">#162</a>), so I had to 'lift' those dependencies into the <code>Cargo.toml</code> as plain dependencies (with <code>git</code> and <code>rev</code> attributes):</p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="font-style:italic;color:#5c6773;"># Cargo.toml
-# ...
-
-</span><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">dependencies</span><span style="color:#ccc9c2;">]
-</span><span style="color:#73d0ff;">arrow </span><span style="color:#ccc9c2;">= { </span><span style="color:#73d0ff;">git </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;https://github.com/apache/arrow-rs&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#73d0ff;">rev </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;9f56afb2d2347310184706f7d5e46af583557bea&quot; </span><span style="color:#ccc9c2;">}
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="font-style:italic;color:#5c6773;"># Cargo.toml
+</span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>
+</span><span>[</span><span style="color:#73d0ff;">dependencies</span><span>]
+</span><span style="color:#73d0ff;">arrow </span><span>= { </span><span style="color:#73d0ff;">git </span><span>= </span><span style="color:#bae67e;">&quot;https://github.com/apache/arrow-rs&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#73d0ff;">rev </span><span>= </span><span style="color:#bae67e;">&quot;9f56afb2d2347310184706f7d5e46af583557bea&quot; </span><span>}
 </span></code></pre>
 <p>In addition, I had to add <code>openssl</code> to the <code>buildInputs</code> in <code>default.nix</code>, and I set <code>doCheck = false</code> because some tests weren't able to touch certain places on the filesystem. Finally, like the others, I had to set <code>mainProgram</code>.</p>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span style="color:#ccc9c2;">{ </span><span style="font-style:italic;color:#5c6773;">/* ... */</span><span style="color:#ff3333;">, </span><span style="color:#ffcc66;">openssl </span><span style="color:#ccc9c2;">}:
-{
-  </span><span style="font-style:italic;color:#5c6773;"># ...
-  </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span style="color:#ccc9c2;">; [
-    </span><span style="font-style:italic;color:#5c6773;"># ...
-    </span><span style="color:#ffcc66;">openssl
-  </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span style="color:#ccc9c2;">; {
-    </span><span style="font-style:italic;color:#5c6773;"># ...
-    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;nu&quot;</span><span style="color:#ccc9c2cc;">;  
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-</span></code></pre><h1 id="getting-help">Getting help</h1>
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
+</span><span>{ </span><span style="font-style:italic;color:#5c6773;">/* ... */</span><span style="color:#ff3333;">, </span><span style="color:#ffcc66;">openssl </span><span>}:
+</span><span>{
+</span><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>  </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>    </span><span style="color:#ffcc66;">openssl
+</span><span>  ]</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
+</span><span>    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;nu&quot;</span><span style="color:#ccc9c2cc;">;  
+</span><span>  }</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span></code></pre>
+<h1 id="getting-help">Getting help</h1>
 <p>For general help with Nix, consult <a rel="noopener" target="_blank" href="https://discourse.nixos.org/">the forums</a>, for help with Rust try <a rel="noopener" target="_blank" href="https://users.rust-lang.org/">the forums</a>.</p>
 <p>I also find <a rel="noopener" target="_blank" href="https://nix.dev/">nix.dev</a>, <a rel="noopener" target="_blank" href="https://nixos.wiki/">nixos.wiki</a>, and <a rel="noopener" target="_blank" href="https://nixos.org/manual/nix/unstable/introduction.html">the <code>nixUnstable</code> manual</a> very helpful.</p>
 <p><strong>Need something more personal?</strong></p>
@@ -504,8 +495,8 @@ expression.</li>
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

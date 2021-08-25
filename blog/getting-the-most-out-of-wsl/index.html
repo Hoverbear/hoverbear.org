@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ebbfb50cd92904f500.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ebbfb50cd92904f500.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Matthieu Joannon; @matt_j on Unsplash</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4cfc9183f7fd393700.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ebbfb50cd92904f500.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3b9bea67a875224e00.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -161,25 +161,22 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
 </blockquote>
 <h2 id="getting-it-set-up">Getting it set up</h2>
 <p>Getting WSL set up has a few steps, first you'll need to add some Windows optional Features.</p>
-<pre style="background-color:#212733;">
-<code class="language-powershell" data-lang="powershell"><span style="font-style:italic;color:#5c6773;"># In an administrator powershell
-</span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">Online </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">FeatureName </span><span style="color:#bae67e;">&quot;Microsoft-Windows-Subsystem-Linux&quot;
-</span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">Online </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">FeatureName </span><span style="color:#bae67e;">&quot;VirtualMachinePlatform&quot; 
-</span><span style="color:#ccc9c2;">wsl </span><span style="color:#f29e74;">--</span><span style="color:#f28779;">set-default</span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">version </span><span style="color:#ffcc66;">2
+<pre data-lang="powershell" style="background-color:#212733;color:#ccc9c2;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span style="font-style:italic;color:#5c6773;"># In an administrator powershell
+</span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span>Online </span><span style="color:#f29e74;">-</span><span>FeatureName </span><span style="color:#bae67e;">&quot;Microsoft-Windows-Subsystem-Linux&quot;
+</span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span>Online </span><span style="color:#f29e74;">-</span><span>FeatureName </span><span style="color:#bae67e;">&quot;VirtualMachinePlatform&quot; 
+</span><span>wsl </span><span style="color:#f29e74;">--</span><span style="color:#f28779;">set-default</span><span style="color:#f29e74;">-</span><span>version </span><span style="color:#ffcc66;">2
 </span></code></pre>
 <p>Next, head on over to the Windows Store and install <a rel="noopener" target="_blank" href="https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab">'Ubuntu'</a>. Once it's downloaded you should launch it and do the first time setup. It'll ask you to put a username and password.</p>
 <p>At the point, you have a WSL2 installation of Ubuntu. To verify:</p>
-<pre style="background-color:#212733;">
-<code class="language-powershell" data-lang="powershell"><span style="color:#ccc9c2;">$ wsl </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">l </span><span style="color:#f29e74;">-</span><span style="color:#ccc9c2;">v
-  NAME      STATE           VERSION
-</span><span style="color:#f29e74;">*</span><span style="color:#ccc9c2;"> Ubuntu    Running         </span><span style="color:#ffcc66;">2
+<pre data-lang="powershell" style="background-color:#212733;color:#ccc9c2;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span>$ wsl </span><span style="color:#f29e74;">-</span><span>l </span><span style="color:#f29e74;">-</span><span>v
+</span><span>  NAME      STATE           VERSION
+</span><span style="color:#f29e74;">*</span><span> Ubuntu    Running         </span><span style="color:#ffcc66;">2
 </span></code></pre>
 <p>To access Ubuntu type <code>wsl</code> from Powershell, or open the 'Ubuntu' app in your Start Menu.</p>
 <h2 id="updating-ubuntu">Updating Ubuntu</h2>
 <p>The Ubuntu version you should have is Ubuntu 18.04. (Check with <code>lsb_release -r</code>) In order to upgrade it to Ubuntu 19.04 </p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">wsl</span><span style="color:#ccc9c2;"> sudo sed</span><span style="color:#ffcc66;"> -i </span><span style="color:#bae67e;">&#39;s/Prompt=lts/Prompt=normal/g&#39;</span><span style="color:#ccc9c2;"> /etc/update-manager/release-upgrades
-</span><span style="color:#ffd580;">wsl</span><span style="color:#ccc9c2;"> sudo do-release-upgrade
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">wsl</span><span> sudo sed</span><span style="color:#ffcc66;"> -i </span><span style="color:#bae67e;">&#39;s/Prompt=lts/Prompt=normal/g&#39;</span><span> /etc/update-manager/release-upgrades
+</span><span style="color:#ffd580;">wsl</span><span> sudo do-release-upgrade
 </span></code></pre>
 <p>If the process asks you about &quot;restart services during package upgrades without asking&quot; you should pick <strong>no</strong>! If it asks you for a list of services to restart, just have it empty.</p>
 <blockquote>
@@ -189,8 +186,7 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
 <p>For any new configuration files (such as <code>sshd</code>) select <strong>install the package maintainer's version</strong>.</p>
 <p>Then, let it 'restart', restart the WSL machine with <code>wsl --shutdown</code> from a Powershell.</p>
 <p>Open up a Ubuntu shell and check <code>lsb_release -r</code> again. For me it says 19.04. This means I need to upgrade again to get to 19.10!</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">wsl</span><span style="color:#ccc9c2;"> sudo do-release-upgrade
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">wsl</span><span> sudo do-release-upgrade
 </span></code></pre>
 <p>Following the same procedure, <code>lsb_release -r</code> for me now shows 19.10.</p>
 <h2 id="better-terminals">Better terminals</h2>
@@ -198,58 +194,55 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
 <figure class="enriched ">
         <figcaption>Windows Terminal chooser</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;99e2a3e45b610d0800.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;61c0b7c68365dea900.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;db8e8a96ebe3931e00.jpg"
+              src="[object]"
               alt="Windows Terminal chooser" />
     </figure>
 <p>You can also install <a rel="noopener" target="_blank" href="https://code.visualstudio.com/insiders/">VS Code Insiders</a> and the <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL</a> extension to get a full featured editor/explorer.</p>
 <figure class="enriched ">
         <figcaption>VS Code chooser</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cc2a2a5be1a6cfde00.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f46371f8f5d54d7800.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4ab15293f33f6ac000.jpg"
+              src="[object]"
               alt="VS Code chooser" />
     </figure>
 <p>Occasionally VS Code, the extension, or something else will update and render it unable to connect. Opening a local VS Code window, closing it, then restarting the computer should fix it.</p>
 <h2 id="configuring-wsl">Configuring WSL</h2>
 <p>Typically, you won't want your WSL instance to be able to consume all your resources. You may also want to disable things like swap.</p>
 <p>Save a file to <code>%UserProfile%/.wslconfig</code> with contents like the following:</p>
-<pre style="background-color:#212733;">
-<code class="language-ini" data-lang="ini"><span style="color:#ffa759;">[wsl2]
+<pre data-lang="ini" style="background-color:#212733;color:#ccc9c2;" class="language-ini "><code class="language-ini" data-lang="ini"><span style="color:#ffa759;">[wsl2]
 </span><span style="color:#ffcc66;">memory</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">12GB
-swap</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0
+</span><span style="color:#ffcc66;">swap</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0
 </span></code></pre>
 <p>To apply these changes, run <code>wsl --shutdown</code> and open up a new Ubuntu terminal.</p>
 <h2 id="passwordless-sudo">Passwordless <code>sudo</code></h2>
 <p>Having to deal with passwords in a dev VM is kind of annoying. Let's turn that off in Ubuntu:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /etc/sudoers.d/sudo
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span> tee</span><span style="color:#ffcc66;"> -a</span><span> /etc/sudoers.d/sudo
 </span><span style="color:#bae67e;">%sudo         ALL = (ALL) NOPASSWD: ALL
 </span><span style="color:#ffa759;">EOF
-</span></code></pre><h2 id="set-up-ssh-keys">Set up SSH keys</h2>
+</span></code></pre>
+<h2 id="set-up-ssh-keys">Set up SSH keys</h2>
 <p>If you've already rolled keys with Window's built-in <code>ssh-keygen</code> you should copy over your existing key.</p>
 <p>In your Ubuntu shell (change your user if it's different between Windows and Linux):</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh
-</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -r</span><span style="color:#ccc9c2;"> /mnt/c/Users/$USER/.ssh/</span><span style="color:#f29e74;">* </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh/
-</span><span style="color:#ffd580;">chmod</span><span style="color:#ffcc66;"> -R</span><span style="color:#ccc9c2;"> o-rwx,g-rwx </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh/</span><span style="color:#f29e74;">*
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.ssh
+</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -r</span><span> /mnt/c/Users/$USER/.ssh/</span><span style="color:#f29e74;">* </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.ssh/
+</span><span style="color:#ffd580;">chmod</span><span style="color:#ffcc66;"> -R</span><span> o-rwx,g-rwx </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.ssh/</span><span style="color:#f29e74;">*
 </span></code></pre>
 <p>If you haven't already, roll some keys in Linux and copy them the other way:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span style="color:#ccc9c2;"> /mnt/c/Users/$USER/.ssh/
-</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -r </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/.ssh/</span><span style="color:#f29e74;">*</span><span style="color:#ccc9c2;"> /mnt/c/Users/$USER/.ssh/
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span> /mnt/c/Users/$USER/.ssh/
+</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -r </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.ssh/</span><span style="color:#f29e74;">*</span><span> /mnt/c/Users/$USER/.ssh/
 </span></code></pre>
 <p>Unfortunately we can't easily link them since they're on different devices.</p>
 <h2 id="get-systemd-functional">Get <code>systemd</code> functional</h2>
@@ -260,109 +253,107 @@ swap</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0
 <p>Ubuntu 20.20? Daemonize is moved according to <a rel="noopener" target="_blank" href="https://twitter.com/ram0973/status/1253647608670814217">@ram0973</a> found
 it on the <code>/usr/bin/daemonize</code> path.</p>
 </blockquote>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> apt-get install</span><span style="color:#ffcc66;"> -yqq</span><span style="color:#ccc9c2;"> daemonize dbus-user-session
-</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /usr/sbin/start-systemd-namespace </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> /dev/null
-</span><span style="font-style:italic;color:#5c6773;">#!/bin/bash
-
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sudo</span><span> apt-get install</span><span style="color:#ffcc66;"> -yqq</span><span> daemonize dbus-user-session
+</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span> tee</span><span style="color:#ffcc66;"> -a</span><span> /usr/sbin/start-systemd-namespace </span><span style="color:#f29e74;">&gt;</span><span> /dev/null
+</span><span style="color:#bae67e;">#!/bin/bash
+</span><span style="color:#bae67e;">
 </span><span style="color:#bae67e;">SYSTEMD_PID=$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)
-if [ -z &quot;$SYSTEMD_PID&quot; ] || [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
-    export PRE_NAMESPACE_PATH=&quot;$PATH&quot;
-    (set -o posix; set) | \
-        grep -v &quot;^BASH&quot; | \
-        grep -v &quot;^DIRSTACK=&quot; | \
-        grep -v &quot;^EUID=&quot; | \
-        grep -v &quot;^GROUPS=&quot; | \
-        grep -v &quot;^HOME=&quot; | \
-        grep -v &quot;^HOSTNAME=&quot; | \
-        grep -v &quot;^HOSTTYPE=&quot; | \
-        grep -v &quot;^IFS=&#39;.*&quot;$&#39;\n&#39;&quot;&#39;&quot; | \
-        grep -v &quot;^LANG=&quot; | \
-        grep -v &quot;^LOGNAME=&quot; | \
-        grep -v &quot;^MACHTYPE=&quot; | \
-        grep -v &quot;^NAME=&quot; | \
-        grep -v &quot;^OPTERR=&quot; | \
-        grep -v &quot;^OPTIND=&quot; | \
-        grep -v &quot;^OSTYPE=&quot; | \
-        grep -v &quot;^PIPESTATUS=&quot; | \
-        grep -v &quot;^POSIXLY_CORRECT=&quot; | \
-        grep -v &quot;^PPID=&quot; | \
-        grep -v &quot;^PS1=&quot; | \
-        grep -v &quot;^PS4=&quot; | \
-        grep -v &quot;^SHELL=&quot; | \
-        grep -v &quot;^SHELLOPTS=&quot; | \
-        grep -v &quot;^SHLVL=&quot; | \
-        grep -v &quot;^SYSTEMD_PID=&quot; | \
-        grep -v &quot;^UID=&quot; | \
-        grep -v &quot;^USER=&quot; | \
-        grep -v &quot;^_=&quot; | \
-        cat - &gt; &quot;$HOME/.systemd-env&quot;
-    echo &quot;PATH=&#39;$PATH&#39;&quot; &gt;&gt; &quot;$HOME/.systemd-env&quot;
-    exec sudo /usr/sbin/enter-systemd-namespace &quot;$BASH_EXECUTION_STRING&quot;
-fi
-if [ -n &quot;$PRE_NAMESPACE_PATH&quot; ]; then
-    export PATH=&quot;$PRE_NAMESPACE_PATH&quot;
-fi
+</span><span style="color:#bae67e;">if [ -z &quot;$SYSTEMD_PID&quot; ] || [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
+</span><span style="color:#bae67e;">    export PRE_NAMESPACE_PATH=&quot;$PATH&quot;
+</span><span style="color:#bae67e;">    (set -o posix; set) | \
+</span><span style="color:#bae67e;">        grep -v &quot;^BASH&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^DIRSTACK=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^EUID=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^GROUPS=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^HOME=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^HOSTNAME=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^HOSTTYPE=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^IFS=&#39;.*&quot;$&#39;\n&#39;&quot;&#39;&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^LANG=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^LOGNAME=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^MACHTYPE=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^NAME=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^OPTERR=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^OPTIND=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^OSTYPE=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^PIPESTATUS=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^POSIXLY_CORRECT=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^PPID=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^PS1=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^PS4=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^SHELL=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^SHELLOPTS=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^SHLVL=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^SYSTEMD_PID=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^UID=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^USER=&quot; | \
+</span><span style="color:#bae67e;">        grep -v &quot;^_=&quot; | \
+</span><span style="color:#bae67e;">        cat - &gt; &quot;$HOME/.systemd-env&quot;
+</span><span style="color:#bae67e;">    echo &quot;PATH=&#39;$PATH&#39;&quot; &gt;&gt; &quot;$HOME/.systemd-env&quot;
+</span><span style="color:#bae67e;">    exec sudo /usr/sbin/enter-systemd-namespace &quot;$BASH_EXECUTION_STRING&quot;
+</span><span style="color:#bae67e;">fi
+</span><span style="color:#bae67e;">if [ -n &quot;$PRE_NAMESPACE_PATH&quot; ]; then
+</span><span style="color:#bae67e;">    export PATH=&quot;$PRE_NAMESPACE_PATH&quot;
+</span><span style="color:#bae67e;">fi
 </span><span style="color:#ffa759;">EOF
-</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> chmod +x /usr/sbin/start-systemd-namespace
-</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /usr/sbin/enter-systemd-namespace </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> /dev/null
-</span><span style="font-style:italic;color:#5c6773;">#!/bin/bash
-
+</span><span style="color:#ffd580;">sudo</span><span> chmod +x /usr/sbin/start-systemd-namespace
+</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span> tee</span><span style="color:#ffcc66;"> -a</span><span> /usr/sbin/enter-systemd-namespace </span><span style="color:#f29e74;">&gt;</span><span> /dev/null
+</span><span style="color:#bae67e;">#!/bin/bash
+</span><span style="color:#bae67e;">
 </span><span style="color:#bae67e;">if [ &quot;$UID&quot; != 0 ]; then
-    echo &quot;You need to run $0 through sudo&quot;
-    exit 1
-fi
-
-SYSTEMD_PID=&quot;$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)&quot;
-if [ -z &quot;$SYSTEMD_PID&quot; ]; then
-    /usr/sbin/daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
-    while [ -z &quot;$SYSTEMD_PID&quot; ]; do
-        SYSTEMD_PID=&quot;$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)&quot;
-    done
-fi
-
-if [ -n &quot;$SYSTEMD_PID&quot; ] &amp;&amp; [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
-    if [ -n &quot;$1&quot; ] &amp;&amp; [ &quot;$1&quot; != &quot;bash --login&quot; ] &amp;&amp; [ &quot;$1&quot; != &quot;/bin/bash --login&quot; ]; then
-        exec /usr/bin/nsenter -t &quot;$SYSTEMD_PID&quot; -a \
-            /usr/bin/sudo -H -u &quot;$SUDO_USER&quot; \
-            /bin/bash -c &#39;set -a; source &quot;$HOME/.systemd-env&quot;; set +a; exec bash -c &#39;&quot;$(printf &quot;%q&quot; &quot;$@&quot;)&quot;
-    else
-        exec /usr/bin/nsenter -t &quot;$SYSTEMD_PID&quot; -a \
-            /bin/login -p -f &quot;$SUDO_USER&quot; \
-            $(/bin/cat &quot;$HOME/.systemd-env&quot; | grep -v &quot;^PATH=&quot;)
-    fi
-    echo &quot;Existential crisis&quot;
-fi
+</span><span style="color:#bae67e;">    echo &quot;You need to run $0 through sudo&quot;
+</span><span style="color:#bae67e;">    exit 1
+</span><span style="color:#bae67e;">fi
+</span><span style="color:#bae67e;">
+</span><span style="color:#bae67e;">SYSTEMD_PID=&quot;$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)&quot;
+</span><span style="color:#bae67e;">if [ -z &quot;$SYSTEMD_PID&quot; ]; then
+</span><span style="color:#bae67e;">    /usr/sbin/daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
+</span><span style="color:#bae67e;">    while [ -z &quot;$SYSTEMD_PID&quot; ]; do
+</span><span style="color:#bae67e;">        SYSTEMD_PID=&quot;$(ps -ef | grep &#39;/lib/systemd/systemd --system-unit=basic.target$&#39; | grep -v unshare | awk &#39;{print $2}&#39;)&quot;
+</span><span style="color:#bae67e;">    done
+</span><span style="color:#bae67e;">fi
+</span><span style="color:#bae67e;">
+</span><span style="color:#bae67e;">if [ -n &quot;$SYSTEMD_PID&quot; ] &amp;&amp; [ &quot;$SYSTEMD_PID&quot; != &quot;1&quot; ]; then
+</span><span style="color:#bae67e;">    if [ -n &quot;$1&quot; ] &amp;&amp; [ &quot;$1&quot; != &quot;bash --login&quot; ] &amp;&amp; [ &quot;$1&quot; != &quot;/bin/bash --login&quot; ]; then
+</span><span style="color:#bae67e;">        exec /usr/bin/nsenter -t &quot;$SYSTEMD_PID&quot; -a \
+</span><span style="color:#bae67e;">            /usr/bin/sudo -H -u &quot;$SUDO_USER&quot; \
+</span><span style="color:#bae67e;">            /bin/bash -c &#39;set -a; source &quot;$HOME/.systemd-env&quot;; set +a; exec bash -c &#39;&quot;$(printf &quot;%q&quot; &quot;$@&quot;)&quot;
+</span><span style="color:#bae67e;">    else
+</span><span style="color:#bae67e;">        exec /usr/bin/nsenter -t &quot;$SYSTEMD_PID&quot; -a \
+</span><span style="color:#bae67e;">            /bin/login -p -f &quot;$SUDO_USER&quot; \
+</span><span style="color:#bae67e;">            $(/bin/cat &quot;$HOME/.systemd-env&quot; | grep -v &quot;^PATH=&quot;)
+</span><span style="color:#bae67e;">    fi
+</span><span style="color:#bae67e;">    echo &quot;Existential crisis&quot;
+</span><span style="color:#bae67e;">fi
 </span><span style="color:#ffa759;">EOF
-</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> chmod +x /usr/sbin/enter-systemd-namespace
-</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> tee</span><span style="color:#ffcc66;"> -a</span><span style="color:#ccc9c2;"> /etc/sudoers.d/wsl </span><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> /dev/null
+</span><span style="color:#ffd580;">sudo</span><span> chmod +x /usr/sbin/enter-systemd-namespace
+</span><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt;-</span><span style="color:#bae67e;">&#39;</span><span style="color:#ffa759;">EOF</span><span style="color:#bae67e;">&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sudo</span><span> tee</span><span style="color:#ffcc66;"> -a</span><span> /etc/sudoers.d/wsl </span><span style="color:#f29e74;">&gt;</span><span> /dev/null
 </span><span style="color:#bae67e;">Defaults        env_keep += WSLPATH
-Defaults        env_keep += WSLENV
-Defaults        env_keep += WSL_INTEROP
-Defaults        env_keep += WSL_DISTRO_NAME
-Defaults        env_keep += PRE_NAMESPACE_PATH
-%sudo ALL=(ALL) NOPASSWD: /usr/sbin/enter-systemd-namespace
+</span><span style="color:#bae67e;">Defaults        env_keep += WSLENV
+</span><span style="color:#bae67e;">Defaults        env_keep += WSL_INTEROP
+</span><span style="color:#bae67e;">Defaults        env_keep += WSL_DISTRO_NAME
+</span><span style="color:#bae67e;">Defaults        env_keep += PRE_NAMESPACE_PATH
+</span><span style="color:#bae67e;">%sudo ALL=(ALL) NOPASSWD: /usr/sbin/enter-systemd-namespace
 </span><span style="color:#ffa759;">EOF
-</span><span style="color:#ffd580;">sudo</span><span style="color:#ccc9c2;"> sed</span><span style="color:#ffcc66;"> -i</span><span style="color:#ccc9c2;"> 2a</span><span style="color:#bae67e;">&quot;# Start or enter a PID namespace in WSL2\nsource /usr/sbin/start-systemd-namespace\n&quot;</span><span style="color:#ccc9c2;"> /etc/bash.bashrc
+</span><span style="color:#ffd580;">sudo</span><span> sed</span><span style="color:#ffcc66;"> -i</span><span> 2a</span><span style="color:#bae67e;">&quot;# Start or enter a PID namespace in WSL2\nsource /usr/sbin/start-systemd-namespace\n&quot;</span><span> /etc/bash.bashrc
 </span></code></pre>
 <p>In Powershell, set some final knobs then restart WSL:</p>
-<pre style="background-color:#212733;">
-<code class="language-powershell" data-lang="powershell"><span style="color:#f28779;">cmd.exe </span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">C setx WSLENV BASH_ENV</span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">u
-</span><span style="color:#f28779;">cmd.exe </span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">C setx BASH_ENV </span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">etc</span><span style="color:#f29e74;">/</span><span style="color:#ccc9c2;">bash.bashrc
-wsl </span><span style="color:#f29e74;">--</span><span style="color:#ccc9c2;">shutdown
+<pre data-lang="powershell" style="background-color:#212733;color:#ccc9c2;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span style="color:#f28779;">cmd.exe </span><span style="color:#f29e74;">/</span><span>C setx WSLENV BASH_ENV</span><span style="color:#f29e74;">/</span><span>u
+</span><span style="color:#f28779;">cmd.exe </span><span style="color:#f29e74;">/</span><span>C setx BASH_ENV </span><span style="color:#f29e74;">/</span><span>etc</span><span style="color:#f29e74;">/</span><span>bash.bashrc
+</span><span>wsl </span><span style="color:#f29e74;">--</span><span>shutdown
 </span></code></pre>
 <p>Finally, install <code>docker.io</code> with <code>apt</code> and have a try:</p>
 <figure class="enriched ">
         <figcaption>Docker running in Sytemd</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cf9c51ac6f39ca6d00.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab8d5a02c313153d00.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b6134390e34a52f00.jpg"
+              src="[object]"
               alt="Docker running in Sytemd" />
     </figure>
 
@@ -371,8 +362,8 @@ wsl </span><span style="color:#f29e74;">--</span><span style="color:#ccc9c2;">sh
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

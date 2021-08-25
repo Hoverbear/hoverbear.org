@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;22ee6c854ca39e5900.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;22ee6c854ca39e5900.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -70,14 +70,14 @@ Disclaimer: WebAssembly is stabilized, but most implementations are not. The inf
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Mario Klassen</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ff27a4d81c21a4c400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;22ee6c854ca39e5900.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;45297c2bb160b61400.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -89,12 +89,12 @@ Disclaimer: WebAssembly is stabilized, but most implementations are not. The inf
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -178,218 +178,199 @@ Disclaimer: WebAssembly is stabilized, but most implementations are not. The inf
 <h2 id="installing-the-tools">Installing The Tools</h2>
 <p>We'll need two things to get started with WebAssembly and Rust, assuming you already have a functional development environment otherwise (That is, you have <code>build-essential</code>, XCode, or the like installed.)</p>
 <p>First, Rust. You can review <a rel="noopener" target="_blank" href="https://hoverbear.org/2017/03/03/setting-up-a-rust-devenv/#setting-up-rust-via-rustup">here</a> for a more long winded explanation of how to do this, or you can just run the following and accept the defaults:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">curl</span><span style="color:#ccc9c2;"> https://sh.rustup.rs</span><span style="color:#ffcc66;"> -sSf </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sh
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">curl</span><span> https://sh.rustup.rs</span><span style="color:#ffcc66;"> -sSf </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sh
 </span></code></pre>
 <p>Open a new terminal or run <code>source $HOME/.cargo/env</code>, then we'll add the <code>wasm32-unknown-emscripten</code> compile target via <code>rustup</code> as well:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span style="color:#ccc9c2;"> target add wasm32-unknown-emscripten
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> target add wasm32-unknown-emscripten
 </span></code></pre>
 <p>We can use this command to install other targets, found via <code>rustup target list</code>, as well.</p>
 <p>Next we need to set up Emscripten via <a rel="noopener" target="_blank" href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html"><code>emsdk</code></a>. We'll use the <em>incoming</em> version of Emscripten in order to get the best output. Note: This may take awhile (an hour!).</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">curl</span><span style="color:#ccc9c2;"> https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">tar</span><span style="color:#ffcc66;"> -xv -C </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/
-</span><span style="color:#f28779;">cd </span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#ccc9c2;">/emsdk-portable
-</span><span style="color:#ffd580;">./emsdk</span><span style="color:#ccc9c2;"> update
-</span><span style="color:#ffd580;">./emsdk</span><span style="color:#ccc9c2;"> install sdk-incoming-64bit
-</span><span style="color:#ffd580;">./emsdk</span><span style="color:#ccc9c2;"> activate sdk-incoming-64bit
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">curl</span><span> https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">tar</span><span style="color:#ffcc66;"> -xv -C </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/
+</span><span style="color:#f28779;">cd </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/emsdk-portable
+</span><span style="color:#ffd580;">./emsdk</span><span> update
+</span><span style="color:#ffd580;">./emsdk</span><span> install sdk-incoming-64bit
+</span><span style="color:#ffd580;">./emsdk</span><span> activate sdk-incoming-64bit
 </span></code></pre>
 <p>At this point Emscripten is installed. The last command will instruct us how to add the binaries to our path for permanent usage, or we can just <code>source ./emsdk_env.sh</code> for temporary fun.</p>
 <p>At this point <code>emcc -v</code> should report something similar to this:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> emcc</span><span style="color:#ffcc66;"> -v
-</span><span style="color:#ffd580;">INFO:root:</span><span style="color:#ccc9c2;">(Emscripten: Running sanity checks)
-</span><span style="color:#ffd580;">emcc</span><span style="color:#ccc9c2;"> (Emscripten gcc/clang-like replacement + linker emulating GNU ld) </span><span style="color:#ffd580;">1.37.9
-clang</span><span style="color:#ccc9c2;"> version 4.0.0 (https://github.com/kripken/emscripten-fastcomp-clang/ d4b1e0785f1ee15ab78207de4380e82e3407c6ea) (</span><span style="color:#ffd580;">https://github.com/kripken/emscripten-fastcomp/</span><span style="color:#ccc9c2;"> 09aaa022c31e247bfb7b00882372733e6b27f007) (emscripten 1.37.9 : 1.37.9)
-</span><span style="color:#ffd580;">Target:</span><span style="color:#ccc9c2;"> x86_64-apple-darwin16.4.0
-</span><span style="color:#ffd580;">Thread</span><span style="color:#ccc9c2;"> model: posix
-</span><span style="color:#ffd580;">InstalledDir:</span><span style="color:#ccc9c2;"> /Users/hoverbear/emsdk-portable/clang/fastcomp/build_incoming_64/bin
-</span><span style="color:#ffd580;">INFO:root:</span><span style="color:#ccc9c2;">(Emscripten: Running sanity checks)
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> emcc</span><span style="color:#ffcc66;"> -v
+</span><span style="color:#ffd580;">INFO:root:</span><span>(Emscripten: Running sanity checks)
+</span><span style="color:#ffd580;">emcc</span><span> (Emscripten gcc/clang-like replacement + linker emulating GNU ld) </span><span style="color:#ffd580;">1.37.9
+</span><span style="color:#ffd580;">clang</span><span> version 4.0.0 (https://github.com/kripken/emscripten-fastcomp-clang/ d4b1e0785f1ee15ab78207de4380e82e3407c6ea) (</span><span style="color:#ffd580;">https://github.com/kripken/emscripten-fastcomp/</span><span> 09aaa022c31e247bfb7b00882372733e6b27f007) (emscripten 1.37.9 : 1.37.9)
+</span><span style="color:#ffd580;">Target:</span><span> x86_64-apple-darwin16.4.0
+</span><span style="color:#ffd580;">Thread</span><span> model: posix
+</span><span style="color:#ffd580;">InstalledDir:</span><span> /Users/hoverbear/emsdk-portable/clang/fastcomp/build_incoming_64/bin
+</span><span style="color:#ffd580;">INFO:root:</span><span>(Emscripten: Running sanity checks)
 </span></code></pre>
 <p>Now, let's kick the tires a bit!</p>
 <h2 id="first-experiment-standalone-executable">First Experiment: Standalone Executable</h2>
 <p>In our first experiment we'll compile some Rust code into wasm and have it run in the browser console. We'll try a basic code sample to ensure things are working as we expect. We won't try to do any crate importing, DOM manipulation, or network access yet, but that's coming later!</p>
 <p>Let's create our project, we'll use this same project for our future experiments as well. We need to set this to nightly (at least at the time or writing) to have our demos work.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span style="color:#ccc9c2;"> init wasm-demo</span><span style="color:#ffcc66;"> --bin
-</span><span style="color:#ffd580;">rustup</span><span style="color:#ccc9c2;"> override set nightly
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> init wasm-demo</span><span style="color:#ffcc66;"> --bin
+</span><span style="color:#ffd580;">rustup</span><span> override set nightly
 </span></code></pre>
 <p>Then we'll put our first code sample into <code>src/main.rs</code>:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">derive</span><span style="color:#ccc9c2;">(Debug)]
-</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span style="color:#ccc9c2;">{ North</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> South</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> East</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> West }
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">is_north</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">dir</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Direction) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">bool </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">match</span><span style="color:#ccc9c2;"> dir {
-        Direction</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">North </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">,
-        </span><span style="color:#f29e74;">_ =&gt; </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">,
-    </span><span style="color:#ccc9c2;">}
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> points </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Direction</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">South</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> points)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> compass </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">is_north</span><span style="color:#ccc9c2;">(points)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> compass)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Debug)]
+</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span>{ North</span><span style="color:#ccc9c2cc;">,</span><span> South</span><span style="color:#ccc9c2cc;">,</span><span> East</span><span style="color:#ccc9c2cc;">,</span><span> West }
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">is_north</span><span>(</span><span style="color:#ffcc66;">dir</span><span style="color:#ccc9c2cc;">:</span><span> Direction) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">bool </span><span>{
+</span><span>    </span><span style="color:#ffa759;">match</span><span> dir {
+</span><span>        Direction</span><span style="color:#f29e74;">::</span><span>North </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">,
+</span><span>        </span><span style="color:#f29e74;">_ =&gt; </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">,
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> points </span><span style="color:#f29e74;">= </span><span>Direction</span><span style="color:#f29e74;">::</span><span>South</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> points)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">let</span><span> compass </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">is_north</span><span>(points)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> compass)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Running this normally yields what we would expect:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> cargo run
-   </span><span style="color:#ffd580;">Compiling</span><span style="color:#ccc9c2;"> wasm-demo v0.1.0 (file:///Users/hoverbear/git/rust/wasm-demo)
-    </span><span style="color:#ffd580;">Finished</span><span style="color:#ccc9c2;"> dev </span><span style="color:#ffa759;">[</span><span style="color:#ccc9c2;">unoptimized + debuginfo</span><span style="color:#ffa759;">]</span><span style="color:#ccc9c2;"> target(s) </span><span style="color:#ffd580;">in</span><span style="color:#ccc9c2;"> 0.89 secs
-     </span><span style="color:#ffd580;">Running </span><span style="color:#ccc9c2;">`</span><span style="color:#ffd580;">target/debug/wasm-demo</span><span style="color:#ccc9c2;">`
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> cargo run
+</span><span>   </span><span style="color:#ffd580;">Compiling</span><span> wasm-demo v0.1.0 (file:///Users/hoverbear/git/rust/wasm-demo)
+</span><span>    </span><span style="color:#ffd580;">Finished</span><span> dev </span><span style="color:#ffa759;">[</span><span>unoptimized + debuginfo</span><span style="color:#ffa759;">]</span><span> target(s) </span><span style="color:#ffd580;">in</span><span> 0.89 secs
+</span><span>     </span><span style="color:#ffd580;">Running </span><span>`</span><span style="color:#ffd580;">target/debug/wasm-demo</span><span>`
 </span><span style="color:#ffd580;">South
-false
+</span><span style="color:#ffd580;">false
 </span></code></pre>
 <p>Now, let's get the same thing in our browser! We can build our executable for the wasm target by using the <code>--target</code> flag.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> cargo build</span><span style="color:#ffcc66;"> --target</span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;">wasm32-unknown-emscripten</span><span style="color:#ffcc66;"> --release
-</span><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> tree target
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> cargo build</span><span style="color:#ffcc66;"> --target</span><span style="color:#f29e74;">=</span><span>wasm32-unknown-emscripten</span><span style="color:#ffcc66;"> --release
+</span><span style="color:#ffd580;">$</span><span> tree target
 </span><span style="color:#ffd580;">target
-└──</span><span style="color:#ccc9c2;"> wasm32-unknown-emscripten
-    </span><span style="color:#ffd580;">└──</span><span style="color:#ccc9c2;"> release
-        </span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> build
-        </span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> deps
-        </span><span style="color:#ffd580;">│</span><span style="color:#ccc9c2;">   ├── wasm_demo-9c23ae9a241f12fa.asm.js
-        </span><span style="color:#ffd580;">│</span><span style="color:#ccc9c2;">   ├── wasm_demo-9c23ae9a241f12fa.js
-        </span><span style="color:#ffd580;">│</span><span style="color:#ccc9c2;">   └── wasm_demo-9c23ae9a241f12fa.wasm
-        </span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> examples
-        </span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> incremental
-        </span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> native
-        </span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> wasm-demo.d
-        </span><span style="color:#ffd580;">└──</span><span style="color:#ccc9c2;"> wasm-demo.js
+</span><span style="color:#ffd580;">└──</span><span> wasm32-unknown-emscripten
+</span><span>    </span><span style="color:#ffd580;">└──</span><span> release
+</span><span>        </span><span style="color:#ffd580;">├──</span><span> build
+</span><span>        </span><span style="color:#ffd580;">├──</span><span> deps
+</span><span>        </span><span style="color:#ffd580;">│</span><span>   ├── wasm_demo-9c23ae9a241f12fa.asm.js
+</span><span>        </span><span style="color:#ffd580;">│</span><span>   ├── wasm_demo-9c23ae9a241f12fa.js
+</span><span>        </span><span style="color:#ffd580;">│</span><span>   └── wasm_demo-9c23ae9a241f12fa.wasm
+</span><span>        </span><span style="color:#ffd580;">├──</span><span> examples
+</span><span>        </span><span style="color:#ffd580;">├──</span><span> incremental
+</span><span>        </span><span style="color:#ffd580;">├──</span><span> native
+</span><span>        </span><span style="color:#ffd580;">├──</span><span> wasm-demo.d
+</span><span>        </span><span style="color:#ffd580;">└──</span><span> wasm-demo.js
 </span></code></pre>
 <p><code>cargo</code> created several files in <code>target/wasm32-unknown-emscripten/release/deps/</code> for us. Of primary interest are the <code>.wasm</code> and <code>.js</code> files.</p>
 <p>Why do we get both a <code>wasm</code> and a <code>js</code>? Wasn't the whole point of this to not use Javascript? Turns out we need some Javascript glue code to fetch, initialize, and configure it.</p>
 <p>At this point we can't really <em>use</em> the created files, since we don't have a webpage to import them into! Let's work on that. We can create a <code>site/index.html</code> with the following content:</p>
-<pre style="background-color:#212733;">
-<code class="language-html" data-lang="html"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
-    &lt;</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
-        &lt;</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-            </span><span style="font-style:italic;color:#5c6773;">// This is read and used by `site.js`
-            </span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">Module </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
-                wasmBinaryFile</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;site.wasm&quot;
-            </span><span style="color:#ccc9c2;">}
-        </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-        &lt;</span><span style="color:#73d0ff;">script </span><span style="color:#ffd580;">src</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;site.js&quot;</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-    &lt;/</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
-    &lt;</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;
-&lt;/</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
+<pre data-lang="html" style="background-color:#212733;color:#ccc9c2;" class="language-html "><code class="language-html" data-lang="html"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>            </span><span style="font-style:italic;color:#5c6773;">// This is read and used by `site.js`
+</span><span>            </span><span style="color:#ffa759;">var </span><span>Module </span><span style="color:#f29e74;">= </span><span>{
+</span><span>                wasmBinaryFile</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;site.wasm&quot;
+</span><span>            }
+</span><span>        </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">script </span><span style="color:#ffd580;">src</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;site.js&quot;</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;
+</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
 </span></code></pre>
 <p>Next we need to set up some way to get the generated files from the <code>target/</code> folder into the <code>site/</code> folder. <code>make</code> is a good solution for this, so let's make a <code>Makefile</code>. (Makefiles <strong>require</strong> tabs, not spaces!)</p>
-<pre style="background-color:#212733;">
-<code class="language-makefile" data-lang="makefile"><span style="color:#ffd580;">SHELL </span><span style="color:#f29e74;">:</span><span style="color:#bae67e;">= /bin/bash
-
+<pre data-lang="makefile" style="background-color:#212733;color:#ccc9c2;" class="language-makefile "><code class="language-makefile" data-lang="makefile"><span>SHELL </span><span style="color:#f29e74;">:= </span><span style="color:#bae67e;">/bin/bash
+</span><span>
 </span><span style="color:#ffd580;">all</span><span style="color:#f29e74;">:
-</span><span style="color:#ccc9c2;">	cargo build --target</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">wasm32-unknown-emscripten --release
-</span><span style="color:#ccc9c2;">	mkdir -p site
-	find target/wasm32-unknown-emscripten/release/deps -type f -name &quot;*.wasm&quot; | xargs -I {} cp {} site/site.wasm
-	find target/wasm32-unknown-emscripten/release/deps -type f ! -name &quot;*.asm.js&quot; -name &quot;*.js&quot; | xargs -I {} cp {} site/site.js
+</span><span>	</span><span style="color:#ffd580;">cargo</span><span> build</span><span style="color:#ffcc66;"> --target</span><span style="color:#f29e74;">=</span><span>wasm32-unknown-emscripten</span><span style="color:#ffcc66;"> --release
+</span><span>	</span><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span> site
+</span><span>	</span><span style="color:#ffd580;">find</span><span> target/wasm32-unknown-emscripten/release/deps</span><span style="color:#ffcc66;"> -type</span><span> f</span><span style="color:#ffcc66;"> -name </span><span style="color:#bae67e;">&quot;*.wasm&quot; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">xargs</span><span style="color:#ffcc66;"> -I </span><span>{} cp {} site/site.wasm
+</span><span>	</span><span style="color:#ffd580;">find</span><span> target/wasm32-unknown-emscripten/release/deps</span><span style="color:#ffcc66;"> -type</span><span> f !</span><span style="color:#ffcc66;"> -name </span><span style="color:#bae67e;">&quot;*.asm.js&quot;</span><span style="color:#ffcc66;"> -name </span><span style="color:#bae67e;">&quot;*.js&quot; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">xargs</span><span style="color:#ffcc66;"> -I </span><span>{} cp {} site/site.js
 </span></code></pre>
 <p>Finally, test it with <code>make</code>.</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span style="color:#ccc9c2;"> tree site
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> tree site
 </span><span style="color:#ffd580;">site
-├──</span><span style="color:#ccc9c2;"> index.html
-</span><span style="color:#ffd580;">├──</span><span style="color:#ccc9c2;"> site.js
-</span><span style="color:#ffd580;">└──</span><span style="color:#ccc9c2;"> site.wasm
+</span><span style="color:#ffd580;">├──</span><span> index.html
+</span><span style="color:#ffd580;">├──</span><span> site.js
+</span><span style="color:#ffd580;">└──</span><span> site.wasm
 </span></code></pre>
 <p>Let's test our generated code by running <code>python -m SimpleHTTPServer</code>, browsing to <a rel="noopener" target="_blank" href="http://localhost:8000/site/"><code>http://localhost:8000/site/</code></a>, and opening the browser console.</p>
 <p>In the browser console you should see:</p>
-<pre style="background-color:#212733;">
-<code><span style="color:#ccc9c2;">trying binaryen method: native-wasm
-asynchronously preparing wasm
-binaryen method succeeded.
-The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol.
-South
-false
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>trying binaryen method: native-wasm
+</span><span>asynchronously preparing wasm
+</span><span>binaryen method succeeded.
+</span><span>The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol.
+</span><span>South
+</span><span>false
 </span></code></pre>
 <p>Excellent! It worked!</p>
 <h2 id="second-experiment-imports">Second Experiment: Imports</h2>
 <p>In our first example we just used a basic enum and some print statements, nothing too exciting. Let's do something more exciting and work with iterators.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">collections</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">HashMap</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">Direction</span><span style="color:#f29e74;">::*</span><span style="color:#ccc9c2cc;">;
-
-#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">derive</span><span style="color:#ccc9c2;">(Debug</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> PartialEq)]
-</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span style="color:#ccc9c2;">{ North</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> South</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> East</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> West }
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> users_facing </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">HashMap</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Alice&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> North)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Bob&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> South)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Carol&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> East)</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> users_not_facing_north </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span style="color:#ccc9c2;">()
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">filter</span><span style="color:#ccc9c2;">(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ccc9c2;">(_</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">d</span><span style="color:#ccc9c2;">)| </span><span style="color:#f29e74;">*</span><span style="color:#ccc9c2;">d </span><span style="color:#f29e74;">!=</span><span style="color:#ccc9c2;"> North)
-        </span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">collect</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;HashMap&lt;</span><span style="color:#f29e74;">_</span><span style="color:#ccc9c2;">,</span><span style="color:#f29e74;">_</span><span style="color:#ccc9c2;">&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> users_not_facing_north)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>collections</span><span style="color:#f29e74;">::</span><span>HashMap</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span>Direction</span><span style="color:#f29e74;">::*</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Debug</span><span style="color:#ccc9c2cc;">,</span><span> PartialEq)]
+</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span>{ North</span><span style="color:#ccc9c2cc;">,</span><span> South</span><span style="color:#ccc9c2cc;">,</span><span> East</span><span style="color:#ccc9c2cc;">,</span><span> West }
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let mut</span><span> users_facing </span><span style="color:#f29e74;">= </span><span>HashMap</span><span style="color:#f29e74;">::</span><span>new()</span><span style="color:#ccc9c2cc;">;
+</span><span>    users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#bae67e;">&quot;Alice&quot;</span><span style="color:#ccc9c2cc;">,</span><span> North)</span><span style="color:#ccc9c2cc;">;
+</span><span>    users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#bae67e;">&quot;Bob&quot;</span><span style="color:#ccc9c2cc;">,</span><span> South)</span><span style="color:#ccc9c2cc;">;
+</span><span>    users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#bae67e;">&quot;Carol&quot;</span><span style="color:#ccc9c2cc;">,</span><span> East)</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ffa759;">let</span><span> users_not_facing_north </span><span style="color:#f29e74;">=</span><span> users_facing</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">filter</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span>(_</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">d</span><span>)| </span><span style="color:#f29e74;">*</span><span>d </span><span style="color:#f29e74;">!=</span><span> North)
+</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;HashMap&lt;</span><span style="color:#f29e74;">_</span><span>,</span><span style="color:#f29e74;">_</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> users_not_facing_north)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
 </span></code></pre>
 <p>Building this code again with <code>make</code> we can navigate to the page again in our browser. This should output:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ccc9c2;">{</span><span style="color:#bae67e;">&quot;Carol&quot;</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> East</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Bob&quot;</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> South}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>{</span><span style="color:#bae67e;">&quot;Carol&quot;</span><span style="color:#ccc9c2cc;">:</span><span> East</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;Bob&quot;</span><span style="color:#ccc9c2cc;">:</span><span> South}
 </span></code></pre>
 <p>Excellent! So importing things from <code>std</code> seems to work okay. How about other crates? Let's try using <code>itertools</code>. Add the following to the <code>Cargo.toml</code>:</p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">dependencies</span><span style="color:#ccc9c2;">]
-</span><span style="color:#73d0ff;">itertools </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;*&quot;
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">dependencies</span><span>]
+</span><span style="color:#73d0ff;">itertools </span><span>= </span><span style="color:#bae67e;">&quot;*&quot;
 </span></code></pre>
 <p>Then we can go and try to use it.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> itertools</span><span style="color:#ccc9c2cc;">;
-
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">itertools</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">Itertools</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">Direction</span><span style="color:#f29e74;">::*</span><span style="color:#ccc9c2cc;">;
-
-
-#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">derive</span><span style="color:#ccc9c2;">(Debug</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> PartialEq</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Eq</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Hash)]
-</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span style="color:#ccc9c2;">{ North</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> South</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> East</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> West }
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> directions </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span style="color:#ccc9c2;">[North</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> North</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> South</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> East</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> West</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> West]</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> unique_directions </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> directions</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span style="color:#ccc9c2;">()
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unique</span><span style="color:#ccc9c2;">()
-        </span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">collect</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;</span><span style="color:#f29e74;">_</span><span style="color:#ccc9c2;">&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> unique_directions)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span> itertools</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ffa759;">use </span><span>itertools</span><span style="color:#f29e74;">::</span><span>Itertools</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span>Direction</span><span style="color:#f29e74;">::*</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Debug</span><span style="color:#ccc9c2cc;">,</span><span> PartialEq</span><span style="color:#ccc9c2cc;">,</span><span> Eq</span><span style="color:#ccc9c2cc;">,</span><span> Hash)]
+</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span>{ North</span><span style="color:#ccc9c2cc;">,</span><span> South</span><span style="color:#ccc9c2cc;">,</span><span> East</span><span style="color:#ccc9c2cc;">,</span><span> West }
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> directions </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span>[North</span><span style="color:#ccc9c2cc;">,</span><span> North</span><span style="color:#ccc9c2cc;">,</span><span> South</span><span style="color:#ccc9c2cc;">,</span><span> East</span><span style="color:#ccc9c2cc;">,</span><span> West</span><span style="color:#ccc9c2cc;">,</span><span> West]</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ffa759;">let</span><span> unique_directions </span><span style="color:#f29e74;">=</span><span> directions</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unique</span><span>()
+</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> unique_directions)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Building and visiting the page again we see the following output:</p>
-<pre style="background-color:#212733;">
-<code><span style="color:#ccc9c2;">[North, South, East, West]
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>[North, South, East, West]
 </span></code></pre>
 <p>Okay that was simple! What about something a bit more complicated, like <code>serde</code>, which lets us serialize and deserialize various formats? This will be important for an application which needs to parse responses from APIs!</p>
 <p>Changing the <code>Cargo.toml</code> and the <code>main.rs</code>:</p>
-<pre style="background-color:#212733;">
-<code class="language-toml" data-lang="toml"><span style="color:#ccc9c2;">[</span><span style="color:#73d0ff;">dependencies</span><span style="color:#ccc9c2;">]
-</span><span style="color:#73d0ff;">serde_json </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;*&quot;
-</span><span style="color:#73d0ff;">serde_derive </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;*&quot;
-</span><span style="color:#73d0ff;">serde </span><span style="color:#ccc9c2;">= </span><span style="color:#bae67e;">&quot;*&quot;
-</span></code></pre><pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> serde_json</span><span style="color:#ccc9c2cc;">;
-#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">macro_use</span><span style="color:#ccc9c2;">] </span><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> serde_derive</span><span style="color:#ccc9c2cc;">;
-
-#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">derive</span><span style="color:#ccc9c2;">(Serialize</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Deserialize</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Debug)]
-</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span style="color:#ccc9c2;">{ North</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> South</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> East</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> West }
-
-</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">derive</span><span style="color:#ccc9c2;">(Serialize</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Deserialize</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> Debug)]
-</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Example </span><span style="color:#ccc9c2;">{
-    favorite_animal</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> String,
-    favorite_direction</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Direction
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> data </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">r</span><span style="color:#bae67e;">#&quot; { &quot;favorite_animal&quot;: &quot;Bear&quot;, &quot;favorite_direction&quot;: &quot;North&quot; } &quot;#</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> parsed</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> Example </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">serde_json</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from_str(data)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> parsed)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">dependencies</span><span>]
+</span><span style="color:#73d0ff;">serde_json </span><span>= </span><span style="color:#bae67e;">&quot;*&quot;
+</span><span style="color:#73d0ff;">serde_derive </span><span>= </span><span style="color:#bae67e;">&quot;*&quot;
+</span><span style="color:#73d0ff;">serde </span><span>= </span><span style="color:#bae67e;">&quot;*&quot;
+</span></code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span> serde_json</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">macro_use</span><span>] </span><span style="color:#ffa759;">extern crate</span><span> serde_derive</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Serialize</span><span style="color:#ccc9c2cc;">,</span><span> Deserialize</span><span style="color:#ccc9c2cc;">,</span><span> Debug)]
+</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Direction </span><span>{ North</span><span style="color:#ccc9c2cc;">,</span><span> South</span><span style="color:#ccc9c2cc;">,</span><span> East</span><span style="color:#ccc9c2cc;">,</span><span> West }
+</span><span>
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Serialize</span><span style="color:#ccc9c2cc;">,</span><span> Deserialize</span><span style="color:#ccc9c2cc;">,</span><span> Debug)]
+</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Example </span><span>{
+</span><span>    favorite_animal</span><span style="color:#ccc9c2cc;">:</span><span> String,
+</span><span>    favorite_direction</span><span style="color:#ccc9c2cc;">:</span><span> Direction
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> data </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">r</span><span style="color:#bae67e;">#&quot; { &quot;favorite_animal&quot;: &quot;Bear&quot;, &quot;favorite_direction&quot;: &quot;North&quot; } &quot;#</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">let</span><span> parsed</span><span style="color:#ccc9c2cc;">:</span><span> Example </span><span style="color:#f29e74;">= </span><span>serde_json</span><span style="color:#f29e74;">::</span><span>from_str(data)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> parsed)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Building, and viewing it in the browser console yields:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ccc9c2;">Example { favorite_animal</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;Bear&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> favorite_direction</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ccc9c2;"> North }
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>Example { favorite_animal</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;Bear&quot;</span><span style="color:#ccc9c2cc;">,</span><span> favorite_direction</span><span style="color:#ccc9c2cc;">:</span><span> North }
 </span></code></pre>
 <p>Awesome!</p>
 <h2 id="third-experiment-calling-from-javascript">Third Experiment: Calling From Javascript</h2>
@@ -404,50 +385,48 @@ false
 <p>Notice how this doesn't include strings or other more satisfying types. That's ok! We can still use a function called <code>Module.cwrap</code> to define the parameters and expected return values of the wasm exported functions.</p>
 <p>Writing this interaction code means that on the Rust side of things we have to treat it as though we're interacting with C. This can make some things a bit complicated, on the bright side it means writing more FFI (foreign function interfaces) later will be much easier.</p>
 <p>So, let's write a basic function which returns a String from Rust into Javascript.</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">os</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">raw</span><span style="color:#f29e74;">::</span><span style="color:#ffa759;">c_char</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">ffi</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">CString</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">collections</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">HashMap</span><span style="color:#ccc9c2cc;">;
-
-#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">no_mangle</span><span style="color:#ccc9c2;">]
-</span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">get_data</span><span style="color:#ccc9c2;">() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">*mut</span><span style="color:#ccc9c2;"> c_char {
-    </span><span style="color:#ffa759;">let mut</span><span style="color:#ccc9c2;"> data </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">HashMap</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Alice&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;send&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Bob&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;recieve&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Carol&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;intercept&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-    
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> descriptions </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span style="color:#ccc9c2;">()
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span style="color:#ccc9c2;">(|(</span><span style="color:#ffcc66;">p</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">a</span><span style="color:#ccc9c2;">)| </span><span style="color:#f28779;">format!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;"> likes to </span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;"> messages&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> p</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> a))
-        </span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">collect</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#ccc9c2;">&lt;</span><span style="color:#f29e74;">_</span><span style="color:#ccc9c2;">&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="color:#ccc9c2;">CString</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">new(descriptions</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">join</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;, &quot;</span><span style="color:#ccc9c2;">))
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span style="color:#ccc9c2;">()
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_raw</span><span style="color:#ccc9c2;">()
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="font-style:italic;color:#5c6773;">// Deliberately blank.
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>os</span><span style="color:#f29e74;">::</span><span>raw</span><span style="color:#f29e74;">::</span><span style="color:#ffa759;">c_char</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>ffi</span><span style="color:#f29e74;">::</span><span>CString</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>collections</span><span style="color:#f29e74;">::</span><span>HashMap</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">no_mangle</span><span>]
+</span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">get_data</span><span>() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">*mut</span><span> c_char {
+</span><span>    </span><span style="color:#ffa759;">let mut</span><span> data </span><span style="color:#f29e74;">= </span><span>HashMap</span><span style="color:#f29e74;">::</span><span>new()</span><span style="color:#ccc9c2cc;">;
+</span><span>    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#bae67e;">&quot;Alice&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;send&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#bae67e;">&quot;Bob&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;recieve&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#bae67e;">&quot;Carol&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;intercept&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    
+</span><span>    </span><span style="color:#ffa759;">let</span><span> descriptions </span><span style="color:#f29e74;">=</span><span> data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|(</span><span style="color:#ffcc66;">p</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">a</span><span>)| </span><span style="color:#f28779;">format!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;"> likes to </span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;"> messages&quot;</span><span style="color:#ccc9c2cc;">,</span><span> p</span><span style="color:#ccc9c2cc;">,</span><span> a))
+</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    CString</span><span style="color:#f29e74;">::</span><span>new(descriptions</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">join</span><span>(</span><span style="color:#bae67e;">&quot;, &quot;</span><span>))
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span>()
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_raw</span><span>()
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Deliberately blank.
+</span><span>}
 </span></code></pre>
 <p>First thing you might notice is that we have a <code>main()</code> function which is blank. This is on purpose, we're going to define that in Javascript! We'll edit the <code>index.html</code> to write a bit of new code for this purpose.</p>
-<pre style="background-color:#212733;">
-<code class="language-html" data-lang="html"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
-    &lt;</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
-        &lt;</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-            </span><span style="font-style:italic;color:#5c6773;">// This is read and used by `site.js`
-            </span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">Module </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
-                wasmBinaryFile</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;site.wasm&quot;</span><span style="color:#ccc9c2cc;">,
-                </span><span style="color:#ccc9c2;">onRuntimeInitialized</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ccc9c2;">main</span><span style="color:#ccc9c2cc;">,
-            </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-            </span><span style="color:#ffa759;">function </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-                </span><span style="color:#ffa759;">let </span><span style="color:#ccc9c2;">get_data </span><span style="color:#f29e74;">= </span><span style="font-style:italic;color:#5ccfe6;">Module</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">cwrap</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&#39;get_data&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&#39;string&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">[])</span><span style="color:#ccc9c2cc;">;
-                </span><span style="font-style:italic;color:#5ccfe6;">console</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">log</span><span style="color:#ccc9c2;">(</span><span style="color:#ffd580;">get_data</span><span style="color:#ccc9c2;">())</span><span style="color:#ccc9c2cc;">;
-            </span><span style="color:#ccc9c2;">}
-        </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-        &lt;</span><span style="color:#73d0ff;">script </span><span style="color:#ffd580;">src</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;site.js&quot;</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-    &lt;/</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
-    &lt;</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;
-&lt;/</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
+<pre data-lang="html" style="background-color:#212733;color:#ccc9c2;" class="language-html "><code class="language-html" data-lang="html"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>            </span><span style="font-style:italic;color:#5c6773;">// This is read and used by `site.js`
+</span><span>            </span><span style="color:#ffa759;">var </span><span>Module </span><span style="color:#f29e74;">= </span><span>{
+</span><span>                wasmBinaryFile</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;site.wasm&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>                onRuntimeInitialized</span><span style="color:#ccc9c2cc;">: </span><span>main</span><span style="color:#ccc9c2cc;">,
+</span><span>            }</span><span style="color:#ccc9c2cc;">;
+</span><span>            </span><span style="color:#ffa759;">function </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>                </span><span style="color:#ffa759;">let </span><span>get_data </span><span style="color:#f29e74;">= </span><span style="font-style:italic;color:#5ccfe6;">Module</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">cwrap</span><span>(</span><span style="color:#bae67e;">&#39;get_data&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&#39;string&#39;</span><span style="color:#ccc9c2cc;">, </span><span>[])</span><span style="color:#ccc9c2cc;">;
+</span><span>                </span><span style="font-style:italic;color:#5ccfe6;">console</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">log</span><span>(</span><span style="color:#ffd580;">get_data</span><span>())</span><span style="color:#ccc9c2cc;">;
+</span><span>            }
+</span><span>        </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">script </span><span style="color:#ffd580;">src</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;site.js&quot;</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;
+</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
 </span></code></pre>
 <p>The final argument of <code>cwrap</code> is an array of argument types, which we don't use in this case.</p>
 <p>It's also possible to call the function via <code>Module._get_data()</code> but you'll notice that it returns a pointer to a memory location, not a string.</p>
@@ -455,68 +434,65 @@ false
 <p>There isn't a tremendous amount of writing about this topic, the best resource I was able to find was in the <a rel="noopener" target="_blank" href="https://kripken.github.io/emscripten-site/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html#implement-c-in-javascript">'Interacting with code'</a> section of the Emscripten documentation.</p>
 <p>The basic concept is that when <code>emcc</code> goes and does its job it includes a <code>library.js</code> file which we can add functions to via the <code>--js-library</code> flag. These functions can return values, or do things like run <code>alert(&quot;Blah blah&quot;)</code>.</p>
 <p>In order to do this we need to create a <code>site/utilities.js</code> file containing the following:</p>
-<pre style="background-color:#212733;">
-<code class="language-javascript" data-lang="javascript"><span style="color:#bae67e;">&#39;use strict&#39;</span><span style="color:#ccc9c2cc;">;
-
-</span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">library </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
-  </span><span style="color:#ffd580;">get_data</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">function</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">str </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;Hello from JS.&quot;</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffd580;">alert</span><span style="color:#ccc9c2;">(str)</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="font-style:italic;color:#5c6773;">// Not needed for numerics.
-    </span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">len </span><span style="color:#f29e74;">= </span><span style="color:#ffd580;">lengthBytesUTF8</span><span style="color:#ccc9c2;">(str)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">buffer </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">Module</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">_malloc</span><span style="color:#ccc9c2;">(len)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ccc9c2;">Module</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">stringToUTF8</span><span style="color:#ccc9c2;">(str</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">buffer</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">len)</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="color:#ffa759;">return </span><span style="color:#ccc9c2;">buffer</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">,
-</span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-
-</span><span style="color:#ffd580;">mergeInto</span><span style="color:#ccc9c2;">(LibraryManager</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">library</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">library)</span><span style="color:#ccc9c2cc;">;
+<pre data-lang="javascript" style="background-color:#212733;color:#ccc9c2;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#bae67e;">&#39;use strict&#39;</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ffa759;">var </span><span>library </span><span style="color:#f29e74;">= </span><span>{
+</span><span>  </span><span style="color:#ffd580;">get_data</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">function</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">var </span><span>str </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;Hello from JS.&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffd580;">alert</span><span>(str)</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Not needed for numerics.
+</span><span>    </span><span style="color:#ffa759;">var </span><span>len </span><span style="color:#f29e74;">= </span><span style="color:#ffd580;">lengthBytesUTF8</span><span>(str)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">var </span><span>buffer </span><span style="color:#f29e74;">= </span><span>Module</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">_malloc</span><span>(len)</span><span style="color:#ccc9c2cc;">;
+</span><span>    Module</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">stringToUTF8</span><span>(str</span><span style="color:#ccc9c2cc;">, </span><span>buffer</span><span style="color:#ccc9c2cc;">, </span><span>len)</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ffa759;">return </span><span>buffer</span><span style="color:#ccc9c2cc;">;
+</span><span>  }</span><span style="color:#ccc9c2cc;">,
+</span><span>}</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ffd580;">mergeInto</span><span>(LibraryManager</span><span style="color:#f29e74;">.</span><span>library</span><span style="color:#ccc9c2cc;">, </span><span>library)</span><span style="color:#ccc9c2cc;">;
 </span></code></pre>
 <p>Then the HTML:</p>
-<pre style="background-color:#212733;">
-<code class="language-html" data-lang="html"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
-    &lt;</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
-        &lt;</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-            </span><span style="font-style:italic;color:#5c6773;">// This is read and used by `site.js`
-            </span><span style="color:#ffa759;">var </span><span style="color:#ccc9c2;">Module </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
-                wasmBinaryFile</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;site.wasm&quot;</span><span style="color:#ccc9c2cc;">,
-            </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-        &lt;</span><span style="color:#73d0ff;">script </span><span style="color:#ffd580;">src</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;site.js&quot;</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
-    &lt;/</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
-    &lt;</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;
-&lt;/</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
+<pre data-lang="html" style="background-color:#212733;color:#ccc9c2;" class="language-html "><code class="language-html" data-lang="html"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>            </span><span style="font-style:italic;color:#5c6773;">// This is read and used by `site.js`
+</span><span>            </span><span style="color:#ffa759;">var </span><span>Module </span><span style="color:#f29e74;">= </span><span>{
+</span><span>                wasmBinaryFile</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;site.wasm&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            }</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>        </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">script </span><span style="color:#ffd580;">src</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;site.js&quot;</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">script</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">head</span><span style="color:#5ccfe690;">&gt;
+</span><span>    </span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;&lt;/</span><span style="color:#73d0ff;">body</span><span style="color:#5ccfe690;">&gt;
+</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">html</span><span style="color:#5ccfe690;">&gt;
 </span></code></pre>
 <p>Lastly, the Rust code:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ccc9c2cc;">#!</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">feature</span><span style="color:#ccc9c2;">(link_args)]
-
-</span><span style="color:#ccc9c2cc;">#</span><span style="color:#ccc9c2;">[</span><span style="color:#ffd580;">cfg_attr</span><span style="color:#ccc9c2;">(target_arch</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;wasm32&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> link_args </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">\
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ccc9c2cc;">#!</span><span>[</span><span style="color:#ffd580;">feature</span><span>(link_args)]
+</span><span>
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">cfg_attr</span><span>(target_arch</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;wasm32&quot;</span><span style="color:#ccc9c2cc;">,</span><span> link_args </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">\
 </span><span style="color:#bae67e;">    --js-library site/utilities.js</span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2;">)]
-</span><span style="color:#ffa759;">extern </span><span style="color:#ccc9c2;">{}
-
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">os</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">raw</span><span style="color:#f29e74;">::</span><span style="color:#ffa759;">c_char</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span style="color:#ccc9c2;">std</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">ffi</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">CStr</span><span style="color:#ccc9c2cc;">;
-
-</span><span style="color:#ffa759;">extern </span><span style="color:#ccc9c2;">{
-    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_data</span><span style="color:#ccc9c2;">() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">*mut</span><span style="color:#ccc9c2;"> c_char</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_data_safe</span><span style="color:#ccc9c2;">() </span><span style="color:#ccc9c2cc;">-&gt;</span><span style="color:#ccc9c2;"> String {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> data </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">unsafe </span><span style="color:#ccc9c2;">{
-        CStr</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">from_ptr(</span><span style="color:#f28779;">get_data</span><span style="color:#ccc9c2;">())
-    }</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">to_string_lossy</span><span style="color:#ccc9c2;">()
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_owned</span><span style="color:#ccc9c2;">()
-}
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> data </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">get_data_safe</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ccc9c2;"> data)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+</span><span style="color:#bae67e;">&quot;</span><span>)]
+</span><span style="color:#ffa759;">extern </span><span>{}
+</span><span>
+</span><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>os</span><span style="color:#f29e74;">::</span><span>raw</span><span style="color:#f29e74;">::</span><span style="color:#ffa759;">c_char</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>ffi</span><span style="color:#f29e74;">::</span><span>CStr</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ffa759;">extern </span><span>{
+</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_data</span><span>() </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">*mut</span><span> c_char</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">get_data_safe</span><span>() </span><span style="color:#ccc9c2cc;">-&gt;</span><span> String {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> data </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">unsafe </span><span>{
+</span><span>        CStr</span><span style="color:#f29e74;">::</span><span>from_ptr(</span><span style="color:#f28779;">get_data</span><span>())
+</span><span>    }</span><span style="color:#ccc9c2cc;">;
+</span><span>    data</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">to_string_lossy</span><span>()
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_owned</span><span>()
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> data </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">get_data_safe</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> data)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>If we build this and load the page we'll get an alert, and see <code>&quot;Hello from JS&quot;</code> printed out on the console.</p>
 <p>The good thing is it works. The bad thing is that it is rather complex to do. Hopefully it will get better in the future.</p>
@@ -527,31 +503,30 @@ false
 <p>As we've discovered by now, the barrier between our compiled code and Javascript is a bit annoying. It'd be quite handy if we could just write everything in Rust and avoid dealing with Javascript except where absolutely needed.</p>
 <p>Luckly for us, there is a crate called <a rel="noopener" target="_blank" href="https://github.com/tcr/rust-webplatform/"><code>rust-webplatform</code></a> that was started. It allows for convienent DOM manipulation and provides some helpers for doing Javascript. It's still a bit rough around the edges, but the foundations are there.</p>
 <p>To get started, let's add <code>webplatform = &quot;*&quot;</code> to our dependencies. Then we can use some slightly modified sample code from the repo:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span style="color:#ccc9c2;"> webplatform</span><span style="color:#ccc9c2cc;">;
-
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span style="color:#ccc9c2;">() {
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> document </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">webplatform</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">init()</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> body </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> document</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">element_query</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;body&quot;</span><span style="color:#ccc9c2;">)
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    body</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">html_append</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">\
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">extern crate</span><span> webplatform</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> document </span><span style="color:#f29e74;">= </span><span>webplatform</span><span style="color:#f29e74;">::</span><span>init()</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">let</span><span> body </span><span style="color:#f29e74;">=</span><span> document</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">element_query</span><span>(</span><span style="color:#bae67e;">&quot;body&quot;</span><span>)
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>    body</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">html_append</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">\
 </span><span style="color:#bae67e;">        &lt;h1&gt;This header brought to you by Rust&lt;/h1&gt;</span><span style="color:#ccc9c2cc;">\
 </span><span style="color:#bae67e;">        &lt;button&gt;Click me!&lt;/button&gt;</span><span style="color:#ccc9c2cc;">\
-    </span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-    
-    </span><span style="color:#ffa759;">let</span><span style="color:#ccc9c2;"> button </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> document</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">element_query</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;button&quot;</span><span style="color:#ccc9c2;">)
-        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span style="color:#ccc9c2;">()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    button</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">on</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;mouseenter&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">move </span><span style="color:#f29e74;">|_| </span><span style="color:#ccc9c2;">{
-        </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Mouse entered!&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">        body</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">html_append</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;&lt;p&gt;Mouse entered!&lt;/p&gt;&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">    button</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">on</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;click&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ccc9c2;">|_| {
-        </span><span style="color:#f28779;">println!</span><span style="color:#ccc9c2;">(</span><span style="color:#bae67e;">&quot;Clicked!&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ccc9c2;">webplatform</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">alert(</span><span style="color:#bae67e;">&quot;Clicked!&quot;</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ccc9c2;">})</span><span style="color:#ccc9c2cc;">;
-
-    </span><span style="color:#ccc9c2;">webplatform</span><span style="color:#f29e74;">::</span><span style="color:#ccc9c2;">spin()</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+</span><span style="color:#bae67e;">    &quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    
+</span><span>    </span><span style="color:#ffa759;">let</span><span> button </span><span style="color:#f29e74;">=</span><span> document</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">element_query</span><span>(</span><span style="color:#bae67e;">&quot;button&quot;</span><span>)
+</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">unwrap</span><span>()</span><span style="color:#ccc9c2cc;">;
+</span><span>    button</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">on</span><span>(</span><span style="color:#bae67e;">&quot;mouseenter&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">move </span><span style="color:#f29e74;">|_| </span><span>{
+</span><span>        </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Mouse entered!&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>        body</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">html_append</span><span>(</span><span style="color:#bae67e;">&quot;&lt;p&gt;Mouse entered!&lt;/p&gt;&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    })</span><span style="color:#ccc9c2cc;">;
+</span><span>    button</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">on</span><span>(</span><span style="color:#bae67e;">&quot;click&quot;</span><span style="color:#ccc9c2cc;">, </span><span>|_| {
+</span><span>        </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Clicked!&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>        webplatform</span><span style="color:#f29e74;">::</span><span>alert(</span><span style="color:#bae67e;">&quot;Clicked!&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    })</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    webplatform</span><span style="color:#f29e74;">::</span><span>spin()</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Building our project you should see:</p>
 <ul>
@@ -579,8 +554,8 @@ false
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

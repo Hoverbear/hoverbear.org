@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;36d48fd13642370a00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;36d48fd13642370a00.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -68,14 +68,14 @@ With Nix flakes, we can define a custom live system and build it with minimal st
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/d8cKjamtQH4">Darius Cotoi</a></figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f05addea7d81006600.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;36d48fd13642370a00.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;886964ff74aaad3400.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -87,12 +87,12 @@ With Nix flakes, we can define a custom live system and build it with minimal st
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -148,71 +148,65 @@ With Nix flakes, we can define a custom live system and build it with minimal st
 </blockquote>
 <h1 id="an-example">An example</h1>
 <p>Here's a small example flake that shows a configuration definition which can be built into a stateless LiveCD or LiveUSB, as well as used for a 'normal' install:</p>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
-</span><span style="color:#ccc9c2;">{
-  </span><span style="color:#ffcc66;">description </span><span style="color:#ff3333;">= </span><span style="color:#bae67e;">&quot;Example&quot;</span><span style="color:#ff3333;">;
-  </span><span style="color:#ffcc66;">inputs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">url </span><span style="color:#ff3333;">= </span><span style="color:#bae67e;">&quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color:#ff3333;">;
-  </span><span style="color:#ffcc66;">outputs </span><span style="color:#ff3333;">= </span><span style="color:#ccc9c2;">{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixos </span><span style="color:#ccc9c2;">}: {
-
-    </span><span style="color:#ffd580;">nixosConfigurations </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">let
-      </span><span style="font-style:italic;color:#5c6773;"># Shared base configuration.
-      </span><span style="color:#ffd580;">exampleBase </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">{
-        </span><span style="color:#ffd580;">system </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;x86_64-linux&quot;</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[
-          </span><span style="font-style:italic;color:#5c6773;"># Common system modules...
-        </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ffa759;">in </span><span style="color:#ccc9c2;">{
-      </span><span style="color:#ffd580;">exampleIso </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosSystem </span><span style="color:#ccc9c2;">{
-        </span><span style="color:#ffa759;">inherit </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">exampleBase</span><span style="color:#ccc9c2;">) </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">exampleBase</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">modules </span><span style="color:#f29e74;">++ </span><span style="color:#ccc9c2;">[
-          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">nixos</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix&quot;
-        </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ffd580;">example </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosSystem </span><span style="color:#ccc9c2;">{
-        </span><span style="color:#ffa759;">inherit </span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">exampleBase</span><span style="color:#ccc9c2;">) </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">exampleBase</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">modules </span><span style="color:#f29e74;">++ </span><span style="color:#ccc9c2;">[
-          </span><span style="font-style:italic;color:#5c6773;"># Modules for installed systems only.
-        </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-      </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-    </span><span style="color:#ccc9c2;">}</span><span style="color:#ccc9c2cc;">;
-  </span><span style="color:#ccc9c2;">}</span><span style="color:#ff3333;">;
-</span><span style="color:#ccc9c2;">}
-</span></code></pre><h1 id="building-use">Building &amp; Use</h1>
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
+</span><span>{
+</span><span>  </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;Example&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">inputs</span><span>.</span><span style="color:#ffd580;">nixos</span><span>.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>  </span><span style="color:#ffd580;">outputs </span><span style="color:#f29e74;">= </span><span>{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixos </span><span>}: {
+</span><span>
+</span><span>    </span><span style="color:#ffd580;">nixosConfigurations </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">let
+</span><span>      </span><span style="font-style:italic;color:#5c6773;"># Shared base configuration.
+</span><span>      </span><span style="color:#ffd580;">exampleBase </span><span style="color:#f29e74;">= </span><span>{
+</span><span>        </span><span style="color:#ffd580;">system </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;x86_64-linux&quot;</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span>[
+</span><span>          </span><span style="font-style:italic;color:#5c6773;"># Common system modules...
+</span><span>        ]</span><span style="color:#ccc9c2cc;">;
+</span><span>      }</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">in </span><span>{
+</span><span>      </span><span style="color:#ffd580;">exampleIso </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosSystem </span><span>{
+</span><span>        </span><span style="color:#ffa759;">inherit </span><span>(</span><span style="color:#ffcc66;">exampleBase</span><span>) </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">exampleBase</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">modules </span><span style="color:#f29e74;">++ </span><span>[
+</span><span>          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">nixos</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix&quot;
+</span><span>        ]</span><span style="color:#ccc9c2cc;">;
+</span><span>      }</span><span style="color:#ccc9c2cc;">;
+</span><span>      </span><span style="color:#ffd580;">example </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosSystem </span><span>{
+</span><span>        </span><span style="color:#ffa759;">inherit </span><span>(</span><span style="color:#ffcc66;">exampleBase</span><span>) </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">exampleBase</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">modules </span><span style="color:#f29e74;">++ </span><span>[
+</span><span>          </span><span style="font-style:italic;color:#5c6773;"># Modules for installed systems only.
+</span><span>        ]</span><span style="color:#ccc9c2cc;">;
+</span><span>      }</span><span style="color:#ccc9c2cc;">;
+</span><span>    }</span><span style="color:#ccc9c2cc;">;
+</span><span>  }</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span></code></pre>
+<h1 id="building-use">Building &amp; Use</h1>
 <p>Using <code>nix build</code> (or other commands) will create a <code>flake.lock</code> file which pins the versions of the <code>inputs</code>. Nix flakes require a Git repo, so first intialize that:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">git</span><span style="color:#ccc9c2;"> init
-</span><span style="color:#ffd580;">git</span><span style="color:#ccc9c2;"> add flake.nix
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">git</span><span> init
+</span><span style="color:#ffd580;">git</span><span> add flake.nix
 </span></code></pre>
 <p>Then an <code>exampleIso</code> could be produced with the following invocation:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nix</span><span style="color:#ccc9c2;"> build .#nixosConfigurations.exampleIso.config.system.build.isoImage
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nix</span><span> build .#nixosConfigurations.exampleIso.config.system.build.isoImage
 </span></code></pre>
 <p>Nix will output an ISO (and some other things) to <code>./result/</code>. Then, the operator could install it to media:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ccc9c2;">USB_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/dev/null </span><span style="font-style:italic;color:#5c6773;"># Change me
-</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -vi</span><span style="color:#ccc9c2;"> result/iso/</span><span style="color:#f29e74;">*</span><span style="color:#ccc9c2;">.iso $USB_PATH
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>USB_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/dev/null </span><span style="font-style:italic;color:#5c6773;"># Change me
+</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -vi</span><span> result/iso/</span><span style="color:#f29e74;">*</span><span>.iso $USB_PATH
 </span></code></pre>
 <p>From the booted live media, they could format and mount their disks, then install the 'real' system via:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nixos-install</span><span style="color:#ffcc66;"> --flake</span><span style="color:#ccc9c2;"> .#example
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nixos-install</span><span style="color:#ffcc66;"> --flake</span><span> .#example
 </span></code></pre>
 <p>If desired, the flake could be located at a URI, such as <code>github:hoverbear-consulting/flake#example</code>, allowing the operator not to need to worry about fetching or persisting the configuration.</p>
 <p>Later, the operator could modify the configuration, and have the machine adopt the new state:</p>
-<pre style="background-color:#212733;">
-<code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nixos-rebuild</span><span style="color:#ccc9c2;"> switch</span><span style="color:#ffcc66;"> --flake</span><span style="color:#ccc9c2;"> .#example
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nixos-rebuild</span><span> switch</span><span style="color:#ffcc66;"> --flake</span><span> .#example
 </span></code></pre>
 <p>If using a remote URI for the flake, an invocation of <code>nix flake update</code> may be required, as flakes (rightly) use lock files.</p>
 <h1 id="going-farther">Going farther</h1>
 <p>The <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/tree/master/nixos/modules/installer/cd-dvd/"><code>NixOS/nigpkgs</code> installer modules</a> provide a number of useful bases for images. For example, for a graphical base LiveUSB the <code>${nixos}/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix</code> module could be used instead.</p>
 <p>As your configuration grows, you may find it necessary to have certain modules only loaded when not running as live media, or you may choose to implement your own live media builder.</p>
 <p>While I've not had much luck with cross compiling live media for different architectures (eg. building an aarch64 media through an x86_64 toolchain), I have had some luck using <code>binfmt</code>. Setting that up looks like this:</p>
-<pre style="background-color:#212733;">
-<code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># /etc/nixos/configuration.nix
-</span><span style="color:#ccc9c2;">{
-  </span><span style="color:#ffd580;">boot</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">binfmt</span><span style="color:#ccc9c2;">.</span><span style="color:#ffd580;">emulatedSystems </span><span style="color:#f29e74;">= </span><span style="color:#ccc9c2;">[ </span><span style="color:#bae67e;">&quot;aarch64-linux&quot; </span><span style="color:#ccc9c2;">]</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ccc9c2;">}
+<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># /etc/nixos/configuration.nix
+</span><span>{
+</span><span>  </span><span style="color:#ffd580;">boot</span><span>.</span><span style="color:#ffd580;">binfmt</span><span>.</span><span style="color:#ffd580;">emulatedSystems </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#bae67e;">&quot;aarch64-linux&quot; </span><span>]</span><span style="color:#ccc9c2cc;">;
+</span><span>}
 </span></code></pre>
 <p>Then boldly build the ISO as you normally would.</p>
 <p>You can also use this idea to create recovery media with custom hardware support, like <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/lx2k-nix">the SolidRun LX2K</a>.</p>
@@ -222,8 +216,8 @@ With Nix flakes, we can define a custom live system and build it with minimal st
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

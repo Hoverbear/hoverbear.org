@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -164,25 +164,23 @@ Github Pages is Github&#x27;s very generous offering of web hosting to your proj
 </ul>
 <h2 id="making-a-demo-project">Making a Demo Project</h2>
 <p>Let's make a demo repository to play.</p>
-<pre style="background-color:#212733;">
-<code>cargo new travis-demo
-cd travis-demo
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>cargo new travis-demo
+</span><span>cd travis-demo
+</span></code></pre>
 <p>For simplicity, we'll replace the contents of <code>src/lib.rs</code> with the following:</p>
-<pre style="background-color:#212733;">
-<code>#![crate_name = &quot;travis-demo&quot;]
-#![crate_type = &quot;lib&quot;]
-
-//! This is a comment.
-
-/// This function always returns true. It's very useful!
-pub fn always_true() -&gt; bool { true }
-
-#[test]
-fn it_works() {
-    assert_eq!(always_true(), true);
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#![crate_name = &quot;travis-demo&quot;]
+</span><span>#![crate_type = &quot;lib&quot;]
+</span><span>
+</span><span>//! This is a comment.
+</span><span>
+</span><span>/// This function always returns true. It&#39;s very useful!
+</span><span>pub fn always_true() -&gt; bool { true }
+</span><span>
+</span><span>#[test]
+</span><span>fn it_works() {
+</span><span>    assert_eq!(always_true(), true);
+</span><span>}
+</span></code></pre>
 <blockquote>
 <p>If you haven't had a chance to learn about <code>rustdoc</code> you can read about it <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/book/documentation.html">here</a>.</p>
 </blockquote>
@@ -190,36 +188,36 @@ fn it_works() {
 <figure class="enriched ">
         <figcaption>Our Documentation</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3ec1b6f4424fc84700.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6fe4df08c0b5b12000.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c44ee1c40b7ffe6c00.png"
+              src="[object]"
               alt="Our Documentation" />
     </figure>
 <p>Finally, push this project up to Github (You'll need to make it on Github!):</p>
-<pre style="background-color:#212733;">
-<code>git add Cargo.toml src .gitignore
-git commit -m &quot;Initial commit.&quot;
-git remote add origin git@github.com:Hoverbear/travis-demo.git
-git push -u origin master
-</code></pre><h2 id="starting-with-travis">Starting with Travis</h2>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>git add Cargo.toml src .gitignore
+</span><span>git commit -m &quot;Initial commit.&quot;
+</span><span>git remote add origin git@github.com:Hoverbear/travis-demo.git
+</span><span>git push -u origin master
+</span></code></pre>
+<h2 id="starting-with-travis">Starting with Travis</h2>
 <p>First, you'll need to sign up with Travis. This is trivially done by visiting <a rel="noopener" target="_blank" href="https://travis-ci.org/">TravisCI</a> and signing in with Github.</p>
 <p>Then, visit your profile by clicking on your name in the top right corner.</p>
 <figure class="enriched ">
         <figcaption>How to get to your profile.</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ac646c37373f8e8f00.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;45f1ce1da08280e400.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3e0d308eb70f52c900.png"
+              src="[object]"
               alt="How to get to your profile." />
     </figure>
 <p>On this page, in the &quot;Repositories&quot; tab, you'll see a list of all your public repositories. If you <em>just</em> made your repository you might need to tell Travis to <strong>Sync Now</strong>.</p>
@@ -234,17 +232,16 @@ git push -u origin master
 </blockquote>
 <p>Travis uses a <code>.travis.yml</code> to configure how it works. You can read more about it <a rel="noopener" target="_blank" href="http://docs.travis-ci.com/user/build-configuration/">here</a>.</p>
 <p>We can add the following to ours:</p>
-<pre style="background-color:#212733;">
-<code>language: rust
-after_success: |
-  [ $TRAVIS_BRANCH = master ] &amp;&amp;
-  [ $TRAVIS_PULL_REQUEST = false ] &amp;&amp;
-  cargo doc &amp;&amp;
-  echo &quot;&lt;meta http-equiv=refresh content=0;url=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f 2`/index.html&gt;&quot; &gt; target/doc/index.html &amp;&amp;
-  sudo pip install ghp-import &amp;&amp;
-  ghp-import -n target/doc &amp;&amp;
-  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>language: rust
+</span><span>after_success: |
+</span><span>  [ $TRAVIS_BRANCH = master ] &amp;&amp;
+</span><span>  [ $TRAVIS_PULL_REQUEST = false ] &amp;&amp;
+</span><span>  cargo doc &amp;&amp;
+</span><span>  echo &quot;&lt;meta http-equiv=refresh content=0;url=`echo $TRAVIS_REPO_SLUG | cut -d &#39;/&#39; -f 2`/index.html&gt;&quot; &gt; target/doc/index.html &amp;&amp;
+</span><span>  sudo pip install ghp-import &amp;&amp;
+</span><span>  ghp-import -n target/doc &amp;&amp;
+</span><span>  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+</span></code></pre>
 <p><code>language:</code> lets us specify <code>rust</code>, which for now defaults to the latest nightly.</p>
 <p><code>after_success:</code> lets us declare a script to run after a successful build. I found this series of steps <em>somewhere</em>, modified them a bit, and they work fantastic. The script basically does the following:</p>
 <ul>
@@ -259,70 +256,66 @@ after_success: |
 <figure class="enriched ">
         <figcaption>Getting a token</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33310b58635b18aa00.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;343307d873465f4000.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1c69649043e246fc00.png"
+              src="[object]"
               alt="Getting a token" />
     </figure>
 <figure class="enriched ">
         <figcaption>Token Creation Screen</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fb6cf092cf65e36300.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;26187baabb75c6f600.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1c6fc861e613d35400.png"
+              src="[object]"
               alt="Token Creation Screen" />
     </figure>
 <p>Once you hit &quot;Generate Token&quot; you'll return to the previous page and see a green highlighted key. <strong>Copy that, you won't see it again!</strong></p>
 <p>Now, install the <a rel="noopener" target="_blank" href="https://github.com/travis-ci/travis.rb#installation">Travis Gem</a>. Then you need to authenticate using <code>travis login</code> using your Github credentials.</p>
 <p>Once Travis is installed and logged in, you can run this, where <code>$YOUR_TOKEN</code> is the one we copied earlier.</p>
-<pre style="background-color:#212733;">
-<code>travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>travis encrypt GH_TOKEN=$YOUR_TOKEN --add env.global
+</span></code></pre>
 <p>This command should automatically add a few lines to your <code>.travis.yml</code>.</p>
 <blockquote>
 <p><strong>Why encrypt?</strong> Because it's probably a bad idea to store an access token for your Github account in the clear.</p>
 </blockquote>
-<pre style="background-color:#212733;">
-<code>git add .travis.yml
-git commit -m &quot;Add Travis&quot;
-git push
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>git add .travis.yml
+</span><span>git commit -m &quot;Add Travis&quot;
+</span><span>git push
+</span></code></pre>
 <p>Now if you visit <a rel="noopener" target="_blank" href="https://travis-ci.org/repositories"><code>https://travis-ci.org/repositories</code></a> you should, eventually, see your build pop up! Note that Travis can take a moment to start a build.</p>
 <p>Your build should look similar to the following:</p>
 <figure class="enriched ">
         <figcaption>Example Build</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d459ac2149621cdf00.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f484cda088ccee1c00.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;385d841b2029d92e00.png"
+              src="[object]"
               alt="Example Build" />
     </figure>
 <h2 id="tinkering-with-the-crate">Tinkering with the Crate</h2>
 <p>Unfortunately, the first build of a <code>gh-pages</code> branch can take awhile to become available. <em>So just relax, and lets tinker with things a bit.</em></p>
 <p>Let's go back to your <code>src/lib.rs</code> and add a couple more declarations.</p>
 <p><strong>To set a base URL</strong> you can add this:</p>
-<pre style="background-color:#212733;">
-<code>#![doc(html_root_url = &quot;https://hoverbear.github.io/travis-demo/&quot;)]
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#![doc(html_root_url = &quot;https://hoverbear.github.io/travis-demo/&quot;)]
+</span></code></pre>
 <p><strong>To set an image for the documentation</strong> you can add an image to your Github repository and do something like the following:</p>
-<pre style="background-color:#212733;">
-<code>#![doc(html_logo_url = &quot;https://raw.githubusercontent.com/Hoverbear/travis-demo/master/demo.png&quot;)]
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#![doc(html_logo_url = &quot;https://raw.githubusercontent.com/Hoverbear/travis-demo/master/demo.png&quot;)]
+</span></code></pre>
 <p>Once you change those, commit them, push it to <code>origin master</code>, and visit Travis again. You can see Travis will take the new revision and test it as well. (You can see there is even a &quot;Build Log&quot;) Once the test succeeds you'll see, again, how it builds docs and sets them up.</p>
 <blockquote>
 <p>If you create a pull request or branch, you'll notice that the Travis builds don't push new documentation except to commits on <code>master</code>.</p>
@@ -334,14 +327,14 @@ git push
 <figure class="enriched ">
         <figcaption>Setting ENV Variables</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a61dfdc13d2dcdb700.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;008aeafeaf2e03cc00.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;67bec8aaee58563a00.png"
+              src="[object]"
               alt="Setting ENV Variables" />
     </figure>
 <h2 id="a-while-later">A While Later...</h2>
@@ -350,14 +343,14 @@ git push
 <figure class="enriched ">
         <figcaption>Our new Repo</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2905129e1421659900.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a134547c958478f300.png 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae0c40bd948b354c00.png"
+              src="[object]"
               alt="Our new Repo" />
     </figure>
 <p>Enjoy your new documentation! Your users will appreciate your documentation being up to date, you don't need to do it yourself, and later on you can hack this method to only handle commits to <code>stable</code> or other tags.</p>
@@ -367,8 +360,8 @@ git push
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

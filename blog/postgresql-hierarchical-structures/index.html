@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bcd8060a2fec229f00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bcd8060a2fec229f00.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -66,14 +66,14 @@ So how can we model them?
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Javier Allegue Barros; @soymeraki on Unsplash</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7af41ef30c2eb1c300.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bcd8060a2fec229f00.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9102ec7ae89dc56100.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +85,12 @@ So how can we model them?
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -207,64 +207,63 @@ So how can we model them?
 <p>For the next solution, we'll explore the tailor-made <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/ltree.html"><strong><code>ltree</code></strong></a> type that can solve our needs without the complex mechanics of the first solution. Further, this solution offers some useful functionality like <code>subpath</code>s.</p>
 <h2 id="before-we-start">Before we start</h2>
 <p>Please make sure your database is in UTF-8! We're going to be exploring international text today. If you're not sure, let's create a new empty database, and go ahead and connect to it.</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">CREATE DATABASE </span><span style="color:#ccc9c2;">organization WITH ENCODING &#39;UTF8&#39; </span><span style="color:#ffd580;">TEMPLATE</span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;">template0
-</span></code></pre><h2 id="solution-1-materialized-views-and-recursive-ctes">Solution 1: Materialized Views and Recursive CTEs</h2>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">CREATE TABLE </span><span style="color:#ffd580;">teams</span><span style="color:#ccc9c2;"> (
-    name   </span><span style="color:#ffa759;">TEXT
-</span><span style="color:#ccc9c2;">           UNIQUE </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
-           </span><span style="color:#ffa759;">PRIMARY KEY</span><span style="color:#ccc9c2;">,
-    parent </span><span style="color:#ffa759;">TEXT
-           REFERENCES</span><span style="color:#ccc9c2;"> teams (name)
-);
-
-CREATE MATERIALIZED VIEW team_structure </span><span style="color:#f29e74;">AS
-    </span><span style="color:#ffa759;">WITH</span><span style="color:#ccc9c2;"> RECURSIVE teams_cte(name, parent, </span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;">) </span><span style="color:#f29e74;">AS</span><span style="color:#ccc9c2;"> (
-        </span><span style="color:#ffa759;">SELECT </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">parent</span><span style="color:#ccc9c2;">, ARRAY [</span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2;">]
-            </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams
-            </span><span style="color:#ffa759;">WHERE </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">parent </span><span style="color:#f29e74;">IS </span><span style="color:#ffcc66;">NULL
-        </span><span style="color:#ffa759;">UNION ALL
-        SELECT </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">parent</span><span style="color:#ccc9c2;">, array_append(</span><span style="color:#ffcc66;">teams_cte</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">path</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2;">)
-            </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams_cte,
-                 teams
-            </span><span style="color:#ffa759;">WHERE </span><span style="color:#ffcc66;">teams</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">parent </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">teams_cte</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">name
-</span><span style="color:#ccc9c2;">    )
-    </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">*
-        </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams_cte;
-
-</span><span style="color:#ffa759;">CREATE FUNCTION </span><span style="color:#ffd580;">refresh_team_structure</span><span style="color:#ccc9c2;">() RETURNS TRIGGER
-    LANGUAGE plpgsql </span><span style="color:#f29e74;">AS
-</span><span style="color:#ccc9c2;">$$
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">CREATE DATABASE </span><span>organization WITH ENCODING &#39;UTF8&#39; </span><span style="color:#ffd580;">TEMPLATE</span><span style="color:#f29e74;">=</span><span>template0
+</span></code></pre>
+<h2 id="solution-1-materialized-views-and-recursive-ctes">Solution 1: Materialized Views and Recursive CTEs</h2>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">CREATE TABLE </span><span style="color:#ffd580;">teams</span><span> (
+</span><span>    name   </span><span style="color:#ffa759;">TEXT
+</span><span>           UNIQUE </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
+</span><span>           </span><span style="color:#ffa759;">PRIMARY KEY</span><span>,
+</span><span>    parent </span><span style="color:#ffa759;">TEXT
+</span><span>           </span><span style="color:#ffa759;">REFERENCES</span><span> teams (name)
+</span><span>);
+</span><span>
+</span><span>CREATE MATERIALIZED VIEW team_structure </span><span style="color:#f29e74;">AS
+</span><span>    </span><span style="color:#ffa759;">WITH</span><span> RECURSIVE teams_cte(name, parent, </span><span style="color:#ffa759;">path</span><span>) </span><span style="color:#f29e74;">AS</span><span> (
+</span><span>        </span><span style="color:#ffa759;">SELECT </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>, </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent</span><span>, ARRAY [</span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>]
+</span><span>            </span><span style="color:#ffa759;">FROM</span><span> teams
+</span><span>            </span><span style="color:#ffa759;">WHERE </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent </span><span style="color:#f29e74;">IS </span><span style="color:#ffcc66;">NULL
+</span><span>        </span><span style="color:#ffa759;">UNION ALL
+</span><span>        </span><span style="color:#ffa759;">SELECT </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>, </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent</span><span>, array_append(</span><span style="color:#ffcc66;">teams_cte</span><span>.</span><span style="color:#ffcc66;">path</span><span>, </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>)
+</span><span>            </span><span style="color:#ffa759;">FROM</span><span> teams_cte,
+</span><span>                 teams
+</span><span>            </span><span style="color:#ffa759;">WHERE </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">teams_cte</span><span>.</span><span style="color:#ffcc66;">name
+</span><span>    )
+</span><span>    </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">*
+</span><span>        </span><span style="color:#ffa759;">FROM</span><span> teams_cte;
+</span><span>
+</span><span style="color:#ffa759;">CREATE FUNCTION </span><span style="color:#ffd580;">refresh_team_structure</span><span>() RETURNS TRIGGER
+</span><span>    LANGUAGE plpgsql </span><span style="color:#f29e74;">AS
+</span><span>$$
 </span><span style="color:#ffa759;">BEGIN
-</span><span style="color:#ccc9c2;">    REFRESH MATERIALIZED VIEW team_structure;
-    RETURN new;
-</span><span style="color:#ffa759;">END</span><span style="color:#ccc9c2;">;
-$$;
-
+</span><span>    REFRESH MATERIALIZED VIEW team_structure;
+</span><span>    RETURN new;
+</span><span style="color:#ffa759;">END</span><span>;
+</span><span>$$;
+</span><span>
 </span><span style="color:#ffa759;">CREATE TRIGGER </span><span style="color:#ffd580;">trigger_update_team_structure
-</span><span style="color:#ccc9c2;">    AFTER </span><span style="color:#ffa759;">UPDATE </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">INSERT </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">DELETE </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">TRUNCATE
-</span><span style="color:#ccc9c2;">    ON teams
-EXECUTE PROCEDURE refresh_team_structure();
-</span></code></pre><h3 id="testing">Testing</h3>
+</span><span>    AFTER </span><span style="color:#ffa759;">UPDATE </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">INSERT </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">DELETE </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">TRUNCATE
+</span><span>    ON teams
+</span><span>EXECUTE PROCEDURE refresh_team_structure();
+</span></code></pre>
+<h3 id="testing">Testing</h3>
 <p>Loading the example data, including a few complex cases, like spaces, umlauts, and Chinese script:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">INSERT INTO</span><span style="color:#ccc9c2;"> teams (name, parent)
-    </span><span style="color:#ffa759;">VALUES</span><span style="color:#ccc9c2;"> (</span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">NULL</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Geschäftstätigkeit&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Interns&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Administration&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">NULL</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Human Resources&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Finance&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">NULL</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">NULL</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;国际化&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#ffcc66;">NULL</span><span style="color:#ccc9c2;">);
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">INSERT INTO</span><span> teams (name, parent)
+</span><span>    </span><span style="color:#ffa759;">VALUES</span><span> (</span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Geschäftstätigkeit&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Interns&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Human Resources&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;国际化&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>);
 </span></code></pre>
 <p>Listing all of them:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> team_structure </span><span style="color:#ffa759;">ORDER BY path</span><span style="color:#ccc9c2;">;
-</span></code></pre><table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">ORDER BY path</span><span>;
+</span></code></pre>
+<table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Administration</td><td align="left">NULL</td><td align="left">{Administration}</td></tr>
 <tr><td align="left">Finance</td><td align="left">Administration</td><td align="left">{Administration,Finance}</td></tr>
 <tr><td align="left">Human Resources</td><td align="left">Administration</td><td align="left">{Administration,Human Resources}</td></tr>
@@ -277,27 +276,27 @@ EXECUTE PROCEDURE refresh_team_structure();
 <tr><td align="left">国际化</td><td align="left">NULL</td><td align="left">{国际化}</td></tr>
 </tbody></table>
 <p>A specific one:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> team_structure </span><span style="color:#ffa759;">WHERE</span><span style="color:#ccc9c2;"> name </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span style="color:#ccc9c2;">;
-</span></code></pre><table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">WHERE</span><span> name </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>;
+</span></code></pre>
+<table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Finance</td><td align="left">Administration</td><td align="left">{Administration,Finance}</td></tr>
 </tbody></table>
 <p>Finding all subteams (deep) of a team:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> team_structure </span><span style="color:#ffa759;">WHERE </span><span style="color:#bae67e;">&#39;Product&#39; </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> ANY(</span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;">);
-</span></code></pre><table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">WHERE </span><span style="color:#bae67e;">&#39;Product&#39; </span><span style="color:#f29e74;">=</span><span> ANY(</span><span style="color:#ffa759;">path</span><span>);
+</span></code></pre>
+<table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Product</td><td align="left">Engineering</td><td align="left">{Engineering,Product}</td></tr>
 <tr><td align="left">Interns</td><td align="left">Product</td><td align="left">{Engineering,Product,Interns}</td></tr>
 </tbody></table>
 <p>Let's look at the analysis:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> EXPLAIN ANALYZE </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> team_structure </span><span style="color:#ffa759;">WHERE </span><span style="color:#bae67e;">&#39;Product&#39; </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> ANY(</span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;">);
-Seq Scan on team_structure  (cost</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">00</span><span style="color:#ccc9c2;">..</span><span style="color:#ffcc66;">24</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">63</span><span style="color:#ccc9c2;"> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2;"> width</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">96</span><span style="color:#ccc9c2;">) (actual </span><span style="color:#ffa759;">time</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">015</span><span style="color:#ccc9c2;">..</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">016</span><span style="color:#ccc9c2;"> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2;"> loops</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">)
-  Filter: (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">::</span><span style="color:#ffa759;">text </span><span style="color:#f29e74;">=</span><span style="color:#ccc9c2;"> ANY (</span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;">))
-  Rows Removed by Filter: </span><span style="color:#ffcc66;">8
-</span><span style="color:#ccc9c2;">Planning </span><span style="color:#ffa759;">Time</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">047</span><span style="color:#ccc9c2;"> ms
-Execution </span><span style="color:#ffa759;">Time</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">026</span><span style="color:#ccc9c2;"> ms
-</span></code></pre><h2 id="solution-2-ltree-columns">Solution 2: <code>ltree</code> columns</h2>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#f29e74;">&gt;</span><span> EXPLAIN ANALYZE </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">WHERE </span><span style="color:#bae67e;">&#39;Product&#39; </span><span style="color:#f29e74;">=</span><span> ANY(</span><span style="color:#ffa759;">path</span><span>);
+</span><span>Seq Scan on team_structure  (cost</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">00</span><span>..</span><span style="color:#ffcc66;">24</span><span>.</span><span style="color:#ffcc66;">63</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">3</span><span> width</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">96</span><span>) (actual </span><span style="color:#ffa759;">time</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">015</span><span>..</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">016</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">2</span><span> loops</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span>)
+</span><span>  Filter: (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span>::</span><span style="color:#ffa759;">text </span><span style="color:#f29e74;">=</span><span> ANY (</span><span style="color:#ffa759;">path</span><span>))
+</span><span>  Rows Removed by Filter: </span><span style="color:#ffcc66;">8
+</span><span>Planning </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">047</span><span> ms
+</span><span>Execution </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">026</span><span> ms
+</span></code></pre>
+<h2 id="solution-2-ltree-columns">Solution 2: <code>ltree</code> columns</h2>
 <blockquote>
 <p>Thanks to <a rel="noopener" target="_blank" href="https://twitter.com/focusaurus">@focusaurus</a> for giving me the idea to add this section after publication!</p>
 </blockquote>
@@ -308,37 +307,36 @@ Execution </span><span style="color:#ffa759;">Time</span><span style="color:#ccc
 </blockquote>
 <p>While the length limit is not terrible, the lack of support for the full UTF-8 spectrum, such as spaces or even words like 工程 or Geschäftstätigkeit is really limiting!</p>
 <p>So, when we create our table, let's give it a <code>name</code> column where we can store any e̘̫̩̼͝x̢o̵̞͙̰͕t͈̼̺͍̥ͅi̻͉̺͚͕c̶̥̘͖̪̤̜ text we want. We'll also need a <code>slug</code> column containing the expected fragment in the <code>path</code>.</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ccc9c2;">CREATE EXTENSION IF NOT </span><span style="color:#f29e74;">EXISTS</span><span style="color:#ccc9c2;"> ltree;
-</span><span style="color:#ffa759;">CREATE TABLE </span><span style="color:#ffd580;">teams</span><span style="color:#ccc9c2;"> (
-    name </span><span style="color:#ffa759;">text
-        </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL</span><span style="color:#ccc9c2;">,
-    slug </span><span style="color:#ffa759;">text
-        </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
-        </span><span style="color:#ffa759;">CHECK</span><span style="color:#ccc9c2;"> (slug ~</span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#bae67e;">&#39;^[A-Za-z0-9_]{1,255}$&#39;</span><span style="color:#ccc9c2;">),
-    </span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;"> ltree
-        UNIQUE </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
-        </span><span style="color:#ffa759;">PRIMARY KEY
-</span><span style="color:#ccc9c2;">);
-</span></code></pre><h3 id="testing-1">Testing</h3>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span>CREATE EXTENSION IF NOT </span><span style="color:#f29e74;">EXISTS</span><span> ltree;
+</span><span style="color:#ffa759;">CREATE TABLE </span><span style="color:#ffd580;">teams</span><span> (
+</span><span>    name </span><span style="color:#ffa759;">text
+</span><span>        </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL</span><span>,
+</span><span>    slug </span><span style="color:#ffa759;">text
+</span><span>        </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
+</span><span>        </span><span style="color:#ffa759;">CHECK</span><span> (slug ~</span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#bae67e;">&#39;^[A-Za-z0-9_]{1,255}$&#39;</span><span>),
+</span><span>    </span><span style="color:#ffa759;">path</span><span> ltree
+</span><span>        UNIQUE </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
+</span><span>        </span><span style="color:#ffa759;">PRIMARY KEY
+</span><span>);
+</span></code></pre>
+<h3 id="testing-1">Testing</h3>
 <p>Loading the data is a bit different, you'll notice we just insert paths. </p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">INSERT INTO</span><span style="color:#ccc9c2;"> teams (name, slug, </span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;">)
-    </span><span style="color:#ffa759;">VALUES</span><span style="color:#ccc9c2;"> (</span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Geschäftstätigkeit&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Operations&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering.Operations&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering.Product&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Interns&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Interns&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Engineering.Product.Interns&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Administration&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Human Resources&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Human_Resources&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Administration.Human_Resources&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Finance&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Administration.Finance&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span style="color:#ccc9c2;">),
-           (</span><span style="color:#bae67e;">&#39;国际化&#39;</span><span style="color:#ccc9c2;">, </span><span style="color:#bae67e;">&#39;Internationalization&#39;</span><span style="color:#ccc9c2;">,</span><span style="color:#bae67e;">&#39;Internationalization&#39;</span><span style="color:#ccc9c2;">);
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">INSERT INTO</span><span> teams (name, slug, </span><span style="color:#ffa759;">path</span><span>)
+</span><span>    </span><span style="color:#ffa759;">VALUES</span><span> (</span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Geschäftstätigkeit&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Operations&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering.Operations&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering.Product&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Interns&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Interns&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering.Product.Interns&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Human Resources&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Human_Resources&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration.Human_Resources&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration.Finance&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>),
+</span><span>           (</span><span style="color:#bae67e;">&#39;国际化&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Internationalization&#39;</span><span>,</span><span style="color:#bae67e;">&#39;Internationalization&#39;</span><span>);
 </span></code></pre>
 <p>Listing all of them:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams </span><span style="color:#ffa759;">ORDER BY path</span><span style="color:#ccc9c2;">;
-</span></code></pre><table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">ORDER BY path</span><span>;
+</span></code></pre>
+<table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Administration</td><td align="left">Administration</td><td align="left">Administration</td></tr>
 <tr><td align="left">Finance</td><td align="left">Finance</td><td align="left">Administration.Finance</td></tr>
 <tr><td align="left">Human Resources</td><td align="left">Human_Resources</td><td align="left">Administration.Human_Resources</td></tr>
@@ -350,29 +348,27 @@ Execution </span><span style="color:#ffa759;">Time</span><span style="color:#ccc
 <tr><td align="left">Logistics</td><td align="left">Logistics</td><td align="left">Logistics</td></tr>
 <tr><td align="left">Marketing</td><td align="left">Marketing</td><td align="left">Marketing</td></tr>
 </tbody></table>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams </span><span style="color:#ffa759;">WHERE</span><span style="color:#ccc9c2;"> slug </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span style="color:#ccc9c2;">;
-</span></code></pre><table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">WHERE</span><span> slug </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>;
+</span></code></pre>
+<table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Finance</td><td align="left">Finance</td><td align="left">Administration.Finance</td></tr>
 </tbody></table>
 <p>Finding all subteams (deep) of a team:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams </span><span style="color:#ffa759;">WHERE path</span><span style="color:#ccc9c2;"> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">;
-</span></code></pre><table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
-<tr><td align="left">Engineering</td><td align="left">Engineering</td><td align="left">Engineering</td></tr>
-<tr><td align="left">Geschäftstätigkeit</td><td align="left">Operations</td><td align="left">Engineering.Operations</td></tr>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">WHERE path</span><span> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>;
+</span></code></pre>
+<table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Product</td><td align="left">Product</td><td align="left">Engineering.Product</td></tr>
 <tr><td align="left">Interns</td><td align="left">Interns</td><td align="left">Engineering.Product.Interns</td></tr>
 </tbody></table>
 <p>The query plan:</p>
-<pre style="background-color:#212733;">
-<code class="language-sql" data-lang="sql"><span style="color:#f29e74;">&gt;</span><span style="color:#ccc9c2;"> EXPLAIN ANALYZE </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span style="color:#ccc9c2;"> teams </span><span style="color:#ffa759;">WHERE path</span><span style="color:#ccc9c2;"> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">;
-Seq Scan on teams  (cost</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">00</span><span style="color:#ccc9c2;">..</span><span style="color:#ffcc66;">18</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">13</span><span style="color:#ccc9c2;"> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;"> width</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">96</span><span style="color:#ccc9c2;">) (actual </span><span style="color:#ffa759;">time</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">013</span><span style="color:#ccc9c2;">..</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">014</span><span style="color:#ccc9c2;"> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2;"> loops</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">)
-  Filter: (</span><span style="color:#ffa759;">path</span><span style="color:#ccc9c2;"> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span style="color:#ccc9c2;">::ltxtquery)
-  Rows Removed by Filter: </span><span style="color:#ffcc66;">8
-</span><span style="color:#ccc9c2;">Planning </span><span style="color:#ffa759;">Time</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">055</span><span style="color:#ccc9c2;"> ms
-Execution </span><span style="color:#ffa759;">Time</span><span style="color:#ccc9c2;">: </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2;">.</span><span style="color:#ffcc66;">029</span><span style="color:#ccc9c2;"> ms
-</span></code></pre><h2 id="conclusion">Conclusion</h2>
+<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#f29e74;">&gt;</span><span> EXPLAIN ANALYZE </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">WHERE path</span><span> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>;
+</span><span>Seq Scan on teams  (cost</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">00</span><span>..</span><span style="color:#ffcc66;">18</span><span>.</span><span style="color:#ffcc66;">13</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span> width</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">96</span><span>) (actual </span><span style="color:#ffa759;">time</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">013</span><span>..</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">014</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">2</span><span> loops</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span>)
+</span><span>  Filter: (</span><span style="color:#ffa759;">path</span><span> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>::ltxtquery)
+</span><span>  Rows Removed by Filter: </span><span style="color:#ffcc66;">8
+</span><span>Planning </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">055</span><span> ms
+</span><span>Execution </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">029</span><span> ms
+</span></code></pre>
+<h2 id="conclusion">Conclusion</h2>
 <p>As you can see, this problem can be tackled in a couple different ways, with some basic SQL concepts used together, or with already existing types! Don't let limitations turn you away, you can overcome them!</p>
 <p>I hope this have given you some ideas about new things you can do with your database!</p>
 
@@ -381,8 +377,8 @@ Execution </span><span style="color:#ffa759;">Time</span><span style="color:#ccc
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 

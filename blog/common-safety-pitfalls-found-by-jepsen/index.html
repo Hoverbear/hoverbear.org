@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
+        <meta property='og:image' content="[object]"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -66,14 +66,14 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Lennart Heim; @ohlennart on Unsplash</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;141609389465be9400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ec6b4e3ee208b81600.jpg"
+              src="[object]"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +85,12 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -293,14 +293,14 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <figure class="enriched ">
         <figcaption>The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca463d3e24c9ea6f00.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f1994e56fa84e19800.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c2f07f08afe6921200.jpg"
+              src="[object]"
               alt="The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash" />
     </figure>
 <h2 id="commonly-found-problems">Commonly found problems</h2>
@@ -317,10 +317,9 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>Split brains were a regular problem in many Jepsen analyses. A split-brain occurs when a cluster somehow promotes multiple leaders in a cluster that should only have a single leader.</p>
 <p>While many projects test trivial partition scenarios (such as <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{D, E}</code>), there were cases, such as Elasticsearch testing a &quot;bridge&quot;, where nodes on each side of a partition were only partially disconnected, yielding split brains.</p>
 <p>An example of this is <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{C,D,E}</code>, where <code>C</code> is a bridge between the two partitions.</p>
-<pre style="background-color:#212733;">
-<code class="language-markdown" data-lang="markdown"><span style="color:#ccc9c2;">A - C - E
- \ / \ /
-  B   D
+<pre data-lang="markdown" style="background-color:#212733;color:#ccc9c2;" class="language-markdown "><code class="language-markdown" data-lang="markdown"><span>A - C - E
+</span><span> \ / \ /
+</span><span>  B   D
 </span></code></pre>
 <p>Intuitively, we can see from the diagram that <code>C</code> should probably be the elected leader. It's totally connected. But this isn't always what happens.</p>
 <p>In <a rel="noopener" target="_blank" href="https://aphyr.com/posts/317-call-me-maybe-elasticsearch">Zendisco (2014)</a>, Elasticsearch's membership system, there was no invariant preventing two leaders from existing, so it was possible for two nodes to believe themselves to be in a majority, and become elected leaders.</p>
@@ -328,11 +327,10 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p>Some projects suffered from connection behaviors that are not ideal for operators. TiKV issue <a rel="noopener" target="_blank" href="https://github.com/tikv/tikv/issues/4500">#4500</a> is an interesting example of this. TiKV 2.1.7 would retry a failed PD connection for up to 60 seconds on startup. However, if it lost connection to PD while online, it would retry until recovery.</p>
 <p>In this case, if PD failed, then TiKV failed before PD recovered. This could lead to a state where TiKV nodes would never recover.</p>
 <p>Here's an example of a problematic case involving 1 TiKV node, and 1 PD node:</p>
-<pre style="background-color:#212733;">
-<code class="language-rust" data-lang="rust"><span style="color:#f28779;">kill</span><span style="color:#ccc9c2;">(pd)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#f28779;">restart</span><span style="color:#ccc9c2;">(tikv)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#f28779;">sleep</span><span style="color:#ccc9c2;">(</span><span style="color:#ffcc66;">61_000</span><span style="color:#ccc9c2;">)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#f28779;">recover</span><span style="color:#ccc9c2;">(pd)</span><span style="color:#ccc9c2cc;">;
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#f28779;">kill</span><span>(pd)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#f28779;">restart</span><span>(tikv)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#f28779;">sleep</span><span>(</span><span style="color:#ffcc66;">61_000</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#f28779;">recover</span><span>(pd)</span><span style="color:#ccc9c2cc;">;
 </span><span style="font-style:italic;color:#5c6773;">// TiKV never recovers connection.
 </span></code></pre>
 <p><a rel="noopener" target="_blank" href="https://jepsen.io/analyses/dgraph-1-0-2">Dgraph behaved similarly</a> with interactions between it's Alpha and Zero nodes.</p>
@@ -357,10 +355,9 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <h3 id="error-message-compatibility">Error message compatibility</h3>
 <p>In <a href="(https://aphyr.com/posts/317-call-me-maybe-elasticsearch)">ElasticSearch - 2014-06-15 - 1.1.0</a> it was noted that different JVMs serialize classes differently (e.g., InetAddress), meaning it was possible clients and servers would be unable to correctly communicate error messages from a different node.</p>
 <p>This is <a rel="noopener" target="_blank" href="https://github.com/elastic/elasticsearch/issues/3145">issue #3145</a>:</p>
-<pre style="background-color:#212733;">
-<code class="language-java" data-lang="java"><span style="color:#ccc9c2;">[</span><span style="color:#ffcc66;">2013</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">06</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">05 0</span><span style="color:#ff3333;">9</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">35</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">20</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">480</span><span style="color:#ccc9c2;">][</span><span style="color:#ffcc66;">WARN</span><span style="color:#ccc9c2;"> ][action</span><span style="color:#f29e74;">.</span><span style="color:#ccc9c2;">index         	] [es</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2;">] </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span style="color:#ccc9c2;"> to perform index on replica [rules][</span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2;">]
-</span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">RemoteTransportException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span style="color:#ccc9c2;"> to deserialize exception response from stream
-</span><span style="font-style:italic;color:#5ccfe6;">Caused</span><span style="color:#ccc9c2;"> by</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">TransportSerializationException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span style="color:#ccc9c2;"> to deserialize exception response from stream
+<pre data-lang="java" style="background-color:#212733;color:#ccc9c2;" class="language-java "><code class="language-java" data-lang="java"><span>[</span><span style="color:#ffcc66;">2013</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">06</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">05 0</span><span style="color:#ff3333;">9</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">35</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">20</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">480</span><span>][</span><span style="color:#ffcc66;">WARN</span><span> ][action</span><span style="color:#f29e74;">.</span><span>index         	] [es</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">1</span><span>] </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span> to perform index on replica [rules][</span><span style="color:#ffcc66;">4</span><span>]
+</span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">RemoteTransportException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span> to deserialize exception response from stream
+</span><span style="font-style:italic;color:#5ccfe6;">Caused</span><span> by</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">TransportSerializationException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span> to deserialize exception response from stream
 </span></code></pre>
 <p>Using tools such as <a rel="noopener" target="_blank" href="https://developers.google.com/protocol-buffers/">Protobuf</a> or <a rel="noopener" target="_blank" href="https://capnproto.org/">Cap'n Proto</a> can help prevent these kinds of issues, as they have a well defined backward compatibility semantic.</p>
 <h2 id="how-we-use-jepsen-with-tidb">How we use Jepsen with TiDB</h2>
@@ -369,14 +366,14 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <figure class="enriched ">
         <figcaption>The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash</figcaption>
         <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;84c7b04689dd184e00.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7605f2edf663101400.jpg 3840w
+              [object] 1920w,
+              [object] 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;71b710e55f9fb4ee00.jpg"
+              src="[object]"
               alt="The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash" />
     </figure>
 <h2 id="appendix-i">Appendix I</h2>
@@ -729,8 +726,8 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6670d35c96a7c1967f982896110605b52ca83409
-">6670d35c96a7c1967f982896110605b52ca83409
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5a0a0afce2cf3c5322237fbd1083592344b09bb
+">e5a0a0afce2cf3c5322237fbd1083592344b09bb
 </a></pre>
     </body>
 
