@@ -42,7 +42,7 @@ At the start of 2020, life lead me to start my own consultancy. Through it, I am
 
 My company is a contributor to the [Natives in Tech](https://nativesintech.org/) organization, and plans to become involved in more. It was a supporter of [Natives in Tech Conference 2020](https://www.youtube.com/watch?v=kV8IpFhZmHs). The company has only been involved in supporting Indigenous led efforts since the start of 2021.
 
-At the start of 2021, I was a Senior Engineer at [Maya Data](https://mayadata.io/) working on [Mayastor](https://github.com/openebs/Mayastor).
+At the start of 2021, I was a Senior Engineer at [Maya Data](https://mayadata.io/) working on [Mayastor](https://github.com/openebs/Mayastor). I later started working with [TCDI](https://www.tcdi.com/) to expand the [`pgx`](https://github.com/zombodb/pgx) project.
 
 
 # Translations of 'Hoverbear'
