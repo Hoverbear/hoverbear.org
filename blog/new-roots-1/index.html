@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b87a49ca73cb6fe00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b87a49ca73cb6fe00.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -66,14 +66,14 @@ This series is not intended to be a comprehensive guide. These are just the note
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Todd Quackenbush</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;985b1777cd28cc0300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b87a49ca73cb6fe00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9c47808ab51a525c00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +85,12 @@ This series is not intended to be a comprehensive guide. These are just the note
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -155,14 +155,14 @@ This series is not intended to be a comprehensive guide. These are just the note
 <p>In this post, We'll discuss things to keep in mind when searching for your own hosting, things to look for, and the differences between distinctions.</p>
 <p>This series is not intended to be a comprehensive guide. These are just the notes and rambling of a hobbyist server admin who's loved tinkering for over a decade. I'm writing these both for my own future reference, and so my readers can suggest improvements! As always, comments are welcome via <a href="mailto:ana@hoverbear.org">email</a>.</p>
 <span id="continue-reading"></span><h2 id="background-and-goals">Background and Goals</h2>
-<p>I recently obtained a new <a rel="noopener" target="_blank" href="https://www.hetzner.de/de/hosting/produkte_rootserver/ex41sssd">server from Hetzner</a> and wanted to take time to document how I setup and configure it. I like writing too, so I figured a blog series is really the best option! Perhaps I'll help someone else as well.</p>
-<p>In starting this process I realized that many people aren't really sure where to start. The process can actually be pretty overwhelming. Just what is a 'server' anyways? What is most appropriate for your application, <a rel="noopener" target="_blank" href="http://www.ethicalhost.ca/ethical-webhosting-plans.html">Ethical Hosting</a>, <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Containers">Funtoo Containers</a>, or something like mine? What's it like to have a server? How do we interact with it? How do we shop for one?</p>
+<p>I recently obtained a new <a href="https://www.hetzner.de/de/hosting/produkte_rootserver/ex41sssd">server from Hetzner</a> and wanted to take time to document how I setup and configure it. I like writing too, so I figured a blog series is really the best option! Perhaps I'll help someone else as well.</p>
+<p>In starting this process I realized that many people aren't really sure where to start. The process can actually be pretty overwhelming. Just what is a 'server' anyways? What is most appropriate for your application, <a href="http://www.ethicalhost.ca/ethical-webhosting-plans.html">Ethical Hosting</a>, <a href="http://www.funtoo.org/Funtoo_Containers">Funtoo Containers</a>, or something like mine? What's it like to have a server? How do we interact with it? How do we shop for one?</p>
 <h2 id="what-s-a-server">What's a Server?</h2>
 <p>The word conjures up many fantastical images in our heads. But let's face it, at it's core a server is just a computer. Sure, it's a lot different than the ones in your fridge, but it's not all that much different from your phone in many respects.</p>
 <p>Generally, when we speak of servers we're referring to them that way because they <strong>receive</strong> requests and <strong>serve</strong> them. For most of us, this concept works best by going &quot;Okay say you visit a website,&quot; and that diagram has these two (very simplified) steps:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>You -&gt; Internet -&gt; Server
-</span><span>You &lt;- Internet &lt;- Server
-</span></code></pre>
+<pre><code>You -&gt; Internet -&gt; Server
+You &lt;- Internet &lt;- Server
+</code></pre>
 <p>The 'server' is always located on a physical machine running somewhere in the world, this is the <strong>metal</strong> which we're running on. A server could be a whole machine, a virtualized machine, or they could just be a simple daemon process. They can be roughly anologized as real estate. Each has different qualities to observe.</p>
 <h3 id="the-dedicated-server">The Dedicated Server</h3>
 <blockquote>
@@ -170,7 +170,7 @@ This series is not intended to be a comprehensive guide. These are just the note
 </blockquote>
 <p>It's possible to obtain use of an entire 'server' machine for yourself. These are typically either homebrew servers, servers purchased and co-located in datacenters, or rented units owned by a provider. Typically dedicated servers are (by far) the most powerful, and typically have a great bang for your buck since they're mostly DIY.</p>
 <p>These units are great for people who like to experiment, tinker, and manage their own space. Expect to be responsible for your own backups, your own system configuration, and your own troubleshooting. In return, you get absolute freedom. Install anything you want, break anything you want, do anything you want.</p>
-<p>Most dedicated server providers are data center operators or companies who have partnerships with them. Example providers are <a rel="noopener" target="_blank" href="https://www.1984.is/">1984</a> and <a rel="noopener" target="_blank" href="http://hetzner.de/">Hetzner</a>, both recommended by persons I respect.</p>
+<p>Most dedicated server providers are data center operators or companies who have partnerships with them. Example providers are <a href="https://www.1984.is/">1984</a> and <a href="http://hetzner.de/">Hetzner</a>, both recommended by persons I respect.</p>
 <p>As a computer scientist, I treat my personal server like a laboratory, and I'm opting for this choice.</p>
 <h3 id="the-virtual-private-server">The Virtual Private Server</h3>
 <blockquote>
@@ -179,16 +179,16 @@ This series is not intended to be a comprehensive guide. These are just the note
 <p>Often it's not necessary to have all the raw power a dedicated server can offer. You may only need a couple GB of RAM, or want to keep costs low. Virtual Private Servers, or VPS are in a good space this way. It's entirely possible to spend under $20 USD a month on hosting.</p>
 <p>These units are part of multi-tenant dedicated servers, and you get a fair 'slice' of the server for your monthly cost. In most cases you don't even notice your neighbors, but rarely you get bad luck and have to share space with a bad neighbor.</p>
 <p>VPS come in a few varieties: KVM, container, and other. KVM based VPS still allow you to run container systems (such as Docker and Rkt), while a container based VPS actually places you inside one of these. It's also possible to find exotic or esoteric hosting, such as being a Windows Server guest, they might not be the best choice.</p>
-<p>The VPS space is filled with great providers. I've personally used <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Containers">Funtoo Containers</a> for years and always really enjoyed them. <a rel="noopener" target="_blank" href="http://linode.com/">Linode</a> and <a rel="noopener" target="_blank" href="http://digitalocean.com/">Digital Ocean</a> are also very well known, and both feature locations outside of the US!</p>
+<p>The VPS space is filled with great providers. I've personally used <a href="http://www.funtoo.org/Funtoo_Containers">Funtoo Containers</a> for years and always really enjoyed them. <a href="http://linode.com/">Linode</a> and <a href="http://digitalocean.com/">Digital Ocean</a> are also very well known, and both feature locations outside of the US!</p>
 <p>Many VPS operators also offer additional features such as snapshot backups and things that dedicated servers leave up to the user.</p>
 <p>If you're going to be exploring your first server a VPS is a great way to go, both for cost and abilities.</p>
 <h3 id="the-web-host">The Web host</h3>
 <blockquote>
 <p>The hotel.</p>
 </blockquote>
-<p>Perhaps the most popular offering of hosting, simple web hosting typically involves you recieving an <code>sftp</code> account on a server and having access to some of the folder structure. These services are preconfigured with access to PostgresSQL and PHP configured. The service is very similar to what one would experience on <a rel="noopener" target="_blank" href="http://pages.gitlab.io/">Gitlab</a> or <a rel="noopener" target="_blank" href="https://pages.github.com/">Github</a> pages.</p>
+<p>Perhaps the most popular offering of hosting, simple web hosting typically involves you recieving an <code>sftp</code> account on a server and having access to some of the folder structure. These services are preconfigured with access to PostgresSQL and PHP configured. The service is very similar to what one would experience on <a href="http://pages.gitlab.io/">Gitlab</a> or <a href="https://pages.github.com/">Github</a> pages.</p>
 <p>These services are typically very inexpensive, however they offer very little in the way of control or flexibility. However if your only interest is hosting a Wordpress site this is a great choice. Not only do most of these services offer automated configuration of things like Wordpress, they also do all the hard work of securing and maintaining it.</p>
-<p>At places I've worked we've had great success with the Canadian provider <a rel="noopener" target="_blank" href="http://ethicalhost.ca/">Ethical Host</a>. Don't be fooled by the dated website, John (the owner) is extremely competent and very responsive to support.</p>
+<p>At places I've worked we've had great success with the Canadian provider <a href="http://ethicalhost.ca/">Ethical Host</a>. Don't be fooled by the dated website, John (the owner) is extremely competent and very responsive to support.</p>
 <p>If your dreams are to have a web presence and tinker around with PHP or themes, this is a great choice.</p>
 <h2 id="things-to-look-for">Things to look for</h2>
 <p>There are a few things to be looking for in a server, these points only (really) apply to Dedicated and VPS servers. Web Hosts typically you aren't even told these specifics.</p>
@@ -208,8 +208,8 @@ This series is not intended to be a comprehensive guide. These are just the note
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -66,14 +66,14 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Lennart Heim; @ohlennart on Unsplash</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;141609389465be9400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2f389e66fe83038d00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ec6b4e3ee208b81600.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +85,12 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -206,16 +206,16 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
         </ol>
     </nav>
 
-        <p>When <a rel="noopener" target="_blank" href="https://jepsen.io/">Jepsen</a> appeared in the industry several years ago our team at PingCAP couldn't have been happier. Finally, an approachable, understandable reliability testing framework along with an enjoyable and rigorous library of analyses of popular databases.</p>
+        <p>When <a href="https://jepsen.io/">Jepsen</a> appeared in the industry several years ago our team at PingCAP couldn't have been happier. Finally, an approachable, understandable reliability testing framework along with an enjoyable and rigorous library of analyses of popular databases.</p>
 <p>Jepsen is an umbrella term for the software library, collection of articles, and service of the same name. Together, the project pushes distributed systems to be more accurate in their claims and more thorough in their testing.</p>
 <p>It's been indispensable for battle-testing TiDB and TiKV, our distributed databases, as we deploy them in some of the largest technology companies in the world.</p>
 <span id="continue-reading"></span>
 <p>This article is, in many ways, a love letter to one of our favorite projects. We'll talk about <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#why-is-jepsen-so-important-to-our-industry">why it's important</a>, <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#how-does-jepsen-work">how it works</a>, <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#commonly-found-problems">common issues found</a>, <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#how-we-use-jepsen-with-tidb">how we use Jepsen</a>, and finally we included a really <a href="https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/#appendix-i">short summary of all the problems Jepsen has found</a>.</p>
-<p>In the rest of this article, and in any Jepsen analyses you might find, you're going to find a lot of database jargon. Jepsen has our back! <a rel="noopener" target="_blank" href="https://jepsen.io/consistency">Located here</a> you can see definitions and explanations of many of these terms.</p>
-<p>We'll refer to <a rel="noopener" target="_blank" href="https://jepsen.io/consistency/models/serializable"><em>serializability</em></a> and <a rel="noopener" target="_blank" href="https://jepsen.io/consistency/models/linearizable"><em>linearizability</em></a> often below, so you may benefit from quickly (re)familiarizing yourself with them.</p>
+<p>In the rest of this article, and in any Jepsen analyses you might find, you're going to find a lot of database jargon. Jepsen has our back! <a href="https://jepsen.io/consistency">Located here</a> you can see definitions and explanations of many of these terms.</p>
+<p>We'll refer to <a href="https://jepsen.io/consistency/models/serializable"><em>serializability</em></a> and <a href="https://jepsen.io/consistency/models/linearizable"><em>linearizability</em></a> often below, so you may benefit from quickly (re)familiarizing yourself with them.</p>
 <h2 id="why-is-jepsen-so-important-to-our-industry">Why is Jepsen so important to our industry?</h2>
-<p>Testing a distributed system like <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/TiDB">TiDB</a> isn't easy! Because these systems depend on multiple nodes coordinating there is a lot of room for failures. Networks and hardware aren't reliable, and when multiple nodes are involved, the probability of failure is much higher. Even still, deployments (and even nodes!) are highly variable in scale, OS, hardware, and workloads. It's impossible to test all of them.</p>
-<p>Is all hope lost? No! In <a rel="noopener" target="_blank" href="https://people.mpi-sws.org/%7Efniksic/popl2018/paper.pdf">Why Is Random Testing Effective for Partition Tolerance Bugs?</a> Majumdar and Niksic formalized many failure scenarios and discussed how even a small, random subset of possibilities can be sufficient to achieve a specific coverage goal.</p>
+<p>Testing a distributed system like <a href="https://en.wikipedia.org/wiki/TiDB">TiDB</a> isn't easy! Because these systems depend on multiple nodes coordinating there is a lot of room for failures. Networks and hardware aren't reliable, and when multiple nodes are involved, the probability of failure is much higher. Even still, deployments (and even nodes!) are highly variable in scale, OS, hardware, and workloads. It's impossible to test all of them.</p>
+<p>Is all hope lost? No! In <a href="https://people.mpi-sws.org/%7Efniksic/popl2018/paper.pdf">Why Is Random Testing Effective for Partition Tolerance Bugs?</a> Majumdar and Niksic formalized many failure scenarios and discussed how even a small, random subset of possibilities can be sufficient to achieve a specific coverage goal.</p>
 <p>It's fairly rare to see projects and articles tackling the same kind of content as Jepsen. Vendors aren't always honest (by mistake or not) about what they do and don't guarantee. Projects like Jepsen, produced independently and rigorously, that test these claims are reinvigorating when compared to often banal marketing copy.</p>
 <p>The Jepsen library helps automate and reproduce test cases, allowing the testers and readers to reproduce results for themselves.</p>
 <h2 id="how-does-jepsen-work">How does Jepsen work?</h2>
@@ -224,14 +224,14 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <blockquote>
 <p>Jepsen is an effort to improve the safety of distributed databases, queues, consensus systems, etc. </p>
 </blockquote>
-<p>-- <a rel="noopener" target="_blank" href="https://jepsen.io/">The Jepsen website</a></p>
+<p>-- <a href="https://jepsen.io/">The Jepsen website</a></p>
 <p>When a project wishes to improve themselves, a Jepsen analysis places the Jepsen framework in the hands of an expert operator who improves and expands the test suite. Often this involves adding aggressive failure scenarios or entirely new complex tests.</p>
 <h3 id="jepsen-the-framework">Jepsen (the framework)</h3>
 <p>The tool itself, also called Jepsen, is a Clojure framework used to set up distributed systems tests, run operations against them, and verify the operation history is sane and possible given the claims of the project. Then, it can generate some nice graphs out of that data.</p>
 <blockquote>
 <p>It's kind of like a really flexible failure-injecting fuzzer.</p>
 </blockquote>
-<p>In many cases, Jepsen tests for <em>linearizability</em> by using <a rel="noopener" target="_blank" href="https://github.com/jepsen-io/knossos">Knossos</a> to prove that a given history (from a test) is non-linearizable. Jepsen also frequently tests for timing-related issues using <a rel="noopener" target="_blank" href="https://github.com/jepsen-io/libfaketime">libfaketime</a> to create clock skew.</p>
+<p>In many cases, Jepsen tests for <em>linearizability</em> by using <a href="https://github.com/jepsen-io/knossos">Knossos</a> to prove that a given history (from a test) is non-linearizable. Jepsen also frequently tests for timing-related issues using <a href="https://github.com/jepsen-io/libfaketime">libfaketime</a> to create clock skew.</p>
 <p>Jepsen itself doesn't rigorously enforce any specific tests, it's <strong>up to the tester to determine which claims, under which conditions, they wish to attempt to disprove</strong>. Once these claims are written, the framework can attempt to find examples in invalid states.</p>
 <p>While the specifics of tests are up to the author, there is a common suite of tests for testing certain claims, such as how required for <em>snapshot isolation</em> or <em>sequential consistency</em>.</p>
 <p>Common tests include:</p>
@@ -268,7 +268,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <p><strong>Long Fork:</strong> non-intersecting transactions are run concurrently.</p>
 <ul>
 <li>Claim: transactions happen in <em>some</em> specific order for future reads.</li>
-<li>Prohibited in: <a rel="noopener" target="_blank" href="https://jepsen.io/consistency/models/snapshot-isolation">snapshot isolation</a> (Prefix property).</li>
+<li>Prohibited in: <a href="https://jepsen.io/consistency/models/snapshot-isolation">snapshot isolation</a> (Prefix property).</li>
 <li>Allowed in: parallel snapshot isolation.</li>
 </ul>
 </li>
@@ -293,87 +293,87 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <figure class="enriched ">
         <figcaption>The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca463d3e24c9ea6f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f1994e56fa84e19800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c2f07f08afe6921200.jpg"
               alt="The Cockpit -- Franz Harvin Aceituna; @franzharvin on Unsplash" />
     </figure>
 <h2 id="commonly-found-problems">Commonly found problems</h2>
 <p>While not all analyses map directly to specific suites, tests, or claims, there were some problems that just seem to keep popping up!</p>
 <h3 id="responding-too-early">Responding too early</h3>
 <p>When you write data to disk, it isn't immediately persistent on the disk. Instead, the data will be held in a buffer until it is &quot;flushed&quot; to disk. In the event of a failure, the data in the buffer may be lost, corrupted, or partially written. Therefore, in systems which promise no data loss, writes must be flushed before they can be acknowledged.</p>
-<p>There were cases like in <a rel="noopener" target="_blank" href="https://aphyr.com/posts/317-jepsen-elasticsearch">ElasticSearch 1.1.0</a> where writes were not fsynced by default. In these cases, for either performance reasons or mistakenly, a system responded prior to fsync. This created write loss during node failures.</p>
+<p>There were cases like in <a href="https://aphyr.com/posts/317-jepsen-elasticsearch">ElasticSearch 1.1.0</a> where writes were not fsynced by default. In these cases, for either performance reasons or mistakenly, a system responded prior to fsync. This created write loss during node failures.</p>
 <p>A good way to test this yourself is to kill nodes at the start of a network write, then validate if the data was saved in the node on recovery.</p>
 <h3 id="membership-changes-are-hard">Membership Changes are hard</h3>
 <p>Over time, a distributed system is likely to grow, shrink, or otherwise change its membership to accommodate maintenance and load. These phases of transition often involve periods of hand-off, where failures may expose previously undiscovered bugs.</p>
-<p>In the <a rel="noopener" target="_blank" href="https://jepsen.io/analyses/rethinkdb-2-2-3-reconfiguration">RethinkDB configuration</a> analysis, Jepsen built a nemesis that would interact with RethinkDB's reconfiguration API to reconfigure the cluster. Then, in conjunction with another nemesis that creates partitions, Jepsen was able to create very aggressive membership change tests.</p>
+<p>In the <a href="https://jepsen.io/analyses/rethinkdb-2-2-3-reconfiguration">RethinkDB configuration</a> analysis, Jepsen built a nemesis that would interact with RethinkDB's reconfiguration API to reconfigure the cluster. Then, in conjunction with another nemesis that creates partitions, Jepsen was able to create very aggressive membership change tests.</p>
 <p>In several cases, testing for more aggressive error modes during these times of transition lead to the discovery of subtle bugs. In RethinkDB, a split-brain (multiple competing sub-clusters) could happen during transition, requiring emergency repairs by a human operator.</p>
 <h3 id="split-brains-from-a-bridge">Split brains from a bridge</h3>
 <p>Split brains were a regular problem in many Jepsen analyses. A split-brain occurs when a cluster somehow promotes multiple leaders in a cluster that should only have a single leader.</p>
 <p>While many projects test trivial partition scenarios (such as <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{D, E}</code>), there were cases, such as Elasticsearch testing a &quot;bridge&quot;, where nodes on each side of a partition were only partially disconnected, yielding split brains.</p>
 <p>An example of this is <code>{A,B,C,D,E}</code> becoming <code>{A,B,C},{C,D,E}</code>, where <code>C</code> is a bridge between the two partitions.</p>
-<pre data-lang="markdown" style="background-color:#212733;color:#ccc9c2;" class="language-markdown "><code class="language-markdown" data-lang="markdown"><span>A - C - E
-</span><span> \ / \ /
-</span><span>  B   D
-</span></code></pre>
+<pre><code>A - C - E
+ \ / \ /
+  B   D
+</code></pre>
 <p>Intuitively, we can see from the diagram that <code>C</code> should probably be the elected leader. It's totally connected. But this isn't always what happens.</p>
-<p>In <a rel="noopener" target="_blank" href="https://aphyr.com/posts/317-call-me-maybe-elasticsearch">Zendisco (2014)</a>, Elasticsearch's membership system, there was no invariant preventing two leaders from existing, so it was possible for two nodes to believe themselves to be in a majority, and become elected leaders.</p>
+<p>In <a href="https://aphyr.com/posts/317-call-me-maybe-elasticsearch">Zendisco (2014)</a>, Elasticsearch's membership system, there was no invariant preventing two leaders from existing, so it was possible for two nodes to believe themselves to be in a majority, and become elected leaders.</p>
 <h3 id="poor-behavior-on-failed-connections">Poor behavior on failed connections</h3>
-<p>Some projects suffered from connection behaviors that are not ideal for operators. TiKV issue <a rel="noopener" target="_blank" href="https://github.com/tikv/tikv/issues/4500">#4500</a> is an interesting example of this. TiKV 2.1.7 would retry a failed PD connection for up to 60 seconds on startup. However, if it lost connection to PD while online, it would retry until recovery.</p>
+<p>Some projects suffered from connection behaviors that are not ideal for operators. TiKV issue <a href="https://github.com/tikv/tikv/issues/4500">#4500</a> is an interesting example of this. TiKV 2.1.7 would retry a failed PD connection for up to 60 seconds on startup. However, if it lost connection to PD while online, it would retry until recovery.</p>
 <p>In this case, if PD failed, then TiKV failed before PD recovered. This could lead to a state where TiKV nodes would never recover.</p>
 <p>Here's an example of a problematic case involving 1 TiKV node, and 1 PD node:</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#f28779;">kill</span><span>(pd)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#f28779;">restart</span><span>(tikv)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#f28779;">sleep</span><span>(</span><span style="color:#ffcc66;">61_000</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#f28779;">recover</span><span>(pd)</span><span style="color:#ccc9c2cc;">;
-</span><span style="font-style:italic;color:#5c6773;">// TiKV never recovers connection.
-</span></code></pre>
-<p><a rel="noopener" target="_blank" href="https://jepsen.io/analyses/dgraph-1-0-2">Dgraph behaved similarly</a> with interactions between it's Alpha and Zero nodes.</p>
+<pre><code>kill(pd);
+restart(tikv);
+sleep(61_000);
+recover(pd);
+// TiKV never recovers connection.
+</code></pre>
+<p><a href="https://jepsen.io/analyses/dgraph-1-0-2">Dgraph behaved similarly</a> with interactions between it's Alpha and Zero nodes.</p>
 <h3 id="inappropriate-retries">Inappropriate retries</h3>
 <p>Both CockroachDB and TiDB recently were shown to have issues where they could improperly retry a transaction using a newer timestamp. In CockroachDB, this could result in duplicate writes. In TiDB, this could lead to read skew or lost updates, as indicated by a drifting total in the bank test.</p>
 <p>In TiDB's case, these could occur under the default configuration for two reasons:</p>
 <ul>
-<li>When one transaction conflicts with another, TiDB would automatically retry the transaction. (<a rel="noopener" target="_blank" href="https://github.com/pingcap/tidb/issues/10075">10075</a>, <a rel="noopener" target="_blank" href="https://github.com/pingcap/tidb/issues/10076">10076</a>)</li>
-<li>If TiDB lost connection to PD, TiDB would also retry. (<a rel="noopener" target="_blank" href="https://github.com/pingcap/tidb/issues/10495">10495</a>, <a rel="noopener" target="_blank" href="https://github.com/tikv/tikv/issues/4500">4500</a>, <a rel="noopener" target="_blank" href="https://github.com/pingcap/tidb/issues/10470">10470</a>)</li>
+<li>When one transaction conflicts with another, TiDB would automatically retry the transaction. (<a href="https://github.com/pingcap/tidb/issues/10075">10075</a>, <a href="https://github.com/pingcap/tidb/issues/10076">10076</a>)</li>
+<li>If TiDB lost connection to PD, TiDB would also retry. (<a href="https://github.com/pingcap/tidb/issues/10495">10495</a>, <a href="https://github.com/tikv/tikv/issues/4500">4500</a>, <a href="https://github.com/pingcap/tidb/issues/10470">10470</a>)</li>
 </ul>
 <h3 id="misleading-or-incorrect-advertising">Misleading or incorrect advertising</h3>
 <p>Projects like Aerospike suffered from making obviously false claims such as &quot;100% Uptime&quot; on their marketing pages. These sorts of claims ultimately only are a detriment to the project's credibility. These sorts of claims show either deliberate lying, or lack of knowledge about fundamental principles.</p>
 <p>Jepsen testing showed in these cases that these claims were too good to be true. These kinds of problems remind us all to properly evaluate systems for our needs, instead of trusting in marketing copy.</p>
 <h3 id="incorrect-claims-by-developers">Incorrect claims by developers</h3>
-<p>Often, Jepsen analyses test claims or &quot;sanctioned use cases&quot; by the developers. For example, RabbitMQ developers <a rel="noopener" target="_blank" href="https://www.rabbitmq.com/blog/2014/02/19/distributed-semaphores-with-rabbitmq/">claimed</a> to support distributed semaphores but was not able to provide the common guarantees associated with these structures. In the case of NuoDB, a developer made <a rel="noopener" target="_blank" href="https://groups.google.com/forum/#!msg/cloud-computing/nn7Sw5T0eSE/NxOTUwD_0ykJ">bold claims</a> about the database's capabilities in relation to the CAP theorem.</p>
+<p>Often, Jepsen analyses test claims or &quot;sanctioned use cases&quot; by the developers. For example, RabbitMQ developers <a href="https://www.rabbitmq.com/blog/2014/02/19/distributed-semaphores-with-rabbitmq/">claimed</a> to support distributed semaphores but was not able to provide the common guarantees associated with these structures. In the case of NuoDB, a developer made <a href="https://groups.google.com/forum/#!msg/cloud-computing/nn7Sw5T0eSE/NxOTUwD_0ykJ">bold claims</a> about the database's capabilities in relation to the CAP theorem.</p>
 <p>While these claims aren't sitting on the glossy marketing pages of the product, it's common for developers to reference official blogs and mailing lists when learning the capabilities and limits of a system. Developers of a project are typically considered trustworthy sources of knowledge about their product, so claims they make are often taken as true by users.</p>
 <h2 id="interesting-notes">Interesting notes</h2>
 <p>During my review of Jepsen history, some interesting notes came up that may be of your interest. Here are a few of them that may hopefully encourage you to read the analyses for yourself.</p>
 <h3 id="serializability-vs-strict-serializability-casual-reverse">Serializability vs strict serializability: casual reverse</h3>
-<p>In the <a rel="noopener" target="_blank" href="https://jepsen.io/analyses/cockroachdb-beta-20160829">CockroachDB analysis</a>, Jepsen talks about the differences between <a rel="noopener" target="_blank" href="https://jepsen.io/consistency/models/strict-serializable"><em>strict serializability</em></a> and <em>serializability</em>. Serializability, but not “strict serializability”, means it was possible for reads to fail to observe the most recent transactions.</p>
+<p>In the <a href="https://jepsen.io/analyses/cockroachdb-beta-20160829">CockroachDB analysis</a>, Jepsen talks about the differences between <a href="https://jepsen.io/consistency/models/strict-serializable"><em>strict serializability</em></a> and <em>serializability</em>. Serializability, but not “strict serializability”, means it was possible for reads to fail to observe the most recent transactions.</p>
 <p>Strict serializability means that operations should appear to have some order consistency with the real-time ordering. It implies both serializability and linearizability.</p>
 <h3 id="error-message-compatibility">Error message compatibility</h3>
 <p>In <a href="(https://aphyr.com/posts/317-call-me-maybe-elasticsearch)">ElasticSearch - 2014-06-15 - 1.1.0</a> it was noted that different JVMs serialize classes differently (e.g., InetAddress), meaning it was possible clients and servers would be unable to correctly communicate error messages from a different node.</p>
-<p>This is <a rel="noopener" target="_blank" href="https://github.com/elastic/elasticsearch/issues/3145">issue #3145</a>:</p>
-<pre data-lang="java" style="background-color:#212733;color:#ccc9c2;" class="language-java "><code class="language-java" data-lang="java"><span>[</span><span style="color:#ffcc66;">2013</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">06</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">05 0</span><span style="color:#ff3333;">9</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">35</span><span style="color:#f29e74;">:</span><span style="color:#ffcc66;">20</span><span style="color:#ccc9c2cc;">,</span><span style="color:#ffcc66;">480</span><span>][</span><span style="color:#ffcc66;">WARN</span><span> ][action</span><span style="color:#f29e74;">.</span><span>index         	] [es</span><span style="color:#f29e74;">-</span><span style="color:#ffcc66;">1</span><span>] </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span> to perform index on replica [rules][</span><span style="color:#ffcc66;">4</span><span>]
-</span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">RemoteTransportException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span> to deserialize exception response from stream
-</span><span style="font-style:italic;color:#5ccfe6;">Caused</span><span> by</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">org</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">elasticsearch</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">transport</span><span style="color:#f29e74;">.</span><span style="font-style:italic;color:#5ccfe6;">TransportSerializationException</span><span style="color:#f29e74;">: </span><span style="font-style:italic;color:#5ccfe6;">Failed</span><span> to deserialize exception response from stream
-</span></code></pre>
-<p>Using tools such as <a rel="noopener" target="_blank" href="https://developers.google.com/protocol-buffers/">Protobuf</a> or <a rel="noopener" target="_blank" href="https://capnproto.org/">Cap'n Proto</a> can help prevent these kinds of issues, as they have a well defined backward compatibility semantic.</p>
+<p>This is <a href="https://github.com/elastic/elasticsearch/issues/3145">issue #3145</a>:</p>
+<pre><code>[2013-06-05 09:35:20,480][WARN ][action.index         	] [es-1] Failed to perform index on replica [rules][4]
+org.elasticsearch.transport.RemoteTransportException: Failed to deserialize exception response from stream
+Caused by: org.elasticsearch.transport.TransportSerializationException: Failed to deserialize exception response from stream
+</code></pre>
+<p>Using tools such as <a href="https://developers.google.com/protocol-buffers/">Protobuf</a> or <a href="https://capnproto.org/">Cap'n Proto</a> can help prevent these kinds of issues, as they have a well defined backward compatibility semantic.</p>
 <h2 id="how-we-use-jepsen-with-tidb">How we use Jepsen with TiDB</h2>
-<p>The team at PingCAP uses Jepsen to test TiDB (which uses TiKV) frequently. This includes tests developed for the <a rel="noopener" target="_blank" href="https://jepsen.io/analyses/tidb-2.1.7">official Jepsen Analysis</a> for TiDB.</p>
+<p>The team at PingCAP uses Jepsen to test TiDB (which uses TiKV) frequently. This includes tests developed for the <a href="https://jepsen.io/analyses/tidb-2.1.7">official Jepsen Analysis</a> for TiDB.</p>
 <p>Each new release of TiDB and TiKV passes a check ensuring that there are no claims we have made which the Jepsen framework disproves.</p>
 <figure class="enriched ">
         <figcaption>The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;84c7b04689dd184e00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7605f2edf663101400.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;71b710e55f9fb4ee00.jpg"
               alt="The Appendix -- Lysander Yuen; @lysanderyuen on Unsplash" />
     </figure>
 <h2 id="appendix-i">Appendix I</h2>
@@ -611,7 +611,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <ul>
 <li>2014-06-06 - 3.3.0
 <ul>
-<li>Vendor <a rel="noopener" target="_blank" href="https://www.rabbitmq.com/blog/2014/02/19/distributed-semaphores-with-rabbitmq/">post</a> claimed system was capable of implementing distributed mutexes when it was not, because queues are not expected typically expected to be linearizable.</li>
+<li>Vendor <a href="https://www.rabbitmq.com/blog/2014/02/19/distributed-semaphores-with-rabbitmq/">post</a> claimed system was capable of implementing distributed mutexes when it was not, because queues are not expected typically expected to be linearizable.</li>
 <li>Loss of acknowledged writes after recovering specific network partitions due to node's wiping data on cluster rejoin.</li>
 </ul>
 </li>
@@ -640,7 +640,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 </li>
 <li>2016-01-22 - 2.2.3
 <ul>
-<li>Changing replica configuration while nodes undergo network partitions can introduce split-brain phenomena. This was due to multiple rafts considering themselves leader. The root cause was related to violations of the Raft stable storage assumptions. <a rel="noopener" target="_blank" href="https://github.com/rethinkdb/rethinkdb/issues/5289#issuecomment-175394540">Bug</a></li>
+<li>Changing replica configuration while nodes undergo network partitions can introduce split-brain phenomena. This was due to multiple rafts considering themselves leader. The root cause was related to violations of the Raft stable storage assumptions. <a href="https://github.com/rethinkdb/rethinkdb/issues/5289#issuecomment-175394540">Bug</a></li>
 </ul>
 </li>
 </ul>
@@ -661,7 +661,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 <li>2017-09-05 - 0.10.2
 <ul>
 <li>On-disk store could become corrupt due to repeated updates on a single key.</li>
-<li>A <a rel="noopener" target="_blank" href="https://github.com/tendermint/merkleeyes/issues/38">bug</a> in goleveldb, which causes Merkleeyes to crash when recovering from a truncated logfile.</li>
+<li>A <a href="https://github.com/tendermint/merkleeyes/issues/38">bug</a> in goleveldb, which causes Merkleeyes to crash when recovering from a truncated logfile.</li>
 <li>The Tendermint WAL is not synced to disk before operations are acknowledged to clients.</li>
 </ul>
 </li>
@@ -718,7 +718,7 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
 </li>
 </ul>
 <blockquote>
-<p>This article was originally published on <a rel="noopener" target="_blank" href="https://pingcap.com/blog/safety-first-common-safety-pitfalls-in-distributed-databases-found-by-jepsen-tests/">PingCAP's blog</a>, it has been edited to fit the aesthetic and tone of this blog. Thanks to Kyle (<a rel="noopener" target="_blank" href="https://github.com/aphyr">@aphyr</a>) for review.</p>
+<p>This article was originally published on <a href="https://pingcap.com/blog/safety-first-common-safety-pitfalls-in-distributed-databases-found-by-jepsen-tests/">PingCAP's blog</a>, it has been edited to fit the aesthetic and tone of this blog. Thanks to Kyle (<a href="https://github.com/aphyr">@aphyr</a>) for review.</p>
 </blockquote>
 
     </main>
@@ -726,8 +726,8 @@ It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed d
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

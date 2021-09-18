@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;29704f5a5c59809d00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;29704f5a5c59809d00.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -62,14 +62,14 @@
     <figure class="enriched ">
         <figcaption>Photo</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;13a3f64f9dd53f1c00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;29704f5a5c59809d00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d69ebd386a568c2c00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -81,12 +81,12 @@
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -126,30 +126,30 @@
         </ol>
     </nav>
 
-        <p>I was privileged to recieve one of the early <a rel="noopener" target="_blank" href="https://letsencrypt.org/">Let's Encrypt</a> beta certificates for <a rel="noopener" target="_blank" href="https://hoverbear.org/">https://hoverbear.org</a>. I had an easy and fun time setting it up this evening on my <a rel="noopener" target="_blank" href="http://www.funtoo.org/Funtoo_Hosting">Funtoo Container</a> and wanted to quickly jot down how to!</p>
+        <p>I was privileged to recieve one of the early <a href="https://letsencrypt.org/">Let's Encrypt</a> beta certificates for <a href="https://hoverbear.org/">https://hoverbear.org</a>. I had an easy and fun time setting it up this evening on my <a href="http://www.funtoo.org/Funtoo_Hosting">Funtoo Container</a> and wanted to quickly jot down how to!</p>
 <span id="continue-reading"></span><h2 id="get-er-done">Get 'er Done</h2>
 <p>I first needed some prerequisites (I already had <code>nginx</code> installed):</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">sudo</span><span> emerge</span><span style="color:#ffcc66;"> -vqa</span><span> augeas python-augeas dialog
-</span></code></pre>
+<pre><code>sudo emerge -vqa augeas python-augeas dialog
+</code></pre>
 <p>Then, following the instructions provided:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">git</span><span> clone https://github.com/letsencrypt/letsencrypt
-</span><span style="color:#f28779;">cd</span><span> letsencrypt
-</span><span style="color:#ffd580;">./letsencrypt-auto</span><span style="color:#ffcc66;"> --agree-dev-preview --server </span><span style="color:#ccc9c2cc;">\
-</span><span>  https://acme-v01.api.letsencrypt.org/directory auth
-</span></code></pre>
+<pre><code>git clone https://github.com/letsencrypt/letsencrypt
+cd letsencrypt
+./letsencrypt-auto --agree-dev-preview --server \
+  https://acme-v01.api.letsencrypt.org/directory auth
+</code></pre>
 <p>From here you'll be brought to something that looks like a <code>make menuconfig</code> when building your own kernel... But a lot easier. From here you have two options, &quot;Manual&quot; and &quot;Standalone&quot;.</p>
 <p><strong>Manual</strong> asks you for your domain then tasks you with the job of hosting a file under something like <code>$YOUR_DOMAIN/.well_known/acme-challenge/$KEY</code>.</p>
 <p><strong>Standalone</strong> will make an effort to automatically verify your domain for you by hosting it's own web server. (<em>You'll need to stop your existing <code>nginx</code> server if you have one.</em>)</p>
 <h2 id="gotchas">Gotchas</h2>
-<p>Let's Encrypt only issues certificates that are good for 90 days, so you need to regularly renew! There is a <a rel="noopener" target="_blank" href="https://wiki.mozilla.org/Security/Automation/Winter_Of_Security_2015#Certificate_Automation_tooling_for_Let.27s_Encrypt">MWoS'2015 Project</a> to make this renewal automated.</p>
+<p>Let's Encrypt only issues certificates that are good for 90 days, so you need to regularly renew! There is a <a href="https://wiki.mozilla.org/Security/Automation/Winter_Of_Security_2015#Certificate_Automation_tooling_for_Let.27s_Encrypt">MWoS'2015 Project</a> to make this renewal automated.</p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

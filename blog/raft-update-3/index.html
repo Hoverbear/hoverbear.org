@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -62,14 +62,14 @@
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -81,12 +81,12 @@
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -173,7 +173,7 @@
         </ol>
     </nav>
 
-        <p>As you may have <a href="/2015/02/05/raft-update-1/">previously</a> <a href="/2015/02/18/raft-update-2/">read</a>, I've been working on implementing the <a rel="noopener" target="_blank" href="https://raftconsensus.github.io/">Raft Distributed Consensus Algorithm</a> in <a rel="noopener" target="_blank" href="http://rust-lang.org/">Rust</a> for my classes (and fun!).</p>
+        <p>As you may have <a href="/2015/02/05/raft-update-1/">previously</a> <a href="/2015/02/18/raft-update-2/">read</a>, I've been working on implementing the <a href="https://raftconsensus.github.io/">Raft Distributed Consensus Algorithm</a> in <a href="http://rust-lang.org/">Rust</a> for my classes (and fun!).</p>
 <span id="continue-reading"></span><h2 id="current-status">Current Status</h2>
 <p>I'm proud to say I have the first <em>(fragile)</em> prototype of the library working <em>(most of the time)</em> as I type this. But with that said, the work has only really just begun.</p>
 <p>Currently:</p>
@@ -186,7 +186,7 @@
 <li><strong>Replicating Logs:</strong> <em>Works, but isn't ideal!</em>
 <ul>
 <li>As I wrote about in my <a href="/2015/02/18/raft-update-2/">last article</a> the current scheme isn't very intelligent.</li>
-<li><a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/4">This issue</a> is tracking possible improvements.</li>
+<li><a href="https://github.com/Hoverbear/raft/issues/4">This issue</a> is tracking possible improvements.</li>
 </ul>
 </li>
 <li><strong>Handling Commits</strong>: <em>Works!</em></li>
@@ -206,8 +206,8 @@
 <li><strong>Testing::</strong> <em>In progress!</em></li>
 <li><strong>Tooling:</strong> <em>Rocks!</em>
 <ul>
-<li><a rel="noopener" target="_blank" href="https://travis-ci.org/Hoverbear/raft">Travis CI Builds</a></li>
-<li><a rel="noopener" target="_blank" href="https://hoverbear.github.io/raft/raft/index.html">Generated Docs</a></li>
+<li><a href="https://travis-ci.org/Hoverbear/raft">Travis CI Builds</a></li>
+<li><a href="https://hoverbear.github.io/raft/raft/index.html">Generated Docs</a></li>
 </ul>
 </li>
 </ul>
@@ -221,12 +221,12 @@
 <h3 id="current-dependencies">Current Dependencies</h3>
 <p>With Rust still pre-beta, and my deadline for this prototype short, I wanted to reduce the number of dependencies to a minimum to avoid deadlocking. Please keep this in mind as you read forward as it was a primary consideration for some functionality like RPC.</p>
 <ul>
-<li><a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/index.html"><code>std</code></a> - The stdlib.</li>
-<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rustc-serialize"><code>rustc-serialize</code></a> - Generic serialization/deserialization support.</li>
-<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/uuid"><code>uuid</code></a> - Unique Universal Identifiers.</li>
-<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/rand"><code>rand</code></a> - Random number generators.</li>
-<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>log</code></a> - Configurable logging.</li>
-<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>env_logger</code></a> - For <code>log</code>.</li>
+<li><a href="http://doc.rust-lang.org/std/index.html"><code>std</code></a> - The stdlib.</li>
+<li><a href="https://github.com/rust-lang/rustc-serialize"><code>rustc-serialize</code></a> - Generic serialization/deserialization support.</li>
+<li><a href="https://github.com/rust-lang/uuid"><code>uuid</code></a> - Unique Universal Identifiers.</li>
+<li><a href="https://github.com/rust-lang/rand"><code>rand</code></a> - Random number generators.</li>
+<li><a href="https://github.com/rust-lang/log"><code>log</code></a> - Configurable logging.</li>
+<li><a href="https://github.com/rust-lang/log"><code>env_logger</code></a> - For <code>log</code>.</li>
 </ul>
 <h3 id="states">States</h3>
 <p>Nodes can either be:</p>
@@ -248,40 +248,40 @@
 </li>
 </ul>
 <p>The resulting enum looks like:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#[derive(PartialEq, Eq, Clone)]
-</span><span>pub enum NodeState {
-</span><span>    Follower(VecDeque&lt;Transaction&gt;),
-</span><span>    Leader(LeaderState),
-</span><span>    Candidate(Vec&lt;Transaction&gt;),
-</span><span>}
-</span></code></pre>
+<pre><code>#[derive(PartialEq, Eq, Clone)]
+pub enum NodeState {
+    Follower(VecDeque&lt;Transaction&gt;),
+    Leader(LeaderState),
+    Candidate(Vec&lt;Transaction&gt;),
+}
+</code></pre>
 <p>These variants all store their one specific data needed for <em>only</em> their operation. Changing between state clears all of the data.</p>
 <h3 id="transactions">Transactions</h3>
 <p><code>Transaction</code>s are used to track the state of a variety of things in the library. They look like this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#[derive(PartialEq, Eq, Clone)]
-</span><span>pub struct Transaction {
-</span><span>    pub uuid: Uuid,
-</span><span>    pub state: TransactionState,
-</span><span>}
-</span><span>#[derive(PartialEq, Eq, Copy, Clone)]
-</span><span>pub enum TransactionState {
-</span><span>    Polling,
-</span><span>    Accepted,
-</span><span>    Rejected,
-</span><span>}
-</span></code></pre>
+<pre><code>#[derive(PartialEq, Eq, Clone)]
+pub struct Transaction {
+    pub uuid: Uuid,
+    pub state: TransactionState,
+}
+#[derive(PartialEq, Eq, Copy, Clone)]
+pub enum TransactionState {
+    Polling,
+    Accepted,
+    Rejected,
+}
+</code></pre>
 <p>The idea is that when a <code>RemoteProcedureRequest</code> is made it generates a UUID which the <code>RaftNode</code> (particularly it's <code>node.state</code>) stores and uses to verify and identify responses.</p>
 <p>In the case of <code>AppendEntries</code> there is no need for the <code>Leader(_)</code> to track UUIDs. They are mostly used for <code>Candidate(_)</code> elections and for the <code>Follower(_)</code> when it makes a request of the leader.</p>
-<p>I'm not entirely happy with this approach, and I think that in the future moving to some form of RPC approach like <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/">Cap'n Proto</a> would be safer and faster.</p>
+<p>I'm not entirely happy with this approach, and I think that in the future moving to some form of RPC approach like <a href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/">Cap'n Proto</a> would be safer and faster.</p>
 <blockquote>
 <p>Moving to Cap'n Proto might serve two additional purposes: Increased compatability with other implementations, and providing examples (which are currently lacking for Rust!)</p>
 </blockquote>
 <h3 id="the-tick">The Tick</h3>
 <p>Currently, most of the work done by <code>tick()</code> which runs a loop.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>loop { raft_node.tick(); }
-</span></code></pre>
-<p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
-<p>If you have any advice on this, let me know <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/6">here</a>.</p>
+<pre><code>loop { raft_node.tick(); }
+</code></pre>
+<p>Now you're probably thinking &quot;Oh gosh why?&quot; and I <strong>totally</strong> agree with you. Ideally, we would use something like <code>epoll</code>. However, I wanted to simulate an event loop and hopefully move to <a href="https://github.com/carllerche/mio"><code>mio</code></a> soon, but it's undergoing a <a href="https://github.com/carllerche/mio/pull/127">reform</a> so I'm holding off on that for a bit, there is plenty more to do!</p>
+<p>If you have any advice on this, let me know <a href="https://github.com/Hoverbear/raft/issues/6">here</a>.</p>
 <h3 id="main-events">Main Events</h3>
 <p>There are three main events which can occur:</p>
 <ul>
@@ -293,61 +293,61 @@
 <p>Gotcha: Only the <code>Leader(_)</code> or a <code>Follower(_)</code> (with a known leader) will retrieve from a channel for now.</p>
 </blockquote>
 <h3 id="logging">Logging</h3>
-<p>I just started migrating over to the <strong>fantastic</strong> <a rel="noopener" target="_blank" href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
+<p>I just started migrating over to the <strong>fantastic</strong> <a href="https://github.com/rust-lang/log"><code>log</code></a> crate, and I just love it. It provides numerous macros for logging levels like <code>debug!()</code>, <code>info!()</code>, <code>log!()</code>.</p>
 <p>Using it, you end up with something like this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
-</span><span>    debug!(&quot;ID {}: FROM {:?} RECIEVED {:?}&quot;, self.own_id, source, rpc);
-</span><span>      // ..
-</span><span>    }
-</span></code></pre>
+<pre><code>if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
+    debug!(&quot;ID {}: FROM {:?} RECIEVED {:?}&quot;, self.own_id, source, rpc);
+      // ..
+    }
+</code></pre>
 <p>And this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>match checks.iter().all(|&amp;x| x) {
-</span><span>    true  =&gt; {
-</span><span>        self.persistent_state.set_voted_for(Some(source_id)).unwrap();
-</span><span>        self.reset_timer();
-</span><span>        info!(&quot;ID {}:F: TO {} ACCEPT request_vote&quot;, self.own_id, source_id);
-</span><span>        RemoteProcedureResponse::accept(call.uuid, current_term,
-</span><span>            last_index, self.volatile_state.commit_index)
-</span><span>    },
-</span></code></pre>
+<pre><code>match checks.iter().all(|&amp;x| x) {
+    true  =&gt; {
+        self.persistent_state.set_voted_for(Some(source_id)).unwrap();
+        self.reset_timer();
+        info!(&quot;ID {}:F: TO {} ACCEPT request_vote&quot;, self.own_id, source_id);
+        RemoteProcedureResponse::accept(call.uuid, current_term,
+            last_index, self.volatile_state.commit_index)
+    },
+</code></pre>
 <p>And the user is able to toggle directives at runtime, which is awesome! So set the logging level while testing a crate you can use:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>RUST_LOG=raft=debug cargo test -- --nocapture
-</span></code></pre>
+<pre><code>RUST_LOG=raft=debug cargo test -- --nocapture
+</code></pre>
 <p>Or use the same environment variable at runtime. You can even specifiy different log levels per crate. It's kind of neat to use a wildcard like <code>RUST_LOG=debug</code> with cargo because you actually see a considerable amount of compiler output.</p>
 <p>Here's what the test output looks like with the highest level of logging:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>running 1 test
-</span><span>INFO:raft: ID 2: HANDLE timer
-</span><span>DEBUG:raft: ID 2: FOLLOWER -&gt; CANDIDATE: Term 0
-</span><span>DEBUG:raft: Node 2 timer RESET
-</span><span>DEBUG:raft: Node 2 timer RESET
-</span><span>DEBUG:raft: ID 2: SEND RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] } })
-</span><span>DEBUG:raft: ID 2: SEND RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] } })
-</span><span>DEBUG:raft: Node 2 timer RESET
-</span><span>DEBUG:raft: ID 0: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RECIEVED RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] } })
-</span><span>DEBUG:raft: ID 1: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RECIEVED RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] } })
-</span><span>INFO:raft: ID 0: FROM 2 HANDLE request_vote
-</span><span>INFO:raft: ID 1: FROM 2 HANDLE request_vote
-</span><span>DEBUG:raft: Node 0 timer RESET
-</span><span>INFO:raft: ID 0:F: TO 2 ACCEPT request_vote
-</span><span>DEBUG:raft: Node 1 timer RESET
-</span><span>DEBUG:raft: ID 0: TO SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RESPONDS Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
-</span><span>INFO:raft: ID 1:F: TO 2 ACCEPT request_vote
-</span><span>DEBUG:raft: ID 0: RESPOND Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
-</span><span>DEBUG:raft: ID 1: TO SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RESPONDS Accepted(Accepted { uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] }, term: 0, match_index: 0, next_index: 0 })
-</span><span>DEBUG:raft: ID 1: RESPOND Accepted(Accepted { uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] }, term: 0, match_index: 0, next_index: 0 })
-</span><span>DEBUG:raft: ID 2: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 } RECIEVED Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
-</span><span>INFO:raft: ID 2: FROM 0 HANDLE accepted
-</span><span>DEBUG:raft: ID 2:C: FROM 0 MATCHED
-</span><span>// ...
-</span></code></pre>
+<pre><code>running 1 test
+INFO:raft: ID 2: HANDLE timer
+DEBUG:raft: ID 2: FOLLOWER -&gt; CANDIDATE: Term 0
+DEBUG:raft: Node 2 timer RESET
+DEBUG:raft: Node 2 timer RESET
+DEBUG:raft: ID 2: SEND RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] } })
+DEBUG:raft: ID 2: SEND RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] } })
+DEBUG:raft: Node 2 timer RESET
+DEBUG:raft: ID 0: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RECIEVED RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] } })
+DEBUG:raft: ID 1: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RECIEVED RequestVote(RequestVote { term: 1, candidate_id: 2, last_log_index: 0, last_log_term: 0, uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] } })
+INFO:raft: ID 0: FROM 2 HANDLE request_vote
+INFO:raft: ID 1: FROM 2 HANDLE request_vote
+DEBUG:raft: Node 0 timer RESET
+INFO:raft: ID 0:F: TO 2 ACCEPT request_vote
+DEBUG:raft: Node 1 timer RESET
+DEBUG:raft: ID 0: TO SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RESPONDS Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
+INFO:raft: ID 1:F: TO 2 ACCEPT request_vote
+DEBUG:raft: ID 0: RESPOND Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
+DEBUG:raft: ID 1: TO SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 } RESPONDS Accepted(Accepted { uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] }, term: 0, match_index: 0, next_index: 0 })
+DEBUG:raft: ID 1: RESPOND Accepted(Accepted { uuid: Uuid { bytes: [175, 43, 94, 204, 10, 194, 72, 149, 171, 80, 0, 233, 192, 112, 124, 210] }, term: 0, match_index: 0, next_index: 0 })
+DEBUG:raft: ID 2: FROM SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 } RECIEVED Accepted(Accepted { uuid: Uuid { bytes: [10, 1, 60, 118, 191, 114, 66, 35, 139, 241, 26, 177, 159, 117, 104, 222] }, term: 0, match_index: 0, next_index: 0 })
+INFO:raft: ID 2: FROM 0 HANDLE accepted
+DEBUG:raft: ID 2:C: FROM 0 MATCHED
+// ...
+</code></pre>
 <p>On the normal level:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>     Running target/lib-800267e679b6e5c6
-</span><span>
-</span><span>running 1 test
-</span><span>test basic_test ... ok
-</span><span>
-</span><span>test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
-</span></code></pre>
+<pre><code>     Running target/lib-800267e679b6e5c6
+
+running 1 test
+test basic_test ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
+</code></pre>
 <h3 id="dealing-with-failures">Dealing with Failures</h3>
 <p>Most failure modes are defined by the Raft paper, and I'm attempting to implement them the best I can. Currently there is an <code>unimplemented!()</code> section of the code I'm still working on figuring out the correct course of action.</p>
 <h2 id="the-demo">The 'Demo'</h2>
@@ -355,60 +355,60 @@
 <p>As I mentioned, the interface with the consuming library is in need of rework, so it's not very clean.</p>
 </blockquote>
 <p>Here is the current most basic possible functioning hunk of code to fire up a cluster:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>let nodes = vec![
-</span><span>    (0, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 }),
-</span><span>    (1, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11111 }),
-</span><span>    (2, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 }),
-</span><span>];
-</span><span>// Create the nodes.
-</span><span>let (log_0_sender, log_0_reciever) = RaftNode::&lt;String&gt;::start(
-</span><span>    0,
-</span><span>    nodes.clone(),
-</span><span>    Path::new(&quot;/tmp/test0&quot;)
-</span><span>);
-</span><span>let (log_1_sender, log_1_reciever) = RaftNode::&lt;String&gt;::start(
-</span><span>    1,
-</span><span>    nodes.clone(),
-</span><span>    Path::new(&quot;/tmp/test1&quot;)
-</span><span>);
-</span><span>let (log_2_sender, log_2_reciever) = RaftNode::&lt;String&gt;::start(
-</span><span>    2,
-</span><span>    nodes.clone(),
-</span><span>    Path::new(&quot;/tmp/test2&quot;)
-</span><span>);
-</span></code></pre>
+<pre><code>let nodes = vec![
+    (0, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11110 }),
+    (1, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11111 }),
+    (2, SocketAddr { ip: Ipv4Addr(127, 0, 0, 1), port: 11112 }),
+];
+// Create the nodes.
+let (log_0_sender, log_0_reciever) = RaftNode::&lt;String&gt;::start(
+    0,
+    nodes.clone(),
+    Path::new(&quot;/tmp/test0&quot;)
+);
+let (log_1_sender, log_1_reciever) = RaftNode::&lt;String&gt;::start(
+    1,
+    nodes.clone(),
+    Path::new(&quot;/tmp/test1&quot;)
+);
+let (log_2_sender, log_2_reciever) = RaftNode::&lt;String&gt;::start(
+    2,
+    nodes.clone(),
+    Path::new(&quot;/tmp/test2&quot;)
+);
+</code></pre>
 <p>Here is the current code to make an append request and check that it at least got to the leader:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// Make a test send to that port.
-</span><span>let test_command = ClientRequest::AppendRequest(AppendRequest {
-</span><span>    entries: vec![&quot;foo&quot;.to_string()],
-</span><span>    prev_log_index: 0,
-</span><span>    prev_log_term: 0,
-</span><span>});
-</span><span>log_0_sender.send(test_command.clone()).unwrap();
-</span><span>// Get the result.
-</span><span>wait_a_second();
-</span><span>let event = log_0_reciever.try_recv()
-</span><span>    .ok().expect(&quot;Didn&#39;t recieve in a reasonable time.&quot;);
-</span><span>assert!(event.is_ok()); // Workaround until we build a proper stream.
-</span></code></pre>
+<pre><code>// Make a test send to that port.
+let test_command = ClientRequest::AppendRequest(AppendRequest {
+    entries: vec![&quot;foo&quot;.to_string()],
+    prev_log_index: 0,
+    prev_log_term: 0,
+});
+log_0_sender.send(test_command.clone()).unwrap();
+// Get the result.
+wait_a_second();
+let event = log_0_reciever.try_recv()
+    .ok().expect(&quot;Didn't recieve in a reasonable time.&quot;);
+assert!(event.is_ok()); // Workaround until we build a proper stream.
+</code></pre>
 <p>Here is the how to check an for items in an index, notice the graceful failing of &quot;overasking&quot;:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// Test Index.
-</span><span>let test_index = ClientRequest::IndexRange(IndexRange {
-</span><span>        start_index: 0,
-</span><span>        end_index: 5,
-</span><span>});
-</span><span>log_0_sender.send(test_index.clone()).unwrap();
-</span><span>wait_a_second();
-</span><span>let result = log_0_reciever.try_recv()
-</span><span>    .ok().expect(&quot;Didn&#39;t recieve in a reasonable time.&quot;).unwrap();
-</span><span>// We don&#39;t know what the term will be.
-</span><span>assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
-</span></code></pre>
+<pre><code>// Test Index.
+let test_index = ClientRequest::IndexRange(IndexRange {
+        start_index: 0,
+        end_index: 5,
+});
+log_0_sender.send(test_index.clone()).unwrap();
+wait_a_second();
+let result = log_0_reciever.try_recv()
+    .ok().expect(&quot;Didn't recieve in a reasonable time.&quot;).unwrap();
+// We don't know what the term will be.
+assert_eq!(result, vec![(result[0].0, &quot;foo&quot;.to_string())]);
+</code></pre>
 <h2 id="further-work">Further Work</h2>
 <p>A <strong>lot</strong> of further work is needed to make this library ready for action. Here is a brief summary:</p>
 <ul>
-<li><a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/6">Tame the Tick!</a></li>
-<li><a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/issues/4">Use a Better Log!</a></li>
+<li><a href="https://github.com/Hoverbear/raft/issues/6">Tame the Tick!</a></li>
+<li><a href="https://github.com/Hoverbear/raft/issues/4">Use a Better Log!</a></li>
 <li>Use a more established RPC paradigm like Cap'n Proto.</li>
 <li>Improve consumer interface. (Possibly through facade functions?)</li>
 <li>Membership Changes</li>
@@ -419,15 +419,15 @@
 <p>https://github.com/Hoverbear/raft</p>
 </blockquote>
 <p>Would you like to explore, give feedback, or contribute? Please do! Publicly you can just make an issue on Github, or privately just shoot me an email. (I'm sure you can find it on Github or here...)</p>
-<p><strong>Discussion of this post is on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2wyq2e/raft_a_first_prototype/">Reddit</a>.</strong></p>
+<p><strong>Discussion of this post is on <a href="https://www.reddit.com/r/rust/comments/2wyq2e/raft_a_first_prototype/">Reddit</a>.</strong></p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

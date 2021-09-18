@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -62,14 +62,14 @@
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -81,12 +81,12 @@
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -136,68 +136,68 @@
         </ol>
     </nav>
 
-        <p>In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/raft/blob/master/.travis.yml"><code>.travis.yml</code> here</a>.</p>
+        <p>In preparation for the forthcoming 0.0.1 release of Raft we've taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I'd be more than happy to help. You can find our <a href="https://github.com/Hoverbear/raft/blob/master/.travis.yml"><code>.travis.yml</code> here</a>.</p>
 <span id="continue-reading"></span><h2 id="sudo-less"><code>sudo</code>-less</h2>
-<p>Travis CI released <a rel="noopener" target="_blank" href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
+<p>Travis CI released <a href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
 <p>In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:</p>
-<pre data-lang="yaml" style="background-color:#212733;color:#ccc9c2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#73d0ff;">addons</span><span style="color:#ccc9c2cc;">:
-</span><span>  </span><span style="color:#73d0ff;">apt</span><span style="color:#ccc9c2cc;">:
-</span><span>    </span><span style="color:#73d0ff;">sources</span><span style="color:#ccc9c2cc;">:
-</span><span>      - </span><span style="color:#bae67e;">ubuntu-toolchain-r-test
-</span><span>    </span><span style="color:#73d0ff;">packages</span><span style="color:#ccc9c2cc;">:
-</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Needed for building Cap&#39;n Proto.
-</span><span>      - </span><span style="color:#bae67e;">gcc-4.8
-</span><span>      - </span><span style="color:#bae67e;">g++-4.8
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># We need to install Cap&#39;n Proto.
-</span><span style="color:#73d0ff;">install</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">git clone https://github.com/kentonv/capnproto.git
-</span><span>    - </span><span style="color:#bae67e;">cd capnproto/c++
-</span><span>    - </span><span style="color:#bae67e;">./setup-autotools.sh
-</span><span>    - </span><span style="color:#bae67e;">autoreconf -i
-</span><span>    - </span><span style="color:#bae67e;">./configure --disable-shared
-</span><span>    - </span><span style="color:#bae67e;">make -j5
-</span><span>    - </span><span style="color:#bae67e;">export PATH=&quot;$PATH:$(pwd)&quot;
-</span><span>    - </span><span style="color:#bae67e;">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
-</span><span>    -  </span><span style="color:#bae67e;">cd ../..
-</span></code></pre>
+<pre><code>addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+        # Needed for building Cap'n Proto.
+      - gcc-4.8
+      - g++-4.8
+
+# We need to install Cap'n Proto.
+install:
+    - git clone https://github.com/kentonv/capnproto.git
+    - cd capnproto/c++
+    - ./setup-autotools.sh
+    - autoreconf -i
+    - ./configure --disable-shared
+    - make -j5
+    - export PATH=&quot;$PATH:$(pwd)&quot;
+    - export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
+    -  cd ../..
+</code></pre>
 <p>Now that we've flagged <code>sudo: false</code> in our <code>.travis.yml</code> our Travis <em>wait time</em> for a build have significantly decreased. Some of our test builds take under 1:45 minutes!</p>
-<h2 id="moved-to-travis-cargo">Moved to <a rel="noopener" target="_blank" href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
+<h2 id="moved-to-travis-cargo">Moved to <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
 <p>Huon created the fantastic <code>travis-cargo</code> crate and we recently moved over to it! This helped clean up the <code>.travis.yml</code> a bit and opened the door for us to utilize future improvements. This took our <code>.travis.yml</code> script section from this:</p>
-<pre data-lang="yaml" style="background-color:#212733;color:#ccc9c2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6773;"># Generate Docs
-</span><span style="color:#bae67e;">after_success = &quot;|&quot;
-</span><span>  [ </span><span style="color:#bae67e;">$TRAVIS_BRANCH = master </span><span>] </span><span style="color:#ffa759;">&amp;</span><span style="color:#73d0ff;">&amp;
-</span><span>  [ </span><span style="color:#bae67e;">$TRAVIS_PULL_REQUEST = false </span><span>] </span><span style="color:#ffa759;">&amp;</span><span style="color:#73d0ff;">&amp;
-</span><span>  </span><span style="color:#bae67e;">cargo doc &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">echo &#39;&lt;meta http-equiv=refresh content=0;url=raft/index.html&gt;&#39; &gt; target/doc/index.html &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">sudo pip install ghp-import &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">ghp-import -n target/doc &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
-</span></code></pre>
+<pre><code># Generate Docs
+after_success = &quot;|&quot;
+  [ $TRAVIS_BRANCH = master ] &amp;&amp;
+  [ $TRAVIS_PULL_REQUEST = false ] &amp;&amp;
+  cargo doc &amp;&amp;
+  echo '&lt;meta http-equiv=refresh content=0;url=raft/index.html&gt;' &gt; target/doc/index.html &amp;&amp;
+  sudo pip install ghp-import &amp;&amp;
+  ghp-import -n target/doc &amp;&amp;
+  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+</code></pre>
 <p>To this:</p>
-<pre data-lang="yaml" style="background-color:#212733;color:#ccc9c2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6773;"># Load `travis-cargo`
-</span><span style="color:#73d0ff;">before_script</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">pip install &#39;travis-cargo&#39; --user
-</span><span>    - </span><span style="color:#bae67e;">export PATH=$HOME/.local/bin:$PATH
-</span><span>
-</span><span style="color:#73d0ff;">script</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo build
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo test
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo bench
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo doc
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Generate Docs and coverage
-</span><span style="color:#73d0ff;">after_success</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo doc-upload
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo coveralls --no-sudo
-</span></code></pre>
+<pre><code># Load `travis-cargo`
+before_script:
+    - pip install 'travis-cargo' --user
+    - export PATH=$HOME/.local/bin:$PATH
+
+script:
+    - travis-cargo build
+    - travis-cargo test
+    - travis-cargo bench
+    - travis-cargo doc
+
+# Generate Docs and coverage
+after_success:
+    - travis-cargo doc-upload
+    - travis-cargo coveralls --no-sudo
+</code></pre>
 <p>With <code>travis-cargo</code> our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.</p>
 <h2 id="code-coverage">Code Coverage</h2>
-<p>You may have noticed the <code>travis-cargo coveralls --no-sudo</code> above and wondered what that was. <a rel="noopener" target="_blank" href="http://coveralls.io/"><code>http://coveralls.io/</code></a> offers free code coverage analysis to open source projects. You can see what ours looks like <a rel="noopener" target="_blank" href="https://coveralls.io/github/Hoverbear/raft">here</a>.</p>
+<p>You may have noticed the <code>travis-cargo coveralls --no-sudo</code> above and wondered what that was. <a href="http://coveralls.io/"><code>http://coveralls.io/</code></a> offers free code coverage analysis to open source projects. You can see what ours looks like <a href="https://coveralls.io/github/Hoverbear/raft">here</a>.</p>
 <p>We're currently sitting at:</p>
-<p><a rel="noopener" target="_blank" href="https://coveralls.io/github/Hoverbear/raft"><img src="https://img.shields.io/coveralls/Hoverbear/raft/master.svg" alt="Coverage Status" /></a></p>
+<p><a href="https://coveralls.io/github/Hoverbear/raft"><img src="https://img.shields.io/coveralls/Hoverbear/raft/master.svg" alt="Coverage Status" /></a></p>
 <p>Code coverage. Wow! That's not bad! We hope to improve this as we go.</p>
-<h2 id="homu"><a rel="noopener" target="_blank" href="http://homu.io/">@homu</a></h2>
+<h2 id="homu"><a href="http://homu.io/">@homu</a></h2>
 <p>We also adopted the friendly robot homu to be our repository gatekeeper. If you've been around Rust or Servo you probably know bors, homu is a rewrite of bors.</p>
 <p>homu acts sort of like a pre-commit hook, testing pull requests <em>just before</em> they're merged. Much of the work to get <code>sudo</code>-less builds was in preparation for homu since we wanted it to be <em>fast!</em></p>
 <p>With homu guarding the <code>master</code> branch we can be sure that Raft will stay &quot;green&quot; on tests unless I manage to accidently push to master, or one of our dependencies breaks.</p>
@@ -207,8 +207,8 @@
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

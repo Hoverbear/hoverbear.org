@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -184,210 +184,210 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
     </nav>
 
         <p>For my CSC 467 project I'm studying the configuration and performance of various QoS parameters in OpenWRT.</p>
-<p>The plan is to set up an OpenWRT router in <a rel="noopener" target="_blank" href="https://www.virtualbox.org/">VirtualBox</a> and orcestrate some <a rel="noopener" target="_blank" href="http://vagrantup.com/">Vagrant</a> boxes to create a VM network.</p>
+<p>The plan is to set up an OpenWRT router in <a href="https://www.virtualbox.org/">VirtualBox</a> and orcestrate some <a href="http://vagrantup.com/">Vagrant</a> boxes to create a VM network.</p>
 <span id="continue-reading"></span><h2 id="configuration">Configuration</h2>
 <p>Lets configure some environment variables we'll use throughout, once you close your shell these will disappear, so you might need to reinitialize them later.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>NAME=&quot;openwrt&quot;
-</span><span>URL=&quot;https://downloads.openwrt.org/barrier_breaker/14.07/x86/generic/openwrt-x86-generic-combined-ext4.img.gz&quot;
-</span><span>VDI=&quot;./openwrt.14.07.vdi&quot;
-</span><span>VMNAME=&quot;openwrt&quot;
-</span><span>SIZE=&#39;512000000&#39;
-</span></code></pre>
+<pre><code>NAME=&quot;openwrt&quot;
+URL=&quot;https://downloads.openwrt.org/barrier_breaker/14.07/x86/generic/openwrt-x86-generic-combined-ext4.img.gz&quot;
+VDI=&quot;./openwrt.14.07.vdi&quot;
+VMNAME=&quot;openwrt&quot;
+SIZE='512000000'
+</code></pre>
 <h2 id="getting-a-vdi">Getting a VDI</h2>
 <p>Pull the image, unzip it, and make a VDI out of it for VirtualBox.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>curl $URL \
-</span><span>| gunzip \
-</span><span>| VBoxManage convertfromraw --format VDI stdin $VDI $SIZE
-</span></code></pre>
+<pre><code>curl $URL \
+| gunzip \
+| VBoxManage convertfromraw --format VDI stdin $VDI $SIZE
+</code></pre>
 <h2 id="setup-the-vm">Setup the VM</h2>
 <p>Configure a VM with some modest settings for the router. We can add adapters and other storage devices later. This is a 3 port router.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>VBoxManage createvm --name $VMNAME --register &amp;&amp; \
-</span><span>VBoxManage modifyvm $VMNAME \
-</span><span>    --description &quot;A VM to build an OpenWRT Vagrant box.&quot; \
-</span><span>    --ostype &quot;Linux26&quot; \
-</span><span>    --memory &quot;512&quot; \
-</span><span>    --cpus &quot;1&quot; \
-</span><span>    --nic1 &quot;intnet&quot; \
-</span><span>    --intnet1 &quot;port1&quot; \
-</span><span>    --nic2 &quot;intnet&quot; \
-</span><span>    --intnet2 &quot;port2&quot; \
-</span><span>    --nic3 &quot;intnet&quot; \
-</span><span>    --intnet3 &quot;port3&quot; \
-</span><span>    --nic4 &quot;nat&quot; \
-</span><span>    --natpf4 &quot;ssh,tcp,,2222,,22&quot; \
-</span><span>    --natpf4 &quot;luci,tcp,,8080,,80&quot; \
-</span><span>    --uart1 &quot;0x3F8&quot; &quot;4&quot; \
-</span><span>    --uartmode1 &quot;disconnected&quot; &amp;&amp; \
-</span><span>VBoxManage storagectl $VMNAME \
-</span><span>    --name &quot;SATA Controller&quot; \
-</span><span>    --add &quot;sata&quot; \
-</span><span>    --portcount &quot;4&quot; \
-</span><span>    --hostiocache &quot;on&quot; \
-</span><span>    --bootable &quot;on&quot; &amp;&amp; \
-</span><span>VBoxManage storageattach $VMNAME \
-</span><span>    --storagectl &quot;SATA Controller&quot; \
-</span><span>    --port &quot;1&quot; \
-</span><span>    --type &quot;hdd&quot; \
-</span><span>    --nonrotational &quot;on&quot; \
-</span><span>    --medium $VDI
-</span></code></pre>
+<pre><code>VBoxManage createvm --name $VMNAME --register &amp;&amp; \
+VBoxManage modifyvm $VMNAME \
+    --description &quot;A VM to build an OpenWRT Vagrant box.&quot; \
+    --ostype &quot;Linux26&quot; \
+    --memory &quot;512&quot; \
+    --cpus &quot;1&quot; \
+    --nic1 &quot;intnet&quot; \
+    --intnet1 &quot;port1&quot; \
+    --nic2 &quot;intnet&quot; \
+    --intnet2 &quot;port2&quot; \
+    --nic3 &quot;intnet&quot; \
+    --intnet3 &quot;port3&quot; \
+    --nic4 &quot;nat&quot; \
+    --natpf4 &quot;ssh,tcp,,2222,,22&quot; \
+    --natpf4 &quot;luci,tcp,,8080,,80&quot; \
+    --uart1 &quot;0x3F8&quot; &quot;4&quot; \
+    --uartmode1 &quot;disconnected&quot; &amp;&amp; \
+VBoxManage storagectl $VMNAME \
+    --name &quot;SATA Controller&quot; \
+    --add &quot;sata&quot; \
+    --portcount &quot;4&quot; \
+    --hostiocache &quot;on&quot; \
+    --bootable &quot;on&quot; &amp;&amp; \
+VBoxManage storageattach $VMNAME \
+    --storagectl &quot;SATA Controller&quot; \
+    --port &quot;1&quot; \
+    --type &quot;hdd&quot; \
+    --nonrotational &quot;on&quot; \
+    --medium $VDI
+</code></pre>
 <p>That's it! Now to fire up the VM:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>VBoxManage startvm openwrt --type &quot;gui&quot;
-</span></code></pre>
+<pre><code>VBoxManage startvm openwrt --type &quot;gui&quot;
+</code></pre>
 <p>Next, it's time to settle in and get comfortable. The boot output will not show you command prompt until you manually focus the window and tap return, then you should see a prompt.</p>
 <figure class="enriched ">
         <figcaption>The VM screen</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fbe72737e9bcd82100.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;78518a7ceddfcc0a00.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9bc6866a935f7f5700.png"
               alt="The VM screen" />
     </figure>
 <h2 id="wan">WAN</h2>
 <p>You'll notice from a quick <code>ping hoverbear.org</code> that you don't have a network connection working, even though we set up a NAT connection.</p>
 <p>In the OpenWRT VM, add the following to <code>/etc/config/network</code>:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>config interface &#39;wan&#39;
-</span><span>    option ifname   &#39;eth3&#39;
-</span><span>    option proto    &#39;dhcp&#39;
-</span></code></pre>
+<pre><code>config interface 'wan'
+    option ifname   'eth3'
+    option proto    'dhcp'
+</code></pre>
 <p>Then restart the networking service:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>/etc/init.d/network restart
-</span></code></pre>
+<pre><code>/etc/init.d/network restart
+</code></pre>
 <p>Now you should be able to <code>ping hoverbear.org</code></p>
 <h2 id="pulling-repos">Pulling Repos</h2>
 <p>Before doing much more, you may wish to fetch the repository listing:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>opkg update
-</span></code></pre>
+<pre><code>opkg update
+</code></pre>
 <h2 id="password">Password</h2>
 <p>You may want to set up a password on the account, or put set up an SSH key for login. You may also want to use a non-root user.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>passwd
-</span></code></pre>
+<pre><code>passwd
+</code></pre>
 <h2 id="ssh">SSH</h2>
 <p>OpenWRT uses Dropbear as an SSH server. <em>(In my totally unbiased opinion, that is an awesome name)</em></p>
 <p>Lets set it up so we don't have to keep working in the VirtualBox GUI. Having a native terminal is much more comfortable.</p>
 <p>By default, Dropbear is <strong>already</strong> installed, but if you don't have it for some reason, you can install it with:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>  opkg install dropbear
-</span></code></pre>
+<pre><code>  opkg install dropbear
+</code></pre>
 <p>Then check <code>/etc/config/dropbear</code>. By default, PasswordAuth and RootPasswordAuth are both on and it runs on port 22. For our Virtual Machine testing purposes, this is fine, it will be port-forwarded on port 2222 of our host machine. On a system facing the world (I.E. not behind a NAT and router etc) this would be considered very, very bad practice.</p>
-<p>According to <a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/uci/dropbear">the Dropbear WRT documentation</a>, it is already enabled. If you change the configuration make sure to restart it.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>/etc/init.d/dropbear restart
-</span></code></pre>
+<p>According to <a href="http://wiki.openwrt.org/doc/uci/dropbear">the Dropbear WRT documentation</a>, it is already enabled. If you change the configuration make sure to restart it.</p>
+<pre><code>/etc/init.d/dropbear restart
+</code></pre>
 <p>However if you attempt to <code>ssh root@localhost -p 2222</code> you'll see a something along the lines of <code>ssh_exchange_identification: read: Connection reset by peer</code>. That's because the firewall is blocking it.</p>
 <p>Now in <code>/etc/config/firewall</code> we can add a rule to fix this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span># ... Other Rules ...
-</span><span>
-</span><span># Allow SSH on wan
-</span><span>config rule
-</span><span>        option src              wan
-</span><span>        option proto            tcp
-</span><span>        option dest_port        22
-</span><span>        option target           ACCEPT
-</span></code></pre>
+<pre><code># ... Other Rules ...
+
+# Allow SSH on wan
+config rule
+        option src              wan
+        option proto            tcp
+        option dest_port        22
+        option target           ACCEPT
+</code></pre>
 <p>Then restart the firewall:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>/etc/init.d/firewall restart
-</span></code></pre>
+<pre><code>/etc/init.d/firewall restart
+</code></pre>
 <p>Now you should be able to run <code>ssh root@localhost -2222</code> on the host machine and connect.</p>
 <h2 id="going-headless">Going Headless</h2>
 <p>Make sure you've set up SSH (and logged in!) first before trying this.</p>
 <p>You can stop the VM and start it again in a headless form.</p>
 <p>Stop the VM:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>VBoxManage controlvm $VMNAME poweroff
-</span></code></pre>
+<pre><code>VBoxManage controlvm $VMNAME poweroff
+</code></pre>
 <p>Start it headless:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>VBoxManage startvm $VMNAME --type headless
-</span></code></pre>
+<pre><code>VBoxManage startvm $VMNAME --type headless
+</code></pre>
 <h2 id="guest-additions">Guest Additions</h2>
 <p>Unfortunately it seems OpenWRT does not provide simple workflow for VirtualBox Guest Additions. Please let me know if you find a way of getting this working.</p>
 <h2 id="lan">LAN</h2>
 <p>To set up the other adapters, remove the <code>lan</code> section from the <code>/etc/config/network</code> file and replace it with:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>config interface &#39;lan1&#39;
-</span><span>    option ifname &#39;eth0&#39;
-</span><span>    option proto &#39;static&#39;
-</span><span>    option ipaddr &#39;192.168.1.1&#39;
-</span><span>    option netmask &#39;255.255.255.0&#39;
-</span><span>    option ip6assign &#39;60&#39;
-</span><span>
-</span><span>config interface &#39;lan2&#39;
-</span><span>    option ifname &#39;eth1&#39;
-</span><span>    option proto &#39;static&#39;
-</span><span>    option ipaddr &#39;192.168.2.1&#39;
-</span><span>    option netmask &#39;255.255.255.0&#39;
-</span><span>    option ip6assign &#39;60&#39;
-</span><span>
-</span><span>config interface &#39;lan3&#39;
-</span><span>    option ifname &#39;eth2&#39;
-</span><span>    option proto &#39;static&#39;
-</span><span>    option ipaddr &#39;192.168.3.1&#39;
-</span><span>    option netmask &#39;255.255.255.0&#39;
-</span><span>    option ip6assign &#39;60&#39;
-</span></code></pre>
+<pre><code>config interface 'lan1'
+    option ifname 'eth0'
+    option proto 'static'
+    option ipaddr '192.168.1.1'
+    option netmask '255.255.255.0'
+    option ip6assign '60'
+
+config interface 'lan2'
+    option ifname 'eth1'
+    option proto 'static'
+    option ipaddr '192.168.2.1'
+    option netmask '255.255.255.0'
+    option ip6assign '60'
+
+config interface 'lan3'
+    option ifname 'eth2'
+    option proto 'static'
+    option ipaddr '192.168.3.1'
+    option netmask '255.255.255.0'
+    option ip6assign '60'
+</code></pre>
 <p>Then restart the network:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>/etc/init.d/network reload
-</span></code></pre>
+<pre><code>/etc/init.d/network reload
+</code></pre>
 <h2 id="dhcp">DHCP</h2>
 <p>Since we removed the <code>lan</code> interface above, you'll need to reconfigure the DHCP daemon. Remove the <code>lan</code> block from <code>/etc/config/dhcp</code> and replace it with this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>config dhcp &#39;lan1&#39;
-</span><span>    option interface &#39;lan1&#39;
-</span><span>    option start &#39;100&#39;
-</span><span>    option limit &#39;150&#39;
-</span><span>    option leasetime &#39;12h&#39;
-</span><span>    option dhcpv6 &#39;server&#39;
-</span><span>    option ra &#39;server&#39;
-</span><span>    list &#39;dhcp_option&#39; &#39;3,192.168.1.1&#39;
-</span><span>
-</span><span>config dhcp &#39;lan2&#39;
-</span><span>    option interface &#39;lan2&#39;
-</span><span>    option start &#39;100&#39;
-</span><span>    option limit &#39;150&#39;
-</span><span>    option leasetime &#39;12h&#39;
-</span><span>    option dhcpv6 &#39;server&#39;
-</span><span>    option ra &#39;server&#39;
-</span><span>    list &#39;dhcp_option&#39; &#39;3,192.168.2.1&#39;
-</span><span>
-</span><span>config dhcp &#39;lan3&#39;
-</span><span>    option interface &#39;lan3&#39;
-</span><span>    option start &#39;100&#39;
-</span><span>    option limit &#39;150&#39;
-</span><span>    option leasetime &#39;12h&#39;
-</span><span>    option dhcpv6 &#39;server&#39;
-</span><span>    option ra &#39;server&#39;
-</span><span>    list &#39;dhcp_option&#39; &#39;3,192.168.3.1&#39;
-</span></code></pre>
+<pre><code>config dhcp 'lan1'
+    option interface 'lan1'
+    option start '100'
+    option limit '150'
+    option leasetime '12h'
+    option dhcpv6 'server'
+    option ra 'server'
+    list 'dhcp_option' '3,192.168.1.1'
+
+config dhcp 'lan2'
+    option interface 'lan2'
+    option start '100'
+    option limit '150'
+    option leasetime '12h'
+    option dhcpv6 'server'
+    option ra 'server'
+    list 'dhcp_option' '3,192.168.2.1'
+
+config dhcp 'lan3'
+    option interface 'lan3'
+    option start '100'
+    option limit '150'
+    option leasetime '12h'
+    option dhcpv6 'server'
+    option ra 'server'
+    list 'dhcp_option' '3,192.168.3.1'
+</code></pre>
 <p>Then restart the <code>dhcp</code> and <code>dnsmasq</code> services.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>/etc/init.d/odhcpd reload
-</span><span>/etc/init.d/dnsmasq reload
-</span></code></pre>
+<pre><code>/etc/init.d/odhcpd reload
+/etc/init.d/dnsmasq reload
+</code></pre>
 <h2 id="firewall">Firewall</h2>
 <p>This new configuration won't work without modifying the firewall, too. Change the <code>lan</code> zone in <code>/etc/config/firewall</code> to:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>config zone
-</span><span>    option name             lan
-</span><span>    list   network          &#39;lan1&#39;
-</span><span>    list   network          &#39;lan2&#39;
-</span><span>    list   network          &#39;lan3&#39;
-</span><span>    option input            ACCEPT
-</span><span>    option output           ACCEPT
-</span><span>    option forward          ACCEPT
-</span></code></pre>
+<pre><code>config zone
+    option name             lan
+    list   network          'lan1'
+    list   network          'lan2'
+    list   network          'lan3'
+    option input            ACCEPT
+    option output           ACCEPT
+    option forward          ACCEPT
+</code></pre>
 <p>Then restart the firewall.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>	/etc/init.d/firewall reload
-</span></code></pre>
+<pre><code>	/etc/init.d/firewall reload
+</code></pre>
 <h2 id="making-clients">Making Clients</h2>
 <p>We can create other VMs which attach to our new router.</p>
 <p>I'll be writing later about how to get these subordinates, (ahem, <em>network clients</em>) working together with the router.</p>
-<p><a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/12/04/vagrant-clients-for-openwrt-vms/">See next post.</a></p>
+<p><a href="http://www.hoverbear.org/2014/12/04/vagrant-clients-for-openwrt-vms/">See next post.</a></p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

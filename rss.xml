@@ -13,8 +13,8 @@
             <pubDate>Fri, 25 Jun 2021 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/a-flake-for-your-crate/</link>
             <guid>https://hoverbear.org/blog/a-flake-for-your-crate/</guid>
-            <description>&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;edolstra.github.io&#x2F;pubs&#x2F;phd-thesis.pdf&quot;&gt;Nix (PDF)&lt;&#x2F;a&gt; provides users a way to access the massive &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;NixOS&#x2F;nixpkgs&quot;&gt;Nixpkgs&lt;&#x2F;a&gt; library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, &lt;em&gt;Flakes&lt;&#x2F;em&gt;, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)&lt;&#x2F;p&gt;
-&lt;p&gt;Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the end of this, any &lt;code&gt;nix&lt;&#x2F;code&gt; user with Flakes enabled should be able to run your project with something like &lt;code&gt;nix run github:user&#x2F;project&lt;&#x2F;code&gt;. They&#x27;ll be able to add your repository as a &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;nixos.wiki&#x2F;wiki&#x2F;Overlays&quot;&gt;Nix overlay&lt;&#x2F;a&gt;, install the package, do interactive builds, or create a portable bundle of it.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;edolstra.github.io&#x2F;pubs&#x2F;phd-thesis.pdf&quot;&gt;Nix (PDF)&lt;&#x2F;a&gt; provides users a way to access the massive &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;NixOS&#x2F;nixpkgs&quot;&gt;Nixpkgs&lt;&#x2F;a&gt; library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, &lt;em&gt;Flakes&lt;&#x2F;em&gt;, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the end of this, any &lt;code&gt;nix&lt;&#x2F;code&gt; user with Flakes enabled should be able to run your project with something like &lt;code&gt;nix run github:user&#x2F;project&lt;&#x2F;code&gt;. They&#x27;ll be able to add your repository as a &lt;a href=&quot;https:&#x2F;&#x2F;nixos.wiki&#x2F;wiki&#x2F;Overlays&quot;&gt;Nix overlay&lt;&#x2F;a&gt;, install the package, do interactive builds, or create a portable bundle of it.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -22,8 +22,8 @@
             <pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/rust-bindgen-in-nix/</link>
             <guid>https://hoverbear.org/blog/rust-bindgen-in-nix/</guid>
-            <description>&lt;p&gt;While building the Nix packages for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;zombodb&#x2F;plrust&quot;&gt;pl&#x2F;Rust&lt;&#x2F;a&gt; I bumped into a curious issue: I couldn&#x27;t link to &lt;code&gt;stdio.h&lt;&#x2F;code&gt;, or &lt;code&gt;stdbool.h&lt;&#x2F;code&gt;! They were clearly on my path, too.&lt;&#x2F;p&gt;
-&lt;p&gt;It flummoxed me for quite some time, but exploring the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;NixOS&#x2F;nixpkgs&#x2F;blob&#x2F;master&#x2F;pkgs&#x2F;applications&#x2F;networking&#x2F;browsers&#x2F;firefox&#x2F;common.nix#L247-L253&quot;&gt;&lt;code&gt;firefox&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; package led to a way forward. It was &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;rust-bindgen&quot;&gt;&lt;code&gt;rust-bindgen&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; not finding libraries!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;While building the Nix packages for &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;zombodb&#x2F;plrust&quot;&gt;pl&#x2F;Rust&lt;&#x2F;a&gt; I bumped into a curious issue: I couldn&#x27;t link to &lt;code&gt;stdio.h&lt;&#x2F;code&gt;, or &lt;code&gt;stdbool.h&lt;&#x2F;code&gt;! They were clearly on my path, too.&lt;&#x2F;p&gt;
+&lt;p&gt;It flummoxed me for quite some time, but exploring the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;NixOS&#x2F;nixpkgs&#x2F;blob&#x2F;master&#x2F;pkgs&#x2F;applications&#x2F;networking&#x2F;browsers&#x2F;firefox&#x2F;common.nix#L247-L253&quot;&gt;&lt;code&gt;firefox&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; package led to a way forward. It was &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;rust-bindgen&quot;&gt;&lt;code&gt;rust-bindgen&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; not finding libraries!&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -85,7 +85,7 @@
             <pubDate>Wed, 18 Sep 2019 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/</link>
             <guid>https://hoverbear.org/blog/common-safety-pitfalls-found-by-jepsen/</guid>
-            <description>&lt;p&gt;When &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;jepsen.io&#x2F;&quot;&gt;Jepsen&lt;&#x2F;a&gt; appeared in the industry several years ago our team at PingCAP couldn&#x27;t have been happier. Finally, an approachable, understandable reliability testing framework along with an enjoyable and rigorous library of analyses of popular databases.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;When &lt;a href=&quot;https:&#x2F;&#x2F;jepsen.io&#x2F;&quot;&gt;Jepsen&lt;&#x2F;a&gt; appeared in the industry several years ago our team at PingCAP couldn&#x27;t have been happier. Finally, an approachable, understandable reliability testing framework along with an enjoyable and rigorous library of analyses of popular databases.&lt;&#x2F;p&gt;
 &lt;p&gt;Jepsen is an umbrella term for the software library, collection of articles, and service of the same name. Together, the project pushes distributed systems to be more accurate in their claims and more thorough in their testing.&lt;&#x2F;p&gt;
 &lt;p&gt;It&#x27;s been indispensable for battle-testing TiDB and TiKV, our distributed databases, as we deploy them in some of the largest technology companies in the world.&lt;&#x2F;p&gt;
 </description>
@@ -186,9 +186,9 @@
             <pubDate>Thu, 29 Sep 2016 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/an-https-terminator-box/</link>
             <guid>https://hoverbear.org/blog/an-https-terminator-box/</guid>
-            <description>&lt;p&gt;Over the last couple days at &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;asquera.de&#x2F;&quot;&gt;asquera&lt;&#x2F;a&gt; we&#x27;ve been on a retreat at the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;landhaus-fredenwalde.de&#x2F;&quot;&gt;Landhaus Fredenwalde&lt;&#x2F;a&gt;. It&#x27;s really beautiful out here and it&#x27;s given me a chance to work on a few small projects which I&#x27;ve been wanting to explore for awhile now.&lt;&#x2F;p&gt;
-&lt;p&gt;Anyways, yesterday I set up a system that uses &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.ansible.com&#x2F;&quot;&gt;Ansible&lt;&#x2F;a&gt;, &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;letsencrypt.org&#x2F;&quot;&gt;Let&#x27;s Encrypt&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;an-https-terminator-box&#x2F;nginx.com&quot;&gt;nginx&lt;&#x2F;a&gt;, and &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;digitalocean.com&#x2F;&quot;&gt;DigitalOcean&lt;&#x2F;a&gt; to terminate HTTP and proxy requests to arbitrary hosts. The intended use case for this is to have &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;pages.github.com&#x2F;&quot;&gt;Github Pages&lt;&#x2F;a&gt; sites able to be dropped onto a custom domain that is SSL enabled, but there are many other use cases which I haven&#x27;t experimented with (yet).&lt;&#x2F;p&gt;
-&lt;p&gt;I was, primarily, interested in exploring using Ansible and DigitalOcean. It worked out quite well &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;&quot;&gt;http:&#x2F;&#x2F;hoverbear.org&#x2F;&lt;&#x2F;a&gt; is running on it at the moment!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Over the last couple days at &lt;a href=&quot;http:&#x2F;&#x2F;asquera.de&#x2F;&quot;&gt;asquera&lt;&#x2F;a&gt; we&#x27;ve been on a retreat at the &lt;a href=&quot;http:&#x2F;&#x2F;landhaus-fredenwalde.de&#x2F;&quot;&gt;Landhaus Fredenwalde&lt;&#x2F;a&gt;. It&#x27;s really beautiful out here and it&#x27;s given me a chance to work on a few small projects which I&#x27;ve been wanting to explore for awhile now.&lt;&#x2F;p&gt;
+&lt;p&gt;Anyways, yesterday I set up a system that uses &lt;a href=&quot;https:&#x2F;&#x2F;www.ansible.com&#x2F;&quot;&gt;Ansible&lt;&#x2F;a&gt;, &lt;a href=&quot;http:&#x2F;&#x2F;letsencrypt.org&#x2F;&quot;&gt;Let&#x27;s Encrypt&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;an-https-terminator-box&#x2F;nginx.com&quot;&gt;nginx&lt;&#x2F;a&gt;, and &lt;a href=&quot;http:&#x2F;&#x2F;digitalocean.com&#x2F;&quot;&gt;DigitalOcean&lt;&#x2F;a&gt; to terminate HTTP and proxy requests to arbitrary hosts. The intended use case for this is to have &lt;a href=&quot;http:&#x2F;&#x2F;pages.github.com&#x2F;&quot;&gt;Github Pages&lt;&#x2F;a&gt; sites able to be dropped onto a custom domain that is SSL enabled, but there are many other use cases which I haven&#x27;t experimented with (yet).&lt;&#x2F;p&gt;
+&lt;p&gt;I was, primarily, interested in exploring using Ansible and DigitalOcean. It worked out quite well &lt;a href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;&quot;&gt;http:&#x2F;&#x2F;hoverbear.org&#x2F;&lt;&#x2F;a&gt; is running on it at the moment!&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -253,8 +253,8 @@
             <link>https://hoverbear.org/blog/the-menagerie-of-badssl/</link>
             <guid>https://hoverbear.org/blog/the-menagerie-of-badssl/</guid>
             <description>&lt;p&gt;Late last year I was given an opporunity to participate in the Mozilla Winter of Security 2016! I&#x27;m happy to report it was, and still is, super cool. Plans diverted significantly at the very start of the project as it was discovered that the &amp;quot;menagerie&amp;quot; of certificates we wanted to build already existed.&lt;&#x2F;p&gt;
-&lt;p&gt;What joy! In order to avoid any &amp;quot;not-invented-here&amp;quot; syndrome problems we pivoted, like  a failing startup, and I moved to become a contributor to &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;badssl.com&#x2F;&quot;&gt;BadSSL&lt;&#x2F;a&gt;. One of my mentors, &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;marumari&quot;&gt;April King&lt;&#x2F;a&gt;, happened to already be a contributor to BadSSL and helped me get acquainted with the repository and the maintainer, &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;lgarron&#x2F;&quot;&gt;Lucas Garron&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;I was glad to discover that BadSSL is a &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt; site. I&#x27;ve used Jekyll a number of times for different tasks and really enjoy working with the program. BadSSL is deployed on the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;cloud.google.com&#x2F;&quot;&gt;Google Cloud Platform&lt;&#x2F;a&gt; and is primarily powered via extensive nginx configurations.&lt;&#x2F;p&gt;
+&lt;p&gt;What joy! In order to avoid any &amp;quot;not-invented-here&amp;quot; syndrome problems we pivoted, like  a failing startup, and I moved to become a contributor to &lt;a href=&quot;http:&#x2F;&#x2F;badssl.com&#x2F;&quot;&gt;BadSSL&lt;&#x2F;a&gt;. One of my mentors, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;marumari&quot;&gt;April King&lt;&#x2F;a&gt;, happened to already be a contributor to BadSSL and helped me get acquainted with the repository and the maintainer, &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;lgarron&#x2F;&quot;&gt;Lucas Garron&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I was glad to discover that BadSSL is a &lt;a href=&quot;http:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt; site. I&#x27;ve used Jekyll a number of times for different tasks and really enjoy working with the program. BadSSL is deployed on the &lt;a href=&quot;https:&#x2F;&#x2F;cloud.google.com&#x2F;&quot;&gt;Google Cloud Platform&lt;&#x2F;a&gt; and is primarily powered via extensive nginx configurations.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -279,7 +279,7 @@
             <pubDate>Wed, 13 Jan 2016 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/docker-archlinux/</link>
             <guid>https://hoverbear.org/blog/docker-archlinux/</guid>
-            <description>&lt;p&gt;Back in &lt;a href=&quot;&#x2F;2014&#x2F;07&#x2F;14&#x2F;arch-docker-baseimage&#x2F;&quot;&gt;2014&lt;&#x2F;a&gt; when I was learning about &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docker.com&quot;&gt;Docker&lt;&#x2F;a&gt; I got around to making a base image for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;archlinux.org&#x2F;&quot;&gt;Arch Linux&lt;&#x2F;a&gt;. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I&#x27;d highly suggest trying to make your own sometime!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Back in &lt;a href=&quot;&#x2F;2014&#x2F;07&#x2F;14&#x2F;arch-docker-baseimage&#x2F;&quot;&gt;2014&lt;&#x2F;a&gt; when I was learning about &lt;a href=&quot;https:&#x2F;&#x2F;docker.com&quot;&gt;Docker&lt;&#x2F;a&gt; I got around to making a base image for &lt;a href=&quot;http:&#x2F;&#x2F;archlinux.org&#x2F;&quot;&gt;Arch Linux&lt;&#x2F;a&gt;. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I&#x27;d highly suggest trying to make your own sometime!&lt;&#x2F;p&gt;
 &lt;p&gt;Docker has matured a lot since, and I&#x27;ve enjoyed following it. I took some time this last week to revisit my Arch Linux image and ensure it&#x27;s still functional. I wasn&#x27;t surprised when the scripts continued to work just fine, even after two years.&lt;&#x2F;p&gt;
 &lt;p&gt;With nothing broken, I knew I only had one choice. &lt;strong&gt;I had to improve it!&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
 </description>
@@ -291,9 +291,9 @@
             <guid>https://hoverbear.org/blog/heroku-rust-buildpack/</guid>
             <description>&lt;p&gt;I&#x27;m happy to introduce the first stable version of my Rust Heroku Buildpack!&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Just looking to get your hands dirty? Look &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;heroku-buildpack-rust&quot;&gt;&lt;strong&gt;here&lt;&#x2F;strong&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Just looking to get your hands dirty? Look &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;heroku-buildpack-rust&quot;&gt;&lt;strong&gt;here&lt;&#x2F;strong&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;The project was a really interesting learning experience about how &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;heroku.com&#x2F;&quot;&gt;Heroku&lt;&#x2F;a&gt; does things, on &lt;code&gt;bash&lt;&#x2F;code&gt; scripting, and about &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;brson&#x2F;multirust&#x2F;&quot;&gt;&lt;code&gt;multirust&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, which I&#x27;d not used before but now am quite a fan of! (I previously just &lt;code&gt;rustup&lt;&#x2F;code&gt;&#x27;d the newest nightly every few days.)&lt;&#x2F;p&gt;
+&lt;p&gt;The project was a really interesting learning experience about how &lt;a href=&quot;http:&#x2F;&#x2F;heroku.com&#x2F;&quot;&gt;Heroku&lt;&#x2F;a&gt; does things, on &lt;code&gt;bash&lt;&#x2F;code&gt; scripting, and about &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;brson&#x2F;multirust&#x2F;&quot;&gt;&lt;code&gt;multirust&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;, which I&#x27;d not used before but now am quite a fan of! (I previously just &lt;code&gt;rustup&lt;&#x2F;code&gt;&#x27;d the newest nightly every few days.)&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -322,7 +322,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Wed, 28 Oct 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/lets-encrypt/</link>
             <guid>https://hoverbear.org/blog/lets-encrypt/</guid>
-            <description>&lt;p&gt;I was privileged to recieve one of the early &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;letsencrypt.org&#x2F;&quot;&gt;Let&#x27;s Encrypt&lt;&#x2F;a&gt; beta certificates for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;hoverbear.org&#x2F;&quot;&gt;https:&#x2F;&#x2F;hoverbear.org&lt;&#x2F;a&gt;. I had an easy and fun time setting it up this evening on my &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.funtoo.org&#x2F;Funtoo_Hosting&quot;&gt;Funtoo Container&lt;&#x2F;a&gt; and wanted to quickly jot down how to!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;I was privileged to recieve one of the early &lt;a href=&quot;https:&#x2F;&#x2F;letsencrypt.org&#x2F;&quot;&gt;Let&#x27;s Encrypt&lt;&#x2F;a&gt; beta certificates for &lt;a href=&quot;https:&#x2F;&#x2F;hoverbear.org&#x2F;&quot;&gt;https:&#x2F;&#x2F;hoverbear.org&lt;&#x2F;a&gt;. I had an easy and fun time setting it up this evening on my &lt;a href=&quot;http:&#x2F;&#x2F;www.funtoo.org&#x2F;Funtoo_Hosting&quot;&gt;Funtoo Container&lt;&#x2F;a&gt; and wanted to quickly jot down how to!&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -356,11 +356,11 @@ like to continue that.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;strong&gt;Wow.&lt;&#x2F;strong&gt; Was that ever fun! I hope that those that came had an equally enjoyable time and everyone got something useful out of it! I sure did!&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;slides&quot;&gt;Slides&lt;&#x2F;h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;slides.com&#x2F;ycoady&#x2F;a-long-long-time-ago&#x2F;&quot;&gt;Yvonne Coady&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ongardie.net&#x2F;static&#x2F;raft-mozilla&#x2F;#&#x2F;&quot;&gt;Diego Ongaro&lt;&#x2F;a&gt; &amp;amp; &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;raft.github.io&#x2F;raftscope-replay&#x2F;&quot;&gt;Visualization&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;slides.com&#x2F;hoverbear&#x2F;raft-rs#&#x2F;&quot;&gt;Ana Hobden&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;slides.com&#x2F;danburkert&#x2F;simple-kv&quot;&gt;Dan Burkert&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;slides.com&#x2F;alexnewman-2&#x2F;raft-for-realz&quot;&gt;Alex Newman&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;slides.com&#x2F;ycoady&#x2F;a-long-long-time-ago&#x2F;&quot;&gt;Yvonne Coady&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;ongardie.net&#x2F;static&#x2F;raft-mozilla&#x2F;#&#x2F;&quot;&gt;Diego Ongaro&lt;&#x2F;a&gt; &amp;amp; &lt;a href=&quot;https:&#x2F;&#x2F;raft.github.io&#x2F;raftscope-replay&#x2F;&quot;&gt;Visualization&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;slides.com&#x2F;hoverbear&#x2F;raft-rs#&#x2F;&quot;&gt;Ana Hobden&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;slides.com&#x2F;danburkert&#x2F;simple-kv&quot;&gt;Dan Burkert&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;slides.com&#x2F;alexnewman-2&#x2F;raft-for-realz&quot;&gt;Alex Newman&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 </description>
         </item>
@@ -369,7 +369,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Sun, 23 Aug 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/exciting-times/</link>
             <guid>https://hoverbear.org/blog/exciting-times/</guid>
-            <description>&lt;p&gt;The next few weeks are full of excitement and busy-ness! First up is the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.meetup.com&#x2F;Rust-Bay-Area&#x2F;events&#x2F;219696985&#x2F;&quot;&gt;Meetup&lt;&#x2F;a&gt; in San Fran &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft-rs&#x2F;issues&#x2F;74&quot;&gt;(See our planning)&lt;&#x2F;a&gt;. I can&#x27;t wait! It will be so fun to meet many people I&#x27;ve already met in IRC and through the community!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;The next few weeks are full of excitement and busy-ness! First up is the &lt;a href=&quot;http:&#x2F;&#x2F;www.meetup.com&#x2F;Rust-Bay-Area&#x2F;events&#x2F;219696985&#x2F;&quot;&gt;Meetup&lt;&#x2F;a&gt; in San Fran &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft-rs&#x2F;issues&#x2F;74&quot;&gt;(See our planning)&lt;&#x2F;a&gt;. I can&#x27;t wait! It will be so fun to meet many people I&#x27;ve already met in IRC and through the community!&lt;&#x2F;p&gt;
 &lt;p&gt;If you&#x27;d like to do something, or show me around the city, let me know! I&#x27;ve never been to the USA before, let alone San Fransisco.&lt;&#x2F;p&gt;
 &lt;p&gt;After that I&#x27;m moving into a new place! A friend and I landed a great location for the next year and we&#x27;re looking forward to the changes ahead. Once I&#x27;m settled in classes will be starting and I have a very busy term ahead!&lt;&#x2F;p&gt;
 </description>
@@ -379,7 +379,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/blog-changeover/</link>
             <guid>https://hoverbear.org/blog/blog-changeover/</guid>
-            <description>&lt;p&gt;I&#x27;ve moved my feed over from &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ghost.org&#x2F;&quot;&gt;Ghost&lt;&#x2F;a&gt; to &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt;! It took several hours spread across several days to transfer all of my posts out of Ghost since it&#x27;s (experimental) export functionality just dumps a bunch of junk into a JSON document.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;I&#x27;ve moved my feed over from &lt;a href=&quot;https:&#x2F;&#x2F;ghost.org&#x2F;&quot;&gt;Ghost&lt;&#x2F;a&gt; to &lt;a href=&quot;http:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt;! It took several hours spread across several days to transfer all of my posts out of Ghost since it&#x27;s (experimental) export functionality just dumps a bunch of junk into a JSON document.&lt;&#x2F;p&gt;
 &lt;p&gt;In this move &lt;strong&gt;most&lt;&#x2F;strong&gt; page links should still map to the same thing as before. This does not hold for images, diagrams, etc &lt;em&gt;(but you should have hosted your own copy anyways)&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
 </description>
         </item>
@@ -389,7 +389,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/mtrack/</link>
             <guid>https://hoverbear.org/blog/mtrack/</guid>
             <description>&lt;p&gt;If you&#x27;re like me and have Mac hardware but run Linux you might also run into the slight annoyance with the trackpad drivers X.org defaults to.&lt;&#x2F;p&gt;
-&lt;p&gt;If you haven&#x27;t explored, there is a fantastic replacement called &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;BlueDragonX&#x2F;xf86-input-mtrack&quot;&gt;&lt;code&gt;mtrack&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; that I&#x27;ve had great luck with.&lt;&#x2F;p&gt;
+&lt;p&gt;If you haven&#x27;t explored, there is a fantastic replacement called &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;BlueDragonX&#x2F;xf86-input-mtrack&quot;&gt;&lt;code&gt;mtrack&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; that I&#x27;ve had great luck with.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -399,7 +399,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <guid>https://hoverbear.org/blog/raft-examples/</guid>
             <description>&lt;p&gt;We&#x27;ve also got couple nice working examples! Yes, they&#x27;re ready to play with!&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Can&#x27;t wait, need code? Visit &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoverbear&#x2F;raft&quot;&gt;Raft&lt;&#x2F;a&gt; and check out the &lt;code&gt;examples&#x2F;&lt;&#x2F;code&gt; directory!&lt;&#x2F;p&gt;
+&lt;p&gt;Can&#x27;t wait, need code? Visit &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoverbear&#x2F;raft&quot;&gt;Raft&lt;&#x2F;a&gt; and check out the &lt;code&gt;examples&#x2F;&lt;&#x2F;code&gt; directory!&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 </description>
         </item>
@@ -408,7 +408,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Thu, 23 Jul 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/raft-tooling/</link>
             <guid>https://hoverbear.org/blog/raft-tooling/</guid>
-            <description>&lt;p&gt;In preparation for the forthcoming 0.0.1 release of Raft we&#x27;ve taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I&#x27;d be more than happy to help. You can find our &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft&#x2F;blob&#x2F;master&#x2F;.travis.yml&quot;&gt;&lt;code&gt;.travis.yml&lt;&#x2F;code&gt; here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;In preparation for the forthcoming 0.0.1 release of Raft we&#x27;ve taken several forward steps to improve our (already pretty darn cool!) tooling and infrastructure. If you attempt to set up any of these on your own and have issues let me know! I&#x27;d be more than happy to help. You can find our &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft&#x2F;blob&#x2F;master&#x2F;.travis.yml&quot;&gt;&lt;code&gt;.travis.yml&lt;&#x2F;code&gt; here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -416,7 +416,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/raft-new-crates/</link>
             <guid>https://hoverbear.org/blog/raft-new-crates/</guid>
-            <description>&lt;p&gt;We&#x27;ve been resoundingly busy with our &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;raftconsensus.github.io&#x2F;&quot;&gt;Raft&lt;&#x2F;a&gt; implementation after a brief period of calm in the early summer! I&#x27;ll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;We&#x27;ve been resoundingly busy with our &lt;a href=&quot;http:&#x2F;&#x2F;raftconsensus.github.io&#x2F;&quot;&gt;Raft&lt;&#x2F;a&gt; implementation after a brief period of calm in the early summer! I&#x27;ll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!&lt;&#x2F;p&gt;
 &lt;p&gt;As a result of Raft development two new crates have been put together for general consumption! Both of these are macro-centric and lead mainly by James.&lt;&#x2F;p&gt;
 </description>
         </item>
@@ -426,8 +426,8 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/reading-rust-function-signatures/</link>
             <guid>https://hoverbear.org/blog/reading-rust-function-signatures/</guid>
             <description>&lt;p&gt;In Rust, function signatures tell a story. Just from glancing at the signature of a function an experienced Rust user can tell much of the functions behaivor.&lt;&#x2F;p&gt;
-&lt;p&gt;In this article we&#x27;ll explore some signatures and talk about how to read them and extract information from them. While exploring, you can find many great function signature examples in the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;stable&#x2F;std&#x2F;&quot;&gt;Rust API docs&lt;&#x2F;a&gt;. You can play around on the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;play.rust-lang.org&#x2F;&quot;&gt;Playpen&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;This article assumes some knowledge of Rust, glossing over a bit of the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;stable&#x2F;book&#x2F;README.html&quot;&gt;book&lt;&#x2F;a&gt; should be quite sufficient if you are lacking that but have programmed before.&lt;&#x2F;p&gt;
+&lt;p&gt;In this article we&#x27;ll explore some signatures and talk about how to read them and extract information from them. While exploring, you can find many great function signature examples in the &lt;a href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;stable&#x2F;std&#x2F;&quot;&gt;Rust API docs&lt;&#x2F;a&gt;. You can play around on the &lt;a href=&quot;https:&#x2F;&#x2F;play.rust-lang.org&#x2F;&quot;&gt;Playpen&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;This article assumes some knowledge of Rust, glossing over a bit of the &lt;a href=&quot;https:&#x2F;&#x2F;doc.rust-lang.org&#x2F;stable&#x2F;book&#x2F;README.html&quot;&gt;book&lt;&#x2F;a&gt; should be quite sufficient if you are lacking that but have programmed before.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -444,7 +444,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/acm-papers-in-pandoc/</link>
             <guid>https://hoverbear.org/blog/acm-papers-in-pandoc/</guid>
-            <description>&lt;p&gt;Based partially off &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;2015&#x2F;03&#x2F;06&#x2F;rust-travis-github-pages&#x2F;&quot;&gt;my earlier article&lt;&#x2F;a&gt; I&#x27;ve set up a repository &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;acm-pandoc-paper&quot;&gt;here&lt;&#x2F;a&gt; that demonstrates how to use Travis CI to build yourself ACM styled PDFs (along with fairly decent looking HTML versions) out of a simple &lt;code&gt;pandoc&lt;&#x2F;code&gt; markdown document!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Based partially off &lt;a href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;2015&#x2F;03&#x2F;06&#x2F;rust-travis-github-pages&#x2F;&quot;&gt;my earlier article&lt;&#x2F;a&gt; I&#x27;ve set up a repository &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;acm-pandoc-paper&quot;&gt;here&lt;&#x2F;a&gt; that demonstrates how to use Travis CI to build yourself ACM styled PDFs (along with fairly decent looking HTML versions) out of a simple &lt;code&gt;pandoc&lt;&#x2F;code&gt; markdown document!&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -452,7 +452,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/quadcopters-motors/</link>
             <guid>https://hoverbear.org/blog/quadcopters-motors/</guid>
-            <description>&lt;p&gt;We&#x27;ve already talked a bit about motors in our &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;tag&#x2F;quadcopters&#x2F;&quot;&gt;previous articles&lt;&#x2F;a&gt;, in this article we&#x27;ll talk more about &lt;strong&gt;motors&lt;&#x2F;strong&gt; than the quadcopter as a whole.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;We&#x27;ve already talked a bit about motors in our &lt;a href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;tag&#x2F;quadcopters&#x2F;&quot;&gt;previous articles&lt;&#x2F;a&gt;, in this article we&#x27;ll talk more about &lt;strong&gt;motors&lt;&#x2F;strong&gt; than the quadcopter as a whole.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -461,7 +461,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/quadcopters-stabilization/</link>
             <guid>https://hoverbear.org/blog/quadcopters-stabilization/</guid>
             <description>&lt;p&gt;In our &lt;a href=&quot;&#x2F;tag&#x2F;quadcopters&#x2F;&quot;&gt;past articles&lt;&#x2F;a&gt; we&#x27;ve explored some of the basics of the mechanics of Quadcopters. In this article we&#x27;ll be doing something a bit different and discussing the algorithms behind how the Quadcopter keeps itself stable.&lt;&#x2F;p&gt;
-&lt;p&gt;To do this we&#x27;ll actually be inspecting some of the official &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bitcraze&#x2F;crazyflie-firmware&quot;&gt;Bitcraze Firmware&lt;&#x2F;a&gt; and it&#x27;s &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bitcraze&#x2F;crazyflie-firmware&#x2F;blob&#x2F;crazyflie2&#x2F;modules&#x2F;src&#x2F;stabilizer.c&quot;&gt;&lt;code&gt;stabilizer.c&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; implementation.&lt;&#x2F;p&gt;
+&lt;p&gt;To do this we&#x27;ll actually be inspecting some of the official &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bitcraze&#x2F;crazyflie-firmware&quot;&gt;Bitcraze Firmware&lt;&#x2F;a&gt; and it&#x27;s &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;bitcraze&#x2F;crazyflie-firmware&#x2F;blob&#x2F;crazyflie2&#x2F;modules&#x2F;src&#x2F;stabilizer.c&quot;&gt;&lt;code&gt;stabilizer.c&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; implementation.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in this file, that&#x27;s part of the purpose of this article!&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -500,9 +500,9 @@ like to continue that.&lt;&#x2F;p&gt;
             <description>&lt;p&gt;This post is less about the mechanics of the quadcopter and more to satisfy those curious about what exactly is on the board.&lt;&#x2F;p&gt;
 &lt;p&gt;Here are links to the schematics and component placements:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;wiki.bitcraze.io&#x2F;_media&#x2F;projects:crazyflie2:hardware:crazyflie_2.0_rev.c_component_placement_top.pdf&quot;&gt;Component Placement - Top&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;wiki.bitcraze.io&#x2F;_media&#x2F;projects:crazyflie2:hardware:crazyflie_2.0_rev.c_component_placement_bottom.pdf&quot;&gt;Component Placement - bottom&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;wiki.bitcraze.io&#x2F;_media&#x2F;projects:crazyflie2:hardware:crazyflie_2.0_rev.c_schematics.pdf&quot;&gt;Schematics&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;wiki.bitcraze.io&#x2F;_media&#x2F;projects:crazyflie2:hardware:crazyflie_2.0_rev.c_component_placement_top.pdf&quot;&gt;Component Placement - Top&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;wiki.bitcraze.io&#x2F;_media&#x2F;projects:crazyflie2:hardware:crazyflie_2.0_rev.c_component_placement_bottom.pdf&quot;&gt;Component Placement - bottom&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;wiki.bitcraze.io&#x2F;_media&#x2F;projects:crazyflie2:hardware:crazyflie_2.0_rev.c_schematics.pdf&quot;&gt;Schematics&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;On the pictures below we&#x27;ll use the &lt;strong&gt;schematic symbols&lt;&#x2F;strong&gt; as they are shortest.&lt;&#x2F;p&gt;
 </description>
@@ -529,7 +529,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <guid>https://hoverbear.org/blog/a-journey-into-iterators/</guid>
             <description>&lt;p&gt;One of my favorite features of Rust is iterators. They are a fast, safe, &#x27;lazy&#x27; way of working with data structures, streams, and other more creative applications.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;doc.rust-lang.org&#x2F;core&#x2F;iter&#x2F;index.html&quot;&gt;here&lt;&#x2F;a&gt;. This article is not a subtitute for the documentation or experience.&lt;&#x2F;p&gt;
+&lt;p&gt;You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing &lt;a href=&quot;http:&#x2F;&#x2F;doc.rust-lang.org&#x2F;core&#x2F;iter&#x2F;index.html&quot;&gt;here&lt;&#x2F;a&gt;. This article is not a subtitute for the documentation or experience.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 </description>
         </item>
@@ -561,7 +561,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Wed, 08 Apr 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/raft-the-next-generation-3/</link>
             <guid>https://hoverbear.org/blog/raft-the-next-generation-3/</guid>
-            <description>&lt;p&gt;In order to celebrate the new &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;blog.rust-lang.org&#x2F;2015&#x2F;04&#x2F;03&#x2F;Rust-1.0-beta.html&quot;&gt;beta&lt;&#x2F;a&gt; release of Rust, and as part of reporting requirements for my class, I&#x27;m happy to write to you regarding &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoverbear&#x2F;raft&quot;&gt;hoverbear&#x2F;raft&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;In order to celebrate the new &lt;a href=&quot;http:&#x2F;&#x2F;blog.rust-lang.org&#x2F;2015&#x2F;04&#x2F;03&#x2F;Rust-1.0-beta.html&quot;&gt;beta&lt;&#x2F;a&gt; release of Rust, and as part of reporting requirements for my class, I&#x27;m happy to write to you regarding &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoverbear&#x2F;raft&quot;&gt;hoverbear&#x2F;raft&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -569,7 +569,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Sat, 14 Mar 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/gathering-our-voices-2015/</link>
             <guid>https://hoverbear.org/blog/gathering-our-voices-2015/</guid>
-            <description>&lt;p&gt;Over the past &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.hoverbear.org&#x2F;2014&#x2F;03&#x2F;21&#x2F;gathering-our-voices-2014&#x2F;&quot;&gt;two&lt;&#x2F;a&gt; &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.hoverbear.org&#x2F;2013&#x2F;03&#x2F;21&#x2F;gathering-our-voices-2013&#x2F;&quot;&gt;years&lt;&#x2F;a&gt; I helped the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;bcaafc.com&#x2F;&quot;&gt;BC Association of Aboriginal Friendship Centres&lt;&#x2F;a&gt; host &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;gatheringourvoices.bcaafc.com&#x2F;&quot;&gt;Gathering Our Voices&lt;&#x2F;a&gt;, the largest annual Youth Conference in BC.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Over the past &lt;a href=&quot;http:&#x2F;&#x2F;www.hoverbear.org&#x2F;2014&#x2F;03&#x2F;21&#x2F;gathering-our-voices-2014&#x2F;&quot;&gt;two&lt;&#x2F;a&gt; &lt;a href=&quot;http:&#x2F;&#x2F;www.hoverbear.org&#x2F;2013&#x2F;03&#x2F;21&#x2F;gathering-our-voices-2013&#x2F;&quot;&gt;years&lt;&#x2F;a&gt; I helped the &lt;a href=&quot;http:&#x2F;&#x2F;bcaafc.com&#x2F;&quot;&gt;BC Association of Aboriginal Friendship Centres&lt;&#x2F;a&gt; host &lt;a href=&quot;http:&#x2F;&#x2F;gatheringourvoices.bcaafc.com&#x2F;&quot;&gt;Gathering Our Voices&lt;&#x2F;a&gt;, the largest annual Youth Conference in BC.&lt;&#x2F;p&gt;
 &lt;p&gt;This year, I helped out again! I also teamed up with Science Venture again to host 4 workshops!&lt;&#x2F;p&gt;
 </description>
         </item>
@@ -578,7 +578,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Mon, 09 Mar 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/learning-capn-proto-rpc/</link>
             <guid>https://hoverbear.org/blog/learning-capn-proto-rpc/</guid>
-            <description>&lt;p&gt;Awhile ago, I wrote a &lt;a href=&quot;&#x2F;2015&#x2F;02&#x2F;11&#x2F;capn-proto-in-rust&#x2F;&quot;&gt;First Look at Cap&#x27;n Proto&lt;&#x2F;a&gt;. Unfortunately I didn&#x27;t cover how to utilize it&#x27;s RPC capabilities. In Rust, this is via the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnp-rpc-rust&quot;&gt;&lt;code&gt;capnp-rpc-rust&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; crate.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Awhile ago, I wrote a &lt;a href=&quot;&#x2F;2015&#x2F;02&#x2F;11&#x2F;capn-proto-in-rust&#x2F;&quot;&gt;First Look at Cap&#x27;n Proto&lt;&#x2F;a&gt;. Unfortunately I didn&#x27;t cover how to utilize it&#x27;s RPC capabilities. In Rust, this is via the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnp-rpc-rust&quot;&gt;&lt;code&gt;capnp-rpc-rust&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; crate.&lt;&#x2F;p&gt;
 &lt;p&gt;Let&#x27;s do that!&lt;&#x2F;p&gt;
 </description>
         </item>
@@ -587,8 +587,8 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Sat, 07 Mar 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/rust-travis-github-pages/</link>
             <guid>https://hoverbear.org/blog/rust-travis-github-pages/</guid>
-            <description>&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They&#x27;re pursuing the trifecta: &lt;em&gt;Safe, Fast, Concurrent.&lt;&#x2F;em&gt; It&#x27;s been a great learning journey for me so far and I learnt to write better code in &lt;strong&gt;all&lt;&#x2F;strong&gt; languages.&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;pages.github.com&#x2F;&quot;&gt;Github Pages&lt;&#x2F;a&gt; is Github&#x27;s very generous offering of web hosting to your projects. Basically, you create a branch &lt;code&gt;gh-pages&lt;&#x2F;code&gt; and push it to Github, then browse to &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;hoverbear.github.io&#x2F;raft&quot;&gt;&lt;code&gt;https:&#x2F;&#x2F;$USERNAME.github.io&#x2F;$REPOSITORY&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; is probably my favorite programming language (as the contents of this site suggests). My interests in networks, development operations, and systems programming align strongly with Rust. They&#x27;re pursuing the trifecta: &lt;em&gt;Safe, Fast, Concurrent.&lt;&#x2F;em&gt; It&#x27;s been a great learning journey for me so far and I learnt to write better code in &lt;strong&gt;all&lt;&#x2F;strong&gt; languages.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;pages.github.com&#x2F;&quot;&gt;Github Pages&lt;&#x2F;a&gt; is Github&#x27;s very generous offering of web hosting to your projects. Basically, you create a branch &lt;code&gt;gh-pages&lt;&#x2F;code&gt; and push it to Github, then browse to &lt;a href=&quot;https:&#x2F;&#x2F;hoverbear.github.io&#x2F;raft&quot;&gt;&lt;code&gt;https:&#x2F;&#x2F;$USERNAME.github.io&#x2F;$REPOSITORY&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -596,7 +596,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Tue, 03 Mar 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/getting-acquainted-with-mio/</link>
             <guid>https://hoverbear.org/blog/getting-acquainted-with-mio/</guid>
-            <description>&lt;p&gt;One of my next goals in my &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;tag&#x2F;raft&#x2F;&quot;&gt;Raft&lt;&#x2F;a&gt; project is to tame the &lt;code&gt;tick()&lt;&#x2F;code&gt; with &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;carllerche&#x2F;mio&quot;&gt;&lt;code&gt;mio&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. In this post, we&#x27;ll explore what it is, what it can do, and why it matters. First things first: What is MIO?&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;One of my next goals in my &lt;a href=&quot;http:&#x2F;&#x2F;hoverbear.org&#x2F;tag&#x2F;raft&#x2F;&quot;&gt;Raft&lt;&#x2F;a&gt; project is to tame the &lt;code&gt;tick()&lt;&#x2F;code&gt; with &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;carllerche&#x2F;mio&quot;&gt;&lt;code&gt;mio&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;. In this post, we&#x27;ll explore what it is, what it can do, and why it matters. First things first: What is MIO?&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;MIO is a lightweight IO library for Rust with a focus on adding as little overhead as possible over the OS abstractions.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -607,8 +607,8 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Thu, 26 Feb 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/on-c51/</link>
             <guid>https://hoverbear.org/blog/on-c51/</guid>
-            <description>&lt;p&gt;I&#x27;ve been following the story about the proposed &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.documentcloud.org&#x2F;documents&#x2F;1513457-bill-c-51.html&quot;&gt;bill C-51&lt;&#x2F;a&gt; for a couple weeks now. When the Conservatives &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.cbc.ca&#x2F;news&#x2F;politics&#x2F;stephen-harper-to-unveil-new-anti-terror-bill-in-richmond-hill-1.2937477&quot;&gt;introduced the bill&lt;&#x2F;a&gt; I was quite unimpressed with it&#x27;s lack of oversight, among other things I heard and read about it. I expected it would change due to opposition, so I did not look much further into it.&lt;&#x2F;p&gt;
-&lt;p&gt;When the Liberals decided &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.cbc.ca&#x2F;news&#x2F;politics&#x2F;anti-terrorism-bill-to-be-supported-by-liberals-justin-trudeau-says-1.2945187&quot;&gt;they would support the bill&lt;&#x2F;a&gt; I was suprised, but was busy with midterms, so did not get a chance to look more deeply into the content of the bill. But I couldn&#x27;t help but be reminded of what &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.cbc.ca&#x2F;news&#x2F;politics&#x2F;ottawa-shooting-harper-mulcair-trudeau-speak-about-attack-1.2809530&quot;&gt;Trudeau said&lt;&#x2F;a&gt; about the attack on Parliment months ago:&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;I&#x27;ve been following the story about the proposed &lt;a href=&quot;https:&#x2F;&#x2F;www.documentcloud.org&#x2F;documents&#x2F;1513457-bill-c-51.html&quot;&gt;bill C-51&lt;&#x2F;a&gt; for a couple weeks now. When the Conservatives &lt;a href=&quot;http:&#x2F;&#x2F;www.cbc.ca&#x2F;news&#x2F;politics&#x2F;stephen-harper-to-unveil-new-anti-terror-bill-in-richmond-hill-1.2937477&quot;&gt;introduced the bill&lt;&#x2F;a&gt; I was quite unimpressed with it&#x27;s lack of oversight, among other things I heard and read about it. I expected it would change due to opposition, so I did not look much further into it.&lt;&#x2F;p&gt;
+&lt;p&gt;When the Liberals decided &lt;a href=&quot;http:&#x2F;&#x2F;www.cbc.ca&#x2F;news&#x2F;politics&#x2F;anti-terrorism-bill-to-be-supported-by-liberals-justin-trudeau-says-1.2945187&quot;&gt;they would support the bill&lt;&#x2F;a&gt; I was suprised, but was busy with midterms, so did not get a chance to look more deeply into the content of the bill. But I couldn&#x27;t help but be reminded of what &lt;a href=&quot;http:&#x2F;&#x2F;www.cbc.ca&#x2F;news&#x2F;politics&#x2F;ottawa-shooting-harper-mulcair-trudeau-speak-about-attack-1.2809530&quot;&gt;Trudeau said&lt;&#x2F;a&gt; about the attack on Parliment months ago:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;We are a proud democracy, a welcoming and peaceful nation and a country of open arms and open hearts. We are a nation of fairness, of justice and of the rule of law. We will not be intimidated into changing that. If anything, these are the values and principles to which we must hold on even tighter.&lt;&#x2F;p&gt;
 &lt;p&gt;Our dedication to democracy and to the institutions we have built is the foundation of our society and a continued belief in both will guide us correctly into the future. Staying true to our values in a time of crisis will make us an example to the world.&lt;&#x2F;p&gt;
@@ -621,7 +621,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Mon, 23 Feb 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/raft-update-3/</link>
             <guid>https://hoverbear.org/blog/raft-update-3/</guid>
-            <description>&lt;p&gt;As you may have &lt;a href=&quot;&#x2F;2015&#x2F;02&#x2F;05&#x2F;raft-update-1&#x2F;&quot;&gt;previously&lt;&#x2F;a&gt; &lt;a href=&quot;&#x2F;2015&#x2F;02&#x2F;18&#x2F;raft-update-2&#x2F;&quot;&gt;read&lt;&#x2F;a&gt;, I&#x27;ve been working on implementing the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;raftconsensus.github.io&#x2F;&quot;&gt;Raft Distributed Consensus Algorithm&lt;&#x2F;a&gt; in &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; for my classes (and fun!).&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;As you may have &lt;a href=&quot;&#x2F;2015&#x2F;02&#x2F;05&#x2F;raft-update-1&#x2F;&quot;&gt;previously&lt;&#x2F;a&gt; &lt;a href=&quot;&#x2F;2015&#x2F;02&#x2F;18&#x2F;raft-update-2&#x2F;&quot;&gt;read&lt;&#x2F;a&gt;, I&#x27;ve been working on implementing the &lt;a href=&quot;https:&#x2F;&#x2F;raftconsensus.github.io&#x2F;&quot;&gt;Raft Distributed Consensus Algorithm&lt;&#x2F;a&gt; in &lt;a href=&quot;http:&#x2F;&#x2F;rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; for my classes (and fun!).&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -629,7 +629,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Wed, 18 Feb 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/raft-update-2/</link>
             <guid>https://hoverbear.org/blog/raft-update-2/</guid>
-            <description>&lt;p&gt;I&#x27;ve spent the majority of my free time this last week working on &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoverbear&#x2F;raft&quot;&gt;Raft&lt;&#x2F;a&gt;. As you can see from this &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft&#x2F;issues&#x2F;1&quot;&gt;issue&lt;&#x2F;a&gt; I&#x27;ve been mostly working on the idea of transactions.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;I&#x27;ve spent the majority of my free time this last week working on &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hoverbear&#x2F;raft&quot;&gt;Raft&lt;&#x2F;a&gt;. As you can see from this &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft&#x2F;issues&#x2F;1&quot;&gt;issue&lt;&#x2F;a&gt; I&#x27;ve been mostly working on the idea of transactions.&lt;&#x2F;p&gt;
 &lt;p&gt;A lot has taken shape in the codebase. It still will panic at &lt;code&gt;unimplemented!()&lt;&#x2F;code&gt; about 300ms after you start a node, but &amp;quot;That&#x27;s a feature!&amp;quot;&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Note: All interfaces and code are not final, and are for educational and interest purposes.&lt;&#x2F;p&gt;
@@ -641,7 +641,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Wed, 11 Feb 2015 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/capn-proto-in-rust/</link>
             <guid>https://hoverbear.org/blog/capn-proto-in-rust/</guid>
-            <description>&lt;p&gt;So, I found &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnproto-rust&quot;&gt;this&lt;&#x2F;a&gt; (&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnpc-rust&quot;&gt;this&lt;&#x2F;a&gt;, and &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnp-rpc-rust&quot;&gt;this&lt;&#x2F;a&gt;) &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;kentonv.github.io&#x2F;capnproto&#x2F;&quot;&gt;Cap&#x27;n Proto&lt;&#x2F;a&gt; library for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; and wanted to explore it a bit. Unfortunately the documentation is sparse for the library, and I haven&#x27;t played with Cap&#x27;n Proto before.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;So, I found &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnproto-rust&quot;&gt;this&lt;&#x2F;a&gt; (&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnpc-rust&quot;&gt;this&lt;&#x2F;a&gt;, and &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dwrensha&#x2F;capnp-rpc-rust&quot;&gt;this&lt;&#x2F;a&gt;) &lt;a href=&quot;https:&#x2F;&#x2F;kentonv.github.io&#x2F;capnproto&#x2F;&quot;&gt;Cap&#x27;n Proto&lt;&#x2F;a&gt; library for &lt;a href=&quot;http:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; and wanted to explore it a bit. Unfortunately the documentation is sparse for the library, and I haven&#x27;t played with Cap&#x27;n Proto before.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Cap&#x27;n Proto is what&#x27;s billed as a &#x27;Data Interchange Format&#x27; and &#x27;Capability-Based RPC System&#x27;. Or a &#x27;Cerealization Protocol&#x27;.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -653,7 +653,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/raft-update-1/</link>
             <guid>https://hoverbear.org/blog/raft-update-1/</guid>
             <description>&lt;blockquote&gt;
-&lt;p&gt;TL;DR: I&#x27;ve made &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft&quot;&gt;Hoverbear&#x2F;raft&lt;&#x2F;a&gt; publicly available &lt;em&gt;(It&#x27;s still not ready)&lt;&#x2F;em&gt;! Feel encouraged to contribute feedback or code via Github or email!&lt;&#x2F;p&gt;
+&lt;p&gt;TL;DR: I&#x27;ve made &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear&#x2F;raft&quot;&gt;Hoverbear&#x2F;raft&lt;&#x2F;a&gt; publicly available &lt;em&gt;(It&#x27;s still not ready)&lt;&#x2F;em&gt;! Feel encouraged to contribute feedback or code via Github or email!&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 </description>
         </item>
@@ -683,7 +683,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <guid>https://hoverbear.org/blog/openwrt-qos/</guid>
             <description>&lt;p&gt;Using the setup from my &lt;a href=&quot;&#x2F;2014&#x2F;11&#x2F;23&#x2F;openwrt-in-virtualbox&#x2F;&quot;&gt;last&lt;&#x2F;a&gt; &lt;a href=&quot;&#x2F;2014&#x2F;12&#x2F;03&#x2F;vagrant-clients-for-openwrt-vms&#x2F;&quot;&gt;two&lt;&#x2F;a&gt; posts, let&#x27;s play with some QoS parameters and observe the results.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;wiki.openwrt.org&#x2F;doc&#x2F;uci&#x2F;qos&quot;&gt;documentation&lt;&#x2F;a&gt; for OpenWRT&#x27;s QoS is rather lacking, please feel encouraged to improve it as you go!&lt;&#x2F;p&gt;
+&lt;p&gt;The &lt;a href=&quot;http:&#x2F;&#x2F;wiki.openwrt.org&#x2F;doc&#x2F;uci&#x2F;qos&quot;&gt;documentation&lt;&#x2F;a&gt; for OpenWRT&#x27;s QoS is rather lacking, please feel encouraged to improve it as you go!&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 </description>
         </item>
@@ -694,7 +694,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <guid>https://hoverbear.org/blog/vagrant-clients-for-openwrt-vms/</guid>
             <description>&lt;p&gt;In my &lt;a href=&quot;&#x2F;2014&#x2F;11&#x2F;23&#x2F;openwrt-in-virtualbox&#x2F;&quot;&gt;last post&lt;&#x2F;a&gt;, we explored how to set up a OpenWRT VM in VirtualBox.&lt;&#x2F;p&gt;
 &lt;p&gt;Let&#x27;s give it some clients! Since the router is using a &lt;code&gt;intnet&lt;&#x2F;code&gt;s we need to configure some machines to use that as their primary way to connect to the internet.&lt;&#x2F;p&gt;
-&lt;p&gt;Since &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;vagrantup.com&#x2F;&quot;&gt;Vagrant&lt;&#x2F;a&gt; has support for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;docs.vagrantup.com&#x2F;v2&#x2F;multi-machine&#x2F;index.html&quot;&gt;multi-machine configurations&lt;&#x2F;a&gt; and gives us &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;vagrantcloud.com&#x2F;chef&#x2F;boxes&#x2F;debian-7.4&quot;&gt;minimal builds of machines&lt;&#x2F;a&gt;, we&#x27;ll use this for our clients.&lt;&#x2F;p&gt;
+&lt;p&gt;Since &lt;a href=&quot;http:&#x2F;&#x2F;vagrantup.com&#x2F;&quot;&gt;Vagrant&lt;&#x2F;a&gt; has support for &lt;a href=&quot;https:&#x2F;&#x2F;docs.vagrantup.com&#x2F;v2&#x2F;multi-machine&#x2F;index.html&quot;&gt;multi-machine configurations&lt;&#x2F;a&gt; and gives us &lt;a href=&quot;https:&#x2F;&#x2F;vagrantcloud.com&#x2F;chef&#x2F;boxes&#x2F;debian-7.4&quot;&gt;minimal builds of machines&lt;&#x2F;a&gt;, we&#x27;ll use this for our clients.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -703,7 +703,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/openwrt-in-virtualbox/</link>
             <guid>https://hoverbear.org/blog/openwrt-in-virtualbox/</guid>
             <description>&lt;p&gt;For my CSC 467 project I&#x27;m studying the configuration and performance of various QoS parameters in OpenWRT.&lt;&#x2F;p&gt;
-&lt;p&gt;The plan is to set up an OpenWRT router in &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.virtualbox.org&#x2F;&quot;&gt;VirtualBox&lt;&#x2F;a&gt; and orcestrate some &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;vagrantup.com&#x2F;&quot;&gt;Vagrant&lt;&#x2F;a&gt; boxes to create a VM network.&lt;&#x2F;p&gt;
+&lt;p&gt;The plan is to set up an OpenWRT router in &lt;a href=&quot;https:&#x2F;&#x2F;www.virtualbox.org&#x2F;&quot;&gt;VirtualBox&lt;&#x2F;a&gt; and orcestrate some &lt;a href=&quot;http:&#x2F;&#x2F;vagrantup.com&#x2F;&quot;&gt;Vagrant&lt;&#x2F;a&gt; boxes to create a VM network.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -711,7 +711,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Mon, 17 Nov 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/first-look-at-dacs/</link>
             <guid>https://hoverbear.org/blog/first-look-at-dacs/</guid>
-            <description>&lt;p&gt;At Simbioses Lab, we&#x27;ve been recently looking at the federated authentication &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;dacs.dss.ca&#x2F;&quot;&gt;DACS&lt;&#x2F;a&gt; as well as &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;keycloak.jboss.org&#x2F;&quot;&gt;Keycloak&lt;&#x2F;a&gt;. I&#x27;ve previously written about Keycloak, so let&#x27;s take a look at DACS.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;At Simbioses Lab, we&#x27;ve been recently looking at the federated authentication &lt;a href=&quot;http:&#x2F;&#x2F;dacs.dss.ca&#x2F;&quot;&gt;DACS&lt;&#x2F;a&gt; as well as &lt;a href=&quot;http:&#x2F;&#x2F;keycloak.jboss.org&#x2F;&quot;&gt;Keycloak&lt;&#x2F;a&gt;. I&#x27;ve previously written about Keycloak, so let&#x27;s take a look at DACS.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -719,8 +719,8 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Sat, 15 Nov 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/command-line-args-in-rust/</link>
             <guid>https://hoverbear.org/blog/command-line-args-in-rust/</guid>
-            <description>&lt;p&gt;I was reading about the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;docopt.org&#x2F;&quot;&gt;Docopt&lt;&#x2F;a&gt; project the other day and really liked the standardized approach to &lt;code&gt;--help&lt;&#x2F;code&gt; prompts and argument parsing that it offers.&lt;&#x2F;p&gt;
-&lt;p&gt;Luckly, there is a &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;docopt&#x2F;docopt.rs&quot;&gt;Rust Package&lt;&#x2F;a&gt; to play with!&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;I was reading about the &lt;a href=&quot;http:&#x2F;&#x2F;docopt.org&#x2F;&quot;&gt;Docopt&lt;&#x2F;a&gt; project the other day and really liked the standardized approach to &lt;code&gt;--help&lt;&#x2F;code&gt; prompts and argument parsing that it offers.&lt;&#x2F;p&gt;
+&lt;p&gt;Luckly, there is a &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;docopt&#x2F;docopt.rs&quot;&gt;Rust Package&lt;&#x2F;a&gt; to play with!&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -748,10 +748,10 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Sun, 02 Nov 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/a-ghost-openrc-script/</link>
             <guid>https://hoverbear.org/blog/a-ghost-openrc-script/</guid>
-            <description>&lt;p&gt;Whipped up an OpenRC script for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;ghost.org&#x2F;&quot;&gt;Ghost&lt;&#x2F;a&gt;. Feel free to use it for yourself.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Whipped up an OpenRC script for &lt;a href=&quot;https:&#x2F;&#x2F;ghost.org&#x2F;&quot;&gt;Ghost&lt;&#x2F;a&gt;. Feel free to use it for yourself.&lt;&#x2F;p&gt;
 &lt;p&gt;Things to be aware of:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;The script was designed for &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.funtoo.org&#x2F;Welcome&quot;&gt;Funtoo&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;The script was designed for &lt;a href=&quot;http:&#x2F;&#x2F;www.funtoo.org&#x2F;Welcome&quot;&gt;Funtoo&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
 &lt;li&gt;The script expects Ghost to be in &lt;code&gt;$GHOST_ROOT&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
 &lt;li&gt;The script runs Ghost as &lt;code&gt;$GHOST_USER:$GHOST_GROUP&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
 &lt;li&gt;The script exports the &lt;code&gt;$NODE_ENV&lt;&#x2F;code&gt; to &lt;code&gt;production&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
@@ -763,7 +763,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Mon, 29 Sep 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/init-runlevels-and-targets/</link>
             <guid>https://hoverbear.org/blog/init-runlevels-and-targets/</guid>
-            <description>&lt;p&gt;In this post, we&#x27;ll look at how runlevels work in two major init systems, systemd and OpenRC. If you&#x27;re interested in trying out &lt;code&gt;systemd&lt;&#x2F;code&gt;, I&#x27;d suggest using an &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;www.archlinux.org&#x2F;download&#x2F;&quot;&gt;Arch Linux Live ISO&lt;&#x2F;a&gt;. For those interested in trying OpenRC, check out &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;www.funtoo.org&#x2F;Funtoo_Linux_Installation&quot;&gt;Funtoo&lt;&#x2F;a&gt;. Both of these will work great in your favorite virtualization solution.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;In this post, we&#x27;ll look at how runlevels work in two major init systems, systemd and OpenRC. If you&#x27;re interested in trying out &lt;code&gt;systemd&lt;&#x2F;code&gt;, I&#x27;d suggest using an &lt;a href=&quot;https:&#x2F;&#x2F;www.archlinux.org&#x2F;download&#x2F;&quot;&gt;Arch Linux Live ISO&lt;&#x2F;a&gt;. For those interested in trying OpenRC, check out &lt;a href=&quot;http:&#x2F;&#x2F;www.funtoo.org&#x2F;Funtoo_Linux_Installation&quot;&gt;Funtoo&lt;&#x2F;a&gt;. Both of these will work great in your favorite virtualization solution.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>
@@ -787,12 +787,12 @@ like to continue that.&lt;&#x2F;p&gt;
             <link>https://hoverbear.org/blog/option-monads-in-rust/</link>
             <guid>https://hoverbear.org/blog/option-monads-in-rust/</guid>
             <description>&lt;p&gt;One common monadic structure is the &lt;code&gt;Option&lt;&#x2F;code&gt; (or &lt;code&gt;Maybe&lt;&#x2F;code&gt; in Haskell and other languages) type. This can be seen as an encapsulation type. Consider a function which may fail to produce a meaningful value for certain inputs. For example,&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#212733;color:#ccc9c2;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#ffa759;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ffd580;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span&gt;() {
-&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#5c6773;&quot;&gt;&#x2F;&#x2F; Parses a string into an integer.
-&lt;&#x2F;span&gt;&lt;span&gt;  from_str&lt;&#x2F;span&gt;&lt;span style=&quot;color:#f29e74;&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;int&amp;gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bae67e;&quot;&gt;&amp;quot;4&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2cc;&quot;&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#5c6773;&quot;&gt;&#x2F;&#x2F; A valid input.
-&lt;&#x2F;span&gt;&lt;span&gt;  from_str&lt;&#x2F;span&gt;&lt;span style=&quot;color:#f29e74;&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;int&amp;gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bae67e;&quot;&gt;&amp;quot;Potato&amp;quot;&lt;&#x2F;span&gt;&lt;span&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ccc9c2cc;&quot;&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;font-style:italic;color:#5c6773;&quot;&gt;&#x2F;&#x2F; Definitely invalid.
-&lt;&#x2F;span&gt;&lt;span&gt;}
-&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre&gt;&lt;code&gt;fn main () {
+  &#x2F;&#x2F; Parses a string into an integer.
+  from_str::&amp;lt;int&amp;gt;(&amp;quot;4&amp;quot;); &#x2F;&#x2F; A valid input.
+  from_str::&amp;lt;int&amp;gt;(&amp;quot;Potato&amp;quot;); &#x2F;&#x2F; Definitely invalid.
+}
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 </description>
         </item>
         <item>
@@ -800,7 +800,7 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Mon, 04 Aug 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/back-channel-keycloak-requests/</link>
             <guid>https://hoverbear.org/blog/back-channel-keycloak-requests/</guid>
-            <description>&lt;p&gt;While using &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;keycloak.jboss.org&#x2F;&quot;&gt;Keycloak&lt;&#x2F;a&gt; you may need to make authenticated requests between various services. How can this be accomplished with &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;immutant.org&#x2F;&quot;&gt;Immutant&lt;&#x2F;a&gt;?&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;While using &lt;a href=&quot;http:&#x2F;&#x2F;keycloak.jboss.org&#x2F;&quot;&gt;Keycloak&lt;&#x2F;a&gt; you may need to make authenticated requests between various services. How can this be accomplished with &lt;a href=&quot;http:&#x2F;&#x2F;immutant.org&#x2F;&quot;&gt;Immutant&lt;&#x2F;a&gt;?&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;You may want to check &lt;a href=&quot;&#x2F;2014&#x2F;07&#x2F;25&#x2F;integrating-immutant-and-keycloak&#x2F;&quot;&gt;this&lt;&#x2F;a&gt; link to learn how to use Immutant with Keycloak.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -822,8 +822,8 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Tue, 22 Jul 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/deploying-immutant-to-wildfly/</link>
             <guid>https://hoverbear.org/blog/deploying-immutant-to-wildfly/</guid>
-            <description>&lt;p&gt;Currently, the &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;immutant.org&#x2F;tutorials&#x2F;wildfly&#x2F;index.html&quot;&gt;tutorial on deploying to Wildfly with Immutant 2&lt;&#x2F;a&gt; is not written. Furthermore,the JBoss documentation isn&#x27;t particularly tailored towards Clojure applications.&lt;&#x2F;p&gt;
-&lt;p&gt;So, let&#x27;s take a look at how to do this using the convenient &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;registry.hub.docker.com&#x2F;u&#x2F;jboss&#x2F;&quot;&gt;dockerfiles provided by the JBoss project&lt;&#x2F;a&gt;. We&#x27;ll use Docker to simplify deployment and setup of Wildfly, but instructions for a non-docker application should be similar.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;Currently, the &lt;a href=&quot;http:&#x2F;&#x2F;immutant.org&#x2F;tutorials&#x2F;wildfly&#x2F;index.html&quot;&gt;tutorial on deploying to Wildfly with Immutant 2&lt;&#x2F;a&gt; is not written. Furthermore,the JBoss documentation isn&#x27;t particularly tailored towards Clojure applications.&lt;&#x2F;p&gt;
+&lt;p&gt;So, let&#x27;s take a look at how to do this using the convenient &lt;a href=&quot;https:&#x2F;&#x2F;registry.hub.docker.com&#x2F;u&#x2F;jboss&#x2F;&quot;&gt;dockerfiles provided by the JBoss project&lt;&#x2F;a&gt;. We&#x27;ll use Docker to simplify deployment and setup of Wildfly, but instructions for a non-docker application should be similar.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;create-a-basic-immutant-application&quot;&gt;Create a basic Immutant application.&lt;&#x2F;h3&gt;
 &lt;p&gt;Starting from a &lt;code&gt;lein new app learning&lt;&#x2F;code&gt; command, set up your project like so:&lt;&#x2F;p&gt;
 </description>
@@ -845,9 +845,9 @@ like to continue that.&lt;&#x2F;p&gt;
             <description>&lt;p&gt;Immutant is suite of &lt;strong&gt;Clojure&lt;&#x2F;strong&gt; libraries that is part of the JBossAS&#x2F;Wildfly ecosystem. Great, fantastic! Clojure is a lisp that runs on the JVM, the CLR, and compiles to Javascript. Lets get started!&lt;&#x2F;p&gt;
 &lt;p&gt;Some links we&#x27;ll need:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;immutant.org&#x2F;&quot;&gt;Immutant&lt;&#x2F;a&gt; - The framework.&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;clojure.org&#x2F;&quot;&gt;Clojure&lt;&#x2F;a&gt; - The language.&lt;&#x2F;li&gt;
-&lt;li&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;http:&#x2F;&#x2F;leiningen.org&#x2F;&quot;&gt;Leiningen&lt;&#x2F;a&gt; - The package manager.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;immutant.org&#x2F;&quot;&gt;Immutant&lt;&#x2F;a&gt; - The framework.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;clojure.org&#x2F;&quot;&gt;Clojure&lt;&#x2F;a&gt; - The language.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;leiningen.org&#x2F;&quot;&gt;Leiningen&lt;&#x2F;a&gt; - The package manager.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 </description>
         </item>
@@ -856,8 +856,8 @@ like to continue that.&lt;&#x2F;p&gt;
             <pubDate>Thu, 05 Jun 2014 00:00:00 +0000</pubDate>
             <link>https://hoverbear.org/blog/async-auto/</link>
             <guid>https://hoverbear.org/blog/async-auto/</guid>
-            <description>&lt;p&gt;I&#x27;ve been exploring the handy &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;caolan&#x2F;async&quot;&gt;&lt;code&gt;async&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;caolan&#x2F;async#autotasks-callback&quot;&gt;&lt;code&gt;async.auto()&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is a function offered by the libary which allows you to declare a set of tasks and their dependencies, then the library determines the best way to compose the initialization.&lt;&#x2F;p&gt;
+            <description>&lt;p&gt;I&#x27;ve been exploring the handy &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;caolan&#x2F;async&quot;&gt;&lt;code&gt;async&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;caolan&#x2F;async#autotasks-callback&quot;&gt;&lt;code&gt;async.auto()&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; is a function offered by the libary which allows you to declare a set of tasks and their dependencies, then the library determines the best way to compose the initialization.&lt;&#x2F;p&gt;
 </description>
         </item>
         <item>

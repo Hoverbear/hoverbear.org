@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ Turns out, .collect() can do it for you!
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ Turns out, .collect() can do it for you!
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -114,43 +114,43 @@ Turns out, .collect() can do it for you!
         
         <p>I've been playing around with a new project that uses a lot of collections of results, for example <code>Vec&lt;Result&lt;()&gt;&gt;</code> and asked some folks on Rust if they new a good way of transforming this into a <code>Result&lt;Vec&lt;()&gt;&gt;</code>.</p>
 <p>Turns out, <code>.collect()</code> can do it for you!</p>
-<span id="continue-reading"></span><pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>io</span><span style="color:#f29e74;">::</span><span>{Error</span><span style="color:#ccc9c2cc;">,</span><span> ErrorKind}</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> results </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span>[
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span>(</span><span style="color:#ffcc66;">0</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span>(</span><span style="color:#ffcc66;">1</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span>(</span><span style="color:#ffcc66;">2</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Err</span><span>(Error</span><span style="color:#f29e74;">::</span><span>new(ErrorKind</span><span style="color:#f29e74;">::</span><span>Other</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&quot;I&#39;m an error!&quot;</span><span>))</span><span style="color:#ccc9c2cc;">,
-</span><span>    ]</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>    </span><span style="color:#ffa759;">let</span><span> error </span><span style="color:#f29e74;">=</span><span> results</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_iter</span><span>()
-</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Result</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#ffa759;">usize</span><span>&gt;, Error&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> error)</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>    </span><span style="color:#ffa759;">let</span><span> results </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span>[
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span>(</span><span style="color:#ffcc66;">0</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span>(</span><span style="color:#ffcc66;">1</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Ok</span><span>(</span><span style="color:#ffcc66;">2</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>    ]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> okay </span><span style="color:#f29e74;">=</span><span> results</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">into_iter</span><span>()
-</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Result</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#ffa759;">usize</span><span>&gt;, Error&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> okay)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Err(Error { repr: Custom(Custom
-</span><span style="font-style:italic;color:#5c6773;">//     { kind: Other, error: StringError(&quot;I\&#39;m an error!&quot;)
-</span><span style="font-style:italic;color:#5c6773;">// }) })
-</span><span style="font-style:italic;color:#5c6773;">// Ok([0, 1, 2])
-</span></code></pre>
-<p>Isn't that handy! I hope this is useful to your in your projects! <a rel="noopener" target="_blank" href="http://is.gd/KJ4JVs">Playpen Link</a></p>
+<span id="continue-reading"></span><pre><code>use std::io::{Error, ErrorKind};
+
+fn main() {
+    let results = vec![
+        Ok(0),
+        Ok(1),
+        Ok(2),
+        Err(Error::new(ErrorKind::Other, &quot;I'm an error!&quot;)),
+    ];
+
+    let error = results.into_iter()
+        .collect::&lt;Result&lt;Vec&lt;usize&gt;, Error&gt;&gt;();
+    println!(&quot;{:?}&quot;, error);
+
+    let results = vec![
+        Ok(0),
+        Ok(1),
+        Ok(2),
+    ];
+    let okay = results.into_iter()
+        .collect::&lt;Result&lt;Vec&lt;usize&gt;, Error&gt;&gt;();
+    println!(&quot;{:?}&quot;, okay);
+}
+// Err(Error { repr: Custom(Custom
+//     { kind: Other, error: StringError(&quot;I\'m an error!&quot;)
+// }) })
+// Ok([0, 1, 2])
+</code></pre>
+<p>Isn't that handy! I hope this is useful to your in your projects! <a href="http://is.gd/KJ4JVs">Playpen Link</a></p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

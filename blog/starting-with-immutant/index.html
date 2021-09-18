@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -74,14 +74,14 @@ Leiningen - The package manager.
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -93,12 +93,12 @@ Leiningen - The package manager.
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -156,69 +156,69 @@ Leiningen - The package manager.
         <p>Immutant is suite of <strong>Clojure</strong> libraries that is part of the JBossAS/Wildfly ecosystem. Great, fantastic! Clojure is a lisp that runs on the JVM, the CLR, and compiles to Javascript. Lets get started!</p>
 <p>Some links we'll need:</p>
 <ul>
-<li><a rel="noopener" target="_blank" href="http://immutant.org/">Immutant</a> - The framework.</li>
-<li><a rel="noopener" target="_blank" href="http://clojure.org/">Clojure</a> - The language.</li>
-<li><a rel="noopener" target="_blank" href="http://leiningen.org/">Leiningen</a> - The package manager.</li>
+<li><a href="http://immutant.org/">Immutant</a> - The framework.</li>
+<li><a href="http://clojure.org/">Clojure</a> - The language.</li>
+<li><a href="http://leiningen.org/">Leiningen</a> - The package manager.</li>
 </ul>
 <span id="continue-reading"></span><h3 id="getting-leiningen">Getting Leiningen</h3>
 <p>Assuming <code>~/bin/</code> is a folder in your <code>$PATH</code></p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>DEST</span><span style="color:#f29e74;">=</span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#bae67e;">/bin/lein
-</span><span style="color:#ffd580;">curl</span><span> https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein </span><span style="color:#f29e74;">&gt; </span><span>$DEST
-</span><span style="color:#ffd580;">chmod</span><span> +x $DEST
-</span></code></pre>
+<pre><code>DEST=~/bin/lein
+curl https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein &gt; $DEST
+chmod +x $DEST
+</code></pre>
 <h3 id="getting-clojure">Getting Clojure</h3>
 <p>You get Clojure (oddly) through <code>lein</code>. Just run it, and it'll download everything it needs.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">lein
-</span></code></pre>
+<pre><code>lein
+</code></pre>
 <p>That was easy!</p>
 <h3 id="setting-up-an-immutant-project">Setting up an Immutant Project</h3>
-<p><em>This is a lightly expanded version of <a rel="noopener" target="_blank" href="http://immutant.org/tutorials/installation/index.html">this page</a>.</em></p>
+<p><em>This is a lightly expanded version of <a href="http://immutant.org/tutorials/installation/index.html">this page</a>.</em></p>
 <p>Use <code>lein</code> to initialize a new project.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">lein</span><span> new app learning
-</span><span style="color:#f28779;">cd</span><span> learning
-</span></code></pre>
+<pre><code>lein new app learning
+cd learning
+</code></pre>
 <p>The folder <code>learning/</code> should have a file <code>project.clj</code> which you should edit to look like this:</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffa759;">defproject </span><span style="color:#ffd580;">learning </span><span style="color:#bae67e;">&quot;0.1.0-SNAPSHOT&quot;
-</span><span>  </span><span style="color:#ffcc66;">:description </span><span style="color:#bae67e;">&quot;FIXME: write description&quot;
-</span><span>  </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://example.com/FIXME&quot;
-</span><span>  </span><span style="color:#ffcc66;">:license </span><span>{</span><span style="color:#ffcc66;">:name </span><span style="color:#bae67e;">&quot;MPL&quot;
-</span><span>            </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://choosealicense.com/licenses/mpl-2.0/&quot;</span><span>}
-</span><span>  </span><span style="color:#ffcc66;">:dependencies </span><span>[[org.clojure/clojure </span><span style="color:#bae67e;">&quot;1.6.0&quot;</span><span>]
-</span><span>                 [org.immutant/immutant </span><span style="color:#bae67e;">&quot;2.x.incremental.186&quot;</span><span>]]
-</span><span>  </span><span style="color:#ffcc66;">:repositories </span><span>[[</span><span style="color:#bae67e;">&quot;Immutant incremental builds&quot;
-</span><span>                  </span><span style="color:#bae67e;">&quot;http://downloads.immutant.org/incremental/&quot;</span><span>]]
-</span><span>  </span><span style="color:#ffcc66;">:main </span><span style="color:#f29e74;">^</span><span style="color:#ffcc66;">:skip-aot</span><span> learning.core
-</span><span>  </span><span style="color:#ffcc66;">:target-path </span><span style="color:#bae67e;">&quot;target/%s&quot;
-</span><span>  </span><span style="color:#ffcc66;">:profiles </span><span>{</span><span style="color:#ffcc66;">:uberjar </span><span>{</span><span style="color:#ffcc66;">:aot :all</span><span>}})
-</span></code></pre>
-<p>Note how the dependencies and repositories now contain references to immutant. You should change <code>186</code> to the latest incremental build at <a rel="noopener" target="_blank" href="http://immutant.org/builds/2x/">this page</a>.</p>
+<pre><code>(defproject learning &quot;0.1.0-SNAPSHOT&quot;
+  :description &quot;FIXME: write description&quot;
+  :url &quot;http://example.com/FIXME&quot;
+  :license {:name &quot;MPL&quot;
+            :url &quot;http://choosealicense.com/licenses/mpl-2.0/&quot;}
+  :dependencies [[org.clojure/clojure &quot;1.6.0&quot;]
+                 [org.immutant/immutant &quot;2.x.incremental.186&quot;]]
+  :repositories [[&quot;Immutant incremental builds&quot;
+                  &quot;http://downloads.immutant.org/incremental/&quot;]]
+  :main ^:skip-aot learning.core
+  :target-path &quot;target/%s&quot;
+  :profiles {:uberjar {:aot :all}})
+</code></pre>
+<p>Note how the dependencies and repositories now contain references to immutant. You should change <code>186</code> to the latest incremental build at <a href="http://immutant.org/builds/2x/">this page</a>.</p>
 <p>The <code>project.clj</code> file is similar to a <code>package.json</code> in Node.js or <code>Cargo.toml</code> in Rust.</p>
 <h3 id="your-first-route">Your First Route</h3>
-<p><em>This is a lightly expanded version of <a rel="noopener" target="_blank" href="http://immutant.org/tutorials/web/index.html">this page</a>.</em></p>
+<p><em>This is a lightly expanded version of <a href="http://immutant.org/tutorials/web/index.html">this page</a>.</em></p>
 <p>In order to have a route (and thus a real web server) you need to add a <code>require</code> for immutant to your <code>src/learning/core.clj</code>. Then, define the <code>app</code> function like so and use <code>run</code> to start it:</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffd580;">ns</span><span> learning.core
-</span><span>  (</span><span style="color:#ffcc66;">:use</span><span> compojure.core)
-</span><span>  (</span><span style="color:#ffcc66;">:require </span><span>[compojure.route </span><span style="color:#ffcc66;">:as</span><span> route]
-</span><span>             [immutant.web </span><span style="color:#ffcc66;">:as</span><span> immutant])
-</span><span>  (</span><span style="color:#ffcc66;">:gen-class</span><span>))
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">app </span><span>[request]
-</span><span>  </span><span style="color:#bae67e;">&quot;A basic route for learning.&quot;
-</span><span>  {</span><span style="color:#ffcc66;">:status 200
-</span><span>   </span><span style="color:#ffcc66;">:body </span><span style="color:#bae67e;">&quot;Hello world!&quot;</span><span>})
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">-main
-</span><span>  </span><span style="color:#bae67e;">&quot;Start the server.&quot;
-</span><span>  [&amp; args]
-</span><span>  (</span><span style="color:#ffd580;">immutant/run</span><span> app {</span><span style="color:#ffcc66;">:host </span><span style="color:#bae67e;">&quot;localhost&quot; </span><span style="color:#ffcc66;">:port 8080 :path </span><span style="color:#bae67e;">&quot;/&quot;</span><span>}))
-</span></code></pre>
+<pre><code>(ns learning.core
+  (:use compojure.core)
+  (:require [compojure.route :as route]
+             [immutant.web :as immutant])
+  (:gen-class))
+
+(defn app [request]
+  &quot;A basic route for learning.&quot;
+  {:status 200
+   :body &quot;Hello world!&quot;})
+
+(defn -main
+  &quot;Start the server.&quot;
+  [&amp; args]
+  (immutant/run app {:host &quot;localhost&quot; :port 8080 :path &quot;/&quot;}))
+</code></pre>
 <p>To start the server with <code>lein run</code> in the folder.</p>
-<p>Now browse to <a rel="noopener" target="_blank" href="http://localhost:8080">http://localhost:8080</a> and you should see something like:</p>
-<pre data-lang="html" style="background-color:#212733;color:#ccc9c2;" class="language-html "><code class="language-html" data-lang="html"><span>Hello world!
-</span></code></pre>
+<p>Now browse to <a href="http://localhost:8080">http://localhost:8080</a> and you should see something like:</p>
+<pre><code>Hello world!
+</code></pre>
 <h3 id="more-routes">More Routes</h3>
-<p>You're probably thinking &quot;Well that's great, an app with one route, how useless.&quot; You'd be quite right, unless you're implementing <a rel="noopener" target="_blank" href="http://www.justyo.co/">Yo</a> or something.</p>
-<p>If you're reading along the <a rel="noopener" target="_blank" href="http://immutant.org/tutorials/web/index.html">Immutant web tutorial</a> you may have noticed in &quot;Advanced Usage&quot; they use multiple <code>run</code> functions to serve multiple routes.</p>
+<p>You're probably thinking &quot;Well that's great, an app with one route, how useless.&quot; You'd be quite right, unless you're implementing <a href="http://www.justyo.co/">Yo</a> or something.</p>
+<p>If you're reading along the <a href="http://immutant.org/tutorials/web/index.html">Immutant web tutorial</a> you may have noticed in &quot;Advanced Usage&quot; they use multiple <code>run</code> functions to serve multiple routes.</p>
 <p>To quote:</p>
 <blockquote>
 <p>...actually creates two Undertow web server instances: one serving requests for the hello and howdy handlers on port 8080, and one serving ola responses on port 8081.</p>
@@ -227,36 +227,36 @@ Leiningen - The package manager.
 <blockquote>
 <p>First, you'll need a Ring handler. If you generated your app using a template from Compojure, Luminus, Caribou or some other Ring-based library, yours will be associated with the :handler key of your :ring map in your project.clj file.</p>
 </blockquote>
-<p>That sounds certainly more desirable. Let's use <a rel="noopener" target="_blank" href="https://github.com/weavejester/compojure/">Compojure</a>.</p>
+<p>That sounds certainly more desirable. Let's use <a href="https://github.com/weavejester/compojure/">Compojure</a>.</p>
 <p>Change your <code>project.clj</code>:</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span style="color:#ffcc66;">:dependencies </span><span>[[org.clojure/clojure </span><span style="color:#bae67e;">&quot;1.6.0&quot;</span><span>]
-</span><span>               [org.immutant/immutant </span><span style="color:#bae67e;">&quot;2.x.incremental.186&quot;</span><span>]
-</span><span>               [compojure </span><span style="color:#bae67e;">&quot;1.1.8&quot;</span><span>]]
-</span></code></pre>
+<pre><code>:dependencies [[org.clojure/clojure &quot;1.6.0&quot;]
+               [org.immutant/immutant &quot;2.x.incremental.186&quot;]
+               [compojure &quot;1.1.8&quot;]]
+</code></pre>
 <p>And then extend your source file.</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffd580;">ns</span><span> learning.core
-</span><span>  (</span><span style="color:#ffcc66;">:use</span><span> compojure.core)
-</span><span>  (</span><span style="color:#ffcc66;">:require </span><span>[compojure.route </span><span style="color:#ffcc66;">:as</span><span> route]
-</span><span>             [immutant.web </span><span style="color:#ffcc66;">:as</span><span> immutant])
-</span><span>  (</span><span style="color:#ffcc66;">:gen-class</span><span>))
-</span><span>
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">handler
-</span><span>  </span><span style="color:#bae67e;">&quot;Comment&quot;
-</span><span>  []
-</span><span>  </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot;</span><span>)
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defroutes </span><span style="color:#ffd580;">app
-</span><span>  </span><span style="color:#bae67e;">&quot;The router.&quot;
-</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/&quot; </span><span>[] (</span><span style="color:#ffd580;">handler</span><span>))
-</span><span>  (</span><span style="color:#ffd580;">route/not-found
-</span><span>       </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;</span><span>))
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">-main
-</span><span>  </span><span style="color:#bae67e;">&quot;Start the server&quot;
-</span><span>  [&amp; args]
-</span><span>  (</span><span style="color:#ffd580;">immutant/run</span><span> app {</span><span style="color:#ffcc66;">:host </span><span style="color:#bae67e;">&quot;localhost&quot; </span><span style="color:#ffcc66;">:port 8080 :path </span><span style="color:#bae67e;">&quot;/&quot;</span><span>}))
-</span></code></pre>
+<pre><code>(ns learning.core
+  (:use compojure.core)
+  (:require [compojure.route :as route]
+             [immutant.web :as immutant])
+  (:gen-class))
+
+
+(defn handler
+  &quot;Comment&quot;
+  []
+  &quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot;)
+
+(defroutes app
+  &quot;The router.&quot;
+  (GET &quot;/&quot; [] (handler))
+  (route/not-found
+       &quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;))
+
+(defn -main
+  &quot;Start the server&quot;
+  [&amp; args]
+  (immutant/run app {:host &quot;localhost&quot; :port 8080 :path &quot;/&quot;}))
+</code></pre>
 <p>Now you should have multiple routes.</p>
 
     </main>
@@ -264,8 +264,8 @@ Leiningen - The package manager.
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

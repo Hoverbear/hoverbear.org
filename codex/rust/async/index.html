@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5276e8a0813761ef00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5276e8a0813761ef00.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -60,14 +60,14 @@
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/fCOK_5G5t-E">Michael H</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e92e34dc286a65ca00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5276e8a0813761ef00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;777d2931363d00cc00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -79,12 +79,12 @@
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -95,10 +95,6 @@
                 Environments
             </a>&nbsp;
         </li><li>
-            <a href="https://hoverbear.org/codex/rust/">
-                Rust at Scale
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/codex/effective-organizations/">
                 Effective Organizations
             </a>&nbsp;
@@ -106,21 +102,25 @@
             <a href="https://hoverbear.org/codex/research_methods/">
                 Research Methods
             </a>&nbsp;
-        </li></ul><ul><li>
-            <a href="https://hoverbear.org/codex/rust/observability/">
-                Observability
-            </a>&nbsp;
         </li><li>
+            <a href="https://hoverbear.org/codex/rust/">
+                Rust at Scale
+            </a>&nbsp;
+        </li></ul><ul><li>
             <a href="https://hoverbear.org/codex/rust/async/">
                 Async
             </a>&nbsp;
-        </li></ul><ul><li>
-            <a href="https://hoverbear.org/codex/rust/async/streams/">
-                Streams
-            </a>&nbsp;
         </li><li>
+            <a href="https://hoverbear.org/codex/rust/observability/">
+                Observability
+            </a>&nbsp;
+        </li></ul><ul><li>
             <a href="https://hoverbear.org/codex/rust/async/futures/">
                 Futures
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/codex/rust/async/streams/">
+                Streams
             </a>&nbsp;
         </li></ul>
 </nav>
@@ -145,6 +145,47 @@
   
   
     <section>
+		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;codex&#x2F;rust&#x2F;async&#x2F;futures&#x2F;">Futures</a></h2>
+		<p>The world at 88 mph</p>
+		<div class="excerpt">
+			<p>Rust Futures are broken down into two main traits:</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>core::future::Future</code></a>: Representing the minimal required implementation for an asyncronous task. This is, notably, part of <code>core</code> and always available, even without <code>alloc</code>.</li>
+<li><a href="https://docs.rs/futures/latest/futures/future/trait.FutureExt.html"><code>future::future::FutureExt</code></a>: A large collection of functionality you might expect or want as a programmer.</li>
+</ul>
+<p>You'll also find a bunch of handy functions just vibing in <a href="https://docs.rs/futures/0.3.6/futures/future/index.html#functions"><code>futures::future</code></a>.</p>
+<p>Let's take a look!</p>
+<span id="continue-reading"></span><h1 id="what-is-a-future-anyways">What is a <code>Future</code> anyways?</h1>
+<h1 id="creating-futures-from-thin-air">Creating Futures from thin air</h1>
+<p>The laziest possible future we can make, is a <a href="https://docs.rs/futures/latest/futures/future/fn.lazy.html"><code>futures::future::lazy</code></a>. It's right there in the name.</p>
+<p>It takes a closure and runs it later poll it.</p>
+<pre><code>use core::future::Future;
+use futures::executor::block_on;
+
+#[tokio::main]
+async fn main() {
+    let input = futures::lazy(|_| 1);
+    let output = block_on(input)
+    tracing::
+}
+</code></pre>
+
+		</div>
+
+		<div class="section-meta">
+			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;codex&#x2F;rust&#x2F;async&#x2F;futures&#x2F;#continue-reading">Continue reading...</a>
+			<div class="meta-box"><div class="reading-time">
+					1 min
+				</div>
+				<div class="tags"></div>
+			</div>
+		</div>
+	</section>
+    
+      <hr>
+    
+  
+    <section>
 		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;codex&#x2F;rust&#x2F;async&#x2F;streams&#x2F;">Streams</a></h2>
 		<p>Go with the flow.</p>
 		<div class="excerpt">
@@ -161,47 +202,6 @@
 		</div>
 	</section>
     
-      <hr>
-    
-  
-    <section>
-		<h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;codex&#x2F;rust&#x2F;async&#x2F;futures&#x2F;">Futures</a></h2>
-		<p>The world at 88 mph</p>
-		<div class="excerpt">
-			<p>Rust Futures are broken down into two main traits:</p>
-<ul>
-<li><a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>core::future::Future</code></a>: Representing the minimal required implementation for an asyncronous task. This is, notably, part of <code>core</code> and always available, even without <code>alloc</code>.</li>
-<li><a rel="noopener" target="_blank" href="https://docs.rs/futures/latest/futures/future/trait.FutureExt.html"><code>future::future::FutureExt</code></a>: A large collection of functionality you might expect or want as a programmer.</li>
-</ul>
-<p>You'll also find a bunch of handy functions just vibing in <a rel="noopener" target="_blank" href="https://docs.rs/futures/0.3.6/futures/future/index.html#functions"><code>futures::future</code></a>.</p>
-<p>Let's take a look!</p>
-<span id="continue-reading"></span><h1 id="what-is-a-future-anyways">What is a <code>Future</code> anyways?</h1>
-<h1 id="creating-futures-from-thin-air">Creating Futures from thin air</h1>
-<p>The laziest possible future we can make, is a <a rel="noopener" target="_blank" href="https://docs.rs/futures/latest/futures/future/fn.lazy.html"><code>futures::future::lazy</code></a>. It's right there in the name.</p>
-<p>It takes a closure and runs it later poll it.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>core</span><span style="color:#f29e74;">::</span><span>future</span><span style="color:#f29e74;">::</span><span>Future</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span>futures</span><span style="color:#f29e74;">::</span><span>executor</span><span style="color:#f29e74;">::</span><span>block_on</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">tokio</span><span>::</span><span style="color:#ffd580;">main</span><span>]
-</span><span>async </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span>futures</span><span style="color:#f29e74;">::</span><span>lazy(|_| </span><span style="color:#ffcc66;">1</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">block_on</span><span>(input)
-</span><span>    tracing</span><span style="color:#f29e74;">::
-</span><span>}
-</span></code></pre>
-
-		</div>
-
-		<div class="section-meta">
-			<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;codex&#x2F;rust&#x2F;async&#x2F;futures&#x2F;#continue-reading">Continue reading...</a>
-			<div class="meta-box"><div class="reading-time">
-					1 min
-				</div>
-				<div class="tags"></div>
-			</div>
-		</div>
-	</section>
-    
   
 
     </main>
@@ -209,8 +209,8 @@
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

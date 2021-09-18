@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ async.auto() is a function offered by the libary which allows you to declare a s
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ async.auto() is a function offered by the libary which allows you to declare a s
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -112,68 +112,68 @@ async.auto() is a function offered by the libary which allows you to declare a s
 
     <main>
         
-        <p>I've been exploring the handy <a rel="noopener" target="_blank" href="https://github.com/caolan/async"><code>async</code></a> over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.</p>
-<p><a rel="noopener" target="_blank" href="https://github.com/caolan/async#autotasks-callback"><code>async.auto()</code></a> is a function offered by the libary which allows you to declare a set of tasks and their dependencies, then the library determines the best way to compose the initialization.</p>
+        <p>I've been exploring the handy <a href="https://github.com/caolan/async"><code>async</code></a> over the last few days in the lab. One of my projects is a MongoDB API Adapter in Node.js and I was pleased by a novel way of handling control flow.</p>
+<p><a href="https://github.com/caolan/async#autotasks-callback"><code>async.auto()</code></a> is a function offered by the libary which allows you to declare a set of tasks and their dependencies, then the library determines the best way to compose the initialization.</p>
 <span id="continue-reading"></span>
 <p>Consider the following dependency graph:</p>
 <figure class="enriched ">
         <figcaption>Graph</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fe2bb57f76e4b24d00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;20daae5d72b7f42d00.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;607cf87fa327b8a200.png"
               alt="Graph" />
     </figure>
 <p>With <code>async</code> this could be modelled like so:</p>
-<pre data-lang="javascript" style="background-color:#212733;color:#ccc9c2;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>(</span><span style="color:#ffa759;">function </span><span style="color:#ffd580;">init</span><span>() {
-</span><span>	async</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">auto</span><span>({
-</span><span>		dbConn</span><span style="color:#ccc9c2cc;">: </span><span>dbConn</span><span style="color:#ccc9c2cc;">,
-</span><span>		schemas</span><span style="color:#ccc9c2cc;">: </span><span>[ </span><span style="color:#bae67e;">&#39;dbConn&#39;</span><span style="color:#ccc9c2cc;">, </span><span>schemas ]</span><span style="color:#ccc9c2cc;">,
-</span><span>		http</span><span style="color:#ccc9c2cc;">: </span><span>http</span><span style="color:#ccc9c2cc;">,
-</span><span>		httpMiddleware</span><span style="color:#ccc9c2cc;">: </span><span>[ </span><span style="color:#bae67e;">&#39;http&#39;</span><span style="color:#ccc9c2cc;">, </span><span>httpMiddleware ]</span><span style="color:#ccc9c2cc;">,
-</span><span>		routes</span><span style="color:#ccc9c2cc;">: </span><span>[ </span><span style="color:#bae67e;">&#39;http&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#bae67e;">&#39;schemas&#39;</span><span style="color:#ccc9c2cc;">, </span><span>routes ]
-</span><span>	}</span><span style="color:#ccc9c2cc;">, </span><span>listen)</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>	</span><span style="font-style:italic;color:#5c6773;">// Definitions of functions below.
-</span><span>}())</span><span style="color:#ccc9c2cc;">;
-</span></code></pre>
+<pre><code>(function init() {
+	async.auto({
+		dbConn: dbConn,
+		schemas: [ 'dbConn', schemas ],
+		http: http,
+		httpMiddleware: [ 'http', httpMiddleware ],
+		routes: [ 'http', 'schemas', routes ]
+	}, listen);
+
+	// Definitions of functions below.
+}());
+</code></pre>
 <p>The first parameter of the function is an object of tasks. They follow the format <code>taskName: function</code> or <code>taskName: [dependencies, function]</code>. Tasks with dependencies will only start when those have been resolved.</p>
 <p>So async helps with the handling of dependencies, but can we handle dependant state?</p>
 <p>For example, <code>dbConn</code> produces a <code>connection</code> variable, and <code>schemas</code> consumes it. The two functions look like this:</p>
-<pre data-lang="javascript" style="background-color:#212733;color:#ccc9c2;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#ffa759;">function </span><span style="color:#ffd580;">dbConn</span><span>(</span><span style="color:#ffcc66;">callback</span><span>) {
-</span><span>	</span><span style="color:#ffa759;">var </span><span>connection </span><span style="color:#f29e74;">= </span><span>db</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">connect</span><span>(someString)</span><span style="color:#f29e74;">.</span><span>connection
-</span><span>	connection</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">on</span><span>(</span><span style="color:#bae67e;">&#39;success&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">function </span><span>() {
-</span><span>		</span><span style="font-style:italic;color:#5c6773;">// Return `connection` into the `results`
-</span><span>		</span><span style="color:#ffd580;">callback</span><span>(</span><span style="color:#ffcc66;">null</span><span style="color:#ccc9c2cc;">, </span><span>connection)</span><span style="color:#ccc9c2cc;">;
-</span><span>	})</span><span style="color:#ccc9c2cc;">;
-</span><span>	connection</span><span style="color:#f29e74;">.</span><span style="color:#ffd580;">on</span><span>(</span><span style="color:#bae67e;">&#39;error&#39;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffa759;">function </span><span>(</span><span style="color:#ffcc66;">error</span><span>) {
-</span><span>		</span><span style="color:#ffd580;">callback</span><span>(error</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">null</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>	})</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span>
-</span><span style="color:#ffa759;">function </span><span style="color:#ffd580;">schemas</span><span>(</span><span style="color:#ffcc66;">callback</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">results</span><span>) {
-</span><span>	</span><span style="font-style:italic;color:#5c6773;">// Do a bunch of stuff.
-</span><span>	</span><span style="font-style:italic;color:#5c6773;">// results.dbConn has the connection.
-</span><span>	</span><span style="color:#ffd580;">callback</span><span>(</span><span style="color:#ffcc66;">null</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span></code></pre>
+<pre><code>function dbConn(callback) {
+	var connection = db.connect(someString).connection
+	connection.on('success', function () {
+		// Return `connection` into the `results`
+		callback(null, connection);
+	});
+	connection.on('error', function (error) {
+		callback(error, null);
+	});
+}
+
+function schemas(callback, results) {
+	// Do a bunch of stuff.
+	// results.dbConn has the connection.
+	callback(null);
+}
+</code></pre>
 <p>The result values of any task which another depends on are populated into the <code>results</code> parameter.</p>
 <p>Finally, the <code>listen</code> function accepts a final <code>(error, results)</code>. Note it's called as soon as <strong>any</strong> task returns an error, so always make sure to handle errors. Finally, <code>results</code> will have all of the return values of the tasks which were composed.</p>
 <p>This provides a compelling way to handle composability and dependencies without having to deal with complex callback changes. Functions will be invoked as their dependencies are resolved, and it's easy to add or remove dependencies, changing what's available in <code>results</code>.</p>
-<p>Give this pattern a try, it's especially useful when combined with other functions available in <code>async</code>, like <a rel="noopener" target="_blank" href="https://github.com/caolan/async#seq"><code>async.seq</code></a>.</p>
+<p>Give this pattern a try, it's especially useful when combined with other functions available in <code>async</code>, like <a href="https://github.com/caolan/async#seq"><code>async.seq</code></a>.</p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

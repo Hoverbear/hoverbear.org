@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -64,14 +64,14 @@ With systemd, daemon configuration is handled by .toml configuration files. With
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +83,12 @@ With systemd, daemon configuration is handled by .toml configuration files. With
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -156,99 +156,99 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>systemd stores service files in <code>/etc/systemd/system/</code> (user-provided) or <code>/usr/lib/systemd/system/</code> (package-provided). <code>.service</code> files are used to declare configuration.</p>
 <p>OpenRC stores scripts in <code>/etc/init.d/</code>, the scripts are typically standalone, configuration does not require multiple separate files.</p>
 <p>Here is the contents of <code>/etc/systemd/system/sshd.service</code> on a Fedora 20 system:</p>
-<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Unit</span><span>]
-</span><span style="color:#73d0ff;">Description</span><span>=</span><span style="color:#ff3333;">OpenSSH server daemon
-</span><span style="color:#73d0ff;">After</span><span>=</span><span style="color:#ff3333;">syslog.target network.target auditd.service
-</span><span>
-</span><span>[</span><span style="color:#73d0ff;">Service</span><span>]
-</span><span style="color:#73d0ff;">EnvironmentFile</span><span>=</span><span style="color:#ff3333;">/etc/sysconfig/sshd
-</span><span style="color:#73d0ff;">ExecStartPre</span><span>=</span><span style="color:#ff3333;">/usr/sbin/sshd-keygen
-</span><span style="color:#73d0ff;">ExecStart</span><span>=</span><span style="color:#ff3333;">/usr/sbin/sshd -D $OPTIONS
-</span><span style="color:#73d0ff;">ExecReload</span><span>=</span><span style="color:#ff3333;">/bin/kill -HUP $MAINPID
-</span><span style="color:#73d0ff;">KillMode</span><span>=</span><span style="color:#ff3333;">process
-</span><span style="color:#73d0ff;">Restart</span><span>=</span><span style="color:#ff3333;">on-failure
-</span><span style="color:#73d0ff;">RestartSec</span><span>=</span><span style="color:#ff3333;">42s
-</span><span>
-</span><span>[</span><span style="color:#73d0ff;">Install</span><span>]
-</span><span style="color:#73d0ff;">WantedBy</span><span>=</span><span style="color:#ff3333;">multi-user.target
-</span></code></pre>
+<pre><code>[Unit]
+Description=OpenSSH server daemon
+After=syslog.target network.target auditd.service
+
+[Service]
+EnvironmentFile=/etc/sysconfig/sshd
+ExecStartPre=/usr/sbin/sshd-keygen
+ExecStart=/usr/sbin/sshd -D $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
 <p>For comparison, this is an excerpt of <code>/etc/init.d/sshd</code> on Funtoo Linux, not the entire file:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">depend</span><span>() {
-</span><span>  </span><span style="color:#ffd580;">use</span><span> logger dns
-</span><span>  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span>{rc_need</span><span style="color:#f29e74;">+</span><span style="color:#bae67e;">set</span><span>}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;set&quot; </span><span style="color:#f28779;">]</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
-</span><span>    </span><span style="color:#f28779;">: </span><span style="font-style:italic;color:#5c6773;"># Do nothing, the user has explicitly set rc_need
-</span><span>  </span><span style="color:#ffa759;">else
-</span><span>    warn_addr</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&#39;
-</span><span>    </span><span style="color:#ffa759;">for</span><span> x </span><span style="color:#ffa759;">in </span><span>$(</span><span style="color:#ffd580;">awk </span><span style="color:#bae67e;">&#39;/^ListenAddress/{ print $2 }&#39; &quot;$</span><span>SSHD_CONFIG</span><span style="color:#bae67e;">&quot; </span><span style="color:#ffcc66;">2</span><span style="color:#f29e74;">&gt;</span><span>/dev/null) </span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">do
-</span><span>      </span><span style="color:#ffa759;">case </span><span style="color:#bae67e;">&quot;$</span><span>x</span><span style="color:#bae67e;">&quot; </span><span style="color:#ffa759;">in
-</span><span>        0.0.0.0</span><span style="color:#f29e74;">|</span><span>0.0.0.0:</span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2cc;">;;
-</span><span>        ::</span><span style="color:#f29e74;">|</span><span style="color:#95e6cb;">\[</span><span>::</span><span style="color:#95e6cb;">\]</span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span style="color:#ccc9c2cc;">;;
-</span><span>        </span><span style="color:#f29e74;">*</span><span style="color:#ffa759;">) </span><span>warn_addr</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;$</span><span>{warn_addr} </span><span style="color:#bae67e;">$</span><span>x</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">;;
-</span><span>      </span><span style="color:#ffa759;">esac
-</span><span>    </span><span style="color:#ffa759;">done
-</span><span>    </span><span style="color:#f28779;">unset</span><span> x
-</span><span>    </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span>{warn_addr</span><span style="color:#f29e74;">:+</span><span style="color:#bae67e;">set</span><span>}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;set&quot; </span><span style="color:#f28779;">]</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
-</span><span>      </span><span style="color:#ffd580;">need</span><span> net
-</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;You are binding an interface in ListenAddress statement in your sshd_config!&quot;
-</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;You must add rc_need=</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#bae67e;">net.FOO</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#bae67e;"> to your /etc/conf.d/sshd&quot;
-</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;where FOO is the interface(s) providing the following address(es):&quot;
-</span><span>      </span><span style="color:#ffd580;">ewarn </span><span style="color:#bae67e;">&quot;$</span><span>{warn_addr}</span><span style="color:#bae67e;">&quot;
-</span><span>    </span><span style="color:#ffa759;">fi
-</span><span>    </span><span style="color:#f28779;">unset</span><span> warn_addr
-</span><span>  </span><span style="color:#ffa759;">fi
-</span><span>}
-</span><span>
-</span><span style="color:#ffd580;">start</span><span>() {
-</span><span>  </span><span style="color:#ffd580;">checkconfig </span><span style="color:#f29e74;">|| </span><span style="color:#ffa759;">return</span><span> 1
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Starting $</span><span>{SVCNAME}</span><span style="color:#bae67e;">&quot;
-</span><span>  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --start --exec </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_BINARY}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">      --pidfile </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_PIDFILE}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#f29e74;">      -- </span><span>${SSHD_OPTS}
-</span><span>  </span><span style="color:#ffd580;">eend </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">?
-</span><span>}
-</span><span>
-</span><span style="color:#ffd580;">stop</span><span>() {
-</span><span>  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">[ </span><span style="color:#bae67e;">&quot;$</span><span>{RC_CMD}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;restart&quot; </span><span style="color:#f28779;">] </span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">then
-</span><span>    </span><span style="color:#ffd580;">checkconfig </span><span style="color:#f29e74;">|| </span><span style="color:#ffa759;">return</span><span> 1
-</span><span>  </span><span style="color:#ffa759;">fi
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Stopping $</span><span>{SVCNAME}</span><span style="color:#bae67e;">&quot;
-</span><span>  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --stop --exec </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_BINARY}</span><span style="color:#bae67e;">&quot; </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">      --pidfile </span><span style="color:#bae67e;">&quot;$</span><span>{SSHD_PIDFILE}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;"> --quiet
-</span><span>  </span><span style="color:#ffd580;">eend </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">?
-</span><span>}
-</span></code></pre>
-<p>An important distinction to note is that while systemd's configuration is <strong>declarative</strong>, OpenRC's configuration is <strong>programmatic</strong>. The decision to use a declarative method was explained in <a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd.html">this</a> article under the &quot;Keeping the First User PID Small&quot; heading.</p>
+<pre><code>depend() {
+  use logger dns
+  if [ &quot;${rc_need+set}&quot; = &quot;set&quot; ]; then
+    : # Do nothing, the user has explicitly set rc_need
+  else
+    warn_addr=''
+    for x in $(awk '/^ListenAddress/{ print $2 }' &quot;$SSHD_CONFIG&quot; 2&gt;/dev/null) ; do
+      case &quot;$x&quot; in
+        0.0.0.0|0.0.0.0:*) ;;
+        ::|\[::\]*) ;;
+        *) warn_addr=&quot;${warn_addr} $x&quot; ;;
+      esac
+    done
+    unset x
+    if [ &quot;${warn_addr:+set}&quot; = &quot;set&quot; ]; then
+      need net
+      ewarn &quot;You are binding an interface in ListenAddress statement in your sshd_config!&quot;
+      ewarn &quot;You must add rc_need=\&quot;net.FOO\&quot; to your /etc/conf.d/sshd&quot;
+      ewarn &quot;where FOO is the interface(s) providing the following address(es):&quot;
+      ewarn &quot;${warn_addr}&quot;
+    fi
+    unset warn_addr
+  fi
+}
+
+start() {
+  checkconfig || return 1
+
+  ebegin &quot;Starting ${SVCNAME}&quot;
+  start-stop-daemon --start --exec &quot;${SSHD_BINARY}&quot; \
+      --pidfile &quot;${SSHD_PIDFILE}&quot; \
+      -- ${SSHD_OPTS}
+  eend $?
+}
+
+stop() {
+  if [ &quot;${RC_CMD}&quot; = &quot;restart&quot; ] ; then
+    checkconfig || return 1
+  fi
+
+  ebegin &quot;Stopping ${SVCNAME}&quot;
+  start-stop-daemon --stop --exec &quot;${SSHD_BINARY}&quot; \
+      --pidfile &quot;${SSHD_PIDFILE}&quot; --quiet
+  eend $?
+}
+</code></pre>
+<p>An important distinction to note is that while systemd's configuration is <strong>declarative</strong>, OpenRC's configuration is <strong>programmatic</strong>. The decision to use a declarative method was explained in <a href="http://0pointer.de/blog/projects/systemd.html">this</a> article under the &quot;Keeping the First User PID Small&quot; heading.</p>
 <blockquote>
 <p>Shell is fast and shell is slow. It is fast to hack, but slow in execution. The classic sysvinit boot logic is modelled around shell scripts.</p>
 </blockquote>
 <p>One of systemd's main goals, at least in regards to services, is to start them <strong>fast</strong>, and for this reason they are willing to sacrifice some flexibility. Due to successful deployments of systemd in Arch Linux and Fedora (among others), this idea has been proven feasible.</p>
 <p>For many services, a full blown shell script is not necessary. For example, with OpenRC's <code>sshd</code> script the <code>start</code> and <code>stop</code> jobs really only check the configuration of the service (<code>checkconfig</code> is defined elsewhere in the file) and then invoke <code>start-stop-daemon</code>. It's possible to simply call a shell script from a systemd service, but this forces the use of multiple files, and results in a loss of the speed gained from not utilizing the shell.</p>
 <h2 id="dependencies">Dependencies</h2>
-<p>In systemd dependencies are handled via the declarations <code>Wants</code>, <code>Requires</code>, and <code>After</code> in the <code>[Unit]</code> section of the <code>.service</code>. For more info visit <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/systemd#Handling_dependencies">Arch Linux's SystemD Dependencies Section</a>. For example:</p>
+<p>In systemd dependencies are handled via the declarations <code>Wants</code>, <code>Requires</code>, and <code>After</code> in the <code>[Unit]</code> section of the <code>.service</code>. For more info visit <a href="https://wiki.archlinux.org/index.php/systemd#Handling_dependencies">Arch Linux's SystemD Dependencies Section</a>. For example:</p>
 <p><strong>/etc/systemd/system/A.service</strong></p>
-<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Unit</span><span>]
-</span><span style="font-style:italic;color:#5c6773;"># Optionally depends on `C` and `D`.
-</span><span style="color:#73d0ff;">Wants</span><span>=</span><span style="color:#ff3333;">C.service D.service
-</span><span style="font-style:italic;color:#5c6773;"># Start after `D`, but concurrently with `C`
-</span><span style="color:#73d0ff;">After</span><span>=</span><span style="color:#ff3333;">D.service
-</span></code></pre>
+<pre><code>[Unit]
+# Optionally depends on `C` and `D`.
+Wants=C.service D.service
+# Start after `D`, but concurrently with `C`
+After=D.service
+</code></pre>
 <p><strong>/etc/systemd/system/B.service</strong></p>
-<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Unit</span><span>]
-</span><span style="font-style:italic;color:#5c6773;"># Strictly depend on A and Networking.
-</span><span style="color:#73d0ff;">Requires</span><span>=</span><span style="color:#ff3333;">A.service Networking.target
-</span><span style="font-style:italic;color:#5c6773;"># Start after `A`, but concurrently with `Networking`
-</span><span style="color:#73d0ff;">After</span><span>=</span><span style="color:#ff3333;">A.service
-</span></code></pre>
+<pre><code>[Unit]
+# Strictly depend on A and Networking.
+Requires=A.service Networking.target
+# Start after `A`, but concurrently with `Networking`
+After=A.service
+</code></pre>
 <p>It's rather fascinating that <code>Requires</code> and <code>Wants</code> do not imply <code>After</code> for their specified services. It does make sense though, many services do not immediately require their attached services.</p>
-<p>For OpenRC, dependencies are handled by the <code>depend</code> function of the script. For more info visit <a rel="noopener" target="_blank" href="http://www.funtoo.org/Package:OpenRC">The Funtoo OpenRC Page</a>.</p>
+<p>For OpenRC, dependencies are handled by the <code>depend</code> function of the script. For more info visit <a href="http://www.funtoo.org/Package:OpenRC">The Funtoo OpenRC Page</a>.</p>
 <p><strong>/etc/init.d/nginx</strong></p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">depend</span><span>() {
-</span><span>	</span><span style="color:#ffd580;">need</span><span> net
-</span><span>	</span><span style="color:#ffd580;">use</span><span> dns logger netmount
-</span><span>}
-</span></code></pre>
+<pre><code>depend() {
+	need net
+	use dns logger netmount
+}
+</code></pre>
 <p>There are five options:</p>
 <ul>
 <li><code>need</code> introduces a hard dependency (like <code>Require</code>)</li>
@@ -261,87 +261,87 @@ With systemd, daemon configuration is handled by .toml configuration files. With
 <p>Systemd uses a number of extra file types. Some examples are:</p>
 <ul>
 <li><code>.wants</code>, a folder with symlinks to services that are a needed by a target. For example, <code>/usr/lib/systemd/system/multi-user.target</code> has a cooresponding folder <code>/usr/lib/systemd/system/multi-user.target.wants</code> with symlinks to service files like <code>systemd-logind.service</code>, and <code>systemd-user-sessions.service</code> on CentOS 7.</li>
-<li><code>.socket</code>, denotes a <a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.socket.html">socket activated</a> configuration. It's possible to set up certain services in systemd to not start until their socket is activated on the system.</li>
-<li><code>.timer</code>, denotes a <a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.timer.html">timer based</a> activation. This fulfills some of the same roles as programs like <code>vixiecron</code> and <code>fcron</code>.</li>
+<li><code>.socket</code>, denotes a <a href="http://www.freedesktop.org/software/systemd/man/systemd.socket.html">socket activated</a> configuration. It's possible to set up certain services in systemd to not start until their socket is activated on the system.</li>
+<li><code>.timer</code>, denotes a <a href="http://www.freedesktop.org/software/systemd/man/systemd.timer.html">timer based</a> activation. This fulfills some of the same roles as programs like <code>vixiecron</code> and <code>fcron</code>.</li>
 </ul>
-<p>OpenRC allows for files in <code>/etc/conf.d</code> to be sourced for scripts of the same name in <code>/etc/init.d</code>. The advantage of this is that most scripts in <code>/etc/init.d</code> won't need to be modified (and thus can be updated safely). This is a collary to the <a rel="noopener" target="_blank" href="http://12factor.net/config">Store config in the environment</a> section of the 12factor methodology.</p>
+<p>OpenRC allows for files in <code>/etc/conf.d</code> to be sourced for scripts of the same name in <code>/etc/init.d</code>. The advantage of this is that most scripts in <code>/etc/init.d</code> won't need to be modified (and thus can be updated safely). This is a collary to the <a href="http://12factor.net/config">Store config in the environment</a> section of the 12factor methodology.</p>
 <blockquote>
 <p>Encourage the separation of configuration and runtime.</p>
 </blockquote>
 <p>Here we can see the origin of the <code>${SSHD_OPTS}</code> from the earlier example of <code>/etc/init.d/sshd</code>:</p>
 <p><strong>/etc/conf.d/sshd</strong>:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># /etc/conf.d/sshd: config file for /etc/init.d/sshd
-</span><span style="font-style:italic;color:#5c6773;"># Where is your sshd_config file stored?
-</span><span>SSHD_CONFDIR</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;/etc/ssh&quot;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Any random options you want to pass to sshd.
-</span><span style="font-style:italic;color:#5c6773;"># See the sshd(8) manpage for more info.
-</span><span>SSHD_OPTS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;&quot;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Pid file to use (needs to be absolute path).
-</span><span style="font-style:italic;color:#5c6773;">#SSHD_PIDFILE=&quot;/var/run/sshd.pid&quot;
-</span><span>
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Path to the sshd binary (needs to be absolute path).
-</span><span style="font-style:italic;color:#5c6773;">#SSHD_BINARY=&quot;/usr/sbin/sshd&quot;
-</span></code></pre>
+<pre><code># /etc/conf.d/sshd: config file for /etc/init.d/sshd
+# Where is your sshd_config file stored?
+SSHD_CONFDIR=&quot;/etc/ssh&quot;
+
+# Any random options you want to pass to sshd.
+# See the sshd(8) manpage for more info.
+SSHD_OPTS=&quot;&quot;
+
+# Pid file to use (needs to be absolute path).
+#SSHD_PIDFILE=&quot;/var/run/sshd.pid&quot;
+
+
+# Path to the sshd binary (needs to be absolute path).
+#SSHD_BINARY=&quot;/usr/sbin/sshd&quot;
+</code></pre>
 <h1 id="configuring-init-itself">Configuring Init Itself</h1>
 <p>OpenRC is configured the same way as most traditional Linux/BSD services are configured. The default configuration on Funtoo is well commented and usually self-explanatory, even including gotchas in their notes. There are a few knobs to tweak based on user preferences.</p>
 <p><strong>/etc/rc.conf</strong>:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Set to &quot;YES&quot; if you want the rc system to try and start services
-</span><span style="font-style:italic;color:#5c6773;"># in parallel for a slight speed improvement. When running in parallel we
-</span><span style="font-style:italic;color:#5c6773;"># prefix the service output with its name as the output will get
-</span><span style="font-style:italic;color:#5c6773;"># jumbled up.
-</span><span style="font-style:italic;color:#5c6773;"># WARNING: whilst we have improved parallel, it can still potentially lock
-</span><span style="font-style:italic;color:#5c6773;"># the boot process. Don&#39;t file bugs about this unless you can supply
-</span><span style="font-style:italic;color:#5c6773;"># patches that fix it without breaking other things!
-</span><span>rc_parallel</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;YES&quot;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># rc_logger launches a logging daemon to log the entire rc process to
-</span><span style="font-style:italic;color:#5c6773;"># /var/log/rc.log
-</span><span style="font-style:italic;color:#5c6773;"># NOTE: Linux systems require the devfs service to be started before
-</span><span style="font-style:italic;color:#5c6773;"># logging can take place and as such cannot log the sysinit runlevel.
-</span><span>rc_logger</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;YES&quot;
-</span></code></pre>
+<pre><code># Set to &quot;YES&quot; if you want the rc system to try and start services
+# in parallel for a slight speed improvement. When running in parallel we
+# prefix the service output with its name as the output will get
+# jumbled up.
+# WARNING: whilst we have improved parallel, it can still potentially lock
+# the boot process. Don't file bugs about this unless you can supply
+# patches that fix it without breaking other things!
+rc_parallel=&quot;YES&quot;
+
+# rc_logger launches a logging daemon to log the entire rc process to
+# /var/log/rc.log
+# NOTE: Linux systems require the devfs service to be started before
+# logging can take place and as such cannot log the sysinit runlevel.
+rc_logger=&quot;YES&quot;
+</code></pre>
 <p>systemd's configuration is similarly accessible in <code>/etc/systemd/*.conf</code>, from there it's possible to set things like the default CPU limits for processes and other things.</p>
 <p><strong>/etc/systemd/system.conf</strong>:</p>
-<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#73d0ff;">Manager</span><span>]
-</span><span style="font-style:italic;color:#5c6773;">#CPUAffinity=1 2
-</span><span style="font-style:italic;color:#5c6773;">#DefaultStandardOutput=journal
-</span><span style="font-style:italic;color:#5c6773;">#DefaultStandardError=inherit
-</span><span style="font-style:italic;color:#5c6773;">#JoinControllers=cpu,cpuacct net_cls,net_prio
-</span><span style="font-style:italic;color:#5c6773;">#RuntimeWatchdogSec=0
-</span><span style="font-style:italic;color:#5c6773;">#ShutdownWatchdogSec=10min
-</span><span style="font-style:italic;color:#5c6773;">#CapabilityBoundingSet=
-</span><span style="font-style:italic;color:#5c6773;">#TimerSlackNSec=
-</span><span style="font-style:italic;color:#5c6773;">#DefaultTimeoutStartSec=90s
-</span><span style="font-style:italic;color:#5c6773;">#DefaultTimeoutStopSec=90s
-</span><span style="font-style:italic;color:#5c6773;">#DefaultRestartSec=100ms
-</span><span style="font-style:italic;color:#5c6773;">#DefaultStartLimitInterval=10s
-</span><span style="font-style:italic;color:#5c6773;">#DefaultStartLimitBurst=5
-</span><span style="font-style:italic;color:#5c6773;">#DefaultEnvironment=
-</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitCPU=
-</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitFSIZE=
-</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitDATA=
-</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitSTACK=
-</span><span style="font-style:italic;color:#5c6773;">#DefaultLimitCORE=
-</span></code></pre>
+<pre><code>[Manager]
+#CPUAffinity=1 2
+#DefaultStandardOutput=journal
+#DefaultStandardError=inherit
+#JoinControllers=cpu,cpuacct net_cls,net_prio
+#RuntimeWatchdogSec=0
+#ShutdownWatchdogSec=10min
+#CapabilityBoundingSet=
+#TimerSlackNSec=
+#DefaultTimeoutStartSec=90s
+#DefaultTimeoutStopSec=90s
+#DefaultRestartSec=100ms
+#DefaultStartLimitInterval=10s
+#DefaultStartLimitBurst=5
+#DefaultEnvironment=
+#DefaultLimitCPU=
+#DefaultLimitFSIZE=
+#DefaultLimitDATA=
+#DefaultLimitSTACK=
+#DefaultLimitCORE=
+</code></pre>
 <p><code>journald.conf</code> offers configuration options on the journal, or logger.</p>
 <h1 id="thoughts">Thoughts</h1>
 <p>The declarative model of systemd emulates a &quot;batteries included&quot; model. It relies on integrated, homogeneous functionality in order to gain performance boosts and an encompassing feature set. Over the past few years the project has had a growing scope in the userland, as evidenced by the existance of things like the <code>logind.conf</code> and <code>journald.conf</code>, both of which used to be jobs outside of the initialization system. The regular syntax of all of these configurations does offer a boon, but at the cost of modularity and with greater complexity.</p>
 <p>OpenRC's sysvinit based startup shows it's age, but the system's lack of opinionation offers huge benefits. With OpenRC, there is no persistent daemon, though integration with supervision tools like <code>s6</code> and <code>monit</code> exist. OpenRC also plays nice with <code>*cron</code>. Keeping itself in a limited scope, and maintaining the &quot;Do one thing and do it well&quot; philosophy that gave rise to the UNIX ecosystem. It has worn it's age well, however it's reliance on old assumptions about the lifecycle of a system boot limits it's capabilities.</p>
 <h1 id="further-reading">Further Reading</h1>
 <ul>
-<li><a rel="noopener" target="_blank" href="http://www.funtoo.org/Package:OpenRC">OpenRC Dependencies</a></li>
-<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
-<li><a rel="noopener" target="_blank" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
-<li><a rel="noopener" target="_blank" href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
-<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
-<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
-<li><a rel="noopener" target="_blank" href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
-<li><a rel="noopener" target="_blank" href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
-<li><a rel="noopener" target="_blank" href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
-<li><a rel="noopener" target="_blank" href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
+<li><a href="http://www.funtoo.org/Package:OpenRC">OpenRC Dependencies</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd.html">Rethinking PID 1</a></li>
+<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Targets.html">Red Hat: Working with systemd Targets</a></li>
+<li><a href="http://www.freedesktop.org/software/systemd/man/systemd.target.html">Systemd Target</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd-update.html">Systemd status update 1</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd-update-2.html">Systemd status update 2</a></li>
+<li><a href="http://0pointer.de/blog/projects/systemd-update-3.html">Systemd status update 3</a></li>
+<li><a href="http://wiki.gentoo.org/wiki/Comparison_of_init_systems">Comparison of init Systems</a></li>
+<li><a href="http://skarnet.org/software/s6/why.html">s6 why?</a></li>
+<li><a href="https://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=2&amp;chap=4#doc_chap5">Initscripts (Gentoo Handbook)</a></li>
 </ul>
 
     </main>
@@ -349,8 +349,8 @@ With systemd, daemon configuration is handled by .toml configuration files. With
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 

@@ -17,8 +17,8 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="[object]"/>
-        <meta property='og:image' content="[object]"/>
+        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a69517729008152b00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a69517729008152b00.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -68,14 +68,14 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
     <figure class="enriched ">
         <figcaption>Photo</figcaption>
         <img srcset="
-              [object] 1920w,
-              [object] 3840w
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;009b83a09382684900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a69517729008152b00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,
                      3840px"
-              src="[object]"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;86fadbadd160e7b200.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -87,12 +87,12 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -184,119 +184,119 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 
         <p>One of my favorite features of Rust is iterators. They are a fast, safe, 'lazy' way of working with data structures, streams, and other more creative applications.</p>
 <blockquote>
-<p>You can play along on http://play.rust-lang.org/ and by browsing <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/index.html">here</a>. This article is not a subtitute for the documentation or experience.</p>
+<p>You can play along on http://play.rust-lang.org/ and by browsing <a href="http://doc.rust-lang.org/core/iter/index.html">here</a>. This article is not a subtitute for the documentation or experience.</p>
 </blockquote>
 <span id="continue-reading"></span><h2 id="our-first-iterator">Our First Iterator</h2>
 <p>Having everything twice as much is great, right? Let's take a set of values and double it!</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// First, we get a set of values.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span>[</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Create an iterator over them.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> iterator </span><span style="color:#f29e74;">=</span><span> input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Specify things to do along the chain.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> mapped </span><span style="color:#f29e74;">=</span><span> iterator</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| x </span><span style="color:#f29e74;">* </span><span style="color:#ffcc66;">2</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Do something with the output.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> mapped</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#ffa759;">usize</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span></code></pre>
+<pre><code>fn main() {
+    // First, we get a set of values.
+    let input = [1, 2, 3];
+    // Create an iterator over them.
+    let iterator = input.iter();
+    // Specify things to do along the chain.
+    let mapped = iterator.map(|&amp;x| x * 2);
+    // Do something with the output.
+    let output = mapped.collect::&lt;Vec&lt;usize&gt;&gt;();
+    println!(&quot;{:?}&quot;, output);
+}
+</code></pre>
 <p>Okay first some important things to note, even from this simple example:</p>
 <ul>
 <li><code>.iter()</code> can be used on many different types.</li>
 <li>Declare a value, <strong>then</strong> create an iterator over it. Otherwise, the value will not live long enough to be iterated over. (Iterators are lazy, and do not necessarily own their data.)</li>
-<li><code>.collect::&lt;Vec&lt;usize&gt;&gt;()</code> iterates over the entire iterator and places their values into the type of data collection we specify. (If you feel like writing your own data structure, have a look at <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html#tymethod.from_iter">this</a>.)</li>
+<li><code>.collect::&lt;Vec&lt;usize&gt;&gt;()</code> iterates over the entire iterator and places their values into the type of data collection we specify. (If you feel like writing your own data structure, have a look at <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html#tymethod.from_iter">this</a>.)</li>
 <li>It can be used and chained! You don't necessarily need to <code>.collect()</code> values at the end of a <code>.map()</code> call.</li>
 </ul>
 <h2 id="n-at-a-time"><code>n</code> at a Time</h2>
 <p>You can access the next element in an iterator with <code>.next()</code>. If you'd like a batch you can use <code>.take(n)</code> to create a new iterator that goes over the next <code>n</code> elements. Have a few you don't care about? Use <code>.skip(n)</code> to discard <code>n</code> elements.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> vals </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let mut</span><span> iter </span><span style="color:#f29e74;">=</span><span> vals</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> iter</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">next</span><span>())</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> iter</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">skip</span><span>(</span><span style="color:#ffcc66;">2</span><span>)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">take</span><span>(</span><span style="color:#ffcc66;">2</span><span>)
-</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;())</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Ouputs:
-</span><span style="font-style:italic;color:#5c6773;">// Some(1)
-</span><span style="font-style:italic;color:#5c6773;">// [4, 5]
-</span></code></pre>
+<pre><code>fn main() {
+    let vals = [ 1, 2, 3, 4, 5];
+    let mut iter = vals.iter();
+    println!(&quot;{:?}&quot;, iter.next());
+    println!(&quot;{:?}&quot;, iter.skip(2).take(2)
+        .collect::&lt;Vec&lt;_&gt;&gt;());
+}
+// Ouputs:
+// Some(1)
+// [4, 5]
+</code></pre>
 <h2 id="observing-laziness">Observing Laziness</h2>
 <p>We talked about how Iterators are lazy, but our first example didn't really demonstrate that. Let's use <code>.inspect()</code> calls to observe evaluation.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span>[</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> iterator </span><span style="color:#f29e74;">=</span><span> input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> mapped </span><span style="color:#f29e74;">=</span><span> iterator
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">inspect</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Pre map:</span><span style="color:#95e6cb;">\t</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> x))
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| x </span><span style="color:#f29e74;">* </span><span style="color:#ffcc66;">10</span><span>) </span><span style="font-style:italic;color:#5c6773;">// This gets fed into...
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">inspect</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;First map:</span><span style="color:#95e6cb;">\t</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> x))
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|</span><span style="color:#ffcc66;">x</span><span>| x </span><span style="color:#f29e74;">+ </span><span style="color:#ffcc66;">5</span><span>)   </span><span style="font-style:italic;color:#5c6773;">// ... This.
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">inspect</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Second map:</span><span style="color:#95e6cb;">\t</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> x))</span><span style="color:#ccc9c2cc;">;
-</span><span>    mapped</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#ffa759;">usize</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span></code></pre>
+<pre><code>fn main() {
+    let input = [1, 2, 3];
+    let iterator = input.iter();
+    let mapped = iterator
+        .inspect(|&amp;x| println!(&quot;Pre map:\t{}&quot;, x))
+        .map(|&amp;x| x * 10) // This gets fed into...
+        .inspect(|&amp;x| println!(&quot;First map:\t{}&quot;, x))
+        .map(|x| x + 5)   // ... This.
+        .inspect(|&amp;x| println!(&quot;Second map:\t{}&quot;, x));
+    mapped.collect::&lt;Vec&lt;usize&gt;&gt;();
+}
+</code></pre>
 <p>The output is:</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>Pre map</span><span style="color:#ccc9c2cc;">:    </span><span style="color:#ffcc66;">1
-</span><span>First map</span><span style="color:#ccc9c2cc;">:  </span><span style="color:#ffcc66;">10
-</span><span>Second map</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">15
-</span><span>Pre map</span><span style="color:#ccc9c2cc;">:    </span><span style="color:#ffcc66;">2
-</span><span>First map</span><span style="color:#ccc9c2cc;">:  </span><span style="color:#ffcc66;">20
-</span><span>Second map</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">25
-</span><span>Pre map</span><span style="color:#ccc9c2cc;">:    </span><span style="color:#ffcc66;">3
-</span><span>First map</span><span style="color:#ccc9c2cc;">:  </span><span style="color:#ffcc66;">30
-</span><span>Second map</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">35
-</span></code></pre>
+<pre><code>Pre map:    1
+First map:  10
+Second map: 15
+Pre map:    2
+First map:  20
+Second map: 25
+Pre map:    3
+First map:  30
+Second map: 35
+</code></pre>
 <p>As you can see, the map functions are only evaluated as the iterator is moved through. (Otherwise we would see <code>1</code>, <code>2</code>, <code>3</code>, <code>10</code>, ...)</p>
 <blockquote>
 <p>Note how <code>.inspect()</code> only provides its function a <code>&amp;x</code> instead of a <code>&amp;mut</code> or the value itself. This prevents mutation and ensures that your inspection won't disturb the data pipeline.</p>
 </blockquote>
 <p>This has some really cool implications, for example, we can have infinite or cycling iterators.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span>[</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// This tells the iterator to cycle over itself.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> cycled </span><span style="color:#f29e74;">=</span><span> input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">cycle</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> cycled</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">take</span><span>(</span><span style="color:#ffcc66;">9</span><span>)
-</span><span>        </span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">usize</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs [1, 2, 3, 1, 2, 3, 1, 2, 3]
-</span></code></pre>
+<pre><code>fn main() {
+    let input = [1, 2, 3];
+    // This tells the iterator to cycle over itself.
+    let cycled = input.iter().cycle();
+    let output = cycled.take(9)
+        .collect::&lt;Vec&lt;&amp;usize&gt;&gt;();
+    println!(&quot;{:?}&quot;, output);
+}
+// Outputs [1, 2, 3, 1, 2, 3, 1, 2, 3]
+</code></pre>
 <h2 id="something-in-common">Something In Common</h2>
 <p>Don't get hung up thinking that <code>[1, 2, 3]</code> and it's ilk are the only things you can use iterators on.</p>
-<p>Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/?search=iter%28%29"><code>iter()</code></a>.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>collections</span><span style="color:#f29e74;">::</span><span>VecDeque</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Create a Vector of values.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">vec!</span><span>[</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> iterator </span><span style="color:#f29e74;">=</span><span> input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> mapped </span><span style="color:#f29e74;">=</span><span> iterator</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| {
-</span><span>            </span><span style="color:#ffa759;">return</span><span> x </span><span style="color:#f29e74;">* </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">;
-</span><span>        })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Gather the result in a RingBuf.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> mapped</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;VecDeque&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs [2, 4, 6]
-</span></code></pre>
-<p>Notice how here we collect into a VecDeque? That's because it implements <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>.</p>
+<p>Many data structures support this style, we can use things like Vectors and VecDeques as well! Look for things that implement <a href="http://doc.rust-lang.org/std/?search=iter%28%29"><code>iter()</code></a>.</p>
+<pre><code>use std::collections::VecDeque;
+
+fn main() {
+    // Create a Vector of values.
+    let input = vec![1, 2, 3];
+    let iterator = input.iter();
+    let mapped = iterator.map(|&amp;x| {
+            return x * 2;
+        });
+    // Gather the result in a RingBuf.
+    let output = mapped.collect::&lt;VecDeque&lt;_&gt;&gt;();
+    println!(&quot;{:?}&quot;, output);
+}
+// Outputs [2, 4, 6]
+</code></pre>
+<p>Notice how here we collect into a VecDeque? That's because it implements <a href="http://doc.rust-lang.org/std/iter/trait.FromIterator.html"><code>FromIterator</code></a>.</p>
 <p>Now you're probably thinking, <em>&quot;Ah hah! I bet you can't use a HashMap or tree or something, Hoverbear!&quot;</em> Well, you're wrong! You can!</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>collections</span><span style="color:#f29e74;">::</span><span>HashMap</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Initialize an input map.
-</span><span>    </span><span style="color:#ffa759;">let mut</span><span> input </span><span style="color:#f29e74;">= </span><span>HashMap</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="color:#ffa759;">u64</span><span>, </span><span style="color:#ffa759;">u64</span><span>&gt;</span><span style="color:#f29e74;">::</span><span>new()</span><span style="color:#ccc9c2cc;">;
-</span><span>    input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">10</span><span>)</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Type inferred here.
-</span><span>    input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">20</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">insert</span><span>(</span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">30</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Continue...
-</span><span>    </span><span style="color:#ffa759;">let</span><span> iterator </span><span style="color:#f29e74;">=</span><span> input</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> mapped </span><span style="color:#f29e74;">=</span><span> iterator</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|(&amp;</span><span style="color:#ffcc66;">key</span><span style="color:#ccc9c2cc;">,</span><span> &amp;</span><span style="color:#ffcc66;">value</span><span>)| {
-</span><span>            </span><span style="color:#ffa759;">return </span><span>(key</span><span style="color:#ccc9c2cc;">,</span><span> value </span><span style="color:#f29e74;">* </span><span style="color:#ffcc66;">10</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>        })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> mapped</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// [(1, 100), (3, 300), (2, 200)]
-</span></code></pre>
+<pre><code>use std::collections::HashMap;
+fn main() {
+    // Initialize an input map.
+    let mut input = HashMap::&lt;u64, u64&gt;::new();
+    input.insert(1, 10); // Type inferred here.
+    input.insert(2, 20);
+    input.insert(3, 30);
+    // Continue...
+    let iterator = input.iter();
+    let mapped = iterator.map(|(&amp;key, &amp;value)| {
+            return (key, value * 10);
+        });
+    let output = mapped.collect::&lt;Vec&lt;_&gt;&gt;();
+    println!(&quot;{:?}&quot;, output);
+}
+// [(1, 100), (3, 300), (2, 200)]
+</code></pre>
 <p>When we're iterating over a HashMap the <code>.map()</code> function changes to accept a tuple, and <code>.collect()</code> recieves tuples. Of course, you can collect back into a HashMap (or whatever), too.</p>
 <p>Did you notice how the ordering changed? HashMap's aren't necessarily in order. Be aware of this!</p>
 <blockquote>
@@ -304,212 +304,212 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
 </blockquote>
 <h2 id="writing-an-iterator">Writing an Iterator</h2>
 <p>Okay so we've seen a taste of the kind of things that might offer iterators, but we can also make our own. What about an iterator that counts up indefinitely?</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">CountUp </span><span>{
-</span><span>    current</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize</span><span>,
-</span><span>}
-</span><span>
-</span><span style="color:#ffa759;">impl </span><span>Iterator </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">CountUp </span><span>{
-</span><span>    </span><span style="color:#ffa759;">type </span><span style="color:#73d0ff;">Item </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">usize</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// The only fn we need to provide for a basic iterator.
-</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">next</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">self</span><span>) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Option</span><span>&lt;</span><span style="color:#ffa759;">usize</span><span>&gt; {
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span>current </span><span style="color:#f29e74;">+= </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="font-style:italic;color:#5ccfe6;">Some</span><span>(</span><span style="font-style:italic;color:#5ccfe6;">self</span><span style="color:#f29e74;">.</span><span>current)
-</span><span>    }
-</span><span>}
-</span><span>
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// In more sophisticated code use `::new()` from `impl CountUp`
-</span><span>    </span><span style="color:#ffa759;">let</span><span> iterator </span><span style="color:#f29e74;">=</span><span> CountUp { current</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">0 </span><span>}</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// This is an infinite iterator, only take so many.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> iterator</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">take</span><span>(</span><span style="color:#ffcc66;">20</span><span>)</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-</span></code></pre>
+<pre><code>struct CountUp {
+    current: usize,
+}
+
+impl Iterator for CountUp {
+    type Item = usize;
+    // The only fn we need to provide for a basic iterator.
+    fn next(&amp;mut self) -&gt; Option&lt;usize&gt; {
+        self.current += 1;
+        Some(self.current)
+    }
+}
+
+fn main() {
+    // In more sophisticated code use `::new()` from `impl CountUp`
+    let iterator = CountUp { current: 0 };
+    // This is an infinite iterator, only take so many.
+    let output = iterator.take(20).collect::&lt;Vec&lt;_&gt;&gt;();
+    println!(&quot;{:?}&quot;, output);
+}
+// Outputs [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+</code></pre>
 <p>We didn't have to call <code>.iter()</code> here, and that makes sense, since we're actually implementing an iterator. (Not transforming something into an iterator like before.)</p>
 <blockquote>
 <p>Try changing the <code>current</code> and <code>.take()</code> values.</p>
 </blockquote>
-<p>See how we could use <code>.take()</code> and other functions without having to implement them separately for our new iterator? If you look at <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/index.html#traits">the docs</a> of for <code>iter</code> you'll see that there are various traits like <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/trait.Iterator.html"><code>Iterator</code></a>, <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/core/iter/trait.RandomAccessIterator.html"><code>RandomAccessIterator</code></a>.</p>
+<p>See how we could use <code>.take()</code> and other functions without having to implement them separately for our new iterator? If you look at <a href="http://doc.rust-lang.org/core/iter/index.html#traits">the docs</a> of for <code>iter</code> you'll see that there are various traits like <a href="http://doc.rust-lang.org/core/iter/trait.Iterator.html"><code>Iterator</code></a>, <a href="http://doc.rust-lang.org/core/iter/trait.RandomAccessIterator.html"><code>RandomAccessIterator</code></a>.</p>
 <h2 id="out-on-the-range-with-ranges">Out on the Range with Ranges</h2>
-<p>Throughout the following examples you'll see use of the <code>x..y</code> syntax. This creates a <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a>. They implement <code>Iterator</code>	so we don't need to call <code>.iter()</code> on them. You can also use <code>(0..100).step_by(2)</code> if you want to use specific step increments if you're using them as <code>Iterator</code>s.</p>
+<p>Throughout the following examples you'll see use of the <code>x..y</code> syntax. This creates a <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a>. They implement <code>Iterator</code>	so we don't need to call <code>.iter()</code> on them. You can also use <code>(0..100).step_by(2)</code> if you want to use specific step increments if you're using them as <code>Iterator</code>s.</p>
 <p>Note that they are open ended, and not inclusive.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">5 </span><span style="color:#f29e74;">== </span><span>[ </span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span>]
-</span><span style="color:#ffcc66;">2</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">6 </span><span style="color:#f29e74;">== </span><span>[ </span><span style="color:#ffcc66;">2</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">3</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">4</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">, </span><span>]
-</span></code></pre>
+<pre><code>0..5 == [ 0, 1, 2, 3, 4, ]
+2..6 == [ 2, 3, 4, 5, ]
+</code></pre>
 <p>We can also index into our collections.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> range </span><span style="color:#f29e74;">= </span><span>(</span><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">10</span><span>)</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#ffa759;">usize</span><span>&gt;&gt;()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#f29e74;">&amp;</span><span>range[</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">5</span><span>])</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#f29e74;">&amp;</span><span>range[</span><span style="color:#ffcc66;">2</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">5</span><span>])</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#f29e74;">&amp;</span><span>range[</span><span style="color:#ffcc66;">7</span><span style="color:#f29e74;">..</span><span>])</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs:
-</span><span style="font-style:italic;color:#5c6773;">// [0, 1, 2, 3, 4]
-</span><span style="font-style:italic;color:#5c6773;">// [2, 3, 4]
-</span><span style="font-style:italic;color:#5c6773;">// [7, 8, 9]
-</span></code></pre>
+<pre><code>fn main() {
+    let range = (0..10).collect::&lt;Vec&lt;usize&gt;&gt;();
+    println!(&quot;{:?}&quot;, &amp;range[..5]);
+    println!(&quot;{:?}&quot;, &amp;range[2..5]);
+    println!(&quot;{:?}&quot;, &amp;range[7..]);
+}
+// Outputs:
+// [0, 1, 2, 3, 4]
+// [2, 3, 4]
+// [7, 8, 9]
+</code></pre>
 <blockquote>
-<p>Gotcha: Using <code>.step_by()</code> doesn't work this way since <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/struct.StepBy.html"><code>StepBy</code></a> doesn't implement <code>Idx</code> and <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a> does.</p>
+<p>Gotcha: Using <code>.step_by()</code> doesn't work this way since <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/struct.StepBy.html"><code>StepBy</code></a> doesn't implement <code>Idx</code> and <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/ops/struct.Range.html"><code>Range</code></a> does.</p>
 </blockquote>
 <h2 id="chaining-and-zipping">Chaining and Zipping</h2>
 <p>Putting together interators in various ways allows for some very nice, expressive code.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Demonstrate Chain
-</span><span>    </span><span style="color:#ffa759;">let</span><span> first </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> second </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">5</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> chained </span><span style="color:#f29e74;">=</span><span> first</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">chain</span><span>(second)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Chained: </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> chained</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;())</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Demonstrate Zip
-</span><span>    </span><span style="color:#ffa759;">let</span><span> first </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">5</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> second </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">5</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> zipped </span><span style="color:#f29e74;">=</span><span> first</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">zip</span><span>(second)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Zipped: </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> zipped</span><span style="color:#f29e74;">.</span><span>collect</span><span style="color:#f29e74;">::</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;())</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Chained: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-</span><span style="font-style:italic;color:#5c6773;">// Zipped: [(0, 5), (1, 6), (2, 7), (3, 8), (4, 9)]
-</span></code></pre>
-<p><code>.zip()</code> allows you to merge iterators, while <code>.chain()</code> effectively creates an &quot;extended&quot; iterator. Yes, there is an <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.Iterator.html#method.unzip"><code>.unzip()</code></a>.</p>
+<pre><code>fn main() {
+    // Demonstrate Chain
+    let first = 0..5;
+    let second = 5..10;
+    let chained = first.chain(second);
+    println!(&quot;Chained: {:?}&quot;, chained.collect::&lt;Vec&lt;_&gt;&gt;());
+    // Demonstrate Zip
+    let first = 0..5;
+    let second = 5..10;
+    let zipped = first.zip(second);
+    println!(&quot;Zipped: {:?}&quot;, zipped.collect::&lt;Vec&lt;_&gt;&gt;());
+}
+// Chained: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+// Zipped: [(0, 5), (1, 6), (2, 7), (3, 8), (4, 9)]
+</code></pre>
+<p><code>.zip()</code> allows you to merge iterators, while <code>.chain()</code> effectively creates an &quot;extended&quot; iterator. Yes, there is an <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.Iterator.html#method.unzip"><code>.unzip()</code></a>.</p>
 <blockquote>
 <p>Try using <code>.zip()</code> on two <code>usize</code> slices then <code>.collect()</code> the resulting tuples to build up a HashMap.</p>
 </blockquote>
 <h2 id="getting-inquisistive">Getting Inquisistive</h2>
 <p><code>.count()</code>, <code>.max_by()</code>, <code>.min_by()</code>, <code>.all()</code>, and <code>.any()</code>, are common ways to inquire into an iterator.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ccc9c2cc;">#!</span><span>[</span><span style="color:#ffd580;">feature</span><span>(core)] </span><span style="font-style:italic;color:#5c6773;">// Must be run on nightly at time of publishing.
-</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Eq</span><span style="color:#ccc9c2cc;">,</span><span> PartialEq</span><span style="color:#ccc9c2cc;">,</span><span> Debug)]
-</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">BearSpecies </span><span>{ Brown</span><span style="color:#ccc9c2cc;">,</span><span> Black</span><span style="color:#ccc9c2cc;">,</span><span> Polar</span><span style="color:#ccc9c2cc;">,</span><span> Grizzly }
-</span><span>
-</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Debug)]
-</span><span style="color:#ffa759;">struct </span><span style="color:#73d0ff;">Bear </span><span>{
-</span><span>    species</span><span style="color:#ccc9c2cc;">:</span><span> BearSpecies,
-</span><span>    age</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffa759;">usize
-</span><span>}
-</span><span>
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> bears </span><span style="color:#f29e74;">= </span><span>[
-</span><span>        Bear { species</span><span style="color:#ccc9c2cc;">: </span><span>BearSpecies</span><span style="color:#f29e74;">::</span><span>Brown</span><span style="color:#ccc9c2cc;">,</span><span> age</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">5 </span><span>}</span><span style="color:#ccc9c2cc;">,
-</span><span>        Bear { species</span><span style="color:#ccc9c2cc;">: </span><span>BearSpecies</span><span style="color:#f29e74;">::</span><span>Black</span><span style="color:#ccc9c2cc;">,</span><span> age</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">12 </span><span>}</span><span style="color:#ccc9c2cc;">,
-</span><span>        Bear { species</span><span style="color:#ccc9c2cc;">: </span><span>BearSpecies</span><span style="color:#f29e74;">::</span><span>Polar</span><span style="color:#ccc9c2cc;">,</span><span> age</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">15 </span><span>}</span><span style="color:#ccc9c2cc;">,
-</span><span>        Bear { species</span><span style="color:#ccc9c2cc;">: </span><span>BearSpecies</span><span style="color:#f29e74;">::</span><span>Grizzly</span><span style="color:#ccc9c2cc;">,</span><span> age</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">16 </span><span>}</span><span style="color:#ccc9c2cc;">,
-</span><span>    ]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Max/Min of a set.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> oldest </span><span style="color:#f29e74;">=</span><span> bears</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">max_by</span><span>(|</span><span style="color:#ffcc66;">x</span><span>| x</span><span style="color:#f29e74;">.</span><span>age)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> youngest </span><span style="color:#f29e74;">=</span><span> bears</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">min_by</span><span>(|</span><span style="color:#ffcc66;">x</span><span>| x</span><span style="color:#f29e74;">.</span><span>age)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Oldest: </span><span style="color:#ffcc66;">{:?}</span><span style="color:#95e6cb;">\n</span><span style="color:#bae67e;">Youngest: </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> oldest</span><span style="color:#ccc9c2cc;">,</span><span> youngest)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Any/All
-</span><span>    </span><span style="color:#ffa759;">let</span><span> has_polarbear </span><span style="color:#f29e74;">=</span><span> bears</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">any</span><span>(|</span><span style="color:#ffcc66;">x</span><span>| {
-</span><span>        x</span><span style="color:#f29e74;">.</span><span>species </span><span style="color:#f29e74;">== </span><span>BearSpecies</span><span style="color:#f29e74;">::</span><span>Polar
-</span><span>    })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> all_minors </span><span style="color:#f29e74;">=</span><span> bears</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">all</span><span>(|</span><span style="color:#ffcc66;">x</span><span>| {
-</span><span>        x</span><span style="color:#f29e74;">.</span><span>age </span><span style="color:#f29e74;">&lt;= </span><span style="color:#ffcc66;">18
-</span><span>    })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;At least one polarbear?: </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> has_polarbear)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Are they all minors? (&lt;18): </span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> all_minors)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs:
-</span><span style="font-style:italic;color:#5c6773;">// Oldest: Some(Bear { species: Grizzly, age: 16 })
-</span><span style="font-style:italic;color:#5c6773;">// Youngest: Some(Bear { species: Brown, age: 5 })
-</span><span style="font-style:italic;color:#5c6773;">// At least one polarbear?: true
-</span><span style="font-style:italic;color:#5c6773;">// Are they all minors? (&lt;18): true
-</span></code></pre>
+<pre><code>#![feature(core)] // Must be run on nightly at time of publishing.
+#[derive(Eq, PartialEq, Debug)]
+enum BearSpecies { Brown, Black, Polar, Grizzly }
+
+#[derive(Debug)]
+struct Bear {
+    species: BearSpecies,
+    age: usize
+}
+
+fn main() {
+    let bears = [
+        Bear { species: BearSpecies::Brown, age: 5 },
+        Bear { species: BearSpecies::Black, age: 12 },
+        Bear { species: BearSpecies::Polar, age: 15 },
+        Bear { species: BearSpecies::Grizzly, age: 16 },
+    ];
+    // Max/Min of a set.
+    let oldest = bears.iter().max_by(|x| x.age);
+    let youngest = bears.iter().min_by(|x| x.age);
+    println!(&quot;Oldest: {:?}\nYoungest: {:?}&quot;, oldest, youngest);
+    // Any/All
+    let has_polarbear = bears.iter().any(|x| {
+        x.species == BearSpecies::Polar
+    });
+    let all_minors = bears.iter().all(|x| {
+        x.age &lt;= 18
+    });
+    println!(&quot;At least one polarbear?: {:?}&quot;, has_polarbear);
+    println!(&quot;Are they all minors? (&lt;18): {:?}&quot;, all_minors);
+}
+// Outputs:
+// Oldest: Some(Bear { species: Grizzly, age: 16 })
+// Youngest: Some(Bear { species: Brown, age: 5 })
+// At least one polarbear?: true
+// Are they all minors? (&lt;18): true
+</code></pre>
 <blockquote>
 <p>Try using the same iterator all of the above calls. <code>.any()</code> is the only one that borrows mutably, and won't work the same as the others. This is because it might not necessarily consume the entire iterator.</p>
 </blockquote>
 <h2 id="filter-map-red-wait-fold">Filter, Map, Red... Wait... Fold</h2>
 <p>If you're used to Javascript like me, you probably expect the holy trinity of <code>.filter()</code>, <code>.map()</code>, <code>.reduce()</code>. Well, they're all there in Rust too, but <code>.reduce()</code> is called <code>.fold()</code> which I kind of prefer.</p>
 <p>A basic example:</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">1</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> input
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">filter</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">item</span><span>| item </span><span style="color:#f29e74;">% </span><span style="color:#ffcc66;">2 </span><span style="color:#f29e74;">== </span><span style="color:#ffcc66;">0</span><span>) </span><span style="font-style:italic;color:#5c6773;">// Keep Evens
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|</span><span style="color:#ffcc66;">item</span><span>| item </span><span style="color:#f29e74;">* </span><span style="color:#ffcc66;">2</span><span>) </span><span style="font-style:italic;color:#5c6773;">// Multiply by two.
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">fold</span><span>(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span>|</span><span style="color:#ffcc66;">accumulator</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">item</span><span>| accumulator </span><span style="color:#f29e74;">+</span><span> item)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span></code></pre>
+<pre><code>fn main() {
+    let input = 1..10;
+    let output = input
+        .filter(|&amp;item| item % 2 == 0) // Keep Evens
+        .map(|item| item * 2) // Multiply by two.
+        .fold(0, |accumulator, item| accumulator + item);
+    println!(&quot;{}&quot;, output);
+}
+</code></pre>
 <p>Of course, don't start trying to be too clever, the above could simply be:</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">1</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">=</span><span> input
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">fold</span><span>(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span>|</span><span style="color:#ffcc66;">acc</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">item</span><span>| {
-</span><span>            </span><span style="color:#ffa759;">if</span><span> b </span><span style="color:#f29e74;">% </span><span style="color:#ffcc66;">2 </span><span style="color:#f29e74;">== </span><span style="color:#ffcc66;">0 </span><span>{
-</span><span>                acc </span><span style="color:#f29e74;">+ </span><span>(item</span><span style="color:#f29e74;">*</span><span style="color:#ffcc66;">2</span><span>)
-</span><span>            } </span><span style="color:#ffa759;">else </span><span>{
-</span><span>                acc
-</span><span>            }
-</span><span>        })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> output)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span></code></pre>
+<pre><code>fn main() {
+    let input = 1..10;
+    let output = input
+        .fold(0, |acc, item| {
+            if b % 2 == 0 {
+                acc + (item*2)
+            } else {
+                acc
+            }
+        });
+    println!(&quot;{}&quot;, output);
+}
+</code></pre>
 <p>The ability to approach problems like this in multiple ways allows Rust to be quite flexible and expressive.</p>
 <h2 id="split-scan">Split &amp; Scan</h2>
-<p>There is also <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.scan"><code>scan</code></a> if you need a variation of folding which yeilds the result each time. This is useful if you're waiting for a certain accumulated amount and wish to check on each iteration.</p>
-<p>Splitting an iterator up into two parts is possible. You can just use a simple grouping function that returns a boolean with <a rel="noopener" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.aIterator.html#method.partition"><code>partition</code></a>.</p>
+<p>There is also <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.scan"><code>scan</code></a> if you need a variation of folding which yeilds the result each time. This is useful if you're waiting for a certain accumulated amount and wish to check on each iteration.</p>
+<p>Splitting an iterator up into two parts is possible. You can just use a simple grouping function that returns a boolean with <a href="https://doc.rust-lang.org/std/iter/trait.aIterator.html#method.partition"><code>partition</code></a>.</p>
 <p>Let's use the two concepts to split up a big slice, group it be evens and odds, then progressively sum them up and make sure that the some of the evens is always less than the sum of the odds. (This is because <code>even</code> starts at 0.)</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> set </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">1000</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let </span><span>(even</span><span style="color:#ccc9c2cc;">,</span><span> odd)</span><span style="color:#ccc9c2cc;">: </span><span>(</span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;</span><span style="color:#ccc9c2cc;">, </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;) </span><span style="color:#f29e74;">=</span><span> set</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">partition</span><span>(|</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">n</span><span>| n </span><span style="color:#f29e74;">% </span><span style="color:#ffcc66;">2 </span><span style="color:#f29e74;">== </span><span style="color:#ffcc66;">0</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> even_scanner </span><span style="color:#f29e74;">=</span><span> even</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">scan</span><span>(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span>|</span><span style="color:#ffcc66;">acc</span><span style="color:#ccc9c2cc;">, </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| { </span><span style="color:#f29e74;">*</span><span>acc </span><span style="color:#f29e74;">+=</span><span> x</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5ccfe6;">Some</span><span>(</span><span style="color:#f29e74;">*</span><span>acc) })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> odd_scanner  </span><span style="color:#f29e74;">=</span><span> odd</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">iter</span><span>()</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">scan</span><span>(</span><span style="color:#ffcc66;">0</span><span style="color:#ccc9c2cc;">, </span><span>|</span><span style="color:#ffcc66;">acc</span><span style="color:#ccc9c2cc;">, </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">x</span><span>| { </span><span style="color:#f29e74;">*</span><span>acc </span><span style="color:#f29e74;">+=</span><span> x</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5ccfe6;">Some</span><span>(</span><span style="color:#f29e74;">*</span><span>acc) })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> even_always_less </span><span style="color:#f29e74;">=</span><span> even_scanner</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">zip</span><span>(odd_scanner)
-</span><span>        </span><span style="color:#f29e74;">.</span><span style="color:#f28779;">all</span><span>(|(</span><span style="color:#ffcc66;">e</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">o</span><span>)| e </span><span style="color:#f29e74;">&lt;=</span><span> o)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;Even was always less: </span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> even_always_less)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs:
-</span><span style="font-style:italic;color:#5c6773;">// Even was always less: true
-</span></code></pre>
+<pre><code>fn main() {
+    let set = 0..1000;
+    let (even, odd): (Vec&lt;_&gt;, Vec&lt;_&gt;) = set.partition(|&amp;n| n % 2 == 0);
+    let even_scanner = even.iter().scan(0, |acc, &amp;x| { *acc += x; Some(*acc) });
+    let odd_scanner  = odd.iter().scan(0, |acc, &amp;x| { *acc += x; Some(*acc) });
+    let even_always_less = even_scanner.zip(odd_scanner)
+        .all(|(e, o)| e &lt;= o);
+    println!(&quot;Even was always less: {}&quot;, even_always_less);
+}
+// Outputs:
+// Even was always less: true
+</code></pre>
 <p>Scanning can be used to provide things like a moving average. This is useful when reading through files, data, and sensors. Partitioning is a common task when shuffling through data.</p>
-<p>Another common goal is to group elements together based on a specific value. Now, if you're expecting something like <a rel="noopener" target="_blank" href="https://lodash.com/docs#groupBy"><code>_.groupBy()</code></a> from Lodash it's not quite that simple. Consider: Rust has <code>BTreeMap</code>, <code>HashMap</code>, <code>VecMap</code>, and other data types, our grouping method should not be opinionated.</p>
+<p>Another common goal is to group elements together based on a specific value. Now, if you're expecting something like <a href="https://lodash.com/docs#groupBy"><code>_.groupBy()</code></a> from Lodash it's not quite that simple. Consider: Rust has <code>BTreeMap</code>, <code>HashMap</code>, <code>VecMap</code>, and other data types, our grouping method should not be opinionated.</p>
 <p>To use a simple example, let's make an infinite iterator that cycles from 0 to 5 inclusively. In your own code these could be complex structs or tuples, but for now, simple integers are fine. We'll group them into into three categories, 0s, 5s, and the rest.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>collections</span><span style="color:#f29e74;">::</span><span>HashMap</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Debug</span><span style="color:#ccc9c2cc;">,</span><span> PartialEq</span><span style="color:#ccc9c2cc;">,</span><span> Eq</span><span style="color:#ccc9c2cc;">,</span><span> Hash)]
-</span><span style="color:#ffa759;">enum </span><span style="color:#73d0ff;">Kind </span><span>{ Zero</span><span style="color:#ccc9c2cc;">,</span><span> Five</span><span style="color:#ccc9c2cc;">,</span><span> Other }
-</span><span>
-</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> values </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">6</span><span style="color:#ccc9c2cc;">; </span><span style="font-style:italic;color:#5c6773;">// Not inclusive.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> cycling </span><span style="color:#f29e74;">=</span><span> values</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">cycle</span><span>()</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Group them into a HashMap.
-</span><span>    </span><span style="color:#ffa759;">let</span><span> grouped </span><span style="color:#f29e74;">=</span><span> cycling</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">take</span><span>(</span><span style="color:#ffcc66;">20</span><span>)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">map</span><span>(|</span><span style="color:#ffcc66;">x</span><span>| {
-</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Return a tuple matching the (key, value) desired.
-</span><span>        </span><span style="color:#ffa759;">match</span><span> x {
-</span><span>            x </span><span style="color:#ffa759;">if</span><span> x </span><span style="color:#f29e74;">== </span><span style="color:#ffcc66;">5 </span><span style="color:#f29e74;">=&gt; </span><span>(Kind</span><span style="color:#f29e74;">::</span><span>Five</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">5</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>            x </span><span style="color:#ffa759;">if</span><span> x </span><span style="color:#f29e74;">== </span><span style="color:#ffcc66;">0 </span><span style="color:#f29e74;">=&gt; </span><span>(Kind</span><span style="color:#f29e74;">::</span><span>Zero</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">0</span><span>)</span><span style="color:#ccc9c2cc;">,
-</span><span>            x </span><span style="color:#f29e74;">=&gt; </span><span>(Kind</span><span style="color:#f29e74;">::</span><span>Other</span><span style="color:#ccc9c2cc;">,</span><span> x)</span><span style="color:#ccc9c2cc;">,
-</span><span>        }
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Accumulate the values
-</span><span>    })</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">fold</span><span>(HashMap</span><span style="color:#f29e74;">::</span><span>&lt;Kind, </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span>&lt;</span><span style="color:#f29e74;">_</span><span>&gt;&gt;</span><span style="color:#f29e74;">::</span><span>new()</span><span style="color:#ccc9c2cc;">, </span><span>|</span><span style="color:#ffa759;">mut </span><span style="color:#ffcc66;">acc</span><span style="color:#ccc9c2cc;">, </span><span>(</span><span style="color:#ffcc66;">k</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffcc66;">x</span><span>)| {
-</span><span>        acc</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">entry</span><span>(k)</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">or_insert</span><span>(</span><span style="color:#f28779;">vec!</span><span>[])</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">push</span><span>(x)</span><span style="color:#ccc9c2cc;">;
-</span><span>        acc
-</span><span>    })</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> grouped)</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Outputs: {Zero: [0, 0, 0, 0], Five: [5, 5, 5], Other: [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1]}
-</span></code></pre>
+<pre><code>use std::collections::HashMap;
+
+#[derive(Debug, PartialEq, Eq, Hash)]
+enum Kind { Zero, Five, Other }
+
+fn main() {
+    let values = 0..6; // Not inclusive.
+    let cycling = values.cycle();
+    // Group them into a HashMap.
+    let grouped = cycling.take(20).map(|x| {
+        // Return a tuple matching the (key, value) desired.
+        match x {
+            x if x == 5 =&gt; (Kind::Five, 5),
+            x if x == 0 =&gt; (Kind::Zero, 0),
+            x =&gt; (Kind::Other, x),
+        }
+    // Accumulate the values
+    }).fold(HashMap::&lt;Kind, Vec&lt;_&gt;&gt;::new(), |mut acc, (k, x)| {
+        acc.entry(k).or_insert(vec![]).push(x);
+        acc
+    });
+    println!(&quot;{:?}&quot;, grouped);
+}
+// Outputs: {Zero: [0, 0, 0, 0], Five: [5, 5, 5], Other: [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1]}
+</code></pre>
 <blockquote>
 <p>It's kind of pointless to store all those replicated values. Try having this example return the number of occurances instead of the values. As a further exploration try using this method on a more complex value like a <code>struct</code>, you can also change what keys are used.</p>
 </blockquote>
 <h2 id="flanked">Flanked</h2>
-<p>The <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> trait is useful for certain purposes. For example, when you need the behavior of both of queue and a stack.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let mut</span><span> vals </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">0</span><span style="color:#f29e74;">..</span><span style="color:#ffcc66;">10</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> vals</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">next</span><span>())</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> vals</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">next_back</span><span>())</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> vals</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">next</span><span>())</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{:?}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> vals</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">next_back</span><span>())</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span style="font-style:italic;color:#5c6773;">// Some(0)
-</span><span style="font-style:italic;color:#5c6773;">// Some(9)
-</span><span style="font-style:italic;color:#5c6773;">// Some(1)
-</span><span style="font-style:italic;color:#5c6773;">// Some(8)
-</span></code></pre>
+<p>The <a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> trait is useful for certain purposes. For example, when you need the behavior of both of queue and a stack.</p>
+<pre><code>fn main() {
+    let mut vals = 0..10;
+    println!(&quot;{:?}&quot;, vals.next());
+    println!(&quot;{:?}&quot;, vals.next_back());
+    println!(&quot;{:?}&quot;, vals.next());
+    println!(&quot;{:?}&quot;, vals.next_back());
+}
+// Some(0)
+// Some(9)
+// Some(1)
+// Some(8)
+</code></pre>
 <h1 id="play-on-your-own">Play on your own!</h1>
-<p>This is a good time for you to take a break, get some tea, and crack open the <a rel="noopener" target="_blank" href="https://play.rust-lang.org/">Playpen</a>. Try changing one of the above examples, fiddle with some new things in the API docs below, and generally have a good time.</p>
+<p>This is a good time for you to take a break, get some tea, and crack open the <a href="https://play.rust-lang.org/">Playpen</a>. Try changing one of the above examples, fiddle with some new things in the API docs below, and generally have a good time.</p>
 <ul>
-<li><a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/collections/"><code>std::collections</code></a></li>
-<li><a rel="noopener" target="_blank" href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/index.html"><code>std::iter</code></a></li>
+<li><a href="http://doc.rust-lang.org/1.0.0-beta.3/std/collections/"><code>std::collections</code></a></li>
+<li><a href="http://doc.rust-lang.org/1.0.0-beta.3/std/iter/index.html"><code>std::iter</code></a></li>
 </ul>
-<p>If you get stuck, don't panic! Try googling the error if it befuddles you, Rust has activity on the <code>*.rust-lang.org</code> domain as well as Github and Stack Exchange. You are also welcome to email me or visit us on <a rel="noopener" target="_blank" href="https://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a>.</p>
+<p>If you get stuck, don't panic! Try googling the error if it befuddles you, Rust has activity on the <code>*.rust-lang.org</code> domain as well as Github and Stack Exchange. You are also welcome to email me or visit us on <a href="https://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">IRC</a>.</p>
 <p>We're just scratching the surface... A vast world awaits us.</p>
 
     </main>
@@ -517,8 +517,8 @@ You can play along on http:&#x2F;&#x2F;play.rust-lang.org&#x2F; and by browsing 
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/6de40468eff2042c3ccb5a59dc2b7ebc520d268c
-">6de40468eff2042c3ccb5a59dc2b7ebc520d268c
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
 </a></pre>
     </body>
 
