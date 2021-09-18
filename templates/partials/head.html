@@ -31,8 +31,9 @@
             {%- set image = '../static/' ~ config.extra.cover.path -%}
         {%- endif -%}
         
-        <meta name="twitter:image" content="{{ resize_image(path=image, width=3840, height=2160, op='fit_width') }}"/>
-        <meta property='og:image' content="{{ resize_image(path=image, width=3840, height=2160, op='fit_width') }}"/>
+        {% set image_3840 = resize_image(path=image, width=3840, height=2160, op='fit_width') %}
+        <meta name="twitter:image" content="{{ image_3840.url }}"/>
+        <meta property='og:image' content="{{ image_3840.url }}"/>
         <meta name="twitter:site" content="@{{ config.extra.twitter }}"/>
         <meta name="twitter:creator" content="@{{ config.extra.twitter }}"/>
         

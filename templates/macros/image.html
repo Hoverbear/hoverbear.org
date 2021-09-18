@@ -4,15 +4,17 @@
        {%- if colocated == true -%}
               {%- set path = self::colocated_asset(path=path) | trim -%}
        {%- endif -%}
+       {% set image_1920 = resize_image(path=path, width=1920, height=1080, op='fit_width') %}
+       {% set image_3840 = resize_image(path=path, width=3840, height=2160, op='fit_width') %}
        <img srcset="
-              {{ resize_image(path=path, width=1920, height=1080, op='fit_width') }} 1920w,
-              {{ resize_image(path=path, width=3840, height=2160, op='fit_width') }} 3840w
+              {{ image_1920.url }} 1920w,
+              {{ image_3840.url }} 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="{{ resize_image(path=path, width=1920, height=1080, op='fill') }}"
+              src="{{ image_1920.url }}"
               alt="{% if alt %}{{ alt }}{% endif %}" />
 {%- endmacro full -%}
 

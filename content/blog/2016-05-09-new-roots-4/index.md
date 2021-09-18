@@ -200,7 +200,7 @@ The `nvim` systemwide configuration is stored at `/etc/xdg/nvim/init.vim`, and y
 
 Inside we can do some basic configuration:
 
-```vimrc
+```vim
 " Be improved
 set nocompatible
 
