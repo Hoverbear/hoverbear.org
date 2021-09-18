@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c7cc1999965929f900.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c7cc1999965929f900.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9fe083052154d9e700.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9fe083052154d9e700.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -69,15 +70,17 @@ The project was a really interesting learning experience about how Heroku does t
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6f2a10c5e0684e2500.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c7cc1999965929f900.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e71012ef9d5836e000.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9fe083052154d9e700.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8252c537f69b130500.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e71012ef9d5836e000.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -89,12 +92,12 @@ The project was a really interesting learning experience about how Heroku does t
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -141,19 +144,19 @@ The project was a really interesting learning experience about how Heroku does t
 
         <p>I'm happy to introduce the first stable version of my Rust Heroku Buildpack!</p>
 <blockquote>
-<p>Just looking to get your hands dirty? Look <a href="https://github.com/Hoverbear/heroku-buildpack-rust"><strong>here</strong></a>.</p>
+<p>Just looking to get your hands dirty? Look <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/heroku-buildpack-rust"><strong>here</strong></a>.</p>
 </blockquote>
-<p>The project was a really interesting learning experience about how <a href="http://heroku.com/">Heroku</a> does things, on <code>bash</code> scripting, and about <a href="https://github.com/brson/multirust/"><code>multirust</code></a>, which I'd not used before but now am quite a fan of! (I previously just <code>rustup</code>'d the newest nightly every few days.)</p>
+<p>The project was a really interesting learning experience about how <a rel="noopener" target="_blank" href="http://heroku.com/">Heroku</a> does things, on <code>bash</code> scripting, and about <a rel="noopener" target="_blank" href="https://github.com/brson/multirust/"><code>multirust</code></a>, which I'd not used before but now am quite a fan of! (I previously just <code>rustup</code>'d the newest nightly every few days.)</p>
 <span id="continue-reading"></span><h3 id="features">Features</h3>
 <ul>
 <li>Cached <code>multirust</code>, Rust toolchain.</li>
 <li>Caching of previous build artifacts to (potentially dramatically) speed up similar builds.</li>
 <li>Configurable version selection inside of the Cargo.toml.</li>
 </ul>
-<p>It's unit tested using Heroku's official <a href="https://github.com/heroku/heroku-buildpack-testrunner">testrunner</a> every commit (using <a href="http://homu.io/">homu</a>) and includes a <code>Makefile</code> which executes a docker based test locally.</p>
+<p>It's unit tested using Heroku's official <a rel="noopener" target="_blank" href="https://github.com/heroku/heroku-buildpack-testrunner">testrunner</a> every commit (using <a rel="noopener" target="_blank" href="http://homu.io/">homu</a>) and includes a <code>Makefile</code> which executes a docker based test locally.</p>
 <h3 id="development-story">Development Story</h3>
-<p>I am a huge fan of Heroku, they're were I hosted my first web app, they are where <a href="http://gatheringourvoices.bcaafc.com/">Gathering Our Voices</a> hosted our website for two years, and I have several friends who work there. While I was in San Fransisco for our <a href="/2015/08/27/meetup/"><code>raft-rs</code> meetup</a> they even invited me to come visit and meet some of their team.</p>
-<p>There was, however, one sore point with Heroku for me: There were no Rust buildpacks I was happy with! There was <a href="https://github.com/emk/heroku-buildpack-rust">emk's</a> and <a href="https://github.com/chrisumbel/heroku-buildpack-rust">chrisumbel's</a> but I wasn't particularly happy with either. There wasn't a ton of flexibility with them and they were both only manually tested with <code>vagrant</code> VMs. The last update to either was in March, which was still around the time when Rust was rapidly changing and maturing. (Though, it still is, but more conservatively!)</p>
+<p>I am a huge fan of Heroku, they're were I hosted my first web app, they are where <a rel="noopener" target="_blank" href="http://gatheringourvoices.bcaafc.com/">Gathering Our Voices</a> hosted our website for two years, and I have several friends who work there. While I was in San Fransisco for our <a href="/2015/08/27/meetup/"><code>raft-rs</code> meetup</a> they even invited me to come visit and meet some of their team.</p>
+<p>There was, however, one sore point with Heroku for me: There were no Rust buildpacks I was happy with! There was <a rel="noopener" target="_blank" href="https://github.com/emk/heroku-buildpack-rust">emk's</a> and <a rel="noopener" target="_blank" href="https://github.com/chrisumbel/heroku-buildpack-rust">chrisumbel's</a> but I wasn't particularly happy with either. There wasn't a ton of flexibility with them and they were both only manually tested with <code>vagrant</code> VMs. The last update to either was in March, which was still around the time when Rust was rapidly changing and maturing. (Though, it still is, but more conservatively!)</p>
 <p>Originally my plan had been to issue a PR to one of them, but by the time I started digging into how things worked I realized <strong>I wanted to make my own buildpack</strong>. So I did. At first I used <code>rustup</code> and tried to handle detecting when to update myself, but eventually realized <code>multirust</code> was a more straightforward way to go.</p>
 <p>I made the mistake of starting it right before both exams and the holidays, so things went slower than I anticipated. Along the way I got to learn several neat lessons which I've shared below. I'm looking forward to playing more with Rust on Heroku and would some day like to see <code>raft-rs</code> based applications on their infrastructure.</p>
 <blockquote>
@@ -180,8 +183,8 @@ The project was a really interesting learning experience about how Heroku does t
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

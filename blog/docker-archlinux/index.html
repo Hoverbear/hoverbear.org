@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0bc3da24a0d6405e00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0bc3da24a0d6405e00.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33cf4930c3893f8600.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33cf4930c3893f8600.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -65,15 +66,17 @@ With nothing broken, I knew I only had one choice. I had to improve it!
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1a1edbf0dbc52cbb00.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0bc3da24a0d6405e00.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae569676a9a0917f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;33cf4930c3893f8600.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5e0c8d8e963d97ab00.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae569676a9a0917f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -85,12 +88,12 @@ With nothing broken, I knew I only had one choice. I had to improve it!
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -135,63 +138,63 @@ With nothing broken, I knew I only had one choice. I had to improve it!
         </ol>
     </nav>
 
-        <p>Back in <a href="/2014/07/14/arch-docker-baseimage/">2014</a> when I was learning about <a href="https://docker.com">Docker</a> I got around to making a base image for <a href="http://archlinux.org/">Arch Linux</a>. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I'd highly suggest trying to make your own sometime!</p>
+        <p>Back in <a href="/2014/07/14/arch-docker-baseimage/">2014</a> when I was learning about <a rel="noopener" target="_blank" href="https://docker.com">Docker</a> I got around to making a base image for <a rel="noopener" target="_blank" href="http://archlinux.org/">Arch Linux</a>. It was a really fun exploration and I got to know a lot more about how Docker worked from it. I'd highly suggest trying to make your own sometime!</p>
 <p>Docker has matured a lot since, and I've enjoyed following it. I took some time this last week to revisit my Arch Linux image and ensure it's still functional. I wasn't surprised when the scripts continued to work just fine, even after two years.</p>
 <p>With nothing broken, I knew I only had one choice. <strong>I had to improve it!</strong></p>
 <span id="continue-reading"></span>
 <blockquote>
-<p>Want to get started? See it on the hub <a href="https://hub.docker.com/r/hoverbear/archlinux/">here</a>, Github <a href="https://github.com/Hoverbear/docker-archlinux">here</a>, or pull it down with <code>docker run --tty --interactive --rm hoverbear/archlinux /bin/bash</code> and play around.</p>
+<p>Want to get started? See it on the hub <a rel="noopener" target="_blank" href="https://hub.docker.com/r/hoverbear/archlinux/">here</a>, Github <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/docker-archlinux">here</a>, or pull it down with <code>docker run --tty --interactive --rm hoverbear/archlinux /bin/bash</code> and play around.</p>
 </blockquote>
 <h2 id="improvements">Improvements</h2>
-<p>I spent most of my time working on having the <a href="http://travis-ci.org/">Travis-CI</a> service be able to build and deploy new versions in an automated fashion. This was primarily, for me, a trust thing. I don't feel comfortable running containers I haven't seen the build process for, and you shouldn't either.</p>
+<p>I spent most of my time working on having the <a rel="noopener" target="_blank" href="http://travis-ci.org/">Travis-CI</a> service be able to build and deploy new versions in an automated fashion. This was primarily, for me, a trust thing. I don't feel comfortable running containers I haven't seen the build process for, and you shouldn't either.</p>
 <p>While the Docker Hub has &quot;Automated&quot; builds there doesn't seem to be much of a solution for having trusted base images, only images built via a <code>Dockerfile</code>. Perhaps there is a way to scheme and subvert this via the <code>scratch</code> image but I did not find this avenue enjoyable.</p>
 <p>Thankfully, Travis did this job stellarly after a few hiccups. The biggest problem was that Travis runs a version of Ubuntu LTS and the <em>normal</em> Arch install process assumes it's happening on a relatively recent Linux, if not Arch itself.</p>
 <p>I got around this problem in a slightly dirty way and pinned recent versions of the necessary packages, then upgraded the host into a (slightly terrifying) abomination. I'd like to find a cleaner way of doing this, possibly from inside of a <code>docker</code> container like in the <code>Makefile</code>.</p>
 <h2 id="playing-around">Playing Around</h2>
 <p>What's a good blog post without some fun examples?</p>
 <p><strong>Spawning 10 Arch containers in parallel and having them all pipe to the same file:</strong></p>
-<pre><code>for i in {1..10}; do (docker run --rm -v $(pwd):/here hoverbear/archlinux /bin/bash -c &quot;echo $i &gt;&gt; here/checkin&quot; &amp;); done
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffa759;">for</span><span> i </span><span style="color:#ffa759;">in </span><span>{1..10}</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">do </span><span>(</span><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> --rm -v </span><span>$(</span><span style="color:#ffd580;">pwd</span><span>):/here hoverbear/archlinux /bin/bash</span><span style="color:#ffcc66;"> -c </span><span style="color:#bae67e;">&quot;echo $</span><span>i</span><span style="color:#bae67e;"> &gt;&gt; here/checkin&quot; </span><span style="color:#f29e74;">&amp;</span><span>)</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">done
+</span></code></pre>
 <p>A few seconds later:</p>
-<pre><code>$ cat checkin
-6
-3
-4
-5
-1
-8
-10
-2
-7
-9
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> cat checkin
+</span><span style="color:#ffd580;">6
+</span><span style="color:#ffd580;">3
+</span><span style="color:#ffd580;">4
+</span><span style="color:#ffd580;">5
+</span><span style="color:#ffd580;">1
+</span><span style="color:#ffd580;">8
+</span><span style="color:#ffd580;">10
+</span><span style="color:#ffd580;">2
+</span><span style="color:#ffd580;">7
+</span><span style="color:#ffd580;">9
+</span></code></pre>
 <p><strong>Making an image to build your favorite Rust project:</strong></p>
-<pre><code>FROM hoverbear/archlinux
-MAINTAINER Ana Hobden &lt;ana@hoverbear.org&gt;
-
-# It's always a good idea to update Arch, then install deps.
-RUN pacman -Syu
-RUN pacman -S git file awk gcc --noconfirm
-
-# Install Multirust
-RUN git clone --recursive https://github.com/brson/multirust
-WORKDIR multirust
-RUN git submodule update --init
-RUN ./build.sh
-RUN ./install.sh
-
-RUN multirust default &quot;nightly&quot;
-
-# /source - Should mount the user code.
-VOLUME [ &quot;/source&quot; ]
-
-# Change the Workdir to /source
-WORKDIR /source
-</code></pre>
+<pre data-lang="dockerfile" style="background-color:#212733;color:#ccc9c2;" class="language-dockerfile "><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#ffa759;">FROM</span><span> hoverbear/archlinux
+</span><span style="color:#ffa759;">MAINTAINER </span><span>Ana Hobden &lt;ana@hoverbear.org&gt;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># It&#39;s always a good idea to update Arch, then install deps.
+</span><span style="color:#ffa759;">RUN </span><span>pacman -Syu
+</span><span style="color:#ffa759;">RUN </span><span>pacman -S git file awk gcc --noconfirm
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Install Multirust
+</span><span style="color:#ffa759;">RUN </span><span>git clone --recursive https://github.com/brson/multirust
+</span><span style="color:#ffa759;">WORKDIR </span><span>multirust
+</span><span style="color:#ffa759;">RUN </span><span>git submodule update --init
+</span><span style="color:#ffa759;">RUN </span><span>./build.sh
+</span><span style="color:#ffa759;">RUN </span><span>./install.sh
+</span><span>
+</span><span style="color:#ffa759;">RUN </span><span>multirust default </span><span style="color:#bae67e;">&quot;nightly&quot;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># /source - Should mount the user code.
+</span><span style="color:#ffa759;">VOLUME </span><span>[ </span><span style="color:#bae67e;">&quot;/source&quot;</span><span> ]
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Change the Workdir to /source
+</span><span style="color:#ffa759;">WORKDIR </span><span>/source
+</span></code></pre>
 <p>Running it inside your favorite project folder:</p>
-<pre><code>docker run -t -i --rm=true -v $(pwd):/source rust cargo build
-</code></pre>
-<p>You can even get this image <a href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> -t -i --rm</span><span style="color:#f29e74;">=</span><span>true</span><span style="color:#ffcc66;"> -v </span><span>$(</span><span style="color:#ffd580;">pwd</span><span>):/source rust cargo build
+</span></code></pre>
+<p>You can even get this image <a rel="noopener" target="_blank" href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>I hope you have a great time using this image and please let me know if there is any way I can make it better!</p>
 
@@ -200,8 +203,8 @@ WORKDIR /source
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

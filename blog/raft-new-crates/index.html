@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -63,15 +64,17 @@ As a result of Raft development two new crates have been put together for genera
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +86,12 @@ As a result of Raft development two new crates have been put together for genera
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -138,92 +141,92 @@ As a result of Raft development two new crates have been put together for genera
         </ol>
     </nav>
 
-        <p>We've been resoundingly busy with our <a href="http://raftconsensus.github.io/">Raft</a> implementation after a brief period of calm in the early summer! I'll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!</p>
+        <p>We've been resoundingly busy with our <a rel="noopener" target="_blank" href="http://raftconsensus.github.io/">Raft</a> implementation after a brief period of calm in the early summer! I'll be posting a few bits over the next weeks to help people both learn Rust, and learn about Raft!</p>
 <p>As a result of Raft development two new crates have been put together for general consumption! Both of these are macro-centric and lead mainly by James.</p>
 <span id="continue-reading"></span><h2 id="a-useful-error-pattern">A Useful Error Pattern</h2>
 <p>Working with Raft we discovered a useful error pattern for making use of things like <code>try!()</code>. Let's quickly recap on why error handling can be a pain sometimes.</p>
 <p>Let's say you're off happily using <code>.read()</code> on some file descriptor (maybe a <code>TcpStream</code>) and than performing some action which may also result in an error. So you write a function like so:</p>
-<pre><code>use std::io::Read;
-fn read_and_action&lt;R: Read&gt;(reader: R) -&gt; Result&lt;String, _&gt; {
-	let buf = Vec::with_capacity(10);
-    try!(reader.read(&amp;mut buf));
-    try!(String::from_utf8(buf))
-}
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>std</span><span style="color:#f29e74;">::</span><span>io</span><span style="color:#f29e74;">::</span><span>Read</span><span style="color:#ccc9c2cc;">;
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">read_and_action</span><span>&lt;R</span><span style="color:#ccc9c2cc;">:</span><span> Read&gt;(</span><span style="color:#ffcc66;">reader</span><span style="color:#ccc9c2cc;">:</span><span> R) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="font-style:italic;color:#5ccfe6;">Result</span><span>&lt;</span><span style="font-style:italic;color:#5ccfe6;">String</span><span>, </span><span style="color:#f29e74;">_</span><span>&gt; {
+</span><span>	</span><span style="color:#ffa759;">let</span><span> buf </span><span style="color:#f29e74;">= </span><span style="font-style:italic;color:#5ccfe6;">Vec</span><span style="color:#f29e74;">::</span><span>with_capacity(</span><span style="color:#ffcc66;">10</span><span>)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">try!</span><span>(reader</span><span style="color:#f29e74;">.</span><span style="color:#f28779;">read</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut</span><span> buf))</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">try!</span><span>(</span><span style="font-style:italic;color:#5ccfe6;">String</span><span style="color:#f29e74;">::</span><span>from_utf8(buf))
+</span><span>}
+</span></code></pre>
 <p>But wait! There is a problem here! The first <code>try!()</code> and the second <code>try!()</code> have <em>different errors</em> that they might return. <strong>This won't work.</strong> Even worse, in a sufficiently complex library or application there can be many <code>Error</code> types in play!</p>
-<p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
-<pre><code>/// A simple convienence type.
-pub type Result&lt;T&gt; = std::result::Result&lt;T, Error&gt;;
-
-// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
-wrapped_enum!{
-    #[derive(Debug)]
-    pub enum Error {
-    	// Cap'n Proto Errors
-        CapnProto(capnp::Error),
-        // Cap'n Proto schema errors
-        SchemaError(capnp::NotInSchema),
-        // std::io errors
-        Io(io::Error),
-        // Our very own!
-        Raft(RaftError),
-    }
-}
-
-impl fmt::Display for Error {
-    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
-        match *self {
-            Error::CapnProto(ref error) =&gt; fmt::Display::fmt(error, f),
-            Error::SchemaError(ref error) =&gt; fmt::Display::fmt(error, f),
-            Error::Io(ref error) =&gt; fmt::Display::fmt(error, f),
-            Error::Raft(ref error) =&gt; fmt::Debug::fmt(error, f),
-        }
-    }
-}
-</code></pre>
+<p>We identified this very early in Raft and came up with a eloquent solution: Create an <code>Error</code> composed of the various possible errors! James went ahead and actually made a <a rel="noopener" target="_blank" href="https://github.com/james-darkfox/rs-wrapped_enum-macro">fantastic macro</a> that you can use to do the same easily!</p>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// A simple convienence type.
+</span><span style="color:#ffa759;">pub type </span><span style="color:#73d0ff;">Result</span><span style="color:#f29e74;">&lt;</span><span>T</span><span style="color:#f29e74;">&gt; = </span><span>std</span><span style="color:#f29e74;">::</span><span>result</span><span style="color:#f29e74;">::</span><span>Result&lt;T, Error&gt;</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">// From crate: https://github.com/james-darkfox/rs-wrapped_enum-macro
+</span><span style="color:#f28779;">wrapped_enum!</span><span>{
+</span><span>    </span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">derive</span><span>(Debug)]
+</span><span>    </span><span style="color:#ffa759;">pub enum </span><span style="color:#73d0ff;">Error </span><span>{
+</span><span>    	</span><span style="font-style:italic;color:#5c6773;">// Cap&#39;n Proto Errors
+</span><span>        CapnProto(capnp</span><span style="color:#f29e74;">::</span><span>Error)</span><span style="color:#ccc9c2cc;">,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Cap&#39;n Proto schema errors
+</span><span>        SchemaError(capnp</span><span style="color:#f29e74;">::</span><span>NotInSchema)</span><span style="color:#ccc9c2cc;">,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// std::io errors
+</span><span>        Io(io</span><span style="color:#f29e74;">::</span><span>Error)</span><span style="color:#ccc9c2cc;">,
+</span><span>        </span><span style="font-style:italic;color:#5c6773;">// Our very own!
+</span><span>        Raft(RaftError)</span><span style="color:#ccc9c2cc;">,
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">impl </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Display </span><span style="color:#ffa759;">for </span><span style="color:#73d0ff;">Error </span><span>{
+</span><span>    </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">fmt</span><span>(</span><span style="color:#f29e74;">&amp;</span><span style="color:#ffcc66;">self</span><span>, </span><span style="color:#ffcc66;">f</span><span style="color:#ccc9c2cc;">: </span><span style="color:#f29e74;">&amp;</span><span style="color:#ffa759;">mut </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Formatter) </span><span style="color:#ccc9c2cc;">-&gt; </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Result {
+</span><span>        </span><span style="color:#ffa759;">match </span><span style="color:#f29e74;">*</span><span style="font-style:italic;color:#5ccfe6;">self </span><span>{
+</span><span>            Error</span><span style="color:#f29e74;">::</span><span>CapnProto(</span><span style="color:#ffa759;">ref</span><span> error) </span><span style="color:#f29e74;">=&gt; </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Display</span><span style="color:#f29e74;">::</span><span>fmt(error</span><span style="color:#ccc9c2cc;">,</span><span> f)</span><span style="color:#ccc9c2cc;">,
+</span><span>            Error</span><span style="color:#f29e74;">::</span><span>SchemaError(</span><span style="color:#ffa759;">ref</span><span> error) </span><span style="color:#f29e74;">=&gt; </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Display</span><span style="color:#f29e74;">::</span><span>fmt(error</span><span style="color:#ccc9c2cc;">,</span><span> f)</span><span style="color:#ccc9c2cc;">,
+</span><span>            Error</span><span style="color:#f29e74;">::</span><span>Io(</span><span style="color:#ffa759;">ref</span><span> error) </span><span style="color:#f29e74;">=&gt; </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Display</span><span style="color:#f29e74;">::</span><span>fmt(error</span><span style="color:#ccc9c2cc;">,</span><span> f)</span><span style="color:#ccc9c2cc;">,
+</span><span>            Error</span><span style="color:#f29e74;">::</span><span>Raft(</span><span style="color:#ffa759;">ref</span><span> error) </span><span style="color:#f29e74;">=&gt; </span><span>fmt</span><span style="color:#f29e74;">::</span><span>Debug</span><span style="color:#f29e74;">::</span><span>fmt(error</span><span style="color:#ccc9c2cc;">,</span><span> f)</span><span style="color:#ccc9c2cc;">,
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
 <p>With this machinery in place our previous example starts to work, fantastic! This has saved us so much headache and complication in our code. Want it? Click one of the badges below!</p>
-<p><a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/v/wrapped_enum.svg" alt="" /></a>
-<a href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/d/wrapped_enum.svg" alt="" /></a></p>
+<p><a rel="noopener" target="_blank" href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/v/wrapped_enum.svg" alt="" /></a>
+<a rel="noopener" target="_blank" href="https://crates.io/crates/wrapped_enum"><img src="https://img.shields.io/crates/d/wrapped_enum.svg" alt="" /></a></p>
 <h2 id="scoped-logging">Scoped Logging</h2>
-<p>Okay, let's take a minute to remember how frigging awesome the <a href="https://crates.io/crates/log"><code>log</code></a> crate is. If you've got a project, large or small, this crate is super handy for helping trace, debug, and log whatever you need and to do it only when needed! The best part about the log crate is that when logs are off it's a simple <code>noop</code>.</p>
+<p>Okay, let's take a minute to remember how frigging awesome the <a rel="noopener" target="_blank" href="https://crates.io/crates/log"><code>log</code></a> crate is. If you've got a project, large or small, this crate is super handy for helping trace, debug, and log whatever you need and to do it only when needed! The best part about the log crate is that when logs are off it's a simple <code>noop</code>.</p>
 <p>One problem we identified, however, was that sometimes it was very difficult to identify the source of a log message. Asking &quot;Did it come from <code>foo</code> or <code>bar</code>?&quot; is only fun so many times.</p>
-<p>James and Dan put together the <a href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
+<p>James and Dan put together the <a rel="noopener" target="_blank" href="https://github.com/james-darkfox/rs-scoped_log"><code>scoped_log</code></a> crate to help with this. Check out the documentation there for a usage example.</p>
 <p>When we use this crate with tests (which makes it all that much more awesome!) we use the following macro.</p>
-<pre><code>/// Prepares the environment testing. Should be called as the first line of every test with the
-/// name of the test as the only argument.
-#[cfg(test)]
-macro_rules! setup_test {
-    ($test_name:expr) =&gt; (
-        let _ = env_logger::init();
-        push_log_scope!($test_name);
-    );
-}
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// Prepares the environment testing. Should be called as the first line of every test with the
+</span><span style="font-style:italic;color:#5c6773;">/// name of the test as the only argument.
+</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">cfg</span><span>(test)]
+</span><span style="color:#f28779;">macro_rules! </span><span style="color:#73d0ff;">setup_test </span><span>{
+</span><span>    (</span><span style="color:#ffcc66;">$test_name</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ffa759;">expr</span><span>) </span><span style="color:#f29e74;">=&gt; </span><span>(
+</span><span>        </span><span style="color:#ffa759;">let </span><span style="color:#f29e74;">_ = </span><span>env_logger</span><span style="color:#f29e74;">::</span><span>init()</span><span style="color:#ccc9c2cc;">;
+</span><span>        </span><span style="color:#f28779;">push_log_scope!</span><span>($test_name)</span><span style="color:#ccc9c2cc;">;
+</span><span>    )</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span></code></pre>
 <p>Now our logs look like this:</p>
-<pre><code>INFO:raft::replica: test_apply_client_message: ElectionTimeout
-INFO:raft::replica: test_election_3: ElectionTimeout
-INFO:raft::replica: test_election_2: ElectionTimeout
-INFO:raft::replica: test_apply_client_message: transitioning to Leader
-INFO:raft::replica: test_election_5: ElectionTimeout
-INFO:raft::replica: test_election_5: transitioning to Candidate
-DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>INFO:raft::replica: test_apply_client_message: ElectionTimeout
+</span><span>INFO:raft::replica: test_election_3: ElectionTimeout
+</span><span>INFO:raft::replica: test_election_2: ElectionTimeout
+</span><span>INFO:raft::replica: test_apply_client_message: transitioning to Leader
+</span><span>INFO:raft::replica: test_election_5: ElectionTimeout
+</span><span>INFO:raft::replica: test_election_5: transitioning to Candidate
+</span><span>DEBUG:raft::replica: test_election_5: Replica { id: 3, state: Follower, term: 0, index: 0 }: RequestVoteRequest from Replica { id: 0, term: 1, latest_log_term: 0, latest_log_index: 0 }
+</span></code></pre>
 <p>Much more context that we <em>barely</em> have to tool. Fantastic! This crate even maintains the same <code>noop</code> characteristic of the <code>log</code> crate which it heavily relies on. Want it?</p>
-<p><a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/v/scoped_log.svg" alt="" /></a>
-<a href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/d/scoped_log.svg" alt="" /></a></p>
+<p><a rel="noopener" target="_blank" href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/v/scoped_log.svg" alt="" /></a>
+<a rel="noopener" target="_blank" href="https://crates.io/crates/scoped_log"><img src="https://img.shields.io/crates/d/scoped_log.svg" alt="" /></a></p>
 <h2 id="travis-cargo">Travis &amp; Cargo!</h2>
-<p>If you've read any of my other articles you probably know I <strong>love</strong> tooling and automation. After my <a href="http://hoverbear.org/2015/03/07/rust-travis-github-pages/">Rust, Travis, and Github Pages</a> article <a href="https://github.com/huonw">Huon</a> created the fantastic <a href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a> tool! It's incredible!</p>
+<p>If you've read any of my other articles you probably know I <strong>love</strong> tooling and automation. After my <a rel="noopener" target="_blank" href="http://hoverbear.org/2015/03/07/rust-travis-github-pages/">Rust, Travis, and Github Pages</a> article <a rel="noopener" target="_blank" href="https://github.com/huonw">Huon</a> created the fantastic <a rel="noopener" target="_blank" href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a> tool! It's incredible!</p>
 <p>With its help we've moved to a <code>sudo</code>-less build and overall things work much better. I'll talk more about out tooling and infrastructure in a later post!</p>
 <h1 id="aside-contributors">Aside: Contributors!!!</h1>
-<p>We now have 3 whole code contributors to Raft! This includes <a href="https://github.com/danburkert">Dan Burkert</a>, <a href="https://github.com/james-darkfox">James McGlashan</a>, and <a href="https://github.com/hoverbear/">myself</a> (Ana Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!</p>
+<p>We now have 3 whole code contributors to Raft! This includes <a rel="noopener" target="_blank" href="https://github.com/danburkert">Dan Burkert</a>, <a rel="noopener" target="_blank" href="https://github.com/james-darkfox">James McGlashan</a>, and <a rel="noopener" target="_blank" href="https://github.com/hoverbear/">myself</a> (Ana Hobden). I'd like to thank both James and Dan for their awesome work, interest, and mentorship!</p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

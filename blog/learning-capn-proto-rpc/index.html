@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -63,15 +64,17 @@ Let&#x27;s do that!
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +86,12 @@ Let&#x27;s do that!
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -163,20 +166,20 @@ Let&#x27;s do that!
         </ol>
     </nav>
 
-        <p>Awhile ago, I wrote a <a href="/2015/02/11/capn-proto-in-rust/">First Look at Cap'n Proto</a>. Unfortunately I didn't cover how to utilize it's RPC capabilities. In Rust, this is via the <a href="https://github.com/dwrensha/capnp-rpc-rust"><code>capnp-rpc-rust</code></a> crate.</p>
+        <p>Awhile ago, I wrote a <a href="/2015/02/11/capn-proto-in-rust/">First Look at Cap'n Proto</a>. Unfortunately I didn't cover how to utilize it's RPC capabilities. In Rust, this is via the <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnp-rpc-rust"><code>capnp-rpc-rust</code></a> crate.</p>
 <p>Let's do that!</p>
 <span id="continue-reading"></span><h2 id="what-s-rpc">What's RPC?</h2>
 <p>Remote Procedure Calls (RPC) are basically what they say on the box. You issue one from some client to some server and the server responds (or not!) with some response.</p>
 <p>Most protocols have some form of language-agnostic schema, not unlike SQL I suppose, which they use to describe interchange data (<code>struct</code>s and <code>fn</code>s). A tool is generally used to create a <strong>stub</strong>, which the programmer then architects.</p>
 <blockquote>
-<p>One of the orgininal Remote Procedure Call papers can be found <a href="http://research.cs.wisc.edu/areas/os/Qual/papers/rpc.pdf">here</a>. Cap'n Proto has it's own <a href="https://capnproto.org/rpc.html">RPC Spec</a>.</p>
+<p>One of the orgininal Remote Procedure Call papers can be found <a rel="noopener" target="_blank" href="http://research.cs.wisc.edu/areas/os/Qual/papers/rpc.pdf">here</a>. Cap'n Proto has it's own <a rel="noopener" target="_blank" href="https://capnproto.org/rpc.html">RPC Spec</a>.</p>
 </blockquote>
 <p>So if you want to <code>foo()</code> on <code>bar</code> you can do that. But how is this different than just shuffling off packets to one another?</p>
 <p><strong>Networks are unreliable and unordered.</strong> Your UDP packets might get dropped, reordered, or mishandled. <em>&quot;Ha! I'll use TCP!&quot;</em> You say? Sure, okay, this solves part of the issue. Are you willing to pay the round-trips? What happens when the other host goes down? What happens when the router dies? How do you respond to your client? A protocol like Cap'n Proto has more well defined failure modes.</p>
 <p><strong>You don't need to keep track of so many things.</strong> Say we're using UDP, that means we need to label packets and track which ones we haven't recieved responses for. Okay, sure, what happens when we have a couple get lost? Do you &quot;garbage collect&quot; them? Do they leak forever? Using TCP? You're no much better off, you need to either pay the handshake cost <em>every call</em> or track all those connections!</p>
 <p><strong>It implements a more understandable interface.</strong> You write code once, then you read it many more times. Then you rewrite it, then cycle repeats. How often do you want to spend trying to trace packets through your application? Does it scale? Do you really expect contributors to understand your mess? RPCs look and feel more like Local Procedure Calls (LPC) and can make things easier to comprehend.</p>
 <h2 id="our-example">Our Example</h2>
-<p>Today we'll be implementing mock calls for the <a href="http://ramcloud.stanford.edu/raft.pdf">Raft</a> protocol. <strong>On page 4</strong> you'll find the calls that we'll be implementing.</p>
+<p>Today we'll be implementing mock calls for the <a rel="noopener" target="_blank" href="http://ramcloud.stanford.edu/raft.pdf">Raft</a> protocol. <strong>On page 4</strong> you'll find the calls that we'll be implementing.</p>
 <p>In short:</p>
 <ul>
 <li><code>AppendEntries</code> which appends entries to a replicated log on all other Raft nodes in the cluster.</li>
@@ -185,161 +188,161 @@ Let&#x27;s do that!
 <p>There is also another call specified, but that is left as practice for the reader. (Feel free to share your results!)</p>
 <h2 id="in-the-schema">In the Schema</h2>
 <p>Cap'n Proto uses <code>interface</code> to declare calls. Let's take a look what will be <code>src/schema/raft.capnp</code>:</p>
-<pre><code>@0xf64213cd3ccb41d5;
-# unique file ID, generated by `capnp id`
-
-interface Raft {
-    appendEntries @0 (term :UInt64,
-                      leaderId :UInt64,
-                      prevLogIndex :UInt64,
-                      prevLogTerm :UInt64,
-                      entries :List(Text),
-                      leaderCommit :UInt64)
-                      -&gt; (term :UInt64, success :Bool);
-    requestVote @1 (term :UInt64,
-                    candidateId :UInt64,
-                    lastLogIndex :UInt64,
-                    lastLogTerm :UInt64)
-                    -&gt; (term :UInt64, voteGranted :Bool);
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>@0xf64213cd3ccb41d5;
+</span><span># unique file ID, generated by `capnp id`
+</span><span>
+</span><span>interface Raft {
+</span><span>    appendEntries @0 (term :UInt64,
+</span><span>                      leaderId :UInt64,
+</span><span>                      prevLogIndex :UInt64,
+</span><span>                      prevLogTerm :UInt64,
+</span><span>                      entries :List(Text),
+</span><span>                      leaderCommit :UInt64)
+</span><span>                      -&gt; (term :UInt64, success :Bool);
+</span><span>    requestVote @1 (term :UInt64,
+</span><span>                    candidateId :UInt64,
+</span><span>                    lastLogIndex :UInt64,
+</span><span>                    lastLogTerm :UInt64)
+</span><span>                    -&gt; (term :UInt64, voteGranted :Bool);
+</span><span>}
+</span></code></pre>
 <p>Just like in the structs we declared in the previous article, these are also decorated with <code>@n</code>. Again, it's probably a good idea to keep them in order.</p>
 <p>One neat thing is <strong>multiple returns</strong>. This means you can return more than just a single struct or value from a call.</p>
 <p>One gotcha is that, as in the previous article, the data types don't translate directly into familiar interfaces. For example, I was not able to successfully create a <code>:List(Text)</code> from a vector, some adaptation is required.</p>
 <blockquote>
-<p>If you don't have Cap'n Proto set up yet (or it's out of date) you can follow the instructions <a href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/#capnproto">here</a>.</p>
+<p>If you don't have Cap'n Proto set up yet (or it's out of date) you can follow the instructions <a rel="noopener" target="_blank" href="http://www.hoverbear.org/2015/02/12/capn-proto-in-rust/#capnproto">here</a>.</p>
 </blockquote>
 <p>From here, you can generate your <code>.rs</code> file.</p>
-<pre><code>capnp compile -o rust src/schema/*.capnp
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>capnp compile -o rust src/schema/*.capnp
+</span></code></pre>
 <p>You should now see <code>src/schema/raft_capnp.rs</code> and it will contain the generated implementation. In RPC terms, this are your <strong>stubs</strong>.</p>
 <p><em>Don't cross your eyes too much at that code.</em> The just of it is that Cap'n Proto is mostly driven by <code>Reader</code> and <code>Builder</code> implementations. You also might notice that <code>List</code> types need to be constructed a bit differently.</p>
 <blockquote>
-<p>This all might feel a bit weird because Cap'n Proto lays things out in memory such that they are <strong>serialized at rest, before being sent</strong>. <a href="https://capnproto.org/encoding.html">Read more on the encoding...</a></p>
+<p>This all might feel a bit weird because Cap'n Proto lays things out in memory such that they are <strong>serialized at rest, before being sent</strong>. <a rel="noopener" target="_blank" href="https://capnproto.org/encoding.html">Read more on the encoding...</a></p>
 </blockquote>
 <h2 id="building-off-stubs">Building Off Stubs</h2>
 <p>Before we even get into Rust code make sure you have the following packages in your <code>Cargo.toml</code>:</p>
-<pre><code>[dependencies]
-capnp = &quot;*&quot;
-capnpc = &quot;*&quot;
-capnp-rpc = &quot;*&quot;
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>[dependencies]
+</span><span>capnp = &quot;*&quot;
+</span><span>capnpc = &quot;*&quot;
+</span><span>capnp-rpc = &quot;*&quot;
+</span></code></pre>
 <p>In <code>src/main.rs</code> of our test project we'll need to have some imports:</p>
-<pre><code>extern crate capnp;
-extern crate capnpc;
-extern crate &quot;capnp-rpc&quot; as capnp_rpc;
-mod raft_capnp {
-    include!(&quot;./schema/raft_capnp.rs&quot;);
-}
-use std::thread;
-use raft_capnp::raft as Raft;
-use capnp::capability::{FromServer, Server};
-use capnp_rpc::capability::{InitRequest, LocalClient, WaitForContent};
-use capnp_rpc::ez_rpc::{EzRpcServer, EzRpcClient};
-</code></pre>
-<p><em>Note:</em> Because <code>capnp-rpc</code> is not a valid crate name we need to alias it. We'll also use <code>mod raft_capnp { include!(...) }</code> because of some <a href="https://github.com/dwrensha/capnpc-rust/issues/5">scoping issues with the Cap'n Proto implementation</a>. Since our <code>raft_capnp::raft</code> would normally be capitalized if it were a native Rust implementation I've gone ahead and done that as well.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>extern crate capnp;
+</span><span>extern crate capnpc;
+</span><span>extern crate &quot;capnp-rpc&quot; as capnp_rpc;
+</span><span>mod raft_capnp {
+</span><span>    include!(&quot;./schema/raft_capnp.rs&quot;);
+</span><span>}
+</span><span>use std::thread;
+</span><span>use raft_capnp::raft as Raft;
+</span><span>use capnp::capability::{FromServer, Server};
+</span><span>use capnp_rpc::capability::{InitRequest, LocalClient, WaitForContent};
+</span><span>use capnp_rpc::ez_rpc::{EzRpcServer, EzRpcClient};
+</span></code></pre>
+<p><em>Note:</em> Because <code>capnp-rpc</code> is not a valid crate name we need to alias it. We'll also use <code>mod raft_capnp { include!(...) }</code> because of some <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnpc-rust/issues/5">scoping issues with the Cap'n Proto implementation</a>. Since our <code>raft_capnp::raft</code> would normally be capitalized if it were a native Rust implementation I've gone ahead and done that as well.</p>
 <p>Next, in order to make our stubs something more than just <em>nothing</em> we'll go ahead and implement them. In our case, <code>RaftImpl</code> is an empty struct since we're just fiddling. But this is a good place to put stateful things since the handlers will recieve a <code>&amp;mut self</code>.</p>
-<pre><code>struct RaftImpl;
-impl Raft::Server for RaftImpl {
-    fn append_entries(&amp;mut self, mut context: Raft::AppendEntriesContext) { }
-    fn request_vote(&amp;mut self, mut context: Raft::RequestVoteContext) { }
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>struct RaftImpl;
+</span><span>impl Raft::Server for RaftImpl {
+</span><span>    fn append_entries(&amp;mut self, mut context: Raft::AppendEntriesContext) { }
+</span><span>    fn request_vote(&amp;mut self, mut context: Raft::RequestVoteContext) { }
+</span><span>}
+</span></code></pre>
 <h2 id="working-with-context">Working with Context</h2>
 <p>So you might have looked at the parameters to our calls and realized <em>they don't look anything like the ones we wrote in the schema</em>. They show up in <code>mut context</code>.</p>
 <blockquote>
 <p><strong>Why?</strong> Because, like <code>struct</code>s in Cap'n Proto, RPC calls are also laid out in memory in creative ways. So we'll need to use getters to access them.</p>
 </blockquote>
 <p>Let's work through getting the parameters inside of our <code>AppendEntries</code> call.</p>
-<pre><code>let (params, mut results) = context.get();
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>let (params, mut results) = context.get();
+</span></code></pre>
 <p>So <code>context</code> breaks down into the <code>params</code>, and the <code>results</code>. The idea is that you read from the params and write to the (mutable) results.</p>
-<pre><code>let term = params.get_term();
-let leader_id = params.get_leader_id();
-let prev_log_index = params.get_prev_log_index();
-let prev_log_term = params.get_prev_log_term();
-let leader_commit = params.get_leader_commit();
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>let term = params.get_term();
+</span><span>let leader_id = params.get_leader_id();
+</span><span>let prev_log_index = params.get_prev_log_index();
+</span><span>let prev_log_term = params.get_prev_log_term();
+</span><span>let leader_commit = params.get_leader_commit();
+</span></code></pre>
 <p>Accessors look pretty standard here, the parameters come out as types we'd expect (In this case, <code>u64</code>). For a List things are a bit different.</p>
-<pre><code>let entries = {
-    let target = params.get_entries();
-    let size = target.len();
-    let mut entries = Vec::with_capacity(size as usize);
-    for i in 0..size {
-        entries.push(target.get(i).to_string());
-    }
-    entries
-};
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>let entries = {
+</span><span>    let target = params.get_entries();
+</span><span>    let size = target.len();
+</span><span>    let mut entries = Vec::with_capacity(size as usize);
+</span><span>    for i in 0..size {
+</span><span>        entries.push(target.get(i).to_string());
+</span><span>    }
+</span><span>    entries
+</span><span>};
+</span></code></pre>
 <p>Unfortunately, I wasn't able to figure out a painless way of extracting a full set of values from the list without doing a manual walk like this. However, if you're working with 'real' code you might be able to avoid such things. <strong>The scope is important here, note how we limit it.</strong></p>
 <p>At the end of the call we can set the results and close the context.</p>
-<pre><code>results.set_term(1u64);
-results.set_success(true);
-
-context.done();
-</code></pre>
-<p>After, Cap'N Proto will go and return our results. It should be noted that some cases requests can be <em>piplined</em> into other requests. I haven't dug too deeply into this yet but you can explore more <a href="https://github.com/dwrensha/capnp-rpc-rust/tree/master/examples/calculator">in this example</a>. Once I have a more firm understanding of things I'll probably write about pipelining.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>results.set_term(1u64);
+</span><span>results.set_success(true);
+</span><span>
+</span><span>context.done();
+</span></code></pre>
+<p>After, Cap'N Proto will go and return our results. It should be noted that some cases requests can be <em>piplined</em> into other requests. I haven't dug too deeply into this yet but you can explore more <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnp-rpc-rust/tree/master/examples/calculator">in this example</a>. Once I have a more firm understanding of things I'll probably write about pipelining.</p>
 <h2 id="erecting-a-server">Erecting a Server</h2>
 <p>The server part of our application will consume our <code>RaftImpl</code> and listen on a specific address. In order to simplify testing, we'll kick it off into a new thread because once <code>.serve()</code> is called the thread will block.</p>
-<pre><code>thread::spawn(move || {
-    let rpc_server = EzRpcServer::new(&quot;localhost:8080&quot;).unwrap();
-    let raft_server = Box::new(Raft::ServerDispatch { server : Box::new(RaftImpl)}) as Box&lt;Server+Send&gt;;
-    rpc_server.serve(raft_server);
-});
-</code></pre>
-<p>In the RPC repository's example, <a href="https://github.com/dwrensha">@dwrensha</a> mentiones that there should be a better way to create <code>raft_server</code> but I've not been able to find any myself. If you have suggestions please <a href="https://github.com/dwrensha/capnp-rpc-rust/issues">speak your peace</a>!</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>thread::spawn(move || {
+</span><span>    let rpc_server = EzRpcServer::new(&quot;localhost:8080&quot;).unwrap();
+</span><span>    let raft_server = Box::new(Raft::ServerDispatch { server : Box::new(RaftImpl)}) as Box&lt;Server+Send&gt;;
+</span><span>    rpc_server.serve(raft_server);
+</span><span>});
+</span></code></pre>
+<p>In the RPC repository's example, <a rel="noopener" target="_blank" href="https://github.com/dwrensha">@dwrensha</a> mentiones that there should be a better way to create <code>raft_server</code> but I've not been able to find any myself. If you have suggestions please <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnp-rpc-rust/issues">speak your peace</a>!</p>
 <h2 id="working-with-a-client">Working with a Client</h2>
 <p>Creating a client is fairly straightforward, the only thing I would note is that the <code>::new(&quot;$ADDRESS&quot;)</code> parameter is the <strong>server</strong>'s address.</p>
-<pre><code>let mut rpc_client = EzRpcClient::new(&quot;localhost:8080&quot;).unwrap();
-let raft_client: Raft::Client = rpc_client.get_main();
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>let mut rpc_client = EzRpcClient::new(&quot;localhost:8080&quot;).unwrap();
+</span><span>let raft_client: Raft::Client = rpc_client.get_main();
+</span></code></pre>
 <p>Finally, creating a request involves using the <code>Builder</code> implementation from the Rust code we generated from the Schema. Again, creating a <code>List</code> is a bit different than you might be used to.</p>
-<pre><code>println!(&quot;Issuing append_entries.&quot;);
-{
-    let mut request = raft_client.append_entries_request();
-    let mut builder = request.init();
-
-    builder.set_term(0u64);
-    builder.set_leader_id(0u64);
-    builder.set_prev_log_index(0u64);
-    builder.set_prev_log_term(0u64);
-    // Do entries in a sec.
-    builder.set_leader_commit(0u64);
-    // Entry creation is scoped.
-    {
-        let mut entries = builder.init_entries(2u32);
-        entries.set(0, &quot;Foo&quot;);
-        entries.set(1, &quot;Bar&quot;);
-    }
-    let mut promise = request.send();
-
-    let response = promise.wait().unwrap();
-    let term = response.get_term();
-    let success = response.get_success();
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>println!(&quot;Issuing append_entries.&quot;);
+</span><span>{
+</span><span>    let mut request = raft_client.append_entries_request();
+</span><span>    let mut builder = request.init();
+</span><span>
+</span><span>    builder.set_term(0u64);
+</span><span>    builder.set_leader_id(0u64);
+</span><span>    builder.set_prev_log_index(0u64);
+</span><span>    builder.set_prev_log_term(0u64);
+</span><span>    // Do entries in a sec.
+</span><span>    builder.set_leader_commit(0u64);
+</span><span>    // Entry creation is scoped.
+</span><span>    {
+</span><span>        let mut entries = builder.init_entries(2u32);
+</span><span>        entries.set(0, &quot;Foo&quot;);
+</span><span>        entries.set(1, &quot;Bar&quot;);
+</span><span>    }
+</span><span>    let mut promise = request.send();
+</span><span>
+</span><span>    let response = promise.wait().unwrap();
+</span><span>    let term = response.get_term();
+</span><span>    let success = response.get_success();
+</span><span>}
+</span></code></pre>
 <h2 id="further-exploration">Further Exploration</h2>
 <p>These are unsolved problems that I've been working on which I'm hoping the community can offer suggestions on. I'll update this post and credit any bright ideas!</p>
-<p><strong>Issuing calls to many servers at the same time</strong>. Simply attempting to <code>.wait()</code> in a loop is wholly inadequate for the implementation of <code>RequestVote</code>. How can we do better? Perhaps with multiple clients and a 'barrier'? <a href="https://github.com/dwrensha/capnp-rpc-rust/issues/5">Issue here</a>.</p>
-<pre><code>// TODO
-</code></pre>
-<p><strong>Having other events occuring on the server thread.</strong> In our implementation of <a href="https://github.com/hoverbear/raft">Raft</a> we'd ideally like to keep the requirements of a <code>RaftNode</code> down to a single thread, but we need to have timer events. I'm curious if this might be able to integrate with <a href="https://github.com/carllerche/mio">MIO</a> to do this.</p>
-<pre><code>// TODO
-</code></pre>
+<p><strong>Issuing calls to many servers at the same time</strong>. Simply attempting to <code>.wait()</code> in a loop is wholly inadequate for the implementation of <code>RequestVote</code>. How can we do better? Perhaps with multiple clients and a 'barrier'? <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnp-rpc-rust/issues/5">Issue here</a>.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// TODO
+</span></code></pre>
+<p><strong>Having other events occuring on the server thread.</strong> In our implementation of <a rel="noopener" target="_blank" href="https://github.com/hoverbear/raft">Raft</a> we'd ideally like to keep the requirements of a <code>RaftNode</code> down to a single thread, but we need to have timer events. I'm curious if this might be able to integrate with <a rel="noopener" target="_blank" href="https://github.com/carllerche/mio">MIO</a> to do this.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// TODO
+</span></code></pre>
 <p><strong>Pipelining multiple requests.</strong> Cap'n Proto has a feature called &quot;Pipelining&quot; which allows you to make multiple RPC calls in only one network trip (with some limitations). I have yet to come up with an understandable, simple example for this, suggestions?</p>
-<pre><code>// TODO
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// TODO
+</span></code></pre>
 <h2 id="closing-thoughts">Closing Thoughts</h2>
 <p>As before, one of the biggest stumbling blocks to using Cap'n Proto in Rust is the lack of documentation. There are only a few examples and the majority of the code does not have <code>rustdoc</code> comments, so exploring the API is usually a best-effort attempt. If you have an interest in writing documentation I'd highly suggest this project!</p>
 <p>I think that Cap'n Prot's RPC mechanisms offer something better then just shuffling around packets. In addition to allowing for more comprehension, it can also improve compatability and speed.</p>
 <blockquote>
-<p>This post is discussed on <a href="https://www.reddit.com/r/rust/comments/2yp7cb/learning_capn_proto_rpc/">Reddit</a>.</p>
+<p>This post is discussed on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2yp7cb/learning_capn_proto_rpc/">Reddit</a>.</p>
 </blockquote>
 <blockquote>
-<p>You can play with the full code <a href="https://gist.github.com/Hoverbear/7099220c233ecdf7fe8b">here</a>.</p>
+<p>You can play with the full code <a rel="noopener" target="_blank" href="https://gist.github.com/Hoverbear/7099220c233ecdf7fe8b">here</a>.</p>
 </blockquote>
 <blockquote>
-<p>Thanks to <a href="http://github.com/dwrensha/">@dwrensha</a> for proofreading this!</p>
+<p>Thanks to <a rel="noopener" target="_blank" href="http://github.com/dwrensha/">@dwrensha</a> for proofreading this!</p>
 </blockquote>
 
     </main>
@@ -347,8 +350,8 @@ let raft_client: Raft::Client = rpc_client.get_main();
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

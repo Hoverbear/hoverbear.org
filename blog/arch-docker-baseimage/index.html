@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -63,15 +64,17 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +86,12 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -175,8 +178,8 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
 <ul>
 <li>Base images currently can't be so-called 'Trusted Builds' built by the repository itself. You have <em>no way</em> of verifying the integrity of the images available.</li>
 <li>Arch is very much a moving target distribution. Any images you do pull are likely to be out of date.</li>
-<li>You don't have an existing Arch Linux install, which the <a href="https://github.com/dotcloud/docker/blob/master/contrib/mkimage-arch.sh">current scripts</a> require. and don't want to make one, or use someone else's container or install to build your image, again, going back to trust.</li>
-<li>The Arch Netinstall ISO doesn't have enough disposable storage to run the <a href="https://github.com/dotcloud/docker/blob/master/contrib/mkimage-arch.sh">current scripts</a>.</li>
+<li>You don't have an existing Arch Linux install, which the <a rel="noopener" target="_blank" href="https://github.com/dotcloud/docker/blob/master/contrib/mkimage-arch.sh">current scripts</a> require. and don't want to make one, or use someone else's container or install to build your image, again, going back to trust.</li>
+<li>The Arch Netinstall ISO doesn't have enough disposable storage to run the <a rel="noopener" target="_blank" href="https://github.com/dotcloud/docker/blob/master/contrib/mkimage-arch.sh">current scripts</a>.</li>
 </ul>
 <h2 id="solution">Solution</h2>
 <h3 id="dependencies">Dependencies</h3>
@@ -188,83 +191,83 @@ You need a base image of Arch Linux that you&#x27;re sure is a-okay.
 </ul>
 <h3 id="get-an-arch-chroot">Get an Arch Chroot</h3>
 <p>On any 64-bit Linux 2.6.23 or later you can create your base image via a chroot.</p>
-<pre><code># Make some space
-mkdir archbuild
-cd archbuild
-# Get the Image
-VERSION=$(curl https://mirrors.kernel.org/archlinux/iso/latest/ | grep -Poh '(?&lt;=archlinux-bootstrap-)\d*\.\d*\.\d*(?=\-x86_64)' | head -n 1)
-curl https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$VERSION-x86_64.tar.gz &gt; archlinux-bootstrap-$VERSION-x86_64.tar.gz
-curl https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$VERSION-x86_64.tar.gz.sig &gt; archlinux-bootstrap-$VERSION-x86_64.tar.gz.sig
-# Pull Pierre Schmitz PGP Key.
-# http://pgp.mit.edu:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;exact=on&amp;search=0x4AA4767BBC9C4B1D18AE28B77F2D434B9741E8AC
-gpg --keyserver pgp.mit.edu --recv-keys 9741E8AC
-# Verify its integrity.
-gpg --verify archlinux-bootstrap-$VERSION-x86_64.tar.gz.sig
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Make some space
+</span><span style="color:#ffd580;">mkdir</span><span> archbuild
+</span><span style="color:#f28779;">cd</span><span> archbuild
+</span><span style="font-style:italic;color:#5c6773;"># Get the Image
+</span><span>VERSION</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>(</span><span style="color:#ffd580;">curl</span><span style="color:#bae67e;"> https://mirrors.kernel.org/archlinux/iso/latest/ </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">grep</span><span style="color:#ffcc66;"> -Poh </span><span style="color:#bae67e;">&#39;(?&lt;=archlinux-bootstrap-)\d*\.\d*\.\d*(?=\-x86_64)&#39; </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">head</span><span style="color:#ffcc66;"> -n</span><span style="color:#bae67e;"> 1</span><span>)
+</span><span style="color:#ffd580;">curl</span><span> https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$VERSION-x86_64.tar.gz </span><span style="color:#f29e74;">&gt;</span><span> archlinux-bootstrap-$VERSION-x86_64.tar.gz
+</span><span style="color:#ffd580;">curl</span><span> https://mirrors.kernel.org/archlinux/iso/latest/archlinux-bootstrap-$VERSION-x86_64.tar.gz.sig </span><span style="color:#f29e74;">&gt;</span><span> archlinux-bootstrap-$VERSION-x86_64.tar.gz.sig
+</span><span style="font-style:italic;color:#5c6773;"># Pull Pierre Schmitz PGP Key.
+</span><span style="font-style:italic;color:#5c6773;"># http://pgp.mit.edu:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;exact=on&amp;search=0x4AA4767BBC9C4B1D18AE28B77F2D434B9741E8AC
+</span><span style="color:#ffd580;">gpg</span><span style="color:#ffcc66;"> --keyserver</span><span> pgp.mit.edu</span><span style="color:#ffcc66;"> --recv-keys</span><span> 9741E8AC
+</span><span style="font-style:italic;color:#5c6773;"># Verify its integrity.
+</span><span style="color:#ffd580;">gpg</span><span style="color:#ffcc66;"> --verify</span><span> archlinux-bootstrap-$VERSION-x86_64.tar.gz.sig
+</span></code></pre>
 <p>Check the output, make sure the signature is good. You'll likely see a trust warning, that's fine, you didn't mark the key trusted.</p>
 <h3 id="getting-in">Getting In</h3>
-<pre><code># Extract
-tar xvf archlinux-bootstrap-$VERSION-x86_64.tar.gz
-# Hop in
-sudo ./root.x86_64/bin/arch-chroot root.x86_64
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Extract
+</span><span style="color:#ffd580;">tar</span><span> xvf archlinux-bootstrap-$VERSION-x86_64.tar.gz
+</span><span style="font-style:italic;color:#5c6773;"># Hop in
+</span><span style="color:#ffd580;">sudo</span><span> ./root.x86_64/bin/arch-chroot root.x86_64
+</span></code></pre>
 <p>You should notice you shell looks like <code>sh-4.3#</code>. Furthermore, <code>pacman</code> should be available.</p>
 <h3 id="setup">Setup</h3>
 <p><strong>In the chroot</strong>:</p>
-<pre><code># Setup a mirror.
-echo 'Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch' &gt; /etc/pacman.d/mirrorlist
-# Setup Keys
-pacman-key --init
-pacman-key --populate archlinux
-# Base without the following packages, to save space.
-# linux jfsutils lvm2 cryptsetup groff man-db man-pages mdadm pciutils pcmciautils reiserfsprogs s-nail xfsprogs vi
-pacman -Syu --noconfirm bash bzip2 coreutils device-mapper dhcpcd gcc-libs gettext glibc grep gzip inetutils iproute2 iputils less libutil-linux licenses logrotate psmisc sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux which
-# Pacman doesn't let us force ignore files, so clean up.
-pacman -Sc --noconfirm
-# Install stuff
-echo &quot;en_US.UTF-8 UTF-8&quot; &gt; /etc/locale.gen
-locale-gen
-exit
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Setup a mirror.
+</span><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&#39;Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch&#39; </span><span style="color:#f29e74;">&gt;</span><span> /etc/pacman.d/mirrorlist
+</span><span style="font-style:italic;color:#5c6773;"># Setup Keys
+</span><span style="color:#ffd580;">pacman-key</span><span style="color:#ffcc66;"> --init
+</span><span style="color:#ffd580;">pacman-key</span><span style="color:#ffcc66;"> --populate</span><span> archlinux
+</span><span style="font-style:italic;color:#5c6773;"># Base without the following packages, to save space.
+</span><span style="font-style:italic;color:#5c6773;"># linux jfsutils lvm2 cryptsetup groff man-db man-pages mdadm pciutils pcmciautils reiserfsprogs s-nail xfsprogs vi
+</span><span style="color:#ffd580;">pacman</span><span style="color:#ffcc66;"> -Syu --noconfirm</span><span> bash bzip2 coreutils device-mapper dhcpcd gcc-libs gettext glibc grep gzip inetutils iproute2 iputils less libutil-linux licenses logrotate psmisc sed shadow sysfsutils systemd-sysvcompat tar texinfo usbutils util-linux which
+</span><span style="font-style:italic;color:#5c6773;"># Pacman doesn&#39;t let us force ignore files, so clean up.
+</span><span style="color:#ffd580;">pacman</span><span style="color:#ffcc66;"> -Sc --noconfirm
+</span><span style="font-style:italic;color:#5c6773;"># Install stuff
+</span><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;en_US.UTF-8 UTF-8&quot; </span><span style="color:#f29e74;">&gt;</span><span> /etc/locale.gen
+</span><span style="color:#ffd580;">locale-gen
+</span><span style="color:#f28779;">exit
+</span></code></pre>
 <p><strong>Outside of the chroot</strong> (You may need to be root):</p>
-<pre><code># udev doesnt work in containers, rebuild /dev
-# Taken from https://raw.githubusercontent.com/dotcloud/docker/master/contrib/mkimage-arch.sh
-DEV=root.x86_64/dev
-rm -rf $DEV
-mkdir -p $DEV
-mknod -m 666 $DEV/null c 1 3
-mknod -m 666 $DEV/zero c 1 5
-mknod -m 666 $DEV/random c 1 8
-mknod -m 666 $DEV/urandom c 1 9
-mkdir -m 755 $DEV/pts
-mkdir -m 1777 $DEV/shm
-mknod -m 666 $DEV/tty c 5 0
-mknod -m 600 $DEV/console c 5 1
-mknod -m 666 $DEV/tty0 c 4 0
-mknod -m 666 $DEV/full c 1 7
-mknod -m 600 $DEV/initctl p
-mknod -m 666 $DEV/ptmx c 5 2
-ln -sf /proc/self/fd $DEV/fd
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># udev doesnt work in containers, rebuild /dev
+</span><span style="font-style:italic;color:#5c6773;"># Taken from https://raw.githubusercontent.com/dotcloud/docker/master/contrib/mkimage-arch.sh
+</span><span>DEV</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">root.x86_64/dev
+</span><span style="color:#ffd580;">rm</span><span style="color:#ffcc66;"> -rf </span><span>$DEV
+</span><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span>$DEV
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/null c 1 3
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/zero c 1 5
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/random c 1 8
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/urandom c 1 9
+</span><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -m</span><span> 755 $DEV/pts
+</span><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -m</span><span> 1777 $DEV/shm
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/tty c 5 0
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 600 $DEV/console c 5 1
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/tty0 c 4 0
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/full c 1 7
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 600 $DEV/initctl p
+</span><span style="color:#ffd580;">mknod</span><span style="color:#ffcc66;"> -m</span><span> 666 $DEV/ptmx c 5 2
+</span><span style="color:#ffd580;">ln</span><span style="color:#ffcc66;"> -sf</span><span> /proc/self/fd $DEV/fd
+</span></code></pre>
 <h3 id="import-the-image">Import the Image</h3>
 <p><strong>Outside of the chroot</strong> (You may need to be root):</p>
-<pre><code>USER='hoverbear'
-tar --numeric-owner -C root.x86_64 -c .  | docker import - $USER/archlinux
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>USER</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;hoverbear&#39;
+</span><span style="color:#ffd580;">tar</span><span style="color:#ffcc66;"> --numeric-owner -C</span><span> root.x86_64</span><span style="color:#ffcc66;"> -c</span><span> .  </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">docker</span><span> import - $USER/archlinux
+</span></code></pre>
 <h3 id="test-it">Test It</h3>
-<pre><code>docker run --rm=true -t -i $USER/archlinux /bin/bash
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> --rm</span><span style="color:#f29e74;">=</span><span>true</span><span style="color:#ffcc66;"> -t -i </span><span>$USER/archlinux /bin/bash
+</span></code></pre>
 <p>Give it a try!</p>
 <h2 id="a-full-start-to-end-script">A full, start to end script</h2>
-<p>You can grab a fully automated script <a href="https://github.com/Hoverbear/docker-archlinux">here</a>.</p>
+<p>You can grab a fully automated script <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/docker-archlinux">here</a>.</p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

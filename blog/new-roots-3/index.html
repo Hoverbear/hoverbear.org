@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ad68459eb8edd55f00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ad68459eb8edd55f00.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -63,15 +64,17 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Lucas Neasi</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0ccdfa043fdd58f000.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ad68459eb8edd55f00.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3d7b38456e4201c600.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1b5de2eba13c971000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3d7b38456e4201c600.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +86,12 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -159,223 +162,223 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
 <p>I'm purposely choosing some things I'm not familiar with to learn as I go, so please feel free to offer any advice you might have.</p>
 <h2 id="hostname">Hostname</h2>
 <p>We can set the hostname with the following command:</p>
-<pre><code>HOSTNAME=silicon
-hostnamectl set-hostname $HOSTNAME
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>HOSTNAME</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">silicon
+</span><span style="color:#ffd580;">hostnamectl</span><span> set-hostname $HOSTNAME
+</span></code></pre>
 <p>This writes the hostname to <code>/etc/hostname</code>. After you'll want to look in <code>/etc/hosts</code>. Here's what mine ended up like after I was done editing it. I'm setting up a host called <code>silicon</code> on the <code>hoverbear.org</code> domain.</p>
-<pre><code>#
-# /etc/hosts: static lookup table for host names
-#
-
-#&lt;ip&gt;	    &lt;hostname.domain.org&gt;	     &lt;hostname&gt;
-127.0.0.1       silicon.local  silicon
-::1             silicon.local  silicon
-138.201.63.106  silicon.hoverbear.org    silicon
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#
+</span><span># /etc/hosts: static lookup table for host names
+</span><span>#
+</span><span>
+</span><span>#&lt;ip&gt;	    &lt;hostname.domain.org&gt;	     &lt;hostname&gt;
+</span><span>127.0.0.1       silicon.local  silicon
+</span><span>::1             silicon.local  silicon
+</span><span>138.201.63.106  silicon.hoverbear.org    silicon
+</span></code></pre>
 <p>You can test that the local name is working with <code>ping $HOSTNAME</code>.</p>
 <p>Now that our server thinks it's <code>$HOSTNAME</code> we need to tell everything else in the world that it is! If you happen to have a domain name, you should go to your provider's DNS console and route <code>$HOSTNAME.$DOMAIN.$TLD</code> to your device's IP address. You can find this with <code>ip addr</code>.</p>
 <p>For me that looked like adding a line to a table with the following information:</p>
-<pre><code>silicon     138.201.63.106      A (Address)
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>silicon     138.201.63.106      A (Address)
+</span></code></pre>
 <p>Go make yourself a tea, then try pinging your server from a different machine a few minutes later.</p>
-<pre><code>FQDN=silicon.hoverbear.org
-ping $FQDN
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>FQDN</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">silicon.hoverbear.org
+</span><span style="color:#ffd580;">ping </span><span>$FQDN
+</span></code></pre>
 <p>Once it starts working you're all set with your domain name! Do note it can take up to 24 hours for global DNS propagation.</p>
 <h2 id="time">Time</h2>
 <p>One choice which may bring up confusion is the timezone to set your server to. If you're only going to be hosting services in one time zone you may wish to simply set it to that. If you provide services internationally the question becomes more unclear. One option is UTC.</p>
 <p>One thing to consider while evaluating your options on time is to consider how you'll be hosting your services. Later we'll talk about using containers to host your services, and these can all operate on their own timezones. You can review timezones available with <code>timedatectl list-timezones</code>.</p>
 <p>Properly designed programs will store timezones as part of their dates, but not all programs are properly designed. Changing your timezone later can temporarily cause rather strange issues, so be forwarned.</p>
 <p>I'm going to just choose my current local time for now. Since my root host won't be running any time sensitive services I can change it without worrying too much.</p>
-<pre><code>timedatectl set-timezone Canada/Pacific
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">timedatectl</span><span> set-timezone Canada/Pacific
+</span></code></pre>
 <p>Since we're running a server that will, ultimately, be responsible for possibly time-sensitive data it might be a good idea to ensure we have accurate times. In order to do this we'll enable an <code>ntp</code> service.</p>
-<pre><code>timedatectl set-ntp true
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">timedatectl</span><span> set-ntp true
+</span></code></pre>
 <h2 id="a-simple-firewall">A Simple Firewall</h2>
 <p>Most modern kernels come built in with <code>iptables</code> and <code>nftables</code> support already. In Arch, <code>iptables</code> is pulled in as part of base. <code>nftables</code> is a newer 'spiritual successor' to <code>iptables</code> however there is little practical real world documentation. Since some of the things we'll be doing later on will be utilizing <code>iptables</code> it's probably a good idea to use that.</p>
-<p>There is a <a href="https://wiki.archlinux.org/index.php/Firewalls#iptables">menagerie</a> of different frontends for <code>iptables</code> that put a layer between you and it. However <code>iptables</code> isn't that difficult to understand and has some great <a href="https://wiki.archlinux.org/index.php/Iptables">documentation</a>. Learning how to understand what's happening in <code>iptables</code> will make using even frontends easier later on, if you even choose to use them.</p>
-<p>We'll be referencing the <a href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall">Simple Stateful Firewall</a> for our initial setup.</p>
+<p>There is a <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Firewalls#iptables">menagerie</a> of different frontends for <code>iptables</code> that put a layer between you and it. However <code>iptables</code> isn't that difficult to understand and has some great <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Iptables">documentation</a>. Learning how to understand what's happening in <code>iptables</code> will make using even frontends easier later on, if you even choose to use them.</p>
+<p>We'll be referencing the <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall">Simple Stateful Firewall</a> for our initial setup.</p>
 <p>Since we're currently on a remote device over SSH we need to be careful not to lock ourselves out. So let's set some basic filter settings in <code>/etc/iptables/iptables.rules</code>:</p>
-<pre><code>*filter
-### Defaults for the chain.
-# Drop anything that we don't catch from input.
-:INPUT DROP [0:0]
-
-# We're not a router, we shouldn't forward anything along a NAT.
-:FORWARD DROP [0:0]
-
-# We trust things running on this machine, so accept them all.
-:OUTPUT ACCEPT [0:0]
-
-# User defined chains.
-:TCP - [0:0]
-:UDP - [0:0]
-
-# Accept already established or related connections.
---append INPUT --match conntrack --ctstate RELATED,ESTABLISHED --jump ACCEPT
-
-# Accept anything from the local loopback.
---append INPUT --in-interface lo --jump ACCEPT
-
-# Drop any invalid packets. We can't reject since there's no valid way to reject.
---append INPUT --match conntrack --ctstate INVALID --jump DROP
-
-# Accept any pings.
---append INPUT --protocol icmp --match icmp --icmp-type 8 --match conntrack --ctstate NEW --jump ACCEPT
-
-# Attach the user defined chains (UDP, TCP) to valid connections on the
-# respective protocol. Recall that anything established is already accepted.
---append INPUT --protocol udp --match conntrack --ctstate NEW --jump UDP
---append INPUT --protocol tcp --tcp-flags FIN,SYN,RST,ACK SYN --match conntrack --ctstate NEW --jump TCP
-
-# Reject TCP connections with TCP RESET packets and UDP streams with ICMP port
-# unreachable messages if the ports are not opened.
---append INPUT --protocol udp --jump REJECT --reject-with icmp-port-unreachable
---append INPUT --protocol tcp --jump REJECT --reject-with tcp-reset
-
-# Reject all remaining incoming traffic with icmp protocol unreachable messages.
---append INPUT --jump REJECT --reject-with icmp-proto-unreachable
-
-### TCP Chain
-# Allow SSH connections.
---append TCP --protocol tcp --dport 22 --jump ACCEPT
-
-COMMIT
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">*filter
+</span><span style="font-style:italic;color:#5c6773;">### Defaults for the chain.
+</span><span style="font-style:italic;color:#5c6773;"># Drop anything that we don&#39;t catch from input.
+</span><span style="color:#ffd580;">:INPUT</span><span> DROP </span><span style="color:#ffa759;">[</span><span>0:0</span><span style="color:#ffa759;">]
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># We&#39;re not a router, we shouldn&#39;t forward anything along a NAT.
+</span><span style="color:#ffd580;">:FORWARD</span><span> DROP </span><span style="color:#ffa759;">[</span><span>0:0</span><span style="color:#ffa759;">]
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># We trust things running on this machine, so accept them all.
+</span><span style="color:#ffd580;">:OUTPUT</span><span> ACCEPT </span><span style="color:#ffa759;">[</span><span>0:0</span><span style="color:#ffa759;">]
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># User defined chains.
+</span><span style="color:#ffd580;">:TCP</span><span> - </span><span style="color:#ffa759;">[</span><span>0:0</span><span style="color:#ffa759;">]
+</span><span style="color:#ffd580;">:UDP</span><span> - </span><span style="color:#ffa759;">[</span><span>0:0</span><span style="color:#ffa759;">]
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Accept already established or related connections.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --match</span><span> conntrack</span><span style="color:#ffcc66;"> --ctstate</span><span> RELATED,ESTABLISHED</span><span style="color:#ffcc66;"> --jump</span><span> ACCEPT
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Accept anything from the local loopback.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --in-interface</span><span> lo</span><span style="color:#ffcc66;"> --jump</span><span> ACCEPT
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Drop any invalid packets. We can&#39;t reject since there&#39;s no valid way to reject.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --match</span><span> conntrack</span><span style="color:#ffcc66;"> --ctstate</span><span> INVALID</span><span style="color:#ffcc66;"> --jump</span><span> DROP
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Accept any pings.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --protocol</span><span> icmp</span><span style="color:#ffcc66;"> --match</span><span> icmp</span><span style="color:#ffcc66;"> --icmp-type</span><span> 8</span><span style="color:#ffcc66;"> --match</span><span> conntrack</span><span style="color:#ffcc66;"> --ctstate</span><span> NEW</span><span style="color:#ffcc66;"> --jump</span><span> ACCEPT
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Attach the user defined chains (UDP, TCP) to valid connections on the
+</span><span style="font-style:italic;color:#5c6773;"># respective protocol. Recall that anything established is already accepted.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --protocol</span><span> udp</span><span style="color:#ffcc66;"> --match</span><span> conntrack</span><span style="color:#ffcc66;"> --ctstate</span><span> NEW</span><span style="color:#ffcc66;"> --jump</span><span> UDP
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --protocol</span><span> tcp</span><span style="color:#ffcc66;"> --tcp-flags</span><span> FIN,SYN,RST,ACK SYN</span><span style="color:#ffcc66;"> --match</span><span> conntrack</span><span style="color:#ffcc66;"> --ctstate</span><span> NEW</span><span style="color:#ffcc66;"> --jump</span><span> TCP
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Reject TCP connections with TCP RESET packets and UDP streams with ICMP port
+</span><span style="font-style:italic;color:#5c6773;"># unreachable messages if the ports are not opened.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --protocol</span><span> udp</span><span style="color:#ffcc66;"> --jump</span><span> REJECT</span><span style="color:#ffcc66;"> --reject-with</span><span> icmp-port-unreachable
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --protocol</span><span> tcp</span><span style="color:#ffcc66;"> --jump</span><span> REJECT</span><span style="color:#ffcc66;"> --reject-with</span><span> tcp-reset
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Reject all remaining incoming traffic with icmp protocol unreachable messages.
+</span><span style="color:#ffd580;">--append</span><span> INPUT</span><span style="color:#ffcc66;"> --jump</span><span> REJECT</span><span style="color:#ffcc66;"> --reject-with</span><span> icmp-proto-unreachable
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">### TCP Chain
+</span><span style="font-style:italic;color:#5c6773;"># Allow SSH connections.
+</span><span style="color:#ffd580;">--append</span><span> TCP</span><span style="color:#ffcc66;"> --protocol</span><span> tcp</span><span style="color:#ffcc66;"> --dport</span><span> 22</span><span style="color:#ffcc66;"> --jump</span><span> ACCEPT
+</span><span>
+</span><span style="color:#ffd580;">COMMIT
+</span></code></pre>
 <p>Now you can start and get the status of the <code>iptables</code> service.</p>
-<pre><code>systemctl start iptables
-systemctl status iptables
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">systemctl</span><span> start iptables
+</span><span style="color:#ffd580;">systemctl</span><span> status iptables
+</span></code></pre>
 <p>Now try ending your <code>ssh</code> session and hopping back in. If it didn't work you can just reset the machine and try reconfiguring. If it did work then we can enable the service on boot.</p>
-<pre><code>systemctl enable iptables
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">systemctl</span><span> enable iptables
+</span></code></pre>
 <p>At this point you can review your current settings and see various usages with <code>iptables -nvL</code>:</p>
-<pre><code>Chain INPUT (policy DROP 0 packets, 0 bytes)
- pkts bytes target     prot opt in     out     source               destination         
-  215 18609 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
-    0     0 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
-    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
-    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8 ctstate NEW
-    1   439 UDP        udp  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW
-    4   188 TCP        tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp flags:0x17/0x02 ctstate NEW
-    1   439 REJECT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
-    2    80 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with tcp-reset
-    0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-proto-unreachable
-
-Chain FORWARD (policy DROP 0 packets, 0 bytes)
- pkts bytes target     prot opt in     out     source               destination         
-
-Chain OUTPUT (policy ACCEPT 146 packets, 20108 bytes)
- pkts bytes target     prot opt in     out     source               destination         
-
-Chain TCP (1 references)
- pkts bytes target     prot opt in     out     source               destination         
-    2   108 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22
-
-Chain UDP (1 references)
- pkts bytes target     prot opt in     out     source               destination
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>Chain INPUT (policy DROP 0 packets, 0 bytes)
+</span><span> pkts bytes target     prot opt in     out     source               destination         
+</span><span>  215 18609 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+</span><span>    0     0 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
+</span><span>    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate INVALID
+</span><span>    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8 ctstate NEW
+</span><span>    1   439 UDP        udp  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW
+</span><span>    4   188 TCP        tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp flags:0x17/0x02 ctstate NEW
+</span><span>    1   439 REJECT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
+</span><span>    2    80 REJECT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with tcp-reset
+</span><span>    0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-proto-unreachable
+</span><span>
+</span><span>Chain FORWARD (policy DROP 0 packets, 0 bytes)
+</span><span> pkts bytes target     prot opt in     out     source               destination         
+</span><span>
+</span><span>Chain OUTPUT (policy ACCEPT 146 packets, 20108 bytes)
+</span><span> pkts bytes target     prot opt in     out     source               destination         
+</span><span>
+</span><span>Chain TCP (1 references)
+</span><span> pkts bytes target     prot opt in     out     source               destination         
+</span><span>    2   108 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+</span><span>
+</span><span>Chain UDP (1 references)
+</span><span> pkts bytes target     prot opt in     out     source               destination
+</span></code></pre>
 <p>As you can see from the <code>pkts</code> column, our rule in <code>TCP</code> got used for an <code>ssh</code> connection, and the rule for already established connections is also being used.</p>
 <h2 id="hardening">Hardening</h2>
 <p>Servers get attacked, it's a fact of life. Let's take some simple steps to help build up a bit of security for ourselves. First let's set some flags in <code>/etc/sysctl.d/50-hardening.conf</code>:</p>
-<pre><code># Only root can see dmesg
-kernel.dmesg_restrict = 1
-# Restrict kernel pointer access.
-kernel.kptr_restrict = 1
-
-# TCP SYN cookie protection (default) helps protect against SYN flood attacks
-# only kicks in when net.ipv4.tcp_max_syn_backlog is reached
-net.ipv4.tcp_syncookies = 1
-
-# Protect against tcp time-wait assassination hazards drop RST packets for
-# sockets in the time-wait state (not widely supported outside of linux,
-# but conforms to RFC)
-net.ipv4.tcp_rfc1337 = 1
-
-# Sets the kernels reverse path filtering mechanism to value 1, it will do
-# source validation of the packet's recieved from all the interfaces on the
-# machine protects from attackers that are using ip spoofing methods to do harm
-net.ipv4.conf.all.rp_filter = 1
-net.ipv6.conf.all.rp_filter = 1
-
-# We will be forwarding for IPv4 to containers. Enable this.
-net.ipv4.ip_forward = 1
-
-# Ignore echo broadcast requests to prevent being part of smurf attacks
-net.ipv4.icmp_echo_ignore_broadcasts = 1
-
-# Ignore bogus icmp errors
-net.ipv4.icmp_ignore_bogus_error_responses = 1
-
-# Protect against some hardlink and symlink vulnerabilities.
-fs.protected_hardlinks = 1
-fs.protected_symlinks = 1
-</code></pre>
-<p>Much of this configuration was taken from the <a href="https://wiki.archlinux.org/index.php/Security">security guide</a>. Now you can apply the changes with <code>systemctl --system</code>.</p>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Only root can see dmesg
+</span><span style="color:#ffd580;">kernel.dmesg_restrict</span><span> = 1
+</span><span style="font-style:italic;color:#5c6773;"># Restrict kernel pointer access.
+</span><span style="color:#ffd580;">kernel.kptr_restrict</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># TCP SYN cookie protection (default) helps protect against SYN flood attacks
+</span><span style="font-style:italic;color:#5c6773;"># only kicks in when net.ipv4.tcp_max_syn_backlog is reached
+</span><span style="color:#ffd580;">net.ipv4.tcp_syncookies</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Protect against tcp time-wait assassination hazards drop RST packets for
+</span><span style="font-style:italic;color:#5c6773;"># sockets in the time-wait state (not widely supported outside of linux,
+</span><span style="font-style:italic;color:#5c6773;"># but conforms to RFC)
+</span><span style="color:#ffd580;">net.ipv4.tcp_rfc1337</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Sets the kernels reverse path filtering mechanism to value 1, it will do
+</span><span style="font-style:italic;color:#5c6773;"># source validation of the packet&#39;s recieved from all the interfaces on the
+</span><span style="font-style:italic;color:#5c6773;"># machine protects from attackers that are using ip spoofing methods to do harm
+</span><span style="color:#ffd580;">net.ipv4.conf.all.rp_filter</span><span> = 1
+</span><span style="color:#ffd580;">net.ipv6.conf.all.rp_filter</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># We will be forwarding for IPv4 to containers. Enable this.
+</span><span style="color:#ffd580;">net.ipv4.ip_forward</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Ignore echo broadcast requests to prevent being part of smurf attacks
+</span><span style="color:#ffd580;">net.ipv4.icmp_echo_ignore_broadcasts</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Ignore bogus icmp errors
+</span><span style="color:#ffd580;">net.ipv4.icmp_ignore_bogus_error_responses</span><span> = 1
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Protect against some hardlink and symlink vulnerabilities.
+</span><span style="color:#ffd580;">fs.protected_hardlinks</span><span> = 1
+</span><span style="color:#ffd580;">fs.protected_symlinks</span><span> = 1
+</span></code></pre>
+<p>Much of this configuration was taken from the <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/Security">security guide</a>. Now you can apply the changes with <code>systemctl --system</code>.</p>
 <h2 id="dns-and-name-resolution">DNS and Name Resolution</h2>
-<p>It's now time to properly configure <code>systemd-resolved</code>. First we'll link its configuration into the old <code>/etc/resolv.conf</code> location for compatability <a href="https://wiki.archlinux.org/index.php/systemd-networkd#Required_services_and_setup">reasons</a>.</p>
-<pre><code>rm /etc/resolv.conf
-ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
-systemctl restart systemd-resolved
-</code></pre>
+<p>It's now time to properly configure <code>systemd-resolved</code>. First we'll link its configuration into the old <code>/etc/resolv.conf</code> location for compatability <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/systemd-networkd#Required_services_and_setup">reasons</a>.</p>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rm</span><span> /etc/resolv.conf
+</span><span style="color:#ffd580;">ln</span><span style="color:#ffcc66;"> -s</span><span> /run/systemd/resolve/resolv.conf /etc/resolv.conf
+</span><span style="color:#ffd580;">systemctl</span><span> restart systemd-resolved
+</span></code></pre>
 <p>Next we'll go into <code>/etc/nsswitch.conf</code> and set up to local DNS stub resolver. Change this line:</p>
-<pre><code>+ hosts: files mymachines resolve myhostname
-- hosts: files dns myhostname
-</code></pre>
+<pre data-lang="diff" style="background-color:#212733;color:#ccc9c2;" class="language-diff "><code class="language-diff" data-lang="diff"><span style="color:#bae67e;">+ hosts: files mymachines resolve myhostname
+</span><span style="color:#f28779;">- hosts: files dns myhostname
+</span></code></pre>
 <p>Now we can go about creating and modifying files in <code>/etc/systemd/network/</code>. Before going about this it's a good idea to review your network adapters and check out <code>man systemd.network</code>. You can do this with <code>ip addr</code>. You should see a <code>lo</code> and some adapter starting with <code>enp</code>. The <code>enp</code> prefixed adapter is your physical adapter.</p>
 <p>We can go back and review our previous <code>/etc/systemd/network/physical.network</code> now. Some changes can be made:</p>
-<pre><code>[Match]
-# Make sure this matches your adapter from the ip addr command
-Name=enp*
-
-[Network]
-DHCP=ipv4
-# Use global NTP pools
-NTP=0.pool.ntp.org
-NTP=1.pool.ntp.org
-NTP=2.pool.ntp.org
-NTP=3.pool.ntp.org
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">[Match]
+</span><span style="font-style:italic;color:#5c6773;"># Make sure this matches your adapter from the ip addr command
+</span><span>Name</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">enp</span><span style="color:#f29e74;">*
+</span><span>
+</span><span style="color:#ffd580;">[Network]
+</span><span>DHCP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ipv4
+</span><span style="font-style:italic;color:#5c6773;"># Use global NTP pools
+</span><span>NTP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">0.pool.ntp.org
+</span><span>NTP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">1.pool.ntp.org
+</span><span>NTP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">2.pool.ntp.org
+</span><span>NTP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">3.pool.ntp.org
+</span></code></pre>
 <p>Then we'll configure <code>/etc/systemd/resolved.conf</code>:</p>
-<pre><code>[Resolve]
-# Specify Google's DNS instead of whatever the default picked by DHCP is.
-DNS=8.8.8.8
-FallbackDNS=8.8.4.4
-LLMNR=true
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">[Resolve]
+</span><span style="font-style:italic;color:#5c6773;"># Specify Google&#39;s DNS instead of whatever the default picked by DHCP is.
+</span><span>DNS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">8.8.8.8
+</span><span>FallbackDNS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">8.8.4.4
+</span><span>LLMNR</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">true
+</span></code></pre>
 <h2 id="reboot-tea-time">Reboot &amp; Tea Time</h2>
 <p>At this point we've tinkered with enough things it's a good idea to verify everything is working as intended still. Give your system a <code>reboot</code>, go make yourself a cup of tea (servers take time to reboot), and verify that you can reconnect.</p>
 <p>So far we've set up a basic firewall, configured time syncronization, added some kernel parameters, and added some basic configuration to our physical network adapter. These are things that you'll likely want to do on your server regardless of what it's final purpose is, and even if you do need to change them this gives you a good basis.</p>
 <p>At this point our configuration is roughly as so:</p>
-<pre><code>internet -&gt; host { iptables -&gt; ssh }
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>internet -&gt; host { iptables -&gt; ssh }
+</span></code></pre>
 <p>Our host is configured through <code>systemd-networkd</code> and name resolution is augmented by <code>systemd-resolved</code>. This configuration places us in a great position to use container based services.</p>
 <h2 id="adding-a-new-service-mosh">Adding a New Service (mosh)</h2>
 <p>We'll discuss setting up and networking various services at length in future posts, including example <code>nginx</code>, <code>postgres</code>, <code>nodejs</code> and <code>rust</code> service deployments. We'll end up using containers for these, the idea of using containers for these services is a choice of isolation and modularization. We'd, ideally, like to keep our 'root' system as simple and secure as possible, it shouldn't have the job of hosting any public facing services other than <code>ssh</code> and <code>nginx</code>, and we'll only use <code>nginx</code> to proxy requests to other HTTP servers.</p>
-<p>For me there is one exception to this rule, <a href="https://mosh.mit.edu/"><code>mosh</code></a>. <code>mosh</code> completely changed my experience using <code>ssh</code>, especially over unreliable or mobile connections (such as a laptop). It works by transporting your <code>ssh</code> session data over UDP, and works through changes in IP or situations of large lag.</p>
+<p>For me there is one exception to this rule, <a rel="noopener" target="_blank" href="https://mosh.mit.edu/"><code>mosh</code></a>. <code>mosh</code> completely changed my experience using <code>ssh</code>, especially over unreliable or mobile connections (such as a laptop). It works by transporting your <code>ssh</code> session data over UDP, and works through changes in IP or situations of large lag.</p>
 <p>The process for adding any new service will be similar, so even if you're not interested in installing <code>mosh</code> it's good to be familiar with it. We'll use it as an example below.</p>
 <p><strong>Install:</strong> You should choose a reliable, secure source for your service. You should always prefer the official Arch repositories over the AUR or a third party repository, especially on the 'root' of the server.</p>
-<pre><code>pacman -S mosh
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">pacman</span><span style="color:#ffcc66;"> -S</span><span> mosh
+</span></code></pre>
 <p><strong>Discover:</strong> Most externally facing services require a port to bind to (if they're TCP), or recieve from / send through (if they're UDP). You may recall we set up our firewall to accept all outgoing connections, so we only need to configure it to accept incoming data. You can generally discover this by looking in their respective <code>man</code> pages, website, or the configuration itself.</p>
 <p><code>mosh</code> uses ports starting at <code>60000</code> and going up to <code>60999</code> if lower numbered ports are not available. It's pretty reasonable to assume that we'll never have more than 100 <code>mosh</code> sessions, so we only need to allow the lower 100 ports.</p>
 <p><strong>Accept:</strong> In order to accept data on these ports we'll open them up by adding the following line <em>near</em> the bottom of our <code>/etc/iptables/iptables.rules</code> file, <em>before</em> the <code>COMMIT</code> line.</p>
-<pre><code># Allow MOSH connections.
---append UDP --protocol udp --dport 60000:60100 --jump ACCEPT
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Allow MOSH connections.
+</span><span style="color:#ffd580;">--append</span><span> UDP</span><span style="color:#ffcc66;"> --protocol</span><span> udp</span><span style="color:#ffcc66;"> --dport</span><span> 60000:60100</span><span style="color:#ffcc66;"> --jump</span><span> ACCEPT
+</span></code></pre>
 <p>Then you can restart the firewall with <code>systemctl restart iptables</code>.</p>
 <p><strong>Test:</strong> At this point if your new service has a daemon to run you should start it with the appropriate <code>systemctl start $SERVICE</code> command. Then take a moment to test your service and make sure it works as expected.</p>
 <p>With <code>mosh</code> there is no daemon, we just test by trying to use it!</p>
-<pre><code>HOSTNAME=silicon.hoverbear.org
-mosh $HOSTNAME
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>HOSTNAME</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">silicon.hoverbear.org
+</span><span style="color:#ffd580;">mosh </span><span>$HOSTNAME
+</span></code></pre>
 <p><strong>Enable:</strong> Once you know things are working correctly we can enable it to start at boot if desired with <code>systemctl enable $SERVICE</code> Since <code>mosh</code> has no related daemon we don't need to do this.</p>
 <p><strong>Verify:</strong> At this point my <code>mosh</code> service works fine, and we can verify that the firewall is catching this by reviewing <code>iptables -nvL</code> and checking out our <code>UDP</code> chain:</p>
-<pre><code>Chain UDP (1 references)
- pkts bytes target     prot opt in     out     source               destination         
-    2   217 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpts:60000:60100
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>Chain UDP (1 references)
+</span><span> pkts bytes target     prot opt in     out     source               destination         
+</span><span>    2   217 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpts:60000:60100
+</span></code></pre>
 <p>As you can see here, the rule was used twice, which means it's working! At this point, we're done setting up the new service. We'll have a chance to practice this more in future posts when we're configuring various serices.</p>
 <p>For our <a href="/2016/05/09/new-roots-4/">next post</a> we'll explore nice ways to personalize your server environment and make it feel like home. Remember, there's no place like <code>127.0.0.1</code>. :)</p>
 
@@ -384,8 +387,8 @@ mosh $HOSTNAME
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

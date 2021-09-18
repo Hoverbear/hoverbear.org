@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -63,15 +64,17 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +86,12 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -181,7 +184,7 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 <p>All of these 'labs' are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.</p>
 <span id="continue-reading"></span>
 <blockquote>
-<p>You're welcome to print, distribute, and modify all of these to meet your needs. You can <a href="mailto:ana+blog@hoverbear.org">email me</a> if you'd like the source files. We use <a href="http://www.fritzing.org/">Fritzing</a> for breadboard layouts.</p>
+<p>You're welcome to print, distribute, and modify all of these to meet your needs. You can <a href="mailto:ana+blog@hoverbear.org">email me</a> if you'd like the source files. We use <a rel="noopener" target="_blank" href="http://www.fritzing.org/">Fritzing</a> for breadboard layouts.</p>
 </blockquote>
 <h1 id="on-and-off">On and Off</h1>
 <p>First, let's start with a basic on/off motor. This gives us the chance to understand two particularly important concepts.</p>
@@ -200,65 +203,67 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 <h3 id="breadboard">Breadboard</h3>
 <figure class="enriched ">
         <figcaption>Plain</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;87445c93deae9bd800.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;23c887885365074000.png 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;88e06e85fd4f2b5000.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3a72913c5258187700.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f5085daeef0cd57f00.png"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;88e06e85fd4f2b5000.png"
               alt="Plain" />
     </figure>
 <h3 id="code">Code</h3>
-<pre><code>const int motor = 3;
-
-void setup() {
-  pinMode(motor, OUTPUT);
-}
-
-void loop() {
-  // Motor on.
-  digitalWrite(motor, HIGH);
-
-  delay(2000);
-
-  // Motor off.
-  digitalWrite(motor, LOW);
-
-  delay(2000);
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>const int motor = 3;
+</span><span>
+</span><span>void setup() {
+</span><span>  pinMode(motor, OUTPUT);
+</span><span>}
+</span><span>
+</span><span>void loop() {
+</span><span>  // Motor on.
+</span><span>  digitalWrite(motor, HIGH);
+</span><span>
+</span><span>  delay(2000);
+</span><span>
+</span><span>  // Motor off.
+</span><span>  digitalWrite(motor, LOW);
+</span><span>
+</span><span>  delay(2000);
+</span><span>}
+</span></code></pre>
 <h1 id="pulse-width-modulation">Pulse Width Modulation</h1>
 <p>If you haven't used Pulse Width Modulation before, it's a way to use certain digital pins on the Arduino to mimic the behaivor of an analog pin, sorta. Essentially PWM makes the pin <strong>pulse</strong> at specific <strong>widths</strong> to <strong>modulate</strong> the signal. This can be used to provide varying amounts of power to something like a motor.</p>
 <p><strong>You should see</strong> the motor slowly speed up and then back down again.</p>
 <h3 id="supplies-breadboard">Supplies &amp; Breadboard</h3>
 <p>Same as above.</p>
 <h3 id="code-1">Code</h3>
-<pre><code>const int motor = 3;
-int speed = 0;
-int amount = 5;
-
-void setup() {
-  pinMode(motor, OUTPUT);
-}
-
-void loop() {
-  // Use PWM
-  analogWrite(motor, speed);
-
-  // Amount will either be + or -
-  speed = speed + amount;
-
-  if (speed == 0 || speed == 255) {
-    // At a boundary, swap +/- on amount
-    amount = -amount;
-  }
-
-  delay(30);
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>const int motor = 3;
+</span><span>int speed = 0;
+</span><span>int amount = 5;
+</span><span>
+</span><span>void setup() {
+</span><span>  pinMode(motor, OUTPUT);
+</span><span>}
+</span><span>
+</span><span>void loop() {
+</span><span>  // Use PWM
+</span><span>  analogWrite(motor, speed);
+</span><span>
+</span><span>  // Amount will either be + or -
+</span><span>  speed = speed + amount;
+</span><span>
+</span><span>  if (speed == 0 || speed == 255) {
+</span><span>    // At a boundary, swap +/- on amount
+</span><span>    amount = -amount;
+</span><span>  }
+</span><span>
+</span><span>  delay(30);
+</span><span>}
+</span></code></pre>
 <h1 id="reacting-to-input">Reacting to Input</h1>
 <p>The last few experiments we just used code to change the speed of the motor, however this isn't quite what a quadcopter does. <strong>A quadcopter has to take input from sensors and alter the amount of power to the motors accordingly.</strong></p>
 <p><strong>You should see</strong> the motor's speed change as you turn the potentiometer.</p>
@@ -270,32 +275,34 @@ void loop() {
 <h2 id="breadboard-1">Breadboard</h2>
 <figure class="enriched ">
         <figcaption>Turnpot</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6ffb50851da90f3e00.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;34d6b0fe6a813a7900.png 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3627c5c485dfc90900.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;132a235356e4c3a300.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c989742c3db0d95e00.png"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3627c5c485dfc90900.png"
               alt="Turnpot" />
     </figure>
 <h2 id="code-2">Code</h2>
-<pre><code>const int motor = 3;
-const int turnpot = A0;
-
-void setup() {
-  pinMode(motor, OUTPUT);
-  pinMode(turnpot, INPUT);
-}
-
-void loop() {
-  int value = analogRead(turnpot);
-  analogWrite(motor, value);
-  delay(30);
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>const int motor = 3;
+</span><span>const int turnpot = A0;
+</span><span>
+</span><span>void setup() {
+</span><span>  pinMode(motor, OUTPUT);
+</span><span>  pinMode(turnpot, INPUT);
+</span><span>}
+</span><span>
+</span><span>void loop() {
+</span><span>  int value = analogRead(turnpot);
+</span><span>  analogWrite(motor, value);
+</span><span>  delay(30);
+</span><span>}
+</span></code></pre>
 <p>I hope you had some fun exploring these basic motor circuits with your Arduino! If you have any other sensor wirings or circuits you'd like to share please just email me and I'll put them here too!</p>
 
     </main>
@@ -303,8 +310,8 @@ void loop() {
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

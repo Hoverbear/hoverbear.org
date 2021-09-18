@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -63,15 +64,17 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -83,12 +86,12 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -143,62 +146,62 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 <span id="continue-reading"></span><h2 id="client-interface">Client Interface</h2>
 <p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
 <p>I wanted to remove the complexity of having to make network requests outside of the Node. If you're participating in a Raft cluster you don't want to have to think about it, you just want to read logs and append logs. Raft's goal is to implement a replicated log, or state machine.</p>
-<pre><code>fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
-					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
-enum ClientRequest&lt;T&gt; {
-    IndexRange {
-        start_index: u64,
-        end_index: u64,
-    },
-    AppendEntries {
-        prev_log_index: u64,
-        prev_log_term: T,
-        entries: Vec&lt;T&gt;,
-    },
-}
-
-enum ClientResponse&lt;T&gt; {
-    Accepted {
-        entries: Vec&lt;T&gt;,
-        last_index: u64,
-    },
-    Rejected {
-        reason: String,
-    },
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
+</span><span>					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
+</span><span>enum ClientRequest&lt;T&gt; {
+</span><span>    IndexRange {
+</span><span>        start_index: u64,
+</span><span>        end_index: u64,
+</span><span>    },
+</span><span>    AppendEntries {
+</span><span>        prev_log_index: u64,
+</span><span>        prev_log_term: T,
+</span><span>        entries: Vec&lt;T&gt;,
+</span><span>    },
+</span><span>}
+</span><span>
+</span><span>enum ClientResponse&lt;T&gt; {
+</span><span>    Accepted {
+</span><span>        entries: Vec&lt;T&gt;,
+</span><span>        last_index: u64,
+</span><span>    },
+</span><span>    Rejected {
+</span><span>        reason: String,
+</span><span>    },
+</span><span>}
+</span></code></pre>
 <p>Right now most of the data types I'm using are compound data enums, allowing for strongly typed, encapsulated data that is easy to work with via <code>match</code> statements.</p>
 <p>I am not sure if this is the <em>right</em> way to go about things, and I think that there can be some improvement, but this method of requests across a channel are, as far as I can tell, the idomatic way to communicate with a thread in Rust.</p>
 <p>One cool thing about this approach is the log entries themselves can be basically anything the programmer desires as long as it can be serialized and deserialized. I'm mostly using <code>String</code>s for testing.</p>
 <h2 id="remote-procedure-calls">Remote Procedure Calls</h2>
 <p>Inside of the <code>RaftNode</code>'s thread it binds on a UDP socket and listens for <code>RemoteProcedureCall</code> data. These requests are encoded and decoded through the <code>rustc-serialize</code> crato, but in the future <code>serde</code> will probably replace it.</p>
 <p>A <code>RemoteProcedureCall</code> looks almost identical to those dictated in the Raft paper:</p>
-<pre><code>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
-pub enum RemoteProcedureCall&lt;T&gt; {
-    AppendEntries {
-        term: u64,
-        leader_id: u64,
-        prev_log_index: u64,
-        prev_log_term: T,
-        entries: Vec&lt;T&gt;,
-        leader_commit: u64,
-    },
-    RequestVote {
-        term: u64,
-        candidate_id: u64,
-        last_log_index: u64,
-        last_log_term: u64,
-    },
-}
-
-#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
-pub enum RemoteProcedureResponse {
-    VoteAccepted { term: u64 },
-    VoteRejected { term: u64, current_leader: u64 },
-    EntriesAccepted { term: u64 },
-    EntriesRejected { term: u64 },
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span><span>pub enum RemoteProcedureCall&lt;T&gt; {
+</span><span>    AppendEntries {
+</span><span>        term: u64,
+</span><span>        leader_id: u64,
+</span><span>        prev_log_index: u64,
+</span><span>        prev_log_term: T,
+</span><span>        entries: Vec&lt;T&gt;,
+</span><span>        leader_commit: u64,
+</span><span>    },
+</span><span>    RequestVote {
+</span><span>        term: u64,
+</span><span>        candidate_id: u64,
+</span><span>        last_log_index: u64,
+</span><span>        last_log_term: u64,
+</span><span>    },
+</span><span>}
+</span><span>
+</span><span>#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
+</span><span>pub enum RemoteProcedureResponse {
+</span><span>    VoteAccepted { term: u64 },
+</span><span>    VoteRejected { term: u64, current_leader: u64 },
+</span><span>    EntriesAccepted { term: u64 },
+</span><span>    EntriesRejected { term: u64 },
+</span><span>}
+</span></code></pre>
 <p>I'm not sure if the way I'm approaching the <code>RemoteProcedureResponse</code> is necessarily the right way to go about things. I think it might be better to model it after <code>ClientResponse</code>.</p>
 <h2 id="progress">Progress</h2>
 <p>Most of the work done so far is on scaffolding, and determining interfaces. I have two nodes running locally successfully passing <code>ClientRequest</code>s into one node, them communicating with a <code>RemoteProcedureCall</code> and a <code>ClientResponse</code> being emitted at the other node.</p>
@@ -206,15 +209,15 @@ pub enum RemoteProcedureResponse {
 <h2 id="repository">Repository</h2>
 <p>Currently the state of the code is such that I don't feel right releasing it to the public, once I have some bearance of functionality in the crate I'll be releasing it under the MIT license.</p>
 <p>If you're interested in helping out with this implementation please let me know. I'd be happy to include you in the private Github repository. I am currently working on it as part of a course project, but can accept contributions so long as I maintain a log of my work.</p>
-<p><strong>Discussion of this post was on <a href="https://www.reddit.com/r/rust/comments/2tncd1/raft_so_far_first_steps_into_implementation_in/">Reddit</a>.</strong></p>
+<p><strong>Discussion of this post was on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2tncd1/raft_so_far_first_steps_into_implementation_in/">Reddit</a>.</strong></p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

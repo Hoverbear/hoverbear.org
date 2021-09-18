@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;25b8801cd456170100.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;25b8801cd456170100.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -77,15 +78,17 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- Eric Parks</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1ff6c62ec5c1b77700.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;25b8801cd456170100.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d430ca9f975f419800.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d47546d4ba67395600.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d430ca9f975f419800.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -97,12 +100,12 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -226,146 +229,146 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
 <span id="continue-reading"></span>
 <p>In order to finish this all up you'll need to have the <code>build-essentials</code> (Ubuntu/Debian), <code>base-devel</code> (Arch), or XCode (Mac) installed already.</p>
 <h2 id="setting-up-rust-via-rustup">Setting up Rust via Rustup</h2>
-<p><a href="https://rustup.rs/">Rustup</a> is an official Rust project that allows us to install, manage, and update multiple Rust toolchains. It can be installed easily via:</p>
-<pre><code>curl https://sh.rustup.rs -sSf | sh
-</code></pre>
+<p><a rel="noopener" target="_blank" href="https://rustup.rs/">Rustup</a> is an official Rust project that allows us to install, manage, and update multiple Rust toolchains. It can be installed easily via:</p>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">curl</span><span> https://sh.rustup.rs</span><span style="color:#ffcc66;"> -sSf </span><span style="color:#f29e74;">| </span><span style="color:#ffd580;">sh
+</span></code></pre>
 <p>After a brief download Rustup will prompt us for some configuration. Just accept the defaults here:</p>
-<pre><code>Current installation options:
-
-   default host triple: x86_64-apple-darwin
-     default toolchain: stable
-  modify PATH variable: yes
-
-1) Proceed with installation (default)
-2) Customize installation
-3) Cancel installation
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>Current installation options:
+</span><span>
+</span><span>   default host triple: x86_64-apple-darwin
+</span><span>     default toolchain: stable
+</span><span>  modify PATH variable: yes
+</span><span>
+</span><span>1) Proceed with installation (default)
+</span><span>2) Customize installation
+</span><span>3) Cancel installation
+</span></code></pre>
 <p>After we'll be prompted to run the following command to update the current shell with the changes:</p>
-<pre><code>source $HOME/.cargo/env
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#f28779;">source </span><span>$HOME/.cargo/env
+</span></code></pre>
 <p>At this point we can run <code>cargo</code> and <code>rustc</code> to confirm that we have Rust and Cargo installed. Also confirm that <code>rustup</code> exists since we'll need that later.</p>
 <p>Next it's advisable to install the Rust source and documentation locally for later use when offline or for tools such as the autocompletion we set up later.</p>
-<pre><code>rustup component add rust-src
-rustup component add rust-docs
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> component add rust-src
+</span><span style="color:#ffd580;">rustup</span><span> component add rust-docs
+</span></code></pre>
 <p>Eventually we'll want to update our Rust installation, the following command will update all toolchains and components.</p>
-<pre><code>rustup update
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> update
+</span></code></pre>
 <p>Eventually you may encounter a project which prefers to use Rust's nightly builds. You can easily install the nightly (or beta) version alongside stable.</p>
-<pre><code>rustup toolchain install nightly
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> toolchain install nightly
+</span></code></pre>
 <p>You can change the default toolchain of the system with <code>rustup default stable</code> or <code>rustup default nightly</code>, but it's advisable to keep it to stable and set overrides for projects that use nightly. You can do that by navigating to the project directory and running the following:</p>
-<pre><code>rustup override set nightly
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> override set nightly
+</span></code></pre>
 <p>For now that's all we need to know about Rustup, so let's move on.</p>
 <h2 id="valuable-tools">Valuable Tools</h2>
 <p>We'll cover four valuable tools for working with Rust:</p>
 <ul>
-<li><a href="https://github.com/Manishearth/rust-clippy"><code>rust-clippy</code></a> - A linter.</li>
-<li><a href="https://github.com/rust-lang-nursery/rustfmt"><code>rustfmt</code></a> - A code formatter.</li>
-<li><a href="https://github.com/phildawes/racer"><code>racer</code></a> - An autocompletion utility.</li>
-<li><a href="https://github.com/rust-lang-nursery/rls"><code>rls</code></a> - A language server (for symbol search etc.)</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/Manishearth/rust-clippy"><code>rust-clippy</code></a> - A linter.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang-nursery/rustfmt"><code>rustfmt</code></a> - A code formatter.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/phildawes/racer"><code>racer</code></a> - An autocompletion utility.</li>
+<li><a rel="noopener" target="_blank" href="https://github.com/rust-lang-nursery/rls"><code>rls</code></a> - A language server (for symbol search etc.)</li>
 </ul>
 <h3 id="rust-clippy"><code>rust-clippy</code></h3>
 <p><strong>Why do we want this?</strong> The Rust compiler is already quite strict, <code>clippy</code> goes a step further and helps prevent some things which are valid but bad practice. This can help prevent unexpected problems later in your code.</p>
 <p><code>clippy</code> requires nightly in order to run. Earlier we installed nightly alongside stable with <code>rustup toolchain install nightly</code>, so we can use it without any issues.</p>
 <p>We'll need to use nightly to install it, so we just need to run the following:</p>
-<pre><code>cargo +nightly install clippy
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> +nightly install clippy
+</span></code></pre>
 <p>Now let's create a test case. Run <code>cargo init --bin test &amp;&amp; cd test</code> then modify the <code>src/main.rs</code> file to have to have the following:</p>
-<pre><code>fn main() {
-    // Clippy warns on statements with no effect, like this one.
-    true;
-}
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Clippy warns on statements with no effect, like this one.
+</span><span>    </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span></code></pre>
 <p>Now we can run <code>clippy</code> with the following command:</p>
-<pre><code>cargo +nightly clippy
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> +nightly clippy
+</span></code></pre>
 <p>This should yield a warning from <code>clippy</code>:</p>
-<pre><code>warning = &quot;statement with no effect&quot;
- --&gt; src/main.rs:2:5
-  |
-2 |     true;
-  |     ^^^^^
-  |
-  = note: #[warn(no_effect)] on by default
-  = help: for further information visit https://github.com/Manishearth/rust-clippy/wiki#no_effect
-</code></pre>
-<p>Excellent. You can see the different lints which <code>clippy</code> detects <a href="https://github.com/Manishearth/rust-clippy#lints">here</a>. You can configure various lints in the <code>clippy.toml</code> according to their options listed in the wiki.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>warning = &quot;statement with no effect&quot;
+</span><span> --&gt; src/main.rs:2:5
+</span><span>  |
+</span><span>2 |     true;
+</span><span>  |     ^^^^^
+</span><span>  |
+</span><span>  = note: #[warn(no_effect)] on by default
+</span><span>  = help: for further information visit https://github.com/Manishearth/rust-clippy/wiki#no_effect
+</span></code></pre>
+<p>Excellent. You can see the different lints which <code>clippy</code> detects <a rel="noopener" target="_blank" href="https://github.com/Manishearth/rust-clippy#lints">here</a>. You can configure various lints in the <code>clippy.toml</code> according to their options listed in the wiki.</p>
 <p>To disable (or warn instead of deny) various lints you can add the <code>deny</code> and <code>allow</code> flags to your crate attributes:</p>
-<pre><code>#![cfg_attr(feature = &quot;cargo-clippy&quot;, deny(empty_enum))]
-#![cfg_attr(feature = &quot;cargo-clippy&quot;, warn(indexing_slicing))]
-#![cfg_attr(feature = &quot;cargo-clippy&quot;, allow(print_with_newline))]
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ccc9c2cc;">#!</span><span>[</span><span style="color:#ffd580;">cfg_attr</span><span>(feature </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;cargo-clippy&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffd580;">deny</span><span>(empty_enum))]
+</span><span style="color:#ccc9c2cc;">#!</span><span>[</span><span style="color:#ffd580;">cfg_attr</span><span>(feature </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;cargo-clippy&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffd580;">warn</span><span>(indexing_slicing))]
+</span><span style="color:#ccc9c2cc;">#!</span><span>[</span><span style="color:#ffd580;">cfg_attr</span><span>(feature </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;cargo-clippy&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#ffd580;">allow</span><span>(print_with_newline))]
+</span></code></pre>
 <h3 id="rustfmt"><code>rustfmt</code></h3>
 <p><strong>Why do we want this?</strong> Having consistent, standard automated styling in a project (and across many projects) can be useful for code review, attracting new contributors, and avoiding unproductive discussions.</p>
 <p><code>rustfmt</code> is a code formatting tool akin to <code>gofmt</code>. Unlike <code>clippy</code>, it runs happily on stable. To install it:</p>
-<pre><code>cargo install rustfmt
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>cargo install rustfmt
+</span></code></pre>
 <p>At this point we can run <code>cargo fmt</code> to format a repository. It runs <code>rustfmt</code> in the 'replace' mode which creates backup files with a <code>.bk</code> extension. If our project is already in version control we may not want this. If that is the case we can edit <code>rustfmt.toml</code> to include the following:</p>
-<pre><code>write_mode = &quot;overwrite&quot;
-</code></pre>
+<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="color:#73d0ff;">write_mode </span><span>= </span><span style="color:#bae67e;">&quot;overwrite&quot;
+</span></code></pre>
 <p>The <code>rustfmt.toml</code> lets us configure the various options found in <code>rustfmt --config-help</code>. Now let's edit the <code>main.rs</code> we made later to have some obviously poor style:</p>
-<pre><code>fn       main    ()
-{ true
-; }
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">fn       </span><span style="color:#ffd580;">main    </span><span>()
+</span><span>{ </span><span style="color:#ffcc66;">true
+</span><span style="color:#ccc9c2cc;">; </span><span>}
+</span></code></pre>
 <p>Then we can run <code>cargo fmt</code> and we can see that our file is correctly formatted again.</p>
 <p><strong>Gotcha:</strong> <code>rustfmt</code> is still not in perfect shape and will occasionally butcher the formatting of otherwise normal looking code. Your mileage may vary for the time being.</p>
 <h3 id="racer"><code>racer</code></h3>
 <p><strong>Why do we want this?</strong> It saves us some time looking through documentation and helps us discover functionality as we type.</p>
 <p><code>racer</code> is a code completion utility that's used in various editor addons and with <code>rls</code> which we'll set up next. Earlier we ran <code>rustup component add rust-src</code> which is important for racer.</p>
 <p>First, install it:</p>
-<pre><code>cargo install racer
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> install racer
+</span></code></pre>
 <p>Next we need to set an environment variable so <code>racer</code> knows where to look for the Rust source. In your <code>~/.bashrc</code> (or <code>~/.zshrc</code> etc) add the following line:</p>
-<pre><code># Mac
-export RUST_SRC_PATH=${HOME}/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
-# Linux
-export RUST_SRC_PATH=${HOME}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Mac
+</span><span style="color:#ffa759;">export </span><span>RUST_SRC_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>{HOME}</span><span style="color:#bae67e;">/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
+</span><span style="font-style:italic;color:#5c6773;"># Linux
+</span><span style="color:#ffa759;">export </span><span>RUST_SRC_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>{HOME}</span><span style="color:#bae67e;">/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+</span></code></pre>
 <p>If you're not on MacOS or Linux you will need to set this to what is shown as default in <code>rustup show</code>.</p>
 <p>Then you can test that <code>racer</code> works by doing a test run via the command line:</p>
-<pre><code>racer complete std::io::B
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">racer</span><span> complete std::io::B
+</span></code></pre>
 <p>You should see several matches from this. At this point <code>racer</code> is set up and ready to be used in your editor or with <code>rls</code>.</p>
 <h3 id="rls"><code>rls</code></h3>
 <p><strong>Why do we want this?</strong> It enables a much richer development experience and extends on the capabilities of <code>racer</code>.</p>
-<p><code>rls</code> is a <a href="http://langserver.org/">language server</a> implementation for Rust. It provides things like code completion, goto definitions, rich refactoring, and some other nice features.</p>
+<p><code>rls</code> is a <a rel="noopener" target="_blank" href="http://langserver.org/">language server</a> implementation for Rust. It provides things like code completion, goto definitions, rich refactoring, and some other nice features.</p>
 <p>To install <code>rls</code> we need to use Rustup, specifying the appropriate toolchain when we do. (Macs use <code>nightly-x86_64-apple-darwin</code>, Linux should be <code>nightly-x86_64-unknown-linux-gnu</code>) If you don't use VS Code it might be worth skipping this step for now.</p>
-<pre><code>rustup component add rls --toolchain nightly-x86_64-apple-darwin
-rustup component add rust-analysis --toolchain nightly-x86_64-apple-darwin
-rustup component add rust-src --toolchain nightly-x86_64-apple-darwin
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> component add rls</span><span style="color:#ffcc66;"> --toolchain</span><span> nightly-x86_64-apple-darwin
+</span><span style="color:#ffd580;">rustup</span><span> component add rust-analysis</span><span style="color:#ffcc66;"> --toolchain</span><span> nightly-x86_64-apple-darwin
+</span><span style="color:#ffd580;">rustup</span><span> component add rust-src</span><span style="color:#ffcc66;"> --toolchain</span><span> nightly-x86_64-apple-darwin
+</span></code></pre>
 <p>Next we need to set up an environment variable. We need to set <code>DYLD_LIBRARY_PATH</code> and <code>RLS_ROOT</code> (you'll probably need to adjust this to your repository clone):</p>
-<pre><code># Mac
-export DYLD_LIBRARY_PATH=${HOME}/.rustup/toolchains/stable-x86_64-apple-darwin/lib
-export RLS_ROOT=${HOME}/git/rust/rls
-# Linux
-export DYLD_LIBRARY_PATH=${HOME}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib
-export RLS_ROOT=${HOME}/git/rust/rls
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Mac
+</span><span style="color:#ffa759;">export </span><span>DYLD_LIBRARY_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>{HOME}</span><span style="color:#bae67e;">/.rustup/toolchains/stable-x86_64-apple-darwin/lib
+</span><span style="color:#ffa759;">export </span><span>RLS_ROOT</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>{HOME}</span><span style="color:#bae67e;">/git/rust/rls
+</span><span style="font-style:italic;color:#5c6773;"># Linux
+</span><span style="color:#ffa759;">export </span><span>DYLD_LIBRARY_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>{HOME}</span><span style="color:#bae67e;">/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib
+</span><span style="color:#ffa759;">export </span><span>RLS_ROOT</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">$</span><span>{HOME}</span><span style="color:#bae67e;">/git/rust/rls
+</span></code></pre>
 <p>At this point it should be set up. We'll test and use it later when we configure VS Code.</p>
 <h2 id="configuring-vs-code-for-rust">Configuring VS Code for Rust</h2>
 <p>I've been using VS Code for Rust for several months and it's quite pleasant. As with any text editor there are <strong>many</strong> knobs to tweak, so we're just going to focus on the directly relevant ones.</p>
 <blockquote>
 <p>You may use a different editor, and that's totally fine. Have at! I still regularly reach for <code>vim</code> for minor edits and some of my colleagues quite enjoy their <code>emacs</code>. Diversity is good, use what is best for you and let others use what is best for them.</p>
 </blockquote>
-<p>First, let's download VS Code. Drop over to <a href="https://code.visualstudio.com/">their website</a> and grab the installer. I'm a bit silly and use the 'Insiders' version that is released nightly, but you don't need to.</p>
+<p>First, let's download VS Code. Drop over to <a rel="noopener" target="_blank" href="https://code.visualstudio.com/">their website</a> and grab the installer. I'm a bit silly and use the 'Insiders' version that is released nightly, but you don't need to.</p>
 <p>In order to run <code>code</code> from the command line we may need to open up VS Code and open the 'Command Palette' with <code>Shift+Command+P</code> on Mac, or <code>Shift+Control+P</code> on Linux. In it, enter <code>shell command</code> and look for the <code>Shell Command: Install 'code' command in PATH</code> option. After doing this any new shell we open should be able to run <code>code</code>.</p>
 <h3 id="extension-rust">Extension: Rust</h3>
 <p>The 'Rust' extension provides some helpers around build, formatting, and other useful things. It can be installed by selecting the bottom 'Box with border and smaller box in the top right corner' button on the sidebar and searching for 'Rust'. You can take a look at the readme before you install.</p>
 <h3 id="extension-rls-vscode">Extension: <code>rls_vscode</code></h3>
-<p>We'll need <code>node</code> installed, you can do this via your package manager (If you're on a Mac <a href="https://brew.sh/"><code>brew</code></a> works great.)</p>
+<p>We'll need <code>node</code> installed, you can do this via your package manager (If you're on a Mac <a rel="noopener" target="_blank" href="https://brew.sh/"><code>brew</code></a> works great.)</p>
 <p>Once this is done we can install the <code>rls_vscode</code> extension. Since <code>rls</code> isn't released yet we need to do all the fun work ourselves! Nagivate to your regular <code>git</code> directory and clone the repository and install its dependencies.</p>
-<pre><code>git clone https://github.com/jonathandturner/rls_vscode.git
-cd rls_vscode
-npm install
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">git</span><span> clone https://github.com/jonathandturner/rls_vscode.git
+</span><span style="color:#f28779;">cd</span><span> rls_vscode
+</span><span style="color:#ffd580;">npm</span><span> install
+</span></code></pre>
 <p>Next step is to build the extension, which we do through VS Code itself. Run <code>code .</code> in the repository we just cloned. In the VS Code window, select the 'Crossed out bug' icon and hit the green 'Play Button' beside the words 'Launch Extension' in the left. A new VS Code window will pop up, you can just close it.</p>
 <p>Now that the extension is built we can set up a symlink to install it into VS Code (if you're using Insiders the directory is <code>.vscode-insiders</code>):</p>
-<pre><code>ln -s ${HOME}/git/rust/rls_vscode/ ${HOME}/.vscode/extensions/rls_vscode
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">ln</span><span style="color:#ffcc66;"> -s </span><span>${HOME}/git/rust/rls_vscode/ ${HOME}/.vscode/extensions/rls_vscode
+</span></code></pre>
 <p>Later you can update the extension with a similar process. Due to the development pace it's advisable do to this every once in awhile.</p>
 <p>Next, quit VS Code and reopen it. Open up any Rust project and you should see in the blue bar at the bottom &quot;RLS analysis: Starting up&quot;, this should change to &quot;RLS analysis: Done&quot; shortly after.</p>
 <p><strong>Gotcha:</strong> If you reboot your machine you will need to open a terminal before opening VS Code, or use the integrated terminal in VS Code and restart it, before RLS will be able to successfully start. There are some ways around this but they're rather annoying in their own right. Perhaps in the future there will be a setting in VS Code.</p>
@@ -376,121 +379,123 @@ npm install
 <p>We'll talk about how to use this extension in the next section.</p>
 <h2 id="debugging-rust-code">Debugging Rust Code</h2>
 <p>Let's scaffold out a super basic application to test our debugging on before we get on to any real experimentation. We'll run <code>cargo init --bin example</code> and set <code>src/main.rs</code> to:</p>
-<pre><code>pub enum Direction { North, South, East, West }
-
-pub fn is_north(dir: Direction) -&gt; bool {
-    match dir {
-        Direction::North =&gt; true,
-        _ =&gt; false,
-    }
-}
-
-fn main() {
-    let two = 1+1;
-    println!(&quot;{}&quot;, two);
-
-    let points = Direction::South;
-    let compass = is_north(points);
-    println!(&quot;{}&quot;, compass);
-}
-</code></pre>
+<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">pub enum </span><span style="color:#73d0ff;">Direction </span><span>{ North</span><span style="color:#ccc9c2cc;">,</span><span> South</span><span style="color:#ccc9c2cc;">,</span><span> East</span><span style="color:#ccc9c2cc;">,</span><span> West }
+</span><span>
+</span><span style="color:#ffa759;">pub fn </span><span style="color:#ffd580;">is_north</span><span>(</span><span style="color:#ffcc66;">dir</span><span style="color:#ccc9c2cc;">:</span><span> Direction) </span><span style="color:#ccc9c2cc;">-&gt; </span><span style="color:#ffa759;">bool </span><span>{
+</span><span>    </span><span style="color:#ffa759;">match</span><span> dir {
+</span><span>        Direction</span><span style="color:#f29e74;">::</span><span>North </span><span style="color:#f29e74;">=&gt; </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">,
+</span><span>        </span><span style="color:#f29e74;">_ =&gt; </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">,
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
+</span><span>    </span><span style="color:#ffa759;">let</span><span> two </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">1</span><span style="color:#f29e74;">+</span><span style="color:#ffcc66;">1</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> two)</span><span style="color:#ccc9c2cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ffa759;">let</span><span> points </span><span style="color:#f29e74;">= </span><span>Direction</span><span style="color:#f29e74;">::</span><span>South</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#ffa759;">let</span><span> compass </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">is_north</span><span>(points)</span><span style="color:#ccc9c2cc;">;
+</span><span>    </span><span style="color:#f28779;">println!</span><span>(</span><span style="color:#bae67e;">&quot;</span><span style="color:#ffcc66;">{}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">,</span><span> compass)</span><span style="color:#ccc9c2cc;">;
+</span><span>}
+</span></code></pre>
 <p>This gives us something actually worthwhile to use the debugger on. Let's debug!</p>
 <h3 id="on-the-command-line">On The Command Line</h3>
 <p>The first step before debugging is to build, then fire it up with the debugger:</p>
-<pre><code>cargo build
-rust-lldb ./target/debug/example
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> build
+</span><span style="color:#ffd580;">rust-lldb</span><span> ./target/debug/example
+</span></code></pre>
 <p>From here we can interact with the program like we normally would with LLDB. (Yes, there is <code>rust-gdb</code>, you're free to use that too!)</p>
 <p>For example:</p>
-<pre><code>(lldb) breakpoint set -f main.rs -l 3
-Breakpoint 1: where = example`example::is_north + 10 at main.rs:3, address = 0x0000000100000ffa
-(lldb) process launch
-Process 8376 launched: '/Users/hoverbear/git/rust/example/target/debug/example' (x86_64)
-2
-Process 8376 stopped
-* thread #1: tid = 0x2c222, 0x0000000100000ffa example`example::is_north(dir=South) + 10 at main.rs:3, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-    frame #0: 0x0000000100000ffa example`example::is_north(dir=South) + 10 at main.rs:3
-   1   	pub enum Direction { North, South, East, West }
-   2
--&gt; 3   	fn is_north(dir: Direction) -&gt; bool {
-   4   	    match dir {
-   5   	        Direction::North =&gt; true,
-   6   	        _ =&gt; false,
-   7   	    }
-(lldb) print dir
-(example::Direction) $0 = South
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>(lldb) breakpoint set -f main.rs -l 3
+</span><span>Breakpoint 1: where = example`example::is_north + 10 at main.rs:3, address = 0x0000000100000ffa
+</span><span>(lldb) process launch
+</span><span>Process 8376 launched: &#39;/Users/hoverbear/git/rust/example/target/debug/example&#39; (x86_64)
+</span><span>2
+</span><span>Process 8376 stopped
+</span><span>* thread #1: tid = 0x2c222, 0x0000000100000ffa example`example::is_north(dir=South) + 10 at main.rs:3, queue = &#39;com.apple.main-thread&#39;, stop reason = breakpoint 1.1
+</span><span>    frame #0: 0x0000000100000ffa example`example::is_north(dir=South) + 10 at main.rs:3
+</span><span>   1   	pub enum Direction { North, South, East, West }
+</span><span>   2
+</span><span>-&gt; 3   	fn is_north(dir: Direction) -&gt; bool {
+</span><span>   4   	    match dir {
+</span><span>   5   	        Direction::North =&gt; true,
+</span><span>   6   	        _ =&gt; false,
+</span><span>   7   	    }
+</span><span>(lldb) print dir
+</span><span>(example::Direction) $0 = South
+</span></code></pre>
 <h3 id="with-vs-code">With VS Code</h3>
 <p>After installing the 'LLDB Debugger' extension you can set a breakpoint by clicking to the left of the line numbers, you'll see a big red dot marking a breakpoint. In order to actually debug we need to do a couple things:</p>
 <p>Add the following to <code>.vscode/launch.json</code>:</p>
-<pre><code>{
-    &quot;version&quot;: &quot;0.2.0&quot;,
-    &quot;configurations&quot;: [
-        {
-            &quot;type&quot;: &quot;lldb&quot;,
-            &quot;request&quot;: &quot;launch&quot;,
-            &quot;name&quot;: &quot;Debug&quot;,
-            &quot;program&quot;: &quot;${workspaceRoot}/target/debug/example&quot;,
-            &quot;args&quot;: [],
-            &quot;cwd&quot;: &quot;${workspaceRoot}&quot;,
-            &quot;preLaunchTask&quot;: &quot;cargo&quot;,
-            &quot;sourceLanguages&quot;: [&quot;rust&quot;]
-        }
-    ]
-}
-</code></pre>
+<pre data-lang="json" style="background-color:#212733;color:#ccc9c2;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>    </span><span style="color:#bae67e;">&quot;version&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;0.2.0&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>    </span><span style="color:#bae67e;">&quot;configurations&quot;</span><span style="color:#ccc9c2cc;">: </span><span>[
+</span><span>        {
+</span><span>            </span><span style="color:#bae67e;">&quot;type&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;lldb&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;request&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;launch&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;name&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;Debug&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;program&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;${workspaceRoot}/target/debug/example&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;args&quot;</span><span style="color:#ccc9c2cc;">: </span><span>[]</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;cwd&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;${workspaceRoot}&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;preLaunchTask&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;cargo&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>            </span><span style="color:#bae67e;">&quot;sourceLanguages&quot;</span><span style="color:#ccc9c2cc;">: </span><span>[</span><span style="color:#bae67e;">&quot;rust&quot;</span><span>]
+</span><span>        }
+</span><span>    ]
+</span><span>}
+</span></code></pre>
 <p>Then, add a <code>.vscode/tasks.json</code> with the following:</p>
-<pre><code>{
-    &quot;version&quot;: &quot;0.1.0&quot;,
-    &quot;command&quot;: &quot;cargo&quot;,
-    &quot;isShellCommand&quot;: true,
-    &quot;args&quot;: [&quot;build&quot;],
-    &quot;showOutput&quot;: &quot;always&quot;
-}
-</code></pre>
+<pre data-lang="json" style="background-color:#212733;color:#ccc9c2;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>    </span><span style="color:#bae67e;">&quot;version&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;0.1.0&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>    </span><span style="color:#bae67e;">&quot;command&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;cargo&quot;</span><span style="color:#ccc9c2cc;">,
+</span><span>    </span><span style="color:#bae67e;">&quot;isShellCommand&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">,
+</span><span>    </span><span style="color:#bae67e;">&quot;args&quot;</span><span style="color:#ccc9c2cc;">: </span><span>[</span><span style="color:#bae67e;">&quot;build&quot;</span><span>]</span><span style="color:#ccc9c2cc;">,
+</span><span>    </span><span style="color:#bae67e;">&quot;showOutput&quot;</span><span style="color:#ccc9c2cc;">: </span><span style="color:#bae67e;">&quot;always&quot;
+</span><span>}
+</span></code></pre>
 <p>Next let's set a breakpoint somewhere. Finally we can go to the 'No Bugs' icon and hit the 'Play' and we should see something like this:</p>
 <figure class="enriched ">
         <figcaption>Demonstrating the VS Debugger</figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f9835cf5121ff27f00.png 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;01a9df7dd00912be00.png 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bda62f5d6da3767f00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;22f9e9abfb18a23000.png 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;81a9ea8b2a94f8a500.png"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bda62f5d6da3767f00.png"
               alt="Demonstrating the VS Debugger" />
     </figure>
 <h2 id="compiling-to-different-targets">Compiling to Different Targets</h2>
 <p>So far we've been building <code>x86_64-apple-darwin</code>. If we were using Linux we'd be building <code>x86_64-unknown-linux-gnu</code> most likely. Let's target <code>asmjs-unknown-emscripten</code> (that is, Javascript) for fun.</p>
-<p>First we need to install the <code>emcripten</code> package. On Mac this can be found in <code>brew</code> via <code>brew install emscripten</code>, some Linux distributions also package <code>emscripten</code>, but you can also set it up via the guide <a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">here</a>.</p>
+<p>First we need to install the <code>emcripten</code> package. On Mac this can be found in <code>brew</code> via <code>brew install emscripten</code>, some Linux distributions also package <code>emscripten</code>, but you can also set it up via the guide <a rel="noopener" target="_blank" href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">here</a>.</p>
 <p>Next install the target with <code>rustup</code>:</p>
-<pre><code>rustup target add asmjs-unknown-emscripten
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rustup</span><span> target add asmjs-unknown-emscripten
+</span></code></pre>
 <p>If on Mac, the following probably needs to be changed in <code>~/.emscripten</code>:</p>
-<pre><code>LLVM_ROOT = &quot;/usr/local/opt/emscripten/libexec/llvm/bin&quot;
-#LLVM_ROOT = os.path.expanduser(os.getenv('LLVM') or '/usr/bin') # directory
-#BINARYEN_ROOT = os.path.expanduser(os.getenv('BINARYEN') or '/usr/bin') # directory
-
-# Avoid annoying popups about Java.
-#JAVA = 'java'
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">LLVM_ROOT</span><span> = </span><span style="color:#bae67e;">&quot;/usr/local/opt/emscripten/libexec/llvm/bin&quot;
+</span><span style="font-style:italic;color:#5c6773;">#LLVM_ROOT = os.path.expanduser(os.getenv(&#39;LLVM&#39;) or &#39;/usr/bin&#39;) # directory
+</span><span style="font-style:italic;color:#5c6773;">#BINARYEN_ROOT = os.path.expanduser(os.getenv(&#39;BINARYEN&#39;) or &#39;/usr/bin&#39;) # directory
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Avoid annoying popups about Java.
+</span><span style="font-style:italic;color:#5c6773;">#JAVA = &#39;java&#39;
+</span></code></pre>
 <p>Now you can compile our example in asm.js, then run it:</p>
-<pre><code>cargo build --target=asmjs-unknown-emscripten
-node target/asmjs-unknown-emscripten/debug/example.js
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> build</span><span style="color:#ffcc66;"> --target</span><span style="color:#f29e74;">=</span><span>asmjs-unknown-emscripten
+</span><span style="color:#ffd580;">node</span><span> target/asmjs-unknown-emscripten/debug/example.js
+</span></code></pre>
 <p>The output should be:</p>
-<pre><code>2
-false
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>2
+</span><span>false
+</span></code></pre>
 <p>Targetting other systems and architectures works similarly, the biggest stumbling block is installing the toolchain (in this case it was <code>emscripten</code>.)</p>
 <h2 id="closing-thoughts">Closing Thoughts</h2>
 <p>At this point we have a functional Rust development environment that can target our native system as well as asm.js. Our editor supports debugging and has nice features like autocomplete. Finally, we have handy tools like <code>clippy</code> to help us detect errors.</p>
 <p>Some of the tools and extensions we're using are still alpha, or don't work perhaps as well as we might hope, but things are only getting better! If you're interested, you can even get involved with these different projects to help them be even more awesome. Every few weeks you can go and do a quick update of things and see the improvements.</p>
-<p>Now, we don't have any excuses <em>not</em> to have fun with Rust! Why not find something that looks interesting and try to make your first PR? Can't find something? Check out <a href="https://www.reddit.com/r/rust/">/r/rust</a> and look at the projects people are talking about, look at the <code>E - Easy</code> issues on <a href="https://github.com/rust-lang/rust/labels/E-easy"><code>rustc</code></a>, or tackle something small from <a href="https://github.com/Hoverbear/rust-rosetta"><code>rust-rosetta</code></a>!</p>
+<p>Now, we don't have any excuses <em>not</em> to have fun with Rust! Why not find something that looks interesting and try to make your first PR? Can't find something? Check out <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/">/r/rust</a> and look at the projects people are talking about, look at the <code>E - Easy</code> issues on <a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust/labels/E-easy"><code>rustc</code></a>, or tackle something small from <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/rust-rosetta"><code>rust-rosetta</code></a>!</p>
 <blockquote>
-<p>Thanks to <a href="http://asquera.de/">Asquera</a> for allocating some time for me to write this! The same article is hosted <a href="http://asquera.de/blog/2017-03-03/setting-up-a-rust-devenv/">here</a> as well!</p>
+<p>Thanks to <a rel="noopener" target="_blank" href="http://asquera.de/">Asquera</a> for allocating some time for me to write this! The same article is hosted <a rel="noopener" target="_blank" href="http://asquera.de/blog/2017-03-03/setting-up-a-rust-devenv/">here</a> as well!</p>
 </blockquote>
 
     </main>
@@ -498,8 +503,8 @@ false
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

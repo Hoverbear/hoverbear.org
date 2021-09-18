@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -67,15 +68,17 @@ Cap&#x27;n Proto is what&#x27;s billed as a &#x27;Data Interchange Format&#x27; 
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -87,12 +90,12 @@ Cap&#x27;n Proto is what&#x27;s billed as a &#x27;Data Interchange Format&#x27; 
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -172,30 +175,30 @@ Cap&#x27;n Proto is what&#x27;s billed as a &#x27;Data Interchange Format&#x27; 
         </ol>
     </nav>
 
-        <p>So, I found <a href="https://github.com/dwrensha/capnproto-rust">this</a> (<a href="https://github.com/dwrensha/capnpc-rust">this</a>, and <a href="https://github.com/dwrensha/capnp-rpc-rust">this</a>) <a href="https://kentonv.github.io/capnproto/">Cap'n Proto</a> library for <a href="http://www.rust-lang.org/">Rust</a> and wanted to explore it a bit. Unfortunately the documentation is sparse for the library, and I haven't played with Cap'n Proto before.</p>
+        <p>So, I found <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnproto-rust">this</a> (<a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnpc-rust">this</a>, and <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnp-rpc-rust">this</a>) <a rel="noopener" target="_blank" href="https://kentonv.github.io/capnproto/">Cap'n Proto</a> library for <a rel="noopener" target="_blank" href="http://www.rust-lang.org/">Rust</a> and wanted to explore it a bit. Unfortunately the documentation is sparse for the library, and I haven't played with Cap'n Proto before.</p>
 <blockquote>
 <p>Cap'n Proto is what's billed as a 'Data Interchange Format' and 'Capability-Based RPC System'. Or a 'Cerealization Protocol'.</p>
 </blockquote>
 <span id="continue-reading"></span>
 <p>The concept for working with Cap'n Proto is:</p>
 <ol>
-<li>Build schemas out of it's <a href="https://kentonv.github.io/capnproto/language.html">schema language</a> which define the data you're working with.</li>
+<li>Build schemas out of it's <a rel="noopener" target="_blank" href="https://kentonv.github.io/capnproto/language.html">schema language</a> which define the data you're working with.</li>
 <li>Compile them into code structures for your preferred language using using <code>capnpc</code>.</li>
 <li>Code your application (optimally, using an RPC-style system, I won't be exploring that <em>yet</em>.)</li>
 </ol>
-<p>There is a great talk <a href="https://www.youtube.com/watch?v=A65w-qoyTYg">here</a>.</p>
+<p>There is a great talk <a rel="noopener" target="_blank" href="https://www.youtube.com/watch?v=A65w-qoyTYg">here</a>.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <h3 id="rust">Rust</h3>
-<p>Follow the <a href="http://doc.rust-lang.org/guide.html#installing-rust">Guide</a>. You'll want the nightly provided by <code>rustup.sh</code> ideally.</p>
+<p>Follow the <a rel="noopener" target="_blank" href="http://doc.rust-lang.org/guide.html#installing-rust">Guide</a>. You'll want the nightly provided by <code>rustup.sh</code> ideally.</p>
 <h3 id="cap-n-proto">Cap'n Proto</h3>
-<p>First you should probably grab the <a href="https://capnproto.org/capnp-tool.html"><code>capnp</code></a> tool. If you're on a Mac with <a href="http://brew.sh/"><code>brew</code></a> you can do this with:</p>
-<pre><code>brew install capnp
-</code></pre>
+<p>First you should probably grab the <a rel="noopener" target="_blank" href="https://capnproto.org/capnp-tool.html"><code>capnp</code></a> tool. If you're on a Mac with <a rel="noopener" target="_blank" href="http://brew.sh/"><code>brew</code></a> you can do this with:</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>brew install capnp
+</span></code></pre>
 <p>Then grab <code>capnpc-rust</code> like so:</p>
-<pre><code>git clone https://github.com/dwrensha/capnpc-rust &amp;&amp; \
-cd capnpc-rust &amp;&amp; \
-cargo build
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>git clone https://github.com/dwrensha/capnpc-rust &amp;&amp; \
+</span><span>cd capnpc-rust &amp;&amp; \
+</span><span>cargo build
+</span></code></pre>
 <p>Then move <code>target/capnpc-rust</code> to your local <code>~/bin</code> folder, or somewhere else on your <code>$PATH</code>.</p>
 <h1 id="diving-in">Diving In</h1>
 <blockquote>
@@ -203,76 +206,76 @@ cargo build
 </blockquote>
 <p>As a first step, we'll set up a simple project to pack up an example <code>person</code> and write the coresponding Cap'n Proto data to <code>stdout</code> which we can explore with <code>capnp</code>.</p>
 <h2 id="initializing-the-project">Initializing the Project</h2>
-<p>Use <a href="https://crates.io/"><code>cargo</code></a> to create a new package.</p>
-<pre><code>cargo new capntest --bin
-cd capntest
-</code></pre>
-<p>Add the <a href="https://github.com/dwrensha/capnproto-rust"><code>capnproto-rust</code></a> to your <code>Cargo.toml</code></p>
-<pre><code>echo &quot;[dependencies]\ncapnp = \&quot;*\&quot;\ncapnpc = \&quot;*\&quot;&quot; &gt;&gt; Cargo.toml
-</code></pre>
+<p>Use <a rel="noopener" target="_blank" href="https://crates.io/"><code>cargo</code></a> to create a new package.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>cargo new capntest --bin
+</span><span>cd capntest
+</span></code></pre>
+<p>Add the <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnproto-rust"><code>capnproto-rust</code></a> to your <code>Cargo.toml</code></p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>echo &quot;[dependencies]\ncapnp = \&quot;*\&quot;\ncapnpc = \&quot;*\&quot;&quot; &gt;&gt; Cargo.toml
+</span></code></pre>
 <h2 id="building-a-schema">Building a Schema</h2>
 <p>First, we need to generate a unique ID for Cap'n Proto to identify our schema.</p>
-<pre><code>capnp id
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>capnp id
+</span></code></pre>
 <p>You'll see these at the top of every <code>.capnp</code> schema file.</p>
-<p>Now, Cap'n Proto has a pretty interesting <a href="https://kentonv.github.io/capnproto/language.html">schema language</a> that seems adequate for most purposes. I'd be interested in see what it can (and cannot) represent.</p>
+<p>Now, Cap'n Proto has a pretty interesting <a rel="noopener" target="_blank" href="https://kentonv.github.io/capnproto/language.html">schema language</a> that seems adequate for most purposes. I'd be interested in see what it can (and cannot) represent.</p>
 <p>Let's save the example on the aforementioned page as <code>src/schema/person.capnp</code>.</p>
-<pre><code>@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
-
-struct Person {
-  name @0 :Text;
-  birthdate @3 :Date;
-
-  email @1 :Text;
-  phones @2 :List(PhoneNumber);
-
-  struct PhoneNumber {
-    number @0 :Text;
-    type @1 :Type;
-
-    enum Type {
-      mobile @0;
-      home @1;
-      work @2;
-    }
-  }
-}
-
-struct Date {
-  year @0 :Int16;
-  month @1 :UInt8;
-  day @2 :UInt8;
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>@0xdbb9ad1f14bf0b36;  # unique file ID, generated by `capnp id`
+</span><span>
+</span><span>struct Person {
+</span><span>  name @0 :Text;
+</span><span>  birthdate @3 :Date;
+</span><span>
+</span><span>  email @1 :Text;
+</span><span>  phones @2 :List(PhoneNumber);
+</span><span>
+</span><span>  struct PhoneNumber {
+</span><span>    number @0 :Text;
+</span><span>    type @1 :Type;
+</span><span>
+</span><span>    enum Type {
+</span><span>      mobile @0;
+</span><span>      home @1;
+</span><span>      work @2;
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span><span>
+</span><span>struct Date {
+</span><span>  year @0 :Int16;
+</span><span>  month @1 :UInt8;
+</span><span>  day @2 :UInt8;
+</span><span>}
+</span></code></pre>
 <p>This format probably feels familiar to you. Types come after names just like in Rust. However you may have noticed the <code>@0</code>, <code>@1</code>, <code>...</code> notations. This is so Cap'n Proto knows how the data is laid out and can evolve over time. If, for example, we start storing a <code>Person</code>'s spouse as well, we would add <code>spouse @4 :Person;</code>.</p>
 <blockquote>
 <p>While designing your schemas, it's probably best to try to keep the <code>@n</code> notations monotonically increasing, that is, keep them in order.</p>
 </blockquote>
 <p>Now we can build the schema into some rust code with:</p>
-<pre><code>capnp compile -o rust src/schema/*.capnp
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>capnp compile -o rust src/schema/*.capnp
+</span></code></pre>
 <p>You can check <code>src/schema/person_capnp.rs</code> to see the generated code. <em>It's not super pretty, but there is a lot going on.</em></p>
 <h2 id="importing-the-schema">Importing the Schema</h2>
-<p>Currently, due to <a href="https://github.com/dwrensha/capnpc-rust/issues/5">this</a> and <a href="https://github.com/dwrensha/capnproto-rust/issues/16">this</a> you need to use your generated schema in the top level module.</p>
+<p>Currently, due to <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnpc-rust/issues/5">this</a> and <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnproto-rust/issues/16">this</a> you need to use your generated schema in the top level module.</p>
 <p>This is the minimal <code>main.rs</code> file which should give you access to what we need from <code>person</code>.</p>
-<pre><code>extern crate capnp;
-extern crate capnpc;
-
-mod person_capnp {
-    include!(&quot;./schema/person_capnp.rs&quot;);
-}
-
-use person_capnp::person;
-
-fn main() {
-
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>extern crate capnp;
+</span><span>extern crate capnpc;
+</span><span>
+</span><span>mod person_capnp {
+</span><span>    include!(&quot;./schema/person_capnp.rs&quot;);
+</span><span>}
+</span><span>
+</span><span>use person_capnp::person;
+</span><span>
+</span><span>fn main() {
+</span><span>
+</span><span>}
+</span></code></pre>
 <p>Double check that this compiles for you use <code>cargo build</code> before going further.</p>
 <h3 id="aside-docs">Aside: Docs</h3>
-<p>Currently, there is <em>little</em> documentation about how to use the library, only a pair of examples. Examples <a href="https://github.com/dwrensha/capnpc-rust/tree/master/example/addressbook">here</a> and <a href="https://github.com/dwrensha/capnp-rpc-rust/tree/master/examples/calculator">here</a>.</p>
+<p>Currently, there is <em>little</em> documentation about how to use the library, only a pair of examples. Examples <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnpc-rust/tree/master/example/addressbook">here</a> and <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnp-rpc-rust/tree/master/examples/calculator">here</a>.</p>
 <p>If you'd like to actually have something to reference, <code>git clone https://github.com/dwrensha/capnproto-rust</code> and run <code>cargo doc</code> in the directory. Then visit something like <code>file:///Users/hoverbear/capnproto-rust/target/doc/capnp/index.html</code> in your browser. Don't expect this to help much, but it might give you some hints.</p>
-<p>You can also check the Cap'n Proto C++ docs <a href="https://capnproto.org/cxx.html">here</a> and <a href="https://capnproto.org/cxxrpc.html">here</a>, as far as I can tell the interface is rather similar.</p>
+<p>You can also check the Cap'n Proto C++ docs <a rel="noopener" target="_blank" href="https://capnproto.org/cxx.html">here</a> and <a rel="noopener" target="_blank" href="https://capnproto.org/cxxrpc.html">here</a>, as far as I can tell the interface is rather similar.</p>
 <blockquote>
 <p>If you feel like being awesome, help write some docs!</p>
 </blockquote>
@@ -280,83 +283,83 @@ fn main() {
 <p>Keep in mind, before we begin, that Cap'n Proto is a <em>bit</em> different than normal Rust stuff.</p>
 <p>Cap'n Proto structs are build via the use of functions in the <code>Builder</code> implementation generated.</p>
 <p>If you look in the <code>./schema/people_capnp.rs</code> file you'll see:</p>
-<pre><code>impl &lt;'a&gt; Builder&lt;'a&gt; {
-	// ...
-    // Setters
-    // ...
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>impl &lt;&#39;a&gt; Builder&lt;&#39;a&gt; {
+</span><span>	// ...
+</span><span>    // Setters
+</span><span>    // ...
+</span><span>}
+</span></code></pre>
 <p>That's how you can create your structs. Here's how we create a <code>person</code> and dump it to <code>stdout</code>:</p>
-<pre><code>#![feature(path)]
-extern crate capnp;
-extern crate capnpc;
-mod person_capnp {
-    include!(&quot;./schema/person_capnp.rs&quot;);
-}
-use person_capnp::person as Person;
-use capnp::serialize_packed;
-use capnp::{MessageBuilder, MallocMessageBuilder};
-use std::old_io::stdout;
-
-fn main() {
-    // Allocate.
-    let mut message = MallocMessageBuilder::new_default();
-    {
-        let mut person = message.init_root::&lt;Person::Builder&gt;();
-        // Setters
-        person.set_name(&quot;Foo Bar Baz&quot;);
-        person.set_email(&quot;foo@bar.baz&quot;);
-        {
-            // Use a Scope to limit lifetime of the borrow.
-            let mut birthdate = person.borrow().init_birthdate();
-            birthdate.set_day(1 as u8);
-            birthdate.set_month(1 as u8);
-            birthdate.set_year(1 as i16);
-        }
-        {
-            // Use a Scope to limit lifetime of the borrow.
-            let mut phones = person.borrow().init_phones(2); // 2 phones
-            // Unforuntately these borrows must be there.
-            phones.borrow().get(0).set_number(&quot;(123) 123-1234&quot;);
-            phones.borrow().get(0).set_type(Person::phone_number::Type::Home);
-            phones.borrow().get(1).set_number(&quot;(123) 123-1235&quot;);
-            phones.borrow().get(1).set_type(Person::phone_number::Type::Mobile);
-        }
-    }
-    let mut out = WriteOutputStream::new(stdout());
-    serialize_packed::write_packed_message_unbuffered(&amp;mut out(), &amp;mut message);
-}
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#![feature(path)]
+</span><span>extern crate capnp;
+</span><span>extern crate capnpc;
+</span><span>mod person_capnp {
+</span><span>    include!(&quot;./schema/person_capnp.rs&quot;);
+</span><span>}
+</span><span>use person_capnp::person as Person;
+</span><span>use capnp::serialize_packed;
+</span><span>use capnp::{MessageBuilder, MallocMessageBuilder};
+</span><span>use std::old_io::stdout;
+</span><span>
+</span><span>fn main() {
+</span><span>    // Allocate.
+</span><span>    let mut message = MallocMessageBuilder::new_default();
+</span><span>    {
+</span><span>        let mut person = message.init_root::&lt;Person::Builder&gt;();
+</span><span>        // Setters
+</span><span>        person.set_name(&quot;Foo Bar Baz&quot;);
+</span><span>        person.set_email(&quot;foo@bar.baz&quot;);
+</span><span>        {
+</span><span>            // Use a Scope to limit lifetime of the borrow.
+</span><span>            let mut birthdate = person.borrow().init_birthdate();
+</span><span>            birthdate.set_day(1 as u8);
+</span><span>            birthdate.set_month(1 as u8);
+</span><span>            birthdate.set_year(1 as i16);
+</span><span>        }
+</span><span>        {
+</span><span>            // Use a Scope to limit lifetime of the borrow.
+</span><span>            let mut phones = person.borrow().init_phones(2); // 2 phones
+</span><span>            // Unforuntately these borrows must be there.
+</span><span>            phones.borrow().get(0).set_number(&quot;(123) 123-1234&quot;);
+</span><span>            phones.borrow().get(0).set_type(Person::phone_number::Type::Home);
+</span><span>            phones.borrow().get(1).set_number(&quot;(123) 123-1235&quot;);
+</span><span>            phones.borrow().get(1).set_type(Person::phone_number::Type::Mobile);
+</span><span>        }
+</span><span>    }
+</span><span>    let mut out = WriteOutputStream::new(stdout());
+</span><span>    serialize_packed::write_packed_message_unbuffered(&amp;mut out(), &amp;mut message);
+</span><span>}
+</span></code></pre>
 <p>Okay, so, this seems fairly straightforward. The enum variants seem to work like in Rust, but there is some interesting allocation stuff going on. There are also a lot of scopes happening to handle borrow lifetimes.</p>
 <p><em>So what's happening?</em> The way Cap'n Proto stores it's structured laid out a very specific way in memory such that <em>it doesn't need to serialize and deserialize data</em>. When you're building a Cap'n Proto structure you're actually working with this memory.</p>
 <p>Running <code>cargo build</code> we can run <code>./target/capntest</code> and see the following:</p>
-<pre><code>➜  capntest git:(master) ✗ ./target/capntest
-Qb'�Foo zar Baz�z�(123) 12?3-1234�(123) 12?3-1235%
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>➜  capntest git:(master) ✗ ./target/capntest
+</span><span>Qb&#39;�Foo zar Baz�z�(123) 12?3-1234�(123) 12?3-1235%
+</span></code></pre>
 <h2 id="inspecting-the-packed-data">Inspecting the Packed Data</h2>
-<p>What we got out of our program is what's called &quot;packed&quot; data. You can learn more about it <a href="https://capnproto.org/encoding.html#packing">here</a>. We can use the <code>capnp</code> tool to unpack a struct.</p>
-<pre><code>➜  capntest git:(master) ✗ ./target/capntest | capnp decode --packed ./src/schema/person.capnp Person
-( name = &quot;Foo Bar Baz&quot;,
-  email = &quot;foo@bar.baz&quot;,
-  phones = [
-    ( number = &quot;(123) 123-1234&quot;,
-      type = home ),
-    ( number = &quot;(123) 123-1235&quot;,
-      type = mobile ) ],
-  birthdate = (year = 1, month = 1, day = 1) )
-</code></pre>
+<p>What we got out of our program is what's called &quot;packed&quot; data. You can learn more about it <a rel="noopener" target="_blank" href="https://capnproto.org/encoding.html#packing">here</a>. We can use the <code>capnp</code> tool to unpack a struct.</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>➜  capntest git:(master) ✗ ./target/capntest | capnp decode --packed ./src/schema/person.capnp Person
+</span><span>( name = &quot;Foo Bar Baz&quot;,
+</span><span>  email = &quot;foo@bar.baz&quot;,
+</span><span>  phones = [
+</span><span>    ( number = &quot;(123) 123-1234&quot;,
+</span><span>      type = home ),
+</span><span>    ( number = &quot;(123) 123-1235&quot;,
+</span><span>      type = mobile ) ],
+</span><span>  birthdate = (year = 1, month = 1, day = 1) )
+</span></code></pre>
 <h2 id="closing">Closing</h2>
 <p>That should be enough to perk your interest in Cap'n Proto and get you started with the library. I'm hoping to write another article soon about working with Cap'n Proto input data (hint, change <code>set</code> to <code>get</code>!) and RPC calls.</p>
-<p>If you can't wait to dig in, our worked example closely matches Address Book example given in the repository... Check the <code>print_address_book</code> function out <a href="https://github.com/dwrensha/capnpc-rust/blob/master/example/addressbook/addressbook.rs#L75">here</a>.</p>
-<p><strong>Discussion of this post is on <a href="https://www.reddit.com/r/rust/comments/2vmn4t/first_look_at_capn_proto_worked_rust_example_with/">Reddit</a>.</strong></p>
+<p>If you can't wait to dig in, our worked example closely matches Address Book example given in the repository... Check the <code>print_address_book</code> function out <a rel="noopener" target="_blank" href="https://github.com/dwrensha/capnpc-rust/blob/master/example/addressbook/addressbook.rs#L75">here</a>.</p>
+<p><strong>Discussion of this post is on <a rel="noopener" target="_blank" href="https://www.reddit.com/r/rust/comments/2vmn4t/first_look_at_capn_proto_worked_rust_example_with/">Reddit</a>.</strong></p>
 
     </main>
     <footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

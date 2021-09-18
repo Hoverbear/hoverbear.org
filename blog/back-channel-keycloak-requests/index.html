@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -67,15 +68,17 @@ You may want to check this link to learn how to use Immutant with Keycloak.
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -87,12 +90,12 @@ You may want to check this link to learn how to use Immutant with Keycloak.
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -147,7 +150,7 @@ You may want to check this link to learn how to use Immutant with Keycloak.
         </ol>
     </nav>
 
-        <p>While using <a href="http://keycloak.jboss.org/">Keycloak</a> you may need to make authenticated requests between various services. How can this be accomplished with <a href="http://immutant.org/">Immutant</a>?</p>
+        <p>While using <a rel="noopener" target="_blank" href="http://keycloak.jboss.org/">Keycloak</a> you may need to make authenticated requests between various services. How can this be accomplished with <a rel="noopener" target="_blank" href="http://immutant.org/">Immutant</a>?</p>
 <blockquote>
 <p>You may want to check <a href="/2014/07/25/integrating-immutant-and-keycloak/">this</a> link to learn how to use Immutant with Keycloak.</p>
 </blockquote>
@@ -169,32 +172,32 @@ You may want to check this link to learn how to use Immutant with Keycloak.
 <h2 id="making-a-request">Making a Request</h2>
 <p>The <strong>User</strong> will browse to the <strong>Consumer</strong> and authenticate with <strong>Keycloak</strong>, then return to the <code>/backchannel</code> route. Since at this point they will be authenticated, you can get their session and utilize the Token it provides.</p>
 <p>The <code>get-session</code> function produces a session which can be utilized.</p>
-<pre><code>(defn get-session
-  &quot;Gets the session, get the object with `.getToken` or the access token itself with `.getTokenString`&quot;
-  [request]
-  (let [{servlet-request :servlet-request} request
-        session (.getAttribute servlet-request &quot;org.keycloak.KeycloakSecurityContext&quot;)]
-    session))
-</code></pre>
+<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">get-session
+</span><span>  </span><span style="color:#bae67e;">&quot;Gets the session, get the object with `.getToken` or the access token itself with `.getTokenString`&quot;
+</span><span>  [request]
+</span><span>  (</span><span style="color:#ffd580;">let </span><span>[{servlet-request </span><span style="color:#ffcc66;">:servlet-request</span><span>} request
+</span><span>        session (</span><span style="color:#ffd580;">.getAttribute</span><span> servlet-request </span><span style="color:#bae67e;">&quot;org.keycloak.KeycloakSecurityContext&quot;</span><span>)]
+</span><span>    session))
+</span></code></pre>
 <p><code>back-channel-handler</code>, which is bound to the <code>/backchannel</code> route, responds to the request with information regarding the users resource access, as well as the data sent from the provider.</p>
-<pre><code>(defn back-channel-handler
-  &quot;A back channel request handler&quot;
-  [request]
-  (str &quot;The back call resulted in:&lt;br&gt;&quot;
-    (.getResourceAccess (.getToken (get-session request)))
-    &quot;&lt;br&gt;&quot;
-    (try
-      (client/get &quot;http://provider:8080/locked&quot;
-        {:headers {
-          &quot;Authorization&quot; (str &quot;Bearer &quot; (.getTokenString (get-session request)))
-        }})
-      (catch Exception e
-        (str &quot;Exception occured... &lt;pre&gt;&quot; e &quot;&lt;/pre&gt;&quot;)))))
-
-(defroutes app
-  &quot;The router.&quot;
-  (GET &quot;/backchannel&quot; [:as request] (back-channel-handler request)))
-</code></pre>
+<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">back-channel-handler
+</span><span>  </span><span style="color:#bae67e;">&quot;A back channel request handler&quot;
+</span><span>  [request]
+</span><span>  (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;The back call resulted in:&lt;br&gt;&quot;
+</span><span>    (</span><span style="color:#ffd580;">.getResourceAccess </span><span>(</span><span style="color:#ffd580;">.getToken </span><span>(</span><span style="color:#ffd580;">get-session</span><span> request)))
+</span><span>    </span><span style="color:#bae67e;">&quot;&lt;br&gt;&quot;
+</span><span>    (</span><span style="color:#ffd580;">try
+</span><span>      (</span><span style="color:#ffd580;">client/get </span><span style="color:#bae67e;">&quot;http://provider:8080/locked&quot;
+</span><span>        {</span><span style="color:#ffcc66;">:headers </span><span>{
+</span><span>          </span><span style="color:#bae67e;">&quot;Authorization&quot; </span><span>(</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;Bearer &quot; </span><span>(</span><span style="color:#ffd580;">.getTokenString </span><span>(</span><span style="color:#ffd580;">get-session</span><span> request)))
+</span><span>        }})
+</span><span>      (</span><span style="color:#ffd580;">catch</span><span> Exception e
+</span><span>        (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;Exception occured... &lt;pre&gt;&quot;</span><span> e </span><span style="color:#bae67e;">&quot;&lt;/pre&gt;&quot;</span><span>)))))
+</span><span>
+</span><span>(</span><span style="color:#ffa759;">defroutes </span><span style="color:#ffd580;">app
+</span><span>  </span><span style="color:#bae67e;">&quot;The router.&quot;
+</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/backchannel&quot; </span><span>[</span><span style="color:#ffcc66;">:as</span><span> request] (</span><span style="color:#ffd580;">back-channel-handler</span><span> request)))
+</span></code></pre>
 <h2 id="handling-a-request">Handling a Request</h2>
 <p>On the <strong>Provider</strong>, lock down the <code>/locked</code> route in the <code>web.xml</code> file. Then, Keycloak provides all of the necessary facilities to handle and verify the request. By the time the request reaches the <strong>Provider</strong>, it's already verified that the user has access.</p>
 
@@ -203,8 +206,8 @@ You may want to check this link to learn how to use Immutant with Keycloak.
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 

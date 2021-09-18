@@ -17,8 +17,9 @@
         <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
     
         <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg"/>
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
         <meta name="twitter:site" content="@a_hoverbear"/>
         <meta name="twitter:creator" content="@a_hoverbear"/>
         
@@ -67,15 +68,17 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
     <div id="hero-wrapper">
     <figure class="enriched ">
         <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        <img srcset="
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a3aed6e7b2f3210400.jpg 1920w,
-              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a157fd2afbc5f18800.jpg 3840w
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
               "
               sizes="
                      (max-width: 1200px) 1200px,
-                     (max-width: 1800px) 1800px,
+                     (max-width: 1800px) 1800px,set 
                      3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2851c84fd6c5141000.jpg"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
     </figure>
 </div>
@@ -87,12 +90,12 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
         </a></h1>
 
         <nav id="tree"><ul><li>
-            <a href="https://hoverbear.org/about/">
-                Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
             <a href="https://hoverbear.org/consulting/">
                 Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
@@ -200,19 +203,19 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 </blockquote>
 <span id="continue-reading"></span><h2 id="keycloak">Keycloak</h2>
 <h3 id="erecting-keycloak">Erecting Keycloak</h3>
-<p><a href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
+<p><a rel="noopener" target="_blank" href="http://keycloak.jboss.org/">Keycloak</a> is an integrated Single-Sign-On and Identity Management platform from the fine folks of JBoss. A Docker image of Keycloak is available <a rel="noopener" target="_blank" href="https://www.jboss.org/docker/">here</a>, just like Immutant, Wildfly, and a few others.</p>
 <p>To pull the Keycloak image:</p>
-<pre><code>docker pull jboss/keycloak
-</code></pre>
-<p>Then, to erect the container (<a href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
-<pre><code>docker run -it --name keycloak -p 8080:8080 -p 9090:9090 jboss/keycloak
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span> pull jboss/keycloak
+</span></code></pre>
+<p>Then, to erect the container (<a rel="noopener" target="_blank" href="https://github.com/jboss/dockerfiles/blob/master/keycloak/server/README.md">Source</a>):</p>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> -it --name</span><span> keycloak</span><span style="color:#ffcc66;"> -p</span><span> 8080:8080</span><span style="color:#ffcc66;"> -p</span><span> 9090:9090 jboss/keycloak
+</span></code></pre>
 <blockquote>
 <p>Use the  <code>-d</code> flag to daemonize the service so it doesn't die with the tty. You can check the logs later with <code>docker logs -f keycloak</code></p>
 </blockquote>
-<p>Finally, you should be able to browse to <a href="http://localhost:8080/">http://localhost:8080/</a> and see the friendly Wildfly logo and welcome screen. Visiting <a href="http://localhost:8080/auth/">http://localhost:8080/auth/</a> should yield a Keycloak welcome screen.</p>
+<p>Finally, you should be able to browse to <a rel="noopener" target="_blank" href="http://localhost:8080/">http://localhost:8080/</a> and see the friendly Wildfly logo and welcome screen. Visiting <a rel="noopener" target="_blank" href="http://localhost:8080/auth/">http://localhost:8080/auth/</a> should yield a Keycloak welcome screen.</p>
 <h3 id="getting-into-keycloak">Getting into Keycloak</h3>
-<p>Visiting <a href="http://localhost:8080/auth/admin/">http://localhost:8080/auth/admin/</a> should bring you to a very <em>blue</em> login screen. The Keycloak docker image starts with a pre-created <code>admin</code> account for you to log in with.</p>
+<p>Visiting <a rel="noopener" target="_blank" href="http://localhost:8080/auth/admin/">http://localhost:8080/auth/admin/</a> should bring you to a very <em>blue</em> login screen. The Keycloak docker image starts with a pre-created <code>admin</code> account for you to log in with.</p>
 <p><strong>Username:</strong> admin</p>
 <p><strong>Password:</strong> admin</p>
 <p>After logging in, Keycloak should prompt for a password change.</p>
@@ -237,243 +240,243 @@ If you haven&#x27;t read the previous few articles, it might be useful to give t
 <h2 id="immutant">Immutant</h2>
 <h3 id="setting-up-the-immutant-application">Setting Up the Immutant Application</h3>
 <p>Start up a new lein project with:</p>
-<pre><code>lein new app learning
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">lein</span><span> new app learning
+</span></code></pre>
 <p>Your <code>learning/project.clj</code> needs to be modified to look similar to this:</p>
-<pre><code>(defproject learning &quot;0.1.0-SNAPSHOT&quot;
-  :description &quot;FIXME: write description&quot;
-  :url &quot;http://example.com/FIXME&quot;
-  :license {:name &quot;MPL&quot;
-            :url &quot;http://choosealicense.com/licenses/mpl-2.0/&quot;}
-  :dependencies [[org.clojure/clojure &quot;1.6.0&quot;]
-                 [org.immutant/immutant &quot;2.x.incremental.191&quot;]
-                 [compojure &quot;1.1.8&quot;]]
-  :repositories [[&quot;Immutant incremental builds&quot;
-                  &quot;http://downloads.immutant.org/incremental/&quot;]]
-  :plugins [[lein-immutant &quot;2.0.0-SNAPSHOT&quot;]]
-  :main ^:skip-aot learning.core
-  :target-path &quot;target/%s&quot;
-  :profiles {:uberjar {:aot :all}}
-  ; Plugin configuration.
-  :ring {:handler learning.core/app}
-  :immutant {
-     :war {
-        :dev? false
-        :resource-paths [&quot;resources&quot;]
-        :nrepl {
-          :port 8888
-          :start? true}}})
-</code></pre>
+<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffa759;">defproject </span><span style="color:#ffd580;">learning </span><span style="color:#bae67e;">&quot;0.1.0-SNAPSHOT&quot;
+</span><span>  </span><span style="color:#ffcc66;">:description </span><span style="color:#bae67e;">&quot;FIXME: write description&quot;
+</span><span>  </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://example.com/FIXME&quot;
+</span><span>  </span><span style="color:#ffcc66;">:license </span><span>{</span><span style="color:#ffcc66;">:name </span><span style="color:#bae67e;">&quot;MPL&quot;
+</span><span>            </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://choosealicense.com/licenses/mpl-2.0/&quot;</span><span>}
+</span><span>  </span><span style="color:#ffcc66;">:dependencies </span><span>[[org.clojure/clojure </span><span style="color:#bae67e;">&quot;1.6.0&quot;</span><span>]
+</span><span>                 [org.immutant/immutant </span><span style="color:#bae67e;">&quot;2.x.incremental.191&quot;</span><span>]
+</span><span>                 [compojure </span><span style="color:#bae67e;">&quot;1.1.8&quot;</span><span>]]
+</span><span>  </span><span style="color:#ffcc66;">:repositories </span><span>[[</span><span style="color:#bae67e;">&quot;Immutant incremental builds&quot;
+</span><span>                  </span><span style="color:#bae67e;">&quot;http://downloads.immutant.org/incremental/&quot;</span><span>]]
+</span><span>  </span><span style="color:#ffcc66;">:plugins </span><span>[[lein-immutant </span><span style="color:#bae67e;">&quot;2.0.0-SNAPSHOT&quot;</span><span>]]
+</span><span>  </span><span style="color:#ffcc66;">:main </span><span style="color:#f29e74;">^</span><span style="color:#ffcc66;">:skip-aot</span><span> learning.core
+</span><span>  </span><span style="color:#ffcc66;">:target-path </span><span style="color:#bae67e;">&quot;target/%s&quot;
+</span><span>  </span><span style="color:#ffcc66;">:profiles </span><span>{</span><span style="color:#ffcc66;">:uberjar </span><span>{</span><span style="color:#ffcc66;">:aot :all</span><span>}}
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">; Plugin configuration.
+</span><span>  </span><span style="color:#ffcc66;">:ring </span><span>{</span><span style="color:#ffcc66;">:handler</span><span> learning.core/app}
+</span><span>  </span><span style="color:#ffcc66;">:immutant </span><span>{
+</span><span>     </span><span style="color:#ffcc66;">:war </span><span>{
+</span><span>        </span><span style="color:#ffcc66;">:dev? false
+</span><span>        </span><span style="color:#ffcc66;">:resource-paths </span><span>[</span><span style="color:#bae67e;">&quot;resources&quot;</span><span>]
+</span><span>        </span><span style="color:#ffcc66;">:nrepl </span><span>{
+</span><span>          </span><span style="color:#ffcc66;">:port 8888
+</span><span>          </span><span style="color:#ffcc66;">:start? true</span><span>}}})
+</span></code></pre>
 <p>Now change your <code>learning/src/learning/core.clj</code> file to contain the following:</p>
-<pre><code>(ns learning.core
-  (:use compojure.core)
-  (:require [compojure.route       :as route]
-            [immutant.web          :as web]
-            [immutant.web.servlet  :as servlet])
-  (:gen-class))
-
-
-(defn get-token
-  &quot;Gets the session for the user&quot;
-  [request]
-  (let [{servlet-request :servlet-request} request
-        security-context (.getAttribute servlet-request &quot;org.keycloak.KeycloakSecurityContext&quot;)
-        id-token (.getIdToken security-context)]
-    id-token))
-
-(defn show-profile
-  &quot;Shows the profile of the user&quot;
-  [request]
-  (try
-    (let [token (get-token request)]
-      ; The token is a Java Object, don't expect more then a reference.
-      (str &quot;&lt;p&gt;Token is: &lt;pre&gt;&quot; token &quot;&lt;/pre&gt;&lt;/p&gt;&quot;
-           ; This should show the users name.
-           ; Reference: https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html
-           &quot;&lt;p&gt;User is: &lt;pre&gt;&quot; (.getPreferredUsername token) &quot;&lt;/pre&gt;&lt;/p&gt;&quot;))
-    (catch Exception e
-      ; There is no token.
-      (str &quot;&lt;p&gt;No user found.&lt;/p&gt;&lt;pre&gt;&quot; e &quot;&lt;/pre&gt;&quot;))))
-
-(defn test-handler
-  &quot;A very versatile test route handler&quot;
-  ; Handled different arities.
-  ([request base]
-   (str &quot;&lt;h1&gt;Base: &quot; base &quot;&lt;/h1&gt;&quot;
-        &quot;&lt;p&gt;&quot; (show-profile request) &quot;&lt;/p&gt;&quot;))
-  ([request base sub]
-   (str &quot;&lt;h1&gt;Base: &quot; base &quot; Sub: &quot; sub &quot;&lt;/h1&gt;&quot;
-        &quot;&lt;p&gt;&quot; (show-profile request) &quot;&lt;/p&gt;&quot;))
-  ([request base sub subsub]
-   (str &quot;&lt;h1&gt;Base: &quot; base &quot; Sub: &quot; sub &quot; Subsub: &quot; subsub &quot;&lt;/h1&gt;&quot;
-        &quot;&lt;p&gt;&quot; (show-profile request) &quot;&lt;/p&gt;&quot;)))
-
-(defroutes app
-  &quot;The router.&quot;
-  ; Logout
-  ; Doesn't currently work: https://issues.jboss.org/browse/KEYCLOAK-478
-  (GET &quot;/logout&quot; [:as request]
-    (let [{servlet-request :servlet-request} request]
-      (.logout servlet-request)
-      (str &quot;Logged out&quot;)))
-  ; Rest of the routes.
-  (GET &quot;/&quot; [:as request]
-       (test-handler request &quot;/&quot;))
-  (GET &quot;/:base&quot; [base :as request]
-       (test-handler request base))
-  (GET &quot;/:base/:sub&quot; [base sub :as request]
-       (test-handler request base sub))
-  (GET &quot;/:base/:sub/:subsub&quot; [base sub subsub :as request]
-       (test-handler request base sub subsub))
-  (route/not-found &quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;))
-
-(defn -main
-  &quot;Start the server&quot;
-  [&amp; args]
-  ; Start the server.
-  (web/run (servlet/create-servlet app) :port 8081))
-</code></pre>
-<p>The <code>get-token</code> function returns an object that you can run things like <code>(.getPreferredUsername token)</code>. <a href="https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html">This</a> documents the different methods you can use.</p>
+<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffd580;">ns</span><span> learning.core
+</span><span>  (</span><span style="color:#ffcc66;">:use</span><span> compojure.core)
+</span><span>  (</span><span style="color:#ffcc66;">:require </span><span>[compojure.route       </span><span style="color:#ffcc66;">:as</span><span> route]
+</span><span>            [immutant.web          </span><span style="color:#ffcc66;">:as</span><span> web]
+</span><span>            [immutant.web.servlet  </span><span style="color:#ffcc66;">:as</span><span> servlet])
+</span><span>  (</span><span style="color:#ffcc66;">:gen-class</span><span>))
+</span><span>
+</span><span>
+</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">get-token
+</span><span>  </span><span style="color:#bae67e;">&quot;Gets the session for the user&quot;
+</span><span>  [request]
+</span><span>  (</span><span style="color:#ffd580;">let </span><span>[{servlet-request </span><span style="color:#ffcc66;">:servlet-request</span><span>} request
+</span><span>        security-context (</span><span style="color:#ffd580;">.getAttribute</span><span> servlet-request </span><span style="color:#bae67e;">&quot;org.keycloak.KeycloakSecurityContext&quot;</span><span>)
+</span><span>        id-token (</span><span style="color:#ffd580;">.getIdToken</span><span> security-context)]
+</span><span>    id-token))
+</span><span>
+</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">show-profile
+</span><span>  </span><span style="color:#bae67e;">&quot;Shows the profile of the user&quot;
+</span><span>  [request]
+</span><span>  (</span><span style="color:#ffd580;">try
+</span><span>    (</span><span style="color:#ffd580;">let </span><span>[token (</span><span style="color:#ffd580;">get-token</span><span> request)]
+</span><span>      </span><span style="font-style:italic;color:#5c6773;">; The token is a Java Object, don&#39;t expect more then a reference.
+</span><span>      (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;&lt;p&gt;Token is: &lt;pre&gt;&quot;</span><span> token </span><span style="color:#bae67e;">&quot;&lt;/pre&gt;&lt;/p&gt;&quot;
+</span><span>           </span><span style="font-style:italic;color:#5c6773;">; This should show the users name.
+</span><span>           </span><span style="font-style:italic;color:#5c6773;">; Reference: https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html
+</span><span>           </span><span style="color:#bae67e;">&quot;&lt;p&gt;User is: &lt;pre&gt;&quot; </span><span>(</span><span style="color:#ffd580;">.getPreferredUsername</span><span> token) </span><span style="color:#bae67e;">&quot;&lt;/pre&gt;&lt;/p&gt;&quot;</span><span>))
+</span><span>    (</span><span style="color:#ffd580;">catch</span><span> Exception e
+</span><span>      </span><span style="font-style:italic;color:#5c6773;">; There is no token.
+</span><span>      (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;&lt;p&gt;No user found.&lt;/p&gt;&lt;pre&gt;&quot;</span><span> e </span><span style="color:#bae67e;">&quot;&lt;/pre&gt;&quot;</span><span>))))
+</span><span>
+</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">test-handler
+</span><span>  </span><span style="color:#bae67e;">&quot;A very versatile test route handler&quot;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">; Handled different arities.
+</span><span>  ([request base]
+</span><span>   (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Base: &quot;</span><span> base </span><span style="color:#bae67e;">&quot;&lt;/h1&gt;&quot;
+</span><span>        </span><span style="color:#bae67e;">&quot;&lt;p&gt;&quot; </span><span>(</span><span style="color:#ffd580;">show-profile</span><span> request) </span><span style="color:#bae67e;">&quot;&lt;/p&gt;&quot;</span><span>))
+</span><span>  ([request base sub]
+</span><span>   (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Base: &quot;</span><span> base </span><span style="color:#bae67e;">&quot; Sub: &quot;</span><span> sub </span><span style="color:#bae67e;">&quot;&lt;/h1&gt;&quot;
+</span><span>        </span><span style="color:#bae67e;">&quot;&lt;p&gt;&quot; </span><span>(</span><span style="color:#ffd580;">show-profile</span><span> request) </span><span style="color:#bae67e;">&quot;&lt;/p&gt;&quot;</span><span>))
+</span><span>  ([request base sub subsub]
+</span><span>   (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Base: &quot;</span><span> base </span><span style="color:#bae67e;">&quot; Sub: &quot;</span><span> sub </span><span style="color:#bae67e;">&quot; Subsub: &quot;</span><span> subsub </span><span style="color:#bae67e;">&quot;&lt;/h1&gt;&quot;
+</span><span>        </span><span style="color:#bae67e;">&quot;&lt;p&gt;&quot; </span><span>(</span><span style="color:#ffd580;">show-profile</span><span> request) </span><span style="color:#bae67e;">&quot;&lt;/p&gt;&quot;</span><span>)))
+</span><span>
+</span><span>(</span><span style="color:#ffa759;">defroutes </span><span style="color:#ffd580;">app
+</span><span>  </span><span style="color:#bae67e;">&quot;The router.&quot;
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">; Logout
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">; Doesn&#39;t currently work: https://issues.jboss.org/browse/KEYCLOAK-478
+</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/logout&quot; </span><span>[</span><span style="color:#ffcc66;">:as</span><span> request]
+</span><span>    (</span><span style="color:#ffd580;">let </span><span>[{servlet-request </span><span style="color:#ffcc66;">:servlet-request</span><span>} request]
+</span><span>      (</span><span style="color:#ffd580;">.logout</span><span> servlet-request)
+</span><span>      (</span><span style="color:#ffd580;">str </span><span style="color:#bae67e;">&quot;Logged out&quot;</span><span>)))
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">; Rest of the routes.
+</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/&quot; </span><span>[</span><span style="color:#ffcc66;">:as</span><span> request]
+</span><span>       (</span><span style="color:#ffd580;">test-handler</span><span> request </span><span style="color:#bae67e;">&quot;/&quot;</span><span>))
+</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/:base&quot; </span><span>[base </span><span style="color:#ffcc66;">:as</span><span> request]
+</span><span>       (</span><span style="color:#ffd580;">test-handler</span><span> request base))
+</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/:base/:sub&quot; </span><span>[base sub </span><span style="color:#ffcc66;">:as</span><span> request]
+</span><span>       (</span><span style="color:#ffd580;">test-handler</span><span> request base sub))
+</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/:base/:sub/:subsub&quot; </span><span>[base sub subsub </span><span style="color:#ffcc66;">:as</span><span> request]
+</span><span>       (</span><span style="color:#ffd580;">test-handler</span><span> request base sub subsub))
+</span><span>  (</span><span style="color:#ffd580;">route/not-found </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;</span><span>))
+</span><span>
+</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">-main
+</span><span>  </span><span style="color:#bae67e;">&quot;Start the server&quot;
+</span><span>  [&amp; args]
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">; Start the server.
+</span><span>  (</span><span style="color:#ffd580;">web/run </span><span>(</span><span style="color:#ffd580;">servlet/create-servlet</span><span> app) </span><span style="color:#ffcc66;">:port 8081</span><span>))
+</span></code></pre>
+<p>The <code>get-token</code> function returns an object that you can run things like <code>(.getPreferredUsername token)</code>. <a rel="noopener" target="_blank" href="https://docs.jboss.org/keycloak/docs/1.0-beta-3/javadocs/org/keycloak/representations/IDToken.html">This</a> documents the different methods you can use.</p>
 <h3 id="planning-the-routes">Planning the Routes</h3>
 <p>The routes are specifically very, very general so that we can test various routes. In our exploration we'll be paying attention to the following routes:</p>
 <ul>
-<li><code>/logout</code> - Logs out the user. (Note: <a href="https://issues.jboss.org/browse/KEYCLOAK-478">This is currently broken in Keycloak-1.0.0-beta-3</a>)</li>
+<li><code>/logout</code> - Logs out the user. (Note: <a rel="noopener" target="_blank" href="https://issues.jboss.org/browse/KEYCLOAK-478">This is currently broken in Keycloak-1.0.0-beta-3</a>)</li>
 <li><code>/test</code> and <code>/test/foo</code> - General routes available to all visitors.</li>
 <li><code>/locked</code> and <code>/locked/foo</code> - Routes available to all <code>user</code> and <code>admin</code> roles.</li>
 <li><code>/admin</code> and <code>/admin/foo</code> - Routes available to only administrators.</li>
 </ul>
 <p>The routes in our code above covers much, much more then those, but you can play with those on your own.</p>
 <h3 id="integrating-keycloak">Integrating Keycloak</h3>
-<p><a href="http://keycloak.jboss.org/docs.html">Keycloak's User Guide</a> specifies how to secure the application via the <code>web.xml</code>. If you're familiar with JBoss (I'm not) this is apparently a fairly standard way of securing the application.</p>
+<p><a rel="noopener" target="_blank" href="http://keycloak.jboss.org/docs.html">Keycloak's User Guide</a> specifies how to secure the application via the <code>web.xml</code>. If you're familiar with JBoss (I'm not) this is apparently a fairly standard way of securing the application.</p>
 <p>However, Immutant does not currently provide an easy way to modify the <code>web.xml</code> in the war files it builds. Thankfully, since a war is a jar, and a jar is a zip, we can just add it in after.</p>
 <p>First, lets make a folder for this type of data in <code>/learning/resources</code>.</p>
-<pre><code>mkdir resources/WEB-INF
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span> resources/WEB-INF
+</span></code></pre>
 <p>Then, create a <code>learning/resources/WEB-INF/web.xml</code> with the following XML:</p>
-<pre><code>&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; version=&quot;3.0&quot;&gt;
-	&lt;distributable/&gt;
-	&lt;listener&gt;
-		&lt;listener-class&gt;org.projectodd.wunderboss.wildfly.ServletListener&lt;/listener-class&gt;
-	&lt;/listener&gt;
-
-	&lt;!-- Anyone --&gt;
-	&lt;security-constraint&gt;
-		&lt;web-resource-collection&gt;
-			&lt;web-resource-name&gt;test&lt;/web-resource-name&gt;
-			&lt;url-pattern&gt;/test&lt;/url-pattern&gt;
-			&lt;url-pattern&gt;/test/*&lt;/url-pattern&gt;
-		&lt;/web-resource-collection&gt;
-	&lt;/security-constraint&gt;
-
-	&lt;!-- Users and Admins --&gt;
-	&lt;security-constraint&gt;
-		&lt;auth-constraint&gt;
-			&lt;role-name&gt;user&lt;/role-name&gt;
-			&lt;role-name&gt;admin&lt;/role-name&gt;
-		&lt;/auth-constraint&gt;
-		&lt;web-resource-collection&gt;
-			&lt;web-resource-name&gt;locked&lt;/web-resource-name&gt;
-			&lt;url-pattern&gt;/locked&lt;/url-pattern&gt;
-			&lt;!-- Wildcard. Covers /locked/foo, /locked/foo/bar, etc --&gt;
-			&lt;url-pattern&gt;/locked/*&lt;/url-pattern&gt;
-		&lt;/web-resource-collection&gt;
-	&lt;/security-constraint&gt;
-
-	&lt;!-- Admins --&gt;
-	&lt;security-constraint&gt;
-		&lt;auth-constraint&gt;
-			&lt;role-name&gt;admin&lt;/role-name&gt;
-		&lt;/auth-constraint&gt;
-		&lt;web-resource-collection&gt;
-			&lt;web-resource-name&gt;admin&lt;/web-resource-name&gt;
-			&lt;url-pattern&gt;/admin&lt;/url-pattern&gt;
-			&lt;!-- Wildcard. Covers /admin/foo, /admin/foo/bar, etc --&gt;
-			&lt;url-pattern&gt;/admin/*&lt;/url-pattern&gt;
-		&lt;/web-resource-collection&gt;
-	&lt;/security-constraint&gt;
-
-	&lt;!-- Logout Route --&gt;
-	&lt;security-constraint&gt;
-		&lt;auth-constraint&gt;
-			&lt;role-name&gt;admin&lt;/role-name&gt;
-			&lt;role-name&gt;user&lt;/role-name&gt;
-		&lt;/auth-constraint&gt;
-		&lt;web-resource-collection&gt;
-			&lt;web-resource-name&gt;logout&lt;/web-resource-name&gt;
-			&lt;url-pattern&gt;/logout&lt;/url-pattern&gt;
-		&lt;/web-resource-collection&gt;
-	&lt;/security-constraint&gt;
-
-	&lt;!-- Keycloak conf --&gt;
-	&lt;login-config&gt;
-		&lt;auth-method&gt;KEYCLOAK&lt;/auth-method&gt;
-		&lt;realm-name&gt;master&lt;/realm-name&gt;
-	&lt;/login-config&gt;
-
-&lt;/web-app&gt;
-</code></pre>
-<p>Now, navigate back to your <a href="https://localhost:8080/auth">Keycloak container</a>, log in, and go to the <strong>Applications</strong> menu, hit <strong>learning</strong>, and go to the <strong>Installation</strong> tab. Select the <code>keycloak.json</code> from the dropdown. Finally, <strong>Download</strong> the output and save it as <code>learning/WEB-INF/keycloak.json</code>.</p>
+<pre data-lang="xml" style="background-color:#212733;color:#ccc9c2;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-app </span><span style="color:#ffd580;">xmlns</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;http://java.sun.com/xml/ns/javaee&quot; </span><span style="color:#ffd580;">xmlns</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ffd580;">xsi</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;http://www.w3.org/2001/XMLSchema-instance&quot; </span><span style="color:#ffd580;">xsi</span><span style="color:#ccc9c2cc;">:</span><span style="color:#ffd580;">schemaLocation</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot; </span><span style="color:#ffd580;">version</span><span style="color:#ccc9c2cc;">=</span><span style="color:#bae67e;">&quot;3.0&quot;</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">distributable</span><span style="color:#5ccfe690;">/&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">listener</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">listener-class</span><span style="color:#5ccfe690;">&gt;</span><span>org.projectodd.wunderboss.wildfly.ServletListener</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">listener-class</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">listener</span><span style="color:#5ccfe690;">&gt;
+</span><span>
+</span><span>	</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Anyone --&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;</span><span>test</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/test</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/test/*</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>
+</span><span>	</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Users and Admins --&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">auth-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;</span><span>user</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;</span><span>admin</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">auth-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;</span><span>locked</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/locked</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Wildcard. Covers /locked/foo, /locked/foo/bar, etc --&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/locked/*</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>
+</span><span>	</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Admins --&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">auth-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;</span><span>admin</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">auth-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;</span><span>admin</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/admin</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Wildcard. Covers /admin/foo, /admin/foo/bar, etc --&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/admin/*</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>
+</span><span>	</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Logout Route --&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">auth-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;</span><span>admin</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;</span><span>user</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">role-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">auth-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;</span><span>logout</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>			</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;</span><span>/logout</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">url-pattern</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-resource-collection</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">security-constraint</span><span style="color:#5ccfe690;">&gt;
+</span><span>
+</span><span>	</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Keycloak conf --&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">login-config</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">auth-method</span><span style="color:#5ccfe690;">&gt;</span><span>KEYCLOAK</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">auth-method</span><span style="color:#5ccfe690;">&gt;
+</span><span>		</span><span style="color:#5ccfe690;">&lt;</span><span style="color:#73d0ff;">realm-name</span><span style="color:#5ccfe690;">&gt;</span><span>master</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">realm-name</span><span style="color:#5ccfe690;">&gt;
+</span><span>	</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">login-config</span><span style="color:#5ccfe690;">&gt;
+</span><span>
+</span><span style="color:#5ccfe690;">&lt;/</span><span style="color:#73d0ff;">web-app</span><span style="color:#5ccfe690;">&gt;
+</span></code></pre>
+<p>Now, navigate back to your <a rel="noopener" target="_blank" href="https://localhost:8080/auth">Keycloak container</a>, log in, and go to the <strong>Applications</strong> menu, hit <strong>learning</strong>, and go to the <strong>Installation</strong> tab. Select the <code>keycloak.json</code> from the dropdown. Finally, <strong>Download</strong> the output and save it as <code>learning/WEB-INF/keycloak.json</code>.</p>
 <h3 id="building-the-container">Building the container</h3>
 <p>Since we'll be using a Docker container for the application, create a <code>learning/Dockerfile</code> with the following:</p>
-<pre><code>FROM jboss/keycloak-adapter-wildfly
-RUN /opt/wildfly/bin/add-user.sh admin hunter2 --silent
-ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments/ROOT.war
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>FROM jboss/keycloak-adapter-wildfly
+</span><span>RUN /opt/wildfly/bin/add-user.sh admin hunter2 --silent
+</span><span>ADD target/base+system+user+dev/learning.war /opt/wildfly/standalone/deployments/ROOT.war
+</span></code></pre>
 <p>Then a <code>learning/Makefile</code> to (optionally) make things a bit smoother:</p>
-<pre><code>all:
-	docker rm -f immut-test || true
-	docker rmi immut-learning || true
-	lein immutant war
-	docker build -t immut-learning .
-
-run:
-	docker run --name immut-test --rm -t -i -p 127.0.0.1:8081:8080 -p 127.0.0.1:9991:9990 --link keycloak:auth immut-learning
-</code></pre>
+<pre data-lang="make" style="background-color:#212733;color:#ccc9c2;" class="language-make "><code class="language-make" data-lang="make"><span style="color:#ffd580;">all</span><span style="color:#f29e74;">:
+</span><span>	</span><span style="color:#ffd580;">docker</span><span> rm</span><span style="color:#ffcc66;"> -f</span><span> immut-test </span><span style="color:#f29e74;">|| </span><span style="color:#ffd580;">true
+</span><span>	</span><span style="color:#ffd580;">docker</span><span> rmi immut-learning </span><span style="color:#f29e74;">|| </span><span style="color:#ffd580;">true
+</span><span>	</span><span style="color:#ffd580;">lein</span><span> immutant war
+</span><span>	</span><span style="color:#ffd580;">docker</span><span> build</span><span style="color:#ffcc66;"> -t</span><span> immut-learning .
+</span><span>
+</span><span style="color:#ffd580;">run</span><span style="color:#f29e74;">:
+</span><span>	</span><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> --name</span><span> immut-test</span><span style="color:#ffcc66;"> --rm -t -i -p</span><span> 127.0.0.1:8081:8080</span><span style="color:#ffcc66;"> -p</span><span> 127.0.0.1:9991:9990</span><span style="color:#ffcc66;"> --link</span><span> keycloak:auth immut-learning
+</span></code></pre>
 <p><strong>Just one more thing:</strong> Due to the linking between containers, you may need to add a line to your <code>/etc/hosts</code> so that the application will appropriately talk to the Keycloak server. The line should look like this:</p>
-<pre><code>127.0.0.1 auth
-</code></pre>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>127.0.0.1 auth
+</span></code></pre>
 <p>Then, edit your <code>keycloak.json</code> and set the <code>auth-server-url</code>:</p>
-<pre><code>&quot;auth-server-url&quot;: &quot;http://auth:8080/auth&quot;,
-</code></pre>
+<pre data-lang="json" style="background-color:#212733;color:#ccc9c2;" class="language-json "><code class="language-json" data-lang="json"><span style="color:#bae67e;">&quot;auth-server-url&quot;</span><span>: </span><span style="color:#bae67e;">&quot;http://auth:8080/auth&quot;</span><span>,
+</span></code></pre>
 <h2 id="running">Running</h2>
 <p>You should now be able to build <strong>and start</strong> the application with:</p>
-<pre><code>make &amp;&amp; make run
-</code></pre>
-<p>After waiting for boot, browsing to <a href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
-<pre><code>Base = &quot;test&quot;
-
-No user found.
-
-java.lang.NullPointerException
-</code></pre>
+<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">make </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#ffd580;">make</span><span> run
+</span></code></pre>
+<p>After waiting for boot, browsing to <a rel="noopener" target="_blank" href="http://localhost:8081/test">http://localhost:8081/test</a> should yield you a page that says, roughly:</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>Base = &quot;test&quot;
+</span><span>
+</span><span>No user found.
+</span><span>
+</span><span>java.lang.NullPointerException
+</span></code></pre>
 <h2 id="exploring">Exploring</h2>
 <h3 id="user-routes">User routes</h3>
-<p>Now, try visiting <a href="http://localhost:8081/locked">http://localhost:8081/locked</a>. You should get redirected to the familiar Keycloak login screen. Log in with the <code>user</code> account. You should see something roughly like:</p>
-<pre><code>Base = &quot;locked Sub: test&quot;
-
-Token is:
-
-org.keycloak.representations.IDToken@7f55bb4f
-
-User is:
-
-user
-
-</code></pre>
-<p><em>Fantastic</em>. Now, try navigating to the admin route at <a href="http://localhost:8081/admin">http://localhost:8081/admin</a>. You should see the helpful <code>Forbidden</code> error. This is exactly what we want!</p>
+<p>Now, try visiting <a rel="noopener" target="_blank" href="http://localhost:8081/locked">http://localhost:8081/locked</a>. You should get redirected to the familiar Keycloak login screen. Log in with the <code>user</code> account. You should see something roughly like:</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>Base = &quot;locked Sub: test&quot;
+</span><span>
+</span><span>Token is:
+</span><span>
+</span><span>org.keycloak.representations.IDToken@7f55bb4f
+</span><span>
+</span><span>User is:
+</span><span>
+</span><span>user
+</span><span>
+</span></code></pre>
+<p><em>Fantastic</em>. Now, try navigating to the admin route at <a rel="noopener" target="_blank" href="http://localhost:8081/admin">http://localhost:8081/admin</a>. You should see the helpful <code>Forbidden</code> error. This is exactly what we want!</p>
 <h3 id="admin-routes">Admin routes</h3>
-<p>In order to change accounts, you, unfortunately, can't browse to <a href="http://localhost:8081/logout">http://localhost:8081/logout</a>. This seems to be a bug to be squashed in the next version of Keycloak (<a href="https://issues.jboss.org/browse/KEYCLOAK-478">Bug</a>), but I'll leave it here for posterity. For now, navigate to <a href="http://localhost:8080/auth">http://localhost:8080/auth</a>, log in as <code>admin</code>, navigate to the <strong>Sessions and Tokens</strong> and click the blue <strong>Logout All</strong> button.</p>
-<p>Browse back to <a href="http://localhost:8081/admin">http://localhost:8081/admin</a> and log in as <code>admin</code>. You should see:</p>
-<pre><code>Base = &quot;admin&quot;
-
-Token is:
-
-org.keycloak.representations.IDToken@4a8ca873
-
-User is:
-
-admin
-</code></pre>
+<p>In order to change accounts, you, unfortunately, can't browse to <a rel="noopener" target="_blank" href="http://localhost:8081/logout">http://localhost:8081/logout</a>. This seems to be a bug to be squashed in the next version of Keycloak (<a rel="noopener" target="_blank" href="https://issues.jboss.org/browse/KEYCLOAK-478">Bug</a>), but I'll leave it here for posterity. For now, navigate to <a rel="noopener" target="_blank" href="http://localhost:8080/auth">http://localhost:8080/auth</a>, log in as <code>admin</code>, navigate to the <strong>Sessions and Tokens</strong> and click the blue <strong>Logout All</strong> button.</p>
+<p>Browse back to <a rel="noopener" target="_blank" href="http://localhost:8081/admin">http://localhost:8081/admin</a> and log in as <code>admin</code>. You should see:</p>
+<pre style="background-color:#212733;color:#ccc9c2;"><code><span>Base = &quot;admin&quot;
+</span><span>
+</span><span>Token is:
+</span><span>
+</span><span>org.keycloak.representations.IDToken@4a8ca873
+</span><span>
+</span><span>User is:
+</span><span>
+</span><span>admin
+</span></code></pre>
 <p>You should also be able to hit all other routes as the admin. Be sure to explore Keycloak, as it has many features regarding roles, permissions, and other things not covered here.</p>
 <p><strong>Special thanks to all the folks on #immutant, especially bbrowning, tcrawley, and jcrossley3 for their help!</strong></p>
 
@@ -482,8 +485,8 @@ admin
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
-">da034546dcea5f4d6d55dd32b6410d8a8e93e7ef
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a657ef2b149b865af3236dfc77051c0f5536db79
+">a657ef2b149b865af3236dfc77051c0f5536db79
 </a></pre>
     </body>
 
