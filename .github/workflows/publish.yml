@@ -30,6 +30,13 @@ jobs:
         echo "$(pwd)/bin" >> $GITHUB_PATH
         rm zola.tar.gz
         echo $PATH
+    - name: Restore processed_images cache
+      id: processed_images
+      uses: actions/cache@v2
+      with:
+        key: processed_images
+        path: static/processed_images
+
     - name: Build site
       run: |
         zola build
