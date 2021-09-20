@@ -143,56 +143,56 @@
 <span id="continue-reading"></span><h2 id="sudo-less"><code>sudo</code>-less</h2>
 <p>Travis CI released <a rel="noopener" target="_blank" href="http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/">their container infrastructure</a> last year, and we finally started using it! We'd tried before however we struggled with packages, as Cap'n Proto has rather demanding dependencies for a C++11 compiler.</p>
 <p>In case anyone is looking, here is the secret sauce on how to build Cap'n Proto on Travis CI without root:</p>
-<pre data-lang="yaml" style="background-color:#212733;color:#ccc9c2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#73d0ff;">addons</span><span style="color:#ccc9c2cc;">:
-</span><span>  </span><span style="color:#73d0ff;">apt</span><span style="color:#ccc9c2cc;">:
-</span><span>    </span><span style="color:#73d0ff;">sources</span><span style="color:#ccc9c2cc;">:
-</span><span>      - </span><span style="color:#bae67e;">ubuntu-toolchain-r-test
-</span><span>    </span><span style="color:#73d0ff;">packages</span><span style="color:#ccc9c2cc;">:
-</span><span>        </span><span style="font-style:italic;color:#5c6773;"># Needed for building Cap&#39;n Proto.
-</span><span>      - </span><span style="color:#bae67e;">gcc-4.8
-</span><span>      - </span><span style="color:#bae67e;">g++-4.8
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># We need to install Cap&#39;n Proto.
-</span><span style="color:#73d0ff;">install</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">git clone https://github.com/kentonv/capnproto.git
-</span><span>    - </span><span style="color:#bae67e;">cd capnproto/c++
-</span><span>    - </span><span style="color:#bae67e;">./setup-autotools.sh
-</span><span>    - </span><span style="color:#bae67e;">autoreconf -i
-</span><span>    - </span><span style="color:#bae67e;">./configure --disable-shared
-</span><span>    - </span><span style="color:#bae67e;">make -j5
-</span><span>    - </span><span style="color:#bae67e;">export PATH=&quot;$PATH:$(pwd)&quot;
-</span><span>    - </span><span style="color:#bae67e;">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;
-</span><span>    -  </span><span style="color:#bae67e;">cd ../..
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">addons</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">apt</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">sources</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">ubuntu-toolchain-r-test</span>
+    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">packages</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+        <span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> Needed for building Cap&#39;n Proto.
+</span>      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">gcc-4.8</span>
+      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">g++-4.8</span>
+
+<span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> We need to install Cap&#39;n Proto.
+</span><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">install</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">git clone https://github.com/kentonv/capnproto.git</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cd capnproto/c++</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">./setup-autotools.sh</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">autoreconf -i</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">./configure --disable-shared</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">make -j5</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">export PATH=&quot;$PATH:$(pwd)&quot;</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:$(pwd)&quot;</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span>  <span class="z-string z-unquoted z-plain z-out z-yaml">cd ../..</span>
 </span></code></pre>
 <p>Now that we've flagged <code>sudo: false</code> in our <code>.travis.yml</code> our Travis <em>wait time</em> for a build have significantly decreased. Some of our test builds take under 1:45 minutes!</p>
 <h2 id="moved-to-travis-cargo">Moved to <a rel="noopener" target="_blank" href="https://github.com/huonw/travis-cargo"><code>travis-cargo</code></a></h2>
 <p>Huon created the fantastic <code>travis-cargo</code> crate and we recently moved over to it! This helped clean up the <code>.travis.yml</code> a bit and opened the door for us to utilize future improvements. This took our <code>.travis.yml</code> script section from this:</p>
-<pre data-lang="yaml" style="background-color:#212733;color:#ccc9c2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6773;"># Generate Docs
-</span><span style="color:#bae67e;">after_success = &quot;|&quot;
-</span><span>  [ </span><span style="color:#bae67e;">$TRAVIS_BRANCH = master </span><span>] </span><span style="color:#ffa759;">&amp;</span><span style="color:#73d0ff;">&amp;
-</span><span>  [ </span><span style="color:#bae67e;">$TRAVIS_PULL_REQUEST = false </span><span>] </span><span style="color:#ffa759;">&amp;</span><span style="color:#73d0ff;">&amp;
-</span><span>  </span><span style="color:#bae67e;">cargo doc &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">echo &#39;&lt;meta http-equiv=refresh content=0;url=raft/index.html&gt;&#39; &gt; target/doc/index.html &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">sudo pip install ghp-import &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">ghp-import -n target/doc &amp;&amp;
-</span><span>  </span><span style="color:#bae67e;">git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> Generate Docs
+</span><span class="z-string z-unquoted z-plain z-out z-yaml">after_success = &quot;|&quot;</span>
+  <span class="z-meta z-flow-sequence z-yaml"><span class="z-punctuation z-definition z-sequence z-begin z-yaml">[</span> <span class="z-string z-unquoted z-plain z-in z-yaml">$TRAVIS_BRANCH = master</span> <span class="z-punctuation z-definition z-sequence z-end z-yaml">]</span></span> <span class="z-meta z-property z-yaml"><span class="z-keyword z-control z-property z-anchor z-yaml"><span class="z-punctuation z-definition z-anchor z-yaml">&amp;</span></span><span class="z-entity z-name z-other z-anchor z-yaml">&amp;</span></span>
+  <span class="z-meta z-flow-sequence z-yaml"><span class="z-punctuation z-definition z-sequence z-begin z-yaml">[</span> <span class="z-string z-unquoted z-plain z-in z-yaml">$TRAVIS_PULL_REQUEST = false</span> <span class="z-punctuation z-definition z-sequence z-end z-yaml">]</span></span> <span class="z-meta z-property z-yaml"><span class="z-keyword z-control z-property z-anchor z-yaml"><span class="z-punctuation z-definition z-anchor z-yaml">&amp;</span></span><span class="z-entity z-name z-other z-anchor z-yaml">&amp;</span></span>
+  <span class="z-string z-unquoted z-plain z-out z-yaml">cargo doc &amp;&amp;</span>
+  <span class="z-string z-unquoted z-plain z-out z-yaml">echo &#39;&lt;meta http-equiv=refresh content=0;url=raft/index.html&gt;&#39; &gt; target/doc/index.html &amp;&amp;</span>
+  <span class="z-string z-unquoted z-plain z-out z-yaml">sudo pip install ghp-import &amp;&amp;</span>
+  <span class="z-string z-unquoted z-plain z-out z-yaml">ghp-import -n target/doc &amp;&amp;</span>
+  <span class="z-string z-unquoted z-plain z-out z-yaml">git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages</span>
 </span></code></pre>
 <p>To this:</p>
-<pre data-lang="yaml" style="background-color:#212733;color:#ccc9c2;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="font-style:italic;color:#5c6773;"># Load `travis-cargo`
-</span><span style="color:#73d0ff;">before_script</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">pip install &#39;travis-cargo&#39; --user
-</span><span>    - </span><span style="color:#bae67e;">export PATH=$HOME/.local/bin:$PATH
-</span><span>
-</span><span style="color:#73d0ff;">script</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo build
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo test
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo bench
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo doc
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Generate Docs and coverage
-</span><span style="color:#73d0ff;">after_success</span><span style="color:#ccc9c2cc;">:
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo doc-upload
-</span><span>    - </span><span style="color:#bae67e;">travis-cargo coveralls --no-sudo
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> Load `travis-cargo`
+</span><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">before_script</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">pip install &#39;travis-cargo&#39; --user</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">export PATH=$HOME/.local/bin:$PATH</span>
+
+<span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">script</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">travis-cargo build</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">travis-cargo test</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">travis-cargo bench</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">travis-cargo doc</span>
+
+<span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> Generate Docs and coverage
+</span><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">after_success</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">travis-cargo doc-upload</span>
+    <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">travis-cargo coveralls --no-sudo</span>
 </span></code></pre>
 <p>With <code>travis-cargo</code> our builds are more thorough, clear, and featured. It handles uploading our documentation, code coverage, benchmarking, and the whole kaboodle.</p>
 <h2 id="code-coverage">Code Coverage</h2>
@@ -210,8 +210,8 @@
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

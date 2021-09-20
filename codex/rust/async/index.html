@@ -182,15 +182,15 @@
 <h1 id="creating-futures-from-thin-air">Creating Futures from thin air</h1>
 <p>The laziest possible future we can make, is a <a rel="noopener" target="_blank" href="https://docs.rs/futures/latest/futures/future/fn.lazy.html"><code>futures::future::lazy</code></a>. It's right there in the name.</p>
 <p>It takes a closure and runs it later poll it.</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ffa759;">use </span><span>core</span><span style="color:#f29e74;">::</span><span>future</span><span style="color:#f29e74;">::</span><span>Future</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">use </span><span>futures</span><span style="color:#f29e74;">::</span><span>executor</span><span style="color:#f29e74;">::</span><span>block_on</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span style="color:#ccc9c2cc;">#</span><span>[</span><span style="color:#ffd580;">tokio</span><span>::</span><span style="color:#ffd580;">main</span><span>]
-</span><span>async </span><span style="color:#ffa759;">fn </span><span style="color:#ffd580;">main</span><span>() {
-</span><span>    </span><span style="color:#ffa759;">let</span><span> input </span><span style="color:#f29e74;">= </span><span>futures</span><span style="color:#f29e74;">::</span><span>lazy(|_| </span><span style="color:#ffcc66;">1</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">let</span><span> output </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">block_on</span><span>(input)
-</span><span>    tracing</span><span style="color:#f29e74;">::
-</span><span>}
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">future<span class="z-punctuation z-accessor z-rust">::</span></span>Future<span class="z-punctuation z-terminator z-rust">;</span>
+<span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">futures<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">executor<span class="z-punctuation z-accessor z-rust">::</span></span>block_on<span class="z-punctuation z-terminator z-rust">;</span>
+
+<span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">tokio</span>::<span class="z-variable z-annotation z-rust">main</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+async <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-type z-rust">let</span> input <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">futures<span class="z-punctuation z-accessor z-rust">::</span></span>lazy<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust">_<span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-storage z-type z-rust">let</span> output <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-function z-rust">block_on</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>input</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    <span class="z-meta z-path z-rust">tracing<span class="z-punctuation z-accessor z-rust">::</span></span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
 </span></code></pre>
 
 		</div>
@@ -212,8 +212,8 @@
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

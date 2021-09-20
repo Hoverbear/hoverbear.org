@@ -183,39 +183,39 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 <h3 id="data-interchange">Data Interchange</h3>
 <p>Probably one of the most interesting (and meaningful) changes I've made was moving my previous enum structs into seperate enums and structs.</p>
 <p>Simply, this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>enum ClientRequest&lt;T&gt; {
-</span><span>    IndexRange {
-</span><span>        start_index: u64,
-</span><span>        end_index: u64,
-</span><span>    },
-</span><span>    AppendEntries {
-</span><span>        prev_log_index: u64,
-</span><span>        prev_log_term: T,
-</span><span>        entries: Vec&lt;T&gt;,
-</span><span>    },
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">enum ClientRequest&lt;T&gt; {
+</span>    IndexRange {
+</span>        start_index: u64,
+</span>        end_index: u64,
+</span>    },
+</span>    AppendEntries {
+</span>        prev_log_index: u64,
+</span>        prev_log_term: T,
+</span>        entries: Vec&lt;T&gt;,
+</span>    },
+</span>}
 </span></code></pre>
 <p>Became this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
-</span><span>pub enum ClientRequest&lt;T&gt; {
-</span><span>    /// Gets the log entries from start to end.
-</span><span>    IndexRange(IndexRange),
-</span><span>    /// Asks the node to append an entry after a given entry.
-</span><span>    AppendRequest(AppendRequest&lt;T&gt;),
-</span><span>}
-</span><span>
-</span><span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone, Copy)]
-</span><span>pub struct IndexRange {
-</span><span>    pub start_index: u64,
-</span><span>    pub end_index: u64,
-</span><span>}
-</span><span>
-</span><span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
-</span><span>pub struct AppendRequest&lt;T&gt; {
-</span><span>    pub prev_log_index: u64,
-</span><span>    pub prev_log_term: T,
-</span><span>    pub entries: Vec&lt;T&gt;,
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span>pub enum ClientRequest&lt;T&gt; {
+</span>    /// Gets the log entries from start to end.
+</span>    IndexRange(IndexRange),
+</span>    /// Asks the node to append an entry after a given entry.
+</span>    AppendRequest(AppendRequest&lt;T&gt;),
+</span>}
+
+</span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone, Copy)]
+</span>pub struct IndexRange {
+</span>    pub start_index: u64,
+</span>    pub end_index: u64,
+</span>}
+
+</span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span>pub struct AppendRequest&lt;T&gt; {
+</span>    pub prev_log_index: u64,
+</span>    pub prev_log_term: T,
+</span>    pub entries: Vec&lt;T&gt;,
+</span>}
 </span></code></pre>
 <p>So... <em>Why?</em> A couple of reasons actually:</p>
 <ol>
@@ -224,29 +224,29 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 </ol>
 <p><em>What's the downside?</em> Creating a new <code>AppendRequest</code> without the use of a helper function can look a little gross: <code>ClientRequest::AppendRequest(AppendRequest { ... })</code></p>
 <p>But a helper can mask this grossness:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>impl&lt;T&gt; ClientRequest&lt;T&gt; {
-</span><span>    /// Returns (term, success)
-</span><span>    pub fn index_range(start: u64, end: u64) -&gt; ClientRequest&lt;T&gt; {
-</span><span>        ClientRequest::IndexRange(IndexRange {
-</span><span>            start_index: start,
-</span><span>            end_index: end,
-</span><span>        })
-</span><span>    }
-</span><span>
-</span><span>    /// Returns (term, voteGranted)
-</span><span>    pub fn append_request(prev_log_index: u64, prev_log_term: T, entries: Vec&lt;T&gt;) -&gt; ClientRequest&lt;T&gt; {
-</span><span>        ClientRequest::AppendRequest(AppendRequest {
-</span><span>            prev_log_index: prev_log_index,
-</span><span>            prev_log_term: prev_log_term,
-</span><span>            entries: entries
-</span><span>        })
-</span><span>    }
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">impl&lt;T&gt; ClientRequest&lt;T&gt; {
+</span>    /// Returns (term, success)
+</span>    pub fn index_range(start: u64, end: u64) -&gt; ClientRequest&lt;T&gt; {
+</span>        ClientRequest::IndexRange(IndexRange {
+</span>            start_index: start,
+</span>            end_index: end,
+</span>        })
+</span>    }
+
+</span>    /// Returns (term, voteGranted)
+</span>    pub fn append_request(prev_log_index: u64, prev_log_term: T, entries: Vec&lt;T&gt;) -&gt; ClientRequest&lt;T&gt; {
+</span>        ClientRequest::AppendRequest(AppendRequest {
+</span>            prev_log_index: prev_log_index,
+</span>            prev_log_term: prev_log_term,
+</span>            entries: entries
+</span>        })
+</span>    }
+</span>}
 </span></code></pre>
 <h3 id="interfacing">Interfacing</h3>
 <p>A <code>RaftNode</code> now is spawned via the following function</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
-</span><span>(Sender&lt;ClientRequest&lt;T&gt;&gt;, Receiver&lt;Result&lt;Vec&lt;T&gt;, String&gt;&gt;)
+<pre class="z-code"><code><span class="z-text z-plain">pub fn start (id: u64, nodes: Vec&lt;(u64, SocketAddr)&gt;) -&gt;
+</span>(Sender&lt;ClientRequest&lt;T&gt;&gt;, Receiver&lt;Result&lt;Vec&lt;T&gt;, String&gt;&gt;)
 </span></code></pre>
 <p>Well isn't that a long function signature? Basically, once you spawn a RaftNode it gets <em>immediately</em> moved into it's own thread and you are given a pair of channels to talk to it over. You send <code>ClientRequest</code>s and get back the rather familiar <code>Result</code> type. In the future it might be beneficial to expose something other than channels, but currently I think that's the best choice.</p>
 <blockquote>
@@ -258,56 +258,56 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
 <h2 id="experience">Experience</h2>
 <h3 id="decoding-socket-data">Decoding Socket Data</h3>
 <p>I had all sorts of fun implementing the following code in the loop's main <code>tick()</code> function:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>match self.socket.recv_from(&amp;mut read_buffer) {
-</span><span>    Ok((num_read, source)) =&gt; { // Something on the socket.
-</span><span>        // This is possibly an RPC from another node. Try to parse it out
-</span><span>        // and determine what to do based on it&#39;s variant.
-</span><span>        let data = str::from_utf8(&amp;mut read_buffer[.. num_read])
-</span><span>            .unwrap();
-</span><span>        if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
-</span><span>            match rpc {
-</span><span>                RemoteProcedureCall::RequestVote(call) =&gt;
-</span><span>                    self.handle_request_vote(call, source),
-</span><span>                RemoteProcedureCall::AppendEntries(call) =&gt;
-</span><span>                    self.handle_append_entries(call, source),
-</span><span>            }
-</span><span>        } else if let Ok(rpr) = json::decode::&lt;RemoteProcedureResponse&gt;(data) {
-</span><span>            match rpr {
-</span><span>                RemoteProcedureResponse::Accepted { .. } =&gt;
-</span><span>                    self.handle_accepted(rpr, source),
-</span><span>                RemoteProcedureResponse::Rejected { .. } =&gt;
-</span><span>                    self.handle_rejected(rpr, source),
-</span><span>            }
-</span><span>        }
-</span><span>    },
-</span><span>    Err(_) =&gt; (),                 // Nothing on the socket.
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">match self.socket.recv_from(&amp;mut read_buffer) {
+</span>    Ok((num_read, source)) =&gt; { // Something on the socket.
+</span>        // This is possibly an RPC from another node. Try to parse it out
+</span>        // and determine what to do based on it&#39;s variant.
+</span>        let data = str::from_utf8(&amp;mut read_buffer[.. num_read])
+</span>            .unwrap();
+</span>        if let Ok(rpc) = json::decode::&lt;RemoteProcedureCall&lt;T&gt;&gt;(data) {
+</span>            match rpc {
+</span>                RemoteProcedureCall::RequestVote(call) =&gt;
+</span>                    self.handle_request_vote(call, source),
+</span>                RemoteProcedureCall::AppendEntries(call) =&gt;
+</span>                    self.handle_append_entries(call, source),
+</span>            }
+</span>        } else if let Ok(rpr) = json::decode::&lt;RemoteProcedureResponse&gt;(data) {
+</span>            match rpr {
+</span>                RemoteProcedureResponse::Accepted { .. } =&gt;
+</span>                    self.handle_accepted(rpr, source),
+</span>                RemoteProcedureResponse::Rejected { .. } =&gt;
+</span>                    self.handle_rejected(rpr, source),
+</span>            }
+</span>        }
+</span>    },
+</span>    Err(_) =&gt; (),                 // Nothing on the socket.
+</span>}
 </span></code></pre>
 <p>This was the first time I used <code>if let</code> and it was very useful for destructuring in control flow. I'm looking forward to using <code>while let</code> soon.</p>
 <p><em>What does that code do... exactly?</em> When we recieve data from the network, it's either going to be a <code>RemoteProcedureCall</code>, a <code>RemoteProcedureResponse</code>, or something else entirely. Currently, I only account for the valid cases, the third case is outright ignored.</p>
 <h3 id="dealing-with-the-state-machine">Dealing with the State (Machine)</h3>
 <p>I read <a rel="noopener" target="_blank" href="https://gist.github.com/bvssvni/8970459">this gist</a> with great interest, however I've yet to determine how to go about implementing a truly type-safe state machine for Raft right now. I'd like to do this in the future, and I'd be thrilled if someone could help with advice, mentorship, or pull requests on how to accomplish this.</p>
 <p>Currently, all of the data event handlers look roughly like this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
-</span><span>    match self.state {
-</span><span>        Leader(ref state) =&gt; {
-</span><span>            unimplemented!();
-</span><span>        },
-</span><span>        Follower =&gt; {
-</span><span>            unimplemented!();
-</span><span>        },
-</span><span>        Candidate =&gt; {
-</span><span>            unimplemented!();
-</span><span>        },
-</span><span>    }
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">fn handle_append_request(&amp;mut self, request: AppendRequest&lt;T&gt;) {
+</span>    match self.state {
+</span>        Leader(ref state) =&gt; {
+</span>            unimplemented!();
+</span>        },
+</span>        Follower =&gt; {
+</span>            unimplemented!();
+</span>        },
+</span>        Candidate =&gt; {
+</span>            unimplemented!();
+</span>        },
+</span>    }
+</span>}
 </span></code></pre>
 <h3 id="dealing-with-non-pollables">Dealing with Non-Pollables</h3>
 <p>One thing I noticed while working with Rust's <code>UdpSocket</code> imeplementation is there is no way to <code>poll()</code> the socket to see if there is data, so any time the socket is checked you <em>must</em> handle the data immediately. I'm currently avoiding having FIFO queues for the various data but that might end up being a requirement.</p>
 <p>For those wondering, you can make a socket non-blocking by using this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>let mut socket = UdpSocket::bind(own_socket_addr)
-</span><span>    .unwrap();
-</span><span>socket.set_read_timeout(Some(0));
+<pre class="z-code"><code><span class="z-text z-plain">let mut socket = UdpSocket::bind(own_socket_addr)
+</span>    .unwrap();
+</span>socket.set_read_timeout(Some(0));
 </span></code></pre>
 <h2 id="thoughts">Thoughts</h2>
 <p>Working with Rust has been <strong>really fun</strong>. <em>(Except when there is a breaking change which cascades through libraries and means you lose productivity.)</em></p>
@@ -327,8 +327,8 @@ TL;DR: I&#x27;ve made Hoverbear&#x2F;raft publicly available (It&#x27;s still no
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

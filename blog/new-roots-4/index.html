@@ -164,52 +164,52 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <h2 id="the-shell">The Shell</h2>
 <p>The prompt you've been typing all these commands at is your shell. There are lots of different shells, this one is <code>bash</code>. I've enjoyed using <code>zsh</code> and <code>fish</code> before as well.  Since this is our 'root' we're just going to stick with the built-in defaults, we can choose a <em>fancy</em> shell to load with lots of sketchy plugins in our less privileged container!</p>
 <p><code>bash</code> looks for configuration in <code>/etc/bash.bashrc</code> which is overridden by <code>~/.bashrc</code>. We'll remove these user specific files then edit the system-wide file.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">rm </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.bashrc
-</span><span style="color:#ffd580;">sudo</span><span> rm /root/.bashrc
-</span><span style="color:#ffd580;">vim</span><span> /etc/bash.bashrc
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">rm</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/.bashrc</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> rm /root/.bashrc</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">vim</span></span><span class="z-meta z-function-call z-arguments z-shell"> /etc/bash.bashrc</span>
 </span></code></pre>
 <p>Below I've included a commented configuration to explain many settings.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;">#
-</span><span style="font-style:italic;color:#5c6773;"># /etc/bash.bashrc
-</span><span style="font-style:italic;color:#5c6773;">#
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># If not running interactively, don&#39;t do anything.
-</span><span style="color:#f28779;">[[ </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">- </span><span style="color:#f29e74;">!= *</span><span>i</span><span style="color:#f29e74;">* </span><span style="color:#f28779;">]] </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#ffa759;">return
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Use extra globing features. See man bash, search extglob.
-</span><span style="color:#f28779;">shopt</span><span> -s extglob
-</span><span style="font-style:italic;color:#5c6773;"># Include .files when globbing.
-</span><span style="color:#f28779;">shopt</span><span> -s dotglob
-</span><span style="font-style:italic;color:#5c6773;"># When a glob expands to nothing, make it an empty string instead of the literal characters.
-</span><span style="color:#f28779;">shopt</span><span> -s nullglob
-</span><span style="font-style:italic;color:#5c6773;"># A command name that is the name of a directory is executed as if it were the argument to the cd command.
-</span><span style="color:#f28779;">shopt</span><span> -s autocd
-</span><span style="font-style:italic;color:#5c6773;"># Let bash update the window size if we resize it.
-</span><span style="color:#f28779;">shopt</span><span> -s checkwinsize
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># This is what you see between every command.
-</span><span style="font-style:italic;color:#5c6773;"># Make your own at http://bashrcgenerator.com/
-</span><span>PS1</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;\[\033[38;5;10m\]\u\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;7m\]@\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;9m\]\H\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;12m\]\w\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;3m\] $</span><span>(</span><span style="color:#ffd580;">systemctl</span><span style="color:#bae67e;"> is-system-running</span><span>)</span><span style="color:#bae67e;"> \[\033[38;5;15m\]\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> bold</span><span>)</span><span style="color:#bae67e;">\]</span><span style="color:#95e6cb;">\$</span><span style="color:#bae67e;">?\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\] \n\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;7m\]\t\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\]\[\033[38;5;15m\] \[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> bold</span><span>)</span><span style="color:#bae67e;">\]</span><span style="color:#95e6cb;">\\</span><span style="color:#bae67e;">$\[$</span><span>(</span><span style="color:#ffd580;">tput</span><span style="color:#bae67e;"> sgr0</span><span>)</span><span style="color:#bae67e;">\] &quot;
-</span><span style="font-style:italic;color:#5c6773;"># The rest can really just be left default.
-</span><span>PS2</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&gt; &#39;
-</span><span>PS3</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;&gt; &#39;
-</span><span>PS4</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;+ &#39;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Set up bash completion.
-</span><span style="color:#f28779;">[ </span><span style="color:#ffcc66;">-r</span><span> /usr/share/bash-completion/bash_completion   </span><span style="color:#f28779;">] </span><span style="color:#f29e74;">&amp;&amp; </span><span style="color:#f28779;">.</span><span> /usr/share/bash-completion/bash_completion
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># This tells grep to use color when appropriate.
-</span><span style="color:#ffa759;">export </span><span>GREP_OPTIONS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;--color=auto&#39;
-</span><span style="font-style:italic;color:#5c6773;"># Configures the default editor, we installed nvim earlier.
-</span><span style="color:#ffa759;">export </span><span>EDITOR</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&#39;nvim&#39;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Get colors in ls by default
-</span><span style="color:#f28779;">alias </span><span style="color:#ffd580;">ls</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;ls --color=auto&quot;
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> /etc/bash.bashrc</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell">
+</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> If not running interactively, don&#39;t do anything.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-support z-function z-double-brace z-begin z-shell">[[</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-language z-shell">-</span></span> <span class="z-keyword z-operator z-logical z-shell">!=</span> <span class="z-keyword z-operator z-regexp z-quantifier z-shell">*</span>i<span class="z-keyword z-operator z-regexp z-quantifier z-shell">*</span> <span class="z-support z-function z-double-brace z-end z-shell">]]</span></span> <span class="z-keyword z-operator z-logical z-and z-shell">&amp;&amp;</span> <span class="z-meta z-function-call z-shell"><span class="z-keyword z-control z-flow z-return z-shell">return</span></span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Use extra globing features. See man bash, search extglob.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-shopt z-shell">shopt</span></span><span class="z-meta z-function-call z-arguments z-shell"> -s extglob</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Include .files when globbing.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-shopt z-shell">shopt</span></span><span class="z-meta z-function-call z-arguments z-shell"> -s dotglob</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> When a glob expands to nothing, make it an empty string instead of the literal characters.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-shopt z-shell">shopt</span></span><span class="z-meta z-function-call z-arguments z-shell"> -s nullglob</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> A command name that is the name of a directory is executed as if it were the argument to the cd command.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-shopt z-shell">shopt</span></span><span class="z-meta z-function-call z-arguments z-shell"> -s autocd</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Let bash update the window size if we resize it.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-shopt z-shell">shopt</span></span><span class="z-meta z-function-call z-arguments z-shell"> -s checkwinsize</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> This is what you see between every command.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Make your own at http://bashrcgenerator.com/</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-variable z-other z-readwrite z-assignment z-shell">PS1</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>\[\033[38;5;10m\]\u\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]\[\033[38;5;7m\]@\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]\[\033[38;5;9m\]\H\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]\[\033[38;5;12m\]\w\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]\[\033[38;5;3m\] <span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">systemctl</span></span><span class="z-meta z-function-call z-arguments z-shell"> is-system-running</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span> \[\033[38;5;15m\]\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> bold</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]<span class="z-constant z-character z-escape z-shell">\$</span>?\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\] \n\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]\[\033[38;5;7m\]\t\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]\[\033[38;5;15m\] \[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> bold</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\]<span class="z-constant z-character z-escape z-shell">\\</span>$\[<span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tput</span></span><span class="z-meta z-function-call z-arguments z-shell"> sgr0</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>\] <span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> The rest can really just be left default.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-variable z-other z-readwrite z-assignment z-shell">PS2</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>&gt; <span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">PS3</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>&gt; <span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">PS4</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>+ <span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Set up bash completion.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">-</span>r</span> /usr/share/bash-completion/bash_completion   <span class="z-support z-function z-test z-end z-shell">]</span></span> <span class="z-keyword z-operator z-logical z-and z-shell">&amp;&amp;</span> <span class="z-meta z-function-call z-shell"><span class="z-support z-function z-dot z-shell">.</span></span><span class="z-meta z-function-call z-arguments z-shell"> /usr/share/bash-completion/bash_completion</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> This tells grep to use color when appropriate.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">GREP_OPTIONS</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>--color=auto<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Configures the default editor, we installed nvim earlier.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">EDITOR</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>nvim<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Get colors in ls by default</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-alias z-shell">alias</span> <span class="z-entity z-name z-function z-alias z-shell">ls</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>ls --color=auto<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span></span>
 </span></code></pre>
 <p>Now test it out by running <code>bash</code>, your prompt should change. If it looks good <code>exit</code> then <code>exit</code> again and reconnect. This configuration is by no means exotic or impressive, it's just some nice basics.</p>
 <p>The prompt is intended to clearly communicate where, and who, you are, as well as the exit code. Time can sometimes be useful, so I included it as well. It's all also nicely color coded. Here's how it's structured:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>user@full.domain.name/current/directory (system state) (last exit code)
-</span><span>(time) $
+<pre class="z-code"><code><span class="z-text z-plain">user@full.domain.name/current/directory (system state) (last exit code)
+(time) $
 </span></code></pre>
 <p><code>(system state)</code> refers to the output of <code>systemctl is-system-running</code> which will output based on <a rel="noopener" target="_blank" href="https://www.freedesktop.org/software/systemd/man/systemctl.html#is-system-running">this</a> list. In most cases it will either be <code>running</code> if everything is good, or <code>degraded</code> if some service has failed.</p>
 <p><code>(last exit code)</code> will be <code>0</code> if the last command exited successfully, and a different number if it did not.</p>
@@ -231,83 +231,83 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <h2 id="the-multiplexer">The Multiplexer</h2>
 <p>Shell multiplexing is a great way to maintain a workspace on a remote machine. The idea is to have a daemon which holds onto your shell sessions for you and essentially acts as a 'window manager' for your various shell panes. You're then able to 'detach' and 'reattach' to these sessions whenever you want.</p>
 <p>I'm aware of <code>tmux</code> and <code>screen</code> which both accomplish this quite well. I prefer <code>tmux</code> and we'll talk about setting up that one. You can find the wiki documentation <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/index.php/tmux">here</a>. You can get it with pacman:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">pacman</span><span style="color:#ffcc66;"> -S</span><span> tmux
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">pacman</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> tmux</span>
 </span></code></pre>
 <p>The global configuration for <code>tmux</code> lives at <code>/etc/tmux.conf</code> and we can just configure a couple settings:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Use a 256 color configuration.
-</span><span style="color:#f28779;">set</span><span> -g default-terminal </span><span style="color:#bae67e;">&quot;screen-256color&quot;
-</span><span>
-</span><span> </span><span style="font-style:italic;color:#5c6773;"># Start windows and panes at 1, not 0.
-</span><span style="color:#f28779;">set</span><span> -g base-index 1
-</span><span style="color:#f28779;">set</span><span> -g pane-base-index 1
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># So the history doesn&#39;t go on forever.
-</span><span style="color:#f28779;">set</span><span> -g history-limit 10000
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Split panes using | and -, this makes more sense!
-</span><span style="color:#f28779;">bind </span><span style="color:#95e6cb;">\ </span><span>split-window -h
-</span><span style="color:#f28779;">bind</span><span> - split-window -v
-</span><span style="color:#ffd580;">unbind </span><span style="color:#bae67e;">&#39;&quot;&#39;
-</span><span style="color:#ffd580;">unbind </span><span>%
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Don&#39;t rename windows automatically. Rename with Ctl+B followed by ,
-</span><span style="color:#f28779;">set</span><span> -g allow-rename off
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">###
-</span><span style="font-style:italic;color:#5c6773;"># Theme below.
-</span><span style="font-style:italic;color:#5c6773;">###
-</span><span style="font-style:italic;color:#5c6773;"># Panes
-</span><span style="color:#f28779;">set</span><span> -g pane-border-bg colour235
-</span><span style="color:#f28779;">set</span><span> -g pane-border-fg colour238
-</span><span style="color:#f28779;">set</span><span> -g pane-active-border-bg colour236
-</span><span style="color:#f28779;">set</span><span> -g pane-active-border-fg colour10
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Messaging
-</span><span style="color:#f28779;">set</span><span> -g message-attr bold
-</span><span style="color:#f28779;">set</span><span> -g message-fg colour232
-</span><span style="color:#f28779;">set</span><span> -g message-bg colour166
-</span><span style="color:#f28779;">set</span><span> -g message-command-fg blue
-</span><span style="color:#f28779;">set</span><span> -g message-command-bg black
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Window mode
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-bg colour6
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-fg colour0
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Window status
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-fg colour10
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-bg colour238
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-attr bold
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-current-format </span><span style="color:#bae67e;">&#39; #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour10]#F &#39;
-</span><span>
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-fg colour138
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bg colour235
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-attr none
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-format </span><span style="color:#bae67e;">&#39; #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F &#39;
-</span><span>
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bell-attr bold
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bell-fg colour255
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> window-status-bell-bg colour1
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Info on left
-</span><span style="color:#f28779;">set</span><span> -g status-left </span><span style="color:#bae67e;">&#39;&#39;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Modes
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> clock-mode-colour colour135
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-attr bold
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-fg colour196
-</span><span style="color:#ffd580;">setw</span><span style="color:#ffcc66;"> -g</span><span> mode-bg colour238
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># The statusbar
-</span><span style="color:#f28779;">set</span><span> -g status-position bottom
-</span><span style="color:#f28779;">set</span><span> -g status-bg colour233
-</span><span style="color:#f28779;">set</span><span> -g status-fg colour137
-</span><span style="color:#f28779;">set</span><span> -g status-justify left
-</span><span style="color:#f28779;">set</span><span> -g status-interval 2
-</span><span style="color:#f28779;">set</span><span> -g status-attr dim
-</span><span style="color:#f28779;">set</span><span> -g status-left </span><span style="color:#bae67e;">&#39;&#39;
-</span><span style="color:#f28779;">set</span><span> -g status-right </span><span style="color:#bae67e;">&#39;#[bgcolour=0]#[fg=colour10]#(echo $USER)#[fg=colour7]@#[fg=colour9]#(hostname) #[fg=colour3]#(systemctl is-system-running) &#39;
-</span><span style="color:#f28779;">set</span><span> -g status-right-length 50
-</span><span style="color:#f28779;">set</span><span> -g status-left-length 20
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Use a 256 color configuration.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g default-terminal <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>screen-256color<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+
+ <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Start windows and panes at 1, not 0.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g base-index 1</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g pane-base-index 1</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> So the history doesn&#39;t go on forever.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g history-limit 10000</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Split panes using | and -, this makes more sense!</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-bind z-shell">bind</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-constant z-character z-escape z-shell">\ </span>split-window -h</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-bind z-shell">bind</span></span><span class="z-meta z-function-call z-arguments z-shell"> - split-window -v</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">unbind</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>&quot;<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">unbind</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-job z-shell"><span class="z-punctuation z-definition z-variable z-job z-shell">%</span></span></span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Don&#39;t rename windows automatically. Rename with Ctl+B followed by ,</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g allow-rename off</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell">##</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Theme below.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell">##</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Panes</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g pane-border-bg colour235</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g pane-border-fg colour238</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g pane-active-border-bg colour236</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g pane-active-border-fg colour10</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Messaging</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g message-attr bold</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g message-fg colour232</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g message-bg colour166</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g message-command-fg blue</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g message-command-bg black</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Window mode</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> mode-bg colour6</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> mode-fg colour0</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Window status</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-current-fg colour10</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-current-bg colour238</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-current-attr bold</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-current-format <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span> #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour10]#F <span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-fg colour138</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-bg colour235</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-attr none</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-format <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span> #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F <span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-bell-attr bold</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-bell-fg colour255</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> window-status-bell-bg colour1</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Info on left</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-left <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span><span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Modes</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> clock-mode-colour colour135</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> mode-attr bold</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> mode-fg colour196</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">setw</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>g</span> mode-bg colour238</span>
+
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> The statusbar</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-position bottom</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-bg colour233</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-fg colour137</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-justify left</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-interval 2</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-attr dim</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-left <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span><span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-right <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>#[bgcolour=0]#[fg=colour10]#(echo $USER)#[fg=colour7]@#[fg=colour9]#(hostname) #[fg=colour3]#(systemctl is-system-running) <span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-right-length 50</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-set z-shell">set</span></span><span class="z-meta z-function-call z-arguments z-shell"> -g status-left-length 20</span>
 </span></code></pre>
 <p>Launching <code>tmux</code> you can create new 'tabs' with <code>Ctl+b c</code> (press <code>Control</code> and <code>b</code>, then let go and press <code>c</code>). You can rename them with <code>Ctl+b ,</code>. You can split them with <code>Ctl+\</code> and <code>Ctl+-</code> respectively. You can move between splits with <code>Ctl+b left</code> and <code>Ctl+b right</code>. With <code>Ctl+b 1</code> or any number you can change 'tabs'.</p>
 <p>You can <strong>detach</strong> <code>tmux</code> with <code>Ctl+b d</code> and you can <strong>re-attach</strong> with <code>tmux a</code> later on. Sessions will persist between logins but not between reboots.</p>
@@ -330,80 +330,80 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <p>Earlier we installed <code>nvim</code> with <code>pacman -S neovim</code>. <a rel="noopener" target="_blank" href="https://neovim.io/">Neovim</a> is a minimal modern recreation of <code>vim</code> which itself was a recreation of <code>vi</code>. There are also editors like <code>emacs</code>, <code>ed</code>, and <code>nano</code>.</p>
 <p>The <code>nvim</code> systemwide configuration is stored at <code>/etc/xdg/nvim/init.vim</code>, and you might need to create the folder with <code>mkdir -p /etc/xdg/nvim/</code>.</p>
 <p>Inside we can do some basic configuration:</p>
-<pre data-lang="vim" style="background-color:#212733;color:#ccc9c2;" class="language-vim "><code class="language-vim" data-lang="vim"><span style="font-style:italic;color:#5c6773;">&quot; Be improved
-</span><span style="color:#f28779;">set</span><span> nocompatible
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; General
-</span><span style="color:#f28779;">set</span><span> number      </span><span style="font-style:italic;color:#5c6773;">&quot; Show line numbers
-</span><span style="color:#f28779;">set</span><span> history=</span><span style="color:#ffcc66;">700 </span><span style="font-style:italic;color:#5c6773;">&quot; Commands
-</span><span style="color:#f28779;">set</span><span> autoread
-</span><span style="color:#f28779;">set</span><span> magic       </span><span style="font-style:italic;color:#5c6773;">&quot; Regex related
-</span><span style="color:#f28779;">set</span><span> showmatch   </span><span style="font-style:italic;color:#5c6773;">&quot; Brackets
-</span><span style="color:#f28779;">set</span><span> mouse=</span><span style="color:#f28779;">a     </span><span style="font-style:italic;color:#5c6773;">&quot; Enable all mouse interaction.
-</span><span style="color:#f28779;">filetype</span><span> plugin on
-</span><span>syntax enable
-</span><span style="color:#f28779;">set</span><span> ttyfast     </span><span style="font-style:italic;color:#5c6773;">&quot; Improve smoothness
-</span><span style="color:#f28779;">set</span><span> lazyredraw  </span><span style="font-style:italic;color:#5c6773;">&quot; Don&#39;t redraw while executing macros
-</span><span style="color:#f28779;">set</span><span> showcmd     </span><span style="font-style:italic;color:#5c6773;">&quot; Show partially typed commands at the bottom
-</span><span style="color:#f28779;">set</span><span> wrap        </span><span style="font-style:italic;color:#5c6773;">&quot; Soft wrap lines
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Indents
-</span><span style="color:#f28779;">set expandtab
-</span><span style="color:#f28779;">set smarttab
-</span><span style="color:#f28779;">set</span><span> shiftwidth=</span><span style="color:#ffcc66;">4
-</span><span style="color:#f28779;">set</span><span> tabstop=</span><span style="color:#ffcc66;">4
-</span><span style="color:#f28779;">set</span><span> ai </span><span style="font-style:italic;color:#5c6773;">&quot; Auto Indent
-</span><span style="color:#f28779;">set</span><span> si </span><span style="font-style:italic;color:#5c6773;">&quot; Smart Indent
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Peace and quiet
-</span><span style="font-style:italic;color:#5c6773;">&quot; (Side note: Vim does a &#39;bell&#39; very often)
-</span><span style="color:#f28779;">set</span><span> noerrorbells
-</span><span style="color:#f28779;">set</span><span> novisualbell
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Searching
-</span><span style="color:#f28779;">set</span><span> ignorecase
-</span><span style="color:#f28779;">set</span><span> smartcase
-</span><span style="color:#f28779;">set </span><span>hlsearch
-</span><span style="color:#f28779;">set </span><span>incsearch
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Don&#39;t do some legacy-related things like temporary swapfiles.
-</span><span style="color:#f28779;">set</span><span> nobackup
-</span><span style="color:#f28779;">set</span><span> nowb
-</span><span style="color:#f28779;">set</span><span> noswapfile
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Tell vim to remember certain things when we exit
-</span><span style="font-style:italic;color:#5c6773;">&quot;  &#39;10  :  marks will be remembered for up to 10 previously edited files
-</span><span style="font-style:italic;color:#5c6773;">&quot;  &quot;100 :  will save up to 100 lines for each register
-</span><span style="font-style:italic;color:#5c6773;">&quot;  :20  :  up to 20 lines of command-line history will be remembered
-</span><span style="font-style:italic;color:#5c6773;">&quot;  %    :  saves and restores the buffer list
-</span><span style="font-style:italic;color:#5c6773;">&quot;  n... :  where to save the viminfo files
-</span><span style="color:#f28779;">set</span><span> viminfo=&#39;</span><span style="color:#ffcc66;">10</span><span>,</span><span style="color:#ffa759;">\</span><span style="font-style:italic;color:#5c6773;">&quot;100,:20,%,n~/.viminfo
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Automagically restore files we were editing to the line we were on.
-</span><span style="color:#ffa759;">function</span><span>! </span><span style="color:#ffd580;">RestoreLine</span><span>()
-</span><span>  </span><span style="color:#ffa759;">if </span><span style="color:#f28779;">line</span><span>(</span><span style="color:#bae67e;">&quot;&#39;\&quot;&quot;</span><span>) </span><span style="color:#ffa759;">&lt;= </span><span style="color:#f28779;">line</span><span>(</span><span style="color:#bae67e;">&quot;$&quot;</span><span>)
-</span><span>    normal! g`</span><span style="font-style:italic;color:#5c6773;">&quot;
-</span><span>    </span><span style="color:#ffa759;">return </span><span style="color:#ffcc66;">1
-</span><span>  </span><span style="color:#ffa759;">endif
-</span><span style="color:#ffa759;">endfunction
-</span><span style="color:#ffa759;">augroup</span><span> restoreLine
-</span><span>  </span><span style="color:#f28779;">autocmd</span><span>!
-</span><span>  </span><span style="color:#f28779;">autocmd</span><span> BufWinEnter </span><span style="color:#ffa759;">*</span><span> call </span><span style="color:#f28779;">RestoreLine</span><span>()
-</span><span style="color:#ffa759;">augroup</span><span> END
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;">&quot; Colorscheme
-</span><span style="color:#f28779;">colorscheme</span><span> spacegrey
+<pre data-lang="vim" class="language-vim z-code"><code class="language-vim" data-lang="vim"><span class="z-source z-viml"><span class="z-comment z-line z-quotes z-viml">&quot; Be improved</span>
+<span class="z-support z-function z-viml">set</span> nocompatible
+
+<span class="z-comment z-line z-quotes z-viml">&quot; General</span>
+<span class="z-support z-function z-viml">set</span> number      <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Show line numbers
+</span><span class="z-support z-function z-viml">set</span> history=<span class="z-constant z-numeric z-integer">700</span> <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Commands
+</span><span class="z-support z-function z-viml">set</span> autoread
+<span class="z-support z-function z-viml">set</span> magic       <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Regex related
+</span><span class="z-support z-function z-viml">set</span> showmatch   <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Brackets
+</span><span class="z-support z-function z-viml">set</span> mouse=<span class="z-support z-function z-viml">a</span>     <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Enable all mouse interaction.
+</span><span class="z-support z-function z-viml">filetype</span> plugin on
+syntax enable
+<span class="z-support z-function z-viml">set</span> ttyfast     <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Improve smoothness
+</span><span class="z-support z-function z-viml">set</span> lazyredraw  <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Don&#39;t redraw while executing macros
+</span><span class="z-support z-function z-viml">set</span> showcmd     <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Show partially typed commands at the bottom
+</span><span class="z-support z-function z-viml">set</span> wrap        <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Soft wrap lines
+</span>
+<span class="z-comment z-line z-quotes z-viml">&quot; Indents</span>
+<span class="z-support z-function z-viml">set</span> <span class="z-support z-function z-viml">expandtab</span>
+<span class="z-support z-function z-viml">set</span> <span class="z-support z-function z-viml">smarttab</span>
+<span class="z-support z-function z-viml">set</span> shiftwidth=<span class="z-constant z-numeric z-integer">4</span>
+<span class="z-support z-function z-viml">set</span> tabstop=<span class="z-constant z-numeric z-integer">4</span>
+<span class="z-support z-function z-viml">set</span> ai <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Auto Indent
+</span><span class="z-support z-function z-viml">set</span> si <span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span> Smart Indent
+</span>
+<span class="z-comment z-line z-quotes z-viml">&quot; Peace and quiet</span>
+<span class="z-comment z-line z-quotes z-viml">&quot; (Side note: Vim does a &#39;bell&#39; very often)</span>
+<span class="z-support z-function z-viml">set</span> noerrorbells
+<span class="z-support z-function z-viml">set</span> novisualbell
+
+<span class="z-comment z-line z-quotes z-viml">&quot; Searching</span>
+<span class="z-support z-function z-viml">set</span> ignorecase
+<span class="z-support z-function z-viml">set</span> smartcase
+<span class="z-support z-function z-viml">set</span> <span class="z-support z-variable z-viml">hlsearch</span>
+<span class="z-support z-function z-viml">set</span> <span class="z-support z-variable z-viml">incsearch</span>
+
+<span class="z-comment z-line z-quotes z-viml">&quot; Don&#39;t do some legacy-related things like temporary swapfiles.</span>
+<span class="z-support z-function z-viml">set</span> nobackup
+<span class="z-support z-function z-viml">set</span> nowb
+<span class="z-support z-function z-viml">set</span> noswapfile
+
+<span class="z-comment z-line z-quotes z-viml">&quot; Tell vim to remember certain things when we exit</span>
+<span class="z-comment z-line z-quotes z-viml">&quot;  &#39;10  :  marks will be remembered for up to 10 previously edited files</span>
+<span class="z-comment z-line z-quotes z-viml">&quot;  &quot;100 :  will save up to 100 lines for each register</span>
+<span class="z-comment z-line z-quotes z-viml">&quot;  :20  :  up to 20 lines of command-line history will be remembered</span>
+<span class="z-comment z-line z-quotes z-viml">&quot;  %    :  saves and restores the buffer list</span>
+<span class="z-comment z-line z-quotes z-viml">&quot;  n... :  where to save the viminfo files</span>
+<span class="z-support z-function z-viml">set</span> viminfo=&#39;<span class="z-constant z-numeric z-integer">10</span>,<span class="z-storage z-function z-viml">\</span><span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span>100,:20,%,n~/.viminfo
+</span>
+<span class="z-comment z-line z-quotes z-viml">&quot; Automagically restore files we were editing to the line we were on.</span>
+<span class="z-meta z-function z-viml"><span class="z-storage z-function z-viml">function</span>! <span class="z-entity z-name z-function z-viml">RestoreLine</span><span class="z-punctuation z-definition z-parameters z-begin z-viml">(</span></span>)
+  <span class="z-keyword z-control z-viml">if</span> <span class="z-support z-function z-any-method">line</span>(<span class="z-string z-quoted z-double z-viml">&quot;&#39;\&quot;&quot;</span>) <span class="z-storage z-function z-viml">&lt;=</span> <span class="z-support z-function z-any-method">line</span>(<span class="z-string z-quoted z-double z-viml">&quot;$&quot;</span>)
+    normal! g`<span class="z-comment z-line z-quotes z-viml"><span class="z-punctuation z-definition z-comment z-vim">&quot;</span>
+</span>    <span class="z-keyword z-control z-viml">return</span> <span class="z-constant z-numeric z-integer">1</span>
+  <span class="z-keyword z-control z-viml">endif</span>
+<span class="z-storage z-function z-viml">endfunction</span>
+<span class="z-keyword z-control z-viml">augroup</span> restoreLine
+  <span class="z-support z-function z-viml">autocmd</span>!
+  <span class="z-support z-function z-viml">autocmd</span> BufWinEnter <span class="z-storage z-function z-viml">*</span> call <span class="z-support z-function z-any-method">RestoreLine</span>()
+<span class="z-keyword z-control z-viml">augroup</span> END
+
+<span class="z-comment z-line z-quotes z-viml">&quot; Colorscheme</span>
+<span class="z-support z-function z-viml">colorscheme</span> spacegrey
 </span></code></pre>
 <p>Now we need to fetch the colorscheme, <em>Spacegrey</em>.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p</span><span> /etc/xdg/nvim/colors/
-</span><span style="color:#ffd580;">curl</span><span> https://raw.githubusercontent.com/ajh17/Spacegray.vim/master/colors/spacegray.vim</span><span style="color:#ffcc66;"> -o</span><span> /etc/xdg/nvim/colors/spacegrey.vim
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> /etc/xdg/nvim/colors/</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">curl</span></span><span class="z-meta z-function-call z-arguments z-shell"> https://raw.githubusercontent.com/ajh17/Spacegray.vim/master/colors/spacegray.vim<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>o</span> /etc/xdg/nvim/colors/spacegrey.vim</span>
 </span></code></pre>
 <p>At this point <code>nvim</code> is quite capable of doing any task we might need of it. Triumph in this by telling the system you and it are officially in a relationship.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cat </span><span style="color:#f29e74;">&lt;&lt; </span><span style="color:#ffa759;">EOF </span><span style="color:#f29e74;">&gt;&gt;</span><span> /etc/bash.bashrc
-</span><span style="color:#bae67e;">
-</span><span style="color:#bae67e;"># Use nvim
-</span><span style="color:#bae67e;">export EDITOR=nvim
-</span><span style="color:#ffa759;">EOF
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cat</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-unquoted z-heredoc z-shell"><span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;&lt;</span> <span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span> <span class="z-meta z-function-call z-arguments z-shell"><span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;&gt;</span> /etc/bash.bashrc</span><span class="z-string z-unquoted z-heredoc z-shell">
+
+# Use nvim
+export EDITOR=nvim
+<span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span></span>
 </span></code></pre>
 <h2 id="final-steps">Final Steps</h2>
 <p>Since it's probably been a couple days since you started this process, it's also a good idea to update:</p>
@@ -412,11 +412,11 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
 <li>Issue <code>pacman -Syu</code>.</li>
 </ol>
 <p>Before moving on it might be a good idea to make a snapshot of what we have so far, this way we can roll back. This is a very cool feature of BTRFS and one of the main reasons I use it. Since this is technically our <code>/</code> the process is a bit more involved than usual.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># First, mount the BTRFS volume somewhere plainly, no subvolume.
-</span><span style="color:#ffd580;">mount</span><span style="color:#ffcc66;"> -o</span><span> compress=lzo /dev/sda /mnt/
-</span><span style="color:#f28779;">cd</span><span> /mnt
-</span><span style="font-style:italic;color:#5c6773;"># Create a read-only snapshot of `root` called `root-fresh`.
-</span><span style="color:#ffd580;">sudo</span><span> btrfs subvolume snapshot</span><span style="color:#ffcc66;"> -r</span><span> root root-fresh
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> First, mount the BTRFS volume somewhere plainly, no subvolume.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mount</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>o</span> compress=lzo /dev/sda /mnt/</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> /mnt</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Create a read-only snapshot of `root` called `root-fresh`.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> btrfs subvolume snapshot<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>r</span> root root-fresh</span>
 </span></code></pre>
 <p>If you ever find yourself in a situation where you just need to restart all over again, this is a snapshot you can use so you don't have to re-do all your configuration and setup. You <strong>would</strong> just have to:</p>
 <ul>
@@ -451,8 +451,8 @@ With &#x27;root&#x27; our goal is to make a simple set of good, sharp tools to d
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

@@ -165,59 +165,59 @@ Leiningen - The package manager.
 </ul>
 <span id="continue-reading"></span><h3 id="getting-leiningen">Getting Leiningen</h3>
 <p>Assuming <code>~/bin/</code> is a folder in your <code>$PATH</code></p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>DEST</span><span style="color:#f29e74;">=</span><span style="font-style:italic;color:#5ccfe6;">~</span><span style="color:#bae67e;">/bin/lein
-</span><span style="color:#ffd580;">curl</span><span> https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein </span><span style="color:#f29e74;">&gt; </span><span>$DEST
-</span><span style="color:#ffd580;">chmod</span><span> +x $DEST
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-variable z-other z-readwrite z-assignment z-shell">DEST</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/bin/lein</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">curl</span></span><span class="z-meta z-function-call z-arguments z-shell"> https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">DEST</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">chmod</span></span><span class="z-meta z-function-call z-arguments z-shell"> +x <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">DEST</span></span></span>
 </span></code></pre>
 <h3 id="getting-clojure">Getting Clojure</h3>
 <p>You get Clojure (oddly) through <code>lein</code>. Just run it, and it'll download everything it needs.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">lein
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">lein</span></span>
 </span></code></pre>
 <p>That was easy!</p>
 <h3 id="setting-up-an-immutant-project">Setting up an Immutant Project</h3>
 <p><em>This is a lightly expanded version of <a rel="noopener" target="_blank" href="http://immutant.org/tutorials/installation/index.html">this page</a>.</em></p>
 <p>Use <code>lein</code> to initialize a new project.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">lein</span><span> new app learning
-</span><span style="color:#f28779;">cd</span><span> learning
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">lein</span></span><span class="z-meta z-function-call z-arguments z-shell"> new app learning</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> learning</span>
 </span></code></pre>
 <p>The folder <code>learning/</code> should have a file <code>project.clj</code> which you should edit to look like this:</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffa759;">defproject </span><span style="color:#ffd580;">learning </span><span style="color:#bae67e;">&quot;0.1.0-SNAPSHOT&quot;
-</span><span>  </span><span style="color:#ffcc66;">:description </span><span style="color:#bae67e;">&quot;FIXME: write description&quot;
-</span><span>  </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://example.com/FIXME&quot;
-</span><span>  </span><span style="color:#ffcc66;">:license </span><span>{</span><span style="color:#ffcc66;">:name </span><span style="color:#bae67e;">&quot;MPL&quot;
-</span><span>            </span><span style="color:#ffcc66;">:url </span><span style="color:#bae67e;">&quot;http://choosealicense.com/licenses/mpl-2.0/&quot;</span><span>}
-</span><span>  </span><span style="color:#ffcc66;">:dependencies </span><span>[[org.clojure/clojure </span><span style="color:#bae67e;">&quot;1.6.0&quot;</span><span>]
-</span><span>                 [org.immutant/immutant </span><span style="color:#bae67e;">&quot;2.x.incremental.186&quot;</span><span>]]
-</span><span>  </span><span style="color:#ffcc66;">:repositories </span><span>[[</span><span style="color:#bae67e;">&quot;Immutant incremental builds&quot;
-</span><span>                  </span><span style="color:#bae67e;">&quot;http://downloads.immutant.org/incremental/&quot;</span><span>]]
-</span><span>  </span><span style="color:#ffcc66;">:main </span><span style="color:#f29e74;">^</span><span style="color:#ffcc66;">:skip-aot</span><span> learning.core
-</span><span>  </span><span style="color:#ffcc66;">:target-path </span><span style="color:#bae67e;">&quot;target/%s&quot;
-</span><span>  </span><span style="color:#ffcc66;">:profiles </span><span>{</span><span style="color:#ffcc66;">:uberjar </span><span>{</span><span style="color:#ffcc66;">:aot :all</span><span>}})
+<pre data-lang="clojure" class="language-clojure z-code"><code class="language-clojure" data-lang="clojure"><span class="z-source z-clojure"><span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-storage z-modifier z-def z-clojure">defproject</span> <span class="z-entity z-name z-function z-clojure">learning</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>0.1.0-SNAPSHOT<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>description</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>FIXME: write description<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>url</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>http://example.com/FIXME<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>license</span> <span class="z-punctuation z-section z-braces z-begin z-clojure">{</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>name</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>MPL<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+            <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>url</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>http://choosealicense.com/licenses/mpl-2.0/<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-braces z-end z-clojure">}</span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>dependencies</span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span><span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>org.clojure/clojure <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>1.6.0<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+                 <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>org.immutant/immutant <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>2.x.incremental.186<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>repositories</span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span><span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span><span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>Immutant incremental builds<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+                  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>http://downloads.immutant.org/incremental/<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>main</span> <span class="z-keyword z-operator z-macro z-clojure">^</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>skip-aot</span> learning.core
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>target-path</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>target/%s<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>profiles</span> <span class="z-punctuation z-section z-braces z-begin z-clojure">{</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>uberjar</span> <span class="z-punctuation z-section z-braces z-begin z-clojure">{</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>aot</span> <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>all</span><span class="z-punctuation z-section z-braces z-end z-clojure">}</span><span class="z-punctuation z-section z-braces z-end z-clojure">}</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
 </span></code></pre>
 <p>Note how the dependencies and repositories now contain references to immutant. You should change <code>186</code> to the latest incremental build at <a rel="noopener" target="_blank" href="http://immutant.org/builds/2x/">this page</a>.</p>
 <p>The <code>project.clj</code> file is similar to a <code>package.json</code> in Node.js or <code>Cargo.toml</code> in Rust.</p>
 <h3 id="your-first-route">Your First Route</h3>
 <p><em>This is a lightly expanded version of <a rel="noopener" target="_blank" href="http://immutant.org/tutorials/web/index.html">this page</a>.</em></p>
 <p>In order to have a route (and thus a real web server) you need to add a <code>require</code> for immutant to your <code>src/learning/core.clj</code>. Then, define the <code>app</code> function like so and use <code>run</code> to start it:</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffd580;">ns</span><span> learning.core
-</span><span>  (</span><span style="color:#ffcc66;">:use</span><span> compojure.core)
-</span><span>  (</span><span style="color:#ffcc66;">:require </span><span>[compojure.route </span><span style="color:#ffcc66;">:as</span><span> route]
-</span><span>             [immutant.web </span><span style="color:#ffcc66;">:as</span><span> immutant])
-</span><span>  (</span><span style="color:#ffcc66;">:gen-class</span><span>))
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">app </span><span>[request]
-</span><span>  </span><span style="color:#bae67e;">&quot;A basic route for learning.&quot;
-</span><span>  {</span><span style="color:#ffcc66;">:status 200
-</span><span>   </span><span style="color:#ffcc66;">:body </span><span style="color:#bae67e;">&quot;Hello world!&quot;</span><span>})
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">-main
-</span><span>  </span><span style="color:#bae67e;">&quot;Start the server.&quot;
-</span><span>  [&amp; args]
-</span><span>  (</span><span style="color:#ffd580;">immutant/run</span><span> app {</span><span style="color:#ffcc66;">:host </span><span style="color:#bae67e;">&quot;localhost&quot; </span><span style="color:#ffcc66;">:port 8080 :path </span><span style="color:#bae67e;">&quot;/&quot;</span><span>}))
+<pre data-lang="clojure" class="language-clojure z-code"><code class="language-clojure" data-lang="clojure"><span class="z-source z-clojure"><span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">ns</span> learning.core
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>use</span> compojure.core<span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>require</span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>compojure.route <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>as</span> route<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+             <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>immutant.web <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>as</span> immutant<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>gen-class</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+
+<span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-storage z-modifier z-def z-clojure">defn</span> <span class="z-entity z-name z-function z-clojure">app</span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>request<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>A basic route for learning.<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-punctuation z-section z-braces z-begin z-clojure">{</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>status</span> <span class="z-constant z-numeric z-integer z-decimal z-clojure">200</span>
+   <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>body</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>Hello world!<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-braces z-end z-clojure">}</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+
+<span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-storage z-modifier z-def z-clojure">defn</span> <span class="z-entity z-name z-function z-clojure">-main</span>
+  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>Start the server.<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>&amp; args<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">immutant/run</span> app <span class="z-punctuation z-section z-braces z-begin z-clojure">{</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>host</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>localhost<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span> <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>port</span> <span class="z-constant z-numeric z-integer z-decimal z-clojure">8080</span> <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>path</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>/<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-braces z-end z-clojure">}</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
 </span></code></pre>
 <p>To start the server with <code>lein run</code> in the folder.</p>
 <p>Now browse to <a rel="noopener" target="_blank" href="http://localhost:8080">http://localhost:8080</a> and you should see something like:</p>
-<pre data-lang="html" style="background-color:#212733;color:#ccc9c2;" class="language-html "><code class="language-html" data-lang="html"><span>Hello world!
+<pre data-lang="html" class="language-html z-code"><code class="language-html" data-lang="html"><span class="z-text z-html z-basic">Hello world!
 </span></code></pre>
 <h3 id="more-routes">More Routes</h3>
 <p>You're probably thinking &quot;Well that's great, an app with one route, how useless.&quot; You'd be quite right, unless you're implementing <a rel="noopener" target="_blank" href="http://www.justyo.co/">Yo</a> or something.</p>
@@ -232,33 +232,33 @@ Leiningen - The package manager.
 </blockquote>
 <p>That sounds certainly more desirable. Let's use <a rel="noopener" target="_blank" href="https://github.com/weavejester/compojure/">Compojure</a>.</p>
 <p>Change your <code>project.clj</code>:</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span style="color:#ffcc66;">:dependencies </span><span>[[org.clojure/clojure </span><span style="color:#bae67e;">&quot;1.6.0&quot;</span><span>]
-</span><span>               [org.immutant/immutant </span><span style="color:#bae67e;">&quot;2.x.incremental.186&quot;</span><span>]
-</span><span>               [compojure </span><span style="color:#bae67e;">&quot;1.1.8&quot;</span><span>]]
+<pre data-lang="clojure" class="language-clojure z-code"><code class="language-clojure" data-lang="clojure"><span class="z-source z-clojure"><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>dependencies</span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span><span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>org.clojure/clojure <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>1.6.0<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+               <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>org.immutant/immutant <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>2.x.incremental.186<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+               <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>compojure <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>1.1.8<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
 </span></code></pre>
 <p>And then extend your source file.</p>
-<pre data-lang="clojure" style="background-color:#212733;color:#ccc9c2;" class="language-clojure "><code class="language-clojure" data-lang="clojure"><span>(</span><span style="color:#ffd580;">ns</span><span> learning.core
-</span><span>  (</span><span style="color:#ffcc66;">:use</span><span> compojure.core)
-</span><span>  (</span><span style="color:#ffcc66;">:require </span><span>[compojure.route </span><span style="color:#ffcc66;">:as</span><span> route]
-</span><span>             [immutant.web </span><span style="color:#ffcc66;">:as</span><span> immutant])
-</span><span>  (</span><span style="color:#ffcc66;">:gen-class</span><span>))
-</span><span>
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">handler
-</span><span>  </span><span style="color:#bae67e;">&quot;Comment&quot;
-</span><span>  []
-</span><span>  </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Hello World&lt;/h1&gt;&quot;</span><span>)
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defroutes </span><span style="color:#ffd580;">app
-</span><span>  </span><span style="color:#bae67e;">&quot;The router.&quot;
-</span><span>  (</span><span style="color:#ffd580;">GET </span><span style="color:#bae67e;">&quot;/&quot; </span><span>[] (</span><span style="color:#ffd580;">handler</span><span>))
-</span><span>  (</span><span style="color:#ffd580;">route/not-found
-</span><span>       </span><span style="color:#bae67e;">&quot;&lt;h1&gt;Page not found&lt;/h1&gt;&quot;</span><span>))
-</span><span>
-</span><span>(</span><span style="color:#ffa759;">defn </span><span style="color:#ffd580;">-main
-</span><span>  </span><span style="color:#bae67e;">&quot;Start the server&quot;
-</span><span>  [&amp; args]
-</span><span>  (</span><span style="color:#ffd580;">immutant/run</span><span> app {</span><span style="color:#ffcc66;">:host </span><span style="color:#bae67e;">&quot;localhost&quot; </span><span style="color:#ffcc66;">:port 8080 :path </span><span style="color:#bae67e;">&quot;/&quot;</span><span>}))
+<pre data-lang="clojure" class="language-clojure z-code"><code class="language-clojure" data-lang="clojure"><span class="z-source z-clojure"><span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">ns</span> learning.core
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>use</span> compojure.core<span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>require</span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>compojure.route <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>as</span> route<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+             <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>immutant.web <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>as</span> immutant<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>gen-class</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+
+
+<span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-storage z-modifier z-def z-clojure">defn</span> <span class="z-entity z-name z-function z-clojure">handler</span>
+  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>Comment<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>&lt;h1&gt;Hello World&lt;/h1&gt;<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+
+<span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-storage z-modifier z-def z-clojure">defroutes</span> <span class="z-entity z-name z-function z-clojure">app</span>
+  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>The router.<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">GET</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>/<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span> <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span><span class="z-punctuation z-section z-brackets z-end z-clojure">]</span> <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">handler</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">route/not-found</span>
+       <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>&lt;h1&gt;Page not found&lt;/h1&gt;<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
+
+<span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-storage z-modifier z-def z-clojure">defn</span> <span class="z-entity z-name z-function z-clojure">-main</span>
+  <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>Start the server<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span>
+  <span class="z-punctuation z-section z-brackets z-begin z-clojure">[</span>&amp; args<span class="z-punctuation z-section z-brackets z-end z-clojure">]</span>
+  <span class="z-punctuation z-section z-parens z-begin z-clojure">(</span><span class="z-variable z-function z-clojure">immutant/run</span> app <span class="z-punctuation z-section z-braces z-begin z-clojure">{</span><span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>host</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>localhost<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span> <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>port</span> <span class="z-constant z-numeric z-integer z-decimal z-clojure">8080</span> <span class="z-constant z-other z-keyword z-clojure"><span class="z-punctuation z-definition z-keyword z-clojure">:</span>path</span> <span class="z-string z-quoted z-double z-clojure"><span class="z-punctuation z-definition z-string z-begin z-clojure">&quot;</span>/<span class="z-punctuation z-definition z-string z-end z-clojure">&quot;</span></span><span class="z-punctuation z-section z-braces z-end z-clojure">}</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span><span class="z-punctuation z-section z-parens z-end z-clojure">)</span>
 </span></code></pre>
 <p>Now you should have multiple routes.</p>
 
@@ -267,8 +267,8 @@ Leiningen - The package manager.
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

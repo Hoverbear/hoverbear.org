@@ -135,44 +135,44 @@ The script exports the $NODE_ENV to production.
 <li>The script runs Ghost as <code>$GHOST_USER:$GHOST_GROUP</code>.</li>
 <li>The script exports the <code>$NODE_ENV</code> to <code>production</code>.</li>
 </ul>
-<span id="continue-reading"></span><pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;">#!/sbin/runscript
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># PATH should only include /usr/* if it runs after the mountnfs.sh script
-</span><span>PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/sbin:/usr/sbin:/bin:/usr/bin
-</span><span>DESC</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;Ghost&quot;
-</span><span>NAME</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ghost
-</span><span>GHOST_ROOT</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/var/ghost
-</span><span>GHOST_GROUP</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ghost
-</span><span>GHOST_USER</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">ghost
-</span><span>DAEMON</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/usr/bin/node
-</span><span>DAEMON_ARGS</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">&quot;$</span><span>GHOST_ROOT</span><span style="color:#bae67e;">/index.js&quot;
-</span><span>PIDFILE</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/var/run/$</span><span>NAME</span><span style="color:#bae67e;">.pid
-</span><span>SCRIPTNAME</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/etc/init.d/$</span><span>NAME
-</span><span style="color:#ffa759;">export </span><span>NODE_ENV</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">production
-</span><span style="color:#f28779;">source</span><span> /lib64/rc/sh/functions.sh
-</span><span>
-</span><span style="color:#ffd580;">depend</span><span>() {
-</span><span>  </span><span style="color:#ffd580;">use</span><span> logger dns
-</span><span>  </span><span style="color:#ffd580;">need</span><span> net
-</span><span>}
-</span><span>
-</span><span style="color:#ffd580;">start</span><span>() {
-</span><span>  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Starting $</span><span>{DESC}</span><span style="color:#bae67e;">&quot;
-</span><span>  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --start --quiet   </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">    --user </span><span>$GHOST_USER:$GHOST_GROUP   </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">    --chdir </span><span>$GHOST_ROOT</span><span style="color:#ffcc66;"> --background  </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">    --make-pidfile --pidfile </span><span>$PIDFILE </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">    --exec </span><span>$DAEMON</span><span style="color:#f29e74;"> -- </span><span>$DAEMON_ARGS
-</span><span>  </span><span style="color:#ffd580;">eend </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">?
-</span><span>}
-</span><span>
-</span><span style="color:#ffd580;">stop</span><span>() {
-</span><span>  </span><span style="color:#ffd580;">ebegin </span><span style="color:#bae67e;">&quot;Stopping $</span><span>{DESC}</span><span style="color:#bae67e;">&quot;
-</span><span>  </span><span style="color:#ffd580;">start-stop-daemon</span><span style="color:#ffcc66;"> --stop --quiet     </span><span style="color:#ccc9c2cc;">\
-</span><span style="color:#ffcc66;">  	--retry</span><span style="color:#f29e74;">=</span><span>TERM/30/KILL/5</span><span style="color:#ffcc66;"> --pidfile </span><span style="color:#ccc9c2cc;">\
-</span><span>    $PIDFILE</span><span style="color:#ffcc66;"> --exec </span><span>$DAEMON
-</span><span>  </span><span style="color:#ffd580;">eend </span><span>$</span><span style="font-style:italic;color:#5ccfe6;">?
-</span><span>}
+<span id="continue-reading"></span><pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell">!/sbin/runscript</span><span class="z-comment z-line z-number-sign z-shell">
+</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> PATH should only include /usr/* if it runs after the mountnfs.sh script</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-variable z-other z-readwrite z-assignment z-shell">PATH</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">/sbin:/usr/sbin:/bin:/usr/bin</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">DESC</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>Ghost<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">NAME</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">ghost</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">GHOST_ROOT</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">/var/ghost</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">GHOST_GROUP</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">ghost</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">GHOST_USER</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">ghost</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">DAEMON</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">/usr/bin/node</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">DAEMON_ARGS</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">GHOST_ROOT</span></span>/index.js<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">PIDFILE</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">/var/run/<span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">NAME</span></span>.pid</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">SCRIPTNAME</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">/etc/init.d/<span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">NAME</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">NODE_ENV</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">production</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-source z-shell">source</span></span><span class="z-meta z-function-call z-arguments z-shell"> /lib64/rc/sh/functions.sh</span>
+
+<span class="z-meta z-function z-shell"><span class="z-entity z-name z-function z-shell">depend</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span> <span class="z-punctuation z-section z-braces z-begin z-shell">{</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">use</span></span><span class="z-meta z-function-call z-arguments z-shell"> logger dns</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">need</span></span><span class="z-meta z-function-call z-arguments z-shell"> net</span>
+<span class="z-punctuation z-section z-braces z-end z-shell">}</span></span>
+
+<span class="z-meta z-function z-shell"><span class="z-entity z-name z-function z-shell">start</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span> <span class="z-punctuation z-section z-braces z-begin z-shell">{</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">ebegin</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>Starting <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-expansion z-parameter z-begin z-shell">{</span></span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-variable z-other z-readwrite z-shell">DESC</span></span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-section z-expansion z-parameter z-end z-shell">}</span></span><span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">start-stop-daemon</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>start</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>quiet</span>   <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>user</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">GHOST_USER</span></span>:<span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">GHOST_GROUP</span></span>   <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>chdir</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">GHOST_ROOT</span></span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>background</span>  <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>make-pidfile</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>pidfile</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">PIDFILE</span></span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>exec</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">DAEMON</span></span><span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">DAEMON_ARGS</span></span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">eend</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-language z-shell">?</span></span></span>
+<span class="z-punctuation z-section z-braces z-end z-shell">}</span></span>
+
+<span class="z-meta z-function z-shell"><span class="z-entity z-name z-function z-shell">stop</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span> <span class="z-punctuation z-section z-braces z-begin z-shell">{</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">ebegin</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>Stopping <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-expansion z-parameter z-begin z-shell">{</span></span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-variable z-other z-readwrite z-shell">DESC</span></span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-section z-expansion z-parameter z-end z-shell">}</span></span><span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">start-stop-daemon</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>stop</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>quiet</span>     <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">  	--</span>retry</span><span class="z-keyword z-operator z-assignment z-option z-shell">=</span>TERM/30/KILL/5<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>pidfile</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">PIDFILE</span></span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>exec</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">DAEMON</span></span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">eend</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-language z-shell">?</span></span></span>
+<span class="z-punctuation z-section z-braces z-end z-shell">}</span></span>
 </span></code></pre>
 
     </main>
@@ -180,8 +180,8 @@ The script exports the $NODE_ENV to production.
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

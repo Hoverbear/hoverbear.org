@@ -153,46 +153,46 @@ With nothing broken, I knew I only had one choice. I had to improve it!
 <h2 id="playing-around">Playing Around</h2>
 <p>What's a good blog post without some fun examples?</p>
 <p><strong>Spawning 10 Arch containers in parallel and having them all pipe to the same file:</strong></p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffa759;">for</span><span> i </span><span style="color:#ffa759;">in </span><span>{1..10}</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">do </span><span>(</span><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> --rm -v </span><span>$(</span><span style="color:#ffd580;">pwd</span><span>):/here hoverbear/archlinux /bin/bash</span><span style="color:#ffcc66;"> -c </span><span style="color:#bae67e;">&quot;echo $</span><span>i</span><span style="color:#bae67e;"> &gt;&gt; here/checkin&quot; </span><span style="color:#f29e74;">&amp;</span><span>)</span><span style="color:#f29e74;">; </span><span style="color:#ffa759;">done
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-keyword z-control z-loop z-for z-shell">for</span><span class="z-meta z-group z-for z-shell"> i <span class="z-keyword z-control z-in z-shell">in</span> <span class="z-meta z-group z-expansion z-brace z-shell"><span class="z-punctuation z-section z-expansion z-brace z-begin z-shell">{</span>1..10<span class="z-punctuation z-section z-expansion z-brace z-end z-shell">}</span></span></span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span> <span class="z-keyword z-control z-loop z-do z-shell">do</span> <span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">docker</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>rm</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>v</span> <span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">pwd</span></span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>:/here hoverbear/archlinux /bin/bash<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>c</span> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>echo <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">i</span></span> &gt;&gt; here/checkin<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span> <span class="z-keyword z-operator z-logical z-job z-shell">&amp;</span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span> <span class="z-keyword z-control z-loop z-end z-shell">done</span>
 </span></code></pre>
 <p>A few seconds later:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> cat checkin
-</span><span style="color:#ffd580;">6
-</span><span style="color:#ffd580;">3
-</span><span style="color:#ffd580;">4
-</span><span style="color:#ffd580;">5
-</span><span style="color:#ffd580;">1
-</span><span style="color:#ffd580;">8
-</span><span style="color:#ffd580;">10
-</span><span style="color:#ffd580;">2
-</span><span style="color:#ffd580;">7
-</span><span style="color:#ffd580;">9
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> cat checkin</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">6</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">3</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">4</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">5</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">1</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">8</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">10</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">2</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">7</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">9</span></span>
 </span></code></pre>
 <p><strong>Making an image to build your favorite Rust project:</strong></p>
-<pre data-lang="dockerfile" style="background-color:#212733;color:#ccc9c2;" class="language-dockerfile "><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#ffa759;">FROM</span><span> hoverbear/archlinux
-</span><span style="color:#ffa759;">MAINTAINER </span><span>Ana Hobden &lt;ana@hoverbear.org&gt;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># It&#39;s always a good idea to update Arch, then install deps.
-</span><span style="color:#ffa759;">RUN </span><span>pacman -Syu
-</span><span style="color:#ffa759;">RUN </span><span>pacman -S git file awk gcc --noconfirm
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Install Multirust
-</span><span style="color:#ffa759;">RUN </span><span>git clone --recursive https://github.com/brson/multirust
-</span><span style="color:#ffa759;">WORKDIR </span><span>multirust
-</span><span style="color:#ffa759;">RUN </span><span>git submodule update --init
-</span><span style="color:#ffa759;">RUN </span><span>./build.sh
-</span><span style="color:#ffa759;">RUN </span><span>./install.sh
-</span><span>
-</span><span style="color:#ffa759;">RUN </span><span>multirust default </span><span style="color:#bae67e;">&quot;nightly&quot;
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># /source - Should mount the user code.
-</span><span style="color:#ffa759;">VOLUME </span><span>[ </span><span style="color:#bae67e;">&quot;/source&quot;</span><span> ]
-</span><span>
-</span><span style="font-style:italic;color:#5c6773;"># Change the Workdir to /source
-</span><span style="color:#ffa759;">WORKDIR </span><span>/source
+<pre data-lang="dockerfile" class="language-dockerfile z-code"><code class="language-dockerfile" data-lang="dockerfile"><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> hoverbear/archlinux
+<span class="z-keyword z-control z-dockerfile">MAINTAINER </span>Ana Hobden &lt;ana@hoverbear.org&gt;
+
+<span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> It&#39;s always a good idea to update Arch, then install deps.
+</span><span class="z-keyword z-control z-dockerfile">RUN </span>pacman -Syu
+<span class="z-keyword z-control z-dockerfile">RUN </span>pacman -S git file awk gcc --noconfirm
+
+<span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Install Multirust
+</span><span class="z-keyword z-control z-dockerfile">RUN </span>git clone --recursive https://github.com/brson/multirust
+<span class="z-keyword z-control z-dockerfile">WORKDIR </span>multirust
+<span class="z-keyword z-control z-dockerfile">RUN </span>git submodule update --init
+<span class="z-keyword z-control z-dockerfile">RUN </span>./build.sh
+<span class="z-keyword z-control z-dockerfile">RUN </span>./install.sh
+
+<span class="z-keyword z-control z-dockerfile">RUN </span>multirust default <span class="z-string z-quoted z-double z-dockerfile"><span class="z-punctuation z-definition z-string z-begin z-dockerfile">&quot;</span>nightly<span class="z-punctuation z-definition z-string z-end z-dockerfile">&quot;</span></span>
+
+<span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> /source - Should mount the user code.
+</span><span class="z-keyword z-control z-dockerfile">VOLUME </span>[ <span class="z-string z-quoted z-double z-dockerfile"><span class="z-punctuation z-definition z-string z-begin z-dockerfile">&quot;</span>/source<span class="z-punctuation z-definition z-string z-end z-dockerfile">&quot;</span></span> ]
+
+<span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Change the Workdir to /source
+</span><span class="z-keyword z-control z-dockerfile">WORKDIR </span>/source
 </span></code></pre>
 <p>Running it inside your favorite project folder:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">docker</span><span> run</span><span style="color:#ffcc66;"> -t -i --rm</span><span style="color:#f29e74;">=</span><span>true</span><span style="color:#ffcc66;"> -v </span><span>$(</span><span style="color:#ffd580;">pwd</span><span>):/source rust cargo build
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">docker</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>t</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>i</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>rm</span><span class="z-keyword z-operator z-assignment z-option z-shell">=</span>true<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>v</span> <span class="z-meta z-group z-expansion z-command z-parens z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">pwd</span></span><span class="z-punctuation z-section z-parens z-end z-shell">)</span></span>:/source rust cargo build</span>
 </span></code></pre>
 <p>You can even get this image <a rel="noopener" target="_blank" href="https://hub.docker.com/r/hoverbear/rust/">here</a> if you'd like!</p>
 <h2 id="conclusion">Conclusion</h2>
@@ -203,8 +203,8 @@ With nothing broken, I knew I only had one choice. I had to improve it!
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

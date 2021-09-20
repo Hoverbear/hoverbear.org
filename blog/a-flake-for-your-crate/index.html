@@ -195,32 +195,32 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
 <span id="continue-reading"></span><h1 id="prerequisites">Prerequisites</h1>
 <p>Before we get started, you'll need a Nix with the <code>flakes</code> feature enabled. Let's do that!</p>
 <h2 id="if-using-nixos">If using <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS">NixOS</a>:</h2>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span>{
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># Use edge NixOS.
-</span><span>  </span><span style="color:#ffd580;">nix</span><span>.</span><span style="color:#ffd580;">extraOptions </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;&#39;
-</span><span style="color:#bae67e;">    experimental-features = nix-command flakes
-</span><span style="color:#bae67e;">  &#39;&#39;</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">nix</span><span>.</span><span style="color:#ffd580;">package </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixUnstable</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">nixpkgs</span><span>.</span><span style="color:#ffd580;">config</span><span>.</span><span style="color:#ffd580;">allowUnfree </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-</span><span>}
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># Use edge NixOS.</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">nix</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">extraOptions</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-other z-nix"><span class="z-punctuation z-definition z-string z-other z-start z-nix">&#39;&#39;</span>
+    experimental-features = nix-command flakes
+  <span class="z-punctuation z-definition z-string z-other z-end z-nix">&#39;&#39;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">nix</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">package</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixUnstable</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">config</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">allowUnfree</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>Then do a <code>nixos-rebuild switch</code> to activate it. You may also want to enable <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv#via-configurationnix-in-nixos"><code>nix-direnv</code></a>.</p>
 <h2 id="if-using-nix">If using <a rel="noopener" target="_blank" href="https://nixos.org/manual/nix/unstable/introduction.html">Nix</a></h2>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">mkdir</span><span style="color:#ffcc66;"> -p </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.config/nix/
-</span><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;experimental-features = nix-command flakes&quot; </span><span style="color:#f29e74;">&gt;&gt; </span><span style="font-style:italic;color:#5ccfe6;">~</span><span>/.config/nix/nix.conf
-</span><span style="color:#ffd580;">nix-env</span><span style="color:#ffcc66;"> -iA</span><span> nixpkgs.nixUnstable
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/.config/nix/</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-echo z-shell">echo</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>experimental-features = nix-command flakes<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;&gt;</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/.config/nix/nix.conf</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nix-env</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>iA</span> nixpkgs.nixUnstable</span>
 </span></code></pre>
 <p>You may also want to enable <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv#with-nix-env"><code>nix-direnv</code></a>.</p>
 <h1 id="setup">Setup</h1>
 <p>For this article, I'll create a new crate. You can use your existing crate! You should also ensure it's a Git repository. (Flakes require this!)</p>
-<pre data-lang="rust" style="background-color:#212733;color:#ccc9c2;" class="language-rust "><code class="language-rust" data-lang="rust"><span>cargo init scratch
-</span><span>cd scratch
-</span><span>nvim Cargo</span><span style="color:#f29e74;">.</span><span>toml
-</span><span style="font-style:italic;color:#5c6773;">// Add a `description = &quot;boop&quot;` field under `[package]`!
-</span><span>
-</span><span>git init
-</span><span>git add src</span><span style="color:#f29e74;">/</span><span> Cargo</span><span style="color:#f29e74;">.</span><span>toml
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust">cargo init scratch
+cd scratch
+nvim Cargo<span class="z-punctuation z-accessor z-dot z-rust">.</span>toml
+<span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Add a `description = &quot;boop&quot;` field under `[package]`!
+</span>
+git init
+git add src<span class="z-keyword z-operator z-arithmetic z-rust">/</span> Cargo<span class="z-punctuation z-accessor z-dot z-rust">.</span>toml
 </span></code></pre>
 <h2 id="flake-nix"><code>flake.nix</code></h2>
 <p>Next, we'll create a <code>flake.nix</code>. This is the coarse equivalent of a <code>Cargo.toml</code> file in Rust. (In fact, later we'll even see a <code>flake.lock</code>, just like Cargo!)</p>
@@ -240,86 +240,86 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
 <li><strong><code>devShell</code>:</strong> An environment for when <code>nix develop</code> is run. This is also used in <code>nix-direnv</code>.</li>
 </ul>
 <p>You shouldn't need to make many changes to this file, <strong>but you should customize the <code>description</code> and remove any platforms you don't support</strong>.</p>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
-</span><span>{
-</span><span>  </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;My cute Rust crate!&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">inputs </span><span style="color:#f29e74;">= </span><span>{
-</span><span>    </span><span style="color:#ffd580;">nixpkgs</span><span>.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:NixOS/nixpkgs/nixpkgs-unstable&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffd580;">naersk</span><span>.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:nmattia/naersk&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffd580;">naersk</span><span>.</span><span style="color:#ffd580;">inputs</span><span>.</span><span style="color:#ffd580;">nixpkgs</span><span>.</span><span style="color:#ffd580;">follows </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;nixpkgs&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>  }</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">outputs </span><span style="color:#f29e74;">= </span><span>{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">naersk </span><span>}:
-</span><span>    </span><span style="color:#ffa759;">let
-</span><span>      </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span>))</span><span style="color:#ccc9c2cc;">;
-</span><span>      </span><span style="color:#ffd580;">supportedSystems </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#bae67e;">&quot;x86_64-linux&quot; &quot;aarch64-linux&quot; &quot;x86_64-darwin&quot; </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>      </span><span style="color:#ffd580;">forAllSystems </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">f</span><span>: </span><span style="color:#ffcc66;">nixpkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">genAttrs supportedSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>: </span><span style="color:#ffcc66;">f system</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">in
-</span><span>    {
-</span><span>      </span><span style="color:#ffd580;">overlay </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span>: </span><span style="color:#ffcc66;">prev</span><span>: {
-</span><span>        </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">final</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">callPackage </span><span style="color:#bae67e;">./. </span><span>{ </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">naersk</span><span style="color:#ccc9c2cc;">; </span><span>}</span><span style="color:#ccc9c2cc;">;
-</span><span>      }</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>      </span><span style="color:#ffd580;">packages </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>:
-</span><span>        </span><span style="color:#ffa759;">let
-</span><span>          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
-</span><span>            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-</span><span>            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[
-</span><span>              </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay
-</span><span>            ]</span><span style="color:#ccc9c2cc;">;
-</span><span>          }</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffa759;">in
-</span><span>        {
-</span><span>          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>        })</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>
-</span><span>      </span><span style="color:#ffd580;">defaultPackage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>: (</span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
-</span><span>        </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>      })</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span>)</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>      </span><span style="color:#ffd580;">checks </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>:
-</span><span>        </span><span style="color:#ffa759;">let
-</span><span>          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
-</span><span>            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-</span><span>            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[
-</span><span>              </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay
-</span><span>            ]</span><span style="color:#ccc9c2cc;">;
-</span><span>          }</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffa759;">in
-</span><span>        {
-</span><span>          </span><span style="color:#ffd580;">format </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">runCommand </span><span style="color:#bae67e;">&quot;check-format&quot;
-</span><span>            {
-</span><span>              </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [ </span><span style="color:#ffcc66;">rustfmt cargo </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>            } </span><span style="color:#bae67e;">&#39;&#39;
-</span><span style="color:#bae67e;">            </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">rustfmt</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/bin/cargo-fmt fmt --manifest-path </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#bae67e;">./.</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/Cargo.toml -- --check
-</span><span style="color:#bae67e;">            </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">nixpkgs-fmt</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/bin/nixpkgs-fmt --check </span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#bae67e;">./.</span><span style="font-style:italic;color:#ccc9c2;">}
-</span><span style="color:#bae67e;">            touch $out # it worked!
-</span><span style="color:#bae67e;">          &#39;&#39;</span><span style="color:#ccc9c2cc;">;
-</span><span>          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot; </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>        })</span><span style="color:#ccc9c2cc;">;
-</span><span>      </span><span style="color:#ffd580;">devShell </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">forAllSystems </span><span>(</span><span style="color:#ffcc66;">system</span><span>:
-</span><span>        </span><span style="color:#ffa759;">let
-</span><span>          </span><span style="color:#ffd580;">pkgs </span><span style="color:#f29e74;">= </span><span style="color:#f28779;">import </span><span style="color:#ffcc66;">nixpkgs </span><span>{
-</span><span>            </span><span style="color:#ffa759;">inherit </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-</span><span>            </span><span style="color:#ffd580;">overlays </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">overlay </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>          }</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffa759;">in
-</span><span>        </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">mkShell </span><span>{
-</span><span>          </span><span style="color:#ffd580;">inputsFrom </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [
-</span><span>            </span><span style="color:#ffcc66;">pkgs</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">cargoToml</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">package</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">name</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;
-</span><span>          ]</span><span style="color:#ccc9c2cc;">;
-</span><span>          </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [
-</span><span>            </span><span style="color:#ffcc66;">rustfmt
-</span><span>            </span><span style="color:#ffcc66;">nixpkgs-fmt
-</span><span>          ]</span><span style="color:#ccc9c2cc;">;
-</span><span>          </span><span style="color:#ffd580;">LIBCLANG_PATH </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">pkgs</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">llvmPackages</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">libclang</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">lib</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/lib&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>        })</span><span style="color:#ccc9c2cc;">;
-</span><span>    }</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">description</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>My cute Rust crate!<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:NixOS/nixpkgs/nixpkgs-unstable<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">naersk</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:nmattia/naersk<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">naersk</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">follows</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>nixpkgs<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">naersk</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-keyword z-other z-nix">let</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">cargoToml</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-constant z-language z-nix">builtins</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">fromTOML</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-constant z-language z-nix">builtins</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">readFile</span> <span class="z-string z-unquoted z-path z-nix">./Cargo.toml</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">supportedSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>x86_64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>aarch64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>x86_64-darwin<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">forAllSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-function z-4 z-nix">f</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">genAttrs</span> <span class="z-variable z-parameter z-name z-nix">supportedSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-name z-nix">f</span> <span class="z-variable z-parameter z-name z-nix">system</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-keyword z-other z-nix">in</span>
+    <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlay</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-function z-4 z-nix">final</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-function z-4 z-nix">prev</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">final</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">callPackage</span> <span class="z-string z-unquoted z-path z-nix">./.</span> <span class="z-punctuation z-definition z-attrset z-nix">{</span> <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-entity z-other z-attribute-name z-single z-nix">naersk</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span> <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">packages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">forAllSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+        <span class="z-keyword z-other z-nix">let</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">pkgs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-support z-function z-nix">import</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+            <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlays</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+              <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">overlay</span>
+            <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-keyword z-other z-nix">in</span>
+        <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+          <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">defaultPackage</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">forAllSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-support z-function z-nix">import</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlays</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">overlay</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-keyword z-operator z-nix">.</span><span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">checks</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">forAllSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+        <span class="z-keyword z-other z-nix">let</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">pkgs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-support z-function z-nix">import</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+            <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlays</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+              <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">overlay</span>
+            <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-keyword z-other z-nix">in</span>
+        <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">format</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">runCommand</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>check-format<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+            <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+              <span class="z-entity z-other z-attribute-name z-multipart z-nix">buildInputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-variable z-parameter z-name z-nix">rustfmt</span> <span class="z-variable z-parameter z-name z-nix">cargo</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-punctuation z-definition z-attrset z-nix">}</span> <span class="z-string z-quoted z-other z-nix"><span class="z-punctuation z-definition z-string z-other z-start z-nix">&#39;&#39;</span>
+            <span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">rustfmt</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span>/bin/cargo-fmt fmt --manifest-path <span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-string z-unquoted z-path z-nix">./.</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span>/Cargo.toml -- --check
+            <span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixpkgs-fmt</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span>/bin/nixpkgs-fmt --check <span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-string z-unquoted z-path z-nix">./.</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span>
+            touch $out # it worked!
+          <span class="z-punctuation z-definition z-string z-other z-end z-nix">&#39;&#39;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">devShell</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">forAllSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+        <span class="z-keyword z-other z-nix">let</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">pkgs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-support z-function z-nix">import</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+            <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlays</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">overlay</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-keyword z-other z-nix">in</span>
+        <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">mkShell</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputsFrom</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+            <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+          <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">buildInputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+            <span class="z-variable z-parameter z-name z-nix">rustfmt</span>
+            <span class="z-variable z-parameter z-name z-nix">nixpkgs-fmt</span>
+          <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">LIBCLANG_PATH</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">llvmPackages</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">libclang</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span>/lib<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+
 </span></code></pre>
 <p>Then <code>git add flake.nix</code>.</p>
 <h2 id="default-nix"><code>default.nix</code></h2>
@@ -339,63 +339,63 @@ expression.</li>
 <li><strong><code>name</code> and <code>version</code>:</strong> Derived from your <code>Cargo.toml</code>.</li>
 <li><strong><code>meta</code>:</strong> Some metadata about the package. Optionally you can set <code>mainProgram = &quot;thing&quot;</code> here.</li>
 </ul>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span>{ </span><span style="color:#ffcc66;">lib
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">naersk
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">stdenv
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">clangStdenv
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">hostPlatform
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">targetPlatform
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">pkg-config
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">libiconv
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">rustfmt
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">cargo
-</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">rustc
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># , llvmPackages # Optional
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># , protobuf     # Optional
-</span><span>}:
-</span><span>
-</span><span style="color:#ffa759;">let
-</span><span>  </span><span style="color:#ffd580;">cargoToml </span><span style="color:#f29e74;">= </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">fromTOML </span><span>(</span><span style="color:#ffcc66;">builtins</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">readFile </span><span style="color:#bae67e;">./Cargo.toml</span><span>))</span><span style="color:#ccc9c2cc;">;
-</span><span style="color:#ffa759;">in
-</span><span>
-</span><span style="color:#ffcc66;">naersk</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">targetPlatform</span><span style="font-style:italic;color:#f29e74;">.</span><span style="font-style:italic;color:#ffcc66;">system</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">&quot;</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">buildPackage </span><span style="color:#ffa759;">rec </span><span>{
-</span><span>  </span><span style="color:#ffd580;">src </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">./.</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span>[
-</span><span>    </span><span style="color:#ffcc66;">rustfmt
-</span><span>    </span><span style="color:#ffcc66;">pkg-config
-</span><span>    </span><span style="color:#ffcc66;">cargo
-</span><span>    </span><span style="color:#ffcc66;">rustc
-</span><span>    </span><span style="color:#ffcc66;">libiconv
-</span><span>  ]</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">checkInputs </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#ffcc66;">cargo rustc </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">CARGO_BUILD_INCREMENTAL </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;false&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">RUST_BACKTRACE </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;full&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">copyLibs </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">true</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># Optional things you might need:
-</span><span>  </span><span style="font-style:italic;color:#5c6773;">#
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># If you depend on `libclang`:
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># LIBCLANG_PATH = &quot;${llvmPackages.libclang}/lib&quot;;
-</span><span>  </span><span style="font-style:italic;color:#5c6773;">#
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># If you depend on protobuf:
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># PROTOC = &quot;${protobuf}/bin/protoc&quot;;
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># PROTOC_INCLUDE = &quot;${protobuf}/include&quot;;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">name </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">name</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">version </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">version</span><span style="color:#ccc9c2cc;">;
-</span><span>
-</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
-</span><span>    </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">description</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffd580;">homepage </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">cargoToml</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">package</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">homepage</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffd580;">license </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">licenses</span><span>; [ </span><span style="color:#ffcc66;">mit </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffd580;">maintainers </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">maintainers</span><span>; [ ]</span><span style="color:#ccc9c2cc;">;
-</span><span>  }</span><span style="color:#ccc9c2cc;">;
-</span><span>}
-</span><span>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># default.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span> <span class="z-variable z-parameter z-function z-maybe z-nix">lib</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">naersk</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">stdenv</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">clangStdenv</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">hostPlatform</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">targetPlatform</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkg-config</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">libiconv</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">rustfmt</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">cargo</span>
+<span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">rustc</span>
+  <span class="z-comment z-line z-number-sign z-nix"># , llvmPackages # Optional</span>
+  <span class="z-comment z-line z-number-sign z-nix"># , protobuf     # Optional</span>
+<span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-keyword z-other z-nix">let</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">cargoToml</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-constant z-language z-nix">builtins</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">fromTOML</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-constant z-language z-nix">builtins</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">readFile</span> <span class="z-string z-unquoted z-path z-nix">./Cargo.toml</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-keyword z-other z-nix">in</span>
+
+<span class="z-variable z-parameter z-name z-nix">naersk</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">targetPlatform</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">system</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span><span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">buildPackage</span> <span class="z-keyword z-other z-nix">rec</span> <span class="z-punctuation z-definition z-attrset z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">src</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-unquoted z-path z-nix">./.</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">buildInputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+    <span class="z-variable z-parameter z-name z-nix">rustfmt</span>
+    <span class="z-variable z-parameter z-name z-nix">pkg-config</span>
+    <span class="z-variable z-parameter z-name z-nix">cargo</span>
+    <span class="z-variable z-parameter z-name z-nix">rustc</span>
+    <span class="z-variable z-parameter z-name z-nix">libiconv</span>
+  <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">checkInputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-variable z-parameter z-name z-nix">cargo</span> <span class="z-variable z-parameter z-name z-nix">rustc</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">doCheck</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">CARGO_BUILD_INCREMENTAL</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>false<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">RUST_BACKTRACE</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>full<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">copyLibs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-comment z-line z-number-sign z-nix"># Optional things you might need:</span>
+  <span class="z-comment z-line z-number-sign z-nix">#</span>
+  <span class="z-comment z-line z-number-sign z-nix"># If you depend on `libclang`:</span>
+  <span class="z-comment z-line z-number-sign z-nix"># LIBCLANG_PATH = &quot;${llvmPackages.libclang}/lib&quot;;</span>
+  <span class="z-comment z-line z-number-sign z-nix">#</span>
+  <span class="z-comment z-line z-number-sign z-nix"># If you depend on protobuf:</span>
+  <span class="z-comment z-line z-number-sign z-nix"># PROTOC = &quot;${protobuf}/bin/protoc&quot;;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># PROTOC_INCLUDE = &quot;${protobuf}/include&quot;;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">name</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">name</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">version</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">version</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">meta</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">lib</span>; <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">description</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">description</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">homepage</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">cargoToml</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">package</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">homepage</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">license</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">licenses</span>; <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-variable z-parameter z-name z-nix">mit</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">maintainers</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">maintainers</span>; <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+
 </span></code></pre>
 <p>Then <code>git add default.nix</code>.</p>
 <blockquote>
@@ -403,8 +403,8 @@ expression.</li>
 </blockquote>
 <h2 id="optional-nix-direnv-envrc">Optional: <code>nix-direnv</code> &amp; <code>.envrc</code></h2>
 <p>In order to hook into <a rel="noopener" target="_blank" href="https://github.com/nix-community/nix-direnv"><code>nix-direnv</code></a>:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#f28779;">echo </span><span style="color:#bae67e;">&quot;use flake&quot; </span><span style="color:#f29e74;">&gt;</span><span> .envrc
-</span><span style="color:#ffd580;">direnv</span><span> reload
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-echo z-shell">echo</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>use flake<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span> .envrc</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">direnv</span></span><span class="z-meta z-function-call z-arguments z-shell"> reload</span>
 </span></code></pre>
 <p>Then <code>git add .envrc</code>.</p>
 <h1 id="make-sure-it-works">Make sure it works</h1>
@@ -412,79 +412,79 @@ expression.</li>
 <blockquote>
 <p>If you did not opt to use <code>nix-direnv</code>, now you need to call <code>nix develop .</code> to enter the full development shell.</p>
 </blockquote>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> fetch
-</span><span style="color:#ffd580;">git</span><span> add Cargo.lock
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> fetch</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> add Cargo.lock</span>
 </span></code></pre>
 <p>At this point you can try out <code>cargo build</code> and other relevant commands. They should work and use the libraries and tools provided by Nix.</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">cargo</span><span> check
-</span><span style="color:#ffd580;">cargo</span><span> build
-</span><span style="color:#ffd580;">cargo</span><span> run</span><span style="color:#ffcc66;"> --release
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> check</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> build</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> run<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>release</span></span>
 </span></code></pre>
 <p>Go ahead and test a build:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="font-style:italic;color:#5c6773;"># Precautionary formatting...
-</span><span style="color:#ffd580;">nixpkgs-fmt</span><span> ./.
-</span><span>
-</span><span style="color:#ffd580;">nix</span><span> flake check
-</span><span style="color:#ffd580;">nix</span><span> build .
-</span><span style="color:#ffd580;">nix</span><span> run .
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Precautionary formatting...</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nixpkgs-fmt</span></span><span class="z-meta z-function-call z-arguments z-shell"> ./.</span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nix</span></span><span class="z-meta z-function-call z-arguments z-shell"> flake check</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nix</span></span><span class="z-meta z-function-call z-arguments z-shell"> build .</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nix</span></span><span class="z-meta z-function-call z-arguments z-shell"> run .</span>
 </span></code></pre>
 <blockquote>
 <p>Get trouble? Try running <code>nix build --print-build-logs --keep-failed</code> to be able to see logs and check the workdir.</p>
 </blockquote>
 <p>Here's it working:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">$</span><span> nix run .
-</span><span style="color:#ffd580;">Hello,</span><span> world!
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix run .</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Hello,</span></span><span class="z-meta z-function-call z-arguments z-shell"> world!</span>
 </span></code></pre>
 <h1 id="in-the-real-world">In the real world</h1>
 <p>So how does this do on other crates? I test these files to several other popular Rust packages, here's what I needed to change for each:</p>
 <h3 id="ripgrep"><a rel="noopener" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a></h3>
 <p>I had to set <code>mainProgram</code> within the <code>meta</code> of <code>default.nix</code>:</p>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span>{ </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span>}:
-</span><span>{
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;rg&quot;</span><span style="color:#ccc9c2cc;">;  
-</span><span>  }</span><span style="color:#ccc9c2cc;">;
-</span><span>} 
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># default.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-comment z-block z-nix">/* ... */</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">meta</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">lib</span>; <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">mainProgram</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>rg<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>  
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span> 
 </span></code></pre>
 <h3 id="bottom"><a rel="noopener" target="_blank" href="https://github.com/ClementTsang/bottom"><code>bottom</code></a></h3>
 <p>I also had to set <code>mainProgram</code> to <code>btm</code>. I also had to set <code>doCheck = true</code> in <code>default.nix</code>, as the tests depended on floating environment variables the build didn't have.</p>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span>{ </span><span style="font-style:italic;color:#5c6773;">/* ... */ </span><span>}:
-</span><span>{
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;btm&quot;</span><span style="color:#ccc9c2cc;">;  
-</span><span>  }</span><span style="color:#ccc9c2cc;">;
-</span><span>} 
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># default.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-comment z-block z-nix">/* ... */</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">doCheck</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">meta</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">lib</span>; <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">mainProgram</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>btm<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>  
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span> 
 </span></code></pre>
 <h3 id="nushell-nu"><a rel="noopener" target="_blank" href="https://github.com/nushell/nushell">Nushell (<code>nu</code>)</a></h3>
 <p><code>nu</code> uses <em>recursive git dependencies</em> which are an issue for Naersk right now (<a rel="noopener" target="_blank" href="https://github.com/nmattia/naersk/issues/162">#162</a>), so I had to 'lift' those dependencies into the <code>Cargo.toml</code> as plain dependencies (with <code>git</code> and <code>rev</code> attributes):</p>
-<pre data-lang="toml" style="background-color:#212733;color:#ccc9c2;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="font-style:italic;color:#5c6773;"># Cargo.toml
-</span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>
-</span><span>[</span><span style="color:#73d0ff;">dependencies</span><span>]
-</span><span style="color:#73d0ff;">arrow </span><span>= { </span><span style="color:#73d0ff;">git </span><span>= </span><span style="color:#bae67e;">&quot;https://github.com/apache/arrow-rs&quot;</span><span style="color:#ccc9c2cc;">, </span><span style="color:#73d0ff;">rev </span><span>= </span><span style="color:#bae67e;">&quot;9f56afb2d2347310184706f7d5e46af583557bea&quot; </span><span>}
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> Cargo.toml</span>
+<span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> ...</span>
+
+<span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">dependencies</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+<span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">arrow</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">git</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>https://github.com/apache/arrow-rs<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">rev</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>9f56afb2d2347310184706f7d5e46af583557bea<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span>
 </span></code></pre>
 <p>In addition, I had to add <code>openssl</code> to the <code>buildInputs</code> in <code>default.nix</code>, and I set <code>doCheck = false</code> because some tests weren't able to touch certain places on the filesystem. Finally, like the others, I had to set <code>mainProgram</code>.</p>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># default.nix
-</span><span>{ </span><span style="font-style:italic;color:#5c6773;">/* ... */</span><span style="color:#ff3333;">, </span><span style="color:#ffcc66;">openssl </span><span>}:
-</span><span>{
-</span><span>  </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>  </span><span style="color:#ffd580;">buildInputs </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">pkgs</span><span>; [
-</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>    </span><span style="color:#ffcc66;">openssl
-</span><span>  ]</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">doCheck </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">false</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">meta </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">with </span><span style="color:#ffcc66;">lib</span><span>; {
-</span><span>    </span><span style="font-style:italic;color:#5c6773;"># ...
-</span><span>    </span><span style="color:#ffd580;">mainProgram </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;nu&quot;</span><span style="color:#ccc9c2cc;">;  
-</span><span>  }</span><span style="color:#ccc9c2cc;">;
-</span><span>}
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># default.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-comment z-block z-nix">/* ... */</span><span class="z-invalid z-illegal">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">openssl</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">buildInputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-variable z-parameter z-name z-nix">openssl</span>
+  <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">doCheck</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">meta</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">lib</span>; <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">mainProgram</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>nu<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>  
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <h1 id="getting-help">Getting help</h1>
 <p>For general help with Nix, consult <a rel="noopener" target="_blank" href="https://discourse.nixos.org/">the forums</a>, for help with Rust try <a rel="noopener" target="_blank" href="https://users.rust-lang.org/">the forums</a>.</p>
@@ -498,8 +498,8 @@ expression.</li>
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

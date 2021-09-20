@@ -210,61 +210,61 @@ So how can we model them?
 <p>For the next solution, we'll explore the tailor-made <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/12/ltree.html"><strong><code>ltree</code></strong></a> type that can solve our needs without the complex mechanics of the first solution. Further, this solution offers some useful functionality like <code>subpath</code>s.</p>
 <h2 id="before-we-start">Before we start</h2>
 <p>Please make sure your database is in UTF-8! We're going to be exploring international text today. If you're not sure, let's create a new empty database, and go ahead and connect to it.</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">CREATE DATABASE </span><span>organization WITH ENCODING &#39;UTF8&#39; </span><span style="color:#ffd580;">TEMPLATE</span><span style="color:#f29e74;">=</span><span>template0
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">DATABASE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql">organization WITH ENCODING &#39;UTF8&#39; </span><span class="z-meta z-toc-list z-full-identifier z-sql"><span class="z-entity z-name z-function z-sql">TEMPLATE</span></span><span class="z-keyword z-operator z-comparison z-sql">=</span>template0
 </span></code></pre>
 <h2 id="solution-1-materialized-views-and-recursive-ctes">Solution 1: Materialized Views and Recursive CTEs</h2>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">CREATE TABLE </span><span style="color:#ffd580;">teams</span><span> (
-</span><span>    name   </span><span style="color:#ffa759;">TEXT
-</span><span>           UNIQUE </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
-</span><span>           </span><span style="color:#ffa759;">PRIMARY KEY</span><span>,
-</span><span>    parent </span><span style="color:#ffa759;">TEXT
-</span><span>           </span><span style="color:#ffa759;">REFERENCES</span><span> teams (name)
-</span><span>);
-</span><span>
-</span><span>CREATE MATERIALIZED VIEW team_structure </span><span style="color:#f29e74;">AS
-</span><span>    </span><span style="color:#ffa759;">WITH</span><span> RECURSIVE teams_cte(name, parent, </span><span style="color:#ffa759;">path</span><span>) </span><span style="color:#f29e74;">AS</span><span> (
-</span><span>        </span><span style="color:#ffa759;">SELECT </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>, </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent</span><span>, ARRAY [</span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>]
-</span><span>            </span><span style="color:#ffa759;">FROM</span><span> teams
-</span><span>            </span><span style="color:#ffa759;">WHERE </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent </span><span style="color:#f29e74;">IS </span><span style="color:#ffcc66;">NULL
-</span><span>        </span><span style="color:#ffa759;">UNION ALL
-</span><span>        </span><span style="color:#ffa759;">SELECT </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>, </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent</span><span>, array_append(</span><span style="color:#ffcc66;">teams_cte</span><span>.</span><span style="color:#ffcc66;">path</span><span>, </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">name</span><span>)
-</span><span>            </span><span style="color:#ffa759;">FROM</span><span> teams_cte,
-</span><span>                 teams
-</span><span>            </span><span style="color:#ffa759;">WHERE </span><span style="color:#ffcc66;">teams</span><span>.</span><span style="color:#ffcc66;">parent </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">teams_cte</span><span>.</span><span style="color:#ffcc66;">name
-</span><span>    )
-</span><span>    </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">*
-</span><span>        </span><span style="color:#ffa759;">FROM</span><span> teams_cte;
-</span><span>
-</span><span style="color:#ffa759;">CREATE FUNCTION </span><span style="color:#ffd580;">refresh_team_structure</span><span>() RETURNS TRIGGER
-</span><span>    LANGUAGE plpgsql </span><span style="color:#f29e74;">AS
-</span><span>$$
-</span><span style="color:#ffa759;">BEGIN
-</span><span>    REFRESH MATERIALIZED VIEW team_structure;
-</span><span>    RETURN new;
-</span><span style="color:#ffa759;">END</span><span>;
-</span><span>$$;
-</span><span>
-</span><span style="color:#ffa759;">CREATE TRIGGER </span><span style="color:#ffd580;">trigger_update_team_structure
-</span><span>    AFTER </span><span style="color:#ffa759;">UPDATE </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">INSERT </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">DELETE </span><span style="color:#f29e74;">OR </span><span style="color:#ffa759;">TRUNCATE
-</span><span>    ON teams
-</span><span>EXECUTE PROCEDURE refresh_team_structure();
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TABLE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql"><span class="z-entity z-name z-function z-sql">teams</span></span> (
+    name   <span class="z-storage z-type z-sql">TEXT</span>
+           UNIQUE <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>
+           <span class="z-storage z-modifier z-sql">PRIMARY KEY</span>,
+    parent <span class="z-storage z-type z-sql">TEXT</span>
+           <span class="z-storage z-modifier z-sql">REFERENCES</span> teams (name)
+);
+
+CREATE MATERIALIZED VIEW team_structure <span class="z-keyword z-operator z-assignment z-alias z-sql">AS</span>
+    <span class="z-keyword z-other z-DML z-sql">WITH</span> RECURSIVE teams_cte(name, parent, <span class="z-storage z-type z-sql">path</span>) <span class="z-keyword z-operator z-assignment z-alias z-sql">AS</span> (
+        <span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">name</span>, <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">parent</span>, ARRAY [<span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">name</span>]
+            <span class="z-keyword z-other z-DML z-sql">FROM</span> teams
+            <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">parent</span> <span class="z-keyword z-operator z-logical z-sql">IS</span> <span class="z-constant z-language z-sql">NULL</span>
+        <span class="z-keyword z-other z-DML z-sql">UNION ALL</span>
+        <span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">name</span>, <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">parent</span>, array_append(<span class="z-constant z-other z-database-name z-sql">teams_cte</span>.<span class="z-constant z-other z-table-name z-sql">path</span>, <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">name</span>)
+            <span class="z-keyword z-other z-DML z-sql">FROM</span> teams_cte,
+                 teams
+            <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-constant z-other z-database-name z-sql">teams</span>.<span class="z-constant z-other z-table-name z-sql">parent</span> <span class="z-keyword z-operator z-comparison z-sql">=</span> <span class="z-constant z-other z-database-name z-sql">teams_cte</span>.<span class="z-constant z-other z-table-name z-sql">name</span>
+    )
+    <span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span>
+        <span class="z-keyword z-other z-DML z-sql">FROM</span> teams_cte;
+
+<span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">FUNCTION</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql"><span class="z-entity z-name z-function z-sql">refresh_team_structure</span></span><span class="z-meta z-block z-sql"><span class="z-punctuation z-section z-scope z-begin z-sql">(</span><span class="z-punctuation z-section z-scope z-end z-sql">)</span></span> RETURNS TRIGGER
+    LANGUAGE plpgsql <span class="z-keyword z-operator z-assignment z-alias z-sql">AS</span>
+$$
+<span class="z-keyword z-other z-LUW z-sql">BEGIN</span>
+    REFRESH MATERIALIZED VIEW team_structure;
+    RETURN new;
+<span class="z-keyword z-other z-DML z-sql">END</span>;
+$$;
+
+<span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TRIGGER</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql"><span class="z-entity z-name z-function z-sql">trigger_update_team_structure</span></span>
+    AFTER <span class="z-keyword z-other z-DML z-sql">UPDATE</span> <span class="z-keyword z-operator z-logical z-sql">OR</span> <span class="z-keyword z-other z-DML z-sql">INSERT</span> <span class="z-keyword z-operator z-logical z-sql">OR</span> <span class="z-keyword z-other z-DML z-sql">DELETE</span> <span class="z-keyword z-operator z-logical z-sql">OR</span> <span class="z-keyword z-other z-DML z-sql">TRUNCATE</span>
+    ON teams
+EXECUTE PROCEDURE refresh_team_structure<span class="z-meta z-block z-sql"><span class="z-punctuation z-section z-scope z-begin z-sql">(</span><span class="z-punctuation z-section z-scope z-end z-sql">)</span></span>;
 </span></code></pre>
 <h3 id="testing">Testing</h3>
 <p>Loading the example data, including a few complex cases, like spaces, umlauts, and Chinese script:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">INSERT INTO</span><span> teams (name, parent)
-</span><span>    </span><span style="color:#ffa759;">VALUES</span><span> (</span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Geschäftstätigkeit&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Interns&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Human Resources&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;国际化&#39;</span><span>, </span><span style="color:#ffcc66;">NULL</span><span>);
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">INSERT INTO</span> teams (name, parent)
+    <span class="z-keyword z-other z-DML z-II z-sql">VALUES</span> (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-constant z-language z-sql">NULL</span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Geschäftstätigkeit<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Interns<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-constant z-language z-sql">NULL</span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Human Resources<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Finance<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Marketing<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-constant z-language z-sql">NULL</span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Logistics<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-constant z-language z-sql">NULL</span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>国际化<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-constant z-language z-sql">NULL</span>);
 </span></code></pre>
 <p>Listing all of them:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">ORDER BY path</span><span>;
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> team_structure <span class="z-keyword z-other z-DML z-sql">ORDER BY</span> <span class="z-storage z-type z-sql">path</span>;
 </span></code></pre>
 <table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Administration</td><td align="left">NULL</td><td align="left">{Administration}</td></tr>
@@ -279,25 +279,25 @@ So how can we model them?
 <tr><td align="left">国际化</td><td align="left">NULL</td><td align="left">{国际化}</td></tr>
 </tbody></table>
 <p>A specific one:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">WHERE</span><span> name </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>;
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> team_structure <span class="z-keyword z-other z-DML z-sql">WHERE</span> name <span class="z-keyword z-operator z-comparison z-sql">=</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Finance<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>;
 </span></code></pre>
 <table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Finance</td><td align="left">Administration</td><td align="left">{Administration,Finance}</td></tr>
 </tbody></table>
 <p>Finding all subteams (deep) of a team:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">WHERE </span><span style="color:#bae67e;">&#39;Product&#39; </span><span style="color:#f29e74;">=</span><span> ANY(</span><span style="color:#ffa759;">path</span><span>);
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> team_structure <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span> <span class="z-keyword z-operator z-comparison z-sql">=</span> ANY(<span class="z-storage z-type z-sql">path</span>);
 </span></code></pre>
 <table><thead><tr><th align="left">name</th><th align="left">parent</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Product</td><td align="left">Engineering</td><td align="left">{Engineering,Product}</td></tr>
 <tr><td align="left">Interns</td><td align="left">Product</td><td align="left">{Engineering,Product,Interns}</td></tr>
 </tbody></table>
 <p>Let's look at the analysis:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#f29e74;">&gt;</span><span> EXPLAIN ANALYZE </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> team_structure </span><span style="color:#ffa759;">WHERE </span><span style="color:#bae67e;">&#39;Product&#39; </span><span style="color:#f29e74;">=</span><span> ANY(</span><span style="color:#ffa759;">path</span><span>);
-</span><span>Seq Scan on team_structure  (cost</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">00</span><span>..</span><span style="color:#ffcc66;">24</span><span>.</span><span style="color:#ffcc66;">63</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">3</span><span> width</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">96</span><span>) (actual </span><span style="color:#ffa759;">time</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">015</span><span>..</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">016</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">2</span><span> loops</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span>)
-</span><span>  Filter: (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span>::</span><span style="color:#ffa759;">text </span><span style="color:#f29e74;">=</span><span> ANY (</span><span style="color:#ffa759;">path</span><span>))
-</span><span>  Rows Removed by Filter: </span><span style="color:#ffcc66;">8
-</span><span>Planning </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">047</span><span> ms
-</span><span>Execution </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">026</span><span> ms
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-operator z-comparison z-sql">&gt;</span> EXPLAIN ANALYZE <span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> team_structure <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span> <span class="z-keyword z-operator z-comparison z-sql">=</span> ANY(<span class="z-storage z-type z-sql">path</span>);
+Seq Scan on team_structure  (cost<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">00</span>..<span class="z-constant z-numeric z-sql">24</span>.<span class="z-constant z-numeric z-sql">63</span> rows<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">3</span> width<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">96</span>) (actual <span class="z-storage z-type z-sql">time</span><span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">015</span>..<span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">016</span> rows<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">2</span> loops<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">1</span>)
+  Filter: (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>::<span class="z-storage z-type z-sql">text</span> <span class="z-keyword z-operator z-comparison z-sql">=</span> ANY (<span class="z-storage z-type z-sql">path</span>))
+  Rows Removed by Filter: <span class="z-constant z-numeric z-sql">8</span>
+Planning <span class="z-storage z-type z-sql">Time</span>: <span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">047</span> ms
+Execution <span class="z-storage z-type z-sql">Time</span>: <span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">026</span> ms
 </span></code></pre>
 <h2 id="solution-2-ltree-columns">Solution 2: <code>ltree</code> columns</h2>
 <blockquote>
@@ -310,34 +310,34 @@ So how can we model them?
 </blockquote>
 <p>While the length limit is not terrible, the lack of support for the full UTF-8 spectrum, such as spaces or even words like 工程 or Geschäftstätigkeit is really limiting!</p>
 <p>So, when we create our table, let's give it a <code>name</code> column where we can store any e̘̫̩̼͝x̢o̵̞͙̰͕t͈̼̺͍̥ͅi̻͉̺͚͕c̶̥̘͖̪̤̜ text we want. We'll also need a <code>slug</code> column containing the expected fragment in the <code>path</code>.</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span>CREATE EXTENSION IF NOT </span><span style="color:#f29e74;">EXISTS</span><span> ltree;
-</span><span style="color:#ffa759;">CREATE TABLE </span><span style="color:#ffd580;">teams</span><span> (
-</span><span>    name </span><span style="color:#ffa759;">text
-</span><span>        </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL</span><span>,
-</span><span>    slug </span><span style="color:#ffa759;">text
-</span><span>        </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
-</span><span>        </span><span style="color:#ffa759;">CHECK</span><span> (slug ~</span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#bae67e;">&#39;^[A-Za-z0-9_]{1,255}$&#39;</span><span>),
-</span><span>    </span><span style="color:#ffa759;">path</span><span> ltree
-</span><span>        UNIQUE </span><span style="color:#f29e74;">NOT </span><span style="color:#ffcc66;">NULL
-</span><span>        </span><span style="color:#ffa759;">PRIMARY KEY
-</span><span>);
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql">CREATE EXTENSION IF NOT <span class="z-keyword z-operator z-logical z-sql">EXISTS</span> ltree;
+<span class="z-meta z-create z-sql"><span class="z-keyword z-other z-create z-sql">CREATE</span> <span class="z-keyword z-other z-sql">TABLE</span> </span><span class="z-meta z-toc-list z-full-identifier z-sql"><span class="z-entity z-name z-function z-sql">teams</span></span> (
+    name <span class="z-storage z-type z-sql">text</span>
+        <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>,
+    slug <span class="z-storage z-type z-sql">text</span>
+        <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>
+        <span class="z-storage z-modifier z-sql">CHECK</span> (slug ~<span class="z-variable z-language z-star z-sql">*</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>^[A-Za-z0-9_]{1,255}$<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+    <span class="z-storage z-type z-sql">path</span> ltree
+        UNIQUE <span class="z-keyword z-operator z-logical z-sql">NOT</span> <span class="z-constant z-language z-sql">NULL</span>
+        <span class="z-storage z-modifier z-sql">PRIMARY KEY</span>
+);
 </span></code></pre>
 <h3 id="testing-1">Testing</h3>
 <p>Loading the data is a bit different, you'll notice we just insert paths. </p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">INSERT INTO</span><span> teams (name, slug, </span><span style="color:#ffa759;">path</span><span>)
-</span><span>    </span><span style="color:#ffa759;">VALUES</span><span> (</span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Geschäftstätigkeit&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Operations&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering.Operations&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Product&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering.Product&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Interns&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Interns&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Engineering.Product.Interns&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Human Resources&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Human_Resources&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration.Human_Resources&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Administration.Finance&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Marketing&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Logistics&#39;</span><span>),
-</span><span>           (</span><span style="color:#bae67e;">&#39;国际化&#39;</span><span>, </span><span style="color:#bae67e;">&#39;Internationalization&#39;</span><span>,</span><span style="color:#bae67e;">&#39;Internationalization&#39;</span><span>);
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">INSERT INTO</span> teams (name, slug, <span class="z-storage z-type z-sql">path</span>)
+    <span class="z-keyword z-other z-DML z-II z-sql">VALUES</span> (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Geschäftstätigkeit<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Operations<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering.Operations<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering.Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Interns<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Interns<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Engineering.Product.Interns<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Human Resources<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Human_Resources<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration.Human_Resources<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Finance<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Finance<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Administration.Finance<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Marketing<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Marketing<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Marketing<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Logistics<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Logistics<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Logistics<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>),
+           (<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>国际化<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>, <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Internationalization<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>,<span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Internationalization<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>);
 </span></code></pre>
 <p>Listing all of them:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">ORDER BY path</span><span>;
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> teams <span class="z-keyword z-other z-DML z-sql">ORDER BY</span> <span class="z-storage z-type z-sql">path</span>;
 </span></code></pre>
 <table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Administration</td><td align="left">Administration</td><td align="left">Administration</td></tr>
@@ -351,25 +351,25 @@ So how can we model them?
 <tr><td align="left">Logistics</td><td align="left">Logistics</td><td align="left">Logistics</td></tr>
 <tr><td align="left">Marketing</td><td align="left">Marketing</td><td align="left">Marketing</td></tr>
 </tbody></table>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">WHERE</span><span> slug </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&#39;Finance&#39;</span><span>;
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> teams <span class="z-keyword z-other z-DML z-sql">WHERE</span> slug <span class="z-keyword z-operator z-comparison z-sql">=</span> <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Finance<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>;
 </span></code></pre>
 <table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Finance</td><td align="left">Finance</td><td align="left">Administration.Finance</td></tr>
 </tbody></table>
 <p>Finding all subteams (deep) of a team:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">WHERE path</span><span> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>;
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> teams <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-storage z-type z-sql">path</span> @ <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>;
 </span></code></pre>
 <table><thead><tr><th align="left">name</th><th align="left">slug</th><th align="left">path</th></tr></thead><tbody>
 <tr><td align="left">Product</td><td align="left">Product</td><td align="left">Engineering.Product</td></tr>
 <tr><td align="left">Interns</td><td align="left">Interns</td><td align="left">Engineering.Product.Interns</td></tr>
 </tbody></table>
 <p>The query plan:</p>
-<pre data-lang="sql" style="background-color:#212733;color:#ccc9c2;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#f29e74;">&gt;</span><span> EXPLAIN ANALYZE </span><span style="color:#ffa759;">SELECT </span><span style="font-style:italic;color:#5ccfe6;">* </span><span style="color:#ffa759;">FROM</span><span> teams </span><span style="color:#ffa759;">WHERE path</span><span> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>;
-</span><span>Seq Scan on teams  (cost</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">00</span><span>..</span><span style="color:#ffcc66;">18</span><span>.</span><span style="color:#ffcc66;">13</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span> width</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">96</span><span>) (actual </span><span style="color:#ffa759;">time</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">013</span><span>..</span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">014</span><span> rows</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">2</span><span> loops</span><span style="color:#f29e74;">=</span><span style="color:#ffcc66;">1</span><span>)
-</span><span>  Filter: (</span><span style="color:#ffa759;">path</span><span> @ </span><span style="color:#bae67e;">&#39;Product&#39;</span><span>::ltxtquery)
-</span><span>  Rows Removed by Filter: </span><span style="color:#ffcc66;">8
-</span><span>Planning </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">055</span><span> ms
-</span><span>Execution </span><span style="color:#ffa759;">Time</span><span>: </span><span style="color:#ffcc66;">0</span><span>.</span><span style="color:#ffcc66;">029</span><span> ms
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql"><span class="z-keyword z-operator z-comparison z-sql">&gt;</span> EXPLAIN ANALYZE <span class="z-keyword z-other z-DML z-sql">SELECT</span> <span class="z-variable z-language z-star z-sql">*</span> <span class="z-keyword z-other z-DML z-sql">FROM</span> teams <span class="z-keyword z-other z-DML z-sql">WHERE</span> <span class="z-storage z-type z-sql">path</span> @ <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>;
+Seq Scan on teams  (cost<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">00</span>..<span class="z-constant z-numeric z-sql">18</span>.<span class="z-constant z-numeric z-sql">13</span> rows<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">1</span> width<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">96</span>) (actual <span class="z-storage z-type z-sql">time</span><span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">013</span>..<span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">014</span> rows<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">2</span> loops<span class="z-keyword z-operator z-comparison z-sql">=</span><span class="z-constant z-numeric z-sql">1</span>)
+  Filter: (<span class="z-storage z-type z-sql">path</span> @ <span class="z-string z-quoted z-single z-sql"><span class="z-punctuation z-definition z-string z-begin z-sql">&#39;</span>Product<span class="z-punctuation z-definition z-string z-end z-sql">&#39;</span></span>::ltxtquery)
+  Rows Removed by Filter: <span class="z-constant z-numeric z-sql">8</span>
+Planning <span class="z-storage z-type z-sql">Time</span>: <span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">055</span> ms
+Execution <span class="z-storage z-type z-sql">Time</span>: <span class="z-constant z-numeric z-sql">0</span>.<span class="z-constant z-numeric z-sql">029</span> ms
 </span></code></pre>
 <h2 id="conclusion">Conclusion</h2>
 <p>As you can see, this problem can be tackled in a couple different ways, with some basic SQL concepts used together, or with already existing types! Don't let limitations turn you away, you can overcome them!</p>
@@ -380,8 +380,8 @@ So how can we model them?
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

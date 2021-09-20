@@ -183,16 +183,16 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <p>The Crazyflie uses a <em>real time</em> operating system called <a rel="noopener" target="_blank" href="http://www.freertos.org/index.html">FreeRTOS</a> which is a well regarded industry standard.</p>
 <h1 id="structure">Structure</h1>
 <p><strong>C code and Arduino code are fairly similar</strong>, and the best practice is to lay out your code roughly as follows:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// Includes
-</span><span>// Definitions
-</span><span>// Variables
-</span><span>// Functions
+<pre class="z-code"><code><span class="z-text z-plain">// Includes
+</span>// Definitions
+</span>// Variables
+</span>// Functions
 </span></code></pre>
 <p>So what are all these? Let's break them down.</p>
 <h2 id="includes">Includes</h2>
 <p>In order to use code from other files it's necessary to bring them &quot;in scope&quot;. Includes come in two forms:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#include &lt;math.h&gt;     // Use a system provided library.
-</span><span>#include &quot;FreeRTOS.h&quot; // Use from the project library.
+<pre class="z-code"><code><span class="z-text z-plain">#include &lt;math.h&gt;     // Use a system provided library.
+</span>#include &quot;FreeRTOS.h&quot; // Use from the project library.
 </span></code></pre>
 <p>Notice how we include <code>.h</code> files instead of <code>.c</code> files? These are called <em>header files</em> and contain functions, variables, and definitions. In most cases, each <code>.h</code> file has a respective <code>.c</code> file.</p>
 <blockquote>
@@ -200,61 +200,61 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 </blockquote>
 <h2 id="definitions">Definitions</h2>
 <p>Definitions are a way to assign certain values to specific names. <code>#define</code>s can be values or expressions.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#define example 1
-</span><span>#define max(a,b) ((a) &gt; (b) ? (a) : (b))
-</span><span>#define min(a,b) ((a) &lt; (b) ? (a) : (b))
+<pre class="z-code"><code><span class="z-text z-plain">#define example 1
+</span>#define max(a,b) ((a) &gt; (b) ? (a) : (b))
+</span>#define min(a,b) ((a) &lt; (b) ? (a) : (b))
 </span></code></pre>
 <p><em>Note:</em> Definitions cannot change while the program is running, this is not a place for variables.</p>
 <p>Consider them like &quot;macros&quot;, if we enter <code>max(1,2)</code> then our compiler will replace it with <code>((1) &gt; (2) ? (1) : (2))</code>.</p>
 <h2 id="variables">Variables</h2>
 <p>We've used variables in our Arduino experiments already. Variables are the main workhorse of <em>data storage</em>.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>int foo;
-</span><span>static int bar = 2;
-</span><span>const int baz = 3;
-</span><span>foo = 1;
+<pre class="z-code"><code><span class="z-text z-plain">int foo;
+</span>static int bar = 2;
+</span>const int baz = 3;
+</span>foo = 1;
 </span></code></pre>
 <p>Variables follow the format <code>type name = value</code>. You can also do just <code>type name</code> and <code>name</code> will be <code>null</code> (nothing) until it is set.</p>
 <p>Sometimes you'll also see things like <code>static</code> and <code>const</code> in front. <code>static</code> variables exist over the lifetime of the program and are unique inside that given code file, they are not accessible outside of it. <code>const</code> variables cannot change their value after declared.</p>
 <p>Not all variables will be simple values, for example, below we declare three <code>Axis3f</code>. When designing programs it's quite easy to create your own types to store whatever you might need.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>static Axis3f gyro; // Gyro axis data in deg/s
-</span><span>static Axis3f acc;  // Accelerometer axis data in mG
-</span><span>static Axis3f mag;  // Magnetometer axis data in testla
+<pre class="z-code"><code><span class="z-text z-plain">static Axis3f gyro; // Gyro axis data in deg/s
+</span>static Axis3f acc;  // Accelerometer axis data in mG
+</span>static Axis3f mag;  // Magnetometer axis data in testla
 </span></code></pre>
 <p>You'll see <code>float</code> occur commonly in the stabilization code, this is a decimal value like <code>0.00001</code>.</p>
 <h2 id="functions">Functions</h2>
 <p>Functions are step-by-step procedures which (generally) have an input and an output. The simplest function is this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>void foo() {}
+<pre class="z-code"><code><span class="z-text z-plain">void foo() {}
 </span></code></pre>
 <p>This is a function with no input or output! <code>void</code> is the <em>return type</em>, <code>void</code> in most cases means nothing is returned. A function which takes a pair of integers and returns their sum looks like this:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>int sum(int a, int b) {
-</span><span>	return a+b;
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">int sum(int a, int b) {
+</span>	return a+b;
+</span>}
 </span></code></pre>
 <p>Functions can be invoked by calling them like so:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>int should_be_three = sum(1, 2);
+<pre class="z-code"><code><span class="z-text z-plain">int should_be_three = sum(1, 2);
 </span></code></pre>
 <h1 id="understanding-the-code">Understanding the Code</h1>
 <p>The stabilization code is broken up into a few sections. We'll take the code directly from the project and go over it slowly. If anything doesn't make sense please <a href="mailto:ana+quads@hoverbear.org">email me</a> and I'll make it more clear!</p>
 <h2 id="initialization">Initialization</h2>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>void stabilizerInit(void)
-</span><span>{
-</span><span>  if(isInit)
-</span><span>    return;
-</span><span>
-</span><span>  motorsInit();
-</span><span>  imu6Init();
-</span><span>  sensfusion6Init();
-</span><span>  controllerInit();
-</span><span>
-</span><span>  rollRateDesired = 0;
-</span><span>  pitchRateDesired = 0;
-</span><span>  yawRateDesired = 0;
-</span><span>
-</span><span>  xTaskCreate(stabilizerTask, (const signed char * const)STABILIZER_TASK_NAME,
-</span><span>              STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
-</span><span>
-</span><span>  isInit = true;
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">void stabilizerInit(void)
+</span>{
+</span>  if(isInit)
+</span>    return;
+
+</span>  motorsInit();
+</span>  imu6Init();
+</span>  sensfusion6Init();
+</span>  controllerInit();
+
+</span>  rollRateDesired = 0;
+</span>  pitchRateDesired = 0;
+</span>  yawRateDesired = 0;
+
+</span>  xTaskCreate(stabilizerTask, (const signed char * const)STABILIZER_TASK_NAME,
+</span>              STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
+
+</span>  isInit = true;
+</span>}
 </span></code></pre>
 <p>The <code>stabilizerInit()</code> function is what starts up the stabilization routines. You can see in the first line that if it is already been initialized the function simply returns early, doing nothing. (Note how <code>isInit</code> is set at the end of a normal call)</p>
 <p>The code then initializes it's dependencies (which also exit early if already initialized!) After, it sets the desired orientation values to zero.</p>
@@ -264,22 +264,22 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 </blockquote>
 <h2 id="the-task">The Task</h2>
 <p>Okay, so what does this task look like then? Let's take a look! This function is longer, so I'll be breaking it up.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>static void stabilizerTask(void* param)
-</span><span>{
-</span><span>  uint32_t attitudeCounter = 0;
-</span><span>  uint32_t altHoldCounter = 0;
-</span><span>  uint32_t lastWakeTime;
-</span><span>
-</span><span>  vTaskSetApplicationTaskTag(0, (void*)TASK_STABILIZER_ID_NBR);
-</span><span>
-</span><span>  //Wait for the system to be fully started to start stabilization loop
-</span><span>  systemWaitStart();
-</span><span>
-</span><span>  lastWakeTime = xTaskGetTickCount();
-</span><span>
-</span><span>  while(1)
-</span><span>  {
-</span><span>    vTaskDelayUntil(&amp;lastWakeTime, F2T(IMU_UPDATE_FREQ)); // 500Hz
+<pre class="z-code"><code><span class="z-text z-plain">static void stabilizerTask(void* param)
+</span>{
+</span>  uint32_t attitudeCounter = 0;
+</span>  uint32_t altHoldCounter = 0;
+</span>  uint32_t lastWakeTime;
+
+</span>  vTaskSetApplicationTaskTag(0, (void*)TASK_STABILIZER_ID_NBR);
+
+</span>  //Wait for the system to be fully started to start stabilization loop
+</span>  systemWaitStart();
+
+</span>  lastWakeTime = xTaskGetTickCount();
+
+</span>  while(1)
+</span>  {
+</span>    vTaskDelayUntil(&amp;lastWakeTime, F2T(IMU_UPDATE_FREQ)); // 500Hz
 </span></code></pre>
 <p>In the first few lines the function allocates some space for some 32-bit unsigned integers, these <em>only represent absolute numbers</em>. You can see that <code>lastWakeTime</code> is set later in the code. There are a few functions whose purpose is not immediately clear, let's go over them.</p>
 <ul>
@@ -288,30 +288,30 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <li><a rel="noopener" target="_blank" href="http://www.freertos.org/vtaskdelayuntil.html"><code>vTaskDelayUntil()</code></a> - This call asks the FreeRTOS to delay any execution of the task until the appropriate time, then start it again.</li>
 </ul>
 <p>You'll notice as well that there is the start of a <code>while(1)</code> loop, which is an <em>infinite loop</em>, and will keep going until it is manually exited. Let's move forward.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>// Magnetometer not yet used more then for logging.
-</span><span>imu9Read(&amp;gyro, &amp;acc, &amp;mag);
-</span><span>
-</span><span>if (imu6IsCalibrated())
-</span><span>{
-</span><span>  commanderGetRPY(&amp;eulerRollDesired, &amp;eulerPitchDesired, &amp;eulerYawDesired);
-</span><span>  commanderGetRPYType(&amp;rollType, &amp;pitchType, &amp;yawType);
-</span><span>
-</span><span>  // 250HZ
-</span><span>  if (++attitudeCounter &gt;= ATTITUDE_UPDATE_RATE_DIVIDER)
-</span><span>  {
-</span><span>    sensfusion6UpdateQ(gyro.x, gyro.y, gyro.z, acc.x, acc.y, acc.z, FUSION_UPDATE_DT);
-</span><span>    sensfusion6GetEulerRPY(&amp;eulerRollActual, &amp;eulerPitchActual, &amp;eulerYawActual);
-</span><span>
-</span><span>    accWZ = sensfusion6GetAccZWithoutGravity(acc.x, acc.y, acc.z);
-</span><span>    accMAG = (acc.x*acc.x) + (acc.y*acc.y) + (acc.z*acc.z);
-</span><span>    // Estimate speed from acc (drifts)
-</span><span>    vSpeed += deadband(accWZ, vAccDeadband) * FUSION_UPDATE_DT;
-</span><span>
-</span><span>    controllerCorrectAttitudePID(eulerRollActual, eulerPitchActual, eulerYawActual,
-</span><span>                                 eulerRollDesired, eulerPitchDesired, -eulerYawDesired,
-</span><span>                                 &amp;rollRateDesired, &amp;pitchRateDesired, &amp;yawRateDesired);
-</span><span>    attitudeCounter = 0;
-</span><span>  }
+<pre class="z-code"><code><span class="z-text z-plain">// Magnetometer not yet used more then for logging.
+</span>imu9Read(&amp;gyro, &amp;acc, &amp;mag);
+
+</span>if (imu6IsCalibrated())
+</span>{
+</span>  commanderGetRPY(&amp;eulerRollDesired, &amp;eulerPitchDesired, &amp;eulerYawDesired);
+</span>  commanderGetRPYType(&amp;rollType, &amp;pitchType, &amp;yawType);
+
+</span>  // 250HZ
+</span>  if (++attitudeCounter &gt;= ATTITUDE_UPDATE_RATE_DIVIDER)
+</span>  {
+</span>    sensfusion6UpdateQ(gyro.x, gyro.y, gyro.z, acc.x, acc.y, acc.z, FUSION_UPDATE_DT);
+</span>    sensfusion6GetEulerRPY(&amp;eulerRollActual, &amp;eulerPitchActual, &amp;eulerYawActual);
+
+</span>    accWZ = sensfusion6GetAccZWithoutGravity(acc.x, acc.y, acc.z);
+</span>    accMAG = (acc.x*acc.x) + (acc.y*acc.y) + (acc.z*acc.z);
+</span>    // Estimate speed from acc (drifts)
+</span>    vSpeed += deadband(accWZ, vAccDeadband) * FUSION_UPDATE_DT;
+
+</span>    controllerCorrectAttitudePID(eulerRollActual, eulerPitchActual, eulerYawActual,
+</span>                                 eulerRollDesired, eulerPitchDesired, -eulerYawDesired,
+</span>                                 &amp;rollRateDesired, &amp;pitchRateDesired, &amp;yawRateDesired);
+</span>    attitudeCounter = 0;
+</span>  }
 </span></code></pre>
 <p>At the top of this chunk you'll see <code>imu9Read(&amp;gyro, &amp;acc, &amp;mag);</code> which, if you've never used pointers, may seem odd. Essentially what we're doing is calling the <code>imu9Read</code> function and passing it the three <em>pointers</em> to the location of our variables. The function can then <em>dereference</em> these pointers and write into them. This is a common practice when you want to modify a complex value in a function without needing to copy the entire thing.</p>
 <p>The <code>commanderGetRPY()</code> and <code>commanderGetRPYType()</code> fetch the desired inputs from the user, like an increase in pitch or roll.</p>
@@ -319,64 +319,64 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
 <p>The <code>sensfusion6UpdateQ()</code> and <code>sensfusion6GetEulerRPY()</code> functions pull the current quadcopter orientation from the sensors onboard. You may note that this only updates the Gyro and Accelerometer, that's because the Crazyflie does not use the Magnometer in this code yet.</p>
 <p><code>AccWZ</code> is used along with the deadband (a way to reduce the amount of data collected and save battery life) to estimate the vertical speed of the device. It appears that <code>AccMAG</code> is unused.</p>
 <p>Then <code>controllerCorrectAttitudePID()</code> is called. This takes the desired values and through a round-about method works with <a rel="noopener" target="_blank" href="https://github.com/bitcraze/crazyflie-firmware/blob/a3ecf78d2e0e70e45c8a77f4d3d068b875ab8bf4/modules/interface/pid.h#L65-L81"><code>PidObject</code></a>s to update the pointers we pass in (The <code>&amp;</code> values). <code>PidObject</code>s are used to model mathematics that drive the quadcopter.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>  // 100HZ
-</span><span>  if (imuHasBarometer() &amp;&amp; (++altHoldCounter &gt;= ALTHOLD_UPDATE_RATE_DIVIDER))
-</span><span>  {
-</span><span>    stabilizerAltHoldUpdate();
-</span><span>    altHoldCounter = 0;
-</span><span>  }
-</span><span>
-</span><span>  if (rollType == RATE)
-</span><span>  {
-</span><span>    rollRateDesired = eulerRollDesired;
-</span><span>  }
-</span><span>  if (pitchType == RATE)
-</span><span>  {
-</span><span>    pitchRateDesired = eulerPitchDesired;
-</span><span>  }
-</span><span>  if (yawType == RATE)
-</span><span>  {
-</span><span>    yawRateDesired = -eulerYawDesired;
-</span><span>  }
+<pre class="z-code"><code><span class="z-text z-plain">  // 100HZ
+</span>  if (imuHasBarometer() &amp;&amp; (++altHoldCounter &gt;= ALTHOLD_UPDATE_RATE_DIVIDER))
+</span>  {
+</span>    stabilizerAltHoldUpdate();
+</span>    altHoldCounter = 0;
+</span>  }
+
+</span>  if (rollType == RATE)
+</span>  {
+</span>    rollRateDesired = eulerRollDesired;
+</span>  }
+</span>  if (pitchType == RATE)
+</span>  {
+</span>    pitchRateDesired = eulerPitchDesired;
+</span>  }
+</span>  if (yawType == RATE)
+</span>  {
+</span>    yawRateDesired = -eulerYawDesired;
+</span>  }
 </span></code></pre>
 <p>Next, if necessary, an altitude hold update is performed. Afterwards the three axes of movement are updated to their desired values.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>  // TODO: Investigate possibility to subtract gyro drift.
-</span><span>  controllerCorrectRatePID(gyro.x, -gyro.y, gyro.z,
-</span><span>                           rollRateDesired, pitchRateDesired, yawRateDesired);
-</span><span>
-</span><span>  controllerGetActuatorOutput(&amp;actuatorRoll, &amp;actuatorPitch, &amp;actuatorYaw);
-</span><span>
-</span><span>  if (!altHold || !imuHasBarometer())
-</span><span>  {
-</span><span>    // Use thrust from controller if not in altitude hold mode
-</span><span>    commanderGetThrust(&amp;actuatorThrust);
-</span><span>  }
-</span><span>  else
-</span><span>  {
-</span><span>    // Added so thrust can be set to 0 while in altitude hold mode after disconnect
-</span><span>    commanderWatchdog();
-</span><span>  }
+<pre class="z-code"><code><span class="z-text z-plain">  // TODO: Investigate possibility to subtract gyro drift.
+</span>  controllerCorrectRatePID(gyro.x, -gyro.y, gyro.z,
+</span>                           rollRateDesired, pitchRateDesired, yawRateDesired);
+
+</span>  controllerGetActuatorOutput(&amp;actuatorRoll, &amp;actuatorPitch, &amp;actuatorYaw);
+
+</span>  if (!altHold || !imuHasBarometer())
+</span>  {
+</span>    // Use thrust from controller if not in altitude hold mode
+</span>    commanderGetThrust(&amp;actuatorThrust);
+</span>  }
+</span>  else
+</span>  {
+</span>    // Added so thrust can be set to 0 while in altitude hold mode after disconnect
+</span>    commanderWatchdog();
+</span>  }
 </span></code></pre>
 <p>Here the task updates the desired rate, and updates its picture of how fast the quadcopter is actuating with its motors. Then it is updating the thrust based on input from the user or the altitude hold control.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>      if (actuatorThrust &gt; 0)
-</span><span>      {
-</span><span>#if defined(TUNE_ROLL)
-</span><span>        distributePower(actuatorThrust, actuatorRoll, 0, 0);
-</span><span>#elif defined(TUNE_PITCH)
-</span><span>        distributePower(actuatorThrust, 0, actuatorPitch, 0);
-</span><span>#elif defined(TUNE_YAW)
-</span><span>        distributePower(actuatorThrust, 0, 0, -actuatorYaw);
-</span><span>#else
-</span><span>        distributePower(actuatorThrust, actuatorRoll, actuatorPitch, -actuatorYaw);
-</span><span>#endif
-</span><span>      }
-</span><span>      else
-</span><span>      {
-</span><span>        distributePower(0, 0, 0, 0);
-</span><span>        controllerResetAllPID();
-</span><span>      }
-</span><span>    }
-</span><span>  }
+<pre class="z-code"><code><span class="z-text z-plain">      if (actuatorThrust &gt; 0)
+</span>      {
+</span>#if defined(TUNE_ROLL)
+</span>        distributePower(actuatorThrust, actuatorRoll, 0, 0);
+</span>#elif defined(TUNE_PITCH)
+</span>        distributePower(actuatorThrust, 0, actuatorPitch, 0);
+</span>#elif defined(TUNE_YAW)
+</span>        distributePower(actuatorThrust, 0, 0, -actuatorYaw);
+</span>#else
+</span>        distributePower(actuatorThrust, actuatorRoll, actuatorPitch, -actuatorYaw);
+</span>#endif
+</span>      }
+</span>      else
+</span>      {
+</span>        distributePower(0, 0, 0, 0);
+</span>        controllerResetAllPID();
+</span>      }
+</span>    }
+</span>  }
 </span></code></pre>
 <p>Finally, the task distributes power to the actuators. The <code>#if defined(TUNE_ROLL)</code> lines are compile time options meant for debugging, normally the <code>#else</code> case is used.</p>
 <h1 id="what-does-it-all-mean">What does it all mean?</h1>
@@ -392,8 +392,8 @@ It&#x27;s okay if you don&#x27;t know C or understand what&#x27;s going on in th
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

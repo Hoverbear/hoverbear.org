@@ -146,29 +146,29 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 <span id="continue-reading"></span><h2 id="client-interface">Client Interface</h2>
 <p>Currently, the design of my implementation is meant to be as simple as I can possibly make it. Once a <code>RaftNode</code> is created (<code>RaftNode::new()</code>) and spun up (<code>node.spinup()</code>) the client program will recieve a channel which to communicate on with the node.</p>
 <p>I wanted to remove the complexity of having to make network requests outside of the Node. If you're participating in a Raft cluster you don't want to have to think about it, you just want to read logs and append logs. Raft's goal is to implement a replicated log, or state machine.</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
-</span><span>					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
-</span><span>enum ClientRequest&lt;T&gt; {
-</span><span>    IndexRange {
-</span><span>        start_index: u64,
-</span><span>        end_index: u64,
-</span><span>    },
-</span><span>    AppendEntries {
-</span><span>        prev_log_index: u64,
-</span><span>        prev_log_term: T,
-</span><span>        entries: Vec&lt;T&gt;,
-</span><span>    },
-</span><span>}
-</span><span>
-</span><span>enum ClientResponse&lt;T&gt; {
-</span><span>    Accepted {
-</span><span>        entries: Vec&lt;T&gt;,
-</span><span>        last_index: u64,
-</span><span>    },
-</span><span>    Rejected {
-</span><span>        reason: String,
-</span><span>    },
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">fn spinup(self) -&gt; (Sender&lt;ClientRequest&lt;T&gt;&gt;,
+</span>					Receiver&lt;ClientResponse&lt;T&gt;&gt;)
+</span>enum ClientRequest&lt;T&gt; {
+</span>    IndexRange {
+</span>        start_index: u64,
+</span>        end_index: u64,
+</span>    },
+</span>    AppendEntries {
+</span>        prev_log_index: u64,
+</span>        prev_log_term: T,
+</span>        entries: Vec&lt;T&gt;,
+</span>    },
+</span>}
+
+</span>enum ClientResponse&lt;T&gt; {
+</span>    Accepted {
+</span>        entries: Vec&lt;T&gt;,
+</span>        last_index: u64,
+</span>    },
+</span>    Rejected {
+</span>        reason: String,
+</span>    },
+</span>}
 </span></code></pre>
 <p>Right now most of the data types I'm using are compound data enums, allowing for strongly typed, encapsulated data that is easy to work with via <code>match</code> statements.</p>
 <p>I am not sure if this is the <em>right</em> way to go about things, and I think that there can be some improvement, but this method of requests across a channel are, as far as I can tell, the idomatic way to communicate with a thread in Rust.</p>
@@ -176,31 +176,31 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
 <h2 id="remote-procedure-calls">Remote Procedure Calls</h2>
 <p>Inside of the <code>RaftNode</code>'s thread it binds on a UDP socket and listens for <code>RemoteProcedureCall</code> data. These requests are encoded and decoded through the <code>rustc-serialize</code> crato, but in the future <code>serde</code> will probably replace it.</p>
 <p>A <code>RemoteProcedureCall</code> looks almost identical to those dictated in the Raft paper:</p>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
-</span><span>pub enum RemoteProcedureCall&lt;T&gt; {
-</span><span>    AppendEntries {
-</span><span>        term: u64,
-</span><span>        leader_id: u64,
-</span><span>        prev_log_index: u64,
-</span><span>        prev_log_term: T,
-</span><span>        entries: Vec&lt;T&gt;,
-</span><span>        leader_commit: u64,
-</span><span>    },
-</span><span>    RequestVote {
-</span><span>        term: u64,
-</span><span>        candidate_id: u64,
-</span><span>        last_log_index: u64,
-</span><span>        last_log_term: u64,
-</span><span>    },
-</span><span>}
-</span><span>
-</span><span>#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
-</span><span>pub enum RemoteProcedureResponse {
-</span><span>    VoteAccepted { term: u64 },
-</span><span>    VoteRejected { term: u64, current_leader: u64 },
-</span><span>    EntriesAccepted { term: u64 },
-</span><span>    EntriesRejected { term: u64 },
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">#[derive(RustcEncodable, RustcDecodable, Debug, Clone)]
+</span>pub enum RemoteProcedureCall&lt;T&gt; {
+</span>    AppendEntries {
+</span>        term: u64,
+</span>        leader_id: u64,
+</span>        prev_log_index: u64,
+</span>        prev_log_term: T,
+</span>        entries: Vec&lt;T&gt;,
+</span>        leader_commit: u64,
+</span>    },
+</span>    RequestVote {
+</span>        term: u64,
+</span>        candidate_id: u64,
+</span>        last_log_index: u64,
+</span>        last_log_term: u64,
+</span>    },
+</span>}
+
+</span>#[derive(RustcEncodable, RustcDecodable, Debug, Copy)]
+</span>pub enum RemoteProcedureResponse {
+</span>    VoteAccepted { term: u64 },
+</span>    VoteRejected { term: u64, current_leader: u64 },
+</span>    EntriesAccepted { term: u64 },
+</span>    EntriesRejected { term: u64 },
+</span>}
 </span></code></pre>
 <p>I'm not sure if the way I'm approaching the <code>RemoteProcedureResponse</code> is necessarily the right way to go about things. I think it might be better to model it after <code>ClientResponse</code>.</p>
 <h2 id="progress">Progress</h2>
@@ -216,8 +216,8 @@ It takes the work out of needing to serialize and deserialize data, it enforces 
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

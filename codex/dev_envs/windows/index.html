@@ -136,22 +136,22 @@
         
   <h1 id="use-powershell">Use PowerShell</h1>
 <p>To get to a PowerShell from a command prompt:</p>
-<pre data-lang="bat" style="background-color:#212733;color:#ccc9c2;" class="language-bat "><code class="language-bat" data-lang="bat"><span>powershell
+<pre data-lang="bat" class="language-bat z-code"><code class="language-bat" data-lang="bat"><span class="z-source z-dosbatch">powershell
 </span></code></pre>
 <p>You can also hit the Windows (⊞) key and type in &quot;PowerShell&quot; to find a PowerShell Prompt.</p>
 <p>I prefer to configure my IDEs to also use PowerShell. In Visual Studio Code (VSCode):</p>
-<pre data-lang="js" style="background-color:#212733;color:#ccc9c2;" class="language-js "><code class="language-js" data-lang="js"><span style="font-style:italic;color:#5c6773;">// Settings.json
-</span><span>{
-</span><span>    </span><span style="font-style:italic;color:#5c6773;">// ...
-</span><span>    </span><span style="color:#bae67e;">&quot;terminal.integrated.shell.windows&quot;</span><span>: </span><span style="color:#bae67e;">&quot;powershell.exe&quot;
-</span><span>}
+<pre data-lang="js" class="language-js z-code"><code class="language-js" data-lang="js"><span class="z-source z-ts"><span class="z-comment z-line z-double-slash z-ts"><span class="z-punctuation z-definition z-comment z-ts">//</span></span><span class="z-comment z-line z-double-slash z-ts"> Settings.json</span>
+<span class="z-meta z-block z-ts"><span class="z-punctuation z-definition z-block z-ts">{</span>
+<span class="z-punctuation z-whitespace z-comment z-leading z-ts">    </span><span class="z-comment z-line z-double-slash z-ts"><span class="z-punctuation z-definition z-comment z-ts">//</span></span><span class="z-comment z-line z-double-slash z-ts"> ...</span>
+    <span class="z-string z-quoted z-double z-ts"><span class="z-punctuation z-definition z-string z-begin z-ts">&quot;</span>terminal.integrated.shell.windows<span class="z-punctuation z-definition z-string z-end z-ts">&quot;</span></span>: <span class="z-string z-quoted z-double z-ts"><span class="z-punctuation z-definition z-string z-begin z-ts">&quot;</span>powershell.exe<span class="z-punctuation z-definition z-string z-end z-ts">&quot;</span></span>
+<span class="z-punctuation z-definition z-block z-ts">}</span></span>
 </span></code></pre>
 <h1 id="use-a-package-manager">Use a Package Manager</h1>
 <p>There are several options such as <a rel="noopener" target="_blank" href="https://scoop.sh/"><code>scoop</code></a> for Windows.</p>
-<pre data-lang="powershell" style="background-color:#212733;color:#ccc9c2;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span style="color:#f28779;">Set-ExecutionPolicy</span><span> RemoteSigned </span><span style="color:#f29e74;">-</span><span>scope CurrentUser
-</span><span style="color:#f28779;">Invoke-Expression </span><span>(</span><span style="color:#f28779;">New-Object</span><span> System.Net.WebClient).DownloadString(</span><span style="color:#bae67e;">&#39;https://get.scoop.sh&#39;</span><span>)
-</span><span>scoop install sudo
-</span><span>sudo echo </span><span style="color:#bae67e;">&quot;Bloop&quot;
+<pre data-lang="powershell" class="language-powershell z-code"><code class="language-powershell" data-lang="powershell"><span class="z-source z-powershell"><span class="z-support z-function z-powershell">Set-ExecutionPolicy</span> RemoteSigned <span class="z-keyword z-operator z-assignment z-powershell">-</span>scope CurrentUser
+<span class="z-support z-function z-powershell">Invoke-Expression</span> <span class="z-punctuation z-section z-group z-begin z-powershell">(</span><span class="z-interpolated z-simple z-source z-powershell"><span class="z-support z-function z-powershell">New-Object</span> System.Net.WebClient</span><span class="z-punctuation z-section z-group z-end z-powershell">)</span>.DownloadString<span class="z-punctuation z-section z-group z-begin z-powershell">(</span><span class="z-interpolated z-simple z-source z-powershell"><span class="z-string z-quoted z-single z-powershell"><span class="z-punctuation z-definition z-string z-begin z-powershell">&#39;</span>https://get.scoop.sh<span class="z-punctuation z-definition z-string z-end z-powershell">&#39;</span></span></span><span class="z-punctuation z-section z-group z-end z-powershell">)</span>
+scoop install sudo
+sudo echo <span class="z-string z-quoted z-double z-powershell"><span class="z-punctuation z-definition z-string z-begin z-powershell">&quot;</span>Bloop<span class="z-punctuation z-definition z-string z-end z-powershell">&quot;</span></span>
 </span></code></pre>
 
   <hr>
@@ -163,10 +163,10 @@
 		<div class="excerpt">
 			<h1 id="reset-wsl2-quickly">Reset WSL2 Quickly</h1>
 <p>If you're getting <code>Network Unreachable</code> in WSL2 for some reason, try this:</p>
-<pre data-lang="powershell" style="background-color:#212733;color:#ccc9c2;" class="language-powershell "><code class="language-powershell" data-lang="powershell"><span>sudo </span><span style="color:#f28779;">Disable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span>Online </span><span style="color:#f29e74;">-</span><span>FeatureName </span><span style="color:#f29e74;">-</span><span>NoRestart </span><span style="color:#f29e74;">`
-</span><span>    $(</span><span style="color:#bae67e;">&quot;VirtualMachinePlatform&quot;</span><span style="color:#f29e74;">, </span><span style="color:#bae67e;">&quot;Microsoft-Windows-Subsystem-Linux&quot;</span><span>)
-</span><span>sudo </span><span style="color:#f28779;">Enable-WindowsOptionalFeature </span><span style="color:#f29e74;">-</span><span>Online </span><span style="color:#f29e74;">-</span><span>FeatureName </span><span style="color:#f29e74;">`
-</span><span>    $(</span><span style="color:#bae67e;">&quot;VirtualMachinePlatform&quot;</span><span style="color:#f29e74;">, </span><span style="color:#bae67e;">&quot;Microsoft-Windows-Subsystem-Linux&quot;</span><span>)
+<pre data-lang="powershell" class="language-powershell z-code"><code class="language-powershell" data-lang="powershell"><span class="z-source z-powershell">sudo <span class="z-support z-function z-powershell">Disable-WindowsOptionalFeature</span> <span class="z-keyword z-operator z-assignment z-powershell">-</span>Online <span class="z-keyword z-operator z-assignment z-powershell">-</span>FeatureName <span class="z-keyword z-operator z-assignment z-powershell">-</span>NoRestart <span class="z-keyword z-operator z-other z-powershell">`</span>
+    <span class="z-meta z-group z-complex z-subexpression z-powershell"><span class="z-punctuation z-definition z-variable z-powershell">$</span><span class="z-punctuation z-section z-group z-begin z-powershell">(</span><span class="z-string z-quoted z-double z-powershell"><span class="z-punctuation z-definition z-string z-begin z-powershell">&quot;</span>VirtualMachinePlatform<span class="z-punctuation z-definition z-string z-end z-powershell">&quot;</span></span><span class="z-keyword z-operator z-other z-powershell">,</span> <span class="z-string z-quoted z-double z-powershell"><span class="z-punctuation z-definition z-string z-begin z-powershell">&quot;</span>Microsoft-Windows-Subsystem-Linux<span class="z-punctuation z-definition z-string z-end z-powershell">&quot;</span></span><span class="z-punctuation z-section z-group z-end z-powershell">)</span></span>
+sudo <span class="z-support z-function z-powershell">Enable-WindowsOptionalFeature</span> <span class="z-keyword z-operator z-assignment z-powershell">-</span>Online <span class="z-keyword z-operator z-assignment z-powershell">-</span>FeatureName <span class="z-keyword z-operator z-other z-powershell">`</span>
+    <span class="z-meta z-group z-complex z-subexpression z-powershell"><span class="z-punctuation z-definition z-variable z-powershell">$</span><span class="z-punctuation z-section z-group z-begin z-powershell">(</span><span class="z-string z-quoted z-double z-powershell"><span class="z-punctuation z-definition z-string z-begin z-powershell">&quot;</span>VirtualMachinePlatform<span class="z-punctuation z-definition z-string z-end z-powershell">&quot;</span></span><span class="z-keyword z-operator z-other z-powershell">,</span> <span class="z-string z-quoted z-double z-powershell"><span class="z-punctuation z-definition z-string z-begin z-powershell">&quot;</span>Microsoft-Windows-Subsystem-Linux<span class="z-punctuation z-definition z-string z-end z-powershell">&quot;</span></span><span class="z-punctuation z-section z-group z-end z-powershell">)</span></span>
 </span></code></pre>
 <h1 id="use-docker-in-wsl2">Use Docker in WSL2</h1>
 <p>There are a few ways to get Docker working.</p>
@@ -198,8 +198,8 @@
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

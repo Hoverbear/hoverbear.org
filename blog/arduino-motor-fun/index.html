@@ -217,23 +217,23 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
               alt="Plain" />
     </figure>
 <h3 id="code">Code</h3>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>const int motor = 3;
-</span><span>
-</span><span>void setup() {
-</span><span>  pinMode(motor, OUTPUT);
-</span><span>}
-</span><span>
-</span><span>void loop() {
-</span><span>  // Motor on.
-</span><span>  digitalWrite(motor, HIGH);
-</span><span>
-</span><span>  delay(2000);
-</span><span>
-</span><span>  // Motor off.
-</span><span>  digitalWrite(motor, LOW);
-</span><span>
-</span><span>  delay(2000);
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">const int motor = 3;
+
+</span>void setup() {
+</span>  pinMode(motor, OUTPUT);
+</span>}
+
+</span>void loop() {
+</span>  // Motor on.
+</span>  digitalWrite(motor, HIGH);
+
+</span>  delay(2000);
+
+</span>  // Motor off.
+</span>  digitalWrite(motor, LOW);
+
+</span>  delay(2000);
+</span>}
 </span></code></pre>
 <h1 id="pulse-width-modulation">Pulse Width Modulation</h1>
 <p>If you haven't used Pulse Width Modulation before, it's a way to use certain digital pins on the Arduino to mimic the behaivor of an analog pin, sorta. Essentially PWM makes the pin <strong>pulse</strong> at specific <strong>widths</strong> to <strong>modulate</strong> the signal. This can be used to provide varying amounts of power to something like a motor.</p>
@@ -241,28 +241,28 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 <h3 id="supplies-breadboard">Supplies &amp; Breadboard</h3>
 <p>Same as above.</p>
 <h3 id="code-1">Code</h3>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>const int motor = 3;
-</span><span>int speed = 0;
-</span><span>int amount = 5;
-</span><span>
-</span><span>void setup() {
-</span><span>  pinMode(motor, OUTPUT);
-</span><span>}
-</span><span>
-</span><span>void loop() {
-</span><span>  // Use PWM
-</span><span>  analogWrite(motor, speed);
-</span><span>
-</span><span>  // Amount will either be + or -
-</span><span>  speed = speed + amount;
-</span><span>
-</span><span>  if (speed == 0 || speed == 255) {
-</span><span>    // At a boundary, swap +/- on amount
-</span><span>    amount = -amount;
-</span><span>  }
-</span><span>
-</span><span>  delay(30);
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">const int motor = 3;
+</span>int speed = 0;
+</span>int amount = 5;
+
+</span>void setup() {
+</span>  pinMode(motor, OUTPUT);
+</span>}
+
+</span>void loop() {
+</span>  // Use PWM
+</span>  analogWrite(motor, speed);
+
+</span>  // Amount will either be + or -
+</span>  speed = speed + amount;
+
+</span>  if (speed == 0 || speed == 255) {
+</span>    // At a boundary, swap +/- on amount
+</span>    amount = -amount;
+</span>  }
+
+</span>  delay(30);
+</span>}
 </span></code></pre>
 <h1 id="reacting-to-input">Reacting to Input</h1>
 <p>The last few experiments we just used code to change the speed of the motor, however this isn't quite what a quadcopter does. <strong>A quadcopter has to take input from sensors and alter the amount of power to the motors accordingly.</strong></p>
@@ -289,19 +289,19 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
               alt="Turnpot" />
     </figure>
 <h2 id="code-2">Code</h2>
-<pre style="background-color:#212733;color:#ccc9c2;"><code><span>const int motor = 3;
-</span><span>const int turnpot = A0;
-</span><span>
-</span><span>void setup() {
-</span><span>  pinMode(motor, OUTPUT);
-</span><span>  pinMode(turnpot, INPUT);
-</span><span>}
-</span><span>
-</span><span>void loop() {
-</span><span>  int value = analogRead(turnpot);
-</span><span>  analogWrite(motor, value);
-</span><span>  delay(30);
-</span><span>}
+<pre class="z-code"><code><span class="z-text z-plain">const int motor = 3;
+</span>const int turnpot = A0;
+
+</span>void setup() {
+</span>  pinMode(motor, OUTPUT);
+</span>  pinMode(turnpot, INPUT);
+</span>}
+
+</span>void loop() {
+</span>  int value = analogRead(turnpot);
+</span>  analogWrite(motor, value);
+</span>  delay(30);
+</span>}
 </span></code></pre>
 <p>I hope you had some fun exploring these basic motor circuits with your Arduino! If you have any other sensor wirings or circuits you'd like to share please just email me and I'll put them here too!</p>
 
@@ -310,8 +310,8 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 

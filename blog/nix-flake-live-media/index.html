@@ -151,65 +151,65 @@ With Nix flakes, we can define a custom live system and build it with minimal st
 </blockquote>
 <h1 id="an-example">An example</h1>
 <p>Here's a small example flake that shows a configuration definition which can be built into a stateless LiveCD or LiveUSB, as well as used for a 'normal' install:</p>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># flake.nix
-</span><span>{
-</span><span>  </span><span style="color:#ffd580;">description </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;Example&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">inputs</span><span>.</span><span style="color:#ffd580;">nixos</span><span>.</span><span style="color:#ffd580;">url </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>  </span><span style="color:#ffd580;">outputs </span><span style="color:#f29e74;">= </span><span>{ </span><span style="color:#ffcc66;">self</span><span style="color:#f29e74;">, </span><span style="color:#ffcc66;">nixos </span><span>}: {
-</span><span>
-</span><span>    </span><span style="color:#ffd580;">nixosConfigurations </span><span style="color:#f29e74;">= </span><span style="color:#ffa759;">let
-</span><span>      </span><span style="font-style:italic;color:#5c6773;"># Shared base configuration.
-</span><span>      </span><span style="color:#ffd580;">exampleBase </span><span style="color:#f29e74;">= </span><span>{
-</span><span>        </span><span style="color:#ffd580;">system </span><span style="color:#f29e74;">= </span><span style="color:#bae67e;">&quot;x86_64-linux&quot;</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span>[
-</span><span>          </span><span style="font-style:italic;color:#5c6773;"># Common system modules...
-</span><span>        ]</span><span style="color:#ccc9c2cc;">;
-</span><span>      }</span><span style="color:#ccc9c2cc;">;
-</span><span>    </span><span style="color:#ffa759;">in </span><span>{
-</span><span>      </span><span style="color:#ffd580;">exampleIso </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosSystem </span><span>{
-</span><span>        </span><span style="color:#ffa759;">inherit </span><span>(</span><span style="color:#ffcc66;">exampleBase</span><span>) </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">exampleBase</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">modules </span><span style="color:#f29e74;">++ </span><span>[
-</span><span>          </span><span style="color:#bae67e;">&quot;</span><span style="font-style:italic;color:#ccc9c2;">${</span><span style="font-style:italic;color:#ffcc66;">nixos</span><span style="font-style:italic;color:#ccc9c2;">}</span><span style="color:#bae67e;">/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix&quot;
-</span><span>        ]</span><span style="color:#ccc9c2cc;">;
-</span><span>      }</span><span style="color:#ccc9c2cc;">;
-</span><span>      </span><span style="color:#ffd580;">example </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">nixos</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">lib</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">nixosSystem </span><span>{
-</span><span>        </span><span style="color:#ffa759;">inherit </span><span>(</span><span style="color:#ffcc66;">exampleBase</span><span>) </span><span style="color:#ffd580;">system</span><span style="color:#ccc9c2cc;">;
-</span><span>        </span><span style="color:#ffd580;">modules </span><span style="color:#f29e74;">= </span><span style="color:#ffcc66;">exampleBase</span><span style="color:#f29e74;">.</span><span style="color:#ffcc66;">modules </span><span style="color:#f29e74;">++ </span><span>[
-</span><span>          </span><span style="font-style:italic;color:#5c6773;"># Modules for installed systems only.
-</span><span>        ]</span><span style="color:#ccc9c2cc;">;
-</span><span>      }</span><span style="color:#ccc9c2cc;">;
-</span><span>    }</span><span style="color:#ccc9c2cc;">;
-</span><span>  }</span><span style="color:#ccc9c2cc;">;
-</span><span>}
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">description</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Example<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">nixos</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:nixos/nixpkgs/nixos-unstable<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixos</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosConfigurations</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">let</span>
+      <span class="z-comment z-line z-number-sign z-nix"># Shared base configuration.</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">exampleBase</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">system</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>x86_64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+          <span class="z-comment z-line z-number-sign z-nix"># Common system modules...</span>
+        <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">exampleIso</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">nixos</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosSystem</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-punctuation z-section z-function z-arguments z-nix">(</span><span class="z-variable z-parameter z-name z-nix">exampleBase</span><span class="z-punctuation z-section z-function z-arguments z-nix">)</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">exampleBase</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">modules</span> <span class="z-keyword z-operator z-nix">++</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+          <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span><span class="z-markup z-italic"><span class="z-punctuation z-section z-embedded z-begin z-nix">${</span><span class="z-variable z-parameter z-name z-nix">nixos</span><span class="z-punctuation z-section z-embedded z-end z-nix">}</span></span>/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">example</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">nixos</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosSystem</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-punctuation z-section z-function z-arguments z-nix">(</span><span class="z-variable z-parameter z-name z-nix">exampleBase</span><span class="z-punctuation z-section z-function z-arguments z-nix">)</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">exampleBase</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">modules</span> <span class="z-keyword z-operator z-nix">++</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+          <span class="z-comment z-line z-number-sign z-nix"># Modules for installed systems only.</span>
+        <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <h1 id="building-use">Building &amp; Use</h1>
 <p>Using <code>nix build</code> (or other commands) will create a <code>flake.lock</code> file which pins the versions of the <code>inputs</code>. Nix flakes require a Git repo, so first intialize that:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">git</span><span> init
-</span><span style="color:#ffd580;">git</span><span> add flake.nix
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> init</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> add flake.nix</span>
 </span></code></pre>
 <p>Then an <code>exampleIso</code> could be produced with the following invocation:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nix</span><span> build .#nixosConfigurations.exampleIso.config.system.build.isoImage
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nix</span></span><span class="z-meta z-function-call z-arguments z-shell"> build .#nixosConfigurations.exampleIso.config.system.build.isoImage</span>
 </span></code></pre>
 <p>Nix will output an ISO (and some other things) to <code>./result/</code>. Then, the operator could install it to media:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span>USB_PATH</span><span style="color:#f29e74;">=</span><span style="color:#bae67e;">/dev/null </span><span style="font-style:italic;color:#5c6773;"># Change me
-</span><span style="color:#ffd580;">cp</span><span style="color:#ffcc66;"> -vi</span><span> result/iso/</span><span style="color:#f29e74;">*</span><span>.iso $USB_PATH
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-variable z-other z-readwrite z-assignment z-shell">USB_PATH</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">/dev/null</span> <span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Change me</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cp</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>vi</span> result/iso/<span class="z-keyword z-operator z-regexp z-quantifier z-shell">*</span>.iso <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">USB_PATH</span></span></span>
 </span></code></pre>
 <p>From the booted live media, they could format and mount their disks, then install the 'real' system via:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nixos-install</span><span style="color:#ffcc66;"> --flake</span><span> .#example
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nixos-install</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>flake</span> .#example</span>
 </span></code></pre>
 <p>If desired, the flake could be located at a URI, such as <code>github:hoverbear-consulting/flake#example</code>, allowing the operator not to need to worry about fetching or persisting the configuration.</p>
 <p>Later, the operator could modify the configuration, and have the machine adopt the new state:</p>
-<pre data-lang="bash" style="background-color:#212733;color:#ccc9c2;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffd580;">nixos-rebuild</span><span> switch</span><span style="color:#ffcc66;"> --flake</span><span> .#example
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nixos-rebuild</span></span><span class="z-meta z-function-call z-arguments z-shell"> switch<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>flake</span> .#example</span>
 </span></code></pre>
 <p>If using a remote URI for the flake, an invocation of <code>nix flake update</code> may be required, as flakes (rightly) use lock files.</p>
 <h1 id="going-farther">Going farther</h1>
 <p>The <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/tree/master/nixos/modules/installer/cd-dvd/"><code>NixOS/nigpkgs</code> installer modules</a> provide a number of useful bases for images. For example, for a graphical base LiveUSB the <code>${nixos}/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix</code> module could be used instead.</p>
 <p>As your configuration grows, you may find it necessary to have certain modules only loaded when not running as live media, or you may choose to implement your own live media builder.</p>
 <p>While I've not had much luck with cross compiling live media for different architectures (eg. building an aarch64 media through an x86_64 toolchain), I have had some luck using <code>binfmt</code>. Setting that up looks like this:</p>
-<pre data-lang="nix" style="background-color:#212733;color:#ccc9c2;" class="language-nix "><code class="language-nix" data-lang="nix"><span style="font-style:italic;color:#5c6773;"># /etc/nixos/configuration.nix
-</span><span>{
-</span><span>  </span><span style="color:#ffd580;">boot</span><span>.</span><span style="color:#ffd580;">binfmt</span><span>.</span><span style="color:#ffd580;">emulatedSystems </span><span style="color:#f29e74;">= </span><span>[ </span><span style="color:#bae67e;">&quot;aarch64-linux&quot; </span><span>]</span><span style="color:#ccc9c2cc;">;
-</span><span>}
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># /etc/nixos/configuration.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">boot</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">binfmt</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">emulatedSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>aarch64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>Then boldly build the ISO as you normally would.</p>
 <p>You can also use this idea to create recovery media with custom hardware support, like <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/lx2k-nix">the SolidRun LX2K</a>.</p>
@@ -219,8 +219,8 @@ With Nix flakes, we can define a custom live system and build it with minimal st
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5d8945fe81acfc2a8140ac541fcd4d02149564f0
-">5d8945fe81acfc2a8140ac541fcd4d02149564f0
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d47ebe397b134370029beeba2a90205bb6028602
+">d47ebe397b134370029beeba2a90205bb6028602
 </a></pre>
     </body>
 
