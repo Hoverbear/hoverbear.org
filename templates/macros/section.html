@@ -1,8 +1,8 @@
 {%- macro metadata(path) -%}
 	{%- set section = get_section(path=path) -%}
 	<section>
-		<h2><a href="{{ section.permalink }}">{{ section.title }}</a></h2>
-		<p>{{ section.description }}</p>
+		<h2 class="post-title"><a href="{{ section.permalink }}">{{ section.title }}</a></h2>
+		<p class="post-description">{{ section.description }}</p>
 		<div class="excerpt">
 			{{ section.content | safe }}
 		</div>
