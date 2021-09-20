@@ -30,16 +30,6 @@ jobs:
         echo "$(pwd)/bin" >> $GITHUB_PATH
         rm zola.tar.gz
         echo $PATH
-    - name: Restore processed_images cache
-      id: processed_images
-      uses: actions/cache@v2
-      with:
-        key: processed_images
-        path: static/processed_images
-
-    - name: Build site
-      run: |
-        zola build
     - name: Fetch gh-pages branch
       run: |
         mkdir gh-pages
@@ -49,6 +39,12 @@ jobs:
         git config gc.auto 0
         git fetch --depth 1 origin gh-pages
         git checkout gh-pages
+    - name: Use the processed_images of last commit
+      run: |
+        mv gh-pages/processed_images static/processed_images
+    - name: Build site
+      run: |
+        zola build
     - name: Commit changes to gh-pages branch
       run: |
         rm -rf gh-pages/* gh-pages/.nojekyll
