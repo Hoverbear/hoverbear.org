@@ -2,7 +2,7 @@ These are the sources for my personal website.
 
 To fork this, or test a change you may want to submit:
 
-You'll need `cargo`. Get that by installing [Rustup](https://rustup.rs/). Next, install the [tagged Zola](https://github.com/getzola/zola/releases/tag/v0.12.2) via:
+You'll need `cargo`. Get that by installing [Rustup](https://rustup.rs/). Next, install [Zola 0.14.1](https://github.com/getzola/zola/releases/tag/v0.14.1) via:
 
 ```bash
 cargo install --git https://github.com/getzola/zola --rev 84ecd2ac5e2913426ea6e6a9dc55928e81d0df25

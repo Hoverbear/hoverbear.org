@@ -24,7 +24,9 @@ jobs:
         git checkout root
     - name: Install Zola
       run: |
-        cargo install --git https://github.com/getzola/zola --rev 3dcc080f9d3558e9f811b442ebe09699f363f930
+        curl -Lo zola.tar.gz https://github.com/getzola/zola/releases/download/v0.14.1/zola-v0.14.1-x86_64-unknown-linux-gnu.tar.gz
+        tar xvf zola.tar.gz
+        echo "$(pwd)/zola" >> $GITHUB_PATH
     - name: Build site
       run: |
         zola build
