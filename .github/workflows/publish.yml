@@ -27,7 +27,7 @@ jobs:
         mkdir -p bin/
         curl -Lo zola.tar.gz https://github.com/getzola/zola/releases/download/v0.14.1/zola-v0.14.1-x86_64-unknown-linux-gnu.tar.gz
         tar xvf zola.tar.gz -C bin
-        echo "$(pwd)/bin/zola" >> $GITHUB_PATH
+        echo "$(pwd)/bin" >> $GITHUB_PATH
         rm zola.tar.gz
         echo $PATH
     - name: Build site
