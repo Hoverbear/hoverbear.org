@@ -55,9 +55,9 @@
 
         <div class="metadata">
             {% if description -%}
-                <p class="description">
-                    {{ description }}
-                </p>
+                <h5 class="description">
+                    {{ description | markdown(inline=true) | safe }}
+                </h5>
             {%- endif %}
 
             {% if page.date and page.reading_time -%}

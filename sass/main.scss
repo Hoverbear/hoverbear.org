@@ -149,9 +149,17 @@ main {
   & article, & {
     & > div, & > section, & > p, & > h1,
     & > h2, & > h3, & > h4, & > h5, & > h6, & > blockquote,
-    & > code, & > table, & > ul, & > ol, & > nav {
+    & > table,
+    & > ul,
+    & > ol,
+    & > nav {
       padding-left: var(--margins);
       padding-right: var(--margins);
+    }
+    & > ul > li > pre,
+    & > ol > li > pre {
+      margin-left: calc(var(--margins) * -1 - 1rem) !important;
+      margin-right: calc(var(--margins) * -1 - 1rem) !important;
     }
   }
 }
