@@ -590,7 +590,7 @@ pub trait WithTypeIds {
 
 impl<T: 'static + ?Sized> WithTypeIds for T {
     const ITEM_ID: Lazy<TypeId> = Lazy::new(|| TypeId::of::<T>());
-    const OPTION_ID: Lazy<Option<TypeId>> = Lazy::new(|| None);
+    const VEC_ID: Lazy<Option<TypeId>> = Lazy::new(|| None);
     // ...
 }
 ```
@@ -601,8 +601,8 @@ This lets us do `<T as WithTypeIds>::ITEM_ID` for any `T`, but the `VEC_ID` won'
 pub struct WithSizedTypeIds<T>(pub core::marker::PhantomData<T>);
 
 impl<T: 'static> WithSizedTypeIds<T> {
-    pub const OPTION_ID: Lazy<Option<TypeId>> = Lazy::new(||
-        Some(TypeId::of::<Option<T>>())
+    pub const VEC_ID: Lazy<Option<TypeId>> = Lazy::new(||
+        Some(TypeId::of::<Vec<T>>())
     );
     // ...
 }
