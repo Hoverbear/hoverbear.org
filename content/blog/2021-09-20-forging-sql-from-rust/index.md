@@ -16,7 +16,7 @@ photographer = "Jonny Gios"
 source = "https://unsplash.com/photos/uVmVzxYNQUg"
 +++
 
-PostgreSQL offers an extension interface, and it's my belief that Rust is a fantastic language to write extensions for it. [Eric Ridge](twitter.com/zombodb) thought so too, and started [`pgx`](https://github.com/zombodb/pgx) awhile back. I've been working with him to improve the toolkit, and wanted to share about one of our latest hacks: improving the generation of extension SQL code to interface with Rust.
+PostgreSQL offers an extension interface, and it's my belief that Rust is a fantastic language to write extensions for it. [Eric Ridge](https://twitter.com/zombodb) thought so too, and started [`pgx`](https://github.com/zombodb/pgx) awhile back. I've been working with him to improve the toolkit, and wanted to share about one of our latest hacks: improving the generation of extension SQL code to interface with Rust.
 
 This post is more on the advanced side, as it assumes knowledge of both Rust and PostgreSQL. We'll approach topics like foreign functions, dynamic linking, procedural macros, and linkers.
 
