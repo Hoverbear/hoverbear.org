@@ -5,8 +5,9 @@ description = "I have been, and will be, many things, but what I shall always be
 [extra]
 in_menu = true
 [extra.image]
-path = "cover.jpg"
-photographer = "Ana Hobden"
+path = "cover.png"
+photographer = "@ubepom"
+source = "https://twitter.com/ubepom"
 +++
 
 Hello,
