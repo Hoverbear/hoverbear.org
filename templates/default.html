@@ -10,8 +10,12 @@
         {% block body %}
         {% endblock body %}
 
-        {%- set commit = load_data(path=".git/refs/heads/root") -%}
-        <pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/{{commit}}">{{ commit }}</a></pre>
+        {%- set commit = load_data(path=".git/refs/heads/root", required=false) -%}
+        {%- if commit -%}
+            <pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/{{commit}}">{{ commit }}</a></pre>
+        {%- else -%}
+            <pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/">development</a></pre>
+        {%- endif -%}
     </body>
 
 </html>
