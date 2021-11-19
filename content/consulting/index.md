@@ -146,7 +146,7 @@ Previous mandates of the company:
 
 This company has previously commited time or made financial contributions towards:
 
-* The [Natives in Tech Conference 2020](https://www.youtube.com/playlist?list=PLkEm8Fr-qex3kvWETUYJ_6iIYrxOQXtwB), operated by the [Natives In Tech](https://nativesintech.org/) community.
+* Natives in Tech Conference [2020](https://www.youtube.com/playlist?list=PLkEm8Fr-qex3kvWETUYJ_6iIYrxOQXtwB) & [2021](https://www.youtube.com/playlist?list=PLkEm8Fr-qex18al1p2l-Z3ioWRn75tvnp), operated by the [Natives In Tech](https://nativesintech.org/) community.
 
 
 ## Contact
