@@ -1,8 +1,20 @@
 a {
   text-decoration: var(--color-link) dotted underline;
-  color: var(--color-link);
+  color: var(--color-link-muted);
+  
+  animation: link-color-shift-reverse;
+  animation-timing-function:ease-in;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-duration: 0.2s;
+
   &:hover {
     text-decoration: underline;
+    animation: link-color-shift;
+    animation-timing-function:ease-in;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-duration: 0.2s;
   }
 }
 
