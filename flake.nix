@@ -2,7 +2,7 @@
   description = "Hoverbear.org";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "nixpkgs";
   };
 
   outputs = { self, nixpkgs }:

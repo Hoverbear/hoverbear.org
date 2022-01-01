@@ -24,9 +24,9 @@
         <meta name="twitter:card" content="summary_large_image">
         
         {%- if page.extra.image.path -%}
-            {%- set image = image::colocated_asset(path=page.extra.image.path) | trim -%}
+            {%- set image = colocated_asset::colocated_asset(path=page.extra.image.path) | trim -%}
         {% elif section.extra.image.path %}
-            {%- set image = image::colocated_asset(path=section.extra.image.path) | trim -%}
+            {%- set image = colocated_asset::colocated_asset(path=section.extra.image.path) | trim -%}
         {%- else -%}
             {%- set image = '../static/' ~ config.extra.cover.path -%}
         {%- endif -%}
