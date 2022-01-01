@@ -150,7 +150,7 @@ wrapDemo = demo-unwrapped: final.lib.makeOverridable ({ configuration ? null }:
       postBuild = ''
         makeWrapper ${demo-unwrapped}/bin/demo \
           ${placeholder "out"}/bin/demo \
-          --set DEMO_CONFIG ${configurationFile}
+          --set-default DEMO_CONFIG ${configurationFile}
       '';
     });
 ```
