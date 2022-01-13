@@ -1,7 +1,5 @@
 These are the sources for my personal website.
 
-To fork this, or test a change you may want to submit:
-
 You'll need `cargo`. Get that by installing [Rustup](https://rustup.rs/). Next, install [Zola 0.14.1](https://github.com/getzola/zola/releases/tag/v0.14.1) via:
 
 ```bash
