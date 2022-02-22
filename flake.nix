@@ -11,10 +11,46 @@
       forAllSystems = f: nixpkgs.lib.genAttrs supportedSystems (system: f system);
     in
     {
+      overlay = final: prev: {
+        image-optimize = final.writeShellApplication {
+          name = "image-optimize";
+          runtimeInputs = with final; [
+            bash fd jpegoptim optipng
+          ];
+          text = ''
+            fd \
+              --exclude static/processed_images \
+              --extension jpg \
+              --extension jpeg \
+              --exec jpegoptim
+            fd \
+              --exclude static/processed_images \
+              --extension png \
+              --exec optipng
+          '';
+        };
+      };
+
+      packages  = forAllSystems (system: 
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              self.overlay
+            ];
+          };
+        in
+        {
+          inherit (pkgs) image-optimize;
+        });
+
       checks = forAllSystems (system:
         let
           pkgs = import nixpkgs {
             inherit system;
+            overlays = [
+              self.overlay
+            ];
           };
         in
         {
@@ -29,12 +65,16 @@
         let
           pkgs = import nixpkgs {
             inherit system;
+            overlays = [
+              self.overlay
+            ];
           };
         in
         pkgs.mkShell {
           buildInputs = with pkgs; [
             nixpkgs-fmt
             zola
+            image-optimize
           ];
         });
     };

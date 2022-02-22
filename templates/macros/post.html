@@ -1,6 +1,6 @@
 {%- macro metadata(post) -%}
 	<section>
-		<h2 class="post-title"><a href="{{ post.permalink }}">{{ post.title }}</a></h2>
+		<h2 class="post-title"><a href="{{ post.permalink }}">{{ post.title | markdown(inline=true) | safe }}</a></h2>
 		<h5 class="description">{{ post.description | default(value="") | markdown(inline=true) | safe }}</h5>
 		<div class="excerpt">
 			{{ post.summary | safe }}
