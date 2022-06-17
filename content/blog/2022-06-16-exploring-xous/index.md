@@ -21,7 +21,7 @@ Embedded development has always been a fun hobby of mine, and I think it's an ex
 
 While I love those, one thing I've wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.
 
-The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a [XC7S50-1L CSG324I System-on-Chip (SoC)][origin.xilinx.com/../sparton-7.html] running the open [Betrusted SoC][github.com/betrusted-io/betrusted-soc], an [iCE40UP5K SG48 Embedded Controller (EC)][latticesemi.com/../iCE40-UltraPlus-Family-Data-Sheet.ashx] running the open [Betrusted EC][github.com/betrusted-io/betrusted-ec] on an open [hardware design][github.com/betrusted-io/betrusted-hardware]. It seems **almost perfect** for me.
+The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a [XC7S50-1L CSG324I System-on-Chip (SoC)][origin.xilinx.com/../sparton-7.html] running the open [Betrusted SoC][github.com/betrusted-io/betrusted-soc] and an [iCE40UP5K SG48 Embedded Controller (EC)][latticesemi.com/../iCE40-UltraPlus-Family-Data-Sheet.ashx] running the open [Betrusted EC][github.com/betrusted-io/betrusted-ec] on an open [hardware design][github.com/betrusted-io/betrusted-hardware]. It seems **almost perfect** for me.
 
 Well... I finally convinced myself to order one as a reward for doing a big thing, and it has now arrived! So, let's explore!
 
@@ -34,7 +34,7 @@ Well... I finally convinced myself to order one as a reward for doing a big thin
 
 # Development Toolchain Setup
 
-The Precursor runs the [Xous Microkernel](#xous-microkernel) built with a custom target called [`riscv32imac-unknown-xous-elf`](#riscv32imac-unknown-xous-elf-rust-target) which targets the [Betrusted SoC][github.com/betrusted-io/betrusted-soc]. Builting this custom target requires a [RISC-V cross compiler toolchain](#risc-v-cross-compiler-toolchain).
+The Precursor runs the [Xous Microkernel](#xous-microkernel) built with a custom target called [`riscv32imac-unknown-xous-elf`](#riscv32imac-unknown-xous-elf-rust-target) which targets the [Betrusted SoC][github.com/betrusted-io/betrusted-soc]. Building this custom target requires a [RISC-V cross compiler toolchain](#risc-v-cross-compiler-toolchain).
 
 Let's go through source building the toolchain for our own Xous Kernel.
 
