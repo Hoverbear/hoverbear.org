@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Getting started with Xous and the Precursor
+        </title>
+        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg"/>
+        <meta name="twitter:site" content="@a_hoverbear"/>
+        <meta name="twitter:creator" content="@a_hoverbear"/>
+        
+        
+            <meta name="twitter:title" content="Getting started with Xous and the Precursor"/>
+            <meta property='og:title' content="Getting started with Xous and the Precursor"/>
+        
+
+        
+            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;exploring-xous&#x2F;"/>
+        
+
+        
+            <meta name="twitter:description" content="A few years ago, I saw bunnie&#x27;s Precursor on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.
+Embedded development has always been a fun hobby of mine, and I think it&#x27;s an excellent pursuit for any developer to improve their knowledge. If you like Rust (like me), some great starting points are the nRF52840s, the ESP32-C3-DevKitC-02, or one of the TockOS boards (like the Hail).
+While I love those, one thing I&#x27;ve wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.
+The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a XC7S50-1L CSG324I System-on-Chip (SoC) running the open Betrusted SoC, an iCE40UP5K SG48 Embedded Controller (EC) running the open Betrusted EC on an open hardware design. It seems almost perfect for me.
+Well... I finally convinced myself to order one as a reward for doing a big thing, and it has now arrived! So, let&#x27;s explore!
+"/>
+            <meta property='og:description' content="A few years ago, I saw bunnie&#x27;s Precursor on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.
+Embedded development has always been a fun hobby of mine, and I think it&#x27;s an excellent pursuit for any developer to improve their knowledge. If you like Rust (like me), some great starting points are the nRF52840s, the ESP32-C3-DevKitC-02, or one of the TockOS boards (like the Hail).
+While I love those, one thing I&#x27;ve wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.
+The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a XC7S50-1L CSG324I System-on-Chip (SoC) running the open Betrusted SoC, an iCE40UP5K SG48 Embedded Controller (EC) running the open Betrusted EC on an open hardware design. It seems almost perfect for me.
+Well... I finally convinced myself to order one as a reward for doing a big thing, and it has now arrived! So, let&#x27;s explore!
+"/>
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+
+    <body>
+        
+    <div id="hero-wrapper">
+    <figure class="enriched ">
+        <figcaption>Photo&nbsp;- Ana Hobden</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;786b95f98c81789800.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;786b95f98c81789800.jpg"
+              alt="Photo" />
+    </figure>
+</div>
+
+    <header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+            Getting started with Xous and the Precursor
+        </a></h1>
+
+        <nav id="tree"><ul><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
+
+        <div class="metadata">
+            <h5 class="description">
+                    Getting familiar with this open hardware development platform
+                </h5>
+
+            <p class="date">
+                    Posted on 2022-06-16, around 13 minutes of reading.
+                </p>
+        </div>
+    </div>
+</header>
+
+    <main>
+        
+    <nav id=toc>
+        <ol>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/exploring-xous/#development-toolchain-setup">Development Toolchain Setup</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/exploring-xous/#risc-v-cross-compiler-toolchain">RISC-V cross compiler toolchain</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/exploring-xous/#riscv32imac-unknown-xous-elf-rust-target">riscv32imac-unknown-xous-elf Rust Target</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/exploring-xous/#xous-microkernel">Xous Microkernel</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/exploring-xous/#renode-emulator">Renode Emulator</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/exploring-xous/#installing-our-first-xous">Installing our first Xous</a>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+        <p>A few years ago, I saw <a rel="noopener" target="_blank" href="https://www.bunniestudios.com/">bunnie</a>'s <a rel="noopener" target="_blank" href="https://precursor.dev">Precursor</a> on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.</p>
+<p>Embedded development has always been a fun hobby of mine, and I think it's an excellent pursuit for any developer to improve their knowledge. If you like Rust (like me), some great starting points are the <a rel="noopener" target="_blank" href="https://embedded-trainings.ferrous-systems.com/">nRF52840s</a>, the <a rel="noopener" target="_blank" href="https://espressif-trainings.ferrous-systems.com/">ESP32-C3-DevKitC-02</a>, or one of the <a rel="noopener" target="_blank" href="https://www.tockos.org/">TockOS boards (like the Hail)</a>.</p>
+<p>While I love those, one thing I've wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.</p>
+<p>The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a <a rel="noopener" target="_blank" href="https://www.origin.xilinx.com/products/silicon-devices/fpga/spartan-7.html">XC7S50-1L CSG324I System-on-Chip (SoC)</a> running the open <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-soc">Betrusted SoC</a>, an <a rel="noopener" target="_blank" href="https://www.latticesemi.com/-/media/LatticeSemi/Documents/DataSheets/iCE/iCE40-UltraPlus-Family-Data-Sheet.ashx">iCE40UP5K SG48 Embedded Controller (EC)</a> running the open <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-ec">Betrusted EC</a> on an open <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-hardware">hardware design</a>. It seems <strong>almost perfect</strong> for me.</p>
+<p>Well... I finally convinced myself to order one as a reward for doing a big thing, and it has now arrived! So, let's explore!</p>
+<span id="continue-reading"></span>
+<blockquote>
+<p>This article is essentially a collection of notes for myself about how I set things up, configuration of my toolchain (on Arch Linux), how to do some basic tasks, and share my curiousity.</p>
+<p>It may not be an up to date reference, or contain any novel information not discoverable in existing documentation. That is not the intent.</p>
+</blockquote>
+<h1 id="development-toolchain-setup">Development Toolchain Setup</h1>
+<p>The Precursor runs the <a href="https://hoverbear.org/blog/exploring-xous/#xous-microkernel">Xous Microkernel</a> built with a custom target called <a href="https://hoverbear.org/blog/exploring-xous/#riscv32imac-unknown-xous-elf-rust-target"><code>riscv32imac-unknown-xous-elf</code></a> which targets the <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-soc">Betrusted SoC</a>. Builting this custom target requires a <a href="https://hoverbear.org/blog/exploring-xous/#risc-v-cross-compiler-toolchain">RISC-V cross compiler toolchain</a>.</p>
+<p>Let's go through source building the toolchain for our own Xous Kernel.</p>
+<h2 id="risc-v-cross-compiler-toolchain">RISC-V cross compiler toolchain</h2>
+<p>The <a rel="noopener" target="_blank" href="https://github.com/riscv-collab/riscv-gnu-toolchain">RISC-V Collab GNU toolchain</a> offers a good, trustworthy toolchain for our efforts. We'll start with the prerequisites:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    base-devel <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    git <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    autoconf <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    automake <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    curl <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    python3 <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    libmpc <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    mpfr <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    gmp <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    gawk <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    base-devel <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    bison <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    flex <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    texinfo <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    gperf <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    libtool <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    patchutils <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    bc <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    zlib <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    expat</span>
+</span></code></pre>
+<p>Next we'll fetch and bootstrap the toolchain into <code>result</code> of the source directory:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"> riscv-collab</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> riscv-collab</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone git@github.com:riscv-collab/riscv-gnu-toolchain.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> riscv-gnu-toolchain</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./configure</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>prefix</span><span class="z-keyword z-operator z-assignment z-option z-shell">=</span><span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">pwd</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span>/result<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>enable-multilib</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">make</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>j32</span></span>
+</span></code></pre>
+<p>Finally, add the resulting binaries to your <code>PATH</code> environment variable:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ~/.bashrc</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ...</span><span class="z-comment z-line z-number-sign z-shell">
+</span>
+<span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">PATH</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">PATH</span></span>:<span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">HOME</span></span>/git/riscv-collab/riscv-gnu-toolchain/result/bin<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span></span>
+</span></code></pre>
+<p>Open a new terminal and enter <code>riscv64</code> then hit tab, we should see something like:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ana@architect riscv-gnu-toolchain]$ riscv64-
+riscv64-linux-gnu-addr2line        riscv64-linux-gnu-gcc-ar           riscv64-linux-gnu-nm               riscv64-unknown-elf-as             riscv64-unknown-elf-gcc-ranlib     riscv64-unknown-elf-nm
+riscv64-linux-gnu-ar               riscv64-linux-gnu-gcc-nm           riscv64-linux-gnu-objcopy          riscv64-unknown-elf-c++            riscv64-unknown-elf-gcov           riscv64-unknown-elf-objcopy
+riscv64-linux-gnu-as               riscv64-linux-gnu-gcc-ranlib       riscv64-linux-gnu-objdump          riscv64-unknown-elf-c++filt        riscv64-unknown-elf-gcov-dump      riscv64-unknown-elf-objdump
+riscv64-linux-gnu-c++              riscv64-linux-gnu-gcov             riscv64-linux-gnu-ranlib           riscv64-unknown-elf-cpp            riscv64-unknown-elf-gcov-tool      riscv64-unknown-elf-ranlib
+riscv64-linux-gnu-c++filt          riscv64-linux-gnu-gcov-dump        riscv64-linux-gnu-readelf          riscv64-unknown-elf-elfedit        riscv64-unknown-elf-gdb            riscv64-unknown-elf-readelf
+riscv64-linux-gnu-cpp              riscv64-linux-gnu-gcov-tool        riscv64-linux-gnu-size             riscv64-unknown-elf-g++            riscv64-unknown-elf-gdb-add-index  riscv64-unknown-elf-run
+riscv64-linux-gnu-elfedit          riscv64-linux-gnu-gprof            riscv64-linux-gnu-strings          riscv64-unknown-elf-gcc            riscv64-unknown-elf-gprof          riscv64-unknown-elf-size
+riscv64-linux-gnu-g++              riscv64-linux-gnu-ld               riscv64-linux-gnu-strip            riscv64-unknown-elf-gcc-11.1.0     riscv64-unknown-elf-ld             riscv64-unknown-elf-strings
+riscv64-linux-gnu-gcc              riscv64-linux-gnu-ld.bfd           riscv64-unknown-elf-addr2line      riscv64-unknown-elf-gcc-ar         riscv64-unknown-elf-ld.bfd         riscv64-unknown-elf-strip
+riscv64-linux-gnu-gcc-12.1.0       riscv64-linux-gnu-lto-dump         riscv64-unknown-elf-ar             riscv64-unknown-elf-gcc-nm         riscv64-unknown-elf-lto-dump
+</span></code></pre>
+<p>Next, we'll use this to build the Rust target.</p>
+<h2 id="riscv32imac-unknown-xous-elf-rust-target"><code>riscv32imac-unknown-xous-elf</code> Rust Target</h2>
+<p>The <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/rust">custom Rust target</a> can be built by using the provided scripts in the repository. First, we need a native Rust toolchain:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    git <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    rustup</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">rustup</span></span><span class="z-meta z-function-call z-arguments z-shell"> toolchain install stable</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">rustup</span></span><span class="z-meta z-function-call z-arguments z-shell"> default stable</span>
+</span></code></pre>
+<p>Then add the toolchain to the <code>PATH</code> environment like before:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ~/.bashrc</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ...</span><span class="z-comment z-line z-number-sign z-shell">
+</span>
+<span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">PATH</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">PATH</span></span>:<span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">HOME</span></span>/git/riscv-collab/riscv-gnu-toolchain/result/bin:<span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">HOME</span></span>/.cargo/bin<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span></span>
+</span></code></pre>
+<p>In a new terminal enter <code>cargo --help</code> and make sure you get a help document:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ana@architect ~]$ cargo --help
+Rust&#39;s package manager
+
+USAGE:
+    cargo [+toolchain] [OPTIONS] [SUBCOMMAND]
+# ...
+</span></code></pre>
+<p>Now let's fetch and build the custom target. The <code>rebuild.sh</code> script will to everything needed, including place the required things in the <code>~/.cargo</code> folder, ready for use:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"> betrusted-io</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> betrusted-io</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> git@github.com:betrusted-io/rust.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> rust</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./rebuild.sh</span></span>
+</span></code></pre>
+<figure class="enriched ">
+        <figcaption>Precursor USB-C slot</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9951f1b5d0e39c5300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5cdd9dc0c2b6bddf00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9951f1b5d0e39c5300.jpg"
+              alt="Precursor USB-C slot" />
+    </figure>
+<h2 id="xous-microkernel">Xous Microkernel</h2>
+<p>Now for the more fun stuff! <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/xous-core">Xous</a> is the operating system the Precursor runs.</p>
+<blockquote>
+<p>To learn more about Xous, check out the <a rel="noopener" target="_blank" href="https://betrusted.io/xous-book/">Book</a>!</p>
+</blockquote>
+<p>There are a few prerequisites to get before we start:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    base-devel <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    git <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    openssl <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    libxkbcommon <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    python-pyusb <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    python-progressbar <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    python-pycryptodome <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    python-cryptography <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    python-pynacl</span>
+</span></code></pre>
+<blockquote>
+<p>If you do Python development, you may prefer to use a <code>venv</code>. I do not do Python development, so I do not do this.</p>
+</blockquote>
+<p>Then fetch Xous:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"> betrusted-io</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> betrusted-io</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone git@github.com:betrusted-io/xous-core.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> xous-core</span>
+</span></code></pre>
+<p>Xous uses the <a rel="noopener" target="_blank" href="https://github.com/matklad/cargo-xtask/"><code>xtask</code></a> convention for building images and running in hosted mode, but it's still possible to run normal commands though:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ana@architect xous-core]$ cargo check
+    Finished dev [unoptimized + debuginfo] target(s) in 0.13s
+</span></code></pre>
+<p>You can run Xous in hosted mode as well with <code>cargo xtask run</code>:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ana@architect xous-core]$ cargo xtask run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.10s
+     Running `target/debug/xtask run`
+No apps specified, adding default apps...
+Building gam status shellchat ime-frontend ime-plugin-shell graphics-server ticktimer-server log-server com xous-names keyboard trng llio susres codec sha2 engine-25519 spinor root-keys jtag net dns pddb modals usb-device-xous ball repl
+    Command: cargo build --features pddbtest --features ditherpunk --package gam --package status --package shellchat --package ime-frontend --package ime-plugin-shell --package graphics-server --package ticktimer-server --package log-server --package com --package xous-names --package keyboard --package trng --package llio --package susres --package codec --package sha2 --package engine-25519 --package spinor --package root-keys --package jtag --package net --package dns --package pddb --package modals --package usb-device-xous --package ball --package repl --release
+   Compiling ticktimer-server v0.1.0 (/home/ana/git/betrusted-io/xous-core/services/ticktimer-server)
+    Finished release [optimized] target(s) in 6.18s
+Building and running kernel...
+    Command: cargo run --release -- ../target/release/gam ../target/release/status ../target/release/shellchat ../target/release/ime-frontend ../target/release/ime-plugin-shell ../target/release/graphics-server ../target/release/ticktimer-server ../target/release/log-server ../target/release/com ../target/release/xous-names ../target/release/keyboard ../target/release/trng ../target/release/llio ../target/release/susres ../target/release/codec ../target/release/sha2 ../target/release/engine-25519 ../target/release/spinor ../target/release/root-keys ../target/release/jtag ../target/release/net ../target/release/dns ../target/release/pddb ../target/release/modals ../target/release/usb-device-xous ../target/release/ball ../target/release/repl
+    Finished release [optimized] target(s) in 0.09s
+     Running `/home/ana/git/betrusted-io/xous-core/target/release/kernel ../target/release/gam ../target/release/status ../target/release/shellchat ../target/release/ime-frontend ../target/release/ime-plugin-shell ../target/release/graphics-server ../target/release/ticktimer-server ../target/release/log-server ../target/release/com ../target/release/xous-names ../target/release/keyboard ../target/release/trng ../target/release/llio ../target/release/susres ../target/release/codec ../target/release/sha2 ../target/release/engine-25519 ../target/release/spinor ../target/release/root-keys ../target/release/jtag ../target/release/net ../target/release/dns ../target/release/pddb ../target/release/modals ../target/release/usb-device-xous ../target/release/ball ../target/release/repl`
+KERNEL: Xous server listening on 127.0.0.1:34003
+KERNEL: Starting initial processes:
+# ...
+</span></code></pre>
+<p>While this &quot;Hosted Mode&quot; lets us test Xous running as a hosted microkernel on our local development machine, it's not a close analog for a real device. This mode is good for fast iteration, as well as debugging, as tools like <code>gdb</code> can be used.</p>
+<p>To do that, we'll use <a rel="noopener" target="_blank" href="https://github.com/renode/renode">Renode</a>.</p>
+<figure class="enriched ">
+        <figcaption>Xous hosted</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dd9a2d3f4a3f27a500.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;17143ed65d08ea4700.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dd9a2d3f4a3f27a500.png"
+              alt="Xous hosted" />
+    </figure>
+<h2 id="renode-emulator">Renode Emulator</h2>
+<p><a rel="noopener" target="_blank" href="https://github.com/renode/renode">Renode</a> lets us closely emulate a real Precursor and run development builds of Xous. </p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    base-devel <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    mono <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    gtk-sharp-2 <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    autoconf <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    automake <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    gtk2 <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span>    git</span>
+</span></code></pre>
+<p>Then fetch and build Renode:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"> renode</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> renode</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone git@github.com:renode/renode.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> renode</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./build.sh</span></span>
+</span></code></pre>
+<p>Now create a nice little alias for <code>renode</code>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ~/.bashrc</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ...</span><span class="z-comment z-line z-number-sign z-shell">
+</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-alias z-shell">alias</span> <span class="z-entity z-name z-function z-alias z-shell">renode</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>mono <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">HOME</span></span>/git/renode/renode/output/bin/Release/Renode.exe<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span></span>
+</span></code></pre>
+<p>In a new terminal, it should now be possible to run <code>renode</code> and have a window pop up.</p>
+<h3 id="running-xous-in-renode">Running Xous in Renode</h3>
+<p>Circling back to Xous, we can build an image suitable for Renode with:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/betrusted-io/xous-core</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask renode-image</span>
+</span></code></pre>
+<p>Then run the <strong>RE</strong>node <strong>SC</strong>ript with:</p>
+<pre data-lang="shell" class="language-shell z-code"><code class="language-shell" data-lang="shell"><span class="z-text z-plain">renode emulation/xous-release.resc
+</span></code></pre>
+<p>This will spawn several windows containing output from various debug ports of the emulated device</p>
+<figure class="enriched ">
+        <figcaption>Renode Emulation</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;127b456525adfa5c00.png 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;50a3bb3f379de92900.png 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;127b456525adfa5c00.png"
+              alt="Renode Emulation" />
+    </figure>
+<p>You can use your keyboard to interact with the emulated device. Most buttons will work, such as the arrow keys and return. To access the &quot;System Menu&quot; (think like your Windows/Super key on a workstation) hit <code>Home</code>.</p>
+<h1 id="installing-our-first-xous">Installing our first Xous</h1>
+<p>The first recommendation for Crowd Supply Backer devices is to update their device! We're going to update into the image we just tested in Renode.</p>
+<p>Build the new hardware image:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/betrusted-io/xous-core</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask hw-image precursors/soc.svd</span>
+</span></code></pre>
+<p>This creates:</p>
+<ul>
+<li><code>target/riscv32imac-unknown-xous-elf/release/xous.img</code></li>
+<li><code>target/riscv32imac-unknown-xous-elf/release/loader.bin</code></li>
+</ul>
+<p>These interact with a corresponding &quot;gateware&quot; located at <code>precursors/soc_csr.bin</code>.</p>
+<p>Before we can actually install new firmware, we need to add a <code>udev</code> rule, and ensure our user is in the <code>precursor-dev</code> group:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cat</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-unquoted z-heredoc z-shell"><span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;&lt;-</span><span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> tee /etc/udev/rules.d/99-precursor-usb.rules</span><span class="z-string z-unquoted z-heredoc z-shell">
+SUBSYSTEM==&quot;usb&quot;, ATTRS{idVendor}==&quot;1209&quot;, ATTRS{idProduct}==&quot;5bf0&quot;, GROUP=&quot;precursor-dev&quot;, TAG+=&quot;uaccess&quot;
+<span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> groupadd precursor-dev</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> gpasswd<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>a</span> <span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">USER</span></span> precursor-dev</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> udevadm control<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>reload-rules</span></span>
+</span></code></pre>
+<p>On Linux, changing a users groups requires them to relog before they can use that new group. So, relog if needed.</p>
+<p>Let's follow along in <code>dmesg</code> as we plug in the Precursor for the first time:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ana@architect hoverbear.org]$ sudo dmesg -W
+[  364.252152] usb 1-5: new full-speed USB device number 4 using xhci_hcd
+[  364.405950] usb 1-5: New USB device found, idVendor=1209, idProduct=5bf0, bcdDevice= 1.01
+[  364.405958] usb 1-5: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[  364.405960] usb 1-5: Product: Precursor pvt2
+[  364.405963] usb 1-5: Manufacturer: Foosn
+</span></code></pre>
+<p>Since this is a fresh device and we're doing a first boot, we're going to run a factory reset:</p>
+<pre class="z-code"><code><span class="z-text z-plain">pacman -S \
+    wget
+cd ~/git/betrusted-io/xous-core/tools
+./factory_reset.sh -s -l en
+</span></code></pre>
+<blockquote>
+<p><strong>Do not unplug your Precursor.</strong> It should, in theory, be fine as long as the 'wishbone' is intact, but let's not try this.</p>
+</blockquote>
+<p>This will take a few minutes, it's a good time to make some hot tea, pet your dog, or anything else that doesn't involve unplugging your Precursor. My advice: Go rummage around for a paperclip shaped thing.</p>
+<p>When it finished, we get the following message:</p>
+<pre class="z-code"><code><span class="z-text z-plain">Erase finished
+Resuming CPU.
+Resetting SOC...
+Please insert a paperclip in the hard reset hole in the lower right hand corner to ensure the new FPGA gateware is loaded.
+After inserting the paperclip you will need to apply power via USB to boot.
+IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged firmware objects.
+</span></code></pre>
+<p>What did I say about that paperclip, huh? 😏</p>
+<p>After inserting the paperclip, we are presented with this:</p>
+<figure class="enriched ">
+        <figcaption>EC firmware out of date</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;afa81e2ed79f636900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;179c5b06599217c800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;afa81e2ed79f636900.jpg"
+              alt="EC firmware out of date" />
+    </figure>
+<p>As instructed, entering <code>ecup auto</code>:</p>
+<figure class="enriched ">
+        <figcaption>EC firmware update</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9f4ce73466104df700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;07b99dc689f9e5de00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9f4ce73466104df700.jpg"
+              alt="EC firmware update" />
+    </figure>
+<p>This process takes a few minutes, during it's process it suggests running <code>ecup reset</code>, when it's finished the device automatically turns off. We can turn the device back on <strong>by plugging it in</strong>. Once started, it may give a message about the EC firmware being out of date, fix that with <code>ecup reset</code>:</p>
+<figure class="enriched ">
+        <figcaption>EC reset</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d38049ba8798279700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7fafed6828adb2ce00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d38049ba8798279700.jpg"
+              alt="EC reset" />
+    </figure>
+<p>With that done, you can <strong>reboot from the home menu</strong>. Hit the exact center of the keyboard Nav button (the top middle D-pad like thing) to be greeted with this:</p>
+<figure class="enriched ">
+        <figcaption>Home Menu</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e02a9610715dd88600.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ce8004800dbc626500.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e02a9610715dd88600.jpg"
+              alt="Home Menu" />
+    </figure>
+<p>Once rebooted, any EC firmware message is gone, and we can put the device to sleep in the same home menu:</p>
+<figure class="enriched ">
+        <figcaption>Sleeping</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;963dca4d9a918eb100.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0e6bdda8839a04a800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;963dca4d9a918eb100.jpg"
+              alt="Sleeping" />
+    </figure>
+<p>At this point, we have a source built Xous (built by a source built custom Rust target, that built by a source built RISC-V toolchain) running on the gateware provided by the Betrusted folks. For me, this is a good starting point to explore development. I'm content to take a break here and explore this new ecosystem more.</p>
+<p>In a future article we might explore how to build our own gateware, create our own Xous apps, add OS features, or even modify the SoC or EC together.</p>
+<p>In the meantime, I've been hanging out on the <a rel="noopener" target="_blank" href="https://matrix.to/#/#precursor.dev:matrix.org">Betrusted Matrix group</a>, feel free to stop by if you want to hack on Xous too!</p>
+
+    </main>
+    <footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/0c17954b6a108b899677323fe19d6d0973cbe660
+">0c17954b6a108b899677323fe19d6d0973cbe660
+</a></pre></body>
+
+</html>
