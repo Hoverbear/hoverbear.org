@@ -252,10 +252,10 @@ This made a good opportunity for me to share with you! This short article will c
 <p>While it's (hopefully) unlikely you'll encounter bugs with the SQL generation process of <code>pgx</code>, let's cover that first.</p>
 <p><code>pgx</code>'s SQL generation occurs via <code>cargo-pgx</code>'s <code>schema</code> subcommand, usually invoked via the <code>cargo pgx schema</code> call. The <code>cargo-pgx</code> binary will call <code>cargo</code> to build the library, <code>dlopen</code> a <code>postmaster</code> 'mock', <a rel="noopener" target="_blank" href="https://docs.rs/symbolic/9.0.0/symbolic/debuginfo/enum.Object.html#method.symbols">inspect the symbols</a> which the various <code>pgx</code> macros generator, then invoke the symbols to gather metadata. Finally, it feeds that metadata into the <a rel="noopener" target="_blank" href="https://docs.rs/pgx-utils/0.4.5/pgx_utils/sql_entity_graph/struct.PgxSql.html"><code>pgx_utils::sql_entity_graph::PgxSql</code> generator</a>.</p>
 <h2 id="macro-expansion">Macro expansion</h2>
-<p>As far as I am aware, there isn't a good any to hook up <code>lldb</code> to a running proc macro.</p>
+<p>As far as I am aware, there isn't a good way to hook up <code>lldb</code> to a running proc macro.</p>
 <blockquote>
 <p>The best info I could find was in <a rel="noopener" target="_blank" href="https://ferrous-systems.com/blog/testing-proc-macros/#panics">'Testing Proc Macros'</a> and <a rel="noopener" target="_blank" href="https://github.com/dtolnay/proc-macro-workshop#debugging-tips">&quot;Debugging tips&quot;</a>.</p>
-<p>If you happen to know of one, please <a href="mailto:consulting+proc-macro-lldb@hoverbear.org"><strong>email me</strong></a>! I'll give you credit in this section.</p>
+<p>If you happen to know of a way, please <a href="mailto:consulting+proc-macro-lldb@hoverbear.org"><strong>email me</strong></a>! I'll give you credit in this section.</p>
 </blockquote>
 <p>Instead, you will likely rely on <code>cargo expand</code>:</p>
 <pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-expand</span>
@@ -528,8 +528,8 @@ This made a good opportunity for me to share with you! This short article will c
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/7fb5ca906bde3afc9155594c2c6410ee6ac5de77
-">7fb5ca906bde3afc9155594c2c6410ee6ac5de77
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/087f90f728620b864f9d8d6d793627b513d715db
+">087f90f728620b864f9d8d6d793627b513d715db
 </a></pre></body>
 
 </html>
