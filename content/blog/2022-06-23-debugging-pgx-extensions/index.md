@@ -140,11 +140,11 @@ While it's (hopefully) unlikely you'll encounter bugs with the SQL generation pr
 
 ## Macro expansion
 
-As far as I am aware, there isn't a good any to hook up `lldb` to a running proc macro.
+As far as I am aware, there isn't a good way to hook up `lldb` to a running proc macro.
 
 > The best info I could find was in ['Testing Proc Macros'](https://ferrous-systems.com/blog/testing-proc-macros/#panics) and ["Debugging tips"](https://github.com/dtolnay/proc-macro-workshop#debugging-tips).
 >
-> If you happen to know of one, please [**email me**](mailto:consulting+proc-macro-lldb@hoverbear.org)! I'll give you credit in this section.
+> If you happen to know of a way, please [**email me**](mailto:consulting+proc-macro-lldb@hoverbear.org)! I'll give you credit in this section.
 
 Instead, you will likely rely on `cargo expand`:
 
