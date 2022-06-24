@@ -137,13 +137,13 @@ Let's see what the same code would look like using the `Option` monad. In this e
 fn main () {
     let number: f64 = 20.;
     // Perform a pipeline of options.
-    let result = Some(number)
-        .map(inverse) // Described below.
+    Some(number)
         .map(double)
-        .map(inverse)
+        .map(inverse) // Described below.
         .and_then(log) // Described below.
         .map(square)
-        .and_then(sqrt);
+        .map(inverse)
+        .and_then(sqrt); 
     // Extract the result.
     match result {
         Some(x) => println!("Result was {}.", x),
