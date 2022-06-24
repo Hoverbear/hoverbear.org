@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Visually debugging PGX extensions
+        </title>
+        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg"/>
+        <meta name="twitter:site" content="@a_hoverbear"/>
+        <meta name="twitter:creator" content="@a_hoverbear"/>
+        
+        
+            <meta name="twitter:title" content="Visually debugging PGX extensions"/>
+            <meta property='og:title' content="Visually debugging PGX extensions"/>
+        
+
+        
+            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;debugging-pgx-extensions&#x2F;"/>
+        
+
+        
+            <meta name="twitter:description" content="Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via tracing and errors with spantraces thanks to eyre. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.
+Experience has taught me that I can conquer intimidating things though, and sometimes that is best done with a little help. While hacking on a pgx bug, I realized I was using a newly installed system, and needed to reconfigure my debugger settings.
+This made a good opportunity for me to share with you! This short article will cover how to configure Visual Studio Code with CodeLLDB so you can visually debug your pgx extensions. This includes being able to step into the pgx or postgres sources. While the instructions may be Arch Linux specific, they should be able to be adapted to a different Linux.
+"/>
+            <meta property='og:description' content="Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via tracing and errors with spantraces thanks to eyre. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.
+Experience has taught me that I can conquer intimidating things though, and sometimes that is best done with a little help. While hacking on a pgx bug, I realized I was using a newly installed system, and needed to reconfigure my debugger settings.
+This made a good opportunity for me to share with you! This short article will cover how to configure Visual Studio Code with CodeLLDB so you can visually debug your pgx extensions. This includes being able to step into the pgx or postgres sources. While the instructions may be Arch Linux specific, they should be able to be adapted to a different Linux.
+"/>
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+
+    <body>
+        
+    <div id="hero-wrapper">
+    <figure class="enriched ">
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/9vQG6v1md1s">Ryutaro Uozumi</a></figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg"
+              alt="Photo" />
+    </figure>
+</div>
+
+    <header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+            Visually debugging PGX extensions
+        </a></h1>
+
+        <nav id="tree"><ul><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
+
+        <div class="metadata">
+            <h5 class="description">
+                    Using Visual Studio Code and LLDB to debug PGX extensions
+                </h5>
+
+            <p class="date">
+                    Posted on 2022-06-23, around 10 minutes of reading.
+                </p>
+        </div>
+    </div>
+</header>
+
+    <main>
+        
+    <nav id=toc>
+        <ol>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#brief-setup">Brief setup</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-the-sql-generation-process">Debugging the SQL generation process</a>
+                
+                <ol>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#macro-expansion">Macro expansion</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#cargo-pgx-s-sql-generation">cargo-pgx&#x27;s SQL generation</a>
+                    </li>
+                    
+                </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-pgx-extensions">Debugging pgx extensions</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-pgx-and-postgresql-code">Debugging pgx and PostgreSQL code</a>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+        <p>Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via <a rel="noopener" target="_blank" href="https://docs.rs/tracing/"><code>tracing</code></a> and errors with spantraces thanks to <a rel="noopener" target="_blank" href="https://docs.rs/eyre/"><code>eyre</code></a>. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.</p>
+<p>Experience has taught me that I can conquer intimidating things though, and sometimes that is best done with a little help. While hacking on a <a rel="noopener" target="_blank" href="https://github.com/tcdi/pgx"><code>pgx</code></a> bug, I realized I was using a newly installed system, and needed to reconfigure my debugger settings.</p>
+<p>This made a good opportunity for me to share with you! This short article will cover how to configure <a rel="noopener" target="_blank" href="https://code.visualstudio.com/">Visual Studio Code</a> with <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb">CodeLLDB</a> so you can visually debug your <a rel="noopener" target="_blank" href="https://github.com/tcdi/pgx"><code>pgx</code></a> extensions. This includes being able to step into the <a rel="noopener" target="_blank" href="https://github.com/tcdi/pgx"><code>pgx</code></a> or <a rel="noopener" target="_blank" href="https://github.com/postgres/postgres"><code>postgres</code></a> sources. While the instructions may be <a rel="noopener" target="_blank" href="https://archlinux.org/">Arch Linux</a> specific, they should be able to be adapted to a different Linux.</p>
+<span id="continue-reading"></span><h1 id="brief-setup">Brief setup</h1>
+<p>Before we start, set the following <code>sysctl</code> to ensure you can actually do a debug as a non-root user:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cat</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-unquoted z-heredoc z-shell"><span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;&lt;-</span><span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> tee /etc/sysctl.d/10-ptrace.conf</span><span class="z-string z-unquoted z-heredoc z-shell">
+    kernel.yama.ptrace_scope = 0
+<span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span></span>
+</span></code></pre>
+<p>Now, the base packages we need:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> git base-devel rustup lldb</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">rustup</span></span><span class="z-meta z-function-call z-arguments z-shell"> install stable</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">rustup</span></span><span class="z-meta z-function-call z-arguments z-shell"> default set stable</span>
+</span></code></pre>
+<p>If you haven't already, setup <a rel="noopener" target="_blank" href="https://github.com/Jguer/yay"><code>yay</code></a> or another <a rel="noopener" target="_blank" href="https://aur.archlinux.org/">AUR</a> helper:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/Jguer</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> !$</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone https://aur.archlinux.org/yay.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> yay</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">EDITOR</span></span></span></span><span class="z-meta z-function-call z-arguments z-shell"> PKGBUILD</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">makepkg</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>si</span></span>
+</span></code></pre>
+<p>Next, install the Microsoft branded Visual Studio Code (<a rel="noopener" target="_blank" href="https://aur.archlinux.org/packages/visual-studio-code-bin"><code>visual-studio-code-bin</code></a>) from the AUR. (The <a rel="noopener" target="_blank" href="https://archlinux.org/packages/community/x86_64/code/">Open Source build, <code>code</code></a> doesn't have the extensions we need.)</p>
+<blockquote>
+<p><strong>Don't be brash</strong>, read the <a rel="noopener" target="_blank" href="https://wiki.archlinux.org/title/PKGBUILD"><code>PKGBUILD</code></a>s which <code>yay</code> shows you, ensure you are comfortable with them. <strong>Do this every time, no matter what.</strong></p>
+</blockquote>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">yay</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> visual-studio-code-bin</span>
+</span></code></pre>
+<p>Let's install some extensions, <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer"><code>rust-analyzer</code></a>, <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb">CodeLLDB</a>, <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++</a>, and <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.hexeditor">Hex Editor</a>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">code</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>install-extension</span> rust-lang.rust-analyzer <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>install-extension</span> vadimcn.vscode-lldb <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>install-extension</span> ms-vscode.cpptools <span class="z-punctuation z-separator z-continuation z-line z-shell">\
+</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell">    --</span>install-extension</span> ms-vscode.hexeditor</span>
+</span></code></pre>
+<p>We'll then pull the PostgreSQL sources locally and build them into a <code>result</code> directory:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/postgres/postgres</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> !$</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone git@github.com:postgres/postgres.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> postgres</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> checkout REL_14_STABLE</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-echo z-shell">echo</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>result<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;&gt;</span> .gitignore</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./configure</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>prefix</span> <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">pwd</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span>/result<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>enable-debug</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">make</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">make</span></span><span class="z-meta z-function-call z-arguments z-shell"> install</span>
+</span></code></pre>
+<p>Now let's clone the [<code>pgx</code>] sources locally and install from there:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/tcdi/pgx</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> !$</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone git@github.com:tcdi/pgx.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> pgx</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Checkout a specific revision if desired.</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>path</span> cargo-pgx<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>debug</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pgx init<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>pg14</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/postgres/postgres/result/bin/pg_config</span>
+</span></code></pre>
+<p>Finally, we'll create an extension to explore with and open up <code>code</code>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/tmp/</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> !$</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pgx new debuggable</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> !$</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">code</span></span><span class="z-meta z-function-call z-arguments z-shell"> .</span>
+</span></code></pre>
+<p><strong>Update the default PostgreSQL version feature.</strong> Edit the <code>Cargo.toml</code>'s <code>[features]</code> block to have:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> debuggable/Cargo.toml</span>
+<span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> ...</span>
+
+<span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">features</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+<span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">default</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>pg14<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+
+<span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> ...</span>
+</span></code></pre>
+<p>Our current <code>code</code> window has the <code>debuggable</code> extension open, we're going to make a <em>'Workspace'</em> with <code>pgx</code> in the same window.</p>
+<p>Hit Ctrl+Shift+P (That is -- hold down the Control key while then holding the Shift key, then also the P key, releasing them afterward) then enter into the <em>command pallette</em> <code>add folder to workspace</code> and ensure the picked selection is indeed the option: <code>Workspaces: Add folder to workspace...</code>.</p>
+<p>In this file chooser, select the <code>~/git/tcdi/pgx</code> folder we cloned earlier.</p>
+<figure class="enriched ">
+        <figcaption>Code Workspace</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;09002c40a0130a4b00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg"
+              alt="Code Workspace" />
+    </figure>
+<p>Do the same with <code>~/git/postgres/postgres</code>.</p>
+<blockquote>
+<p>At this point, consider saving the workspace via the &quot;<em>File</em>&quot; menu.</p>
+</blockquote>
+<h1 id="debugging-the-sql-generation-process">Debugging the SQL generation process</h1>
+<p>While it's (hopefully) unlikely you'll encounter bugs with the SQL generation process of <code>pgx</code>, let's cover that first.</p>
+<p><code>pgx</code>'s SQL generation occurs via <code>cargo-pgx</code>'s <code>schema</code> subcommand, usually invoked via the <code>cargo pgx schema</code> call. The <code>cargo-pgx</code> binary will call <code>cargo</code> to build the library, <code>dlopen</code> a <code>postmaster</code> 'mock', <a rel="noopener" target="_blank" href="https://docs.rs/symbolic/9.0.0/symbolic/debuginfo/enum.Object.html#method.symbols">inspect the symbols</a> which the various <code>pgx</code> macros generator, then invoke the symbols to gather metadata. Finally, it feeds that metadata into the <a rel="noopener" target="_blank" href="https://docs.rs/pgx-utils/0.4.5/pgx_utils/sql_entity_graph/struct.PgxSql.html"><code>pgx_utils::sql_entity_graph::PgxSql</code> generator</a>.</p>
+<h2 id="macro-expansion">Macro expansion</h2>
+<p>As far as I am aware, there isn't a good any to hook up <code>lldb</code> to a running proc macro.</p>
+<blockquote>
+<p>The best info I could find was in <a rel="noopener" target="_blank" href="https://ferrous-systems.com/blog/testing-proc-macros/#panics">'Testing Proc Macros'</a> and <a rel="noopener" target="_blank" href="https://github.com/dtolnay/proc-macro-workshop#debugging-tips">&quot;Debugging tips&quot;</a>.</p>
+<p>If you happen to know of one, please <a href="mailto:consulting+proc-macro-lldb@hoverbear.org"><strong>email me</strong></a>! I'll give you credit in this section.</p>
+</blockquote>
+<p>Instead, you will likely rely on <code>cargo expand</code>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-expand</span>
+</span></code></pre>
+<p>Now you can use <code>cargo expand</code> on the entire extension (with no args), or select specific symbols to expand:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>ana<span class="z-keyword z-operator z-rust">@</span>architect debuggable<span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-keyword z-operator z-rust">$</span> cargo expand hello_debuggable
+    Checking debuggable v0<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">0</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-arithmetic z-rust">/</span>home<span class="z-keyword z-operator z-arithmetic z-rust">/</span>ana<span class="z-keyword z-operator z-arithmetic z-rust">/</span>tmp<span class="z-keyword z-operator z-arithmetic z-rust">/</span>debuggable</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    Finished dev <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>unoptimized <span class="z-keyword z-operator z-arithmetic z-rust">+</span> debuginfo<span class="z-punctuation z-section z-group z-end z-rust">]</span></span> <span class="z-support z-function z-rust">target</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>s</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-rust">in</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">22</span>s
+
+<span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">hello_debuggable</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> String</span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-type z-rust">let</span> val <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">String</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Hello, <span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-storage z-type z-rust">let</span> postfix<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">String</span> <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Spi<span class="z-punctuation z-accessor z-rust">::</span></span>get_one<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>SELECT &#39;Debuggable&#39;<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">unwrap</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    val <span class="z-keyword z-operator z-arithmetic z-rust">+</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>postfix
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>Note that <code>pgx</code> macros will generate other symbols to expand, too. Typically <code>#[pg_extern]</code> macros produce a <code>$FUNCNAME_wrapper</code> function which is what PostgreSQL calls:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>ana<span class="z-keyword z-operator z-rust">@</span>architect debuggable<span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-keyword z-operator z-rust">$</span> cargo expand hello_debuggable_wrapper
+    Checking debuggable v0<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">0</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-arithmetic z-rust">/</span>home<span class="z-keyword z-operator z-arithmetic z-rust">/</span>ana<span class="z-keyword z-operator z-arithmetic z-rust">/</span>tmp<span class="z-keyword z-operator z-arithmetic z-rust">/</span>debuggable</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    Finished dev <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>unoptimized <span class="z-keyword z-operator z-arithmetic z-rust">+</span> debuginfo<span class="z-punctuation z-section z-group z-end z-rust">]</span></span> <span class="z-support z-function z-rust">target</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>s</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-rust">in</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">22</span>s
+
+<span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">no_mangle</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">doc</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">hidden</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-storage z-modifier z-rust">unsafe</span> <span class="z-keyword z-other z-rust">extern</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>C<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">hello_debuggable_wrapper</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">fcinfo</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust">pg_sys<span class="z-punctuation z-accessor z-rust">::</span></span>FunctionCallInfo</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-path z-rust">pg_sys<span class="z-punctuation z-accessor z-rust">::</span></span>Datum</span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">allow</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">non_snake_case</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+    <span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">doc</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">hidden</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+    <span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">allow</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">unused_variables</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+    <span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">allow</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::missing_safety_doc</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+    <span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">allow</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::redundant_closure</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+    <span class="z-storage z-modifier z-rust">unsafe</span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">hello_debuggable_wrapper_inner</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">fcinfo</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust">pg_sys<span class="z-punctuation z-accessor z-rust">::</span></span>FunctionCallInfo</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-path z-rust">pg_sys<span class="z-punctuation z-accessor z-rust">::</span></span>Datum</span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+        <span class="z-storage z-type z-rust">let</span> result <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span> <span class="z-support z-function z-rust">hello_debuggable</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+        result<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">into_datum</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">unwrap_or_else</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+            <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">panicking<span class="z-punctuation z-accessor z-rust">::</span></span>panic_fmt<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">fmt<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">Arguments<span class="z-punctuation z-accessor z-rust">::</span></span>new_v1<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>
+                <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>returned Datum was NULL<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-separator z-rust">,</span>
+                <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-separator z-rust">,</span>
+            </span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+    <span class="z-meta z-path z-rust">pg_sys<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">guard<span class="z-punctuation z-accessor z-rust">::</span></span>guard<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-support z-function z-rust">hello_debuggable_wrapper_inner</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>fcinfo</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>For SQL generation, most macros will also produce like a <code>__pgx_internals_TYPE_FUNCNAME</code>:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>ana<span class="z-keyword z-operator z-rust">@</span>architect debuggable<span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-keyword z-operator z-rust">$</span> cargo expand __pgx_internals_fn_hello_debuggable
+    Checking debuggable v0<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">0</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-arithmetic z-rust">/</span>home<span class="z-keyword z-operator z-arithmetic z-rust">/</span>ana<span class="z-keyword z-operator z-arithmetic z-rust">/</span>tmp<span class="z-keyword z-operator z-arithmetic z-rust">/</span>debuggable</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+    Finished dev <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>unoptimized <span class="z-keyword z-operator z-arithmetic z-rust">+</span> debuginfo<span class="z-punctuation z-section z-group z-end z-rust">]</span></span> <span class="z-support z-function z-rust">target</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>s</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-rust">in</span> <span class="z-constant z-numeric z-float z-rust">0.</span><span class="z-constant z-numeric z-float z-rust">22</span>s
+
+<span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">no_mangle</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">doc</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">hidden</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-storage z-modifier z-rust">pub</span> <span class="z-keyword z-other z-rust">extern</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>C<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">__pgx_internals_fn_hello_debuggable</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span>
+</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">pgx<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">utils<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">sql_entity_graph<span class="z-punctuation z-accessor z-rust">::</span></span>SqlGraphEntity</span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">any<span class="z-punctuation z-accessor z-rust">::</span></span>TypeId<span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-keyword z-other z-rust">extern</span> <span class="z-keyword z-other z-rust">crate</span> alloc<span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">alloc<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">vec<span class="z-punctuation z-accessor z-rust">::</span></span>Vec<span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">alloc<span class="z-punctuation z-accessor z-rust">::</span></span>vec<span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-storage z-type z-rust">let</span> submission <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">pgx<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">utils<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">sql_entity_graph<span class="z-punctuation z-accessor z-rust">::</span></span>PgExternEntity <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+        name<span class="z-punctuation z-separator z-rust">:</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>hello_debuggable<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        unaliased_name<span class="z-punctuation z-separator z-rust">:</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>hello_debuggable<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        schema<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">None</span><span class="z-punctuation z-separator z-rust">,</span>
+        file<span class="z-punctuation z-separator z-rust">:</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>src/lib.rs<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        line<span class="z-punctuation z-separator z-rust">:</span> <span class="z-constant z-numeric z-integer z-decimal z-rust">5</span><span class="z-storage z-type z-numeric z-rust">u32</span><span class="z-punctuation z-separator z-rust">,</span>
+        module_path<span class="z-punctuation z-separator z-rust">:</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>debuggable<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        full_path<span class="z-punctuation z-separator z-rust">:</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>debuggable::hello_debuggable<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        extern_attrs<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">alloc<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">vec<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">Vec<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        search_path<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">None</span><span class="z-punctuation z-separator z-rust">,</span>
+        fn_args<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">alloc<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">vec<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">Vec<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        fn_return<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">pgx<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">utils<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">sql_entity_graph<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">PgExternReturnEntity<span class="z-punctuation z-accessor z-rust">::</span></span>Type <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+            id<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust">TypeId<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">of<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-support z-type z-rust">String</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+            source<span class="z-punctuation z-separator z-rust">:</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>String<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+            full_path<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust">core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">any<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">type_name<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-support z-type z-rust">String</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-separator z-rust">,</span>
+            module_path<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+                <span class="z-storage z-type z-rust">let</span> type_name <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">core<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">any<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">type_name<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-support z-type z-rust">String</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+                <span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> path_items<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span> <span class="z-keyword z-operator z-assignment z-rust">=</span> type_name<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">split</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>::<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">collect</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+                <span class="z-storage z-type z-rust">let</span> <span class="z-keyword z-operator z-rust">_</span> <span class="z-keyword z-operator z-assignment z-rust">=</span> path_items<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">pop</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+                path_items<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">join</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>::<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+            </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-separator z-rust">,</span>
+        operator<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">None</span><span class="z-punctuation z-separator z-rust">,</span>
+        to_sql_config<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">pgx<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">utils<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">sql_entity_graph<span class="z-punctuation z-accessor z-rust">::</span></span>ToSqlConfigEntity <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+            enabled<span class="z-punctuation z-separator z-rust">:</span> <span class="z-constant z-language z-rust">true</span><span class="z-punctuation z-separator z-rust">,</span>
+            callback<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">None</span><span class="z-punctuation z-separator z-rust">,</span>
+            content<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">None</span><span class="z-punctuation z-separator z-rust">,</span>
+        </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-separator z-rust">,</span>
+    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+    <span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">pgx<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">utils<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">sql_entity_graph<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">SqlGraphEntity<span class="z-punctuation z-accessor z-rust">::</span></span>Function<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>submission</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<h2 id="cargo-pgx-s-sql-generation"><code>cargo-pgx</code>'s SQL generation</h2>
+<p>To debug the <code>pgx_utils::sql_entity_graph::PgxSql</code> or <code>cargo-pgx</code> side of SQL generation, you can create a debug configuration in <code>debuggable/.vscode/launch.json</code> with this:</p>
+<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-comment z-line z-double-slash z-js"><span class="z-punctuation z-definition z-comment z-json">//</span> debuggable/.vscode/launch.json
+</span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>version<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>0.2.0<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>configurations<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
+        <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>type<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>lldb<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>request<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>launch<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>name<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>SQL Generation<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>terminal<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>integrated<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>program<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>cargo-pgx<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>args<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>pgx<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>schema<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>sourceLanguages<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>rust<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>c<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+        <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
+    <span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
+<span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></code></pre>
+<p>Navigate over to <code>pgx/pgx_utils/src/sql_entity_graph/pg_extern/mod.rs</code>and Ctrl+F <code>tracing::trace!(sql = %ext_sql);</code>,, it should be in the <code>to_sql</code> function, click the red dot that appears when you hover to the left of the line number there, and set a breakpoint.</p>
+<figure class="enriched ">
+        <figcaption>Breakpoint</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a176b54305b7cc6900.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg"
+              alt="Breakpoint" />
+    </figure>
+<p>In the &quot;Run &amp; Debug&quot; pane (selected in screenshot above on the left), <strong>hit the &quot;Play&quot; button beside &quot;SQL generation&quot;</strong> at the top. In a terminal you should see <code>cargo pgx schema</code> get run and begin to process the SQL, it will hit the breakpoint during this process and allow you to inspect and work with it:</p>
+<figure class="enriched ">
+        <figcaption>Debugging</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c478b427ba617a2a00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg"
+              alt="Debugging" />
+    </figure>
+<p>At the top middle of the screenshot above, you can see the 'Continue', 'Step over', 'Step into' and related buttons. To the left side we can see 'Variables', the 'Watch' pane, as well as the call stack which caused us to arrive at a particular position.</p>
+<h1 id="debugging-pgx-extensions">Debugging <code>pgx</code> extensions</h1>
+<p>Debugging running extension code is a little bit different. Let's recall something about how PostgreSQL works:</p>
+<blockquote>
+<p>The PostgreSQL server can handle multiple concurrent connections from clients. <strong>To achieve this it starts (“forks”) a new process for each connection.</strong> From that point on, the client and the new server process communicate without intervention by the original postgres process. Thus, the supervisor server process is always running, waiting for client connections, whereas client and associated server processes come and go. (All of this is of course invisible to the user. We only mention it here for completeness.)</p>
+<p>-- <a rel="noopener" target="_blank" href="https://www.postgresql.org/docs/14/tutorial-arch.html">PostgreSQL Architectural Fundamentals</a></p>
+</blockquote>
+<p>So PostgreSQL starts a <strong>supervisor</strong> which then <em>forks</em> a new process each connection. This means, if we're debugging extension, we want to attach to that fork.</p>
+<p>CodeLLDB will let us attach to a running process this way, so we'll add a new job to the <code>launch.json</code>:</p>
+<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-comment z-line z-double-slash z-js"><span class="z-punctuation z-definition z-comment z-json">//</span> debuggable/.vscode/launch.json
+</span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>version<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>0.2.0<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>configurations<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span>
+        <span class="z-comment z-line z-double-slash z-js"><span class="z-punctuation z-definition z-comment z-json">//</span> Any from before
+</span>        <span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>type<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>lldb<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>request<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>attach<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>name<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>Attach to existing<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>pid<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>${command:pickProcess}<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+            </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>sourceLanguages<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-sequence z-json"><span class="z-punctuation z-section z-sequence z-begin z-json">[</span><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>rust<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span> <span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>c<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
+        <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-sequence z-json">,</span>
+    <span class="z-punctuation z-section z-sequence z-end z-json">]</span></span>
+<span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></code></pre>
+<p>Then we'll change up the <code>#[pg_extern]</code> function in the code to make it more interesting:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">pg_extern</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">hello_debuggable</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> String</span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-type z-rust">let</span> val <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">String</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Hello, <span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<mark>    <span class="z-storage z-type z-rust">let</span> postfix <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">String</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Debuggable<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Set a break here
+</span></mark>    val <span class="z-keyword z-operator z-arithmetic z-rust">+</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>postfix
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>Set a breakpoint on the highlighted line, then in a terminal <strong>run <code>cargo pgx run</code></strong>.</p>
+<p>Once you reach a <code>psql</code> prompt:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">psql</span></span><span class="z-meta z-function-call z-arguments z-shell"> (14.4</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Type</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>help<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span> for help.</span>
+
+<span class="z-variable z-other z-readwrite z-assignment z-shell">debuggable</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">#</span> 
+</span></code></pre>
+<p>Select the 'Attach' option from the debugger dropdown. (Where we hit 'SQL Generation' before in the 'Run &amp; Debug' pane.) You should see a <code>postgres</code> process with your extensio name.</p>
+<figure class="enriched ">
+        <figcaption>Attaching</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c6c1a8268ed96ac000.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg"
+              alt="Attaching" />
+    </figure>
+<p>Attaching won't immediately break on anything, but when you start running commands from <code>psql</code> you can trigger breakpoints within the extension:</p>
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql">CREATE EXTENSION debuggable;
+<span class="z-keyword z-other z-DML z-sql">SELECT</span> hello_debuggable<span class="z-meta z-block z-sql"><span class="z-punctuation z-section z-scope z-begin z-sql">(</span><span class="z-punctuation z-section z-scope z-end z-sql">)</span></span>;
+<span class="z-comment z-line z-double-dash z-sql"><span class="z-punctuation z-definition z-comment z-sql">--</span> Breakpoint hit!!!
+</span></span></code></pre>
+<p>On the breakpoint, you'll see that familiar screen again:</p>
+<figure class="enriched ">
+        <figcaption>Attached</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3fc8cbec4e99fdf800.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg"
+              alt="Attached" />
+    </figure>
+<h1 id="debugging-pgx-and-postgresql-code">Debugging <code>pgx</code> and PostgreSQL code</h1>
+<p>Having now learnt to debug <code>cargo-pgx</code> and our own extension, how do we debug if code slips inside <code>pgx</code>, or even PostgreSQL?</p>
+<p>Let's modify our <code>hello_debuggable</code> to call something over the Server Programming Interface (SPI):</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">pg_extern</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+<span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">hello_debuggable</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> String</span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+    <span class="z-storage z-type z-rust">let</span> val <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">String</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Hello, <span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+<mark>    <span class="z-storage z-type z-rust">let</span> postfix<span class="z-punctuation z-separator z-rust">:</span> <span class="z-support z-type z-rust">String</span> <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Spi<span class="z-punctuation z-accessor z-rust">::</span></span>get_one<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>SELECT &#39;Debuggable&#39;<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">unwrap</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Set a breakpoint here!
+</span></mark>    val <span class="z-keyword z-operator z-arithmetic z-rust">+</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span>postfix
+</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>Do a <code>cargo pgx run</code> again, and attach to the process like before. Then in <code>psql</code>:</p>
+<pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql">DROP EXTENSION IF <span class="z-keyword z-operator z-logical z-sql">EXISTS</span> debuggable CASCADE; CREATE EXTENSION debuggable;
+<span class="z-keyword z-other z-DML z-sql">SELECT</span> hello_debuggable<span class="z-meta z-block z-sql"><span class="z-punctuation z-section z-scope z-begin z-sql">(</span><span class="z-punctuation z-section z-scope z-end z-sql">)</span></span>;
+</span></code></pre>
+<p><em>Break!</em> Now we're going to <strong>'Step into'</strong> this <code>Spi::get_one</code> statement.</p>
+<figure class="enriched ">
+        <figcaption>Step in</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c1639606e94be44600.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg"
+              alt="Step in" />
+    </figure>
+<p>Now, navigate over to <code>postgres/src/backend/executor/spi.c</code> and set a breakpoint on the <code>int SPI_connect(void)</code> function:</p>
+<pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span>
+<span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">SPI_connect</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-storage z-type z-c">void</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c">
+</span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-begin z-c">{</span></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c">
+<mark>	<span class="z-keyword z-control z-flow z-return z-c">return</span> <span class="z-meta z-function-call z-c"><span class="z-variable z-function z-c">SPI_connect_ext</span><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-constant z-numeric z-integer z-decimal z-c">0</span></span></span><span class="z-meta z-function-call z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-punctuation z-terminator z-c">;</span> <span class="z-comment z-line z-double-slash z-c"><span class="z-punctuation z-definition z-comment z-c">//</span> Set a breakpoint here!
+</span></mark></span></span><span class="z-meta z-function z-c"><span class="z-meta z-block z-c"><span class="z-punctuation z-section z-block z-end z-c">}</span></span></span>
+</span></code></pre>
+<p>Now hit the '<strong>Continue</strong>' on the debugger and we should break inside PostgreSQL:</p>
+<figure class="enriched ">
+        <figcaption>Step in</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b8de95e3bf0343c600.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg"
+              alt="Step in" />
+    </figure>
+<p>Fantastic, now we can debug almost every part of our <code>pgx</code> extension. That's all for this article today!</p>
+<p>I hope you manage to find your bugs! If not, <a rel="noopener" target="_blank" href="https://discord.gg/F6kDGwm22yI">let us know in Discord</a></p>
+
+    </main>
+    <footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/0a3051d86aaa86ce2e77dcaff909a0814d13e272
+">0a3051d86aaa86ce2e77dcaff909a0814d13e272
+</a></pre></body>
+
+</html>
