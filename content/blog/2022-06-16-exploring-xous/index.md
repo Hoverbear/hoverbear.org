@@ -264,7 +264,7 @@ cargo xtask renode-image
 
 Then run the **RE**node **SC**ript with:
 
-```shell
+```bash
 renode emulation/xous-release.resc
 ```
 
