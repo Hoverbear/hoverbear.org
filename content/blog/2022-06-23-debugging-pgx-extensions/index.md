@@ -85,7 +85,7 @@ make
 make install
 ```
 
-Now let's clone the [`pgx`] sources locally and install from there:
+Now let's clone the [`pgx`][github.com/tcdi/pgx] sources locally and install from there:
 
 ```bash
 mkdir -p ~/git/tcdi/pgx
