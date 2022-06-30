@@ -208,7 +208,7 @@ It flummoxed me for quite some time, but exploring the firefox package led to a 
 </span></code></pre>
 <p>You'll be able to add that path in later.</p>
 <h1 id="what-to-do-about-it">What to do about it</h1>
-<p>While chatting with the clever <a rel="noopener" target="_blank" href="https://jaredweakly.com/">Jared Weakly</a> we noticed that we could tell <code>rust-bindgen</code> about these <code>CFLAGS</code> via <a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust-bindgen#environment-variables"><code>BINDGEN_EXTRA_CLANG_ARGS</code></a></p>
+<p>While chatting with the clever <a rel="noopener" target="_blank" href="https://hazelweakly.me/">Hazel Weakly</a> we noticed that we could tell <code>rust-bindgen</code> about these <code>CFLAGS</code> via <a rel="noopener" target="_blank" href="https://github.com/rust-lang/rust-bindgen#environment-variables"><code>BINDGEN_EXTRA_CLANG_ARGS</code></a></p>
 <p>What we gleaned from the <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/browsers/firefox/common.nix#L247-L253"><code>firefox</code></a> was to add something like this to the <code>preBuild</code>:</p>
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-variable z-parameter z-name z-nix">rustPlatform</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">buildRustPackage</span> <span class="z-keyword z-other z-nix">rec</span> <span class="z-punctuation z-definition z-attrset z-nix">{</span>
   <span class="z-entity z-other z-attribute-name z-multipart z-nix">preBuild</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-other z-nix"><span class="z-punctuation z-definition z-string z-other z-start z-nix">&#39;&#39;</span>
@@ -427,8 +427,8 @@ error: builder for &#39;/nix/store/kb7rc2hv289gbd9blfviiirzmcra7cm3-doggo-0.1.0.
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/02edfe055db7c5f07d1c536da870bac9e082561a
-">02edfe055db7c5f07d1c536da870bac9e082561a
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/555f5f16b14a3aa57bee3289cc22f12e456a85fd
+">555f5f16b14a3aa57bee3289cc22f12e456a85fd
 </a></pre></body>
 
 </html>
