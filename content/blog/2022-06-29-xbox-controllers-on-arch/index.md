@@ -81,7 +81,7 @@ yay -S xone-dkms
 
 > **Don't be brash**, read the [`PKGBUILD`][wiki.archlinux.org/../PKGBUILD]s which `yay` shows you, ensure you are comfortable with them. **Do this every time, no matter what.**
 
-During the build, it will pull in the [`xone-dongle-firmware`][aur.archlinux.com/../xone-dongle-firmware] which contains the required binary blobs.
+During the build, it will pull in the [`xone-dongle-firmware`][aur.archlinux.com/../xone-dongle-firmware] package which contains the required binary blobs.
 
 # Preliminary Wired testing
 
