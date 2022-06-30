@@ -107,7 +107,7 @@ Let&#x27;s quickly cover how to use xone to set up a Xbox Elite Wireless Control
                 </h5>
 
             <p class="date">
-                    Posted on 2022-06-29, around 9 minutes of reading.
+                    Posted on 2022-06-29, around 8 minutes of reading.
                 </p>
         </div>
     </div>
@@ -195,13 +195,6 @@ Let&#x27;s quickly cover how to use xone to set up a Xbox Elite Wireless Control
 <p><strong>Don't be brash</strong>, read the [<code>PKGBUILD</code>][wiki.archlinux.org/../PKGBUILD]s which <code>yay</code> shows you, ensure you are comfortable with them. <strong>Do this every time, no matter what.</strong></p>
 </blockquote>
 <p>During the build, it will pull in the <a rel="noopener" target="_blank" href="https://aur.archlinux.org/packages/xone-dongle-firmware"><code>xone-dongle-firmware</code></a> which contains the required binary blobs.</p>
-<p>At this point, we could probably plug in the controller and get it to show up in Steam or Wine! You might even be able to pair the controller! But could we actually use it in a game? <strong>No!</strong> When I tried, pressing 'A' on the controller would click, and all sorts of weird things were happening.</p>
-<p>It turns out things work a lot better with <a rel="noopener" target="_blank" href="https://github.com/paroj/xpad"><code>xpad</code></a> installed too! The standard install of <code>xpad</code> contains drivers though, which <code>xone</code> already provides. The <code>xone</code> maintainer provides <a rel="noopener" target="_blank" href="https://github.com/medusalix/xpad-noone"><code>xpad-noone</code></a>, a fork without the conflicting drivers removed, which is also in the AUR as <a rel="noopener" target="_blank" href="https://aur.archlinux.org/packages/xpad-noone-dkms"><code>xpad-noone-dkms</code></a>:</p>
-<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">yay</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> xpad-noone-dkms</span>
-</span></code></pre>
-<blockquote>
-<p><strong>Did you notice that in the <code>PKGBUILD</code>?</strong> The <code>xpad-noone-dkms</code> AUR package takes it's source from a fork of the medusalix's repo. You should <a rel="noopener" target="_blank" href="https://github.com/medusalix/xpad-noone/compare/master...LINCKODE:xpad-noone:v1.0">compare the diff</a> and <strong>ensure it is not maliciously altered</strong>. (It was harmless at the time of writing this.) You may prefer it install it directly from the repository.</p>
-</blockquote>
 <h1 id="preliminary-wired-testing">Preliminary Wired testing</h1>
 <p>At this point, just to be extra thorough, reboot! When you're back to your desktop, plug in the controller with a wire, let's make sure that works first.</p>
 <p>Once plugged in, your controller should rumble softly and light up. If you tag along with <code>sudo dmesg --follow</code>:</p>
@@ -336,8 +329,8 @@ Let&#x27;s quickly cover how to use xone to set up a Xbox Elite Wireless Control
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/f6728a0a3bcae5febc37ebcfe9dbe64df13df3e2
-">f6728a0a3bcae5febc37ebcfe9dbe64df13df3e2
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/0bf525391a1c0de8bf390ef75d66860e6ef20c9d
+">0bf525391a1c0de8bf390ef75d66860e6ef20c9d
 </a></pre></body>
 
 </html>
