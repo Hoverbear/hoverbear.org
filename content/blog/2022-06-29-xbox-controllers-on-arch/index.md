@@ -83,16 +83,6 @@ yay -S xone-dkms
 
 During the build, it will pull in the [`xone-dongle-firmware`][aur.archlinux.com/../xone-dongle-firmware] which contains the required binary blobs.
 
-At this point, we could probably plug in the controller and get it to show up in Steam or Wine! You might even be able to pair the controller! But could we actually use it in a game? **No!** When I tried, pressing 'A' on the controller would click, and all sorts of weird things were happening.
-
-It turns out things work a lot better with [`xpad`][github.com/paroj/xpad] installed too! The standard install of `xpad` contains drivers though, which `xone` already provides. The `xone` maintainer provides [`xpad-noone`][github.com/medusalix/xpad-noone], a fork without the conflicting drivers removed, which is also in the AUR as [`xpad-noone-dkms`][aur.archlinux.org/../xpad-noone-dkms]:
-
-```bash
-yay -S xpad-noone-dkms
-```
-
-> **Did you notice that in the `PKGBUILD`?** The `xpad-noone-dkms` AUR package takes it's source from a fork of the medusalix's repo. You should [compare the diff][github.com/medusalix/xpad-noone/compare] and **ensure it is not maliciously altered**. (It was harmless at the time of writing this.) You may prefer it install it directly from the repository.
-
 # Preliminary Wired testing
 
 At this point, just to be extra thorough, reboot! When you're back to your desktop, plug in the controller with a wire, let's make sure that works first.
@@ -228,8 +218,6 @@ Please contact me or make a [PR to this article][github.com/Hoverbear/hoverbear.
 [archlinux.org/../wine]: https://archlinux.org/packages/multilib/x86_64/wine/
 [aur.archlinux.org/../xpad-noone-dkms]: https://aur.archlinux.org/packages/xpad-noone-dkms
 [github.com/paroj/xpad]: https://github.com/paroj/xpad
-[github.com/medusalix/xpad-noone]: https://github.com/medusalix/xpad-noone
-[github.com/medusalix/xpad-noone/compare]: https://github.com/medusalix/xpad-noone/compare/master...LINCKODE:xpad-noone:v1.0
 [en.wikipedia.org/../Specials_(Unicode_block)]: https://en.wikipedia.org/wiki/Specials_(Unicode_block)
 [support.xbox.com/../connect-xbox-wireless-controller-to-pc]: https://support.xbox.com/en-US/help/hardware-network/controller/connect-xbox-wireless-controller-to-pc
 [dreamscapergame.com]: https://dreamscapergame.com/
