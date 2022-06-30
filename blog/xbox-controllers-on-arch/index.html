@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Fun compatability things -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+    
+        <!-- Information about this site -->
+        <title>Xbox Controllers on Arch Linux
+        </title>
+        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    
+        <!-- Various Twitter related content. -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;acef8acff3a4f94f00.jpg"/>
+        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;acef8acff3a4f94f00.jpg"/>
+        <meta name="twitter:site" content="@a_hoverbear"/>
+        <meta name="twitter:creator" content="@a_hoverbear"/>
+        
+        
+            <meta name="twitter:title" content="Xbox Controllers on Arch Linux"/>
+            <meta property='og:title' content="Xbox Controllers on Arch Linux"/>
+        
+
+        
+            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;xbox-controllers-on-arch&#x2F;"/>
+        
+
+        
+            <meta name="twitter:description" content="I fumbled a bit setting up my Xbox controller in Arch, but managed it and wanted to share.
+Let&#x27;s quickly cover how to use xone to set up a Xbox Elite Wireless Controler Series 2 connecting to Arch Linux via a Xbox Wireless Adapter for Windows 10. Once we&#x27;re done, it should &#x27;just work&#x27; in steam, wine, lutris, or your other games.
+"/>
+            <meta property='og:description' content="I fumbled a bit setting up my Xbox controller in Arch, but managed it and wanted to share.
+Let&#x27;s quickly cover how to use xone to set up a Xbox Elite Wireless Controler Series 2 connecting to Arch Linux via a Xbox Wireless Adapter for Windows 10. Once we&#x27;re done, it should &#x27;just work&#x27; in steam, wine, lutris, or your other games.
+"/>
+        
+    
+        <!-- Talk about the homepage and the rss feed. -->
+        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+    
+        <!-- Stylesheets are fun -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+    
+        <!-- Katex -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <!-- The loading of KaTeX is deferred to speed up page rendering -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
+        <!-- To automatically render math in text elements, include the auto-render extension: -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    </head>
+    
+
+    <body>
+        
+    <div id="hero-wrapper">
+    <figure class="enriched ">
+        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/sKJPFpnHA2A">Jakub Sisulak</a></figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;50705f64e67abc5e00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;acef8acff3a4f94f00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;50705f64e67abc5e00.jpg"
+              alt="Photo" />
+    </figure>
+</div>
+
+    <header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+            Xbox Controllers on Arch Linux
+        </a></h1>
+
+        <nav id="tree"><ul><li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/consulting/">
+                Consulting Services
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul></ul><ul></ul>
+</nav>
+
+
+        <div class="metadata">
+            <h5 class="description">
+                    Some games are simply better on controller.
+                </h5>
+
+            <p class="date">
+                    Posted on 2022-06-29, around 9 minutes of reading.
+                </p>
+        </div>
+    </div>
+</header>
+
+    <main>
+        
+    <nav id=toc>
+        <ol>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#prerequisites">Prerequisites</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#xone">Xone</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#preliminary-wired-testing">Preliminary Wired testing</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#steam-specific-settings">Steam Specific Settings</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#wireless-pairing">Wireless Pairing</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#final-testing">Final testing</a>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#troubleshooting">Troubleshooting</a>
+                
+            </li>
+            
+        </ol>
+    </nav>
+
+        <p>I fumbled a bit setting up my Xbox controller in Arch, but managed it and wanted to share.</p>
+<p>Let's quickly cover how to use <a rel="noopener" target="_blank" href="https://github.com/medusalix/xone"><code>xone</code></a> to set up a <a rel="noopener" target="_blank" href="https://www.xbox.com/en-CA/accessories/controllers/elite-wireless-controller-series-2">Xbox Elite Wireless Controler Series 2</a> connecting to <a rel="noopener" target="_blank" href="https://archlinux.org/">Arch Linux</a> via a <a rel="noopener" target="_blank" href="https://www.xbox.com/en-CA/accessories/adapters/wireless-adapter-windows">Xbox Wireless Adapter for Windows 10</a>. Once we're done, it should 'just work' in <a rel="noopener" target="_blank" href="https://archlinux.org/packages/multilib/x86_64/steam/"><code>steam</code></a>, <a rel="noopener" target="_blank" href="https://archlinux.org/packages/multilib/x86_64/wine/"><code>wine</code></a>, <a rel="noopener" target="_blank" href="https://archlinux.org/packages/community/any/lutris/"><code>lutris</code></a>, or your other games.</p>
+<span id="continue-reading"></span><h1 id="prerequisites">Prerequisites</h1>
+<p>First, <strong>Unplug the wireless adapter and controller.</strong> This helps ensure when we do plug them in later, after installing the drivers, it'll work correctly.</p>
+<p>You'll also want to make sure your GPU is properly working, with 3D OpenGL acceleration. You should refer to the Arch Linux wiki related to your GPU for this. (I use AMD GPUs so I just install <code>mesa</code> and <code>lib32-mesa</code>)</p>
+<p>Since the Xbox Wireless Adapter uses WiFi at 2.4 GHz, you will also need a working WiFi stack on your machine. I used GNOME and the stock kernel, so Network Manager was simple to set up:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> networkmanager</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemctl enable<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>now</span> NetworkManager</span>
+</span></code></pre>
+<p>Any other networking management styles should work too.</p>
+<p>If you haven't already, setup <a rel="noopener" target="_blank" href="https://github.com/Jguer/yay"><code>yay</code></a> or another <a rel="noopener" target="_blank" href="https://aur.archlinux.org/">AUR</a> helper, we'll need it later:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> git base-devel</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">mkdir</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>p</span> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/Jguer</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> !$</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">git</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone https://aur.archlinux.org/yay.git</span>
+<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> yay</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-meta z-group z-expansion z-parameter z-shell"><span class="z-punctuation z-definition z-variable z-shell">$</span><span class="z-variable z-other z-readwrite z-shell">EDITOR</span></span></span></span><span class="z-meta z-function-call z-arguments z-shell"> PKGBUILD</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">makepkg</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>si</span></span>
+</span></code></pre>
+<p>If you haven't yet, enable the <code>multilib</code> repository in Arch. In <code>/etc/pacman.conf</code> uncomment these lines, then run <code>sudo pacman -Syu</code> to make sure things are solid:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">[multilib]</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Include</span></span><span class="z-meta z-function-call z-arguments z-shell"> = /etc/pacman.d/mirrorlist</span>
+</span></code></pre>
+<p>If you haven't yet, you can install <a rel="noopener" target="_blank" href="https://archlinux.org/packages/multilib/x86_64/steam/"><code>steam</code></a>, <a rel="noopener" target="_blank" href="https://archlinux.org/packages/multilib/x86_64/wine/"><code>wine</code></a> as well as <a rel="noopener" target="_blank" href="https://archlinux.org/packages/community/any/lutris/"><code>lutris</code></a>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> steam lutris wine</span>
+</span></code></pre>
+<p>We <strong>will cover</strong> how to set up the controller inside Steam later. Lutris works out of the box.</p>
+<p>Finally, you'll need to make sure your user is in the <code>input</code> group.</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> gpasswd<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>a</span> ana input</span>
+</span></code></pre>
+<p><strong>Changing user groups in Linux requires you to relog or reboot</strong>, so please do that.</p>
+<h1 id="xone">Xone</h1>
+<p>At the time of writing, <a rel="noopener" target="_blank" href="https://github.com/medusalix/xone"><code>xone</code></a> 3.0 recently arrived in the <a rel="noopener" target="_blank" href="https://aur.archlinux.org/">AUR</a> as <a rel="noopener" target="_blank" href="https://aur.archlinux.org/packages/xone-dkms"><code>xone-dkms</code></a> and it works well.</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">yay</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> xone-dkms</span>
+</span></code></pre>
+<blockquote>
+<p><strong>Don't be brash</strong>, read the [<code>PKGBUILD</code>][wiki.archlinux.org/../PKGBUILD]s which <code>yay</code> shows you, ensure you are comfortable with them. <strong>Do this every time, no matter what.</strong></p>
+</blockquote>
+<p>During the build, it will pull in the <a rel="noopener" target="_blank" href="https://aur.archlinux.org/packages/xone-dongle-firmware"><code>xone-dongle-firmware</code></a> which contains the required binary blobs.</p>
+<p>At this point, we could probably plug in the controller and get it to show up in Steam or Wine! You might even be able to pair the controller! But could we actually use it in a game? <strong>No!</strong> When I tried, pressing 'A' on the controller would click, and all sorts of weird things were happening.</p>
+<p>It turns out things work a lot better with <a rel="noopener" target="_blank" href="https://github.com/paroj/xpad"><code>xpad</code></a> installed too! The standard install of <code>xpad</code> contains drivers though, which <code>xone</code> already provides. The <code>xone</code> maintainer provides <a rel="noopener" target="_blank" href="https://github.com/medusalix/xpad-noone"><code>xpad-noone</code></a>, a fork without the conflicting drivers removed, which is also in the AUR as <a rel="noopener" target="_blank" href="https://aur.archlinux.org/packages/xpad-noone-dkms"><code>xpad-noone-dkms</code></a>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">yay</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> xpad-noone-dkms</span>
+</span></code></pre>
+<blockquote>
+<p><strong>Did you notice that in the <code>PKGBUILD</code>?</strong> The <code>xpad-noone-dkms</code> AUR package takes it's source from a fork of the medusalix's repo. You should <a rel="noopener" target="_blank" href="https://github.com/medusalix/xpad-noone/compare/master...LINCKODE:xpad-noone:v1.0">compare the diff</a> and <strong>ensure it is not maliciously altered</strong>. (It was harmless at the time of writing this.) You may prefer it install it directly from the repository.</p>
+</blockquote>
+<h1 id="preliminary-wired-testing">Preliminary Wired testing</h1>
+<p>At this point, just to be extra thorough, reboot! When you're back to your desktop, plug in the controller with a wire, let's make sure that works first.</p>
+<p>Once plugged in, your controller should rumble softly and light up. If you tag along with <code>sudo dmesg --follow</code>:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6925.448346] usb 5-1: new full-speed USB device number 6 using xhci_hcd</span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6925.611684] usb 5-1: New USB device found, idVendor<span class="z-keyword z-operator z-logical z-shell">=</span>045e, idProduct<span class="z-keyword z-operator z-logical z-shell">=</span>0b00, bcdDevice<span class="z-keyword z-operator z-logical z-shell">=</span> 4.08</span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6925.611690] usb 5-1: New USB device strings: Mfr<span class="z-keyword z-operator z-logical z-shell">=</span>1, Product<span class="z-keyword z-operator z-logical z-shell">=</span>2, SerialNumber<span class="z-keyword z-operator z-logical z-shell">=</span>3</span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6925.611692] usb 5-1: Product: Controller</span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6925.611694] usb 5-1: Manufacturer: Microsoft</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">..</span></span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6926.197830] input: Microsoft X-Box One pad as /devices/pci0000:00/0000:00:08.1/0000:0e:00.3/usb5/5-1/5-1:1.0/gip0/gip0.0/input/input45</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">..</span></span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6927.391184] input: Microsoft X-Box 360 pad 0 as /devices/virtual/input/input48</span>
+<span class="z-support z-function z-test z-begin z-shell">[</span><span class="z-meta z-function-call z-arguments z-shell"> 6927.492458] input: Microsoft X-Box 360 pad 1 as /devices/virtual/input/input49</span>
+</span></code></pre>
+<p>That looks good! At the end there are two 'devices', that's ok. Now we can check the <code>evdev</code> API for a device postfixed with <code>-event-joystick</code>. We can <code>cat</code> it then push the 'A' button on your controller:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ana@architect ~]$ cat /dev/input/by-id/usb-Microsoft_Controller_*-event-joystick
+2�b_)02�b_)����2�b_)2�b?�02�b?�^C
+</span></code></pre>
+<p>The <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Specials_(Unicode_block)">Unicode 'tofu'</a> is a good sign. Ctrl+C out.</p>
+<h1 id="steam-specific-settings">Steam Specific Settings</h1>
+<p>Pop open <code>steam</code> and navigate the menus: 'Steam' -&gt; 'Settings' -&gt; 'Controller' -&gt; 'General Controller Settings'.</p>
+<p>There, tick on 'Xbox Configuration Support'. You should see Xbox controllers showing up now.</p>
+<figure class="enriched ">
+        <figcaption>Steam Controller</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e8acab03468d4c3500.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0447d41a7063162c00.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e8acab03468d4c3500.jpg"
+              alt="Steam Controller" />
+    </figure>
+<h1 id="wireless-pairing">Wireless Pairing</h1>
+<p>Unplug your controller from the wire and plug in the Xbox Wireless Adapter.</p>
+<p>Checking <code>sudo dmesg --follow</code>:</p>
+<pre class="z-code"><code><span class="z-text z-plain">[ 7708.489792] usb 3-6.3: new high-speed USB device number 8 using xhci_hcd
+[ 7708.586329] usb 3-6.3: New USB device found, idVendor=045e, idProduct=02fe, bcdDevice= 1.00
+[ 7708.586334] usb 3-6.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[ 7708.586336] usb 3-6.3: Product: XBOX ACC
+[ 7708.586337] usb 3-6.3: Manufacturer: Microsoft Inc.
+..
+[ 7708.765135] xone-dongle 3-6.3:1.0: xone_mt76_send_firmware: build=201703281033____
+[ 7708.908197] xone-dongle 3-6.3:1.0: xone_mt76_init_radio: id=0x7613
+[ 7708.937447] xone-dongle 3-6.3:1.0: xone_mt76_init_address: address=6c:5d:3a:01:cb:ce
+..
+[ 7709.072740] xone-dongle 3-6.3:1.0: xone_dongle_toggle_pairing: enabled=1
+</span></code></pre>
+<p>At this point you should be able to follow the <a rel="noopener" target="_blank" href="https://support.xbox.com/en-US/help/hardware-network/controller/connect-xbox-wireless-controller-to-pc">Xbox Adapter Pairing guide</a>.</p>
+<p><strong>TL;DR:</strong> Push adapter button so the white light on it flashes (no flash? See <a href="https://hoverbear.org/blog/xbox-controllers-on-arch/#troubleshooting">troubleshooting</a>), push Xbox Guide button to turn on controller, push pair button on controller so the guide button flashes, repeat until it finally works and the controller light stays lit.</p>
+<p>In <code>sudo dmesg --follow</code> it'll look like so:</p>
+<pre class="z-code"><code><span class="z-text z-plain">..
+[ 8114.834465] xone-dongle 3-6.1:1.0: xone_dongle_pair_client: address=7e:ed:82:51:03:4e
+[ 8114.834847] xone-dongle 3-6.1:1.0: xone_dongle_toggle_pairing: enabled=0
+[ 8115.103078] xone-gip gip0: gip_create_adapter: registered
+[ 8115.103227] xone-dongle 3-6.1:1.0: xone_dongle_add_client: wcid=1, address=7e:ed:82:51:03:4e
+[ 8115.615568] xone-gip gip0.0: gip_init_client: initialized
+[ 8115.615574] xone-gip gip0.0: gip_handle_pkt_announce: address=7e:ed:82:51:03:4e, vendor=0x045e, product=0x0b00
+[ 8115.615578] xone-gip gip0.0: gip_handle_pkt_announce: firmware=4.8.1908.0, hardware=1541.1.1.1
+..
+[ 8115.688157] xone-gip gip0.0: gip_parse_classes: class=Windows.Xbox.Input.Gamepad
+[ 8115.688159] xone-gip gip0.0: gip_parse_classes: class=Microsoft.Xbox.Input.ProgrammableGamepad
+..
+[ 8115.688380] input: Microsoft X-Box One pad as /devices/pci0000:00/0000:00:01.2/0000:02:00.0/0000:03:08.0/0000:07:00.3/usb3/3-6/3-6.1/3-6.1:1.0/gip0/gip0.0/input/input55
+[ 8115.688508] xone-gip-gamepad gip0.0: gip_add_client: added
+[ 8115.704286] xone-gip gip0.1: gip_init_client: initialized
+..
+[ 8115.752704] input: Microsoft X-Box One chatpad as /devices/pci0000:00/0000:00:01.2/0000:02:00.0/0000:03:08.0/0000:07:00.3/usb3/3-6/3-6.1/3-6.1:1.0/gip0/gip0.1/input/input56
+[ 8115.752961] input: Microsoft X-Box One chatpad as /devices/pci0000:00/0000:00:01.2/0000:02:00.0/0000:03:08.0/0000:07:00.3/usb3/3-6/3-6.1/3-6.1:1.0/gip0/gip0.1/0003:045E:0B02.0010/input/input57
+[ 8115.753198] hid-generic 0003:045E:0B02.0010: input,hidraw10: USB HID v1.01 Keyboard [Microsoft X-Box One chatpad] on gip0.1/input1
+[ 8115.753219] xone-gip-chatpad gip0.1: gip_add_client: added
+[ 8116.412501] input: Microsoft X-Box 360 pad 0 as /devices/virtual/input/input58
+[ 8116.678046] input: Microsoft X-Box 360 pad 1 as /devices/virtual/input/input59
+</span></code></pre>
+<p>At this point, we're ready to test everything!</p>
+<h1 id="final-testing">Final testing</h1>
+<p>To test in <code>wine</code>, I ran <code>wine control joy.cpl</code>, and reviewed the listed 'Connected (xinput device)' box for 'Controller (Xbox One for Windows)'. In the 'Test Joystick' tab you can do inputs into the controller and see them reflected in the UI. That means we're good to go!</p>
+<figure class="enriched ">
+        <figcaption>Steam Controller</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a2bed51a09f0f4de00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a8f12962a27a7f4200.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a2bed51a09f0f4de00.jpg"
+              alt="Steam Controller" />
+    </figure>
+<p>With that working, I was able to launch some of my favorite controller games like [Ikenfell][humblegames.com/games/ikenfell] and <a rel="noopener" target="_blank" href="https://www.nomanssky.com/">No Man's Sky</a>.</p>
+<figure class="enriched ">
+        <figcaption>No Man's Sky</figcaption>
+        
+       
+       <img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9791b87e82d886f600.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;858bd5fed507381300.jpg 3840w
+              "
+              sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px"
+              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9791b87e82d886f600.jpg"
+              alt="No Man&#x27;s Sky" />
+    </figure>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<blockquote>
+<p>Help Ana, the adapter won't flash a pairing light!</p>
+</blockquote>
+<p>I had this happen to! Unplug it, uninstall the <code>xone</code> related stuff above, then reinstall cleanly (that is -- if asked, 'cleanbuild'), <strong>only then</strong> plug it in! That step above was important! 😉</p>
+<blockquote>
+<p>Ana you missed a step!</p>
+</blockquote>
+<p>Please contact me or make a <a rel="noopener" target="_blank" href="https://github.com/Hoverbear/hoverbear.org">PR to this article</a>! I want this to be complete.</p>
+<blockquote>
+<p>Something else.</p>
+</blockquote>
+<p><strong>Please do not email me asking support questions about getting Steam, Lutris, or any game working on your machine.</strong></p>
+<p><strong>Please do not email me about any devices other than the <a rel="noopener" target="_blank" href="https://www.xbox.com/en-CA/accessories/controllers/elite-wireless-controller-series-2">'Xbox Elite Wireless Controler Series 2'</a> and <a rel="noopener" target="_blank" href="https://www.xbox.com/en-CA/accessories/adapters/wireless-adapter-windows">'Xbox Wireless Adapter for Windows 10'</a>.</strong></p>
+<p><strong>Please do not email me about using something other than <code>xone</code> on Arch Linux x86_64.</strong></p>
+<p><strong>Please do not email me if you have problems with the AUR packages.</strong></p>
+
+    </main>
+    <footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/f6728a0a3bcae5febc37ebcfe9dbe64df13df3e2
+">f6728a0a3bcae5febc37ebcfe9dbe64df13df3e2
+</a></pre></body>
+
+</html>
