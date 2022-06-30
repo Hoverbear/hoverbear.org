@@ -7,6 +7,7 @@ template =  "blog/single.html"
 tags = [
     "Rust",
     "PostgreSQL",
+    "Arch Linux",
 ]
 
 [extra.image]
