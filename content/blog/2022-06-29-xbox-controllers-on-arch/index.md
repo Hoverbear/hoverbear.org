@@ -224,3 +224,4 @@ Please contact me or make a [PR to this article][github.com/Hoverbear/hoverbear.
 [humblegames.com/games/ikenfell]: https://www.humblegames.com/games/ikenfell/
 [nomanssky.com]: https://www.nomanssky.com/
 [github.com/Hoverbear/hoverbear.org]: https://github.com/Hoverbear/hoverbear.org
+[wiki.archlinux.org/../PKGBUILD]: https://wiki.archlinux.org/title/PKGBUILD
