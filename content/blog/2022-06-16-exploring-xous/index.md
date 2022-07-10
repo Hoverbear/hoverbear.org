@@ -274,25 +274,11 @@ This will spawn several windows containing output from various debug ports of th
 
 You can use your keyboard to interact with the emulated device. Most buttons will work, such as the arrow keys and return. To access the "System Menu" (think like your Windows/Super key on a workstation) hit `Home`.
 
-# Installing our first Xous
+# First booting Xous
 
 The first recommendation for Crowd Supply Backer devices is to update their device! We're going to update into the image we just tested in Renode.
 
-Build the new hardware image:
-
-```bash
-cd ~/git/betrusted-io/xous-core
-cargo xtask hw-image precursors/soc.svd
-```
-
-This creates:
-
-* `target/riscv32imac-unknown-xous-elf/release/xous.img`
-* `target/riscv32imac-unknown-xous-elf/release/loader.bin`
-
-These interact with a corresponding "gateware" located at `precursors/soc_csr.bin`.
-
-Before we can actually install new firmware, we need to add a `udev` rule, and ensure our user is in the `precursor-dev` group:
+Before we can actually install firmware, we need to add a `udev` rule, and ensure our user is in the `precursor-dev` group:
 
 ```bash
 cat <<-EOF | sudo tee /etc/udev/rules.d/99-precursor-usb.rules
@@ -360,6 +346,34 @@ With that done, you can **reboot from the home menu**. Hit the exact center of t
 Once rebooted, any EC firmware message is gone, and we can put the device to sleep in the same home menu:
 
 {{ figure(path="precursor-sleep.jpg", alt="Sleeping", colocated=true) }}
+
+# Installing our first Xous
+
+Build the new hardware image:
+
+```bash
+cd ~/git/betrusted-io/xous-core
+cargo xtask hw-image precursors/soc.svd
+```
+
+This creates:
+
+* `target/riscv32imac-unknown-xous-elf/release/xous.img`
+* `target/riscv32imac-unknown-xous-elf/release/loader.bin`
+
+These interact with a corresponding "gateware" located at `precursors/soc_csr.bin`.
+
+Now we'll update the **SoC FGPA**. Load the firmware:
+
+```bash
+cargo xtask burn-kernel
+cargo xtask burn-loader
+cargo xtask burn-soc
+```
+
+On the Precursor, hit the middle cursor button then pick **'Install Gateware Update'**. (*Not seeing it?* I had initialized some root keys on first boot, if you didn't do that before, do that first!)
+
+Upon selecting it, it will offer you a summary, give it a look, then start the process. A few minutes later, it should be done. Go back to the same menu and select **'Sign Xous Update'**. When finished, reboot the device again from that same menu.
 
 At this point, we have a source built Xous (built by a source built custom Rust target, that built by a source built RISC-V toolchain) running on the gateware provided by the Betrusted folks. For me, this is a good starting point to explore development. I'm content to take a break here and explore this new ecosystem more.
 
