@@ -86,7 +86,7 @@ You'll be able to add that path in later.
 
 # What to do about it
 
-While chatting with the clever [Jared Weakly][jared-weakly] we noticed that we could tell `rust-bindgen` about these `CFLAGS` via [`BINDGEN_EXTRA_CLANG_ARGS`][docs-rust-bindgen-cflags]
+While chatting with the clever [Hazel Weakly][hazel-weakly] we noticed that we could tell `rust-bindgen` about these `CFLAGS` via [`BINDGEN_EXTRA_CLANG_ARGS`][docs-rust-bindgen-cflags]
 
 What we gleaned from the [`firefox`][pkgs-firefox-bindgen] was to add something like this to the `preBuild`:
 
@@ -340,5 +340,5 @@ Whew! That's it! Writing about this really helped me sort it out in my head bett
 [repo-rust-bindgen]: https://github.com/rust-lang/rust-bindgen
 [docs-libclang]: https://clang.llvm.org/doxygen/group__CINDEX.html
 [docs-gcc-search-path]: https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html
-[jared-weakly]: https://jaredweakly.com/
+[hazel-weakly]: https://hazelweakly.me/
 [docs-rust-bindgen-cflags]: https://github.com/rust-lang/rust-bindgen#environment-variables
