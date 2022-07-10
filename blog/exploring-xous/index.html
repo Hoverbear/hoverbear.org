@@ -113,7 +113,7 @@ Well... I finally convinced myself to order one as a reward for doing a big thin
                 </h5>
 
             <p class="date">
-                    Posted on 2022-06-16, around 13 minutes of reading.
+                    Posted on 2022-06-16, around 14 minutes of reading.
                 </p>
         </div>
     </div>
@@ -146,6 +146,11 @@ Well... I finally convinced myself to order one as a reward for doing a big thin
                     </li>
                     
                 </ol>
+                
+            </li>
+            
+            <li>
+                <a href="https://hoverbear.org/blog/exploring-xous/#first-booting-xous">First booting Xous</a>
                 
             </li>
             
@@ -384,19 +389,9 @@ KERNEL: Starting initial processes:
               alt="Renode Emulation" />
     </figure>
 <p>You can use your keyboard to interact with the emulated device. Most buttons will work, such as the arrow keys and return. To access the &quot;System Menu&quot; (think like your Windows/Super key on a workstation) hit <code>Home</code>.</p>
-<h1 id="installing-our-first-xous">Installing our first Xous</h1>
+<h1 id="first-booting-xous">First booting Xous</h1>
 <p>The first recommendation for Crowd Supply Backer devices is to update their device! We're going to update into the image we just tested in Renode.</p>
-<p>Build the new hardware image:</p>
-<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/betrusted-io/xous-core</span>
-<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask hw-image precursors/soc.svd</span>
-</span></code></pre>
-<p>This creates:</p>
-<ul>
-<li><code>target/riscv32imac-unknown-xous-elf/release/xous.img</code></li>
-<li><code>target/riscv32imac-unknown-xous-elf/release/loader.bin</code></li>
-</ul>
-<p>These interact with a corresponding &quot;gateware&quot; located at <code>precursors/soc_csr.bin</code>.</p>
-<p>Before we can actually install new firmware, we need to add a <code>udev</code> rule, and ensure our user is in the <code>precursor-dev</code> group:</p>
+<p>Before we can actually install firmware, we need to add a <code>udev</code> rule, and ensure our user is in the <code>precursor-dev</code> group:</p>
 <pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cat</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-string z-unquoted z-heredoc z-shell"><span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;&lt;-</span><span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> tee /etc/udev/rules.d/99-precursor-usb.rules</span><span class="z-string z-unquoted z-heredoc z-shell">
 SUBSYSTEM==&quot;usb&quot;, ATTRS{idVendor}==&quot;1209&quot;, ATTRS{idProduct}==&quot;5bf0&quot;, GROUP=&quot;precursor-dev&quot;, TAG+=&quot;uaccess&quot;
 <span class="z-keyword z-control z-heredoc-token z-shell">EOF</span></span></span>
@@ -512,6 +507,24 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;963dca4d9a918eb100.jpg"
               alt="Sleeping" />
     </figure>
+<h1 id="installing-our-first-xous">Installing our first Xous</h1>
+<p>Build the new hardware image:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/betrusted-io/xous-core</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask hw-image precursors/soc.svd</span>
+</span></code></pre>
+<p>This creates:</p>
+<ul>
+<li><code>target/riscv32imac-unknown-xous-elf/release/xous.img</code></li>
+<li><code>target/riscv32imac-unknown-xous-elf/release/loader.bin</code></li>
+</ul>
+<p>These interact with a corresponding &quot;gateware&quot; located at <code>precursors/soc_csr.bin</code>.</p>
+<p>Now we'll update the <strong>SoC FGPA</strong>. Load the firmware:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask burn-kernel</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask burn-loader</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> xtask burn-soc</span>
+</span></code></pre>
+<p>On the Precursor, hit the middle cursor button then pick <strong>'Install Gateware Update'</strong>. (<em>Not seeing it?</em> I had initialized some root keys on first boot, if you didn't do that before, do that first!)</p>
+<p>Upon selecting it, it will offer you a summary, give it a look, then start the process. A few minutes later, it should be done. Go back to the same menu and select <strong>'Sign Xous Update'</strong>. When finished, reboot the device again from that same menu.</p>
 <p>At this point, we have a source built Xous (built by a source built custom Rust target, that built by a source built RISC-V toolchain) running on the gateware provided by the Betrusted folks. For me, this is a good starting point to explore development. I'm content to take a break here and explore this new ecosystem more.</p>
 <p>In a future article we might explore how to build our own gateware, create our own Xous apps, add OS features, or even modify the SoC or EC together.</p>
 <p>In the meantime, I've been hanging out on the <a rel="noopener" target="_blank" href="https://matrix.to/#/#precursor.dev:matrix.org">Betrusted Matrix group</a>, feel free to stop by if you want to hack on Xous too!</p>
@@ -521,8 +534,8 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/555f5f16b14a3aa57bee3289cc22f12e456a85fd
-">555f5f16b14a3aa57bee3289cc22f12e456a85fd
+<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/8e892235a2f07791d624c130fea6b63f8885252b
+">8e892235a2f07791d624c130fea6b63f8885252b
 </a></pre></body>
 
 </html>
