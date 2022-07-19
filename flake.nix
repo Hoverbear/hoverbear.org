@@ -15,23 +15,28 @@
         image-optimize = final.writeShellApplication {
           name = "image-optimize";
           runtimeInputs = with final; [
-            bash fd jpegoptim optipng
+            bash
+            fd
+            jpegoptim
+            optipng
           ];
           text = ''
             fd \
               --exclude static/processed_images \
               --extension jpg \
               --extension jpeg \
+              --threads "$(nproc)" \
               --exec jpegoptim
             fd \
               --exclude static/processed_images \
               --extension png \
+              --threads "$(nproc)" \
               --exec optipng
           '';
         };
       };
 
-      packages  = forAllSystems (system: 
+      packages = forAllSystems (system:
         let
           pkgs = import nixpkgs {
             inherit system;
