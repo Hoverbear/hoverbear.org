@@ -1,9 +1,8 @@
-
 {% set internationalized_hoverbear = load_data(path="static/internationalized-hoverbear.json") %}
 {%- for lang, data in internationalized_hoverbear -%}
-    {%- if loop.first != true and internationalized_hoverbear | length > 2 -%},{%- endif -%}
-    {%- if loop.last and internationalized_hoverbear | length > 1 -%}&nbsp;and{%- endif -%}
-    &nbsp;{{ data.display }}
-    {%- if data.display != data.pronounce %} (<i>{{ data.pronounce }}</i>){%- endif -%}
-    &nbsp;in {{ lang | capitalize }}
+{%- if loop.first != true and internationalized_hoverbear | length > 2 -%},{%- endif -%}
+{%- if loop.last and internationalized_hoverbear | length > 1 -%}&nbsp;and{%- endif -%}
+&nbsp;{{ data.display }}
+{%- if data.display != data.pronounce %} (<i>{{ data.pronounce }}</i>){%- endif -%}
+&nbsp;in {{ lang | capitalize }}
 {%- endfor -%}

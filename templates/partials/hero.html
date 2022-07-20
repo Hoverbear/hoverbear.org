@@ -1,21 +1,22 @@
 {%- if page -%}
-    {%- set page_or_section = page -%}
+{%- set page_or_section = page -%}
 {%- elif section -%}
-    {%- set page_or_section = section -%}
+{%- set page_or_section = section -%}
 {%- endif -%}
 
 {%- if page_or_section.extra.image -%}
-    {%- set cover_path = page_or_section.extra.image.path -%}
-    {%- set cover_photographer = page_or_section.extra.image.photographer | default(value="") -%}
-    {%- set cover_source = page_or_section.extra.image.source | default(value="") -%}
-    {%- set colocated = page_or_section.extra.image.colocated | default(value=true) -%}
+{%- set cover_path = page_or_section.extra.image.path -%}
+{%- set cover_photographer = page_or_section.extra.image.photographer | default(value="") -%}
+{%- set cover_source = page_or_section.extra.image.source | default(value="") -%}
+{%- set colocated = page_or_section.extra.image.colocated | default(value=true) -%}
 {%- else -%}
-    {%- set cover_path = '../static/' ~ config.extra.cover.path -%}
-    {%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
-    {%- set cover_source = config.extra.cover.source | default(value="") -%}
-    {%- set colocated = false -%}
+{%- set cover_path = '../static/' ~ config.extra.cover.path -%}
+{%- set cover_photographer = config.extra.cover.photographer | default(value="") -%}
+{%- set cover_source = config.extra.cover.source | default(value="") -%}
+{%- set colocated = false -%}
 {%- endif -%}
 
 <div id="hero-wrapper">
-    {{ figure::enriched(path=cover_path, alt="Photo", source=cover_source, photographer=cover_photographer, colocated=colocated) }}
+    {{ figure::enriched(path=cover_path, alt="Photo", source=cover_source, photographer=cover_photographer,
+    colocated=colocated) }}
 </div>

@@ -1,86 +1,93 @@
 <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="{{ config.base_url }}/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>{%- if page.title -%}
-            {{ page.title }}
-        {% elif section.title %}
-            {{ section.title }}
-        {%- else -%}
-            {{ config.title }}
-        {%- endif -%}
-        </title>
-        <meta name="description" content="{{ config.description }}" />
-    
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        
-        {%- if page.extra.image.path -%}
-            {%- set image = colocated_asset::colocated_asset(path=page.extra.image.path) | trim -%}
-        {% elif section.extra.image.path %}
-            {%- set image = colocated_asset::colocated_asset(path=section.extra.image.path) | trim -%}
-        {%- else -%}
-            {%- set image = '../static/' ~ config.extra.cover.path -%}
-        {%- endif -%}
-        
-        {% set image_3840 = resize_image(path=image, width=3840, height=2160, op='fit_width') %}
-        <meta name="twitter:image" content="{{ image_3840.url }}"/>
-        <meta property='og:image' content="{{ image_3840.url }}"/>
-        <meta name="twitter:site" content="@{{ config.extra.twitter }}"/>
-        <meta name="twitter:creator" content="@{{ config.extra.twitter }}"/>
-        
-        {% if page.title %}
-            <meta name="twitter:title" content="{{ page.title | striptags }}"/>
-            <meta property='og:title' content="{{ page.title | striptags }}"/>
-        {% elif section.title %}
-            <meta name="twitter:title" content="{{ section.title | striptags }}"/>
-            <meta property='og:title' content="{{ section.title | striptags }}"/>
-        {% else %}
-            <meta name="twitter:title" content="{{ config.title | striptags }}"/>
-            <meta property='og:title' content="{{ config.title | striptags }}"/>
-        {% endif %}
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="{{ config.base_url }}/images/favicon.ico">
 
-        {% if page.permalink %}
-            <meta property='og:url' content="{{ page.permalink | striptags }}"/>
+    <!-- Information about this site -->
+    <title>{%- if page.title -%}
+        {{ page.title }}
         {% elif section.title %}
-            <meta property='og:url' content="{{ section.permalink | striptags }}"/>
-        {% else %}
-            <meta property='og:url' content="{{ config.base_url | striptags }}"/>
-        {% endif %}
+        {{ section.title }}
+        {%- else -%}
+        {{ config.title }}
+        {%- endif -%}
+    </title>
+    <meta name="description" content="{{ config.description }}" />
 
-        {% if page.summary %}
-            <meta name="twitter:description" content="{{ page.summary | striptags }}"/>
-            <meta property='og:description' content="{{ page.summary | striptags }}"/>
-        {% elif section.summary %}
-            <meta name="twitter:description" content="{{ section.summary | striptags }}"/>
-            <meta property='og:description' content="{{ section.summary | striptags }}"/>
-        {% else %}
-            <meta name="twitter:description" content="{{ config.description | striptags }}"/>
-            <meta property='og:description' content="{{ config.description | striptags }}"/>
-        {% endif %}
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="{{ config.base_url }}">
-        <link rel="alternate" type="application/rss+xml" href="{{ config.base_url }}/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="{{ config.base_url }}/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
-    
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    {%- if page.extra.image.path -%}
+    {%- set image = colocated_asset::colocated_asset(path=page.extra.image.path) | trim -%}
+    {% elif section.extra.image.path %}
+    {%- set image = colocated_asset::colocated_asset(path=section.extra.image.path) | trim -%}
+    {%- else -%}
+    {%- set image = '../static/' ~ config.extra.cover.path -%}
+    {%- endif -%}
+
+    {% set image_3840 = resize_image(path=image, width=3840, height=2160, op='fit_width') %}
+    <meta name="twitter:image" content="{{ image_3840.url }}" />
+    <meta property='og:image' content="{{ image_3840.url }}" />
+    <meta name="twitter:site" content="@{{ config.extra.twitter }}" />
+    <meta name="twitter:creator" content="@{{ config.extra.twitter }}" />
+
+    {% if page.title %}
+    <meta name="twitter:title" content="{{ page.title | striptags }}" />
+    <meta property='og:title' content="{{ page.title | striptags }}" />
+    {% elif section.title %}
+    <meta name="twitter:title" content="{{ section.title | striptags }}" />
+    <meta property='og:title' content="{{ section.title | striptags }}" />
+    {% else %}
+    <meta name="twitter:title" content="{{ config.title | striptags }}" />
+    <meta property='og:title' content="{{ config.title | striptags }}" />
+    {% endif %}
+
+    {% if page.permalink %}
+    <meta property='og:url' content="{{ page.permalink | striptags }}" />
+    {% elif section.title %}
+    <meta property='og:url' content="{{ section.permalink | striptags }}" />
+    {% else %}
+    <meta property='og:url' content="{{ config.base_url | striptags }}" />
+    {% endif %}
+
+    {% if page.summary %}
+    <meta name="twitter:description" content="{{ page.summary | striptags }}" />
+    <meta property='og:description' content="{{ page.summary | striptags }}" />
+    {% elif section.summary %}
+    <meta name="twitter:description" content="{{ section.summary | striptags }}" />
+    <meta property='og:description' content="{{ section.summary | striptags }}" />
+    {% else %}
+    <meta name="twitter:description" content="{{ config.description | striptags }}" />
+    <meta property='og:description' content="{{ config.description | striptags }}" />
+    {% endif %}
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="{{ config.base_url }}">
+    <link rel="alternate" type="application/rss+xml" href="{{ config.base_url }}/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ config.base_url }}/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>

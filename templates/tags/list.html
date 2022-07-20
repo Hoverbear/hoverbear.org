@@ -3,21 +3,22 @@
 {% import "macros/post.html" as post %}
 
 {% block main %}
-    {% for term in terms  %}
-        <section>
-            <h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2>
-            <ul>
-                {%- for post in term.pages  -%}
-                    <li><a href="{{ post.permalink }}">
-                        <strong>{{ post.title }}</strong>
-                    </a>{% if post.description %}: {{ post.description }}{%- endif -%}
-                    &nbsp;(posted <time datetime="{{ post.date | date(format="%Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d") }}</time>)
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
-        {% if loop.last != true %}
-            <hr>
-        {% endif %}
-    {% endfor %}
+{% for term in terms %}
+<section>
+    <h2><a href="{{ term.permalink }}">{{ term.name }}</a></h2>
+    <ul>
+        {%- for post in term.pages -%}
+        <li><a href="{{ post.permalink }}">
+                <strong>{{ post.title }}</strong>
+            </a>{% if post.description %}: {{ post.description }}{%- endif -%}
+            &nbsp;(posted <time datetime="{{ post.date | date(format=" %Y-%m-%d %H:%M") }}">{{ post.date |
+                date(format="%Y-%m-%d") }}</time>)
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% if loop.last != true %}
+<hr>
+{% endif %}
+{% endfor %}
 {% endblock main %}

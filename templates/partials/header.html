@@ -1,69 +1,70 @@
 {%- if page -%}
-    {%- set page_or_section = page -%}
+{%- set page_or_section = page -%}
 {%- elif section -%}
-    {%- set page_or_section = section -%}
+{%- set page_or_section = section -%}
 {%- endif -%}
 
 {%- if page_or_section.title -%}
-    {%- set title = page_or_section.title -%}
+{%- set title = page_or_section.title -%}
 {%- else -%}
-    {%- set title = config.title -%}
-    {%- set internationalized_hoverbear_title = true -%}
+{%- set title = config.title -%}
+{%- set internationalized_hoverbear_title = true -%}
 {%- endif -%}
 
 {%- if page_or_section.description -%}
-    {%- set description = page_or_section.description -%}
+{%- set description = page_or_section.description -%}
 {%- else -%}
-    {%- set description = config.description -%}
+{%- set description = config.description -%}
 {%- endif -%}
 
 <header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="{{ config.base_url }}">
-            {{ title }}
-        </a></h1>
+                {{ title }}
+            </a></h1>
 
         {%- if internationalized_hoverbear_title -%}
-            <script defer async>
-                (function internationalize_hoverbear() {
-                    const data = {{ load_data(path="static/internationalized-hoverbear.json") | json_encode | safe }};
-                    const langs = Object.keys(data);
-                    let current_lang = "english";
-                    let num_languages = langs.length;
-                    window.setInterval(function() {
-                        let new_lang;
-                        // Guard against same result.
-                        do {
-                            new_lang = langs[Math.floor(Math.random() * num_languages)];
-                        } while (current_lang == new_lang);
+        <script defer async>
+            (function internationalize_hoverbear() {
+                const data = {{ load_data(path = "static/internationalized-hoverbear.json") | json_encode | safe
+            }};
+            const langs = Object.keys(data);
+            let current_lang = "english";
+            let num_languages = langs.length;
+            window.setInterval(function () {
+                let new_lang;
+                // Guard against same result.
+                do {
+                    new_lang = langs[Math.floor(Math.random() * num_languages)];
+                } while (current_lang == new_lang);
 
-                        let new_display = data[new_lang].display;
-                        let main_title = document.getElementById("main-link");
-                        let old_animation = main_title.style.animation;
-                        // Reflow
-                        main_title.style.opacity = 0;
-                        main_title.style.animation = 'none';
-                        main_title.offsetHeight;
-                        main_title.style.animation = old_animation;
-                        main_title.innerText = `${new_display}`;
-                    }, 5000);
-                })()
-            </script>
+                let new_display = data[new_lang].display;
+                let main_title = document.getElementById("main-link");
+                let old_animation = main_title.style.animation;
+                // Reflow
+                main_title.style.opacity = 0;
+                main_title.style.animation = 'none';
+                main_title.offsetHeight;
+                main_title.style.animation = old_animation;
+                main_title.innerText = `${new_display}`;
+            }, 5000);
+                }) ()
+        </script>
         {%- endif %}
 
         {% include "partials/page-tree.html" %}
 
         <div class="metadata">
             {% if description -%}
-                <h5 class="description">
-                    {{ description | markdown(inline=true) | safe }}
-                </h5>
+            <h5 class="description">
+                {{ description | markdown(inline=true) | safe }}
+            </h5>
             {%- endif %}
 
             {% if page.date and page.reading_time -%}
-                <p class="date">
-                    Posted on {{ page.date }}, around {{ page.reading_time }} minutes of reading.
-                </p>
+            <p class="date">
+                Posted on {{ page.date }}, around {{ page.reading_time }} minutes of reading.
+            </p>
             {%- endif %}
         </div>
     </div>

@@ -1,33 +1,34 @@
 {%- macro metadata(path) -%}
-	{%- set section = get_section(path=path) -%}
-	<section>
-		<h2 class="post-title"><a href="{{ section.permalink }}">{{ section.title }}</a></h2>
-		<p class="post-description">{{ section.description }}</p>
-		<div class="excerpt">
-			{{ section.content | safe }}
-		</div>
+{%- set section = get_section(path=path) -%}
+<section>
+	<h2 class="post-title"><a href="{{ section.permalink }}">{{ section.title }}</a></h2>
+	<p class="post-description">{{ section.description }}</p>
+	<div class="excerpt">
+		{{ section.content | safe }}
+	</div>
 
-		<div class="section-meta">
-			<a class="continue-reading" href="{{ section.permalink }}#continue-reading">Continue reading...</a>
-			<div class="meta-box">
-				{%- if section.date -%}
-					<div class="sectioned-on">
-						<time datetime="{{ section.date | date(format="%Y-%m-%d %H:%M") }}">{{ section.date | date(format="%Y-%m-%d") }}</time>
-					</div>
+	<div class="section-meta">
+		<a class="continue-reading" href="{{ section.permalink }}#continue-reading">Continue reading...</a>
+		<div class="meta-box">
+			{%- if section.date -%}
+			<div class="sectioned-on">
+				<time datetime="{{ section.date | date(format=" %Y-%m-%d %H:%M") }}">{{ section.date |
+					date(format="%Y-%m-%d") }}</time>
+			</div>
+			{%- endif -%}
+			<div class="reading-time">
+				{{ section.reading_time }} min
+			</div>
+			<div class="tags">
+				{%- if section.taxonomies.tags -%}
+				{%- for tag in section.taxonomies.tags -%}
+				{%- if loop.first != true and section.taxonomies.tags | length > 2 -%},{%- endif -%}
+				{%- if loop.last and section.taxonomies.tags | length > 1 -%}&nbsp;and{%- endif -%}
+				&nbsp;<a href="{{ config.base_url }}/tags/{{ tag | lower }}">{{ tag }}</a>
+				{%- endfor -%}
 				{%- endif -%}
-				<div class="reading-time">
-					{{ section.reading_time }} min
-				</div>
-				<div class="tags">
-					{%- if section.taxonomies.tags -%}
-						{%- for tag in section.taxonomies.tags -%}
-							{%- if loop.first != true and section.taxonomies.tags | length > 2 -%},{%- endif -%}
-							{%- if loop.last and section.taxonomies.tags | length > 1 -%}&nbsp;and{%- endif -%}
-							&nbsp;<a href="{{ config.base_url }}/tags/{{ tag | lower }}">{{ tag }}</a>
-						{%- endfor -%}
-					{%- endif -%}
-				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 {%- endmacro metadata -%}
