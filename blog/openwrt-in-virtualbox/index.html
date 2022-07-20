@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>OpenWRT in Virtualbox
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>OpenWRT in Virtualbox
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="OpenWRT in Virtualbox"/>
-            <meta property='og:title' content="OpenWRT in Virtualbox"/>
-        
+    <meta name="twitter:title" content="OpenWRT in Virtualbox" />
+    <meta property='og:title' content="OpenWRT in Virtualbox" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;openwrt-in-virtualbox&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;openwrt-in-virtualbox&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="For my CSC 467 project I&#x27;m studying the configuration and performance of various QoS parameters in OpenWRT.
+    
+    <meta name="twitter:description" content="For my CSC 467 project I&#x27;m studying the configuration and performance of various QoS parameters in OpenWRT.
 The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagrant boxes to create a VM network.
-"/>
-            <meta property='og:description' content="For my CSC 467 project I&#x27;m studying the configuration and performance of various QoS parameters in OpenWRT.
+" />
+    <meta property='og:description' content="For my CSC 467 project I&#x27;m studying the configuration and performance of various QoS parameters in OpenWRT.
 The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagrant boxes to create a VM network.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -76,117 +83,115 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            OpenWRT in Virtualbox
-        </a></h1>
+                OpenWRT in Virtualbox
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2014-11-23, around 5 minutes of reading.
-                </p>
+                Posted on 2014-11-23, around 5 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#configuration">Configuration</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#configuration">Configuration</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#getting-a-vdi">Getting a VDI</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#getting-a-vdi">Getting a VDI</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#setup-the-vm">Setup the VM</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#setup-the-vm">Setup the VM</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#wan">WAN</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#wan">WAN</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#pulling-repos">Pulling Repos</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#pulling-repos">Pulling Repos</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#password">Password</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#password">Password</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#ssh">SSH</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#ssh">SSH</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#going-headless">Going Headless</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#going-headless">Going Headless</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#guest-additions">Guest Additions</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#guest-additions">Guest Additions</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#lan">LAN</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#lan">LAN</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#dhcp">DHCP</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#dhcp">DHCP</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#firewall">Firewall</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#firewall">Firewall</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#making-clients">Making Clients</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-in-virtualbox/#making-clients">Making Clients</a>
-                
-            </li>
-            
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>For my CSC 467 project I'm studying the configuration and performance of various QoS parameters in OpenWRT.</p>
+    <p>For my CSC 467 project I'm studying the configuration and performance of various QoS parameters in OpenWRT.</p>
 <p>The plan is to set up an OpenWRT router in <a rel="noopener" target="_blank" href="https://www.virtualbox.org/">VirtualBox</a> and orcestrate some <a rel="noopener" target="_blank" href="http://vagrantup.com/">Vagrant</a> boxes to create a VM network.</p>
 <span id="continue-reading"></span><h2 id="configuration">Configuration</h2>
 <p>Lets configure some environment variables we'll use throughout, once you close your shell these will disappear, so you might need to reinitialize them later.</p>
@@ -239,8 +244,8 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
 </span></code></pre>
 <p>Next, it's time to settle in and get comfortable. The boot output will not show you command prompt until you manually focus the window and tap return, then you should see a prompt.</p>
 <figure class="enriched ">
-        <figcaption>The VM screen</figcaption>
-        
+    <figcaption>The VM screen</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d801ceb45f1eb10f00.png 1920w,
@@ -252,7 +257,7 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d801ceb45f1eb10f00.png"
               alt="The VM screen" />
-    </figure>
+</figure>
 <h2 id="wan">WAN</h2>
 <p>You'll notice from a quick <code>ping hoverbear.org</code> that you don't have a network connection working, even though we set up a NAT connection.</p>
 <p>In the OpenWRT VM, add the following to <code>/etc/config/network</code>:</p>
@@ -386,13 +391,14 @@ The plan is to set up an OpenWRT router in VirtualBox and orcestrate some Vagran
 <p>I'll be writing later about how to get these subordinates, (ahem, <em>network clients</em>) working together with the router.</p>
 <p><a rel="noopener" target="_blank" href="http://www.hoverbear.org/2014/12/04/vagrant-clients-for-openwrt-vms/">See next post.</a></p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

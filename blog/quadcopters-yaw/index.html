@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Quadcopters: Yaw
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Quadcopters: Yaw
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
-    
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Quadcopters: Yaw"/>
-            <meta property='og:title' content="Quadcopters: Yaw"/>
-        
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-yaw&#x2F;"/>
-        
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
 
-        
-            <meta name="twitter:description" content="So, in our earlier article we talked about Yaw a little but, but we didn&#x27;t get into details. First, let&#x27;s take a look at what yaw looks like under simple circumstances, then we&#x27;ll explain the motion.
-"/>
-            <meta property='og:description' content="So, in our earlier article we talked about Yaw a little but, but we didn&#x27;t get into details. First, let&#x27;s take a look at what yaw looks like under simple circumstances, then we&#x27;ll explain the motion.
-"/>
-        
     
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+    <meta name="twitter:title" content="Quadcopters: Yaw" />
+    <meta property='og:title' content="Quadcopters: Yaw" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-yaw&#x2F;" />
+    
+
+    
+    <meta name="twitter:description" content="So, in our earlier article we talked about Yaw a little but, but we didn&#x27;t get into details. First, let&#x27;s take a look at what yaw looks like under simple circumstances, then we&#x27;ll explain the motion.
+" />
+    <meta property='og:description' content="So, in our earlier article we talked about Yaw a little but, but we didn&#x27;t get into details. First, let&#x27;s take a look at what yaw looks like under simple circumstances, then we&#x27;ll explain the motion.
+" />
+    
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -74,80 +81,74 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Quadcopters: Yaw
-        </a></h1>
+                Quadcopters: Yaw
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2015-05-27, around 4 minutes of reading.
-                </p>
+                Posted on 2015-05-27, around 4 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-yaw/#understanding-torque">Understanding Torque</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-yaw/#understanding-torque">Understanding Torque</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-yaw/#back-to-yaw">Back to Yaw</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-yaw/#back-to-yaw">Back to Yaw</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-yaw/#let-s-experiment">Let&#x27;s Experiment!</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-yaw/#let-s-experiment">Let&#x27;s Experiment!</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-yaw/#observing-under-constraints">Observing under Constraints</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-yaw/#observing-under-constraints">Observing under Constraints</a>
-                
-            </li>
-            
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>So, in our <a href="/2015/05/19/quadcopters-orientation/">earlier article</a> we talked about Yaw a little but, but we didn't get into details. First, let's take a look at what yaw looks like under simple circumstances, then we'll explain the motion.</p>
+    <p>So, in our <a href="/2015/05/19/quadcopters-orientation/">earlier article</a> we talked about Yaw a little but, but we didn't get into details. First, let's take a look at what yaw looks like under simple circumstances, then we'll explain the motion.</p>
 <span id="continue-reading"></span><div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/lNNAw4XgGoM"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/lNNAw4XgGoM" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <blockquote>
 <p>Notice how two propellers come to a stop when yawing?</p>
@@ -155,8 +156,8 @@
 <h1 id="understanding-torque">Understanding Torque</h1>
 <p>Let's first talk about <strong>Center of Gravity</strong>, have you ever tried to balance an object on the tip of your finger? That's a center of gravity! <em>Fun Fact:</em> Your center of gravity is your belly button! The quads is, predictably, near its center.</p>
 <figure class="enriched ">
-        <figcaption>Center of Gravity for a Quad</figcaption>
-        
+    <figcaption>Center of Gravity for a Quad</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;15a0404de5e2247700.jpg 1920w,
@@ -168,7 +169,7 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;15a0404de5e2247700.jpg"
               alt="Center of Gravity for a Quad" />
-    </figure>
+</figure>
 <p><strong>Torque</strong> ($$ \tau $$) is a twisting force, you use it when you do things like turn a door-knob handle, use a wrench, or pedal a bicycle. Now, the torque produced by a force equals the magnitude of the <em>force</em> ($$ F $$) times the <em>radius</em> ($$ r $$), or distance from the center of gravity.</p>
 <p>$$ \tau = F*r $$</p>
 <img src="torque-3.svg" alt="Diagram of Torque">
@@ -197,8 +198,8 @@ $$</p>
 <p>In order to properly test our hypothesis, we rigged up an apparatus to demonstrate this yawing. Since the quadcopter propellers move too fast to be able to observe without specialized equipment we looked towards water.</p>
 <p>This apparatus is designed to dip it's two wooden paddles into the water, with the rest of the device sitting at the surface of the water. The two paddles rotate the same as the two propellers we talked about above.</p>
 <figure class="enriched ">
-        <figcaption>Apparatus</figcaption>
-        
+    <figcaption>Apparatus</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a70dea9ae59b87fd00.jpg 1920w,
@@ -210,40 +211,33 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a70dea9ae59b87fd00.jpg"
               alt="Apparatus" />
-    </figure>
+</figure>
 <p>We were very impressed with the result. Note the yawing motion as we predicted. The apparatus did not hold up particularly well however, as you can observe, our eslastics were not particularly happy campers! This is because of the friction of them rubbing on one another.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/_mr9RFb55MA"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/_mr9RFb55MA" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <h1 id="observing-under-constraints">Observing under Constraints</h1>
 <p>In order to capture this in the air we tied our quadcopter up via string, then harnessed a weight on the bottom of it to help smooth out it's flight height. Doing this we found using elastics particularly useful as a harness point.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/Hckv6u9C0y0"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/Hckv6u9C0y0" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <blockquote>
 <p>But why didn't I see the two propellers stop?</p>
 </blockquote>
 <p>Good question! Because the Quadcopter was still trying to hover in the air and could not entirely shut them off. Although you can't see it, they are actually rotating quite a bit slower.</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

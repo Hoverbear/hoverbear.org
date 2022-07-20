@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>New Roots part 5, Erecting Container Infrastructure
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>New Roots part 5, Erecting Container Infrastructure
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;661d6721f46b5c7900.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;661d6721f46b5c7900.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;661d6721f46b5c7900.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;661d6721f46b5c7900.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="New Roots part 5, Erecting Container Infrastructure"/>
-            <meta property='og:title' content="New Roots part 5, Erecting Container Infrastructure"/>
-        
+    <meta name="twitter:title" content="New Roots part 5, Erecting Container Infrastructure" />
+    <meta property='og:title' content="New Roots part 5, Erecting Container Infrastructure" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-5&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-5&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="This is the fifth part of an ongoing series on configuring a new server. In our last post we discussed and configured some basic tools. For all intensive purposes, our &#x27;root&#x27; system is complete. What we&#x27;ll be doing now is building the infrastructure to run containers the way we want to.
+    
+    <meta name="twitter:description" content="This is the fifth part of an ongoing series on configuring a new server. In our last post we discussed and configured some basic tools. For all intensive purposes, our &#x27;root&#x27; system is complete. What we&#x27;ll be doing now is building the infrastructure to run containers the way we want to.
 Before we get around to setting things up, let&#x27;s describe the what we&#x27;re up to.
-"/>
-            <meta property='og:description' content="This is the fifth part of an ongoing series on configuring a new server. In our last post we discussed and configured some basic tools. For all intensive purposes, our &#x27;root&#x27; system is complete. What we&#x27;ll be doing now is building the infrastructure to run containers the way we want to.
+" />
+    <meta property='og:description' content="This is the fifth part of an ongoing series on configuring a new server. In our last post we discussed and configured some basic tools. For all intensive purposes, our &#x27;root&#x27; system is complete. What we&#x27;ll be doing now is building the infrastructure to run containers the way we want to.
 Before we get around to setting things up, let&#x27;s describe the what we&#x27;re up to.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Ethan Dow</figcaption>
-        
+    <figcaption>Photo&nbsp;- Ethan Dow</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;aee5a6da9083921000.jpg 1920w,
@@ -76,93 +83,91 @@ Before we get around to setting things up, let&#x27;s describe the what we&#x27;
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;aee5a6da9083921000.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            New Roots part 5, Erecting Container Infrastructure
-        </a></h1>
+                New Roots part 5, Erecting Container Infrastructure
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2016-05-10, around 18 minutes of reading.
-                </p>
+                Posted on 2016-05-10, around 18 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#our-first-container">Our First Container</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#our-first-container">Our First Container</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#orcestration">Orcestration</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#orcestration">Orcestration</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#fixing-an-anti-feature">Fixing an Anti-Feature</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#fixing-an-anti-feature">Fixing an Anti-Feature</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#inter-container-networking">Inter-Container Networking</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#inter-container-networking">Inter-Container Networking</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#the-upgrade-problem">The Upgrade Problem</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#the-upgrade-problem">The Upgrade Problem</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#the-web-proxy">The Web Proxy</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#the-web-proxy">The Web Proxy</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#rest-and-test">Rest and Test</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#rest-and-test">Rest and Test</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-5/#system-evolution">System Evolution</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-5/#system-evolution">System Evolution</a>
-                
-            </li>
-            
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        
-            <p>This is the fifth part of an ongoing series on configuring a new server. In our <a href="/2016/05/09/new-roots-4/">last post</a> we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.</p>
+    
+    <p>This is the fifth part of an ongoing series on configuring a new server. In our <a href="/2016/05/09/new-roots-4/">last post</a> we discussed and configured some basic tools. For all intensive purposes, our 'root' system is complete. What we'll be doing now is building the infrastructure to run containers the way we want to.</p>
 <p>Before we get around to setting things up, let's describe the what we're up to.</p>
 <span id="continue-reading"></span>
 <p>Currently, the only external service the server is running is <code>ssh</code>. We'd like our server to host more services. These services are likely to be both internal services like databases, and external services like HTTP/HTTPS hosts. Since the IPv4 space is increasingly crowded we'd like to do all of these things from one IPv4 address too.</p>
@@ -489,8 +494,8 @@ Port=443
 <p>Give it a few seconds then try running <code>systemctl status haproxy -M web</code>.</p>
 <p><strong>Gotcha:</strong> Sometimes <code>puppet</code> doesn't wait for the name resolution to configure and needs to be restarted with <code>systemctl restart puppet -M web</code>. I'm currently pondering solutions to this.</p>
 <figure class="enriched ">
-        <figcaption>That looks great.</figcaption>
-        
+    <figcaption>That looks great.</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f78d3f8935d3f9e000.jpg 1920w,
@@ -502,7 +507,7 @@ Port=443
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;f78d3f8935d3f9e000.jpg"
               alt="That looks great." />
-    </figure>
+</figure>
 <h2 id="rest-and-test">Rest and Test</h2>
 <p>Since the hostname is <code>silicon.hoverbear.org</code> is already mapped in DNS for me, I'll use that for testing. You want to make your container <code>web-$SUBDOMAIN</code>.</p>
 <pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">machinectl</span></span><span class="z-meta z-function-call z-arguments z-shell"> clone base web-silicon</span>
@@ -526,14 +531,15 @@ Port=443
 <p>As we keep moving ahead we'll discover more needs and eventually build up our services to be better and stronger as a whole, but for now we have the basis to start our work. <code>nspawn</code> containers are persistent, but we can remove them whenever we want and re-create them with a new configuration. Our Puppet master will re-configure new images the same as old ones, and what we extend out with that can be retroactively applied to all. The key is for us to maintain a persisting copy of the data necessary in a safe space. BTRFS and the <code>Bind=</code> option of <code>nspawn</code> enable this.</p>
 <p>In our next post we'll explore how to deploy a basic folder based <code>nginx</code> host and <a rel="noopener" target="_blank" href="https://github.com/RustFestEU/call4papers">the RustFestEU Call for Papers</a> site. Then, it'll go live! Whoa! But first, let's take a break. That post was <strong>so</strong> long!</p>
 
-        
-    </main>
-    <footer class="post-footer">
+    
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

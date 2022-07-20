@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Why Benchmarking Distributed Databases Is So Hard
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Why Benchmarking Distributed Databases Is So Hard
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;138c5c5e74eec8ef00.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;138c5c5e74eec8ef00.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;138c5c5e74eec8ef00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;138c5c5e74eec8ef00.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Why Benchmarking Distributed Databases Is So Hard"/>
-            <meta property='og:title' content="Why Benchmarking Distributed Databases Is So Hard"/>
-        
+    <meta name="twitter:title" content="Why Benchmarking Distributed Databases Is So Hard" />
+    <meta property='og:title' content="Why Benchmarking Distributed Databases Is So Hard" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;benchmarking-is-hard&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;benchmarking-is-hard&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.
+    
+    <meta name="twitter:description" content="If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.
 So why do it at all? Let’s take a look at some of the motivations of benchmarking, the common tools, and discuss a few things to keep in mind when benchmarking.
-"/>
-            <meta property='og:description' content="If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.
+" />
+    <meta property='og:description' content="If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.
 So why do it at all? Let’s take a look at some of the motivations of benchmarking, the common tools, and discuss a few things to keep in mind when benchmarking.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Mitchel Boot; @valeon on Unsplash</figcaption>
-        
+    <figcaption>Photo&nbsp;- Mitchel Boot; @valeon on Unsplash</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d9e8afdfb87d6f5000.jpg 1920w,
@@ -76,108 +83,106 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d9e8afdfb87d6f5000.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Why Benchmarking Distributed Databases Is So Hard
-        </a></h1>
+                Why Benchmarking Distributed Databases Is So Hard
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    Exploring the complexities of benchmarking distributed systems.
-                </h5>
+                Exploring the complexities of benchmarking distributed systems.
+            </h5>
 
             <p class="date">
-                    Posted on 2019-07-08, around 12 minutes of reading.
-                </p>
+                Posted on 2019-07-08, around 12 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/benchmarking-is-hard/#why-benchmark-at-all">Why benchmark at all?</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/benchmarking-is-hard/#why-benchmark-at-all">Why benchmark at all?</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/benchmarking-is-hard/#what-makes-it-so-hard">What makes it so hard?</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/benchmarking-is-hard/#what-makes-it-so-hard">What makes it so hard?</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#the-status-quo">The status quo</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#distributed-systems-are-complex">Distributed systems are complex!</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#different-scenarios-different-standards">Different scenarios, different standards</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#the-status-quo">The status quo</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#distributed-systems-are-complex">Distributed systems are complex!</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#different-scenarios-different-standards">Different scenarios, different standards</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/benchmarking-is-hard/#what-makes-a-good-benchmark">What makes a good benchmark?</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/benchmarking-is-hard/#what-makes-a-good-benchmark">What makes a good benchmark?</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/benchmarking-is-hard/#how-to-make-a-decent-benchmark">How to make a decent benchmark</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#focus-on-a-realistic-metric">Focus on a realistic metric</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#distribute-the-workload">Distribute the workload</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#dig-into-the-why">Dig into the why</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/benchmarking-is-hard/#consult-the-experts">Consult the experts</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/benchmarking-is-hard/#how-to-make-a-decent-benchmark">How to make a decent benchmark</a>
             
-        </ol>
-    </nav>
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#focus-on-a-realistic-metric">Focus on a realistic metric</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#distribute-the-workload">Distribute the workload</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#dig-into-the-why">Dig into the why</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/benchmarking-is-hard/#consult-the-experts">Consult the experts</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.</p>
+    <p>If you’re an avid reader of distributed systems news like I am, you’ve probably seen your share of benchmarks. You’ve also probably stopped taking them at face value. Unfortunately, benchmarks are hard to get right, and even more unfortunately, many articles touting benchmarks are actually benchmarketing, showcasing skewed outcomes to sell products.</p>
 <p>So why do it at all? Let’s take a look at some of the motivations of benchmarking, the common tools, and discuss a few things to keep in mind when benchmarking.</p>
 <span id="continue-reading"></span><h2 id="why-benchmark-at-all">Why benchmark at all?</h2>
 <p>If you don't have reproducible, fair benchmarking, you can be blinded by your own hubris. Our contributors and maintainers of depend on benchmarks to ensure we don't negatively impact its performance. Often not having benchmarks is like not having logging or metrics.</p>
@@ -226,8 +231,8 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
 <p>YCSB is  not as complex as the TPC benchmarks, but it has a number of fairly simple core workloads that you can use to evaluate system performance. Workloads A through F each offer a simplified workload of situations such as photo tagging, session stores, news, conversations, and user settings management.</p>
 <p>PingCAP maintains a <a rel="noopener" target="_blank" href="https://github.com/pingcap/go-ycsb">Go fork of YCSB</a> that we regularly use to test our own database and those of our respected colleagues.</p>
 <figure class="enriched ">
-        <figcaption>Cables -- Taylor Vick; @tvick on Unsplash</figcaption>
-        
+    <figcaption>Cables -- Taylor Vick; @tvick on Unsplash</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5dbe257295df86f300.jpg 1920w,
@@ -239,7 +244,7 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5dbe257295df86f300.jpg"
               alt="Cables -- Taylor Vick; @tvick on Unsplash" />
-    </figure>
+</figure>
 <h2 id="what-makes-a-good-benchmark">What makes a good benchmark?</h2>
 <p>The best benchmark has two things going for it: It is <strong>reproducible</strong> and <strong>convincing</strong>.</p>
 <p>As we discussed earlier, when you benchmark a distributed system there are a wide variety of variables. Choosing and detailing the topology, hardware, and configuration of the deployment is key for reproducibility. If you're testing multiple products, make their configurations as equivalent as possible.</p>
@@ -271,13 +276,14 @@ So why do it at all? Let’s take a look at some of the motivations of benchmark
 <p>This article was originally published on <a rel="noopener" target="_blank" href="https://pingcap.com/blog/why-benchmarking-distributed-databases-is-so-hard/">PingCAP's blog</a>, it has been edited to fit the aesthetic and tone of this blog.</p>
 </blockquote>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

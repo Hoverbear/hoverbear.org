@@ -1,72 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Visually debugging PGX extensions
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Visually debugging PGX extensions
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Visually debugging PGX extensions"/>
-            <meta property='og:title' content="Visually debugging PGX extensions"/>
-        
+    <meta name="twitter:title" content="Visually debugging PGX extensions" />
+    <meta property='og:title' content="Visually debugging PGX extensions" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;debugging-pgx-extensions&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;debugging-pgx-extensions&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via tracing and errors with spantraces thanks to eyre. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.
+    
+    <meta name="twitter:description" content="Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via tracing and errors with spantraces thanks to eyre. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.
 Experience has taught me that I can conquer intimidating things though, and sometimes that is best done with a little help. While hacking on a pgx bug, I realized I was using a newly installed system, and needed to reconfigure my debugger settings.
 This made a good opportunity for me to share with you! This short article will cover how to configure Visual Studio Code with CodeLLDB so you can visually debug your pgx extensions. This includes being able to step into the pgx or postgres sources. While the instructions may be Arch Linux specific, they should be able to be adapted to a different Linux.
-"/>
-            <meta property='og:description' content="Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via tracing and errors with spantraces thanks to eyre. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.
+" />
+    <meta property='og:description' content="Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via tracing and errors with spantraces thanks to eyre. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.
 Experience has taught me that I can conquer intimidating things though, and sometimes that is best done with a little help. While hacking on a pgx bug, I realized I was using a newly installed system, and needed to reconfigure my debugger settings.
 This made a good opportunity for me to share with you! This short article will cover how to configure Visual Studio Code with CodeLLDB so you can visually debug your pgx extensions. This includes being able to step into the pgx or postgres sources. While the instructions may be Arch Linux specific, they should be able to be adapted to a different Linux.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/9vQG6v1md1s">Ryutaro Uozumi</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/9vQG6v1md1s">Ryutaro Uozumi</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg 1920w,
@@ -78,84 +85,82 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Visually debugging PGX extensions
-        </a></h1>
+                Visually debugging PGX extensions
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    Using Visual Studio Code and LLDB to debug PGX extensions
-                </h5>
+                Using Visual Studio Code and LLDB to debug PGX extensions
+            </h5>
 
             <p class="date">
-                    Posted on 2022-06-23, around 10 minutes of reading.
-                </p>
+                Posted on 2022-06-23, around 10 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#brief-setup">Brief setup</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#brief-setup">Brief setup</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-the-sql-generation-process">Debugging the SQL generation process</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-the-sql-generation-process">Debugging the SQL generation process</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#macro-expansion">Macro expansion</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#cargo-pgx-s-sql-generation">cargo-pgx&#x27;s SQL generation</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#macro-expansion">Macro expansion</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#cargo-pgx-s-sql-generation">cargo-pgx&#x27;s SQL generation</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-pgx-extensions">Debugging pgx extensions</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-pgx-extensions">Debugging pgx extensions</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-pgx-and-postgresql-code">Debugging pgx and PostgreSQL code</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/debugging-pgx-extensions/#debugging-pgx-and-postgresql-code">Debugging pgx and PostgreSQL code</a>
             
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via <a rel="noopener" target="_blank" href="https://docs.rs/tracing/"><code>tracing</code></a> and errors with spantraces thanks to <a rel="noopener" target="_blank" href="https://docs.rs/eyre/"><code>eyre</code></a>. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.</p>
+    <p>Rust spoils me, I rarely need to reach for a debugger thanks to structured logging via <a rel="noopener" target="_blank" href="https://docs.rs/tracing/"><code>tracing</code></a> and errors with spantraces thanks to <a rel="noopener" target="_blank" href="https://docs.rs/eyre/"><code>eyre</code></a>. When I do find myself wanting to really dig my grubby little paws into some code, configuring the debugger targets can feel intimidating.</p>
 <p>Experience has taught me that I can conquer intimidating things though, and sometimes that is best done with a little help. While hacking on a <a rel="noopener" target="_blank" href="https://github.com/tcdi/pgx"><code>pgx</code></a> bug, I realized I was using a newly installed system, and needed to reconfigure my debugger settings.</p>
 <p>This made a good opportunity for me to share with you! This short article will cover how to configure <a rel="noopener" target="_blank" href="https://code.visualstudio.com/">Visual Studio Code</a> with <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb">CodeLLDB</a> so you can visually debug your <a rel="noopener" target="_blank" href="https://github.com/tcdi/pgx"><code>pgx</code></a> extensions. This includes being able to step into the <a rel="noopener" target="_blank" href="https://github.com/tcdi/pgx"><code>pgx</code></a> or <a rel="noopener" target="_blank" href="https://github.com/postgres/postgres"><code>postgres</code></a> sources. While the instructions may be <a rel="noopener" target="_blank" href="https://archlinux.org/">Arch Linux</a> specific, they should be able to be adapted to a different Linux.</p>
 <span id="continue-reading"></span><h1 id="brief-setup">Brief setup</h1>
@@ -230,8 +235,8 @@ This made a good opportunity for me to share with you! This short article will c
 <p>Hit Ctrl+Shift+P (That is -- hold down the Control key while then holding the Shift key, then also the P key, releasing them afterward) then enter into the <em>command pallette</em> <code>add folder to workspace</code> and ensure the picked selection is indeed the option: <code>Workspaces: Add folder to workspace...</code>.</p>
 <p>In this file chooser, select the <code>~/git/tcdi/pgx</code> folder we cloned earlier.</p>
 <figure class="enriched ">
-        <figcaption>Code Workspace</figcaption>
-        
+    <figcaption>Code Workspace</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg 1920w,
@@ -243,7 +248,7 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg"
               alt="Code Workspace" />
-    </figure>
+</figure>
 <p>Do the same with <code>~/git/postgres/postgres</code>.</p>
 <blockquote>
 <p>At this point, consider saving the workspace via the &quot;<em>File</em>&quot; menu.</p>
@@ -361,8 +366,8 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p>Navigate over to <code>pgx/pgx_utils/src/sql_entity_graph/pg_extern/mod.rs</code>and Ctrl+F <code>tracing::trace!(sql = %ext_sql);</code>,, it should be in the <code>to_sql</code> function, click the red dot that appears when you hover to the left of the line number there, and set a breakpoint.</p>
 <figure class="enriched ">
-        <figcaption>Breakpoint</figcaption>
-        
+    <figcaption>Breakpoint</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg 1920w,
@@ -374,11 +379,11 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg"
               alt="Breakpoint" />
-    </figure>
+</figure>
 <p>In the &quot;Run &amp; Debug&quot; pane (selected in screenshot above on the left), <strong>hit the &quot;Play&quot; button beside &quot;SQL generation&quot;</strong> at the top. In a terminal you should see <code>cargo pgx schema</code> get run and begin to process the SQL, it will hit the breakpoint during this process and allow you to inspect and work with it:</p>
 <figure class="enriched ">
-        <figcaption>Debugging</figcaption>
-        
+    <figcaption>Debugging</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg 1920w,
@@ -390,7 +395,7 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg"
               alt="Debugging" />
-    </figure>
+</figure>
 <p>At the top middle of the screenshot above, you can see the 'Continue', 'Step over', 'Step into' and related buttons. To the left side we can see 'Variables', the 'Watch' pane, as well as the call stack which caused us to arrive at a particular position.</p>
 <h1 id="debugging-pgx-extensions">Debugging <code>pgx</code> extensions</h1>
 <p>Debugging running extension code is a little bit different. Let's recall something about how PostgreSQL works:</p>
@@ -432,8 +437,8 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p>Select the 'Attach' option from the debugger dropdown. (Where we hit 'SQL Generation' before in the 'Run &amp; Debug' pane.) You should see a <code>postgres</code> process with your extensio name.</p>
 <figure class="enriched ">
-        <figcaption>Attaching</figcaption>
-        
+    <figcaption>Attaching</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg 1920w,
@@ -445,7 +450,7 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg"
               alt="Attaching" />
-    </figure>
+</figure>
 <p>Attaching won't immediately break on anything, but when you start running commands from <code>psql</code> you can trigger breakpoints within the extension:</p>
 <pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql">CREATE EXTENSION debuggable;
 <span class="z-keyword z-other z-DML z-sql">SELECT</span> hello_debuggable<span class="z-meta z-block z-sql"><span class="z-punctuation z-section z-scope z-begin z-sql">(</span><span class="z-punctuation z-section z-scope z-end z-sql">)</span></span>;
@@ -453,8 +458,8 @@ This made a good opportunity for me to share with you! This short article will c
 </span></span></code></pre>
 <p>On the breakpoint, you'll see that familiar screen again:</p>
 <figure class="enriched ">
-        <figcaption>Attached</figcaption>
-        
+    <figcaption>Attached</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg 1920w,
@@ -466,7 +471,7 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg"
               alt="Attached" />
-    </figure>
+</figure>
 <h1 id="debugging-pgx-and-postgresql-code">Debugging <code>pgx</code> and PostgreSQL code</h1>
 <p>Having now learnt to debug <code>cargo-pgx</code> and our own extension, how do we debug if code slips inside <code>pgx</code>, or even PostgreSQL?</p>
 <p>Let's modify our <code>hello_debuggable</code> to call something over the Server Programming Interface (SPI):</p>
@@ -483,8 +488,8 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p><em>Break!</em> Now we're going to <strong>'Step into'</strong> this <code>Spi::get_one</code> statement.</p>
 <figure class="enriched ">
-        <figcaption>Step in</figcaption>
-        
+    <figcaption>Step in</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg 1920w,
@@ -496,7 +501,7 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg"
               alt="Step in" />
-    </figure>
+</figure>
 <p>Now, navigate over to <code>postgres/src/backend/executor/spi.c</code> and set a breakpoint on the <code>int SPI_connect(void)</code> function:</p>
 <pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span>
 <span class="z-meta z-function z-c"><span class="z-entity z-name z-function z-c">SPI_connect</span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-punctuation z-section z-group z-begin z-c">(</span></span></span><span class="z-meta z-function z-parameters z-c"><span class="z-meta z-group z-c"><span class="z-storage z-type z-c">void</span><span class="z-punctuation z-section z-group z-end z-c">)</span></span></span><span class="z-meta z-function z-c">
@@ -506,8 +511,8 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p>Now hit the '<strong>Continue</strong>' on the debugger and we should break inside PostgreSQL:</p>
 <figure class="enriched ">
-        <figcaption>Step in</figcaption>
-        
+    <figcaption>Step in</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg 1920w,
@@ -519,17 +524,18 @@ This made a good opportunity for me to share with you! This short article will c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg"
               alt="Step in" />
-    </figure>
+</figure>
 <p>Fantastic, now we can debug almost every part of our <code>pgx</code> extension. That's all for this article today!</p>
 <p>I hope you manage to find your bugs! If not, <a rel="noopener" target="_blank" href="https://discord.gg/F6kDGwm22yI">let us know in Discord</a></p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

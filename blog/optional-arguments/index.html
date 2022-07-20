@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Optional Arguments in Rust
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Optional Arguments in Rust
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
-    
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;14b1182a5668dbf200.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;14b1182a5668dbf200.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Optional Arguments in Rust"/>
-            <meta property='og:title' content="Optional Arguments in Rust"/>
-        
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;optional-arguments&#x2F;"/>
-        
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;14b1182a5668dbf200.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;14b1182a5668dbf200.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
 
-        
-            <meta name="twitter:description" content="When designing an API for your crate one topic which can come is how to handle optional arguments. Let&#x27;s explore our Options in Rust!
-"/>
-            <meta property='og:description' content="When designing an API for your crate one topic which can come is how to handle optional arguments. Let&#x27;s explore our Options in Rust!
-"/>
-        
     
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+    <meta name="twitter:title" content="Optional Arguments in Rust" />
+    <meta property='og:title' content="Optional Arguments in Rust" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;optional-arguments&#x2F;" />
+    
+
+    
+    <meta name="twitter:description" content="When designing an API for your crate one topic which can come is how to handle optional arguments. Let&#x27;s explore our Options in Rust!
+" />
+    <meta property='og:description' content="When designing an API for your crate one topic which can come is how to handle optional arguments. Let&#x27;s explore our Options in Rust!
+" />
+    
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- A Hobden; Port Renfrew, BC</figcaption>
-        
+    <figcaption>Photo&nbsp;- A Hobden; Port Renfrew, BC</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0de6d443d061716000.jpg 1920w,
@@ -74,95 +81,93 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0de6d443d061716000.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Optional Arguments in Rust
-        </a></h1>
+                Optional Arguments in Rust
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    Exploring Rust UX and API design.
-                </h5>
+                Exploring Rust UX and API design.
+            </h5>
 
             <p class="date">
-                    Posted on 2018-11-04, around 8 minutes of reading.
-                </p>
+                Posted on 2018-11-04, around 8 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#we-don-t-have-splats-or-multiple-implementations">We Don&#x27;t Have Splats or Multiple Implementations</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#we-don-t-have-splats-or-multiple-implementations">We Don&#x27;t Have Splats or Multiple Implementations</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#just-throw-another-function-at-it">Just Throw Another Function At It!</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#just-throw-another-function-at-it">Just Throw Another Function At It!</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#we-ve-got-options">We&#x27;ve got Options</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#we-ve-got-options">We&#x27;ve got Options</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/optional-arguments/#aside-why-i-like-impl-trait">Aside: Why I like impl Trait</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/optional-arguments/#aside-why-i-like-impl-trait">Aside: Why I like impl Trait</a>
+                </li>
                 
-            </li>
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#a-generic-implementation">A Generic Implementation</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#a-generic-implementation">A Generic Implementation</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#caveats">Caveats</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#caveats">Caveats</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#benchmarking">Benchmarking</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#benchmarking">Benchmarking</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/optional-arguments/#what-we-learnt-takeaways">What We Learnt &amp; Takeaways</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/optional-arguments/#what-we-learnt-takeaways">What We Learnt &amp; Takeaways</a>
             
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>When designing an API for your crate one topic which can come is how to handle optional arguments. Let's explore our <code>Option</code>s in Rust!</p>
+    <p>When designing an API for your crate one topic which can come is how to handle optional arguments. Let's explore our <code>Option</code>s in Rust!</p>
 <span id="continue-reading"></span><h2 id="we-don-t-have-splats-or-multiple-implementations">We Don't Have Splats or Multiple Implementations</h2>
 <p>Rust currently does not offer functions with variadic or optional arguments. This means this is not possible:</p>
 <pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">impossible</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">val</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-storage z-type z-rust">bool</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
@@ -376,13 +381,14 @@ optional_into (Vec&lt;u64&gt;) None
 <p><strong>P.S.</strong> If you are looking for a <strong>senior level</strong> position, are passionate about this topic, and have experience with distributed systems, safety critical systems, data structures, networking, and chaos engineering please <a href="https://hoverbear.org/blog/optional-arguments/operator@hoverbear.org">email me</a>. We can chat about the possibility of working on my team at <a rel="noopener" target="_blank" href="http://pingcap.com/">PingCAP</a> doing open source ecosystem work for <a rel="noopener" target="_blank" href="https://github.com/tikv/tikv">TiKV</a> and its dependencies. In the future you would get to take on mentoring new juniors, open source contributors, and community members at large. Globally remote friendly, competitive salaries, travel coverage for speaking, very minority friendly (location, race, sexuality, gender, etc).</p>
 </blockquote>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Getting the most of WSL
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Getting the most of WSL
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4bcb29022c8a36fe00.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4bcb29022c8a36fe00.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4bcb29022c8a36fe00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;4bcb29022c8a36fe00.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Getting the most of WSL"/>
-            <meta property='og:title' content="Getting the most of WSL"/>
-        
+    <meta name="twitter:title" content="Getting the most of WSL" />
+    <meta property='og:title' content="Getting the most of WSL" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;getting-the-most-out-of-wsl&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;getting-the-most-out-of-wsl&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Not long ago, Microsoft started iterating more heavily on their long-existing &amp;quot;Windows Subsystem for Linux&amp;quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.
+    
+    <meta name="twitter:description" content="Not long ago, Microsoft started iterating more heavily on their long-existing &amp;quot;Windows Subsystem for Linux&amp;quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.
 In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won&#x27;t present anything new here, just providing a single place for how I or someone else could get things set up.
-"/>
-            <meta property='og:description' content="Not long ago, Microsoft started iterating more heavily on their long-existing &amp;quot;Windows Subsystem for Linux&amp;quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.
+" />
+    <meta property='og:description' content="Not long ago, Microsoft started iterating more heavily on their long-existing &amp;quot;Windows Subsystem for Linux&amp;quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.
 In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won&#x27;t present anything new here, just providing a single place for how I or someone else could get things set up.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Matthieu Joannon; @matt_j on Unsplash</figcaption>
-        
+    <figcaption>Photo&nbsp;- Matthieu Joannon; @matt_j on Unsplash</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;786fed048a2bb82500.jpg 1920w,
@@ -76,87 +83,85 @@ In this post, we&#x27;ll investigate some ways to get the most out of WSL. I won
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;786fed048a2bb82500.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Getting the most of WSL
-        </a></h1>
+                Getting the most of WSL
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    Some tricks for getting more mileage from your Linux subsystem
-                </h5>
+                Some tricks for getting more mileage from your Linux subsystem
+            </h5>
 
             <p class="date">
-                    Posted on 2019-12-11, around 7 minutes of reading.
-                </p>
+                Posted on 2019-12-11, around 7 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#getting-it-set-up">Getting it set up</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#getting-it-set-up">Getting it set up</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#updating-ubuntu">Updating Ubuntu</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#updating-ubuntu">Updating Ubuntu</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#better-terminals">Better terminals</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#better-terminals">Better terminals</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#configuring-wsl">Configuring WSL</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#configuring-wsl">Configuring WSL</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#passwordless-sudo">Passwordless sudo</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#passwordless-sudo">Passwordless sudo</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#set-up-ssh-keys">Set up SSH keys</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#set-up-ssh-keys">Set up SSH keys</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional">Get systemd functional</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional">Get systemd functional</a>
-                
-            </li>
-            
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>Not long ago, Microsoft started iterating more heavily on their long-existing &quot;Windows Subsystem for Linux&quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.</p>
+    <p>Not long ago, Microsoft started iterating more heavily on their long-existing &quot;Windows Subsystem for Linux&quot; feature. The feature has existed for some time, but recently has it become much more usable for everyday Linux development work.</p>
 <p>In this post, we'll investigate some ways to get the most out of WSL. I won't present anything new here, just providing a single place for how I or someone else <strong>could</strong> get things set up.</p>
 <span id="continue-reading"></span>
 <blockquote>
@@ -195,8 +200,8 @@ wsl <span class="z-keyword z-operator z-assignment z-powershell">-</span><span c
 <h2 id="better-terminals">Better terminals</h2>
 <p>The <a rel="noopener" target="_blank" href="https://www.microsoft.com/en-ca/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab">'Windows Terminal'</a> app provides a nicer terminal experience.</p>
 <figure class="enriched ">
-        <figcaption>Windows Terminal chooser</figcaption>
-        
+    <figcaption>Windows Terminal chooser</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;73f690b57305f78f00.jpg 1920w,
@@ -208,11 +213,11 @@ wsl <span class="z-keyword z-operator z-assignment z-powershell">-</span><span c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;73f690b57305f78f00.jpg"
               alt="Windows Terminal chooser" />
-    </figure>
+</figure>
 <p>You can also install <a rel="noopener" target="_blank" href="https://code.visualstudio.com/insiders/">VS Code Insiders</a> and the <a rel="noopener" target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL</a> extension to get a full featured editor/explorer.</p>
 <figure class="enriched ">
-        <figcaption>VS Code chooser</figcaption>
-        
+    <figcaption>VS Code chooser</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bca8df81f0a6b6ea00.jpg 1920w,
@@ -224,7 +229,7 @@ wsl <span class="z-keyword z-operator z-assignment z-powershell">-</span><span c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bca8df81f0a6b6ea00.jpg"
               alt="VS Code chooser" />
-    </figure>
+</figure>
 <p>Occasionally VS Code, the extension, or something else will update and render it unable to connect. Opening a local VS Code window, closing it, then restarting the computer should fix it.</p>
 <h2 id="configuring-wsl">Configuring WSL</h2>
 <p>Typically, you won't want your WSL instance to be able to consume all your resources. You may also want to disable things like swap.</p>
@@ -351,8 +356,8 @@ wsl <span class="z-keyword z-operator z-assignment z-powershell">-</span><span c
 </span></code></pre>
 <p>Finally, install <code>docker.io</code> with <code>apt</code> and have a try:</p>
 <figure class="enriched ">
-        <figcaption>Docker running in Sytemd</figcaption>
-        
+    <figcaption>Docker running in Sytemd</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8bf4f501aa795c1100.jpg 1920w,
@@ -364,15 +369,16 @@ wsl <span class="z-keyword z-operator z-assignment z-powershell">-</span><span c
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8bf4f501aa795c1100.jpg"
               alt="Docker running in Sytemd" />
-    </figure>
+</figure>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

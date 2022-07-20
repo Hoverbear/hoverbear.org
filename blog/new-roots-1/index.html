@@ -1,72 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>New Roots part 1, Choosing a Server
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>New Roots part 1, Choosing a Server
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7b134cb24e87353300.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7b134cb24e87353300.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7b134cb24e87353300.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7b134cb24e87353300.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="New Roots part 1, Choosing a Server"/>
-            <meta property='og:title' content="New Roots part 1, Choosing a Server"/>
-        
+    <meta name="twitter:title" content="New Roots part 1, Choosing a Server" />
+    <meta property='og:title' content="New Roots part 1, Choosing a Server" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-1&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-1&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="This is the first in a series of posts where we&#x27;ll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we&#x27;ll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.
+    
+    <meta name="twitter:description" content="This is the first in a series of posts where we&#x27;ll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we&#x27;ll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.
 In this post, We&#x27;ll discuss things to keep in mind when searching for your own hosting, things to look for, and the differences between distinctions.
 This series is not intended to be a comprehensive guide. These are just the notes and rambling of a hobbyist server admin who&#x27;s loved tinkering for over a decade. I&#x27;m writing these both for my own future reference, and so my readers can suggest improvements! As always, comments are welcome via email.
-"/>
-            <meta property='og:description' content="This is the first in a series of posts where we&#x27;ll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we&#x27;ll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.
+" />
+    <meta property='og:description' content="This is the first in a series of posts where we&#x27;ll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we&#x27;ll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.
 In this post, We&#x27;ll discuss things to keep in mind when searching for your own hosting, things to look for, and the differences between distinctions.
 This series is not intended to be a comprehensive guide. These are just the notes and rambling of a hobbyist server admin who&#x27;s loved tinkering for over a decade. I&#x27;m writing these both for my own future reference, and so my readers can suggest improvements! As always, comments are welcome via email.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Todd Quackenbush</figcaption>
-        
+    <figcaption>Photo&nbsp;- Todd Quackenbush</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b10161513c49353700.jpg 1920w,
@@ -78,83 +85,81 @@ This series is not intended to be a comprehensive guide. These are just the note
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b10161513c49353700.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            New Roots part 1, Choosing a Server
-        </a></h1>
+                New Roots part 1, Choosing a Server
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2016-05-05, around 7 minutes of reading.
-                </p>
+                Posted on 2016-05-05, around 7 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-1/#background-and-goals">Background and Goals</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-1/#background-and-goals">Background and Goals</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-1/#what-s-a-server">What&#x27;s a Server?</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-1/#what-s-a-server">What&#x27;s a Server?</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/new-roots-1/#the-dedicated-server">The Dedicated Server</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/new-roots-1/#the-virtual-private-server">The Virtual Private Server</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/new-roots-1/#the-web-host">The Web host</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/new-roots-1/#the-dedicated-server">The Dedicated Server</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/new-roots-1/#the-virtual-private-server">The Virtual Private Server</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/new-roots-1/#the-web-host">The Web host</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-1/#things-to-look-for">Things to look for</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-1/#things-to-look-for">Things to look for</a>
             
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>This is the first in a series of posts where we'll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we'll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.</p>
+    <p>This is the first in a series of posts where we'll discuss the process of obtaining, setting up, and settling into a new headless server. Along the way we'll install Linux, configure firewalls and web servers, set up virtual machines, tinker with system knobs, explore automation tools, and generally have a great time.</p>
 <p>In this post, We'll discuss things to keep in mind when searching for your own hosting, things to look for, and the differences between distinctions.</p>
 <p>This series is not intended to be a comprehensive guide. These are just the notes and rambling of a hobbyist server admin who's loved tinkering for over a decade. I'm writing these both for my own future reference, and so my readers can suggest improvements! As always, comments are welcome via <a href="mailto:ana@hoverbear.org">email</a>.</p>
 <span id="continue-reading"></span><h2 id="background-and-goals">Background and Goals</h2>
@@ -206,13 +211,14 @@ You &lt;- Internet &lt;- Server
 <p>For all storage and bandwidth related estimations you can consider pictures, songs, presentations/documents as all roughly 5MB. This is generous but you'll be thankful later.</p>
 <p><a href="/2016/05/06/new-roots-2/">Next post</a> we'll discuss how to install a dedicated host.</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

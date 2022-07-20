@@ -1,74 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Understanding Over Guesswork
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Understanding Over Guesswork
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d87d6a3237f8c7d100.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d87d6a3237f8c7d100.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d87d6a3237f8c7d100.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d87d6a3237f8c7d100.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Understanding Over Guesswork"/>
-            <meta property='og:title' content="Understanding Over Guesswork"/>
-        
+    <meta name="twitter:title" content="Understanding Over Guesswork" />
+    <meta property='og:title' content="Understanding Over Guesswork" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;understand-over-guesswork&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;understand-over-guesswork&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Evolving How We Learn Systems with Lessons from Programming in the Large
+    
+    <meta name="twitter:description" content="Evolving How We Learn Systems with Lessons from Programming in the Large
 
 Some bugs are just that+++a one off.  A wayward moth that just happens to be innocently fluttering through the wrong relay at the wrong time.  But some kinds of bugs aren&#x27;t like that.  Instead, they have risen to superstar status, plaguing veterans and newcomers alike.  But what if these aren&#x27;t bugs at all?  What if they are actual deficiencies in safety and robustness offered by the C programming language as a consequence of the degree to which guesswork is introduced.  Here we explore a more explicit approach to systems level programming supported by Rust, which we believe will better promote understanding of design intent, and eliminate some of the guesswork.  Guided by a set of classic, but still relevant, bugs identified almost 15 years ago by Engler, we consider this in the context of the new generation of students learning about systems in a typical OS course, where students often first encounter these deficiencies.
 
-"/>
-            <meta property='og:description' content="Evolving How We Learn Systems with Lessons from Programming in the Large
+" />
+    <meta property='og:description' content="Evolving How We Learn Systems with Lessons from Programming in the Large
 
 Some bugs are just that+++a one off.  A wayward moth that just happens to be innocently fluttering through the wrong relay at the wrong time.  But some kinds of bugs aren&#x27;t like that.  Instead, they have risen to superstar status, plaguing veterans and newcomers alike.  But what if these aren&#x27;t bugs at all?  What if they are actual deficiencies in safety and robustness offered by the C programming language as a consequence of the degree to which guesswork is introduced.  Here we explore a more explicit approach to systems level programming supported by Rust, which we believe will better promote understanding of design intent, and eliminate some of the guesswork.  Guided by a set of classic, but still relevant, bugs identified almost 15 years ago by Engler, we consider this in the context of the new generation of students learning about systems in a typical OS course, where students often first encounter these deficiencies.
 
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo</figcaption>
-        
+    <figcaption>Photo</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bf9dea6977677d3d00.jpg 1920w,
@@ -80,134 +87,132 @@ Some bugs are just that+++a one off.  A wayward moth that just happens to be inn
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bf9dea6977677d3d00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Understanding Over Guesswork
-        </a></h1>
+                Understanding Over Guesswork
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2015-09-12, around 22 minutes of reading.
-                </p>
+                Posted on 2015-09-12, around 22 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/understand-over-guesswork/#evolving-how-we-learn-systems-with-lessons-from-programming-in-the-large">Evolving How We Learn Systems with Lessons from Programming in the Large</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/understand-over-guesswork/#evolving-how-we-learn-systems-with-lessons-from-programming-in-the-large">Evolving How We Learn Systems with Lessons from Programming in the Large</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/understand-over-guesswork/#1-introduction">1. Introduction</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/understand-over-guesswork/#1-introduction">1. Introduction</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-introducing-rust">2. Introducing Rust</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-introducing-rust">2. Introducing Rust</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-1-rust-basics">2.1 Rust Basics</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-2-a-strong-type-system">2.2 A Strong Type System</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-3-we-don-t-need-a-null">2.3 We Don&#x27;t Need A null</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-1-rust-basics">2.1 Rust Basics</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-2-a-strong-type-system">2.2 A Strong Type System</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#2-3-we-don-t-need-a-null">2.3 We Don&#x27;t Need A null</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-rust-reducing-bugs-through-linguistic-features">3. Rust: Reducing Bugs through Linguistic Features</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-1-results-and-try">3.1 Results and try!()</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-2-borrow-and-move-forget-free">3.2 Borrow and Move: Forget free()</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-3-traits-zero-cost-abstractions">3.3 Traits: Zero-cost Abstractions</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-4-static-analysis-at-the-core">3.4 Static Analysis at the Core</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-5-threads-that-don-t-bite">3.5 Threads that don&#x27;t Bite</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-rust-reducing-bugs-through-linguistic-features">3. Rust: Reducing Bugs through Linguistic Features</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-safety-tools-and-community">4. Safety, Tools, and Community</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-1-tooling">4.1 Tooling</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-2-community">4.2 Community</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-1-results-and-try">3.1 Results and try!()</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-2-borrow-and-move-forget-free">3.2 Borrow and Move: Forget free()</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-3-traits-zero-cost-abstractions">3.3 Traits: Zero-cost Abstractions</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-4-static-analysis-at-the-core">3.4 Static Analysis at the Core</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#3-5-threads-that-don-t-bite">3.5 Threads that don&#x27;t Bite</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/understand-over-guesswork/#5-0-conclusion-and-future-work">5.0 Conclusion and Future Work</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-safety-tools-and-community">4. Safety, Tools, and Community</a>
             
-        </ol>
-    </nav>
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-1-tooling">4.1 Tooling</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/understand-over-guesswork/#4-2-community">4.2 Community</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/understand-over-guesswork/#5-0-conclusion-and-future-work">5.0 Conclusion and Future Work</a>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <h1 id="evolving-how-we-learn-systems-with-lessons-from-programming-in-the-large">Evolving How We Learn Systems with Lessons from Programming in the Large</h1>
+    <h1 id="evolving-how-we-learn-systems-with-lessons-from-programming-in-the-large">Evolving How We Learn Systems with Lessons from Programming in the Large</h1>
 <blockquote>
 <p>Some bugs are just that+++a one off.  A wayward moth that just happens to be innocently fluttering through the wrong relay at the wrong time.  But some kinds of bugs aren't like that.  Instead, they have risen to superstar status, plaguing veterans and newcomers alike.  But what if these aren't bugs at all?  What if they are actual deficiencies in safety and robustness offered by the C programming language as a consequence of the degree to which guesswork is introduced.  Here we explore a more explicit approach to systems level programming supported by Rust, which we believe will better promote understanding of design intent, and eliminate some of the guesswork.  Guided by a set of classic, but still relevant, bugs identified almost 15 years ago by Engler, we consider this in the context of the new generation of students learning about systems in a typical OS course, where students often first encounter these deficiencies.</p>
 </blockquote>
@@ -434,13 +439,14 @@ is similar to C/C++'s. It features a powerful pointer system that allows program
 <h1 id="5-0-conclusion-and-future-work">5.0 Conclusion and Future Work</h1>
 <p>In this work we have overviewed some of the reasons to consider Rust as the lanugage for a new generation of systems programmers by highlighting precisely how Rust prevents classic bugs.  There is a considerable amount of research remaining regarding Rust's uses in systems code and programming in the large in general. We seek to foster knowledge of the language at the University of Victoria and are working on developing distributed consensus algorithms like Raft <a rel="noopener" target="_blank" title="In Search of an Understandable Consensus Algorithm" href="http://ramcloud.stanford.edu/raft.pdf"><em>(ref)</em></a> and next generation initialization systems in the spirit of OpenRC.</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Quadcopters: Motors
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Quadcopters: Motors
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
-    
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Quadcopters: Motors"/>
-            <meta property='og:title' content="Quadcopters: Motors"/>
-        
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-motors&#x2F;"/>
-        
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
 
-        
-            <meta name="twitter:description" content="We&#x27;ve already talked a bit about motors in our previous articles, in this article we&#x27;ll talk more about motors than the quadcopter as a whole.
-"/>
-            <meta property='og:description' content="We&#x27;ve already talked a bit about motors in our previous articles, in this article we&#x27;ll talk more about motors than the quadcopter as a whole.
-"/>
-        
     
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+    <meta name="twitter:title" content="Quadcopters: Motors" />
+    <meta property='og:title' content="Quadcopters: Motors" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-motors&#x2F;" />
+    
+
+    
+    <meta name="twitter:description" content="We&#x27;ve already talked a bit about motors in our previous articles, in this article we&#x27;ll talk more about motors than the quadcopter as a whole.
+" />
+    <meta property='og:description' content="We&#x27;ve already talked a bit about motors in our previous articles, in this article we&#x27;ll talk more about motors than the quadcopter as a whole.
+" />
+    
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -74,113 +81,107 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Quadcopters: Motors
-        </a></h1>
+                Quadcopters: Motors
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2015-06-11, around 6 minutes of reading.
-                </p>
+                Posted on 2015-06-11, around 6 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-motors/#motor-basics">Motor Basics</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-motors/#motor-basics">Motor Basics</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-motors/#build-your-own">Build Your Own</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-motors/#tinker-or-make-a-demo">Tinker or Make a Demo</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-motors/#build-your-own">Build Your Own</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-motors/#tinker-or-make-a-demo">Tinker or Make a Demo</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-motors/#measuring-the-motor">Measuring the Motor</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-motors/#measuring-the-motor">Measuring the Motor</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-motors/#measurements">Measurements</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-motors/#measurements">Measurements</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-motors/#motors-in-action">Motors in Action</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-motors/#pitch">Pitch</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-motors/#roll">Roll</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-motors/#yaw">Yaw</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-motors/#motors-in-action">Motors in Action</a>
             
-        </ol>
-    </nav>
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-motors/#pitch">Pitch</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-motors/#roll">Roll</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-motors/#yaw">Yaw</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>We've already talked a bit about motors in our <a rel="noopener" target="_blank" href="http://hoverbear.org/tag/quadcopters/">previous articles</a>, in this article we'll talk more about <strong>motors</strong> than the quadcopter as a whole.</p>
+    <p>We've already talked a bit about motors in our <a rel="noopener" target="_blank" href="http://hoverbear.org/tag/quadcopters/">previous articles</a>, in this article we'll talk more about <strong>motors</strong> than the quadcopter as a whole.</p>
 <span id="continue-reading"></span><h1 id="motor-basics">Motor Basics</h1>
 <p>We found some great introductory videos which very throughly explain motors and give many great ideas, so instead of replicating their work we chose to share it instead.</p>
 <h2 id="build-your-own">Build Your Own</h2>
 <p>One of the best ways to learn about anything is hands on! Why not try to make a motor yourself, or with your cohort?</p>
 <p>The below video explains how you can build a simple motor out of some basic supplies. This project is more suitable for younger or less technically inclined humans. Note that the motors used in a Quadcopter are <em>slightly</em> more sophisticated.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/ziWUmIUcR2k"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/ziWUmIUcR2k" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <h2 id="tinker-or-make-a-demo">Tinker or Make a Demo</h2>
 <p>The below video has a fantastic, in-depth explaination of how motors work and includes a number of setups which can help you understand the mechanics and motion of a motor.</p>
@@ -189,20 +190,16 @@
 <p>Getting your hands on something is unquestionably the best way to learn, having demos and experiments is a fantastic way to enhance your lessons or self-study.</p>
 </blockquote>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/-qS85aIvleQ"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/-qS85aIvleQ" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <h1 id="measuring-the-motor">Measuring the Motor</h1>
 <p>In order to get some firm measurements about the motor, we built an apparatus to hold it and attached wires to it.</p>
 <p>Since we didn't want to damage the motor we were careful and used very small wire looped into the connector. Then we used tape to keep the copper wires seperate. The wires touching would cause a short circuit and be very bad (resulting in smoke and an angry motor.)</p>
 <figure class="enriched ">
-        <figcaption>Taping</figcaption>
-        
+    <figcaption>Taping</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;981f2b15b80ee7b400.jpg 1920w,
@@ -214,16 +211,12 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;981f2b15b80ee7b400.jpg"
               alt="Taping" />
-    </figure>
+</figure>
 <p>After that was complete we used an adjustable soldering stand to hold the motor up in the path of a photogate sensor. The idea was to use the propellor to break the photogate's beam and use the number of breaks to determine the rotations per minute (RPM) of the propellor at various speeds.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/OgLc68JZ2xY"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/OgLc68JZ2xY" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>With the motor held safely, the photogate in place, and the power supply wired in to provide power to the motor, we attached our photogate to a measurement device to start our experiment.</p>
 <p><strong>Failure.</strong> It turns out that the software was unable to effectively measure the propellor at higher speeds. The quadcopters motors are rated up to 14,000 RPM and it's understandable that standard equiptment might struggle with this.</p>
@@ -237,20 +230,16 @@ PPM = RPM
 $$</p>
 <p>You can see how it looks in this below video, apologies for the video quality <strong>and loud sound</strong>, strobes are noisy and cameras don't image the way our eyes do.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/_8-kZzx6Kw4"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/_8-kZzx6Kw4" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>This is a very fun and curious experiment to try on your own or with your cohort however strobe lights can be hard to source.</p>
 <h1 id="measurements">Measurements</h1>
 <p>Using a pair of multimeters and an adjustable power supply we could take measurements of the motor at various power settings.</p>
 <figure class="enriched ">
-        <figcaption>Measuring Setup</figcaption>
-        
+    <figcaption>Measuring Setup</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5929f739202cff0600.jpg 1920w,
@@ -262,14 +251,14 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5929f739202cff0600.jpg"
               alt="Measuring Setup" />
-    </figure>
+</figure>
 <p>First, let's take a look at the relationship between voltage and the rotations per minute (RPM) of the propeller. Voltage is the <strong>difference in potential</strong> between the hot and ground wires.</p>
 <blockquote>
 <p>If you picture yourself as an electron walking along a road (the wire), you can picture voltage as how steep the hill is.</p>
 </blockquote>
 <figure class="enriched ">
-        <figcaption>Voltage vs. RPM</figcaption>
-        
+    <figcaption>Voltage vs. RPM</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a9adc898b2bbc1b400.jpg 1920w,
@@ -281,14 +270,14 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a9adc898b2bbc1b400.jpg"
               alt="Voltage vs. RPM" />
-    </figure>
+</figure>
 <p>The relationship that current and the rotations per minute have is also very much a straight line.</p>
 <blockquote>
 <p>If you picture yourself as an electron current is how hard you're pushing against something.</p>
 </blockquote>
 <figure class="enriched ">
-        <figcaption>Current vs. RPM</figcaption>
-        
+    <figcaption>Current vs. RPM</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;60eda87cfdc041dc00.jpg 1920w,
@@ -300,14 +289,14 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;60eda87cfdc041dc00.jpg"
               alt="Current vs. RPM" />
-    </figure>
+</figure>
 <p>The power of the motor is equals to the voltage times the current. You can see that this relationship is a nice, smooth curve. It's interesting to note that there are diminishing returns the more power you put in.</p>
 <p>$$
 voltage * current = power
 $$</p>
 <figure class="enriched ">
-        <figcaption>Power vs. RPM</figcaption>
-        
+    <figcaption>Power vs. RPM</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;48f54266ab24259a00.jpg 1920w,
@@ -319,14 +308,14 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;48f54266ab24259a00.jpg"
               alt="Power vs. RPM" />
-    </figure>
+</figure>
 <p>The angular velocity is the speed at which the blade of the propeller is rotating around the motor's axis. This relationship is straight, just like the voltage vs RPM graph.</p>
 <p>$$
 velocity_{angular} = RPM * \frac{2\pi}{60 seconds}
 $$</p>
 <figure class="enriched ">
-        <figcaption>Voltage vs. Angular Velocity</figcaption>
-        
+    <figcaption>Voltage vs. Angular Velocity</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3663566b4af488f600.jpg 1920w,
@@ -338,14 +327,14 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3663566b4af488f600.jpg"
               alt="Voltage vs. Angular Velocity" />
-    </figure>
+</figure>
 <h1 id="motors-in-action">Motors in Action</h1>
 <p>In the following graphs we captured data from the quadcopter using the Crazyflie client's logging functionalities. A motor value of 0 indicates that no power was sent to the motor, while a higher number means more power was sent. (We asked the Bitcraze folks what these values represented <a rel="noopener" target="_blank" href="https://github.com/bitcraze/crazyflie-firmware/issues/50">here</a>.)</p>
 <p>In order to capture this data we held the quadcopter (mostly) in place and fully triggered given inputs. The wobble you see in the motor plots is due to variances in the outputs of the stablization algorithms as they react on sensor input.</p>
 <h2 id="pitch">Pitch</h2>
 <figure class="enriched ">
-        <figcaption>Pitch Increase</figcaption>
-        
+    <figcaption>Pitch Increase</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0459a5c1f8c19cff00.jpg 1920w,
@@ -357,11 +346,11 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0459a5c1f8c19cff00.jpg"
               alt="Pitch Increase" />
-    </figure>
+</figure>
 <p>In these you can see the very clear demonstration of the front motor and rear motors raising or lowering depending on the input.</p>
 <figure class="enriched ">
-        <figcaption>Pitch Decrease</figcaption>
-        
+    <figcaption>Pitch Decrease</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7c1c23903d0c5e3200.jpg 1920w,
@@ -373,11 +362,11 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;7c1c23903d0c5e3200.jpg"
               alt="Pitch Decrease" />
-    </figure>
+</figure>
 <h2 id="roll">Roll</h2>
 <figure class="enriched ">
-        <figcaption>Roll Increase</figcaption>
-        
+    <figcaption>Roll Increase</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;aa4afdcb9231555800.jpg 1920w,
@@ -389,11 +378,11 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;aa4afdcb9231555800.jpg"
               alt="Roll Increase" />
-    </figure>
+</figure>
 <p>In these you can observe the left and right motors changing accordingly.</p>
 <figure class="enriched ">
-        <figcaption>Roll Decrease</figcaption>
-        
+    <figcaption>Roll Decrease</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e57303e6f7f9f4f100.jpg 1920w,
@@ -405,11 +394,11 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e57303e6f7f9f4f100.jpg"
               alt="Roll Decrease" />
-    </figure>
+</figure>
 <h2 id="yaw">Yaw</h2>
 <figure class="enriched ">
-        <figcaption>Yaw Increase</figcaption>
-        
+    <figcaption>Yaw Increase</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;942696d1be12111200.jpg 1920w,
@@ -421,11 +410,11 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;942696d1be12111200.jpg"
               alt="Yaw Increase" />
-    </figure>
+</figure>
 <p>Finally, in these you can see the diagonal motors changing as we've previously discussed.</p>
 <figure class="enriched ">
-        <figcaption>Yaw Decrease</figcaption>
-        
+    <figcaption>Yaw Decrease</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fcd1cf58cd74e5e200.jpg 1920w,
@@ -437,15 +426,16 @@ $$</p>
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fcd1cf58cd74e5e200.jpg"
               alt="Yaw Decrease" />
-    </figure>
+</figure>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

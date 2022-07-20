@@ -1,72 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Pretty State Machine Patterns in Rust
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Pretty State Machine Patterns in Rust
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1d8cbc6024afa54c00.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1d8cbc6024afa54c00.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1d8cbc6024afa54c00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1d8cbc6024afa54c00.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Pretty State Machine Patterns in Rust"/>
-            <meta property='og:title' content="Pretty State Machine Patterns in Rust"/>
-        
+    <meta name="twitter:title" content="Pretty State Machine Patterns in Rust" />
+    <meta property='og:title' content="Pretty State Machine Patterns in Rust" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;rust-state-machine-pattern&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;rust-state-machine-pattern&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Lately I&#x27;ve been thinking a lot about the patterns and structures which we program with. It&#x27;s really wonderful to start exploring a project and see familiar patterns and styles which you&#x27;ve already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.
+    
+    <meta name="twitter:description" content="Lately I&#x27;ve been thinking a lot about the patterns and structures which we program with. It&#x27;s really wonderful to start exploring a project and see familiar patterns and styles which you&#x27;ve already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.
 Sometimes you&#x27;re working on a new project and realize that you need to do something in the same way as you did in another project. This thing might not be a functionality or a library, it might not be something which you can encode into some clever macro or small crate. Instead, it may be simply a pattern, or a structural concept which addresses a problem nicely.
 One interesting pattern that is commonly applied to problems is that of the &#x27;State Machine&#x27;. Let&#x27;s take some time to consider what exactly we mean when we say that, and why they&#x27;re interesting.
-"/>
-            <meta property='og:description' content="Lately I&#x27;ve been thinking a lot about the patterns and structures which we program with. It&#x27;s really wonderful to start exploring a project and see familiar patterns and styles which you&#x27;ve already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.
+" />
+    <meta property='og:description' content="Lately I&#x27;ve been thinking a lot about the patterns and structures which we program with. It&#x27;s really wonderful to start exploring a project and see familiar patterns and styles which you&#x27;ve already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.
 Sometimes you&#x27;re working on a new project and realize that you need to do something in the same way as you did in another project. This thing might not be a functionality or a library, it might not be something which you can encode into some clever macro or small crate. Instead, it may be simply a pattern, or a structural concept which addresses a problem nicely.
 One interesting pattern that is commonly applied to problems is that of the &#x27;State Machine&#x27;. Let&#x27;s take some time to consider what exactly we mean when we say that, and why they&#x27;re interesting.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Samuel Zeller</figcaption>
-        
+    <figcaption>Photo&nbsp;- Samuel Zeller</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca51ffc421b7df1d00.jpg 1920w,
@@ -78,114 +85,112 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ca51ffc421b7df1d00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Pretty State Machine Patterns in Rust
-        </a></h1>
+                Pretty State Machine Patterns in Rust
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2016-10-12, around 20 minutes of reading.
-                </p>
+                Posted on 2016-10-12, around 20 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#founding-our-concepts">Founding Our Concepts</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#founding-our-concepts">Founding Our Concepts</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#determining-what-we-want">Determining What We Want</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#determining-what-we-want">Determining What We Want</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#exploring-possible-implementation-options">Exploring Possible Implementation Options</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#exploring-possible-implementation-options">Exploring Possible Implementation Options</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#a-second-shot-with-enums">A Second Shot with Enums</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#structures-with-transitions">Structures With Transitions</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#generically-sophistication">Generically Sophistication</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#getting-messy-with-the-parents">Getting Messy With the Parents</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#a-second-shot-with-enums">A Second Shot with Enums</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#structures-with-transitions">Structures With Transitions</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#generically-sophistication">Generically Sophistication</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#getting-messy-with-the-parents">Getting Messy With the Parents</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#worked-examples">Worked Examples</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#three-state-two-transitions">Three State, Two Transitions</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#a-raft-example">A Raft Example</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#worked-examples">Worked Examples</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#alternatives-from-feedback">Alternatives From Feedback</a>
+            <ol>
                 
-            </li>
-            
-            <li>
-                <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#closing-thoughts">Closing Thoughts</a>
+                <li>
+                    <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#three-state-two-transitions">Three State, Two Transitions</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#a-raft-example">A Raft Example</a>
+                </li>
+                
+            </ol>
             
-        </ol>
-    </nav>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#alternatives-from-feedback">Alternatives From Feedback</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/rust-state-machine-pattern/#closing-thoughts">Closing Thoughts</a>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>Lately I've been thinking a lot about the <em>patterns</em> and <em>structures</em> which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.</p>
+    <p>Lately I've been thinking a lot about the <em>patterns</em> and <em>structures</em> which we program with. It's really wonderful to start exploring a project and see familiar patterns and styles which you've already used before. It makes it easier to understand the project, and empowers you to start working on the project faster.</p>
 <p>Sometimes you're working on a new project and realize that you need to do something in the same way as you did in another project. This <em>thing</em> might not be a functionality or a library, it might not be something which you can encode into some clever macro or small crate. Instead, it may be simply a pattern, or a structural concept which addresses a problem nicely.</p>
 <p>One interesting pattern that is commonly applied to problems is that of the 'State Machine'. Let's take some time to consider what exactly we mean when we say that, and why they're interesting.</p>
 <span id="continue-reading"></span>
@@ -747,13 +752,14 @@ One interesting pattern that is commonly applied to problems is that of the &#x2
 <p>Rust lets us represent State Machines in a fairly good way. In an ideal situation we'd be able to make <code>enum</code>s with restricted transitions between variants, but that's not the case. Instead, we can harness the power of generics and the ownership system to create something expressive, safe, and understandable.</p>
 <p>If you have any feedback or suggestions on this article I'd suggest checking out the footer of this page for contact details. I also hang out on Mozilla's IRC as Hoverbear.</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>A Flake for your Crate
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>A Flake for your Crate
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed4480597489834f00.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed4480597489834f00.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed4480597489834f00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ed4480597489834f00.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="A Flake for your Crate"/>
-            <meta property='og:title' content="A Flake for your Crate"/>
-        
+    <meta name="twitter:title" content="A Flake for your Crate" />
+    <meta property='og:title' content="A Flake for your Crate" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;a-flake-for-your-crate&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;a-flake-for-your-crate&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Nix (PDF) provides users a way to access the massive Nixpkgs library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, Flakes, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)
+    
+    <meta name="twitter:description" content="Nix (PDF) provides users a way to access the massive Nixpkgs library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, Flakes, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)
 Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the end of this, any nix user with Flakes enabled should be able to run your project with something like nix run github:user&#x2F;project. They&#x27;ll be able to add your repository as a Nix overlay, install the package, do interactive builds, or create a portable bundle of it.
-"/>
-            <meta property='og:description' content="Nix (PDF) provides users a way to access the massive Nixpkgs library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, Flakes, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)
+" />
+    <meta property='og:description' content="Nix (PDF) provides users a way to access the massive Nixpkgs library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, Flakes, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)
 Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the end of this, any nix user with Flakes enabled should be able to run your project with something like nix run github:user&#x2F;project. They&#x27;ll be able to add your repository as a Nix overlay, install the package, do interactive builds, or create a portable bundle of it.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/Cbo4Bxx7SaA">Ahmed Sobah</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/Cbo4Bxx7SaA">Ahmed Sobah</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;43c774faf584723200.jpg 1920w,
@@ -76,121 +83,119 @@ Let&#x27;s explore how we can make our Rust crate usable as a Nix flake. At the 
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;43c774faf584723200.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            A Flake for your Crate
-        </a></h1>
+                A Flake for your Crate
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    Creating a Nix Flake for your Rust crate.
-                </h5>
+                Creating a Nix Flake for your Rust crate.
+            </h5>
 
             <p class="date">
-                    Posted on 2021-06-25, around 8 minutes of reading.
-                </p>
+                Posted on 2021-06-25, around 8 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#prerequisites">Prerequisites</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#prerequisites">Prerequisites</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#if-using-nixos">If using NixOS:</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#if-using-nix">If using Nix</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#if-using-nixos">If using NixOS:</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#if-using-nix">If using Nix</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#setup">Setup</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#flake-nix">flake.nix</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#default-nix">default.nix</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#optional-nix-direnv-envrc">Optional: nix-direnv &amp; .envrc</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#setup">Setup</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#make-sure-it-works">Make sure it works</a>
+            <ol>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#flake-nix">flake.nix</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#default-nix">default.nix</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#optional-nix-direnv-envrc">Optional: nix-direnv &amp; .envrc</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#in-the-real-world">In the real world</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#ripgrep">ripgrep</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#bottom">bottom</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#nushell-nu">Nushell (nu)</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#make-sure-it-works">Make sure it works</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#getting-help">Getting help</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#in-the-real-world">In the real world</a>
             
-        </ol>
-    </nav>
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#ripgrep">ripgrep</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#bottom">bottom</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#nushell-nu">Nushell (nu)</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/a-flake-for-your-crate/#getting-help">Getting help</a>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p><a rel="noopener" target="_blank" href="https://edolstra.github.io/pubs/phd-thesis.pdf">Nix (PDF)</a> provides users a way to access the massive <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs">Nixpkgs</a> library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, <em>Flakes</em>, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)</p>
+    <p><a rel="noopener" target="_blank" href="https://edolstra.github.io/pubs/phd-thesis.pdf">Nix (PDF)</a> provides users a way to access the massive <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs">Nixpkgs</a> library of packages, create reproducable builds of software, roll slim containers, create declarative VMs, or run their whole machines. A new feature of Nix, <em>Flakes</em>, is bringing a convention to how projects like Rust crates can be accessed, integrated, and used within Nix (or NixOS.)</p>
 <p>Let's explore how we can make our Rust crate usable as a Nix flake. At the end of this, any <code>nix</code> user with Flakes enabled should be able to run your project with something like <code>nix run github:user/project</code>. They'll be able to add your repository as a <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/Overlays">Nix overlay</a>, install the package, do interactive builds, or create a portable bundle of it.</p>
 <span id="continue-reading"></span><h1 id="prerequisites">Prerequisites</h1>
 <p>Before we get started, you'll need a Nix with the <code>flakes</code> feature enabled. Let's do that!</p>
@@ -493,13 +498,14 @@ expression.</li>
 <p>These days my consultancy is working with Indigenous organizations or persons. If you fall into one of those categories, please contact me at <a href="mailto:consulting@hoverbear.org"><em>consulting@hoverbear.org</em></a>.</p>
 <p>If you're a tech startup, or anyone else, I would love to recommend you to use the services of <a rel="noopener" target="_blank" href="https://determinate.systems/">Determinate Systems</a> for Nix problems, and <a rel="noopener" target="_blank" href="https://ferrous-systems.com/">Ferrous Systems</a> for Rust problems. They are owned and operated by people I trust.</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Arduino: Motor Fun!
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Arduino: Motor Fun!
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Arduino: Motor Fun!"/>
-            <meta property='og:title' content="Arduino: Motor Fun!"/>
-        
+    <meta name="twitter:title" content="Arduino: Motor Fun!" />
+    <meta property='og:title' content="Arduino: Motor Fun!" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;arduino-motor-fun&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;arduino-motor-fun&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Lately we&#x27;ve been playing with Quadcopters a lot, one of the key components of any copter is it&#x27;s motors! I&#x27;ll be writing about motors next, but before that I wanted to share some small, short Arduino &#x27;labs&#x27; that you can do either on your own or with your cohort!
+    
+    <meta name="twitter:description" content="Lately we&#x27;ve been playing with Quadcopters a lot, one of the key components of any copter is it&#x27;s motors! I&#x27;ll be writing about motors next, but before that I wanted to share some small, short Arduino &#x27;labs&#x27; that you can do either on your own or with your cohort!
 All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.
-"/>
-            <meta property='og:description' content="Lately we&#x27;ve been playing with Quadcopters a lot, one of the key components of any copter is it&#x27;s motors! I&#x27;ll be writing about motors next, but before that I wanted to share some small, short Arduino &#x27;labs&#x27; that you can do either on your own or with your cohort!
+" />
+    <meta property='og:description' content="Lately we&#x27;ve been playing with Quadcopters a lot, one of the key components of any copter is it&#x27;s motors! I&#x27;ll be writing about motors next, but before that I wanted to share some small, short Arduino &#x27;labs&#x27; that you can do either on your own or with your cohort!
 All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -76,111 +83,109 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Arduino: Motor Fun!
-        </a></h1>
+                Arduino: Motor Fun!
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2015-06-02, around 3 minutes of reading.
-                </p>
+                Posted on 2015-06-02, around 3 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/arduino-motor-fun/#on-and-off">On and Off</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/arduino-motor-fun/#on-and-off">On and Off</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#parts-list">Parts List</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#breadboard">Breadboard</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#code">Code</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#parts-list">Parts List</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#breadboard">Breadboard</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#code">Code</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/arduino-motor-fun/#pulse-width-modulation">Pulse Width Modulation</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#supplies-breadboard">Supplies &amp; Breadboard</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#code-1">Code</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/arduino-motor-fun/#pulse-width-modulation">Pulse Width Modulation</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/arduino-motor-fun/#reacting-to-input">Reacting to Input</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#parts-list-1">Parts List</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#breadboard-1">Breadboard</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/arduino-motor-fun/#code-2">Code</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#supplies-breadboard">Supplies &amp; Breadboard</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#code-1">Code</a>
+                </li>
+                
+            </ol>
             
-        </ol>
-    </nav>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/arduino-motor-fun/#reacting-to-input">Reacting to Input</a>
+            
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#parts-list-1">Parts List</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#breadboard-1">Breadboard</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/arduino-motor-fun/#code-2">Code</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>Lately we've been playing with Quadcopters a lot, one of the key components of any copter is it's motors! I'll be writing about motors next, but before that I wanted to share some small, short Arduino 'labs' that you can do either on your own or with your cohort!</p>
+    <p>Lately we've been playing with Quadcopters a lot, one of the key components of any copter is it's motors! I'll be writing about motors next, but before that I wanted to share some small, short Arduino 'labs' that you can do either on your own or with your cohort!</p>
 <p>All of these 'labs' are as inexpensive as we could manage in terms of parts, with the exception of the Arduino.</p>
 <span id="continue-reading"></span>
 <blockquote>
@@ -202,8 +207,8 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 </ul>
 <h3 id="breadboard">Breadboard</h3>
 <figure class="enriched ">
-        <figcaption>Plain</figcaption>
-        
+    <figcaption>Plain</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;88e06e85fd4f2b5000.png 1920w,
@@ -215,7 +220,7 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;88e06e85fd4f2b5000.png"
               alt="Plain" />
-    </figure>
+</figure>
 <h3 id="code">Code</h3>
 <pre class="z-code"><code><span class="z-text z-plain">const int motor = 3;
 
@@ -274,8 +279,8 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 </ul>
 <h2 id="breadboard-1">Breadboard</h2>
 <figure class="enriched ">
-        <figcaption>Turnpot</figcaption>
-        
+    <figcaption>Turnpot</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3627c5c485dfc90900.png 1920w,
@@ -287,7 +292,7 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3627c5c485dfc90900.png"
               alt="Turnpot" />
-    </figure>
+</figure>
 <h2 id="code-2">Code</h2>
 <pre class="z-code"><code><span class="z-text z-plain">const int motor = 3;
 </span>const int turnpot = A0;
@@ -305,13 +310,14 @@ All of these &#x27;labs&#x27; are as inexpensive as we could manage in terms of 
 </span></code></pre>
 <p>I hope you had some fun exploring these basic motor circuits with your Arduino! If you have any other sensor wirings or circuits you'd like to share please just email me and I'll put them here too!</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

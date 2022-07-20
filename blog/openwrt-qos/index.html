@@ -1,74 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>OpenWRT QoS
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>OpenWRT QoS
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="OpenWRT QoS"/>
-            <meta property='og:title' content="OpenWRT QoS"/>
-        
+    <meta name="twitter:title" content="OpenWRT QoS" />
+    <meta property='og:title' content="OpenWRT QoS" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;openwrt-qos&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;openwrt-qos&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="Using the setup from my last two posts, let&#x27;s play with some QoS parameters and observe the results.
+    
+    <meta name="twitter:description" content="Using the setup from my last two posts, let&#x27;s play with some QoS parameters and observe the results.
 
 The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encouraged to improve it as you go!
 
-"/>
-            <meta property='og:description' content="Using the setup from my last two posts, let&#x27;s play with some QoS parameters and observe the results.
+" />
+    <meta property='og:description' content="Using the setup from my last two posts, let&#x27;s play with some QoS parameters and observe the results.
 
 The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encouraged to improve it as you go!
 
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -80,130 +87,128 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            OpenWRT QoS
-        </a></h1>
+                OpenWRT QoS
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2014-12-06, around 9 minutes of reading.
-                </p>
+                Posted on 2014-12-06, around 9 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-qos/#prerequisites">Prerequisites</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-qos/#prerequisites">Prerequisites</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-qos/#overview">Overview</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-qos/#overview">Overview</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#interfaces">Interfaces</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#rules">Rules</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#interfaces">Interfaces</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#rules">Rules</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-qos/#classgroups">Classgroups</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#classes">Classes</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-qos/#classgroups">Classgroups</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-qos/#initial-configuration">Initial Configuration</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#aside-an-resolved-issue">Aside: An Resolved Issue</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#testing-it">Testing It</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#classes">Classes</a>
+                </li>
                 
-            </li>
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-qos/#experimentation">Experimentation</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#favoring-ports">Favoring Ports</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#limiting-a-class-rate">Limiting a Class Rate</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/openwrt-qos/#priorities">Priorities</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-qos/#initial-configuration">Initial Configuration</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/openwrt-qos/#further-configuration">Further Configuration</a>
+            <ol>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#aside-an-resolved-issue">Aside: An Resolved Issue</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#testing-it">Testing It</a>
+                </li>
+                
+            </ol>
             
-        </ol>
-    </nav>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-qos/#experimentation">Experimentation</a>
+            
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#favoring-ports">Favoring Ports</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#limiting-a-class-rate">Limiting a Class Rate</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/openwrt-qos/#priorities">Priorities</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/openwrt-qos/#further-configuration">Further Configuration</a>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
+    <p>Using the setup from my <a href="/2014/11/23/openwrt-in-virtualbox/">last</a> <a href="/2014/12/03/vagrant-clients-for-openwrt-vms/">two</a> posts, let's play with some QoS parameters and observe the results.</p>
 <blockquote>
 <p>The <a rel="noopener" target="_blank" href="http://wiki.openwrt.org/doc/uci/qos">documentation</a> for OpenWRT's QoS is rather lacking, please feel encouraged to improve it as you go!</p>
 </blockquote>
@@ -293,8 +298,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 <h1 id="initial-configuration">Initial Configuration</h1>
 <p>As a reminder, here is the configuration of our setup.</p>
 <figure class="enriched ">
-        <figcaption>Our setup.</figcaption>
-        
+    <figcaption>Our setup.</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;77a50aaa2d6726c500.jpg 1920w,
@@ -306,7 +311,7 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;77a50aaa2d6726c500.jpg"
               alt="Our setup." />
-    </figure>
+</figure>
 <p>First, we need to pull in <code>xt_connmark</code>, which is a depedency for some features of <code>qos-scripts</code>:</p>
 <pre class="z-code"><code><span class="z-text z-plain">modprobe xt_connmark
 </span></code></pre>
@@ -364,8 +369,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </span></code></pre>
 <p>You should see something like the following:</p>
 <figure class="enriched ">
-        <figcaption>In action.</figcaption>
-        
+    <figcaption>In action.</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9d3dc36849c70e1000.png 1920w,
@@ -377,7 +382,7 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9d3dc36849c70e1000.png"
               alt="In action." />
-    </figure>
+</figure>
 <p>Feel free to cancel them at any time. We only care about the rate right now.</p>
 <p>As you can see, <code>test1</code> recieved approximately twice the bandwidth of <code>test2</code>. Perfect, that's exactly what we wanted.</p>
 <blockquote>
@@ -430,8 +435,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </span></code></pre>
 <p>Then get <code>test1</code> to download from port 80, and <code>test2</code> to download from port 8080.</p>
 <figure class="enriched ">
-        <figcaption>httpdev</figcaption>
-        
+    <figcaption>httpdev</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b1b78c5fd4878f500.png 1920w,
@@ -443,7 +448,7 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b1b78c5fd4878f500.png"
               alt="httpdev" />
-    </figure>
+</figure>
 <p>Attempting to download on port 8080 only resulted in recieving 10% of the available bandwidth, where on port 80 it was able to use the entire link.</p>
 <h2 id="priorities">Priorities</h2>
 <p>Instead of placing a hard limit on the rate a class can achieve, let's instead change the priority it recieves.</p>
@@ -456,8 +461,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </span></code></pre>
 <p>Then issue <code>/etc/init.d/qos reload</code>. To test this, <strong>on one of the <code>test1</code> or <code>test2</code></strong> open two connections and attempt to download from both ports.</p>
 <figure class="enriched ">
-        <figcaption>Priorities.</figcaption>
-        
+    <figcaption>Priorities.</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;622b0887d1f0e96000.png 1920w,
@@ -469,7 +474,7 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;622b0887d1f0e96000.png"
               alt="Priorities." />
-    </figure>
+</figure>
 <p>Here I ran two tests, one with downloads on different ports, one with them on the same. Notice how the <code>8080</code> download is much slower while there is a download on port <code>80</code> happening, but while both at on port <code>80</code> they're nearly the same <em>(except that I couldn't stop both at the same time so the second one I stopped was reading higher then before, they were both in the teens).</em></p>
 <p>A lone download on port <code>8080</code> (and thus of the <code>httpdev</code> class) would still be fast if there is no other traffic in the <code>normal</code> class, though.</p>
 <h1 id="further-configuration">Further Configuration</h1>
@@ -483,13 +488,14 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </ul>
 <p><em>A special thanks to the Bergens Banen train for our test material. The cover image of this article is from the video.</em></p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

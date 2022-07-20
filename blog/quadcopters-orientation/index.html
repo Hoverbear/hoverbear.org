@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Quadcopters: Orientation
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Quadcopters: Orientation
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Quadcopters: Orientation"/>
-            <meta property='og:title' content="Quadcopters: Orientation"/>
-        
+    <meta name="twitter:title" content="Quadcopters: Orientation" />
+    <meta property='og:title' content="Quadcopters: Orientation" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-orientation&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-orientation&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="
+    
+    <meta name="twitter:description" content="
 Spinnning tens of thousands times a second, four rotors cut through the air with their propellors. Their motion lifts them in unison, for they are connected together. In the center of the apparatus sits a bank of sensors, processors, and a radio acting in concert to control the great flow of air passing over it.
 
 
@@ -41,8 +42,8 @@ Some ways away, perhaps near, perhaps far, its pilot watches over it. Whether by
 
 Quadcopters are fascinating marriages of physics, electronics, aviation, and computer science that have only become popular in the last couple of years. Examining them allows us to explore a number of interesting topics.
 But first, a bit of an introduction...
-"/>
-            <meta property='og:description' content="
+" />
+    <meta property='og:description' content="
 Spinnning tens of thousands times a second, four rotors cut through the air with their propellors. Their motion lifts them in unison, for they are connected together. In the center of the apparatus sits a bank of sensors, processors, and a radio acting in concert to control the great flow of air passing over it.
 
 
@@ -50,33 +51,39 @@ Some ways away, perhaps near, perhaps far, its pilot watches over it. Whether by
 
 Quadcopters are fascinating marriages of physics, electronics, aviation, and computer science that have only become popular in the last couple of years. Examining them allows us to explore a number of interesting topics.
 But first, a bit of an introduction...
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -88,92 +95,90 @@ But first, a bit of an introduction...
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Quadcopters: Orientation
-        </a></h1>
+                Quadcopters: Orientation
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2015-05-19, around 8 minutes of reading.
-                </p>
+                Posted on 2015-05-19, around 8 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#what-is-this">What is This?</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#what-is-this">What is This?</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#who-we-are">Who We Are</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#who-we-are">Who We Are</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#choice-for-experiment">Choice for Experiment</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#choice-for-experiment">Choice for Experiment</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#how-does-it-work">How Does It Work?</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#how-does-it-work">How Does It Work?</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#getting-oriented">Getting Oriented</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#getting-oriented">Getting Oriented</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#pitching-yawing-and-rolling">Pitching, Yawing, and Rolling</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#pitching-yawing-and-rolling">Pitching, Yawing, and Rolling</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#equal-and-opposite">Equal and Opposite</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#equal-and-opposite">Equal and Opposite</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-orientation/#looking-forward">Looking Forward</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-orientation/#looking-forward">Looking Forward</a>
-                
-            </li>
-            
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <blockquote>
+    <blockquote>
 <p>Spinnning tens of thousands times a second, four rotors cut through the air with their propellors. Their motion lifts them in unison, for they are connected together. In the center of the apparatus sits a bank of sensors, processors, and a radio acting in concert to control the great flow of air passing over it.</p>
 </blockquote>
 <blockquote>
@@ -204,8 +209,8 @@ But first, a bit of an introduction...
 <p>We also had to consider budget. After surveying the field and considering our target audience, we decided to set our budget at <strong>under $400 CAD</strong>. It was important to find a quality device that was still accessible to others.</p>
 <p>We ended up choosing the <a rel="noopener" target="_blank" href="https://www.bitcraze.io/crazyflie-2/">BitCraze Crazyflie 2.0</a> because it satisfied our requirements. The developers of the device are three awesome folks from Sweden!</p>
 <figure class="enriched ">
-        <figcaption>Unpacking</figcaption>
-        
+    <figcaption>Unpacking</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c5bda87180dddc0000.jpg 1920w,
@@ -217,10 +222,10 @@ But first, a bit of an introduction...
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c5bda87180dddc0000.jpg"
               alt="Unpacking" />
-    </figure>
+</figure>
 <figure class="enriched ">
-        <figcaption>Crazyflie</figcaption>
-        
+    <figcaption>Crazyflie</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e9e4490adba10d3600.jpg 1920w,
@@ -232,10 +237,10 @@ But first, a bit of an introduction...
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e9e4490adba10d3600.jpg"
               alt="Crazyflie" />
-    </figure>
+</figure>
 <figure class="enriched ">
-        <figcaption>Crazyflie again</figcaption>
-        
+    <figcaption>Crazyflie again</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d613fca0b0613fda00.jpg 1920w,
@@ -247,7 +252,7 @@ But first, a bit of an introduction...
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d613fca0b0613fda00.jpg"
               alt="Crazyflie again" />
-    </figure>
+</figure>
 <p>In diagrams we will often simplify the quad into the following diagram:</p>
 <img src="quad-1.svg" alt="Quad Diagram">
 <p>The front is identified by the knob with an arrow. If the arrows around the motors appear black, it means they are holding steady, if they are green they are speeding up, and if they are red they are slowing down.</p>
@@ -285,8 +290,8 @@ But first, a bit of an introduction...
 <h1 id="equal-and-opposite">Equal and Opposite</h1>
 <p>Not all of the propellers are the same. Have a look at these two:</p>
 <figure class="enriched ">
-        <figcaption>Propellers</figcaption>
-        
+    <figcaption>Propellers</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;843f30097b9ad4a600.jpg 1920w,
@@ -298,27 +303,19 @@ But first, a bit of an introduction...
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;843f30097b9ad4a600.jpg"
               alt="Propellers" />
-    </figure>
+</figure>
 <p>Do you see how one is &quot;flipped&quot; compared to the other? That's because if we had all four propellers the same the quad would simply not function correctly. Let's take a look!</p>
 <p>With propellers paired up correctly:</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/VBBwQI46L94"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/VBBwQI46L94" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>With all propellers the same:</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/naXnYenOaHw"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/naXnYenOaHw" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>You can see how when all of the propellers are the same the quad is unable to take off and it tends to spin a bit. When the motors on the diagonal have matching propellers the quad performs as desired. Why? Notice the directions of the arrows of the motors:</p>
 <img src="quad-1.svg" alt="Quad Diagram">
@@ -334,13 +331,14 @@ But first, a bit of an introduction...
 </ul>
 <p>We'll be introducting hands-on demos which you can replicate yourself (or with your class!) as well as <a rel="noopener" target="_blank" href="http://playground.arduino.cc/uploads/Main/arduino_comic_v0004.pdf">Arduino</a> tutorials for those interested in learning to work with these devices.</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

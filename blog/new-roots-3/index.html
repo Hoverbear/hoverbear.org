@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>New Roots part 3, Services &amp; Hardening
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>New Roots part 3, Services &amp; Hardening
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ab4bd2712b2da45800.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="New Roots part 3, Services &amp; Hardening"/>
-            <meta property='og:title' content="New Roots part 3, Services &amp; Hardening"/>
-        
+    <meta name="twitter:title" content="New Roots part 3, Services &amp; Hardening" />
+    <meta property='og:title' content="New Roots part 3, Services &amp; Hardening" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-3&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;new-roots-3&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="This is the third in a series of posts about getting settled into a server. First we talked about choosing a server, then we talked about installing a base OS on a dedicated server. In this post we&#x27;ll discuss configuring, securing, and hardening our server.
+    
+    <meta name="twitter:description" content="This is the third in a series of posts about getting settled into a server. First we talked about choosing a server, then we talked about installing a base OS on a dedicated server. In this post we&#x27;ll discuss configuring, securing, and hardening our server.
 In our last post we left our new server in a very, very minimal state. Heck, we didn&#x27;t even tell it it&#x27;s own name! In this post we&#x27;ll talk about configuration. Throughout this process we&#x27;re going to try to keep things simple and tightly knit. Through most of this guide you&#x27;ll need to be using sudo or acting as root.
-"/>
-            <meta property='og:description' content="This is the third in a series of posts about getting settled into a server. First we talked about choosing a server, then we talked about installing a base OS on a dedicated server. In this post we&#x27;ll discuss configuring, securing, and hardening our server.
+" />
+    <meta property='og:description' content="This is the third in a series of posts about getting settled into a server. First we talked about choosing a server, then we talked about installing a base OS on a dedicated server. In this post we&#x27;ll discuss configuring, securing, and hardening our server.
 In our last post we left our new server in a very, very minimal state. Heck, we didn&#x27;t even tell it it&#x27;s own name! In this post we&#x27;ll talk about configuration. Throughout this process we&#x27;re going to try to keep things simple and tightly knit. Through most of this guide you&#x27;ll need to be using sudo or acting as root.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Lucas Neasi</figcaption>
-        
+    <figcaption>Photo&nbsp;- Lucas Neasi</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3d7b38456e4201c600.jpg 1920w,
@@ -76,87 +83,85 @@ In our last post we left our new server in a very, very minimal state. Heck, we 
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3d7b38456e4201c600.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            New Roots part 3, Services &amp; Hardening
-        </a></h1>
+                New Roots part 3, Services &amp; Hardening
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2016-05-07, around 13 minutes of reading.
-                </p>
+                Posted on 2016-05-07, around 13 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#hostname">Hostname</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#hostname">Hostname</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#time">Time</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#time">Time</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#a-simple-firewall">A Simple Firewall</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#a-simple-firewall">A Simple Firewall</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#hardening">Hardening</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#hardening">Hardening</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#dns-and-name-resolution">DNS and Name Resolution</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#dns-and-name-resolution">DNS and Name Resolution</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#reboot-tea-time">Reboot &amp; Tea Time</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#reboot-tea-time">Reboot &amp; Tea Time</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/new-roots-3/#adding-a-new-service-mosh">Adding a New Service (mosh)</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/new-roots-3/#adding-a-new-service-mosh">Adding a New Service (mosh)</a>
-                
-            </li>
-            
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>This is the third in a series of posts about getting settled into a server. First we talked about <a href="/2016/05/06/new-roots-1/">choosing a server</a>, then we talked about <a href="/2016/05/06/new-roots-2/">installing a base OS on a dedicated server</a>. In this post we'll discuss configuring, securing, and hardening our server.</p>
+    <p>This is the third in a series of posts about getting settled into a server. First we talked about <a href="/2016/05/06/new-roots-1/">choosing a server</a>, then we talked about <a href="/2016/05/06/new-roots-2/">installing a base OS on a dedicated server</a>. In this post we'll discuss configuring, securing, and hardening our server.</p>
 <p>In our last post we left our new server in a very, very minimal state. Heck, we didn't even tell it it's own name! In this post we'll talk about configuration. Throughout this process we're going to try to keep things simple and tightly knit. Through most of this guide you'll need to be using <code>sudo</code> or acting as <code>root</code>.</p>
 <span id="continue-reading"></span>
 <p>I'm purposely choosing some things I'm not familiar with to learn as I go, so please feel free to offer any advice you might have.</p>
@@ -382,13 +387,14 @@ Chain UDP (1 references)
 <p>As you can see here, the rule was used twice, which means it's working! At this point, we're done setting up the new service. We'll have a chance to practice this more in future posts when we're configuring various serices.</p>
 <p>For our <a href="/2016/05/09/new-roots-4/">next post</a> we'll explore nice ways to personalize your server environment and make it feel like home. Remember, there's no place like <code>127.0.0.1</code>. :)</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

@@ -1,76 +1,83 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Getting started with Xous and the Precursor
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Getting started with Xous and the Precursor
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ae82af83a704259700.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Getting started with Xous and the Precursor"/>
-            <meta property='og:title' content="Getting started with Xous and the Precursor"/>
-        
+    <meta name="twitter:title" content="Getting started with Xous and the Precursor" />
+    <meta property='og:title' content="Getting started with Xous and the Precursor" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;exploring-xous&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;exploring-xous&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="A few years ago, I saw bunnie&#x27;s Precursor on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.
+    
+    <meta name="twitter:description" content="A few years ago, I saw bunnie&#x27;s Precursor on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.
 Embedded development has always been a fun hobby of mine, and I think it&#x27;s an excellent pursuit for any developer to improve their knowledge. If you like Rust (like me), some great starting points are the nRF52840s, the ESP32-C3-DevKitC-02, or one of the TockOS boards (like the Hail).
 While I love those, one thing I&#x27;ve wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.
 The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a XC7S50-1L CSG324I System-on-Chip (SoC) running the open Betrusted SoC and an iCE40UP5K SG48 Embedded Controller (EC) running the open Betrusted EC on an open hardware design. It seems almost perfect for me.
 Well... I finally convinced myself to order one as a reward for doing a big thing, and it has now arrived! So, let&#x27;s explore!
-"/>
-            <meta property='og:description' content="A few years ago, I saw bunnie&#x27;s Precursor on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.
+" />
+    <meta property='og:description' content="A few years ago, I saw bunnie&#x27;s Precursor on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.
 Embedded development has always been a fun hobby of mine, and I think it&#x27;s an excellent pursuit for any developer to improve their knowledge. If you like Rust (like me), some great starting points are the nRF52840s, the ESP32-C3-DevKitC-02, or one of the TockOS boards (like the Hail).
 While I love those, one thing I&#x27;ve wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.
 The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a XC7S50-1L CSG324I System-on-Chip (SoC) running the open Betrusted SoC and an iCE40UP5K SG48 Embedded Controller (EC) running the open Betrusted EC on an open hardware design. It seems almost perfect for me.
 Well... I finally convinced myself to order one as a reward for doing a big thing, and it has now arrived! So, let&#x27;s explore!
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Ana Hobden</figcaption>
-        
+    <figcaption>Photo&nbsp;- Ana Hobden</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;786b95f98c81789800.jpg 1920w,
@@ -82,87 +89,85 @@ Well... I finally convinced myself to order one as a reward for doing a big thin
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;786b95f98c81789800.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Getting started with Xous and the Precursor
-        </a></h1>
+                Getting started with Xous and the Precursor
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    Getting familiar with this open hardware development platform
-                </h5>
+                Getting familiar with this open hardware development platform
+            </h5>
 
             <p class="date">
-                    Posted on 2022-06-16, around 14 minutes of reading.
-                </p>
+                Posted on 2022-06-16, around 14 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/exploring-xous/#development-toolchain-setup">Development Toolchain Setup</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/exploring-xous/#development-toolchain-setup">Development Toolchain Setup</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/exploring-xous/#risc-v-cross-compiler-toolchain">RISC-V cross compiler toolchain</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/exploring-xous/#riscv32imac-unknown-xous-elf-rust-target">riscv32imac-unknown-xous-elf Rust Target</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/exploring-xous/#xous-microkernel">Xous Microkernel</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/exploring-xous/#renode-emulator">Renode Emulator</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/exploring-xous/#risc-v-cross-compiler-toolchain">RISC-V cross compiler toolchain</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/exploring-xous/#riscv32imac-unknown-xous-elf-rust-target">riscv32imac-unknown-xous-elf Rust Target</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/exploring-xous/#xous-microkernel">Xous Microkernel</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/exploring-xous/#renode-emulator">Renode Emulator</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/exploring-xous/#first-booting-xous">First booting Xous</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/exploring-xous/#first-booting-xous">First booting Xous</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/exploring-xous/#installing-our-first-xous">Installing our first Xous</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/exploring-xous/#installing-our-first-xous">Installing our first Xous</a>
             
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>A few years ago, I saw <a rel="noopener" target="_blank" href="https://www.bunniestudios.com/">bunnie</a>'s <a rel="noopener" target="_blank" href="https://precursor.dev">Precursor</a> on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.</p>
+    <p>A few years ago, I saw <a rel="noopener" target="_blank" href="https://www.bunniestudios.com/">bunnie</a>'s <a rel="noopener" target="_blank" href="https://precursor.dev">Precursor</a> on Crowd Supply and instantly fell in love. The idea enamored me despite hardly knowing what FPGAs were at the time.</p>
 <p>Embedded development has always been a fun hobby of mine, and I think it's an excellent pursuit for any developer to improve their knowledge. If you like Rust (like me), some great starting points are the <a rel="noopener" target="_blank" href="https://embedded-trainings.ferrous-systems.com/">nRF52840s</a>, the <a rel="noopener" target="_blank" href="https://espressif-trainings.ferrous-systems.com/">ESP32-C3-DevKitC-02</a>, or one of the <a rel="noopener" target="_blank" href="https://www.tockos.org/">TockOS boards (like the Hail)</a>.</p>
 <p>While I love those, one thing I've wanted for a long time was a portable board with a battery, screen, keyboard, SDR, and user-servicable parts that could be hacked on top to bottom.</p>
 <p>The Precursor offers all of the above list (except, sadly, the SDR) and is powered by a <a rel="noopener" target="_blank" href="https://www.origin.xilinx.com/products/silicon-devices/fpga/spartan-7.html">XC7S50-1L CSG324I System-on-Chip (SoC)</a> running the open <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-soc">Betrusted SoC</a> and an <a rel="noopener" target="_blank" href="https://www.latticesemi.com/-/media/LatticeSemi/Documents/DataSheets/iCE/iCE40-UltraPlus-Family-Data-Sheet.ashx">iCE40UP5K SG48 Embedded Controller (EC)</a> running the open <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-ec">Betrusted EC</a> on an open <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/betrusted-hardware">hardware design</a>. It seems <strong>almost perfect</strong> for me.</p>
@@ -259,8 +264,8 @@ USAGE:
 <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./rebuild.sh</span></span>
 </span></code></pre>
 <figure class="enriched ">
-        <figcaption>Precursor USB-C slot</figcaption>
-        
+    <figcaption>Precursor USB-C slot</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9951f1b5d0e39c5300.jpg 1920w,
@@ -272,7 +277,7 @@ USAGE:
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9951f1b5d0e39c5300.jpg"
               alt="Precursor USB-C slot" />
-    </figure>
+</figure>
 <h2 id="xous-microkernel">Xous Microkernel</h2>
 <p>Now for the more fun stuff! <a rel="noopener" target="_blank" href="https://github.com/betrusted-io/xous-core">Xous</a> is the operating system the Precursor runs.</p>
 <blockquote>
@@ -324,8 +329,8 @@ KERNEL: Starting initial processes:
 <p>While this &quot;Hosted Mode&quot; lets us test Xous running as a hosted microkernel on our local development machine, it's not a close analog for a real device. This mode is good for fast iteration, as well as debugging, as tools like <code>gdb</code> can be used.</p>
 <p>To do that, we'll use <a rel="noopener" target="_blank" href="https://github.com/renode/renode">Renode</a>.</p>
 <figure class="enriched ">
-        <figcaption>Xous hosted</figcaption>
-        
+    <figcaption>Xous hosted</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dd9a2d3f4a3f27a500.png 1920w,
@@ -337,7 +342,7 @@ KERNEL: Starting initial processes:
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dd9a2d3f4a3f27a500.png"
               alt="Xous hosted" />
-    </figure>
+</figure>
 <h2 id="renode-emulator">Renode Emulator</h2>
 <p><a rel="noopener" target="_blank" href="https://github.com/renode/renode">Renode</a> lets us closely emulate a real Precursor and run development builds of Xous. </p>
 <pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> pacman<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>S</span> <span class="z-punctuation z-separator z-continuation z-line z-shell">\
@@ -374,8 +379,8 @@ KERNEL: Starting initial processes:
 </span></code></pre>
 <p>This will spawn several windows containing output from various debug ports of the emulated device</p>
 <figure class="enriched ">
-        <figcaption>Renode Emulation</figcaption>
-        
+    <figcaption>Renode Emulation</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;127b456525adfa5c00.png 1920w,
@@ -387,7 +392,7 @@ KERNEL: Starting initial processes:
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;127b456525adfa5c00.png"
               alt="Renode Emulation" />
-    </figure>
+</figure>
 <p>You can use your keyboard to interact with the emulated device. Most buttons will work, such as the arrow keys and return. To access the &quot;System Menu&quot; (think like your Windows/Super key on a workstation) hit <code>Home</code>.</p>
 <h1 id="first-booting-xous">First booting Xous</h1>
 <p>The first recommendation for Crowd Supply Backer devices is to update their device! We're going to update into the image we just tested in Renode.</p>
@@ -429,8 +434,8 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
 <p>What did I say about that paperclip, huh? 😏</p>
 <p>After inserting the paperclip, we are presented with this:</p>
 <figure class="enriched ">
-        <figcaption>EC firmware out of date</figcaption>
-        
+    <figcaption>EC firmware out of date</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;afa81e2ed79f636900.jpg 1920w,
@@ -442,11 +447,11 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;afa81e2ed79f636900.jpg"
               alt="EC firmware out of date" />
-    </figure>
+</figure>
 <p>As instructed, entering <code>ecup auto</code>:</p>
 <figure class="enriched ">
-        <figcaption>EC firmware update</figcaption>
-        
+    <figcaption>EC firmware update</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9f4ce73466104df700.jpg 1920w,
@@ -458,11 +463,11 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9f4ce73466104df700.jpg"
               alt="EC firmware update" />
-    </figure>
+</figure>
 <p>This process takes a few minutes, during it's process it suggests running <code>ecup reset</code>, when it's finished the device automatically turns off. We can turn the device back on <strong>by plugging it in</strong>. Once started, it may give a message about the EC firmware being out of date, fix that with <code>ecup reset</code>:</p>
 <figure class="enriched ">
-        <figcaption>EC reset</figcaption>
-        
+    <figcaption>EC reset</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d38049ba8798279700.jpg 1920w,
@@ -474,11 +479,11 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d38049ba8798279700.jpg"
               alt="EC reset" />
-    </figure>
+</figure>
 <p>With that done, you can <strong>reboot from the home menu</strong>. Hit the exact center of the keyboard Nav button (the top middle D-pad like thing) to be greeted with this:</p>
 <figure class="enriched ">
-        <figcaption>Home Menu</figcaption>
-        
+    <figcaption>Home Menu</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e02a9610715dd88600.jpg 1920w,
@@ -490,11 +495,11 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e02a9610715dd88600.jpg"
               alt="Home Menu" />
-    </figure>
+</figure>
 <p>Once rebooted, any EC firmware message is gone, and we can put the device to sleep in the same home menu:</p>
 <figure class="enriched ">
-        <figcaption>Sleeping</figcaption>
-        
+    <figcaption>Sleeping</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;963dca4d9a918eb100.jpg 1920w,
@@ -506,7 +511,7 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;963dca4d9a918eb100.jpg"
               alt="Sleeping" />
-    </figure>
+</figure>
 <h1 id="installing-our-first-xous">Installing our first Xous</h1>
 <p>Build the new hardware image:</p>
 <pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-cd z-shell">cd</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span>/git/betrusted-io/xous-core</span>
@@ -529,13 +534,14 @@ IMPORTANT: you must run &#39;ecup auto&#39; to update the EC with the staged fir
 <p>In a future article we might explore how to build our own gateware, create our own Xous apps, add OS features, or even modify the SoC or EC together.</p>
 <p>In the meantime, I've been hanging out on the <a rel="noopener" target="_blank" href="https://matrix.to/#/#precursor.dev:matrix.org">Betrusted Matrix group</a>, feel free to stop by if you want to hack on Xous too!</p>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Setting up a Rust Development Environment
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Setting up a Rust Development Environment
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
     
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;be7085db3d7591cb00.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Setting up a Rust Development Environment"/>
-            <meta property='og:title' content="Setting up a Rust Development Environment"/>
-        
+    <meta name="twitter:title" content="Setting up a Rust Development Environment" />
+    <meta property='og:title' content="Setting up a Rust Development Environment" />
+    
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;setting-up-a-rust-devenv&#x2F;"/>
-        
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;setting-up-a-rust-devenv&#x2F;" />
+    
 
-        
-            <meta name="twitter:description" content="In this post we&#x27;ll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We&#x27;ll focus on:
+    
+    <meta name="twitter:description" content="In this post we&#x27;ll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We&#x27;ll focus on:
 
 Setting up Rust via Rustup.
 Valuable tools like clippy and rustfmt.
@@ -42,8 +43,8 @@ Debugging with the command line and inside of VS Code.
 Using different compile targets.
 
 Everything we do should be functional on both Linux and MacOS, on Windows your mileage may vary. I, unfortunately, don&#x27;t have a Windows instance to test on.
-"/>
-            <meta property='og:description' content="In this post we&#x27;ll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We&#x27;ll focus on:
+" />
+    <meta property='og:description' content="In this post we&#x27;ll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We&#x27;ll focus on:
 
 Setting up Rust via Rustup.
 Valuable tools like clippy and rustfmt.
@@ -52,33 +53,39 @@ Debugging with the command line and inside of VS Code.
 Using different compile targets.
 
 Everything we do should be functional on both Linux and MacOS, on Windows your mileage may vary. I, unfortunately, don&#x27;t have a Windows instance to test on.
-"/>
-        
-    
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- Eric Parks</figcaption>
-        
+    <figcaption>Photo&nbsp;- Eric Parks</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d430ca9f975f419800.jpg 1920w,
@@ -90,134 +97,132 @@ Everything we do should be functional on both Linux and MacOS, on Windows your m
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d430ca9f975f419800.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Setting up a Rust Development Environment
-        </a></h1>
+                Setting up a Rust Development Environment
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2017-03-03, around 14 minutes of reading.
-                </p>
+                Posted on 2017-03-03, around 14 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#setting-up-rust-via-rustup">Setting up Rust via Rustup</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#setting-up-rust-via-rustup">Setting up Rust via Rustup</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#valuable-tools">Valuable Tools</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#valuable-tools">Valuable Tools</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#rust-clippy">rust-clippy</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#rustfmt">rustfmt</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#racer">racer</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#rls">rls</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#rust-clippy">rust-clippy</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#rustfmt">rustfmt</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#racer">racer</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#rls">rls</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#configuring-vs-code-for-rust">Configuring VS Code for Rust</a>
-                
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-rust">Extension: Rust</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-rls-vscode">Extension: rls_vscode</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-better-toml">Extension: Better TOML</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-lldb-debugger">Extension: LLDB Debugger</a>
-                    </li>
-                    
-                </ol>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#configuring-vs-code-for-rust">Configuring VS Code for Rust</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#debugging-rust-code">Debugging Rust Code</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#on-the-command-line">On The Command Line</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#with-vs-code">With VS Code</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-rust">Extension: Rust</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-rls-vscode">Extension: rls_vscode</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-better-toml">Extension: Better TOML</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#extension-lldb-debugger">Extension: LLDB Debugger</a>
+                </li>
+                
+            </ol>
             
-            <li>
-                <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#compiling-to-different-targets">Compiling to Different Targets</a>
-                
-            </li>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#debugging-rust-code">Debugging Rust Code</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#closing-thoughts">Closing Thoughts</a>
+            <ol>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#on-the-command-line">On The Command Line</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#with-vs-code">With VS Code</a>
+                </li>
+                
+            </ol>
             
-        </ol>
-    </nav>
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#compiling-to-different-targets">Compiling to Different Targets</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/setting-up-a-rust-devenv/#closing-thoughts">Closing Thoughts</a>
+            
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:</p>
+    <p>In this post we'll be discussing one way to set up your machine for Rust development. There are different ways, particularly related to the text editor, so feel free to skip what is irrelevant to you. We'll focus on:</p>
 <ul>
 <li>Setting up Rust via Rustup.</li>
 <li>Valuable tools like <code>clippy</code> and <code>rustfmt</code>.</li>
@@ -453,8 +458,8 @@ Process 8376 stopped
 </span></code></pre>
 <p>Next let's set a breakpoint somewhere. Finally we can go to the 'No Bugs' icon and hit the 'Play' and we should see something like this:</p>
 <figure class="enriched ">
-        <figcaption>Demonstrating the VS Debugger</figcaption>
-        
+    <figcaption>Demonstrating the VS Debugger</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bda62f5d6da3767f00.png 1920w,
@@ -466,7 +471,7 @@ Process 8376 stopped
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bda62f5d6da3767f00.png"
               alt="Demonstrating the VS Debugger" />
-    </figure>
+</figure>
 <h2 id="compiling-to-different-targets">Compiling to Different Targets</h2>
 <p>So far we've been building <code>x86_64-apple-darwin</code>. If we were using Linux we'd be building <code>x86_64-unknown-linux-gnu</code> most likely. Let's target <code>asmjs-unknown-emscripten</code> (that is, Javascript) for fun.</p>
 <p>First we need to install the <code>emcripten</code> package. On Mac this can be found in <code>brew</code> via <code>brew install emscripten</code>, some Linux distributions also package <code>emscripten</code>, but you can also set it up via the guide <a rel="noopener" target="_blank" href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">here</a>.</p>
@@ -498,13 +503,14 @@ false
 <p>Thanks to <a rel="noopener" target="_blank" href="http://asquera.de/">Asquera</a> for allocating some time for me to write this! The same article is hosted <a rel="noopener" target="_blank" href="http://asquera.de/blog/2017-03-03/setting-up-a-rust-devenv/">here</a> as well!</p>
 </blockquote>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>

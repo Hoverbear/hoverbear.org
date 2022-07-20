@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Fun compatability things -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">                  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
-    
-        <!-- Information about this site -->
-        <title>Quadcopters: Sensors
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>Quadcopters: Sensors
         </title>
-        <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
-    
-        <!-- Various Twitter related content. -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg"/>
-        <meta name="twitter:site" content="@a_hoverbear"/>
-        <meta name="twitter:creator" content="@a_hoverbear"/>
-        
-        
-            <meta name="twitter:title" content="Quadcopters: Sensors"/>
-            <meta property='og:title' content="Quadcopters: Sensors"/>
-        
+    <meta name="description" content="A computer scientist working in open source towards a more hopeful future." />
 
-        
-            <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-sensors&#x2F;"/>
-        
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
 
-        
-            <meta name="twitter:description" content="Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.
-"/>
-            <meta property='og:description' content="Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.
-"/>
-        
     
-        <!-- Talk about the homepage and the rss feed. -->
-        <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
-        <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
-    
-        <!-- Stylesheets are fun -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
-    
-        <!-- Katex -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
-        <!-- The loading of KaTeX is deferred to speed up page rendering -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js" integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O" crossorigin="anonymous"></script>
-        <!-- To automatically render math in text elements, include the auto-render extension: -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js" integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    </head>
+    <meta name="twitter:title" content="Quadcopters: Sensors" />
+    <meta property='og:title' content="Quadcopters: Sensors" />
     
 
-    <body>
-        
-    <div id="hero-wrapper">
+    
+    <meta property='og:url' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;quadcopters-sensors&#x2F;" />
+    
+
+    
+    <meta name="twitter:description" content="Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.
+" />
+    <meta property='og:description' content="Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.
+" />
+    
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
     <figure class="enriched ">
-        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-        
+    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
@@ -74,84 +81,82 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
               alt="Photo" />
-    </figure>
+</figure>
 </div>
-
-    <header>
+<header>
     <div class="content">
         <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
-            Quadcopters: Sensors
-        </a></h1>
+                Quadcopters: Sensors
+            </a></h1>
 
-        <nav id="tree"><ul><li>
+        <nav id="tree">
+    <ul>
+        <li>
             <a href="https://hoverbear.org/about/">
                 Ana, Hoverbear 🐻
-            </a>&nbsp;
-        </li><li>
-            <a href="https://hoverbear.org/consulting/">
-                Consulting Services
             </a>&nbsp;
         </li><li>
             <a href="https://hoverbear.org/blog/">
                 Articles
             </a>&nbsp;
-        </li></ul><ul></ul><ul></ul>
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
 </nav>
-
 
         <div class="metadata">
             <h5 class="description">
-                    A computer scientist working in open source towards a more hopeful future.
-                </h5>
+                A computer scientist working in open source towards a more hopeful future.
+            </h5>
 
             <p class="date">
-                    Posted on 2015-06-04, around 7 minutes of reading.
-                </p>
+                Posted on 2015-06-04, around 7 minutes of reading.
+            </p>
         </div>
     </div>
 </header>
 
-    <main>
+<main>
+    
+<nav id=toc>
+    <ol>
         
-    <nav id=toc>
-        <ol>
+        <li>
+            <a href="https://hoverbear.org/blog/quadcopters-sensors/#sensors-on-a-quadcopter">Sensors on a Quadcopter</a>
             
-            <li>
-                <a href="https://hoverbear.org/blog/quadcopters-sensors/#sensors-on-a-quadcopter">Sensors on a Quadcopter</a>
+            <ol>
                 
-                <ol>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-sensors/#magnetometer">Magnetometer</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-sensors/#gyroscope">Gyroscope</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-sensors/#accelerometer">Accelerometer</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-sensors/#pressure-sensor">Pressure Sensor</a>
-                    </li>
-                    
-                    <li>
-                        <a href="https://hoverbear.org/blog/quadcopters-sensors/#sensor-fusion">Sensor Fusion</a>
-                    </li>
-                    
-                </ol>
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-sensors/#magnetometer">Magnetometer</a>
+                </li>
                 
-            </li>
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-sensors/#gyroscope">Gyroscope</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-sensors/#accelerometer">Accelerometer</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-sensors/#pressure-sensor">Pressure Sensor</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/quadcopters-sensors/#sensor-fusion">Sensor Fusion</a>
+                </li>
+                
+            </ol>
             
-        </ol>
-    </nav>
+        </li>
+        
+    </ol>
+</nav>
 
-        <p>Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.</p>
+    <p>Most intelligent devices existing in the physical world, a quadcopter included, take input from sensors and act on them in some way, possibly producing an output.</p>
 <span id="continue-reading"></span><figure class="enriched ">
-        <figcaption>Digital Sensors</figcaption>
-        
+    <figcaption>Digital Sensors</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;92a2175c9e931cf200.jpg 1920w,
@@ -163,11 +168,11 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;92a2175c9e931cf200.jpg"
               alt="Digital Sensors" />
-    </figure>
+</figure>
 <p>Some sensors are <strong>digital</strong>, like a button or switch, and can be read via a <code>digitalRead()</code> on an Arduino, returning either <code>HIGH</code> or <code>LOW</code>.</p>
 <figure class="enriched ">
-        <figcaption>Analog Sensors</figcaption>
-        
+    <figcaption>Analog Sensors</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c6f9109dbefb5fe800.jpg 1920w,
@@ -179,11 +184,11 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c6f9109dbefb5fe800.jpg"
               alt="Analog Sensors" />
-    </figure>
+</figure>
 <p>Other sensors are <strong>analog</strong> and can return anything in the range of 0-1023. These are things like potentiometers, force sensors, light sensors, and temperature sensors.</p>
 <figure class="enriched ">
-        <figcaption>I2C Sensors</figcaption>
-        
+    <figcaption>I2C Sensors</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cf9496a29d2db30b00.jpg 1920w,
@@ -195,7 +200,7 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;cf9496a29d2db30b00.jpg"
               alt="I2C Sensors" />
-    </figure>
+</figure>
 <p>Finally, some sensors use Inter-integrated Circuit (<strong>I2C</strong>) or Serial Peripheral Interface (<strong>SPI</strong>) to interface. Typically these are found on more complicated chips like gyroscopes and accelerometers. These interfaces require multiple wires and often require you to build a small <em>wrapper</em> around the interface to interact with it. If you enjoy playing with Arduinos, companies like <a rel="noopener" target="_blank" href="http://adafruit.com/">Adafruit</a> almost always include libraries for their products.</p>
 <h1 id="sensors-on-a-quadcopter">Sensors on a Quadcopter</h1>
 <p>Despite their size, quadcopters are a outfitted with an array of sensors. If you check <a href="/2015/05/26/quadcopters-board/">the board</a> you'll see that there are only two sensor chips on the board, the MPU-925 and the LPS25H which handles pressure. The MPU-925 hosts a three-axis magnetometer, accelerometer, and gyroscope, together these offer 9 Degrees of Freedom (DOF). Combined with the pressure sensor this gives us 10DOF.</p>
@@ -207,27 +212,19 @@
 <p>Magnetometers measure the magnetic field around them, allowing the device to answer questions like <em>which way is north</em>? They are, essentially, a compass. The quadcopter uses this to help determine it's orientation in space.</p>
 <p>The following video explains how one type of magnetometer, called a <em>Fluxgate Magnometer</em>, functions.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/CMBDVx3o37g"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/CMBDVx3o37g" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>If you have one to play with you can explore it's readings by taking a reasonably strong magnet and moving it around the sensor. Notice how when we flip over the magnet we get a negative reading?</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/-TEnJt4TLkE"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/-TEnJt4TLkE" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <figure class="enriched ">
-        <figcaption>Magnetometer Readings</figcaption>
-        
+    <figcaption>Magnetometer Readings</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;337fdc38f08028d600.jpg 1920w,
@@ -239,7 +236,7 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;337fdc38f08028d600.jpg"
               alt="Magnetometer Readings" />
-    </figure>
+</figure>
 <p>Some uses of Magnetometers:</p>
 <ul>
 <li><strong>Aurora Detection</strong> - Magnetometers can give an indication of an aurora happening before light is visible.</li>
@@ -254,27 +251,19 @@
 </blockquote>
 <p>A quick, basic video of how these work is below:</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/zwe6LEYF0j8"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/zwe6LEYF0j8" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>Here's how we can demonstrate this sensor, along with the output:</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/vYcVIqqawoU"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/vYcVIqqawoU" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <figure class="enriched ">
-        <figcaption>Gyroscope Readings</figcaption>
-        
+    <figcaption>Gyroscope Readings</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;71b985930f078d9c00.jpg 1920w,
@@ -286,32 +275,24 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;71b985930f078d9c00.jpg"
               alt="Gyroscope Readings" />
-    </figure>
+</figure>
 <h2 id="accelerometer">Accelerometer</h2>
 <p>Accelerometers measure the <strong>lateral acceleration</strong> of the sensor (not rotationally). They're how your smartphone knows when it's turned around.</p>
 <p>There is a guide to <em>Piezoelectric Accelerometers</em> <a rel="noopener" target="_blank" href="http://www.pcb.com/TechSupport/Tech_Accel.aspx">here</a> that we sound useful. The <em>Engineer Guy</em> also has this great video <a rel="noopener" target="_blank" href="https://www.youtube.com/channel/UC2bkHVIDjXS7sgrgjFtzOXQ">(along with many more!)</a></p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/KZVgKu6v808"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/KZVgKu6v808" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>Here's how we can demonstrate this sensor, along with the output:</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/6aI5Q7sSGGg"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/6aI5Q7sSGGg" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <figure class="enriched ">
-        <figcaption>Accelerometer Readings</figcaption>
-        
+    <figcaption>Accelerometer Readings</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;904b0d4fc416308d00.jpg 1920w,
@@ -323,7 +304,7 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;904b0d4fc416308d00.jpg"
               alt="Accelerometer Readings" />
-    </figure>
+</figure>
 <p>Some uses of Accelerometers:</p>
 <ul>
 <li><strong>Activity Monitors</strong> - Like step counters and skipping counters!</li>
@@ -350,18 +331,14 @@
 </blockquote>
 <p>Therefore if the quadcopter has a reference to the air pressure of where it took off from it is able to understand roughly how high it is relative to that point.</p>
 <div ></div>
-    <iframe
-        src="https://www.youtube-nocookie.com/embed/mJjuXnLn3jQ"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/mJjuXnLn3jQ" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+</iframe>
 </div>
 <p>These readings are a bit noisy, sorry.</p>
 <figure class="enriched ">
-        <figcaption>Pressure Readings</figcaption>
-        
+    <figcaption>Pressure Readings</figcaption>
+    
        
        <img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c0f356d07fb5d9a500.jpg 1920w,
@@ -373,7 +350,7 @@
                      3840px"
               src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c0f356d07fb5d9a500.jpg"
               alt="Pressure Readings" />
-    </figure>
+</figure>
 <h2 id="sensor-fusion">Sensor Fusion</h2>
 <p>One interesting technique to improve the sensor readings is to do something called <strong>sensor fusion</strong> which combines data from disparate sources to help refine measurements. Sensor fusion is a huge benefit to compact or low power systems which often suffer from higher inaccuracies.</p>
 <p>One example of sensor fusion which you may have experienced before is <em>stereoscopic vision</em>, when we can use two slightly offset 2D cameras to produce a 3D-looking image.</p>
@@ -387,13 +364,14 @@
 <p>Special thanks to my helper, Laura, for assisting me with capturing stable videography.</p>
 </blockquote>
 
-    </main>
-    <footer class="post-footer">
+</main>
+<footer class="post-footer">
     Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
-<pre class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/9d74ae46988cf3d9cb6ea605640d934b9beab0d8
-">9d74ae46988cf3d9cb6ea605640d934b9beab0d8
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e17d39bc3655162d4dacc712f6c08fedc1acb3c1
+">e17d39bc3655162d4dacc712f6c08fedc1acb3c1
 </a></pre></body>
 
 </html>
