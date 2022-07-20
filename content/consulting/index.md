@@ -3,7 +3,7 @@ template = "page.html"
 title = "Consulting Services"
 description = "Building capacity and capability for a more hopeful future."
 [extra]
-in_menu = true
+in_menu = false
 
 [extra.image]
 path =  "cover.jpg"
