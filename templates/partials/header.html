@@ -8,7 +8,6 @@
 {%- set title = page_or_section.title -%}
 {%- else -%}
 {%- set title = config.title -%}
-{%- set internationalized_hoverbear_title = true -%}
 {%- endif -%}
 
 {%- if page_or_section.description -%}
@@ -23,7 +22,7 @@
                 {{ title }}
             </a></h1>
 
-        {%- if internationalized_hoverbear_title -%}
+        {%- if title == config.title -%}
         <script defer async>
             (function internationalize_hoverbear() {
                 const data = {{ load_data(path = "static/internationalized-hoverbear.json") | json_encode | safe

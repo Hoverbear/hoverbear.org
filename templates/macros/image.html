@@ -2,19 +2,53 @@
 
 <!-- Create a 'full' sized image. -->
 {%- macro full(path, alt=false, colocated=false, source=false, photographer=false) -%}
-       {%- if colocated == true -%}
-              {%- set path = colocated_asset::colocated_asset(path=path) | trim -%}
-       {%- endif -%}
-       {% set image_1920 = resize_image(path=path, width=1920, height=1080, op='fit_width') %}
-       {% set image_3840 = resize_image(path=path, width=3840, height=2160, op='fit_width') %}
-       <img srcset="
+{%- if colocated == true -%}
+{%- set path = colocated_asset::colocated_asset(path=path) | trim -%}
+{%- endif -%}
+{% set image_1920 = resize_image(path=path, width=1920, height=1080, op='fit_width') %}
+{% set image_3840 = resize_image(path=path, width=3840, height=2160, op='fit_width') %}
+<img srcset="
               {{ image_1920.url }} 1920w,
               {{ image_3840.url }} 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="{{ image_1920.url }}"
-              alt="{% if alt %}{{ alt }}{% endif %}" />
+                     3840px" src="{{ image_1920.url }}" alt="{% if alt %}{{ alt }}{% endif %}" />
 {%- endmacro full -%}
+
+<!-- Create a 'full' sized image. -->
+{%- macro captioned(path, alt=false, colocated=false, source=false, photographer=false, classes="") -%}
+<figure class="captioned {{ classes }}">
+       {{ self::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
+       <figcaption>
+              {%- if alt -%}
+              {{ alt | markdown(inline=true) | safe }}
+              {%- endif -%}
+              {%- if source and photographer -%}
+              &nbsp;- <a href="{{ source | safe }}">{{ photographer }}</a>
+              {%- elif source -%}
+              &nbsp;- {{ source }}
+              {%- elif photographer -%}
+              &nbsp;- {{ photographer }}
+              {%- endif -%}
+       </figcaption>
+</figure>
+{%- endmacro full -%}
+
+{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false, classes="") -%}
+<figure class="enriched {{ classes }}">
+       <figcaption>
+              {%- if alt -%}
+              {{ alt | markdown(inline=true) | safe }}
+              {%- endif -%}
+              {%- if source and photographer -%}
+              &nbsp;- <a href="{{ source | safe }}">{{ photographer }}</a>
+              {%- elif source -%}
+              &nbsp;- {{ source }}
+              {%- elif photographer -%}
+              &nbsp;- {{ photographer }}
+              {%- endif -%}
+       </figcaption>
+       {{ self::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
+</figure>
+{%- endmacro enriched -%}
