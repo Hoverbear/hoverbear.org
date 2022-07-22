@@ -76,19 +76,16 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
     
 <div id="hero-wrapper">
     <figure class="enriched ">
-    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
-    
+       <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/-N0cgDSF_MI">Kobi Li</a></figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bc53a992eae12b8000.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg"
-              alt="Photo" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;fd9cec75a970c38f00.jpg" alt="Photo" />
 </figure>
 </div>
 <header>
@@ -300,19 +297,16 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 <h1 id="initial-configuration">Initial Configuration</h1>
 <p>As a reminder, here is the configuration of our setup.</p>
 <figure class="enriched ">
-    <figcaption>Our setup.</figcaption>
-    
+       <figcaption>Our setup.</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;77a50aaa2d6726c500.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1c991b1cb56f45f200.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;77a50aaa2d6726c500.jpg"
-              alt="Our setup." />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;77a50aaa2d6726c500.jpg" alt="Our setup." />
 </figure>
 <p>First, we need to pull in <code>xt_connmark</code>, which is a depedency for some features of <code>qos-scripts</code>:</p>
 <pre class="z-code"><code><span class="z-text z-plain">modprobe xt_connmark
@@ -371,19 +365,16 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </span></code></pre>
 <p>You should see something like the following:</p>
 <figure class="enriched ">
-    <figcaption>In action.</figcaption>
-    
+       <figcaption>In action.</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9d3dc36849c70e1000.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;11860cb74f0c680400.png 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9d3dc36849c70e1000.png"
-              alt="In action." />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;9d3dc36849c70e1000.png" alt="In action." />
 </figure>
 <p>Feel free to cancel them at any time. We only care about the rate right now.</p>
 <p>As you can see, <code>test1</code> recieved approximately twice the bandwidth of <code>test2</code>. Perfect, that's exactly what we wanted.</p>
@@ -437,19 +428,16 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </span></code></pre>
 <p>Then get <code>test1</code> to download from port 80, and <code>test2</code> to download from port 8080.</p>
 <figure class="enriched ">
-    <figcaption>httpdev</figcaption>
-    
+       <figcaption>httpdev</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b1b78c5fd4878f500.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;433bace6b3c3d41200.png 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b1b78c5fd4878f500.png"
-              alt="httpdev" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;0b1b78c5fd4878f500.png" alt="httpdev" />
 </figure>
 <p>Attempting to download on port 8080 only resulted in recieving 10% of the available bandwidth, where on port 80 it was able to use the entire link.</p>
 <h2 id="priorities">Priorities</h2>
@@ -463,19 +451,16 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
 </span></code></pre>
 <p>Then issue <code>/etc/init.d/qos reload</code>. To test this, <strong>on one of the <code>test1</code> or <code>test2</code></strong> open two connections and attempt to download from both ports.</p>
 <figure class="enriched ">
-    <figcaption>Priorities.</figcaption>
-    
+       <figcaption>Priorities.</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;622b0887d1f0e96000.png 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;e5183532280e200200.png 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;622b0887d1f0e96000.png"
-              alt="Priorities." />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;622b0887d1f0e96000.png" alt="Priorities." />
 </figure>
 <p>Here I ran two tests, one with downloads on different ports, one with them on the same. Notice how the <code>8080</code> download is much slower while there is a download on port <code>80</code> happening, but while both at on port <code>80</code> they're nearly the same <em>(except that I couldn't stop both at the same time so the second one I stopped was reading higher then before, they were both in the teens).</em></p>
 <p>A lone download on port <code>8080</code> (and thus of the <code>httpdev</code> class) would still be fast if there is no other traffic in the <code>normal</code> class, though.</p>
@@ -496,8 +481,8 @@ The documentation for OpenWRT&#x27;s QoS is rather lacking, please feel encourag
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/35059c8e0725979ec0097a45da29a472701cfbe4
-">35059c8e0725979ec0097a45da29a472701cfbe4
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/b982c39b7bc85063225fed4bb043725538784184
+">b982c39b7bc85063225fed4bb043725538784184
 </a></pre></body>
 
 </html>

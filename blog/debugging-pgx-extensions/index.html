@@ -74,19 +74,16 @@ This made a good opportunity for me to share with you! This short article will c
     
 <div id="hero-wrapper">
     <figure class="enriched ">
-    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/9vQG6v1md1s">Ryutaro Uozumi</a></figcaption>
-    
+       <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/9vQG6v1md1s">Ryutaro Uozumi</a></figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d3c589e0b5e3830400.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg"
-              alt="Photo" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;40953755da6bba2100.jpg" alt="Photo" />
 </figure>
 </div>
 <header>
@@ -237,19 +234,16 @@ This made a good opportunity for me to share with you! This short article will c
 <p>Hit Ctrl+Shift+P (That is -- hold down the Control key while then holding the Shift key, then also the P key, releasing them afterward) then enter into the <em>command pallette</em> <code>add folder to workspace</code> and ensure the picked selection is indeed the option: <code>Workspaces: Add folder to workspace...</code>.</p>
 <p>In this file chooser, select the <code>~/git/tcdi/pgx</code> folder we cloned earlier.</p>
 <figure class="enriched ">
-    <figcaption>Code Workspace</figcaption>
-    
+       <figcaption>Code Workspace</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;09002c40a0130a4b00.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg"
-              alt="Code Workspace" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;397b8279347b7d0500.jpg" alt="Code Workspace" />
 </figure>
 <p>Do the same with <code>~/git/postgres/postgres</code>.</p>
 <blockquote>
@@ -368,35 +362,29 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p>Navigate over to <code>pgx/pgx_utils/src/sql_entity_graph/pg_extern/mod.rs</code>and Ctrl+F <code>tracing::trace!(sql = %ext_sql);</code>,, it should be in the <code>to_sql</code> function, click the red dot that appears when you hover to the left of the line number there, and set a breakpoint.</p>
 <figure class="enriched ">
-    <figcaption>Breakpoint</figcaption>
-    
+       <figcaption>Breakpoint</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;a176b54305b7cc6900.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg"
-              alt="Breakpoint" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;1e561225edd8441300.jpg" alt="Breakpoint" />
 </figure>
 <p>In the &quot;Run &amp; Debug&quot; pane (selected in screenshot above on the left), <strong>hit the &quot;Play&quot; button beside &quot;SQL generation&quot;</strong> at the top. In a terminal you should see <code>cargo pgx schema</code> get run and begin to process the SQL, it will hit the breakpoint during this process and allow you to inspect and work with it:</p>
 <figure class="enriched ">
-    <figcaption>Debugging</figcaption>
-    
+       <figcaption>Debugging</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c478b427ba617a2a00.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg"
-              alt="Debugging" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44f783b342744ee600.jpg" alt="Debugging" />
 </figure>
 <p>At the top middle of the screenshot above, you can see the 'Continue', 'Step over', 'Step into' and related buttons. To the left side we can see 'Variables', the 'Watch' pane, as well as the call stack which caused us to arrive at a particular position.</p>
 <h1 id="debugging-pgx-extensions">Debugging <code>pgx</code> extensions</h1>
@@ -439,19 +427,16 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p>Select the 'Attach' option from the debugger dropdown. (Where we hit 'SQL Generation' before in the 'Run &amp; Debug' pane.) You should see a <code>postgres</code> process with your extensio name.</p>
 <figure class="enriched ">
-    <figcaption>Attaching</figcaption>
-    
+       <figcaption>Attaching</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c6c1a8268ed96ac000.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg"
-              alt="Attaching" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c8916344308bf41600.jpg" alt="Attaching" />
 </figure>
 <p>Attaching won't immediately break on anything, but when you start running commands from <code>psql</code> you can trigger breakpoints within the extension:</p>
 <pre data-lang="sql" class="language-sql z-code"><code class="language-sql" data-lang="sql"><span class="z-source z-sql">CREATE EXTENSION debuggable;
@@ -460,19 +445,16 @@ This made a good opportunity for me to share with you! This short article will c
 </span></span></code></pre>
 <p>On the breakpoint, you'll see that familiar screen again:</p>
 <figure class="enriched ">
-    <figcaption>Attached</figcaption>
-    
+       <figcaption>Attached</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3fc8cbec4e99fdf800.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg"
-              alt="Attached" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;dac2f3f05cb1006700.jpg" alt="Attached" />
 </figure>
 <h1 id="debugging-pgx-and-postgresql-code">Debugging <code>pgx</code> and PostgreSQL code</h1>
 <p>Having now learnt to debug <code>cargo-pgx</code> and our own extension, how do we debug if code slips inside <code>pgx</code>, or even PostgreSQL?</p>
@@ -490,19 +472,16 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p><em>Break!</em> Now we're going to <strong>'Step into'</strong> this <code>Spi::get_one</code> statement.</p>
 <figure class="enriched ">
-    <figcaption>Step in</figcaption>
-    
+       <figcaption>Step in</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;c1639606e94be44600.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg"
-              alt="Step in" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;44a8ef4fb3ba574900.jpg" alt="Step in" />
 </figure>
 <p>Now, navigate over to <code>postgres/src/backend/executor/spi.c</code> and set a breakpoint on the <code>int SPI_connect(void)</code> function:</p>
 <pre data-lang="c" class="language-c z-code"><code class="language-c" data-lang="c"><span class="z-source z-c"><span class="z-storage z-type z-c">int</span>
@@ -513,19 +492,16 @@ This made a good opportunity for me to share with you! This short article will c
 </span></code></pre>
 <p>Now hit the '<strong>Continue</strong>' on the debugger and we should break inside PostgreSQL:</p>
 <figure class="enriched ">
-    <figcaption>Step in</figcaption>
-    
+       <figcaption>Step in</figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;b8de95e3bf0343c600.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg"
-              alt="Step in" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;8573f1c880800e2100.jpg" alt="Step in" />
 </figure>
 <p>Fantastic, now we can debug almost every part of our <code>pgx</code> extension. That's all for this article today!</p>
 <p>I hope you manage to find your bugs! If not, <a rel="noopener" target="_blank" href="https://discord.gg/F6kDGwm22yI">let us know in Discord</a></p>
@@ -536,8 +512,8 @@ This made a good opportunity for me to share with you! This short article will c
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/35059c8e0725979ec0097a45da29a472701cfbe4
-">35059c8e0725979ec0097a45da29a472701cfbe4
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/b982c39b7bc85063225fed4bb043725538784184
+">b982c39b7bc85063225fed4bb043725538784184
 </a></pre></body>
 
 </html>

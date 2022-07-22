@@ -72,19 +72,16 @@ This post is more on the advanced side, as it assumes knowledge of both Rust and
     
 <div id="hero-wrapper">
     <figure class="enriched ">
-    <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/uVmVzxYNQUg">Jonny Gios</a></figcaption>
-    
+       <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/uVmVzxYNQUg">Jonny Gios</a></figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;221e9321da38539300.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;655966cba3a4ddb900.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;221e9321da38539300.jpg"
-              alt="Photo" />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;221e9321da38539300.jpg" alt="Photo" />
 </figure>
 </div>
 <header>
@@ -360,19 +357,16 @@ This post is more on the advanced side, as it assumes knowledge of both Rust and
 </ul>
 <p><strong>But wait!</strong> It turns out, that can work! We can have the binary re-export the functions and be very careful with what we use!</p>
 <figure class="enriched ">
-    <figcaption>An illuminated path in a forest.&nbsp;- <a href="https://unsplash.com/photos/sPt5RIjKfpk">Johannes Plenio</a></figcaption>
-    
+       <figcaption>An illuminated path in a forest.&nbsp;- <a href="https://unsplash.com/photos/sPt5RIjKfpk">Johannes Plenio</a></figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;df5ccda65d05ed0500.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;aad3b3b8d1aff1fb00.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;df5ccda65d05ed0500.jpg"
-              alt="An illuminated path in a forest." />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;df5ccda65d05ed0500.jpg" alt="An illuminated path in a forest." />
 </figure>
 <h2 id="the-longish-short-of-it">The (longish) short of it</h2>
 <p>We're going to produce a binary during the build. We'll have macros output some foreign functions, then the binary will re-export and call them to build up a structure representing our extension. <code>cargo-pgx pgx schema</code>'s job will be to orcestrate that.</p>
@@ -519,19 +513,16 @@ pgx_sql<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
 <p>Since SQL is very order dependent, and Rust is largely not, our SQL generator must build up a dependency graph, we use <a rel="noopener" target="_blank" href="https://docs.rs/petgraph/0.6.0/petgraph/index.html"><code>petgraph</code></a> for this. Once a graph is built, we can topological sort from the root (the control file) and get out an ordered set of SQL entities.</p>
 <p>Then, all we have to do is turn them into SQL and write them out!</p>
 <figure class="enriched ">
-    <figcaption>Old cogs.&nbsp;- <a href="https://unsplash.com/photos/hsPFuudRg5I">Isis França</a></figcaption>
-    
+       <figcaption>Old cogs.&nbsp;- <a href="https://unsplash.com/photos/hsPFuudRg5I">Isis França</a></figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;45f84226d7622ad600.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;6777c54ede57a46d00.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;45f84226d7622ad600.jpg"
-              alt="Old cogs." />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;45f84226d7622ad600.jpg" alt="Old cogs." />
 </figure>
 <h1 id="fitting-the-pieces-together">Fitting the pieces together</h1>
 <p>Let's talk more about some of the moving parts. There are a few interacting concepts, but everything starts in a few proc macros.</p>
@@ -956,19 +947,16 @@ mapping<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
 </span></code></pre>
 <p>Other implementations, such as on functions, are a bit more complicated. These functions are tasked with determining, for example, the correct name for an argument in SQL, or the schema which contains the function.</p>
 <figure class="enriched ">
-    <figcaption>Clockwork.&nbsp;- <a href="https://unsplash.com/photos/u_RiRTA_TtY">Josh Redd</a></figcaption>
-    
+       <figcaption>Clockwork.&nbsp;- <a href="https://unsplash.com/photos/u_RiRTA_TtY">Josh Redd</a></figcaption>
        
-       <img srcset="
+
+<img srcset="
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bf7aa81d83202cd700.jpg 1920w,
               https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ecb396b064888fbb00.jpg 3840w
-              "
-              sizes="
+              " sizes="
                      (max-width: 1200px) 1200px,
                      (max-width: 1800px) 1800px,set 
-                     3840px"
-              src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bf7aa81d83202cd700.jpg"
-              alt="Clockwork." />
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;bf7aa81d83202cd700.jpg" alt="Clockwork." />
 </figure>
 <h1 id="closing-thoughts">Closing thoughts</h1>
 <p>With the toolkit <code>pgx</code> provides, users of Rust are able to develop PostgreSQL extensions using familiar tooling and workflows. There's still a lot of things we'd love to refine and add to the toolkit, but we think you can start using it, like we do in production at TCDI. We think it's even fun to use.</p>
@@ -980,8 +968,8 @@ mapping<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/35059c8e0725979ec0097a45da29a472701cfbe4
-">35059c8e0725979ec0097a45da29a472701cfbe4
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/b982c39b7bc85063225fed4bb043725538784184
+">b982c39b7bc85063225fed4bb043725538784184
 </a></pre></body>
 
 </html>
