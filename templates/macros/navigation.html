@@ -1,3 +1,4 @@
+{%- macro tree(page_or_section) -%}
 <nav id="tree">
     {# Walk 'Up' the ancestor path to show the page-tree #}
     {%- for ancestor_path in page_or_section.ancestors | default(value=[]) -%}
@@ -55,3 +56,4 @@
         {%- endfor -%}
     </ul>
 </nav>
+{%- endmacro page_tree -%}

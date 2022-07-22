@@ -52,7 +52,7 @@
         </script>
         {%- endif %}
 
-        {% include "partials/page-tree.html" %}
+        {{ navigation::tree(page_or_section=page | default(value=section | default(value=false))) }}
 
         <div class="metadata">
             {% if description -%}
