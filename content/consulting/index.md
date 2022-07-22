@@ -2,6 +2,8 @@
 template = "page.html"
 title = "Consulting Services"
 description = "Building capacity and capability for a more hopeful future."
+weight = 2
+
 [extra]
 in_menu = false
 
