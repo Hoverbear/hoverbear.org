@@ -11,15 +11,11 @@
     <link rel="shortcut icon" href="{{ config.base_url }}/images/favicon.ico">
 
     <!-- Information about this site -->
-    <title>{%- if page.title -%}
-        {{ page.title }}
-        {% elif section.title %}
-        {{ section.title }}
-        {%- else -%}
-        {{ config.title }}
-        {%- endif -%}
+    <title>
+        {{ page.title | default(value=section.title | default(value=config.title)) }}
     </title>
-    <meta name="description" content="{{ config.description }}" />
+    <meta name="description"
+        content="{{ page.description | default(value=section.description | default(value=config.description)) }}" />
 
     <!-- Various Twitter related content. -->
     <meta name="twitter:card" content="summary_large_image">
@@ -32,41 +28,30 @@
     {%- set image = '../static/' ~ config.extra.cover.path -%}
     {%- endif -%}
 
-    {% set image_3840 = resize_image(path=image, width=3840, height=2160, op='fit_width') %}
+    {% set image_3840 = resize_image(
+    path=image,
+    width=3840,
+    height=2160,
+    op='fit_width'
+    ) %}
     <meta name="twitter:image" content="{{ image_3840.url }}" />
     <meta property='og:image' content="{{ image_3840.url }}" />
     <meta name="twitter:site" content="@{{ config.extra.twitter }}" />
     <meta name="twitter:creator" content="@{{ config.extra.twitter }}" />
 
-    {% if page.title %}
-    <meta name="twitter:title" content="{{ page.title | striptags }}" />
-    <meta property='og:title' content="{{ page.title | striptags }}" />
-    {% elif section.title %}
-    <meta name="twitter:title" content="{{ section.title | striptags }}" />
-    <meta property='og:title' content="{{ section.title | striptags }}" />
-    {% else %}
-    <meta name="twitter:title" content="{{ config.title | striptags }}" />
-    <meta property='og:title' content="{{ config.title | striptags }}" />
-    {% endif %}
+    <meta name="twitter:title"
+        content="{{ page.title | default(value=section.title | default(value=config.title)) | striptags }}" />
+    <meta property='og:title'
+        content="{{ page.title | default(value=section.title | default(value=config.title)) | striptags }}" />
 
-    {% if page.permalink %}
-    <meta property='og:url' content="{{ page.permalink | striptags }}" />
-    {% elif section.title %}
-    <meta property='og:url' content="{{ section.permalink | striptags }}" />
-    {% else %}
-    <meta property='og:url' content="{{ config.base_url | striptags }}" />
-    {% endif %}
+    <meta property='og:url'
+        content="{{ page.permalink | default(value=section.permalink | default(value=config.base_url)) | striptags }}" />
 
-    {% if page.summary %}
-    <meta name="twitter:description" content="{{ page.summary | striptags }}" />
-    <meta property='og:description' content="{{ page.summary | striptags }}" />
-    {% elif section.summary %}
-    <meta name="twitter:description" content="{{ section.summary | striptags }}" />
-    <meta property='og:description' content="{{ section.summary | striptags }}" />
-    {% else %}
-    <meta name="twitter:description" content="{{ config.description | striptags }}" />
-    <meta property='og:description' content="{{ config.description | striptags }}" />
-    {% endif %}
+    <meta name="twitter:description"
+        content="{{ page.summary | default(value=section.summary | default(value=config.description)) | striptags }}" />
+    <meta property='og:description'
+        content="{{ page.summary | default(value=section.summary | default(value=config.description)) | striptags }}" />
+
 
     <!-- Talk about the homepage and the rss feed. -->
     <link rel="canonical" href="{{ config.base_url }}">
