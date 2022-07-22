@@ -16,8 +16,9 @@
             </a>&nbsp;
         </li>
         {%- endif -%}
-        {# Now sections, the 'Sub-ideas' -- these may have their own descendants #}
         {%- endfor -%}
+
+        {# Now sections, the 'Sub-ideas' -- these may have their own descendants #}
         {%- for ancestor_section_path in ancestor.subsections -%}
         {%- set ancestor_section = get_section(path=ancestor_section_path) -%}
         {%- if ancestor_section.extra.in_menu | default(value=false) or page_or_section.ancestors is
