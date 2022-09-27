@@ -65,7 +65,7 @@ If you don't already have GNOME configured, you can do that via a `nixosModule` 
 # flake.nix
 {
   # ...
-  outputs { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager }:
     let 
       # ...
     in {
@@ -115,7 +115,7 @@ Next, add a `nixosModule` that enables `home-manager`:
 # flake.nix
 {
   # ...
-  outputs { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager }:
     let 
       # ...
     in {
@@ -141,7 +141,7 @@ I create a `nixosModule` for each of my users (you may have another way, feel fr
 # flake.nix
 {
   # ...
-  outputs { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager }:
     let 
       # ...
     in {
@@ -193,7 +193,7 @@ Before enabling, ensure your `nixosConfiguration` has these modules, as well as 
 # flake.nix
 {
   # ...
-  outputs { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager }:
     let 
       # ...
     in {
@@ -329,7 +329,7 @@ Most of the time, you can guess it, or copy it from what shows up when you check
 # flake.nix
 {
   # ...
-  outputs { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager }:
     let 
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = f: nixpkgs.lib.genAttrs supportedSystems (system: f system);
