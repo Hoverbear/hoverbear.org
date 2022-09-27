@@ -71,7 +71,7 @@ This post is more on the advanced side, as it assumes knowledge of both Rust and
 <body>
     
 <div id="hero-wrapper">
-    <figure class="enriched ">
+    <figure class="enriched " style="">
        <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/uVmVzxYNQUg">Jonny Gios</a></figcaption>
        
 
@@ -356,7 +356,7 @@ This post is more on the advanced side, as it assumes knowledge of both Rust and
 <li><strong>Expose a C function in the library, and call it:</strong> This would totally work except we can't load the extension <code>.so</code> without also having the postgres headers around, and that's <em>... Oof!</em> We don't really want to make <code>cargo-pgx</code> depend on specific PostgreSQL headers.</li>
 </ul>
 <p><strong>But wait!</strong> It turns out, that can work! We can have the binary re-export the functions and be very careful with what we use!</p>
-<figure class="enriched ">
+<figure class="enriched " style="">
        <figcaption>An illuminated path in a forest.&nbsp;- <a href="https://unsplash.com/photos/sPt5RIjKfpk">Johannes Plenio</a></figcaption>
        
 
@@ -512,7 +512,7 @@ pgx_sql<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
 </span></code></pre>
 <p>Since SQL is very order dependent, and Rust is largely not, our SQL generator must build up a dependency graph, we use <a rel="noopener" target="_blank" href="https://docs.rs/petgraph/0.6.0/petgraph/index.html"><code>petgraph</code></a> for this. Once a graph is built, we can topological sort from the root (the control file) and get out an ordered set of SQL entities.</p>
 <p>Then, all we have to do is turn them into SQL and write them out!</p>
-<figure class="enriched ">
+<figure class="enriched " style="">
        <figcaption>Old cogs.&nbsp;- <a href="https://unsplash.com/photos/hsPFuudRg5I">Isis França</a></figcaption>
        
 
@@ -946,7 +946,7 @@ mapping<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
 </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
 </span></code></pre>
 <p>Other implementations, such as on functions, are a bit more complicated. These functions are tasked with determining, for example, the correct name for an argument in SQL, or the schema which contains the function.</p>
-<figure class="enriched ">
+<figure class="enriched " style="">
        <figcaption>Clockwork.&nbsp;- <a href="https://unsplash.com/photos/u_RiRTA_TtY">Josh Redd</a></figcaption>
        
 
@@ -968,8 +968,8 @@ mapping<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d212f0156c7d451ff283273485b9c721c7742d4e
-">d212f0156c7d451ff283273485b9c721c7742d4e
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5b702bd43c6c6399608f127966e22c0151eb3b5
+">e5b702bd43c6c6399608f127966e22c0151eb3b5
 </a></pre></body>
 
 </html>

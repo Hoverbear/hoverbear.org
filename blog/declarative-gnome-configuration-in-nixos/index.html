@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>
+        Declarative GNOME configuration with NixOS
+    </title>
+    <meta name="description"
+        content="Using Home Manager to declaratively set key desktop environment knobs." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3dd490c0206bf6fa00.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3dd490c0206bf6fa00.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+
+    <meta name="twitter:title"
+        content="Declarative GNOME configuration with NixOS" />
+    <meta property='og:title'
+        content="Declarative GNOME configuration with NixOS" />
+
+    <meta property='og:url'
+        content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;declarative-gnome-configuration-in-nixos&#x2F;" />
+
+    <meta name="twitter:description"
+        content="I adore tinkering with my machine, trying new tools, extensions, themes, and ideas. When I was younger, it was simply a way to learn. Now, it&#x27;s a way for me to refine my workspace and bring myself small joys.
+While tinkering can be fun, it can be a chore to set up a new machine, keep configurations up to date between machines, or even just remember to keep up to date backups. We&#x27;ve previously explored how to create Configurable Nix packages, which solves the problem for things like neovim, but what about when a package isn&#x27;t practically configurable?
+What about when we want to configure a whole desktop environment? While NixOS offers configuration settings like services.gnome.gnome-keyring.enable for systemwide features, there&#x27;s a void of knobs when you want to set things like user-specific GNOME &#x27;Favorite Apps&#x27; or extensions.
+Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager and its dconf module.
+" />
+    <meta property='og:description'
+        content="I adore tinkering with my machine, trying new tools, extensions, themes, and ideas. When I was younger, it was simply a way to learn. Now, it&#x27;s a way for me to refine my workspace and bring myself small joys.
+While tinkering can be fun, it can be a chore to set up a new machine, keep configurations up to date between machines, or even just remember to keep up to date backups. We&#x27;ve previously explored how to create Configurable Nix packages, which solves the problem for things like neovim, but what about when a package isn&#x27;t practically configurable?
+What about when we want to configure a whole desktop environment? While NixOS offers configuration settings like services.gnome.gnome-keyring.enable for systemwide features, there&#x27;s a void of knobs when you want to set things like user-specific GNOME &#x27;Favorite Apps&#x27; or extensions.
+Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager and its dconf module.
+" />
+
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical" href="https:&#x2F;&#x2F;hoverbear.org">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
+    <figure class="enriched " style="">
+       <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/HKnaN1kTETk">Pierre Bamin</a></figcaption>
+       
+
+<img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5ebb11547b853d9400.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3dd490c0206bf6fa00.jpg 3840w
+              " sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5ebb11547b853d9400.jpg" alt="Photo" />
+</figure>
+</div>
+<header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+                Declarative GNOME configuration with NixOS
+            </a></h1>
+
+        <nav id="tree">
+    <ul>
+        <li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
+</nav>
+
+        <div class="metadata">
+            <h5 class="description">
+                Using Home Manager to declaratively set key desktop environment knobs.
+            </h5>
+
+            <p class="date">
+                Posted on 2022-09-26, around 11 minutes of reading.
+            </p>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+<nav id=toc>
+    <ol>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#getting-home-manager-set-up">Getting Home Manager set up</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#declaratively-configuring-gnome">Declaratively configuring GNOME</a>
+            
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#gtk3-gtk4-cursor-icon-and-window-themes">GTK3&#x2F;GTK4 cursor, icon, and window themes</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#setting-gnome-options">Setting GNOME options</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#gnome-extensions">GNOME Extensions</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#troubleshooting">Troubleshooting</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#conclusion">Conclusion</a>
+            
+        </li>
+        
+    </ol>
+</nav>
+
+    <p>I <em>adore</em> tinkering with my machine, trying new tools, extensions, themes, and ideas. When I was younger, it was simply a way to learn. Now, it's a way for me to refine my workspace and bring myself small joys.</p>
+<p>While tinkering can be fun, it can be a chore to set up a new machine, keep configurations up to date between machines, or even just remember to keep up to date backups. We've previously explored how to create <a href="/blog/configurable-nix-packages/"><strong>Configurable Nix packages</strong></a>, which solves the problem for things like <code>neovim</code>, but what about when a package isn't practically configurable?</p>
+<p>What about when we want to configure a whole desktop environment? While <a rel="noopener" target="_blank" href="https://nixos.org/">NixOS</a> offers configuration settings like <code>services.gnome.gnome-keyring.enable</code> for systemwide features, there's a void of knobs when you want to set things like user-specific GNOME 'Favorite Apps' or extensions.</p>
+<p>Let's explore a useful addition to your NixOS configuration: <a rel="noopener" target="_blank" href="https://nix-community.github.io/home-manager/">Home Manager</a> and its <a rel="noopener" target="_blank" href="https://wiki.gnome.org/Projects/dconf"><code>dconf</code></a> module.</p>
+<span id="continue-reading"></span>
+<blockquote>
+<p>This article uses <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/Flakes">Nix flakes</a> which is an experimental feature. You may need to set this in your configuration:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-variable z-parameter z-name z-nix">nix</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">settings</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">experimental-features</span> <span class="z-invalid z-illegal">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>flakes<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>nix-command<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-invalid z-illegal">;</span>
+</span></code></pre>
+</blockquote>
+<h1 id="getting-home-manager-set-up">Getting Home Manager set up</h1>
+<p>Home manager a tool from the Nix ecosystem that helps you take the declarative ideals of Nix/NixOS and apply them to your user's home directory (<code>$HOME</code>). It plugs in (as a <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS_modules">NixOS module</a>) into an existing NixOS configuration, or can be installed on different Linux as a user service.</p>
+<p>In order to make some parts of your configuration declarative, Home Manager might take control of certain file paths, or set various options in things like <code>dconf</code>.</p>
+<p>Because of its job, Home Manager can make updating your configuration <strong>feel</strong> more error-prone, but don't fear: Use a VCS like <a rel="noopener" target="_blank" href="https://git-scm.com/"><code>git</code></a> to store your configuration. If your Home Manager setup breaks or acts strange for any reason, check the service status via <code>systemctl status home-manager-$USER</code> and <code>journalctl -u home-manager-$USER.service</code>. When in doubt, roll back your configuration and delete any files the errors are complaining about.</p>
+<blockquote>
+<p>In our example, the user is named <code>ana</code>, and the machine is named <code>gizmo</code>.</p>
+</blockquote>
+<p>In your Nix flake, add the input for Home Manager and ensure it follows the <code>nixpkgs</code> you're using:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:NixOS/nixpkgs/nixos-unstable<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:nix-community/home-manager<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">follows</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>nixpkgs<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>If you don't already have GNOME configured, you can do that via a <code>nixosModule</code> like so:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-keyword z-other z-nix">let</span> 
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosModules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">gnome</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">config</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">services</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">xserver</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">services</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">xserver</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">displayManager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">gdm</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">services</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">xserver</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">desktopManager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">gnome</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">environment</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">gnome</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">excludePackages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome-photos</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome-tour</span>
+            <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-definition z-expression z-nix">)</span> <span class="z-keyword z-operator z-nix">++</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">gnome</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+              <span class="z-variable z-parameter z-name z-nix">cheese</span> <span class="z-comment z-line z-number-sign z-nix"># webcam tool</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome-music</span>
+              <span class="z-variable z-parameter z-name z-nix">gedit</span> <span class="z-comment z-line z-number-sign z-nix"># text editor</span>
+              <span class="z-variable z-parameter z-name z-nix">epiphany</span> <span class="z-comment z-line z-number-sign z-nix"># web browser</span>
+              <span class="z-variable z-parameter z-name z-nix">geary</span> <span class="z-comment z-line z-number-sign z-nix"># email reader</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome-characters</span>
+              <span class="z-variable z-parameter z-name z-nix">tali</span> <span class="z-comment z-line z-number-sign z-nix"># poker game</span>
+              <span class="z-variable z-parameter z-name z-nix">iagno</span> <span class="z-comment z-line z-number-sign z-nix"># go game</span>
+              <span class="z-variable z-parameter z-name z-nix">hitori</span> <span class="z-comment z-line z-number-sign z-nix"># sudoku game</span>
+              <span class="z-variable z-parameter z-name z-nix">atomix</span> <span class="z-comment z-line z-number-sign z-nix"># puzzle game</span>
+              <span class="z-variable z-parameter z-name z-nix">yelp</span> <span class="z-comment z-line z-number-sign z-nix"># Help view</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome-contacts</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome-initial-setup</span>
+            <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">programs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">dconf</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">environment</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">systemPackages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+              <span class="z-variable z-parameter z-name z-nix">gnome</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">gnome-tweaks</span>
+            <span class="z-punctuation z-definition z-list z-nix">]</span>
+          <span class="z-invalid z-illegal">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+
+</span></code></pre>
+<p>Next, add a <code>nixosModule</code> that enables <code>home-manager</code>:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-keyword z-other z-nix">let</span> 
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosModules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">declarativeHome</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">config</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">useGlobalPkgs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">useUserPackages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
+<span class="z-invalid z-illegal">}</span>
+</span></code></pre>
+<p>I create a <code>nixosModule</code> for each of my users (you may have another way, feel free to do that):</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-keyword z-other z-nix">let</span> 
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosModules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">users-ana</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-unquoted z-path z-nix">./users/ana</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
+<span class="z-invalid z-illegal">}</span>
+</span></code></pre>
+<p>You can enable Home Manager for your user like so:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/default.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">config</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">users</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">ana</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-unquoted z-path z-nix">./home.nix</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">users</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">users</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">ana</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>Now create the <code>home.nix</code> referenced above:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/home.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">home</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">username</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>ana<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">home</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">homeDirectory</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>/home/ana<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">programs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">home</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">stateVersion</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>22.05<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>Before enabling, ensure your <code>nixosConfiguration</code> has these modules, as well as <code>home-manager.nixosModules.home-manager</code>:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-keyword z-other z-nix">let</span> 
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosConfigurations</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">gizmo</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">system</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>aarch64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosModules</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+            <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-punctuation z-definition z-attrset z-nix">{</span> <span class="z-entity z-other z-attribute-name z-multipart z-nix">config</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset z-nix">{</span> <span class="z-entity z-other z-attribute-name z-multipart z-nix">nix</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">registry</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">flake</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span><span class="z-punctuation z-terminator z-bind z-nix">;</span> <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span> <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span>
+            <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+            <span class="z-variable z-parameter z-name z-nix">home-manager</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosModules</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">home-manager</span>
+            <span class="z-variable z-parameter z-name z-nix">gnome</span>
+            <span class="z-variable z-parameter z-name z-nix">declarativeHome</span>
+            <span class="z-variable z-parameter z-name z-nix">users-ana</span>
+          <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span>
+    <span class="z-invalid z-illegal">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>With that, you should be able to switch into the new configuration:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nixos-rebuild</span></span><span class="z-meta z-function-call z-arguments z-shell"> switch<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>flake</span> .#gizmo</span>
+</span></code></pre>
+<p>Validate it worked by reviewing the output:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemctl status home-manager-ana.service </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">●</span></span><span class="z-meta z-function-call z-arguments z-shell"> home-manager-ana.service - Home Manager environment for ana</span>
+     <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Loaded:</span></span><span class="z-meta z-function-call z-arguments z-shell"> loaded (/etc/systemd/system/home-manager-ana.service</span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">enabled</span></span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">preset:</span></span><span class="z-meta z-function-call z-arguments z-shell"> enabled</span><span class="z-meta z-function-call z-shell"></span>)
+     <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Active:</span></span><span class="z-meta z-function-call z-arguments z-shell"> active (exited</span><span class="z-meta z-function-call z-shell"></span>) <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">since</span></span><span class="z-meta z-function-call z-arguments z-shell"> Mon 2022-09-26 22:15:32 PDT</span><span class="z-keyword z-operator z-logical z-continue z-shell">;</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">2s</span></span><span class="z-meta z-function-call z-arguments z-shell"> ago</span>
+    <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Process:</span></span><span class="z-meta z-function-call z-arguments z-shell"> 54958 ExecStart=/nix/store/nbhk58wgzvm2w8npi18qzjnn0xjcs3aw-hm-setup-env /nix/store/ig2vhy0pa4rvlkkdc511vyb6plp89x5a-home-manager-generation (code=exited, status=0/SU<span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span>
+</span>   <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Main</span></span><span class="z-meta z-function-call z-arguments z-shell"> PID: 54958 (code=exited, status=0/SUCCESS</span><span class="z-meta z-function-call z-shell"></span>)
+         <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">IP:</span></span><span class="z-meta z-function-call z-arguments z-shell"> 0B in, 0B out</span>
+        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">CPU:</span></span><span class="z-meta z-function-call z-arguments z-shell"> 377ms</span>
+</span></code></pre>
+<p>If you see errors, dig deeper via <code> journalctl -u home-manager-ana.service</code>.</p>
+<h1 id="declaratively-configuring-gnome">Declaratively configuring GNOME</h1>
+<p>There are a lot of knobs to set in GNOME.</p>
+<p>GNOME breaks down into having GTK3/4 (which has UI, icon, and cursor themes), as well as an group of fairly tightly integrated componenets which are primarily configured by <code>dconf</code>, which most folks configure via <code>gnome-settings</code> or the settings panels of the relevant applications.</p>
+<p>If you're curious and wanted to watch how/if various <code>dconf</code> settings get changed when doing things, you can 'watch' while you click around an application:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> dconf watch /</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/control-center/last-panel</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>network<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/system/proxy/mode</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>none<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/control-center/last-panel</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>background<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/desktop/interface/color-scheme</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>default<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/desktop/interface/color-scheme</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>prefer-dark<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+</span></code></pre>
+<p>If it's too noisy, you can limit what you see by changing the <code>/</code> to a selector, eg <code>/org/gnome/desktop/</code>.</p>
+<p>Home Manager offers a <code>dconf</code> module, which we can use to declaratively set these values.</p>
+<h2 id="gtk3-gtk4-cursor-icon-and-window-themes">GTK3/GTK4 cursor, icon, and window themes</h2>
+<p>To set the GTK icon theme, first search for a theme. <a rel="noopener" target="_blank" href="https://search.nixos.org/packages?channel=unstable&amp;from=0&amp;size=200&amp;sort=relevance&amp;type=packages&amp;query=-gtk-theme">this search</a> or <a rel="noopener" target="_blank" href="https://search.nixos.org/packages?channel=unstable&amp;from=0&amp;size=200&amp;sort=relevance&amp;type=packages&amp;query=-theme">this one</a> can help you find already packaged themes. You can click the &quot;Source&quot; button on any of those packages to see the expression used to package it, just in case you end up needing to make your own.</p>
+<p>Here are the relevant settings, with some examples of what I've found that I like:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/home.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">gtk</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">iconTheme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">name</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Papirus-Dark<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">package</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">papirus-icon-theme</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">theme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">name</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>palenight<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">package</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">palenight-theme</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">cursorTheme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">name</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Numix-Cursor<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">package</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">numix-cursor-theme</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">gtk3</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">extraConfig</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">Settings</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-other z-nix"><span class="z-punctuation z-definition z-string z-other z-start z-nix">&#39;&#39;</span>
+        gtk-application-prefer-dark-theme=1
+      <span class="z-punctuation z-definition z-string z-other z-end z-nix">&#39;&#39;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">gtk4</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">extraConfig</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">Settings</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-other z-nix"><span class="z-punctuation z-definition z-string z-other z-start z-nix">&#39;&#39;</span>
+        gtk-application-prefer-dark-theme=1
+      <span class="z-punctuation z-definition z-string z-other z-end z-nix">&#39;&#39;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">home</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">sessionVariables</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">GTK_THEME</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>palenight<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<blockquote>
+<p>Want to set the <strong>GNOME Shell theme?</strong> We do this <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#gnome-extensions">below</a> after discussing <code>dconf</code> a bit more.</p>
+</blockquote>
+<p>Finding the <code>name</code> field for a given package can be a bit inconsistent. 😔</p>
+<p>Most of the time, you can guess it, or copy it from what shows up when you check with <code>gnome-tweaks</code>. Usually, you can find the package repository via the &quot;Homepage&quot; link on the searches listed above, or in the expression via the <code>meta.homepage</code> (<a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/62228ccc672ed000f35b1e5c82e4183e46767e52/pkgs/data/themes/gtk-theme-framework/default.nix#L32">example</a>) or <code>src</code> fields (<a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/62228ccc672ed000f35b1e5c82e4183e46767e52/pkgs/data/themes/gtk-theme-framework/default.nix#L7-L9">example</a>). From there you can usually find some listing of the theme name (<a rel="noopener" target="_blank" href="https://github.com/jnsh/arc-theme/blob/b9b98cb394f8acf0a09f3601e3294d406b8e40a5/meson.build#L13-L18">example</a>).</p>
+<p><strong>To use a theme not already packaged</strong>, you'll neeed to take a <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/62228ccc672ed000f35b1e5c82e4183e46767e52/pkgs/data/themes/arc/default.nix">good starting point</a>, edit it, then add your custom package to your flake:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-keyword z-other z-nix">let</span> 
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">supportedSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>x86_64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>aarch64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">forAllSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-function z-4 z-nix">f</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">genAttrs</span> <span class="z-variable z-parameter z-name z-nix">supportedSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-name z-nix">f</span> <span class="z-variable z-parameter z-name z-nix">system</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlays</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">default</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-function z-4 z-nix">final</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-function z-4 z-nix">prev</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">my-artistanal-theme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">final</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">callPackage</span> <span class="z-string z-unquoted z-path z-nix">./packages/my-artisanal-theme</span> <span class="z-punctuation z-definition z-attrset z-nix">{</span> <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">packages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">forAllSystems</span>
+        <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+          <span class="z-keyword z-other z-nix">let</span>
+            <span class="z-entity z-other z-attribute-name z-multipart z-nix">pkgs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-support z-function z-nix">import</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+              <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-entity z-other z-attribute-name z-single z-nix">system</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+              <span class="z-entity z-other z-attribute-name z-multipart z-nix">overlays</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">overlays</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">default</span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+              <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+            <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+          <span class="z-keyword z-other z-nix">in</span>
+          <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+            <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-punctuation z-section z-function z-arguments z-nix">(</span><span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-punctuation z-section z-function z-arguments z-nix">)</span> <span class="z-entity z-other z-attribute-name z-single z-nix">my-artisanal-theme</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
+          <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
+<span class="z-invalid z-illegal">}</span>
+</span></code></pre>
+<p>Once done, you should be able to use it by setting, for example, <code>gtk.theme.package = pkgs.my-artisanal-theme</code>.</p>
+<h2 id="setting-gnome-options">Setting GNOME options</h2>
+<p>As mentioned <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#declaratively-configuring-gnome">above</a>, most GNOME settings exist in <code>dconf</code>. Run <code>dconf watch /</code> and set whatever option you're looking to declaratively persist, and observe the output:</p>
+<p>Here's what I see when I run <code>gnome-settings</code> and visit the 'Appearance' pane, then in 'Style' click between 'Light' and 'Dark'.</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> dconf watch /</span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> ...</span><span class="z-comment z-line z-number-sign z-shell">
+</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/desktop/interface/color-scheme</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>default<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/desktop/interface/color-scheme</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>prefer-dark<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span></span>
+</span></code></pre>
+<p>Let's try setting those from the command line an observing the <code>gnome-settings</code> window change:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">dconf</span></span><span class="z-meta z-function-call z-arguments z-shell"> write /org/gnome/desktop/interface/color-scheme <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>&#39;default&#39;<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Observe `gnome-settings` being light</span><span class="z-comment z-line z-number-sign z-shell">
+</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">dconf</span></span><span class="z-meta z-function-call z-arguments z-shell"> write /org/gnome/desktop/interface/color-scheme <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>&#39;prefer-dark&#39;<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Observe `gnome-settings` being dark</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span></code></pre>
+<p>Using this information, we can add the following to the user configuration:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/home.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-comment z-line z-number-sign z-nix"># Use `dconf watch /` to track stateful changes you are doing, then set them here.</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">dconf</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">settings</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/desktop/interface<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">color-scheme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>prefer-dark<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>After a bit of tweaking, you might end up with something like this:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/home.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">dconf</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">settings</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/shell<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">favorite-apps</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>firefox.desktop<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>code.desktop<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org.gnome.Terminal.desktop<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>spotify.desktop<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>virt-manager.desktop<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org.gnome.Nautilus.desktop<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+      <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/desktop/interface<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">color-scheme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>prefer-dark<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">enable-hot-corners</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/desktop/wm/preferences<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">workspace-names</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Main<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/desktop/background<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">picture-uri</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>file:///run/current-system/sw/share/backgrounds/gnome/vnc-l.png<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">picture-uri-dark</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>file:///run/current-system/sw/share/backgrounds/gnome/vnc-d.png<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/desktop/screensaver<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">picture-uri</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>file:///run/current-system/sw/share/backgrounds/gnome/vnc-d.png<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">primary-color</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>#3465a4<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">secondary-color</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>#000000<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<h2 id="gnome-extensions">GNOME Extensions</h2>
+<p>Once user extensions are enabled, extensions can be added to the <code>home.packages</code> set then enabled in <code>dconf.settings.&quot;org/gnome/shell&quot;.enabled-extensions</code>. After, they can be configured just as any other GNOME option as described <a href="https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/#setting-gnome-options">just above</a>.</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/home.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">dconf</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">settings</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/shell<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">disable-user-extensions</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+      <span class="z-comment z-line z-number-sign z-nix"># `gnome-extensions list` for a list</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">enabled-extensions</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>user-theme@gnome-shell-extensions.gcampax.github.com<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>trayIconsReloaded@selfmade.pl<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Vitals@CoreCoding.com<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>dash-to-panel@jderose9.github.com<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>sound-output-device-chooser@kgshank.net<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>space-bar@luchrioh<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+      <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">home</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">packages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">user-themes</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">tray-icons-reloaded</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">vitals</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">dash-to-panel</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">sound-output-device-chooser</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">space-bar</span>
+  <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>A GNOME Shell theme can be picked like this:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/home.nix</span>
+<span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">dconf</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">settings</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/shell<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">disable-user-extensions</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">enabled-extensions</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+        <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>user-theme@gnome-shell-extensions.gcampax.github.com<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>
+      <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      
+      <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>org/gnome/shell/extensions/user-theme<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">name</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>palenight<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">home</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">packages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-keyword z-other z-nix">with</span> <span class="z-variable z-parameter z-name z-nix">pkgs</span>; <span class="z-punctuation z-definition z-list z-nix">[</span>
+    <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+    <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">user-themes</span>
+    <span class="z-variable z-parameter z-name z-nix">palenight-theme</span>
+  <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+    
+</span></code></pre>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<blockquote>
+<p>I made a bunch of changes then ran <code>nixos-rebuild switch</code>, but some things didn't change?</p>
+</blockquote>
+<p>Log out and log back in. I found some things just didn't set themselves until you did!</p>
+<blockquote>
+<p>I accidently altered GNOME settings which I'd set via Home Manager, and they aren't changing back on a <code>nixos-rebuild switch</code>?</p>
+</blockquote>
+<p>It is possible to change <code>dconf</code> values once set via Home Manager, if this happens and <code>nixos-rebuild switch</code> isn't causing a change, <strong>you may need to restart the <code>home-manager</code> service</strong> with <code>systemctl restart home-manager</code>. If that fails, make a change (eg. <code>touch</code>) your user home configuration first.</p>
+<blockquote>
+<p>Some changes I made are not reflecting when I <code>nixos-rebuild switch</code>?</p>
+</blockquote>
+<p>Check <code>systemctl status home-manager</code> and ensure the service started sucessfully, if not, dig in with <code>journalctl -u home-manager-$USER</code> and make sure to carefully read the error.</p>
+<blockquote>
+<p>The setting I want isn't tracked by Home Manager or <code>dconf</code>?</p>
+</blockquote>
+<p>It might be complicated. You can try seeing if the program creates an entry in your XDG directories, such as <code>~/.config</code> or <code>~/.cache</code>. If so, you can often provision content into the file with the <a rel="noopener" target="_blank" href="https://rycee.gitlab.io/home-manager/options.html#opt-home.file"><code>home.file</code></a> option.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Once various all of your preferred settings are persisted, it becomes easy to share key settings and extensions between multiple machines, or even architectures. By taking a little bit more time when configuring our system, we can avoid having to do it again.</p>
+<p>Using these strategies I was able to have 3 different machines (an x86_64 desktop workstation, an x86_64 laptop, and a headed aarch64 server) with the same settings, and keep them all consistent so I can spend more time doing what I enjoy (tinkering) instead of what I don't (re-configuring machines).</p>
+<p>If you're looking for a complete home configuration, you can check out mine <a rel="noopener" target="_blank" href="https://github.com/Hoverbear-Consulting/flake/blob/89cbf802a0be072108a57421e329f6f013e335a6/users/ana/home.nix">here</a>.</p>
+<p>Here's what it looks like:</p>
+<figure class="enriched " style="max-height: 100%">
+       <figcaption>My GNOME configuration</figcaption>
+       
+
+<img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;36af0d8a8007a9ef00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;ea6b475dc714452c00.jpg 3840w
+              " sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;36af0d8a8007a9ef00.jpg" alt="My GNOME configuration" />
+</figure>
+
+</main>
+<footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;<a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;<a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5b702bd43c6c6399608f127966e22c0151eb3b5
+">e5b702bd43c6c6399608f127966e22c0151eb3b5
+</a></pre></body>
+
+</html>
