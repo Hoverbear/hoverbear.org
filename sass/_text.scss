@@ -118,8 +118,15 @@ table {
 
 pre:not(.artifact) {
   margin: 1vh 0;
-  padding: 1vh var(--margins);
   overflow-x: auto;
+}
+
+*:not(blockquote) > pre:not(.artifact) {
+  padding: 1vh var(--margins);
+}
+
+blockquote > pre:not(.artifact) {
+  background-color: inherit;
 }
 
 pre.artifact {

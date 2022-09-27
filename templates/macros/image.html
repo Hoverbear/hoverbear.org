@@ -35,8 +35,8 @@
 </figure>
 {%- endmacro full -%}
 
-{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false, classes="") -%}
-<figure class="enriched {{ classes }}">
+{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false, classes="", style="") -%}
+<figure class="enriched {{ classes }}" style="{{ style }}">
        <figcaption>
               {%- if alt -%}
               {{ alt | markdown(inline=true) | safe }}
