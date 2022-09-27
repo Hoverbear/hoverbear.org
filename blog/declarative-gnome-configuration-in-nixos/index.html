@@ -201,7 +201,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
 <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
   <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
     <span class="z-keyword z-other z-nix">let</span> 
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
@@ -248,7 +248,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
 <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
   <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
     <span class="z-keyword z-other z-nix">let</span> 
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
@@ -264,14 +264,14 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
         <span class="z-comment z-line z-number-sign z-nix"># ...</span>
       <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
-<span class="z-invalid z-illegal">}</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>I create a <code>nixosModule</code> for each of my users (you may have another way, feel free to do that):</p>
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
 <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
   <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
     <span class="z-keyword z-other z-nix">let</span> 
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
@@ -282,8 +282,8 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
         <span class="z-comment z-line z-number-sign z-nix"># ...</span>
       <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
-<span class="z-invalid z-illegal">}</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>You can enable Home Manager for your user like so:</p>
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># users/ana/default.nix</span>
@@ -314,7 +314,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
 <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
   <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
     <span class="z-keyword z-other z-nix">let</span> 
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-keyword z-other z-nix">in</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
@@ -424,7 +424,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
 <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
   <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-  <span class="z-variable z-parameter z-function z-maybe z-nix">outputs</span> <span class="z-invalid z-illegal">{</span> <span class="z-invalid z-illegal">s</span><span class="z-invalid z-illegal">e</span><span class="z-invalid z-illegal">l</span><span class="z-invalid z-illegal">f</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">home-manager</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
     <span class="z-keyword z-other z-nix">let</span> 
       <span class="z-entity z-other z-attribute-name z-multipart z-nix">supportedSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>x86_64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>aarch64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span> <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
       <span class="z-entity z-other z-attribute-name z-multipart z-nix">forAllSystems</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-function z-4 z-nix">f</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">genAttrs</span> <span class="z-variable z-parameter z-name z-nix">supportedSystems</span> <span class="z-punctuation z-definition z-expression z-nix">(</span><span class="z-variable z-parameter z-function z-4 z-nix">system</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-variable z-parameter z-name z-nix">f</span> <span class="z-variable z-parameter z-name z-nix">system</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
@@ -449,8 +449,8 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
             <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-punctuation z-section z-function z-arguments z-nix">(</span><span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-punctuation z-section z-function z-arguments z-nix">)</span> <span class="z-entity z-other z-attribute-name z-single z-nix">my-artisanal-theme</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
           <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
       <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
-<span class="z-invalid z-illegal">}</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>Once done, you should be able to use it by setting, for example, <code>gtk.theme.package = pkgs.my-artisanal-theme</code>.</p>
 <h2 id="setting-gnome-options">Setting GNOME options</h2>
@@ -631,8 +631,8 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/e5b702bd43c6c6399608f127966e22c0151eb3b5
-">e5b702bd43c6c6399608f127966e22c0151eb3b5
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/5ada95b33393c3fbd6d7705652aa535f2a01e152
+">5ada95b33393c3fbd6d7705652aa535f2a01e152
 </a></pre></body>
 
 </html>
