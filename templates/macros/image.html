@@ -35,7 +35,10 @@
 </figure>
 {%- endmacro full -%}
 
-{%- macro enriched(path, alt=false, colocated=false, source=false, photographer=false, classes="", style="") -%}
+{%- macro enriched(path, half=false, alt=false, colocated=false, source=false, photographer=false, classes="", style="") -%}
+{%- if half == true -%}
+<div class="magazine-layout">
+{%- endif -%}
 <figure class="enriched {{ classes }}" style="{{ style }}">
        <figcaption>
               {%- if alt -%}
@@ -51,4 +54,8 @@
        </figcaption>
        {{ self::full(path=path, alt=alt | default(value=""), colocated=colocated | default(value=false)) | safe }}
 </figure>
+{%- if half == true -%}
+<div class="vl"></div>
+</div>
+{%- endif -%}
 {%- endmacro enriched -%}

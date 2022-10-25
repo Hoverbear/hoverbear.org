@@ -75,4 +75,29 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
         integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (!/Mobi/i.test(window.navigator.userAgent)) {
+                // https://stackoverflow.com/a/66103452/20254387
+                function strideSiblings(element, stride) {
+                    let parent = element.parentNode;
+                    let index = Array.prototype.indexOf.call(parent.children, element);
+                    return parent.children[index + stride];
+                }
+                const magazineLayouts = document.querySelectorAll(".magazine-layout");
+                for (const layout of magazineLayouts) {
+                    const adjacentSiblings = new Array(5).fill(5).map((_, i) => strideSiblings(layout, i + 1));
+                    const wrapper = document.createElement("div");
+                    wrapper.classList.add("wrapper");
+                    adjacentSiblings.forEach(adj => wrapper.appendChild(adj));
+                    layout.appendChild(wrapper);
+                }
+            } else {
+                const magazineLayouts = document.querySelectorAll(".magazine-layout");
+                for (const layout of magazineLayouts) {
+                    layout.replaceWith(layout.querySelector("figure"));
+                }
+            }
+        });
+    </script>
 </head>

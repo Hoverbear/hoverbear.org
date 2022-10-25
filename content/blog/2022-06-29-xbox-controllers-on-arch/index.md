@@ -117,7 +117,7 @@ Pop open `steam` and navigate the menus: 'Steam' -> 'Settings' -> 'Controller' -
 
 There, tick on 'Xbox Configuration Support'. You should see Xbox controllers showing up now.
 
-{{ figure(path="controller-settings.jpg", alt="Steam Controller", colocated=true) }}
+{{ figure(path="controller-settings.jpg", alt="Steam Controller", colocated=true, half=true) }}
 
 # Wireless Pairing
 
@@ -180,7 +180,7 @@ To test in `wine`, I ran `wine control joy.cpl`, and reviewed the listed 'Connec
 
 With that working, I was able to launch some of my favorite controller games like [Ikenfell][humblegames.com/games/ikenfell] and [No Man's Sky][nomanssky.com].
 
-{{ figure(path="nms.jpg", alt="No Man's Sky", colocated=true) }}
+{{ figure(path="nms.jpg", alt="No Man's Sky", colocated=true, half=true) }}
 
 # Troubleshooting
 
