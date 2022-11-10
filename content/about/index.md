@@ -44,9 +44,11 @@ Later, I moved home. [PingCAP](http://pingcap.com/) recruited me as a Senior Eng
 
 At the start of 2020, life lead me to start my own consultancy. Through it, I am able to work internationally, create partnerships, and spark ideas. I had the pleasure of taking on a long term maintenance role in [Vector](https://vector.dev/), as well as running workshops with [Ferrous Systems](https://ferrous-systems.com/).
 
-My company is a contributor to the [Natives in Tech](https://nativesintech.org/) organization, and plans to become involved in more. It was a supporter of [Natives in Tech Conference 2020](https://www.youtube.com/watch?v=kV8IpFhZmHs). The company has only been involved in supporting Indigenous led efforts since the start of 2021.
+My company is a contributor to the [Natives in Tech](https://nativesintech.org/) organization. It was a supporter of [Natives in Tech Conference 2020](https://www.youtube.com/watch?v=kV8IpFhZmHs).
 
-At the start of 2021, I was a Senior Engineer at [Maya Data](https://mayadata.io/) working on [Mayastor](https://github.com/openebs/Mayastor). I later started working with [TCDI](https://www.tcdi.com/) to expand the [`pgx`](https://github.com/zombodb/pgx) project.
+At the start of 2021, I was a Senior Engineer at [Maya Data](https://mayadata.io/) working on [Mayastor](https://github.com/openebs/Mayastor). I later started working with [TCDI](https://www.tcdi.com/) to expand the [`pgx`](https://github.com/zombodb/pgx) project where I enhanced the ability for users to generate SQL schemas for their Rust code, improved the `cargo` plugin, and helped design more user friendly APIs.
+
+Since late 2022 I have been working with [Determinate Systems](https://determinate.systems/) to help make the Nix ecosystem easier to adopt for developers and teams.
 
 
 # Translations of 'Hoverbear'
