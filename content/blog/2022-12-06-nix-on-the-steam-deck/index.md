@@ -34,7 +34,7 @@ In case you'd not seen one yet, here's a picture of mine:
 
 {{ figure(path="my-deck.jpg", alt="My Deck, along my peripherals I use with it: PS5 Controller, a USB-C hub, and an Ergodox.", colocated=true, style="max-height: 100%") }}
 
-Installing Nix on the Steam Deck has a few special steps, let's review how a Nix install process looks, then how the Deck works, and then we can explore a working approach.
+Installing Nix on the Steam Deck has a few special steps, let's review how a Nix install process looks, then how the Deck works, finally we can explore a working approach.
 
 
 # How a Nix install works
@@ -44,12 +44,12 @@ A normal Nix install process on Linux looks roughly like this:
 * Create a folder called `/nix`
 * Unpack the Nix distribution tarball into `/nix`
 * Create some Nix daemon users and a group (affecting `/etc`)
-* Call `systemctl link` on some systemd units from `/nix`.
+* Call `systemctl link` on some systemd units from `/nix` (affecting `/etc`)
 * Sprinkle some magic in the detected shell profiles (in `/etc`) to ensure `nix` is on `$PATH`
 
-On Mac, where creating a `/nix` is forbidden (by the Apple gods), we can modify an [`/etc/synthetic.conf`](https://keith.github.io/xcode-man-pages/synthetic.conf.5.html) to create a stub which we can mount an APFS volume to. The installation otherwise proceeds as normal.
+On Mac, where creating a `/nix` is forbidden (by the creators, Apple), we can modify an [`/etc/synthetic.conf`](https://keith.github.io/xcode-man-pages/synthetic.conf.5.html) to create a stub which we can mount an APFS volume to. The installation otherwise proceeds as normal.
 
-The Steam Deck is similar, as creating `/nix` requires special steps. Unfortunately it does not also support `/etc/synthetic.conf`. 
+On the Steam Deck creating `/nix` also requires special steps. Unfortunately it does not also support `/etc/synthetic.conf`. 
 
 Why does the Deck need these special steps? Let's take a look at the Steam Deck itself and figure out why we can't just run the familiar Nix installer.
 
@@ -80,7 +80,7 @@ Number  Start (sector)    End (sector)  Size       Code  Name
 
 See how there is `A` and `B` copies of most partitions?
 
-This looks a heck of a lot different than my machine at home:
+This looks a heck of a lot different than my development machine:
 
 ```
 Number  Start (sector)    End (sector)  Size       Code  Name
@@ -88,9 +88,9 @@ Number  Start (sector)    End (sector)  Size       Code  Name
    2         2099200      3907029134   1.8 TiB     8309  encrypt
 ```
 
-Checking for encryption with `blkid | grep crypto_LUKS` showed all partitions were unencrypted, this makes sense since the Deck never asks for a password, even for `sudo` until you set one. It's a bit unfortunate Valve did not opt to protect their user's data in the event this portable device was stolen, but it's room to improve.
+Checking for encryption with `blkid | grep crypto_LUKS` showed all partitions were unencrypted, this makes sense since the Deck never asks for a password, even for `sudo`, until you set one. It's a bit unfortunate Valve did not opt to protect their user's data in the event this portable device was stolen, but it's room to improve.
 
-This A/B boot system means any modifications to the `rootfs` partitions may get wiped out at any time. The system may update or choose to boot into the other 'letter' for some other reason. This means even if we make modifications to both `rootfs` it's still not enough, we want something that is update-proof.
+This A/B boot system means even if modify the `rootfs` partitions they may get wiped out at any time. The system may update or choose to boot into the other 'letter' for some other reason. We want something that is update-proof and will survive a change of 'letter'.
 
 One partition which persists across reboots and has enough space to contain a thick chunky Nix store is the `home` partition. Our Nix install can keep persistent data there.
 
@@ -118,7 +118,7 @@ Reviewing the `mount` output is a bit misleading. While the `/` mount says it is
 touch: cannot touch '/boop': Read-only file system
 ```
 
-This isn't a security feature or anything, it's mostly to prevent the user from being surprised when the A/B boot happens. SteamOS comes with a `steamos-readonly` executable we can use to toggle this read-only feature at any time, so it's perfectly okay to make small changes to the root filesystem as long as you don't expect them to persist across boots.
+This isn't a scary vendor lockdown security feature or anything, it's mostly to prevent the user from being surprised when the A/B boot happens. SteamOS comes with a `steamos-readonly` executable we can use to toggle this read-only feature at any time, this can allow us to make small changes to the root filesystem as long as we don't expect them to persist across boots.
 
 Because of this, if we wanted, we could create a `/nix` path on the `rootfs` each boot by making the root momentarily writable.
 
@@ -144,21 +144,21 @@ As we discovered, creating the `/nix` directory in a safe way that persists will
 
 Since it wouldn't be a great idea to store the Nix Store on the `rootfs` partitions, we must decide somewhere else. The most immediately obvious answer is `/home/nix`, since that is a large, persistent location.
 
-With a `/home/nix`, we can use a [bind mount](https://www.baeldung.com/linux/bind-mounts) to mount that to `/nix`. First a `/nix` path needs to exist though!
+With a `/home/nix`, we can use a [bind mount](https://www.baeldung.com/linux/bind-mounts) to mount that to `/nix`. First a `/nix` path needs be created somehow!
 
 Luckly, with `/etc` writable, we can drop systemd units into [`/etc/systemd/system`](https://www.freedesktop.org/software/systemd/man/systemd.unit.html) that will set up `/nix` for us.
 
 We'll create a `nix-directory.service` unit which creates the `/nix` path, and a `nix.mount` unit which depends on that.
 
-Sadly, that's not quite enough to enable a full install though. Since the install process involves `systemctl link $UNIT`, some of the systemd units are not available during systemd's startup, and the daemon itself needs to be reloaded after the `nix.mount` unit is started. In order to do that, we follow the same method as [Flatcar Linux](https://www.flatcar.org/) does [here](https://github.com/flatcar/init/blob/flatcar-master/systemd/system/ensure-sysext.service).
+Sadly, that's not quite enough to enable a full install though. Since the Nix install process involves `systemctl link $UNIT`, some of the systemd units are not available during systemd's startup. Therefore we must reload the systemd daemon itself after the `nix.mount` unit is started. In order to do that, we follow the same method as [Flatcar Linux](https://www.flatcar.org/) does [here](https://github.com/flatcar/init/blob/flatcar-master/systemd/system/ensure-sysext.service).
 
-Let's cover what these units look like, and test them out with the Nix installer! After, [I'll invite you](<TODO LINKME>) to help us test an experimental Nix installer we've been working on which has a special codepath just for the Steam Deck.
+Let's cover what these units look like then test them out with the Nix installer! After, [I'll invite you](#an-invitation-to-experiment) to help us test an experimental Nix installer we've been working on which has a special codepath just for the Steam Deck.
 
 ## Putting it all together
 
 > **Want to follow along without a Deck?** Learn how to set up a Deck VM with [this article](https://blogs.igalia.com/berto/2022/07/05/running-the-steam-decks-os-in-a-virtual-machine-using-qemu/).
 
-The first three of 4 preparation steps is to create the following three systemd units.
+Three quarters of the preparation steps are to create the following three systemd units.
 
 ```ini
 # /etc/systemd/system/nix-directory.service
@@ -203,7 +203,7 @@ DirectoryMode=0755
 Options=bind
 ```
 
-This mount unit performs a bind mount from `/home/nix` to `/nix`. It'll create `/home/nix` for us, but it sadly cannot create `/nix` without the `nix-directory.service` before it.
+This mount unit performs a bind mount from `/home/nix` to `/nix`. It'll create `/home/nix` for us, but sadly it cannot create `/nix`, relying on the `nix-directory.service` before it.
 
 ```ini
 # /etc/systemd/system/ensure-symlinked-units-resolve.service
@@ -226,7 +226,7 @@ ExecStart=/usr/bin/systemctl restart --no-block sockets.target timers.target mul
 WantedBy=sysinit.target
 ```
 
-This final unit in the chain restarts the systemd daemon, allowing it to properly resolve any previously broken symlinks during the boot, and start or enable them if necessary.
+This final unit in the chain restarts the systemd daemon, allowing it to properly resolve any previously broken symlinks during the boot, before starting or enabling them if necessary.
 
 > **Tailscale user?** A similar strategy can be used after performing `systemd-sysext merge` if you happen to also use [Tailscale on your Steam Deck](https://tailscale.com/blog/steam-deck/) to make sure it starts at boot.
 
@@ -344,9 +344,15 @@ To get started using Nix, open a new shell or run `. /nix/var/nix/profiles/defau
 Hello, world!
 ```
 
-Our prototype has the working name of 'harmonic', and is open source. You are welcome to explore the code [here](https://github.com/DeterminateSystems/harmonic). Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!
+Our prototype has the working name of `harmonic`. It supports different installation 'planners' (such as the `steam-deck`), can be used as a Rust library, has fine grained logging, and can uninstall a Nix it installed.
 
-> We'd be overjoyed if the Nix community adopted the technology in the future, and we've been working with installer contributors like [Solène](https://dataswamp.org/~solene/index.html), [Travis](https://t-ravis.com/), and [Michael](https://github.com/mkenigs) facilitate that.
+It has no runtime dependencies (though it will try to `sudo` itself if you forget) or build time dependencies (other than Rust/C compilers) and should build trivially inside or outside Nix for x86_64 and aarch64, Linux (`glibc` or `musl` based) and Mac.
+
+We are currently distributing fully reproducible and hermetic `nix` based **experimental** builds for all supported platforms. It is Open Source (LGPL) and written in entirely in Rust. 
+ 
+You are welcome to explore the code [here](https://github.com/DeterminateSystems/harmonic). Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!
+
+> We'd be overjoyed if the Nix community adopted the technology in the future, and we've been working with installer contributors like (alphabetical) [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt) and [Travis](https://t-ravis.com/) to facilitate that.
 
 # Conclusion
 
