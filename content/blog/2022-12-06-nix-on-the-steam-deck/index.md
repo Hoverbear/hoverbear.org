@@ -352,7 +352,7 @@ We are currently distributing fully reproducible and hermetic `nix` based **expe
  
 You are welcome to explore the code [here](https://github.com/DeterminateSystems/harmonic). Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!
 
-> We'd be overjoyed if the Nix community adopted the technology in the future, and we've been working with installer contributors like (alphabetical) [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt) and [Travis](https://t-ravis.com/) to facilitate that.
+> We've been working with other installer working group contributors like (alphabetical) [Cole](https://github.com/colemickens), [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt) and [Travis](https://t-ravis.com/) to build `harmonic` and better understand what a next-generation Nix installer would look like, thank you so much for all your help, hard work, and advice.
 
 # Conclusion
 
