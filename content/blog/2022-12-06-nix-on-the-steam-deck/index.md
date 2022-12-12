@@ -16,7 +16,7 @@ source = "https://unsplash.com/photos/7JtgUEYVOu0"
 +++
 
 
-When I first started using Linux in 2006, I remember dreaming of a Linux Console. It wasn't so far fetched, the PlayStation 3 had just been released with OtherOS support which allowed users to install Linux (or BSD). Still, it seemed that a hackable Linux-first console seemed like it would only ever be a dream. Now in 2022, Valve's Steam Deck is a hackable Linux-first portable console.
+When I first started using Linux in 2006 I remember dreaming of a Linux Console. The idea maybe wasn't so far fetched at the time, the PlayStation 3 had just been released with OtherOS support which allowed users to install Linux (or BSD). Still, it seemed that a Linux-first console would only ever be a dream. Now in 2022, Valve's Steam Deck is a hackable Linux-first portable console.
 
 Today, we'll be putting Nix on it, because what's Linux without Nix?
 
@@ -26,20 +26,20 @@ Today, we'll be putting Nix on it, because what's Linux without Nix?
 >
 > Want NixOS instead? A different, spicier kind of fun can be found [here](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
-The Steam Deck is a portable that has a Nintendo Switch-like form factor and touts a x86_64 AMD processor/GPU. It has WiFi, Bluetooth, and a USB-C port which you can plug a hub into, allowing the attachment of HDMI, mice, keyboards, power, or ethernet cables.
+The Steam Deck is a portable computer that has a Nintendo Switch-like form factor and touts an AMD x86_64 processor. It has WiFi, Bluetooth, and a USB-C port which you can plug a hub into, allowing the attachment of HDMI, mice, keyboards, power, or ethernet cables.
 
-It runs a flavor of Arch Linux called SteamOS, and guides users to use [Flatpak](https://flatpak.org/) and [Flathub](https://flathub.org/home). This is a fantastic solution and provides users acess to a wide variety of software, but as a developer I tend to want more exotic stuff that exists in [`nixpkgs`](https://github.com/NixOS/nixpkgs).
+It runs a flavour of Arch Linux called SteamOS, and guides users to use [Flatpak](https://flatpak.org/) and [Flathub](https://flathub.org/home). This is a fantastic solution and provides users access to a wide variety of software, but as a developer I tend to want more exotic stuff that exists in [`nixpkgs`](https://github.com/NixOS/nixpkgs).
 
 In case you'd not seen one yet, here's a picture of mine:
 
-{{ figure(path="my-deck.jpg", alt="My Deck, along my peripherals I use with it: PS5 Controller, a USB-C hub, and an Ergodox.", colocated=true, style="max-height: 100%") }}
+{{ figure(path="my-deck.jpg", alt="My Deck, alongside the peripherals I use with it: PS5 Controller, a USB-C hub, and an Ergodox.", colocated=true, style="max-height: 100%") }}
 
-Installing Nix on the Steam Deck has a few special steps, let's review how a Nix install process looks, then how the Deck works, finally we can explore a working approach.
+Installing Nix on the Steam Deck has a few special steps. Let's review how a Nix install process looks, then how the Deck works, and finally we can explore a working approach to install Nix.
 
 
 # How a Nix install works
 
-A normal Nix install process on Linux looks roughly like this:
+A normal Nix install process on Linux works roughly like this:
 
 * Create a folder called `/nix`
 * Unpack the Nix distribution tarball into `/nix`
@@ -47,16 +47,16 @@ A normal Nix install process on Linux looks roughly like this:
 * Call `systemctl link` on some systemd units from `/nix` (affecting `/etc`)
 * Sprinkle some magic in the detected shell profiles (in `/etc`) to ensure `nix` is on `$PATH`
 
-On Mac, where creating a `/nix` is forbidden (by the creators, Apple), we can modify an [`/etc/synthetic.conf`](https://keith.github.io/xcode-man-pages/synthetic.conf.5.html) to create a stub which we can mount an APFS volume to. The installation otherwise proceeds as normal.
+On Mac, where creating a `/nix` is forbidden (by the creators, Apple), we can modify [`/etc/synthetic.conf`](https://keith.github.io/xcode-man-pages/synthetic.conf.5.html) to create a stub which we can mount an APFS volume to. The installation otherwise proceeds as normal.
 
-On the Steam Deck creating `/nix` also requires special steps. Unfortunately it does not also support `/etc/synthetic.conf`. 
+On the Steam Deck, creating `/nix` also requires special steps. Unfortunately, there is no feature similar to `/etc/synthetic.conf`. 
 
 Why does the Deck need these special steps? Let's take a look at the Steam Deck itself and figure out why we can't just run the familiar Nix installer.
 
 
 # The Deck & SteamOS
 
-The Steam Deck ships with an [Arch Linux](https://archlinux.org/) based distribution called [SteamOS](https://store.steampowered.com/steamos), a [special image](https://help.steampowered.com/en/faqs/view/1b71-edf2-eb6d-2bb3) of it to be even more precise. Normally Arch Linux is a perfectly fine target for Nix, but there are a couple particularities around this distribution that impact how we can install Nix.
+The Steam Deck ships with an [Arch Linux](https://archlinux.org/) based distribution called [SteamOS](https://store.steampowered.com/steamos) -- a [special image](https://help.steampowered.com/en/faqs/view/1b71-edf2-eb6d-2bb3) of it to be even more precise. Normally Arch Linux is a perfectly fine target for Nix, but there are a couple particularities around this distribution that impact how we can install Nix.
 
 
 ## Disk Topology
@@ -90,9 +90,9 @@ Number  Start (sector)    End (sector)  Size       Code  Name
 
 Checking for encryption with `blkid | grep crypto_LUKS` showed all partitions were unencrypted, this makes sense since the Deck never asks for a password, even for `sudo`, until you set one. It's a bit unfortunate Valve did not opt to protect their user's data in the event this portable device was stolen, but it's room to improve.
 
-This A/B boot system means even if modify the `rootfs` partitions they may get wiped out at any time. The system may update or choose to boot into the other 'letter' for some other reason. We want something that is update-proof and will survive a change of 'letter'.
+This A/B boot system means even if `rootfs` partitions get modified, those changes may get wiped out at any time. The system may update or choose to boot into the other 'letter' for some other reason. We want something that is update-proof and will survive a change of 'letter'.
 
-One partition which persists across reboots and has enough space to contain a thick chunky Nix store is the `home` partition. Our Nix install can keep persistent data there.
+One partition that persists across reboots and has enough space to contain a thick, chunky Nix store is the `home` partition. Our Nix install can keep persistent data there.
 
 
 ## Read-Only Filesystem
@@ -144,7 +144,7 @@ As we discovered, creating the `/nix` directory in a safe way that persists will
 
 Since it wouldn't be a great idea to store the Nix Store on the `rootfs` partitions, we must decide somewhere else. The most immediately obvious answer is `/home/nix`, since that is a large, persistent location.
 
-With a `/home/nix`, we can use a [bind mount](https://www.baeldung.com/linux/bind-mounts) to mount that to `/nix`. First a `/nix` path needs be created somehow!
+With an existing `/home/nix`, we can use a [bind mount](https://www.baeldung.com/linux/bind-mounts) to mount that to `/nix`. First, a `/nix` path needs be created somehow!
 
 Luckly, with `/etc` writable, we can drop systemd units into [`/etc/systemd/system`](https://www.freedesktop.org/software/systemd/man/systemd.unit.html) that will set up `/nix` for us.
 
@@ -152,13 +152,19 @@ We'll create a `nix-directory.service` unit which creates the `/nix` path, and a
 
 Sadly, that's not quite enough to enable a full install though. Since the Nix install process involves `systemctl link $UNIT`, some of the systemd units are not available during systemd's startup. Therefore we must reload the systemd daemon itself after the `nix.mount` unit is started. In order to do that, we follow the same method as [Flatcar Linux](https://www.flatcar.org/) does [here](https://github.com/flatcar/init/blob/flatcar-master/systemd/system/ensure-sysext.service).
 
-Let's cover what these units look like then test them out with the Nix installer! After, [I'll invite you](#an-invitation-to-experiment) to help us test an experimental Nix installer we've been working on which has a special codepath just for the Steam Deck.
+Let's cover what these units look like then test them out with the Nix installer! If you're feeling brave [I invite you](#an-invitation-to-experiment) to help us test an experimental Nix installer we've been working on which has a special codepath just for the Steam Deck. Otherwise, follow along below to try the traditional install script.
+
+But first, just in case:
+
+* **Not sure how to get to 'Desktop mode'?** Hit the Steam button, go to 'Power', go to 'Switch to Desktop'
+* **Not sure how to get a terminal?** In 'Desktop Mode' hit the logo in the bottom left corner, in the search bar type "Terminal", select 'Konsole'
+* **Not sure how to edit files?** You can use `vim` if you are familiar, otherwise try `nano` from the terminal.
 
 ## Putting it all together
 
 > **Want to follow along without a Deck?** Learn how to set up a Deck VM with [this article](https://blogs.igalia.com/berto/2022/07/05/running-the-steam-decks-os-in-a-virtual-machine-using-qemu/).
 
-Three quarters of the preparation steps are to create the following three systemd units.
+Three quarters of the Steam Deck specific steps are to create the following three systemd units.
 
 ```ini
 # /etc/systemd/system/nix-directory.service
@@ -303,17 +309,17 @@ Planner: steam-deck
 
 Planner settings:
 
+* daemon_user_count: 32
 * modify_profile: true
-* force: false
-* extra_conf: []
-* nix_package_url: "https://releases.nixos.org/nix/nix-2.11.1/nix-2.11.1-x86_64-linux.tar.xz"
+* persistence: "/home/nix"
+* nix_build_group_id: 3000
+* nix_package_url: "https://releases.nixos.org/nix/nix-2.12.0/nix-2.12.0-x86_64-linux.tar.xz"
 * nix_build_user_id_base: 3000
 * nix_build_group_name: "nixbld"
-* daemon_user_count: 32
 * nix_build_user_prefix: "nixbld"
-* nix_build_group_id: 3000
-* persistence: "/home/nix"
 * channels: ["nixpkgs=https://nixos.org/channels/nixpkgs-unstable"]
+* force: false
+* extra_conf: []
 
 The following actions will be taken (`--explain` for more context):
 
@@ -322,20 +328,27 @@ The following actions will be taken (`--explain` for more context):
 * Create or overwrite file `/etc/systemd/system/nix.mount`
 * Create or overwrite file `/etc/systemd/system/ensure-symlinked-units-resolve.service`
 * Enable (and start) the systemd unit ensure-symlinked-units-resolve.service
-* Fetch `https://releases.nixos.org/nix/nix-2.11.1/nix-2.11.1-x86_64-linux.tar.xz` to `/nix/temp-install-dir`
+* Fetch `https://releases.nixos.org/nix/nix-2.12.0/nix-2.12.0-x86_64-linux.tar.xz` to `/nix/temp-install-dir`
 * Create build users (UID 3000-3032) and group (GID 3000)
 * Create a directory tree in `/nix`
 * Move the downloaded Nix into `/nix`
 * Setup the default Nix profile
 * Configure Nix daemon related settings with systemd
-* Place the nix configuration in `/etc/nix/nix.conf`
+* Place the Nix configuration in `/etc/nix/nix.conf`
 * Place channel configuration at `/root/.nix-channels`
 * Configure the shell profiles
 * Enable (and start) the systemd unit nix-daemon.socket
 
 
 Proceed? (y/N): y
-Confirmed!
+ INFO Step: Create directory `/home/nix`
+ INFO Step: Create or overwrite file `/etc/systemd/system/nix-directory.service`
+ INFO Step: Create or overwrite file `/etc/systemd/system/nix.mount`
+ INFO Step: Create or overwrite file `/etc/systemd/system/ensure-symlinked-units-resolve.service`
+ INFO Step: Enable (and start) the systemd unit ensure-symlinked-units-resolve.service
+ INFO Step: Provision Nix
+ INFO Step: Configure Nix
+ INFO Step: Enable (and start) the systemd unit nix-daemon.socket
 Nix was installed successfully!
 To get started using Nix, open a new shell or run `. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh`
 
@@ -344,15 +357,21 @@ To get started using Nix, open a new shell or run `. /nix/var/nix/profiles/defau
 Hello, world!
 ```
 
+Hate it? Uninstall it:
+
+```
+(deck@steamdeck ~)$ /nix/harmonic uninstall
+```
+
 Our prototype has the working name of `harmonic`. It supports different installation 'planners' (such as the `steam-deck`), can be used as a Rust library, has fine grained logging, and can uninstall a Nix it installed.
 
 It has no runtime dependencies (though it will try to `sudo` itself if you forget) or build time dependencies (other than Rust/C compilers) and should build trivially inside or outside Nix for x86_64 and aarch64, Linux (`glibc` or `musl` based) and Mac.
 
-We are currently distributing fully reproducible and hermetic `nix` based **experimental** builds for all supported platforms. It is Open Source (LGPL) and written in entirely in Rust. 
+We are currently distributing fully reproducible and hermetic `nix` based **experimental** builds for all supported platforms. The installer is Open Source (LGPL) and written in entirely in Rust. (Nix is still not in Rust -- sorry!)
  
 You are welcome to explore the code [here](https://github.com/DeterminateSystems/harmonic). Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!
 
-> We've been working with other installer working group contributors like (alphabetical) [Cole](https://github.com/colemickens), [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt) and [Travis](https://t-ravis.com/) to build `harmonic` and better understand what a next-generation Nix installer would look like, thank you so much for all your help, hard work, and advice.
+> We've been working with other installer working group contributors like (alphabetical) [Cole](https://github.com/colemickens), [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt), [Travis](https://t-ravis.com/), and others to build `harmonic` and better understand what a next-generation Nix installer would look like, thank you so much for all your help, hard work, and advice.
 
 # Conclusion
 
