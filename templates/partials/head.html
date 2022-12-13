@@ -54,7 +54,8 @@
 
 
     <!-- Talk about the homepage and the rss feed. -->
-    <link rel="canonical" href="{{ config.base_url }}">
+    <link rel="canonical"
+        href="{{ page.permalink | default(value=section.permalink | default(value=config.base_url)) | striptags }}">
     <link rel="alternate" type="application/rss+xml" href="{{ config.base_url }}/rss.xml">
 
     <!-- Stylesheets are fun -->
