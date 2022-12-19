@@ -164,7 +164,9 @@ But first, just in case:
 
 > **Want to follow along without a Deck?** Learn how to set up a Deck VM with [this article](https://blogs.igalia.com/berto/2022/07/05/running-the-steam-decks-os-in-a-virtual-machine-using-qemu/).
 
-Three quarters of the Steam Deck specific steps are to create the following three systemd units.
+There are only four Steam Deck specific steps, three are to create the following systemd units. The final one is to enable one of those units.
+
+Create the following systemd units at the noted paths, I suggest using a keyboard plugged into the Deck if you can, or enable SSH via `sudo systemctl start sshd`, reviewing the IP address via `ip a`, and setting a password. If those options are unavailable, hit the [**Steam and X**](https://help.steampowered.com/en/faqs/view/671A-4453-E8D2-323C) buttons to summon the keyboard.
 
 ```ini
 # /etc/systemd/system/nix-directory.service
@@ -293,33 +295,26 @@ If you don't feel like being experimental, this is what it looks like:
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 100 15739  100 15739    0     0  22981      0 --:--:-- --:--:-- --:--:-- 22981
-info: downloading installer https://install.determinate.systems/nix/harmonic-x86_64-linux
-
-We trust you have received the usual lecture from the local System
-Administrator. It usually boils down to these three things:
-
-    #1) Respect the privacy of others.
-    #2) Think before you type.
-    #3) With great power comes great responsibility.
-
-[sudo] password for deck: 
+info: downloading installer https://install.determinate.systems/nix/nix-installer-x86_64-linux
+./nix-installer install steam-deck
+`nix-installer` needs to run as `root`, attempting to escalate now via `sudo`...
 Nix install plan (v0.0.0-unreleased)
 
 Planner: steam-deck
 
 Planner settings:
 
-* daemon_user_count: 32
-* modify_profile: true
 * persistence: "/home/nix"
-* nix_build_group_id: 3000
-* nix_package_url: "https://releases.nixos.org/nix/nix-2.12.0/nix-2.12.0-x86_64-linux.tar.xz"
+* channels: ["nixpkgs=https://nixos.org/channels/nixpkgs-unstable"]
 * nix_build_user_id_base: 3000
+* extra_conf: []
+* modify_profile: true
+* force: false
+* daemon_user_count: 32
 * nix_build_group_name: "nixbld"
 * nix_build_user_prefix: "nixbld"
-* channels: ["nixpkgs=https://nixos.org/channels/nixpkgs-unstable"]
-* force: false
-* extra_conf: []
+* nix_package_url: "https://releases.nixos.org/nix/nix-2.12.0/nix-2.12.0-x86_64-linux.tar.xz"
+* nix_build_group_id: 3000
 
 The following actions will be taken (`--explain` for more context):
 
@@ -349,9 +344,6 @@ Proceed? (y/N): y
  INFO Step: Provision Nix
  INFO Step: Configure Nix
  INFO Step: Enable (and start) the systemd unit nix-daemon.socket
-Nix was installed successfully!
-To get started using Nix, open a new shell or run `. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh`
-
 (deck@steamdeck ~)$ . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 (deck@steamdeck ~)$ nix run nixpkgs#hello
 Hello, world!
@@ -360,18 +352,18 @@ Hello, world!
 Hate it? Uninstall it:
 
 ```
-(deck@steamdeck ~)$ /nix/harmonic uninstall
+(deck@steamdeck ~)$ /nix/nix-installer uninstall
 ```
 
-Our prototype has the working name of `harmonic`. It supports different installation 'planners' (such as the `steam-deck`), can be used as a Rust library, has fine grained logging, and can uninstall a Nix it installed.
+Our prototype has the working name of `nix-installer`. It supports different installation 'planners' (such as the `steam-deck`), can be used as a Rust library, has fine grained logging, and can uninstall a Nix it installed.
 
 It has no runtime dependencies (though it will try to `sudo` itself if you forget) or build time dependencies (other than Rust/C compilers) and should build trivially inside or outside Nix for x86_64 and aarch64, Linux (`glibc` or `musl` based) and Mac.
 
 We are currently distributing fully reproducible and hermetic `nix` based **experimental** builds for all supported platforms. The installer is Open Source (LGPL) and written in entirely in Rust. (Nix is still not in Rust -- sorry!)
  
-You are welcome to explore the code [here](https://github.com/DeterminateSystems/harmonic). Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!
+You are welcome to explore the code [here](https://github.com/DeterminateSystems/nix-installer). Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!
 
-> We've been working with other installer working group contributors like (alphabetical) [Cole](https://github.com/colemickens), [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt), [Travis](https://t-ravis.com/), and others to build `harmonic` and better understand what a next-generation Nix installer would look like, thank you so much for all your help, hard work, and advice.
+> We've been working with other installer working group contributors like (alphabetical) [Cole](https://github.com/colemickens), [Michael](https://github.com/mkenigs), [Solène](https://dataswamp.org/~solene/index.html), [Théophane](https://github.com/thufschmitt), [Travis](https://t-ravis.com/), and others to build `nix-installer` and better understand what a next-generation Nix installer would look like, thank you so much for all your help, hard work, and advice.
 
 # Conclusion
 
