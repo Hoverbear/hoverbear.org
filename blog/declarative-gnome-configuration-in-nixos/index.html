@@ -178,7 +178,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 </span></code></pre>
 </blockquote>
 <h1 id="getting-home-manager-set-up">Getting Home Manager set up</h1>
-<p>Home manager a tool from the Nix ecosystem that helps you take the declarative ideals of Nix/NixOS and apply them to your user's home directory (<code>$HOME</code>). It plugs in (as a <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS_modules">NixOS module</a>) into an existing NixOS configuration, or can be installed on different Linux as a user service.</p>
+<p>Home manager is a tool from the Nix ecosystem that helps you take the declarative ideals of Nix/NixOS and apply them to your user's home directory (<code>$HOME</code>). It plugs in (as a <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS_modules">NixOS module</a>) to an existing NixOS configuration, or can be installed on different Linux as a user service.</p>
 <p>In order to make some parts of your configuration declarative, Home Manager might take control of certain file paths, or set various options in things like <code>dconf</code>.</p>
 <p>Because of its job, Home Manager can make updating your configuration <strong>feel</strong> more error-prone, but don't fear: Use a VCS like <a rel="noopener" target="_blank" href="https://git-scm.com/"><code>git</code></a> to store your configuration. If your Home Manager setup breaks or acts strange for any reason, check the service status via <code>systemctl status home-manager-$USER</code> and <code>journalctl -u home-manager-$USER.service</code>. When in doubt, roll back your configuration and delete any files the errors are complaining about.</p>
 <blockquote>
@@ -187,7 +187,6 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <p>In your Nix flake, add the input for Home Manager and ensure it follows the <code>nixpkgs</code> you're using:</p>
 <pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># flake.nix</span>
 <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
-  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
   <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
     <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:NixOS/nixpkgs/nixos-unstable<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
     <span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
@@ -239,9 +238,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
             <span class="z-punctuation z-definition z-list z-nix">]</span>
           <span class="z-invalid z-illegal">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
         <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
       <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
 
@@ -263,9 +260,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
             <span class="z-entity z-other z-attribute-name z-multipart z-nix">home-manager</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">useUserPackages</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">true</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
           <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
         <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
       <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
@@ -281,9 +276,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
       <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosModules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
         <span class="z-comment z-line z-number-sign z-nix"># ...</span>
         <span class="z-entity z-other z-attribute-name z-multipart z-nix">users-ana</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-unquoted z-path z-nix">./users/ana</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-        <span class="z-comment z-line z-number-sign z-nix"># ...</span>
       <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
     <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
@@ -354,7 +347,7 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <p>If you see errors, dig deeper via <code> journalctl -u home-manager-ana.service</code>.</p>
 <h1 id="declaratively-configuring-gnome">Declaratively configuring GNOME</h1>
 <p>There are a lot of knobs to set in GNOME.</p>
-<p>GNOME breaks down into having GTK3/4 (which has UI, icon, and cursor themes), as well as an group of fairly tightly integrated componenets which are primarily configured by <code>dconf</code>, which most folks configure via <code>gnome-settings</code> or the settings panels of the relevant applications.</p>
+<p>GNOME breaks down into having GTK3/4 (which has UI, icon, and cursor themes), as well as an group of fairly tightly integrated componenets which are primarily configured by <code>dconf</code>. Most folks configure these via <code>gnome-settings</code> or the settings panels of the relevant applications.</p>
 <p>If you're curious and wanted to watch how/if various <code>dconf</code> settings get changed when doing things, you can 'watch' while you click around an application:</p>
 <pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> dconf watch /</span>
 <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/org/gnome/control-center/last-panel</span></span>
@@ -449,10 +442,8 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
           <span class="z-keyword z-other z-nix">in</span>
           <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
             <span class="z-keyword z-other z-inherit z-nix">inherit</span> <span class="z-punctuation z-section z-function z-arguments z-nix">(</span><span class="z-variable z-parameter z-name z-nix">pkgs</span><span class="z-punctuation z-section z-function z-arguments z-nix">)</span> <span class="z-entity z-other z-attribute-name z-single z-nix">my-artisanal-theme</span><span class="z-punctuation z-terminator z-inherit z-nix">;</span>
-          <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-definition z-expression z-nix">)</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-      <span class="z-comment z-line z-number-sign z-nix"># ...</span>
-    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-invalid z-illegal">;</span>
+<span class="z-invalid z-illegal">}</span>
 </span></code></pre>
 <p>Once done, you should be able to use it by setting, for example, <code>gtk.theme.package = pkgs.my-artisanal-theme</code>.</p>
 <h2 id="setting-gnome-options">Setting GNOME options</h2>
@@ -485,7 +476,6 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
       <span class="z-entity z-other z-attribute-name z-multipart z-nix">color-scheme</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>prefer-dark<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
     <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
   <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>After a bit of tweaking, you might end up with something like this:</p>
@@ -523,7 +513,6 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
       <span class="z-entity z-other z-attribute-name z-multipart z-nix">secondary-color</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>#000000<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
     <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
   <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <h2 id="gnome-extensions">GNOME Extensions</h2>
@@ -559,7 +548,6 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
     <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">sound-output-device-chooser</span>
     <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">space-bar</span>
   <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
 </span></code></pre>
 <p>A GNOME Shell theme can be picked like this:</p>
@@ -588,7 +576,6 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
     <span class="z-variable z-parameter z-name z-nix">gnomeExtensions</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">user-themes</span>
     <span class="z-variable z-parameter z-name z-nix">palenight-theme</span>
   <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
-  <span class="z-comment z-line z-number-sign z-nix"># ...</span>
 <span class="z-punctuation z-definition z-attrset z-nix">}</span>
     
 </span></code></pre>
@@ -600,15 +587,15 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
 <blockquote>
 <p>I accidently altered GNOME settings which I'd set via Home Manager, and they aren't changing back on a <code>nixos-rebuild switch</code>?</p>
 </blockquote>
-<p>It is possible to change <code>dconf</code> values once set via Home Manager, if this happens and <code>nixos-rebuild switch</code> isn't causing a change, <strong>you may need to restart the <code>home-manager</code> service</strong> with <code>systemctl restart home-manager</code>. If that fails, make a change (eg. <code>touch</code>) your user home configuration first.</p>
+<p>It is possible to change <code>dconf</code> values once set via Home Manager, if this happens and <code>nixos-rebuild switch</code> isn't causing a change, <strong>you may need to restart the <code>home-manager</code> service</strong> with <code>systemctl restart home-manager-$USER</code>. If that fails, make a change (eg. <code>touch</code>) your user home configuration first.</p>
 <blockquote>
 <p>Some changes I made are not reflecting when I <code>nixos-rebuild switch</code>?</p>
 </blockquote>
-<p>Check <code>systemctl status home-manager</code> and ensure the service started sucessfully, if not, dig in with <code>journalctl -u home-manager-$USER</code> and make sure to carefully read the error.</p>
+<p>Check <code>systemctl status home-manager-$USER</code> and ensure the service started sucessfully, if not, dig in with <code>journalctl -u home-manager-$USER</code> and make sure to carefully read the error.</p>
 <blockquote>
 <p>The setting I want isn't tracked by Home Manager or <code>dconf</code>?</p>
 </blockquote>
-<p>It might be complicated. You can try seeing if the program creates an entry in your XDG directories, such as <code>~/.config</code> or <code>~/.cache</code>. If so, you can often provision content into the file with the <a rel="noopener" target="_blank" href="https://rycee.gitlab.io/home-manager/options.html#opt-home.file"><code>home.file</code></a> option.</p>
+<p>It might be complicated. You can try seeing if the program creates an entry in your XDG directories, such as <code>~/.config</code> or <code>~/.cache</code>. If so, you can often provision content into the file with the <a rel="noopener" target="_blank" href="https://rycee.gitlab.io/home-manager/options.html#opt-home.file"><code>home.file</code></a> option. Please note this will make the file unwritable, which may impact some programs.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>Once various all of your preferred settings are persisted, it becomes easy to share key settings and extensions between multiple machines, or even architectures. By taking a little bit more time when configuring our system, we can avoid having to do it again.</p>
 <p>Using these strategies I was able to have 3 different machines (an x86_64 desktop workstation, an x86_64 laptop, and a headed aarch64 server) with the same settings, and keep them all consistent so I can spend more time doing what I enjoy (tinkering) instead of what I don't (re-configuring machines).</p>
@@ -636,8 +623,8 @@ Let&#x27;s explore a useful addition to your NixOS configuration: Home Manager a
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/2490e8d6a3321011571419f2ea1b4ef581875ec0
-">2490e8d6a3321011571419f2ea1b4ef581875ec0
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/904a5275b6b27888c64c4097b4c83027aa88e0ed
+">904a5275b6b27888c64c4097b4c83027aa88e0ed
 </a></pre></body>
 
 </html>
