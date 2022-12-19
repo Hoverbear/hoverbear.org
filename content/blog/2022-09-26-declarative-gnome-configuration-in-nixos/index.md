@@ -33,7 +33,7 @@ Let's explore a useful addition to your NixOS configuration: [Home Manager](http
 
 # Getting Home Manager set up
 
-Home manager a tool from the Nix ecosystem that helps you take the declarative ideals of Nix/NixOS and apply them to your user's home directory (`$HOME`). It plugs in (as a [NixOS module](https://nixos.wiki/wiki/NixOS_modules)) into an existing NixOS configuration, or can be installed on different Linux as a user service.
+Home manager is a tool from the Nix ecosystem that helps you take the declarative ideals of Nix/NixOS and apply them to your user's home directory (`$HOME`). It plugs in (as a [NixOS module](https://nixos.wiki/wiki/NixOS_modules)) to an existing NixOS configuration, or can be installed on different Linux as a user service.
 
 In order to make some parts of your configuration declarative, Home Manager might take control of certain file paths, or set various options in things like `dconf`.
 
@@ -46,7 +46,6 @@ In your Nix flake, add the input for Home Manager and ensure it follows the `nix
 ```nix
 # flake.nix
 {
-  # ...
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
@@ -101,9 +100,7 @@ If you don't already have GNOME configured, you can do that via a `nixosModule` 
             ]
           };
         };
-        # ...
       };
-      # ...
     };
 }
 
@@ -128,9 +125,7 @@ Next, add a `nixosModule` that enables `home-manager`:
             home-manager.useUserPackages = true;
           };
         };
-        # ...
       };
-      # ...
     };
 }
 ```
@@ -149,9 +144,7 @@ I create a `nixosModule` for each of my users (you may have another way, feel fr
       nixosModules = {
         # ...
         users-ana = ./users/ana;
-        # ...
       };
-      # ...
     };
 }
 ```
@@ -243,7 +236,7 @@ If you see errors, dig deeper via ` journalctl -u home-manager-ana.service`.
 
 There are a lot of knobs to set in GNOME.
 
-GNOME breaks down into having GTK3/4 (which has UI, icon, and cursor themes), as well as an group of fairly tightly integrated componenets which are primarily configured by `dconf`, which most folks configure via `gnome-settings` or the settings panels of the relevant applications.
+GNOME breaks down into having GTK3/4 (which has UI, icon, and cursor themes), as well as an group of fairly tightly integrated componenets which are primarily configured by `dconf`. Most folks configure these via `gnome-settings` or the settings panels of the relevant applications.
 
 If you're curious and wanted to watch how/if various `dconf` settings get changed when doing things, you can 'watch' while you click around an application:
 
@@ -352,8 +345,6 @@ Most of the time, you can guess it, or copy it from what shows up when you check
           in
           {
             inherit (pkgs) my-artisanal-theme;
-          });
-      # ...
     };
 }
 ```
@@ -400,7 +391,6 @@ Using this information, we can add the following to the user configuration:
       color-scheme = "prefer-dark";
     };
   };
-  # ...
 }
 ```
 
@@ -441,7 +431,6 @@ After a bit of tweaking, you might end up with something like this:
       secondary-color = "#000000";
     };
   };
-  # ...
 }
 ```
 
@@ -481,7 +470,6 @@ Once user extensions are enabled, extensions can be added to the `home.packages`
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.space-bar
   ];
-  # ...
 }
 ```
 
@@ -513,7 +501,6 @@ A GNOME Shell theme can be picked like this:
     gnomeExtensions.user-themes
     palenight-theme
   ];
-  # ...
 }
     
 ```
@@ -526,15 +513,15 @@ Log out and log back in. I found some things just didn't set themselves until yo
 
 > I accidently altered GNOME settings which I'd set via Home Manager, and they aren't changing back on a `nixos-rebuild switch`?
 
-It is possible to change `dconf` values once set via Home Manager, if this happens and `nixos-rebuild switch` isn't causing a change, **you may need to restart the `home-manager` service** with `systemctl restart home-manager`. If that fails, make a change (eg. `touch`) your user home configuration first.
+It is possible to change `dconf` values once set via Home Manager, if this happens and `nixos-rebuild switch` isn't causing a change, **you may need to restart the `home-manager` service** with `systemctl restart home-manager-$USER`. If that fails, make a change (eg. `touch`) your user home configuration first.
 
 > Some changes I made are not reflecting when I `nixos-rebuild switch`?
 
-Check `systemctl status home-manager` and ensure the service started sucessfully, if not, dig in with `journalctl -u home-manager-$USER` and make sure to carefully read the error.
+Check `systemctl status home-manager-$USER` and ensure the service started sucessfully, if not, dig in with `journalctl -u home-manager-$USER` and make sure to carefully read the error.
 
 > The setting I want isn't tracked by Home Manager or `dconf`?
 
-It might be complicated. You can try seeing if the program creates an entry in your XDG directories, such as `~/.config` or `~/.cache`. If so, you can often provision content into the file with the [`home.file`](https://rycee.gitlab.io/home-manager/options.html#opt-home.file) option.
+It might be complicated. You can try seeing if the program creates an entry in your XDG directories, such as `~/.config` or `~/.cache`. If so, you can often provision content into the file with the [`home.file`](https://rycee.gitlab.io/home-manager/options.html#opt-home.file) option. Please note this will make the file unwritable, which may impact some programs.
 
 # Conclusion
 
