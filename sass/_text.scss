@@ -1,9 +1,9 @@
 a {
   text-decoration: var(--color-link) dotted underline;
   color: var(--color-link-muted);
-  
+
   animation: link-color-shift-reverse;
-  animation-timing-function:ease-in;
+  animation-timing-function: ease-in;
   animation-iteration-count: 1;
   animation-fill-mode: both;
   animation-duration: 0.2s;
@@ -11,7 +11,7 @@ a {
   &:hover {
     text-decoration: underline;
     animation: link-color-shift;
-    animation-timing-function:ease-in;
+    animation-timing-function: ease-in;
     animation-iteration-count: 1;
     animation-fill-mode: both;
     animation-duration: 0.2s;
@@ -21,13 +21,15 @@ a {
 ol {
   counter-reset: section;
   list-style-type: none;
+
   li:before {
     counter-increment: section;
     content: counters(section, ".") " ";
   }
 }
 
-ul, ol {
+ul,
+ol {
   list-style-position: outside;
   margin-left: 1rem;
 }
@@ -47,7 +49,12 @@ em {
   font-style: oblique;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading) !important;
   padding: 1vh 0;
 }
@@ -96,8 +103,9 @@ blockquote {
   padding-bottom: 1vh;
   margin-top: 1vh;
   margin-bottom: 1vh;
+
   & p {
-    display: inline-block;
+    display: block;
   }
 }
 
@@ -106,10 +114,13 @@ table {
   margin: 1vh 0;
   padding: 1vh var(--margins);
   margin: 0 var(--margins);
+
   & th {
     font-weight: bold;
   }
-  & td, th {
+
+  & td,
+  th {
     text-align: left;
     vertical-align: middle;
     word-break: break-word;
@@ -121,11 +132,11 @@ pre:not(.artifact) {
   overflow-x: auto;
 }
 
-*:not(blockquote) > pre:not(.artifact) {
+*:not(blockquote)>pre:not(.artifact) {
   padding: 1vh var(--margins);
 }
 
-blockquote > pre:not(.artifact) {
+blockquote>pre:not(.artifact) {
   background-color: inherit;
 }
 
@@ -133,16 +144,18 @@ pre.artifact {
   overflow: scroll;
 }
 
-pre, code {
+pre,
+code {
   font-family: var(--font-code), monospace;
 }
 
-*:not(pre) > code {
+*:not(pre)>code {
   background-color: var(--color-muted);
   word-wrap: break-word;
 }
 
-code mark, pre mark {
+code mark,
+pre mark {
   background-color: var(--color-accent);
   color: var(--color-text);
 }
