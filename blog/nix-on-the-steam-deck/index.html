@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>
+        Nix on the Steam Deck
+    </title>
+    <meta name="description"
+        content="What&#x27;s Linux without the Nix?" />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2c7b93b79c3904c200.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2c7b93b79c3904c200.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+    <link rel="me" href="https:&#x2F;&#x2F;hachyderm.io&#x2F;@ana">
+
+    <meta name="twitter:title"
+        content="Nix on the Steam Deck" />
+    <meta property='og:title'
+        content="Nix on the Steam Deck" />
+
+    <meta property='og:url'
+        content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;nix-on-the-steam-deck&#x2F;" />
+
+    <meta name="twitter:description"
+        content="When I first started using Linux in 2006 I remember dreaming of a Linux Console. The idea maybe wasn&#x27;t so far fetched at the time, the PlayStation 3 had just been released with OtherOS support which allowed users to install Linux (or BSD). Still, it seemed that a Linux-first console would only ever be a dream. Now in 2022, Valve&#x27;s Steam Deck is a hackable Linux-first portable console.
+Today, we&#x27;ll be putting Nix on it, because what&#x27;s Linux without Nix?
+" />
+    <meta property='og:description'
+        content="When I first started using Linux in 2006 I remember dreaming of a Linux Console. The idea maybe wasn&#x27;t so far fetched at the time, the PlayStation 3 had just been released with OtherOS support which allowed users to install Linux (or BSD). Still, it seemed that a Linux-first console would only ever be a dream. Now in 2022, Valve&#x27;s Steam Deck is a hackable Linux-first portable console.
+Today, we&#x27;ll be putting Nix on it, because what&#x27;s Linux without Nix?
+" />
+
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical"
+        href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;nix-on-the-steam-deck&#x2F;">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
+    <figure class="enriched " style="">
+       <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/7JtgUEYVOu0">Kalle Kortelainen</a></figcaption>
+       
+
+<img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d9eecf7c66a15dc900.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;2c7b93b79c3904c200.jpg 3840w
+              " sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;d9eecf7c66a15dc900.jpg" alt="Photo" />
+</figure>
+</div>
+<header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+                Nix on the Steam Deck
+            </a></h1>
+
+        <nav id="tree">
+    <ul>
+        <li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
+</nav>
+
+        <div class="metadata">
+            <h5 class="description">
+                What's Linux without the Nix?
+            </h5>
+
+            <p class="date">
+                Posted on 2022-12-06, around 16 minutes of reading.
+            </p>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+<nav id=toc>
+    <ol>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#how-a-nix-install-works">How a Nix install works</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#the-deck-steamos">The Deck &amp; SteamOS</a>
+            
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#disk-topology">Disk Topology</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#read-only-filesystem">Read-Only Filesystem</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#enabling-an-install">Enabling an Install</a>
+            
+            <ol>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#putting-it-all-together">Putting it all together</a>
+                </li>
+                
+                <li>
+                    <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#an-invitation-to-experiment">An invitation to experiment</a>
+                </li>
+                
+            </ol>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#conclusion">Conclusion</a>
+            
+        </li>
+        
+    </ol>
+</nav>
+
+    <p>When I first started using Linux in 2006 I remember dreaming of a Linux Console. The idea maybe wasn't so far fetched at the time, the PlayStation 3 had just been released with OtherOS support which allowed users to install Linux (or BSD). Still, it seemed that a Linux-first console would only ever be a dream. Now in 2022, Valve's Steam Deck is a hackable Linux-first portable console.</p>
+<p>Today, we'll be putting Nix on it, because what's Linux without Nix?</p>
+<span id="continue-reading"></span>
+<blockquote>
+<p>Just wanna try it? <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#enabling-an-install">Jump to the fun part.</a></p>
+<p>Want NixOS instead? A different, spicier kind of fun can be found <a rel="noopener" target="_blank" href="https://github.com/Jovian-Experiments/Jovian-NixOS">here</a>.</p>
+</blockquote>
+<p>The Steam Deck is a portable computer that has a Nintendo Switch-like form factor and touts an AMD x86_64 processor. It has WiFi, Bluetooth, and a USB-C port which you can plug a hub into, allowing the attachment of HDMI, mice, keyboards, power, or ethernet cables.</p>
+<p>It runs a flavour of Arch Linux called SteamOS, and guides users to use <a rel="noopener" target="_blank" href="https://flatpak.org/">Flatpak</a> and <a rel="noopener" target="_blank" href="https://flathub.org/home">Flathub</a>. This is a fantastic solution and provides users access to a wide variety of software, but as a developer I tend to want more exotic stuff that exists in <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs"><code>nixpkgs</code></a>.</p>
+<p>In case you'd not seen one yet, here's a picture of mine:</p>
+<figure class="enriched " style="max-height: 100%">
+       <figcaption>My Deck, alongside the peripherals I use with it: PS5 Controller, a USB-C hub, and an Ergodox.</figcaption>
+       
+
+<img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3f4a21f31f8bde9200.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;43d982d6d31936f900.jpg 3840w
+              " sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;3f4a21f31f8bde9200.jpg" alt="My Deck, alongside the peripherals I use with it: PS5 Controller, a USB-C hub, and an Ergodox." />
+</figure>
+<p>Installing Nix on the Steam Deck has a few special steps. Let's review how a Nix install process looks, then how the Deck works, and finally we can explore a working approach to install Nix.</p>
+<h1 id="how-a-nix-install-works">How a Nix install works</h1>
+<p>A normal Nix install process on Linux works roughly like this:</p>
+<ul>
+<li>Create a folder called <code>/nix</code></li>
+<li>Unpack the Nix distribution tarball into <code>/nix</code></li>
+<li>Create some Nix daemon users and a group (affecting <code>/etc</code>)</li>
+<li>Call <code>systemctl link</code> on some systemd units from <code>/nix</code> (affecting <code>/etc</code>)</li>
+<li>Sprinkle some magic in the detected shell profiles (in <code>/etc</code>) to ensure <code>nix</code> is on <code>$PATH</code></li>
+</ul>
+<p>On Mac, where creating a <code>/nix</code> is forbidden (by the creators, Apple), we can modify <a rel="noopener" target="_blank" href="https://keith.github.io/xcode-man-pages/synthetic.conf.5.html"><code>/etc/synthetic.conf</code></a> to create a stub which we can mount an APFS volume to. The installation otherwise proceeds as normal.</p>
+<p>On the Steam Deck, creating <code>/nix</code> also requires special steps. Unfortunately, there is no feature similar to <code>/etc/synthetic.conf</code>. </p>
+<p>Why does the Deck need these special steps? Let's take a look at the Steam Deck itself and figure out why we can't just run the familiar Nix installer.</p>
+<h1 id="the-deck-steamos">The Deck &amp; SteamOS</h1>
+<p>The Steam Deck ships with an <a rel="noopener" target="_blank" href="https://archlinux.org/">Arch Linux</a> based distribution called <a rel="noopener" target="_blank" href="https://store.steampowered.com/steamos">SteamOS</a> -- a <a rel="noopener" target="_blank" href="https://help.steampowered.com/en/faqs/view/1b71-edf2-eb6d-2bb3">special image</a> of it to be even more precise. Normally Arch Linux is a perfectly fine target for Nix, but there are a couple particularities around this distribution that impact how we can install Nix.</p>
+<h2 id="disk-topology">Disk Topology</h2>
+<p>The Deck uses an A/B boot system <a rel="noopener" target="_blank" href="https://source.android.com/docs/core/ota/ab">(like some Android phones)</a>, which means it has two parallel installations, booting into one and updating the other. This means, if it ever fails after an update it can safely roll back to a known good state.</p>
+<blockquote>
+<p><strong>NixOS user?</strong> Sound familiar? It's like the generation selector in your bootloader, but instead of pointing your boot to different Nix store paths, it points to entirely different partitions!</p>
+</blockquote>
+<pre class="z-code"><code><span class="z-text z-plain">(deck@steamdeck ~)$ sudo gdisk /dev/nvme0n1 -l
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          133119   64.0 MiB    EF00  esp
+   2          133120          198655   32.0 MiB    0700  efi-A
+   3          198656          264191   32.0 MiB    0700  efi-B
+   4          264192        10749951   5.0 GiB     8304  rootfs-A
+   5        10749952        21235711   5.0 GiB     8304  rootfs-B
+   6        21235712        21759999   256.0 MiB   8310  var-A
+   7        21760000        22284287   256.0 MiB   8310  var-B
+   8        22284288      1000215175   466.3 GiB   8302  home
+</span></code></pre>
+<p>See how there is <code>A</code> and <code>B</code> copies of most partitions?</p>
+<p>This looks a heck of a lot different than my development machine:</p>
+<pre class="z-code"><code><span class="z-text z-plain">Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2099199   1024.0 MiB  EF00  efi
+   2         2099200      3907029134   1.8 TiB     8309  encrypt
+</span></code></pre>
+<p>Checking for encryption with <code>blkid | grep crypto_LUKS</code> showed all partitions were unencrypted, this makes sense since the Deck never asks for a password, even for <code>sudo</code>, until you set one. It's a bit unfortunate Valve did not opt to protect their user's data in the event this portable device was stolen, but it's room to improve.</p>
+<p>This A/B boot system means even if <code>rootfs</code> partitions get modified, those changes may get wiped out at any time. The system may update or choose to boot into the other 'letter' for some other reason. We want something that is update-proof and will survive a change of 'letter'.</p>
+<p>One partition that persists across reboots and has enough space to contain a thick, chunky Nix store is the <code>home</code> partition. Our Nix install can keep persistent data there.</p>
+<h2 id="read-only-filesystem">Read-Only Filesystem</h2>
+<p>Reviewing the <code>mount</code> output is a bit misleading. While the <code>/</code> mount says it is <code>rw</code>, it is normally not.</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ mount</span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">grep</span></span><span class="z-meta z-function-call z-arguments z-shell"> /dev/nvme</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p4</span></span><span class="z-meta z-function-call z-arguments z-shell"> on / type btrfs (rw,relatime,ssd,space_cache=v2,subvolid=5,subvol=/</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p6</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /home type ext4 (rw,relatime,x-systemd.growfs</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /opt type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /root type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /srv type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var/cache/pacman type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var/lib/docker type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var/lib/flatpak type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var/lib/systemd/coredump type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var/log type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/dev/nvme0n1p8</span></span><span class="z-meta z-function-call z-arguments z-shell"> on /var/tmp type ext4 (rw,relatime</span><span class="z-meta z-function-call z-shell"></span>)
+
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ sudo touch /boop</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">touch:</span></span><span class="z-meta z-function-call z-arguments z-shell"> cannot touch <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/boop<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>: Read-only file system</span>
+</span></code></pre>
+<p>This isn't a scary vendor lockdown security feature or anything, it's mostly to prevent the user from being surprised when the A/B boot happens. SteamOS comes with a <code>steamos-readonly</code> executable we can use to toggle this read-only feature at any time, this can allow us to make small changes to the root filesystem as long as we don't expect them to persist across boots.</p>
+<p>Because of this, if we wanted, we could create a <code>/nix</code> path on the <code>rootfs</code> each boot by making the root momentarily writable.</p>
+<p>Not all of the device is read-only though! We can write to places like <code>/etc/</code>, but not to <code>/lib</code>, <code>/usr</code>, or <code>/bin</code>.</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ sudo touch /etc/boop</span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ sudo rm /etc/boop</span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">1</span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">(deck@steamdeck <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-meta z-function-call z-shell"></span>)<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> sudo touch /lib/boop</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">touch:</span></span><span class="z-meta z-function-call z-arguments z-shell"> cannot touch <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/lib/boop<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>: Read-only file system</span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">1</span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">(deck@steamdeck <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-meta z-function-call z-shell"></span>)<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> sudo touch /bin/boop</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">touch:</span></span><span class="z-meta z-function-call z-arguments z-shell"> cannot touch <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/bin/boop<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>: Read-only file system</span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">1</span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">(deck@steamdeck <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-meta z-function-call z-shell"></span>)<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">$</span></span><span class="z-meta z-function-call z-arguments z-shell"> sudo touch /usr/boop</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">touch:</span></span><span class="z-meta z-function-call z-arguments z-shell"> cannot touch <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/usr/boop<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>: Read-only file system</span>
+</span></code></pre>
+<p>Recalling the rough steps from the install process, this isn't a problem! So long as we work out the machinery to ensure <code>/nix</code> is available, the Steam Deck looks otherwise like a normal system to Nix.</p>
+<h1 id="enabling-an-install">Enabling an Install</h1>
+<p>As we discovered, creating the <code>/nix</code> directory in a safe way that persists will be our primary challenge.</p>
+<p>Since it wouldn't be a great idea to store the Nix Store on the <code>rootfs</code> partitions, we must decide somewhere else. The most immediately obvious answer is <code>/home/nix</code>, since that is a large, persistent location.</p>
+<p>With an existing <code>/home/nix</code>, we can use a <a rel="noopener" target="_blank" href="https://www.baeldung.com/linux/bind-mounts">bind mount</a> to mount that to <code>/nix</code>. First, a <code>/nix</code> path needs be created somehow!</p>
+<p>Luckly, with <code>/etc</code> writable, we can drop systemd units into <a rel="noopener" target="_blank" href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html"><code>/etc/systemd/system</code></a> that will set up <code>/nix</code> for us.</p>
+<p>We'll create a <code>nix-directory.service</code> unit which creates the <code>/nix</code> path, and a <code>nix.mount</code> unit which depends on that.</p>
+<p>Sadly, that's not quite enough to enable a full install though. Since the Nix install process involves <code>systemctl link $UNIT</code>, some of the systemd units are not available during systemd's startup. Therefore we must reload the systemd daemon itself after the <code>nix.mount</code> unit is started. In order to do that, we follow the same method as <a rel="noopener" target="_blank" href="https://www.flatcar.org/">Flatcar Linux</a> does <a rel="noopener" target="_blank" href="https://github.com/flatcar/init/blob/flatcar-master/systemd/system/ensure-sysext.service">here</a>.</p>
+<p>Let's cover what these units look like then test them out with the Nix installer! If you're feeling brave <a href="https://hoverbear.org/blog/nix-on-the-steam-deck/#an-invitation-to-experiment">I invite you</a> to help us test an experimental Nix installer we've been working on which has a special codepath just for the Steam Deck. Otherwise, follow along below to try the traditional install script.</p>
+<p>But first, just in case:</p>
+<ul>
+<li><strong>Not sure how to get to 'Desktop mode'?</strong> Hit the Steam button, go to 'Power', go to 'Switch to Desktop'</li>
+<li><strong>Not sure how to get a terminal?</strong> In 'Desktop Mode' hit the logo in the bottom left corner, in the search bar type &quot;Terminal&quot;, select 'Konsole'</li>
+<li><strong>Not sure how to edit files?</strong> You can use <code>vim</code> if you are familiar, otherwise try <code>nano</code> from the terminal.</li>
+</ul>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<blockquote>
+<p><strong>Want to follow along without a Deck?</strong> Learn how to set up a Deck VM with <a rel="noopener" target="_blank" href="https://blogs.igalia.com/berto/2022/07/05/running-the-steam-decks-os-in-a-virtual-machine-using-qemu/">this article</a>.</p>
+</blockquote>
+<p>There are only four Steam Deck specific steps, three are to create the following systemd units. The final one is to enable one of those units.</p>
+<p>Create the following systemd units at the noted paths, I suggest using a keyboard plugged into the Deck if you can, or enable SSH via <code>sudo systemctl start sshd</code>, reviewing the IP address via <code>ip a</code>, and setting a password. If those options are unavailable, hit the <a rel="noopener" target="_blank" href="https://help.steampowered.com/en/faqs/view/671A-4453-E8D2-323C"><strong>Steam and X</strong></a> buttons to summon the keyboard.</p>
+<pre data-lang="ini" class="language-ini z-code"><code class="language-ini" data-lang="ini"><span class="z-source z-genconfig"><span class="z-meta z-comment z-genconfig"><span class="z-comment z-line z-number-sign z-genconfig"># /etc/systemd/system/nix-directory.service
+</span></span><span class="z-storage z-type z-genconfig">[Unit]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Description</span><span class="z-keyword z-operator z-genconfig">=</span></span>Create a `<span class="z-keyword z-operator z-genconfig">/</span>nix` directory to be used for bind mounting
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>daemon<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">DefaultDependencies</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">no</span>
+
+<span class="z-storage z-type z-genconfig">[Service]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Type</span><span class="z-keyword z-operator z-genconfig">=</span></span>oneshot
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span>steamos<span class="z-keyword z-operator z-genconfig">-</span>readonly disable
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span>mkdir <span class="z-keyword z-operator z-genconfig">-</span>vp <span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span>chmod <span class="z-keyword z-operator z-genconfig">-</span>v <span class="z-constant z-numeric z-genconfig">0755</span> <span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span>chown <span class="z-keyword z-operator z-genconfig">-</span>v root <span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span>chgrp <span class="z-keyword z-operator z-genconfig">-</span>v root <span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span>steamos<span class="z-keyword z-operator z-genconfig">-</span>readonly enable
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStop</span><span class="z-keyword z-operator z-genconfig">=</span></span>steamos<span class="z-keyword z-operator z-genconfig">-</span>readonly disable
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStop</span><span class="z-keyword z-operator z-genconfig">=</span></span>rmdir <span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStop</span><span class="z-keyword z-operator z-genconfig">=</span></span>steamos<span class="z-keyword z-operator z-genconfig">-</span>readonly enable
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">RemainAfterExit</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">true</span>
+</span></code></pre>
+<p>The above unit is the first in our chain of units, it checks if a <code>/nix</code> folder exists, and if necessary, calls <code>steamos-readonly disable</code>, creates <code>/nix</code>, then calls <code>steamos-readonly enable</code> again. It also attempts to do some cleanup as it stops, but that part is unnecessary.</p>
+<pre data-lang="ini" class="language-ini z-code"><code class="language-ini" data-lang="ini"><span class="z-source z-genconfig"><span class="z-meta z-comment z-genconfig"><span class="z-comment z-line z-number-sign z-genconfig"># /etc/systemd/system/nix.mount
+</span></span><span class="z-storage z-type z-genconfig">[Unit]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Description</span><span class="z-keyword z-operator z-genconfig">=</span></span>Mount `<span class="z-keyword z-operator z-genconfig">/</span>home<span class="z-keyword z-operator z-genconfig">/</span>nix` <span class="z-constant z-language z-genconfig">on</span> `<span class="z-keyword z-operator z-genconfig">/</span>nix`
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>daemon<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">After</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Requires</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ConditionPathIsDirectory</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">DefaultDependencies</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">no</span>
+
+<span class="z-storage z-type z-genconfig">[Mount]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">What</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>home<span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Where</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>nix
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Type</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">none</span>
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">DirectoryMode</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-numeric z-genconfig">0755</span>
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Options</span><span class="z-keyword z-operator z-genconfig">=</span></span>bind
+</span></code></pre>
+<p>This mount unit performs a bind mount from <code>/home/nix</code> to <code>/nix</code>. It'll create <code>/home/nix</code> for us, but sadly it cannot create <code>/nix</code>, relying on the <code>nix-directory.service</code> before it.</p>
+<pre data-lang="ini" class="language-ini z-code"><code class="language-ini" data-lang="ini"><span class="z-source z-genconfig"><span class="z-meta z-comment z-genconfig"><span class="z-comment z-line z-number-sign z-genconfig"># /etc/systemd/system/ensure-symlinked-units-resolve.service
+</span></span><span class="z-storage z-type z-genconfig">[Unit]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Description</span><span class="z-keyword z-operator z-genconfig">=</span></span>Ensure Nix related units which are symlinked resolve
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">After</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Requires</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Requires</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">DefaultDependencies</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">no</span>
+
+<span class="z-storage z-type z-genconfig">[Service]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Type</span><span class="z-keyword z-operator z-genconfig">=</span></span>oneshot
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">RemainAfterExit</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">yes</span>
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>usr<span class="z-keyword z-operator z-genconfig">/</span>bin<span class="z-keyword z-operator z-genconfig">/</span>systemctl daemon<span class="z-keyword z-operator z-genconfig">-</span>reload
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>usr<span class="z-keyword z-operator z-genconfig">/</span>bin<span class="z-keyword z-operator z-genconfig">/</span>systemctl <span class="z-keyword z-other z-genconfig">restart</span> <span class="z-keyword z-operator z-genconfig">-</span><span class="z-keyword z-operator z-genconfig">-</span>no<span class="z-keyword z-operator z-genconfig">-</span>block sockets<span class="z-keyword z-operator z-genconfig">.</span>target timers<span class="z-keyword z-operator z-genconfig">.</span>target multi<span class="z-keyword z-operator z-genconfig">-</span>user<span class="z-keyword z-operator z-genconfig">.</span>target
+
+<span class="z-storage z-type z-genconfig">[Install]
+</span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">WantedBy</span><span class="z-keyword z-operator z-genconfig">=</span></span>sysinit<span class="z-keyword z-operator z-genconfig">.</span>target
+</span></code></pre>
+<p>This final unit in the chain restarts the systemd daemon, allowing it to properly resolve any previously broken symlinks during the boot, before starting or enabling them if necessary.</p>
+<blockquote>
+<p><strong>Tailscale user?</strong> A similar strategy can be used after performing <code>systemd-sysext merge</code> if you happen to also use <a rel="noopener" target="_blank" href="https://tailscale.com/blog/steam-deck/">Tailscale on your Steam Deck</a> to make sure it starts at boot.</p>
+</blockquote>
+<p>After creating the units, we need to enable (and start) the last, causing the ones it requires to also start:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemctl enable<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>now</span> ensure-symlinked-units-resolve.service</span>
+</span></code></pre>
+<p>Now we can just run the <a rel="noopener" target="_blank" href="https://nixos.org/manual/nix/stable/quick-start.html">Nix installer</a> like normal:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sh</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-keyword z-operator z-assignment z-redirection z-process z-shell">&lt;</span><span class="z-punctuation z-section z-parens z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">curl</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>L</span> https://nixos.org/nix/install</span><span class="z-punctuation z-section z-parens z-end z-shell">)</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>daemon</span></span>
+</span></code></pre>
+<p>Follow the prompts, call <code>exec $SHELL</code> (or open a new shell, or reboot) and Nix should work on command line!</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ nix-instantiate<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>eval</span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>E</span> <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>1 + 1<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">2</span></span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ nix-build <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>&lt;nixpkgs&gt;<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>A</span> hello</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">these</span></span><span class="z-meta z-function-call z-arguments z-shell"> 4 paths will be fetched (6.73 MiB download, 31.05 MiB unpacked</span><span class="z-meta z-function-call z-shell"></span>)<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-colon z-shell">:</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix/store/34xlpp3j3vy7ksn09zh44f1c04w77khf-libunistring-1.0</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix/store/4nlgxhb09sdr51nc9hdm8az5b08vzkgx-glibc-2.35-163</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix/store/5mh5019jigj0k14rdnjam1xwk5avn1id-libidn2-2.3.2</span></span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix/store/g2m8kfw7kpgpph05v2fxcx4d5an09hl3-hello-2.12.1</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">copying</span></span><span class="z-meta z-function-call z-arguments z-shell"> path <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/nix/store/34xlpp3j3vy7ksn09zh44f1c04w77khf-libunistring-1.0<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> from <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>https://cache.nixos.org<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>...</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">copying</span></span><span class="z-meta z-function-call z-arguments z-shell"> path <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/nix/store/5mh5019jigj0k14rdnjam1xwk5avn1id-libidn2-2.3.2<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> from <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>https://cache.nixos.org<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>...</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">copying</span></span><span class="z-meta z-function-call z-arguments z-shell"> path <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/nix/store/4nlgxhb09sdr51nc9hdm8az5b08vzkgx-glibc-2.35-163<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> from <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>https://cache.nixos.org<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>...</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">copying</span></span><span class="z-meta z-function-call z-arguments z-shell"> path <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>/nix/store/g2m8kfw7kpgpph05v2fxcx4d5an09hl3-hello-2.12.1<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span> from <span class="z-string z-quoted z-single z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&#39;</span>https://cache.nixos.org<span class="z-punctuation z-definition z-string z-end z-shell">&#39;</span></span>...</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix/store/g2m8kfw7kpgpph05v2fxcx4d5an09hl3-hello-2.12.1</span></span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ ./result/bin/hello </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Hello,</span></span><span class="z-meta z-function-call z-arguments z-shell"> world!</span>
+</span></code></pre>
+<p>Feel free to reboot a few times, or even update your Steam Deck. As far as I've experimented, it should keep working!</p>
+<p>If you cause a instant, hard, full power loss (such as Ctrl+C'ing the VM) before it can properly <code>fsync()</code>, you may see an error like <code>error: expected string 'Derive(['</code>. To resolve this error, run <code>nix store gc</code>. You can avoid this by running <code>sync</code> before killing the device.</p>
+<h2 id="an-invitation-to-experiment">An invitation to experiment</h2>
+<p>Part of the reason we wanted to explore Nix on the Steam Deck is that we're currently experimenting with a new Nix installer, and we were curious what we could learn from adding support for a specific device which had special requirements, such as the Steam Deck.</p>
+<p>If you feel like experimenting <strong>(and don't mind things breaking)</strong> feel encouraged to try out our prototype! Don't worry, if you don't like it, it includes an uninstaller so you can roll back and do your install with the traditional scripts.</p>
+<p>You can run it like so:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">curl</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>L</span> https://install.determinate.systems/nix</span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sh</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>s</span><span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> install steam-deck</span>
+</span></code></pre>
+<p>If you don't feel like being experimental, this is what it looks like:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ curl<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>L</span> https://install.determinate.systems/nix</span> <span class="z-keyword z-operator z-logical z-pipe z-shell">|</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sh</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>s</span><span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> install steam-deck</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell"><span class="z-meta z-group z-expansion z-job z-shell"><span class="z-punctuation z-definition z-variable z-job z-shell">%</span></span></span></span><span class="z-meta z-function-call z-arguments z-shell"> Total    <span class="z-meta z-group z-expansion z-job z-shell"><span class="z-punctuation z-definition z-variable z-job z-shell">%</span></span> Received <span class="z-meta z-group z-expansion z-job z-shell"><span class="z-punctuation z-definition z-variable z-job z-shell">%</span></span> Xferd  Average Speed   Time    Time     Time  Current</span>
+                                 <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Dload</span></span><span class="z-meta z-function-call z-arguments z-shell">  Upload   Total   Spent    Left  Speed</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">0</span></span><span class="z-meta z-function-call z-arguments z-shell">     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0</span>
+  <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">0</span></span><span class="z-meta z-function-call z-arguments z-shell">     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">100</span></span><span class="z-meta z-function-call z-arguments z-shell"> 15739  100 15739    0     0  22981      0 --:--:-- --:--:-- --:--:-- 22981</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">info:</span></span><span class="z-meta z-function-call z-arguments z-shell"> downloading installer https://install.determinate.systems/nix/nix-installer-x86_64-linux</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">./nix-installer</span></span><span class="z-meta z-function-call z-arguments z-shell"> install steam-deck</span>
+<span class="z-meta z-function-call z-shell"></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">nix-installer</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span> needs to run as <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">root</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span>, attempting to escalate now via <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">sudo</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span>...</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Nix</span></span><span class="z-meta z-function-call z-arguments z-shell"> install plan (v0.0.0-unreleased</span><span class="z-meta z-function-call z-shell"></span>)
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Planner:</span></span><span class="z-meta z-function-call z-arguments z-shell"> steam-deck</span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Planner</span></span><span class="z-meta z-function-call z-arguments z-shell"> settings:</span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> persistence: <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>/home/nix<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> channels: <span class="z-keyword z-control z-regexp z-set z-begin z-shell">[</span><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>nixpkgs=https://nixos.org/channels/nixpkgs-unstable<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span><span class="z-keyword z-control z-regexp z-set z-end z-shell">]</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix_build_user_id_base: 3000</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> extra_conf: <span class="z-keyword z-control z-regexp z-set z-begin z-shell">[</span><span class="z-keyword z-control z-regexp z-set z-end z-shell">]</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> modify_profile: true</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> force: false</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> daemon_user_count: 32</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix_build_group_name: <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>nixbld<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix_build_user_prefix: <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>nixbld<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix_package_url: <span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>https://releases.nixos.org/nix/nix-2.12.0/nix-2.12.0-x86_64-linux.tar.xz<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix_build_group_id: 3000</span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">The</span></span><span class="z-meta z-function-call z-arguments z-shell"> following actions will be taken (<span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">--explain</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span> for more context</span><span class="z-meta z-function-call z-shell"></span>)<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-colon z-shell">:</span></span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Create directory <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/home/nix</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Create or overwrite file <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/systemd/system/nix-directory.service</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Create or overwrite file <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/systemd/system/nix.mount</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Create or overwrite file <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/systemd/system/ensure-symlinked-units-resolve.service</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Enable (and start</span><span class="z-meta z-function-call z-shell"></span>) <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">the</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemd unit ensure-symlinked-units-resolve.service</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Fetch <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">https://releases.nixos.org/nix/nix-2.12.0/nix-2.12.0-x86_64-linux.tar.xz</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span> to <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix/temp-install-dir</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Create build users (UID 3000-3032</span><span class="z-meta z-function-call z-shell"></span>) <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">and</span></span><span class="z-meta z-function-call z-arguments z-shell"> group (GID 3000</span><span class="z-meta z-function-call z-shell"></span>)
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Create a directory tree in <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Move the downloaded Nix into <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/nix</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Setup the default Nix profile</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Configure Nix daemon related settings with systemd</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Place the Nix configuration in <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/nix/nix.conf</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Place channel configuration at <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/root/.nix-channels</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Configure the shell profiles</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">*</span></span><span class="z-meta z-function-call z-arguments z-shell"> Enable (and start</span><span class="z-meta z-function-call z-shell"></span>) <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">the</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemd unit nix-daemon.socket</span>
+
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Proceed?</span></span><span class="z-meta z-function-call z-arguments z-shell"> (y/N</span><span class="z-meta z-function-call z-shell"></span>)<span class="z-meta z-function-call z-shell"><span class="z-support z-function z-colon z-shell">:</span></span><span class="z-meta z-function-call z-arguments z-shell"> y</span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Create directory <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/home/nix</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Create or overwrite file <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/systemd/system/nix-directory.service</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Create or overwrite file <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/systemd/system/nix.mount</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Create or overwrite file <span class="z-meta z-group z-expansion z-command z-backticks z-shell"><span class="z-punctuation z-section z-group z-begin z-shell">`</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">/etc/systemd/system/ensure-symlinked-units-resolve.service</span></span><span class="z-punctuation z-section z-group z-end z-shell">`</span></span></span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Enable (and start</span><span class="z-meta z-function-call z-shell"></span>) <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">the</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemd unit ensure-symlinked-units-resolve.service</span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Provision Nix</span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Configure Nix</span>
+ <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">INFO</span></span><span class="z-meta z-function-call z-arguments z-shell"> Step: Enable (and start</span><span class="z-meta z-function-call z-shell"></span>) <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">the</span></span><span class="z-meta z-function-call z-arguments z-shell"> systemd unit nix-daemon.socket</span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh</span>
+<span class="z-punctuation z-definition z-compound z-begin z-shell">(</span><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">deck@steamdeck</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-meta z-group z-expansion z-tilde"><span class="z-variable z-language z-tilde z-shell">~</span></span></span><span class="z-punctuation z-definition z-compound z-end z-shell">)</span><span class="z-meta z-function-call z-arguments z-shell">$ nix run nixpkgs#hello</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Hello,</span></span><span class="z-meta z-function-call z-arguments z-shell"> world!</span>
+</span></code></pre>
+<p>Hate it? Uninstall it:</p>
+<pre class="z-code"><code><span class="z-text z-plain">(deck@steamdeck ~)$ /nix/nix-installer uninstall
+</span></code></pre>
+<p>Our prototype has the working name of <code>nix-installer</code>. It supports different installation 'planners' (such as the <code>steam-deck</code>), can be used as a Rust library, has fine grained logging, and can uninstall a Nix it installed.</p>
+<p>It has no runtime dependencies (though it will try to <code>sudo</code> itself if you forget) or build time dependencies (other than Rust/C compilers) and should build trivially inside or outside Nix for x86_64 and aarch64, Linux (<code>glibc</code> or <code>musl</code> based) and Mac.</p>
+<p>We are currently distributing fully reproducible and hermetic <code>nix</code> based <strong>experimental</strong> builds for all supported platforms. The installer is Open Source (LGPL) and written in entirely in Rust. (Nix is still not in Rust -- sorry!)</p>
+<p>You are welcome to explore the code <a rel="noopener" target="_blank" href="https://github.com/DeterminateSystems/nix-installer">here</a>. Don't worry, we're very excited to talk about it at length in a future article. Stay tuned for more!</p>
+<blockquote>
+<p>We've been working with other installer working group contributors like (alphabetical) <a rel="noopener" target="_blank" href="https://github.com/colemickens">Cole</a>, <a rel="noopener" target="_blank" href="https://github.com/mkenigs">Michael</a>, <a rel="noopener" target="_blank" href="https://dataswamp.org/%7Esolene/index.html">Solène</a>, <a rel="noopener" target="_blank" href="https://github.com/thufschmitt">Théophane</a>, <a rel="noopener" target="_blank" href="https://t-ravis.com/">Travis</a>, and others to build <code>nix-installer</code> and better understand what a next-generation Nix installer would look like, thank you so much for all your help, hard work, and advice.</p>
+</blockquote>
+<h1 id="conclusion">Conclusion</h1>
+<p>We explored how the Steam Deck takes certain measures to protect users from accidently losing changes when the system updates and swaps due to its A/B booting, we also explored how we can use persistent systemd units to create a <code>/nix</code> path on the Steam Deck which bind mounts to a persistent <code>/home/nix</code> directory. In order to ensure that the units linked from the <code>/nix</code> path are loaded, we also learnt we can have a unit which reloads the systemd daemon, and how this resolves the issue.</p>
+<p>Using these techniques, we successfully installed Nix on the Steam Deck using both the traditional installer, as well as a prototype that we've been working on.</p>
+
+</main>
+<footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;
+    <a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;
+    <a rel="me" href="https:&#x2F;&#x2F;hachyderm.io&#x2F;@ana">@ana@hachyderm.io</a> on Mastodon,</a>&nbsp;
+    <a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/001e8bcefa67cfbdb845c1e2d10abcedf3d8fe44
+">001e8bcefa67cfbdb845c1e2d10abcedf3d8fe44
+</a></pre></body>
+
+</html>
