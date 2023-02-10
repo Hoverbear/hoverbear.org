@@ -317,6 +317,8 @@ Number  Start (sector)    End (sector)  Size       Code  Name
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Requires</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ConditionPathIsDirectory</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>nix
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">DefaultDependencies</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">no</span>
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">RequiredBy</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>daemon<span class="z-keyword z-operator z-genconfig">.</span>service
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">RequiredBy</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>daemon<span class="z-keyword z-operator z-genconfig">.</span>socket
 
 <span class="z-storage z-type z-genconfig">[Mount]
 </span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">What</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>home<span class="z-keyword z-operator z-genconfig">/</span>nix
@@ -332,15 +334,13 @@ Number  Start (sector)    End (sector)  Size       Code  Name
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">After</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Requires</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Requires</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
-<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">-</span>directory<span class="z-keyword z-operator z-genconfig">.</span>service
-<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">PropagatesStopTo</span><span class="z-keyword z-operator z-genconfig">=</span></span>nix<span class="z-keyword z-operator z-genconfig">.</span>mount
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">DefaultDependencies</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">no</span>
 
 <span class="z-storage z-type z-genconfig">[Service]
 </span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">Type</span><span class="z-keyword z-operator z-genconfig">=</span></span>oneshot
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">RemainAfterExit</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-constant z-language z-genconfig">yes</span>
 <span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>usr<span class="z-keyword z-operator z-genconfig">/</span>bin<span class="z-keyword z-operator z-genconfig">/</span>systemctl daemon<span class="z-keyword z-operator z-genconfig">-</span>reload
-<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>usr<span class="z-keyword z-operator z-genconfig">/</span>bin<span class="z-keyword z-operator z-genconfig">/</span>systemctl <span class="z-keyword z-other z-genconfig">restart</span> <span class="z-keyword z-operator z-genconfig">-</span><span class="z-keyword z-operator z-genconfig">-</span>no<span class="z-keyword z-operator z-genconfig">-</span>block sockets<span class="z-keyword z-operator z-genconfig">.</span>target timers<span class="z-keyword z-operator z-genconfig">.</span>target multi<span class="z-keyword z-operator z-genconfig">-</span>user<span class="z-keyword z-operator z-genconfig">.</span>target
+<span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">ExecStart</span><span class="z-keyword z-operator z-genconfig">=</span></span><span class="z-keyword z-operator z-genconfig">/</span>usr<span class="z-keyword z-operator z-genconfig">/</span>bin<span class="z-keyword z-operator z-genconfig">/</span>systemctl <span class="z-keyword z-other z-genconfig">restart</span> <span class="z-keyword z-operator z-genconfig">-</span><span class="z-keyword z-operator z-genconfig">-</span>no<span class="z-keyword z-operator z-genconfig">-</span>block nix<span class="z-keyword z-operator z-genconfig">-</span>daemon<span class="z-keyword z-operator z-genconfig">.</span>socket
 
 <span class="z-storage z-type z-genconfig">[Install]
 </span><span class="z-meta z-param z-genconfig"><span class="z-variable z-parameter z-genconfig">WantedBy</span><span class="z-keyword z-operator z-genconfig">=</span></span>sysinit<span class="z-keyword z-operator z-genconfig">.</span>target
@@ -463,8 +463,8 @@ Number  Start (sector)    End (sector)  Size       Code  Name
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d7994a50cf9756cd9c31f9b4571250b9f2265343
-">d7994a50cf9756cd9c31f9b4571250b9f2265343
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/a7f3ac3e20c5424a25d58796f935dcd77b273ec6
+">a7f3ac3e20c5424a25d58796f935dcd77b273ec6
 </a></pre></body>
 
 </html>
