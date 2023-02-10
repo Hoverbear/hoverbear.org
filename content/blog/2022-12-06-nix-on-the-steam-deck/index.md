@@ -175,6 +175,8 @@ Description=Create a `/nix` directory to be used for bind mounting
 PropagatesStopTo=nix-daemon.service
 PropagatesStopTo=nix.mount
 DefaultDependencies=no
+After=grub-recordfail.service
+After=steamos-finish-oobe-migration.service
 
 [Service]
 Type=oneshot
