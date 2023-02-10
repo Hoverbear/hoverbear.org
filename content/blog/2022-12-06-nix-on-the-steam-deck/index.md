@@ -202,6 +202,8 @@ After=nix-directory.service
 Requires=nix-directory.service
 ConditionPathIsDirectory=/nix
 DefaultDependencies=no
+RequiredBy=nix-daemon.service
+RequiredBy=nix-daemon.socket
 
 [Mount]
 What=/home/nix
@@ -220,15 +222,13 @@ Description=Ensure Nix related units which are symlinked resolve
 After=nix.mount
 Requires=nix-directory.service
 Requires=nix.mount
-PropagatesStopTo=nix-directory.service
-PropagatesStopTo=nix.mount
 DefaultDependencies=no
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/bin/systemctl daemon-reload
-ExecStart=/usr/bin/systemctl restart --no-block sockets.target timers.target multi-user.target
+ExecStart=/usr/bin/systemctl restart --no-block nix-daemon.socket
 
 [Install]
 WantedBy=sysinit.target
