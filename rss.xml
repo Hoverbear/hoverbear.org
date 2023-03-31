@@ -7,7 +7,18 @@
         <generator>Zola</generator>
         <language>en</language>
         <atom:link href="https://hoverbear.org/rss.xml" rel="self" type="application/rss+xml"/>
-        <lastBuildDate>Tue, 06 Dec 2022 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Wed, 29 Mar 2023 00:00:00 +0000</lastBuildDate>
+        <item>
+            <title>Extending NixOS Configurations</title>
+            <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+            <link>https://hoverbear.org/blog/extending-nixos-configurations/</link>
+            <guid>https://hoverbear.org/blog/extending-nixos-configurations/</guid>
+            <description>&lt;p&gt;&lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;nixos.org&#x2F;&quot;&gt;NixOS&lt;&#x2F;a&gt; &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;nixos.wiki&#x2F;wiki&#x2F;NixOS_modules&quot;&gt;modules&lt;&#x2F;a&gt; and configurations offer us a tantilizing way to express and share systems. My friends and I can publish our own flakes containing &lt;code&gt;nixosModules&lt;&#x2F;code&gt; and&#x2F;or &lt;code&gt;nixosConfigurations&lt;&#x2F;code&gt; outputs which can be imported, reused, and remixed. When it comes to secret projects though, that openness and ease of sharing can be a bit of a problem.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s pretend my friend wants to share a secret NixOS module or package with me, they&#x27;ve already given me access to the GitHub repository, and now I need to add it to my flake. My &lt;a rel=&quot;noopener&quot; target=&quot;_blank&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Hoverbear-Consulting&#x2F;flake&quot;&gt;flake&lt;&#x2F;a&gt; is public and has downstream users. I can&#x27;t just up and add it as an input. For one thing, it&#x27;d break everything downstream. More importantly, my friend asked me not to.&lt;&#x2F;p&gt;
+&lt;p&gt;It&#x27;s terribly inconvienent to add the project as an input and be careful to never commit that change to the repository. Worse, if I did screw up and commit it, my friend might be disappointed in me. We simply can&#x27;t have that.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s explore how to create a flake which extends some existing flake, a pattern which can be combined with a &lt;code&gt;git+ssh&lt;&#x2F;code&gt; flake URL to resolve this precarious situation.&lt;&#x2F;p&gt;
+</description>
+        </item>
         <item>
             <title>Nix on the Steam Deck</title>
             <pubDate>Tue, 06 Dec 2022 00:00:00 +0000</pubDate>

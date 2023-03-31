@@ -134,6 +134,30 @@
     <h2><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;tags&#x2F;nix&#x2F;">Nix</a></h2>
     
     <section>
+	<h2 class="post-title"><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;extending-nixos-configurations&#x2F;">Extending NixOS Configurations</a></h2>
+	<h5 class="description">Using Nix flakes to extend an existing NixOS configuration with additional settings or modules.</h5>
+	<div class="excerpt">
+		<p><a rel="noopener" target="_blank" href="https://nixos.org/">NixOS</a> <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS_modules">modules</a> and configurations offer us a tantilizing way to express and share systems. My friends and I can publish our own flakes containing <code>nixosModules</code> and/or <code>nixosConfigurations</code> outputs which can be imported, reused, and remixed. When it comes to secret projects though, that openness and ease of sharing can be a bit of a problem.</p>
+<p>Let's pretend my friend wants to share a secret NixOS module or package with me, they've already given me access to the GitHub repository, and now I need to add it to my flake. My <a rel="noopener" target="_blank" href="https://github.com/Hoverbear-Consulting/flake">flake</a> is public and has downstream users. I can't just up and add it as an input. For one thing, it'd break everything downstream. More importantly, my friend asked me not to.</p>
+<p>It's terribly inconvienent to add the project as an input and be careful to never commit that change to the repository. Worse, if I did screw up and commit it, my friend might be disappointed in me. We simply can't have that.</p>
+<p>Let's explore how to create a flake which extends some existing flake, a pattern which can be combined with a <code>git+ssh</code> flake URL to resolve this precarious situation.</p>
+
+		<a class="continue-reading" href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;extending-nixos-configurations&#x2F;#continue-reading">Continue reading...</a>
+	</div>
+
+	<div class="post-meta"><div class="posted-on">
+			<time datetime=" 2023-03-29 00:00">2023-03-29</time>
+		</div><div class="reading-time">
+			4 min
+		</div>
+		<div class="tags"><a href="https:&#x2F;&#x2F;hoverbear.org/tags/nix">Nix</a></div>
+	</div>
+</section>
+    
+    <hr>
+    
+    
+    <section>
 	<h2 class="post-title"><a href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;nix-on-the-steam-deck&#x2F;">Nix on the Steam Deck</a></h2>
 	<h5 class="description">What's Linux without the Nix?</h5>
 	<div class="excerpt">
@@ -279,8 +303,8 @@
     or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
 </footer>
 <pre
-        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/d1792dd2e9833d9c663713997bb525fc344ece40
-">d1792dd2e9833d9c663713997bb525fc344ece40
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/64a72d6e44d0e2f71a03614a5c7026a106ce41b3
+">64a72d6e44d0e2f71a03614a5c7026a106ce41b3
 </a></pre></body>
 
 </html>

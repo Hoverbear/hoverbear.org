@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Fun compatability things -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="shortcut icon" href="https:&#x2F;&#x2F;hoverbear.org/images/favicon.ico">
+
+    <!-- Information about this site -->
+    <title>
+        Extending NixOS Configurations
+    </title>
+    <meta name="description"
+        content="Using Nix flakes to extend an existing NixOS configuration with additional settings or modules." />
+
+    <!-- Various Twitter related content. -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;99b379850a7430c100.jpg" />
+    <meta property='og:image' content="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;99b379850a7430c100.jpg" />
+    <meta name="twitter:site" content="@a_hoverbear" />
+    <meta name="twitter:creator" content="@a_hoverbear" />
+    <link rel="me" href="https:&#x2F;&#x2F;hachyderm.io&#x2F;@ana">
+
+    <meta name="twitter:title"
+        content="Extending NixOS Configurations" />
+    <meta property='og:title'
+        content="Extending NixOS Configurations" />
+
+    <meta property='og:url'
+        content="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;extending-nixos-configurations&#x2F;" />
+
+    <meta name="twitter:description"
+        content="NixOS modules and configurations offer us a tantilizing way to express and share systems. My friends and I can publish our own flakes containing nixosModules and&#x2F;or nixosConfigurations outputs which can be imported, reused, and remixed. When it comes to secret projects though, that openness and ease of sharing can be a bit of a problem.
+Let&#x27;s pretend my friend wants to share a secret NixOS module or package with me, they&#x27;ve already given me access to the GitHub repository, and now I need to add it to my flake. My flake is public and has downstream users. I can&#x27;t just up and add it as an input. For one thing, it&#x27;d break everything downstream. More importantly, my friend asked me not to.
+It&#x27;s terribly inconvienent to add the project as an input and be careful to never commit that change to the repository. Worse, if I did screw up and commit it, my friend might be disappointed in me. We simply can&#x27;t have that.
+Let&#x27;s explore how to create a flake which extends some existing flake, a pattern which can be combined with a git+ssh flake URL to resolve this precarious situation.
+" />
+    <meta property='og:description'
+        content="NixOS modules and configurations offer us a tantilizing way to express and share systems. My friends and I can publish our own flakes containing nixosModules and&#x2F;or nixosConfigurations outputs which can be imported, reused, and remixed. When it comes to secret projects though, that openness and ease of sharing can be a bit of a problem.
+Let&#x27;s pretend my friend wants to share a secret NixOS module or package with me, they&#x27;ve already given me access to the GitHub repository, and now I need to add it to my flake. My flake is public and has downstream users. I can&#x27;t just up and add it as an input. For one thing, it&#x27;d break everything downstream. More importantly, my friend asked me not to.
+It&#x27;s terribly inconvienent to add the project as an input and be careful to never commit that change to the repository. Worse, if I did screw up and commit it, my friend might be disappointed in me. We simply can&#x27;t have that.
+Let&#x27;s explore how to create a flake which extends some existing flake, a pattern which can be combined with a git+ssh flake URL to resolve this precarious situation.
+" />
+
+
+    <!-- Talk about the homepage and the rss feed. -->
+    <link rel="canonical"
+        href="https:&#x2F;&#x2F;hoverbear.org&#x2F;blog&#x2F;extending-nixos-configurations&#x2F;">
+    <link rel="alternate" type="application/rss+xml" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">
+
+    <!-- Stylesheets are fun -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Fira+Code&family=Noto+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="https:&#x2F;&#x2F;hoverbear.org/main.css" />
+
+    <!-- Katex -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+        integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+        integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
+        crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+
+<body>
+    
+<div id="hero-wrapper">
+    <figure class="enriched " style="">
+       <figcaption>Photo&nbsp;- <a href="https://unsplash.com/photos/Kmk4ga-_V5I">Kiwihug</a></figcaption>
+       
+
+<img srcset="
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5ff0da03673d6ffa00.jpg 1920w,
+              https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;99b379850a7430c100.jpg 3840w
+              " sizes="
+                     (max-width: 1200px) 1200px,
+                     (max-width: 1800px) 1800px,set 
+                     3840px" src="https:&#x2F;&#x2F;hoverbear.org&#x2F;processed_images&#x2F;5ff0da03673d6ffa00.jpg" alt="Photo" />
+</figure>
+</div>
+<header>
+    <div class="content">
+        <h1 id="main-title"><a id="main-link" href="https:&#x2F;&#x2F;hoverbear.org">
+                Extending NixOS Configurations
+            </a></h1>
+
+        <nav id="tree">
+    <ul>
+        <li>
+            <a href="https://hoverbear.org/about/">
+                Ana, Hoverbear 🐻
+            </a>&nbsp;
+        </li><li>
+            <a href="https://hoverbear.org/blog/">
+                Articles
+            </a>&nbsp;
+        </li></ul><ul>
+        </ul><ul>
+        </ul>
+</nav>
+
+        <div class="metadata">
+            <h5 class="description">
+                Using Nix flakes to extend an existing NixOS configuration with additional settings or modules.
+            </h5>
+
+            <p class="date">
+                Posted on 2023-03-29, around 4 minutes of reading.
+            </p>
+        </div>
+    </div>
+</header>
+
+<main>
+    
+<nav id=toc>
+    <ol>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/extending-nixos-configurations/#extending-a-flake">Extending a Flake</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://hoverbear.org/blog/extending-nixos-configurations/#using-private-github-inputs-in-flakes">Using private GitHub inputs in flakes</a>
+            
+        </li>
+        
+    </ol>
+</nav>
+
+    <p><a rel="noopener" target="_blank" href="https://nixos.org/">NixOS</a> <a rel="noopener" target="_blank" href="https://nixos.wiki/wiki/NixOS_modules">modules</a> and configurations offer us a tantilizing way to express and share systems. My friends and I can publish our own flakes containing <code>nixosModules</code> and/or <code>nixosConfigurations</code> outputs which can be imported, reused, and remixed. When it comes to secret projects though, that openness and ease of sharing can be a bit of a problem.</p>
+<p>Let's pretend my friend wants to share a secret NixOS module or package with me, they've already given me access to the GitHub repository, and now I need to add it to my flake. My <a rel="noopener" target="_blank" href="https://github.com/Hoverbear-Consulting/flake">flake</a> is public and has downstream users. I can't just up and add it as an input. For one thing, it'd break everything downstream. More importantly, my friend asked me not to.</p>
+<p>It's terribly inconvienent to add the project as an input and be careful to never commit that change to the repository. Worse, if I did screw up and commit it, my friend might be disappointed in me. We simply can't have that.</p>
+<p>Let's explore how to create a flake which extends some existing flake, a pattern which can be combined with a <code>git+ssh</code> flake URL to resolve this precarious situation.</p>
+<span id="continue-reading"></span>
+<p>This same situation strategy can be applied to other outputs of a flake, and can be combined with <a href="/blog/configurable-nix-packages/">Configurable Nix Packages</a>.</p>
+<h2 id="extending-a-flake">Extending a Flake</h2>
+<p>Let's assume for a moment we have a simple flake called <code>original</code> with a <code>nixosConfiguration</code> and a <code>nixosModule</code>:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># original/flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:nixos/nixpkgs/nixos-22.05<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosModules</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">default</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">config</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">lib</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># Create a file `/etc/original-marker`</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">environment</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">etc</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">original-marker</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">text</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Hello!<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+      <span class="z-comment z-line z-number-sign z-nix"># You can ignore these, just keeping things small</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">boot</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">initrd</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">includeDefaultModules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">documentation</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">man</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">boot</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">loader</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">grub</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">enable</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-constant z-language z-nix">false</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">fileSystems</span>.<span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>/<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">device</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>/dev/null<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">system</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">stateVersion</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>22.05<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosConfigurations</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">teapot</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-variable z-parameter z-name z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">lib</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosSystem</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">system</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>x86_64-linux<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+        <span class="z-variable z-parameter z-name z-nix">self</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosModules</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">default</span>
+      <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+
+</span></code></pre>
+<p>While our little demo configuration, <code>teapot</code>, might not be a very practical system for hardware (or even a VM) it's a perfectly valid NixOS expression which we can build and inspect the resultant output filesystem of:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">extension-demo/original</span></span><span class="z-meta z-function-call z-arguments z-shell"> </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">❯</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix build .#nixosConfigurations.teapot.config.system.build.toplevel                                 </span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">extension-demo/original</span></span><span class="z-meta z-function-call z-arguments z-shell"> </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">❯</span></span><span class="z-meta z-function-call z-arguments z-shell"> cat result/etc/original-marker </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Hello!⏎</span></span><span class="z-meta z-function-call z-arguments z-shell"> </span>
+</span></code></pre>
+<p>Now, let's assume there exists some other flake, called <code>extension</code> that looks like this:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># extension/flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>github:nixos/nixpkgs/nixos-22.05<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosModules</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">default</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">config</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">pkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">lib</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-keyword z-operator z-nix">... </span><span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-comment z-line z-number-sign z-nix"># Create a file `/etc/extension-marker`</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">environment</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">etc</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">extension-marker</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">text</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>Hi!<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>Our goal is to create a <code>teapot</code> with the <code>extension.nixosModules.default</code> module included.</p>
+<p>To do that, we'll create a new flake, called <code>extended</code> which looks like this:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-comment z-line z-number-sign z-nix"># extended/flake.nix</span>
+<span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">original</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>/home/ana/git/extension-demo/original<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">follows</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>original/nixpkgs<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">extension</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>/home/ana/git/extension-demo/extension<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">follows</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>original/nixpkgs<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">original</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">extension</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span>
+    <span class="z-variable z-parameter z-name z-nix">original</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">outputs</span> <span class="z-keyword z-operator z-nix">//</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosConfigurations</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">teapot</span> <span class="z-keyword z-operator z-bind z-nix">=</span>
+      <span class="z-variable z-parameter z-name z-nix">original</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosConfigurations</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">teapot</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">extendModules</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+          <span class="z-variable z-parameter z-name z-nix">extension</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosModules</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">default</span>
+        <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>Because of <code>outputs = { self, nixpkgs, original, extension }: original.outputs // { /* ... */ }</code> this <code>extended</code> flake has the same outputs of <code>original</code>, plus whatever overrides we add inside <code>{ /* ... */ }</code>.</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">extension-demo/extended</span></span><span class="z-meta z-function-call z-arguments z-shell"> </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">❯</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix flake show</span>
+<span class="z-variable z-other z-readwrite z-assignment z-shell">path:/home/ana/git/extension-demo/extended?lastModified</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">1680125924</span><span class="z-string z-unquoted z-shell">&amp;narHash=sha256-EV4jQJ5H3mypuOt4H174lII2yhnaUbZ9rbML2mjyRlI=</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">├───nixosConfigurations</span></span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">│</span></span><span class="z-meta z-function-call z-arguments z-shell">   └───teapot: NixOS configuration</span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">└───nixosModules</span></span>
+    <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">└───default:</span></span><span class="z-meta z-function-call z-arguments z-shell"> NixOS module</span>
+
+</span></code></pre>
+<p>We call <a rel="noopener" target="_blank" href="https://github.com/NixOS/nixpkgs/blob/4e416a8e847057c49e73be37ae8dc4fcdfe9eff8/lib/modules.nix#L333-L354"><code>extendModules</code></a> on the original <code>nixosConfiguration.teapot</code> to extend the configuration with new modules, in this case, our <code>extension.nixosModules.default</code>.</p>
+<p>Now we can inspect the resultant output filesystem:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">extension-demo/extended</span></span><span class="z-meta z-function-call z-arguments z-shell"> </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">❯</span></span><span class="z-meta z-function-call z-arguments z-shell"> nix build .#nixosConfigurations.teapot.config.system.build.toplevel</span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">extension-demo/extended</span></span><span class="z-meta z-function-call z-arguments z-shell"> took 2s </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">❯</span></span><span class="z-meta z-function-call z-arguments z-shell"> cat result/etc/original-marker </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Hello!⏎</span></span><span class="z-meta z-function-call z-arguments z-shell">                                                                                                                                                              </span>
+
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">extension-demo/extended</span></span><span class="z-meta z-function-call z-arguments z-shell"> </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">❯</span></span><span class="z-meta z-function-call z-arguments z-shell"> cat result/etc/extension-marker </span>
+<span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Hi!⏎</span></span><span class="z-meta z-function-call z-arguments z-shell">  </span>
+</span></code></pre>
+<h2 id="using-private-github-inputs-in-flakes">Using private GitHub inputs in flakes</h2>
+<p>While the <code>github:username/repository</code> flake paths utilize Github's API and work well for public repositories, you may experience issues trying to use it with a private repository.</p>
+<p>In these cases, try using the <code>git+ssh</code> protocol. For example:</p>
+<pre data-lang="nix" class="language-nix z-code"><code class="language-nix" data-lang="nix"><span class="z-source z-nix"><span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">original</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>/home/ana/git/extension-demo/original<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">follows</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>original/nixpkgs<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">extension</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">url</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>git+ssh://git@github.com/hoverbear/top-secret-project.git<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-entity z-other z-attribute-name z-multipart z-nix">inputs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">nixpkgs</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">follows</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-string z-quoted z-double z-nix"><span class="z-punctuation z-definition z-string z-double z-start z-nix">&quot;</span>original/nixpkgs<span class="z-punctuation z-definition z-string z-double z-end z-nix">&quot;</span></span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+    <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+
+  <span class="z-entity z-other z-attribute-name z-multipart z-nix">outputs</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-entity z-function z-2 z-nix">{</span> <span class="z-variable z-parameter z-function z-1 z-nix">self</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">nixpkgs</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">original</span><span class="z-keyword z-operator z-nix">,</span> <span class="z-variable z-parameter z-function z-1 z-nix">extension</span> <span class="z-punctuation z-definition z-entity z-function z-nix">}</span><span class="z-punctuation z-definition z-function z-nix">:</span> 
+    <span class="z-variable z-parameter z-name z-nix">original</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">outputs</span> <span class="z-keyword z-operator z-nix">//</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+    <span class="z-entity z-other z-attribute-name z-multipart z-nix">nixosConfigurations</span>.<span class="z-entity z-other z-attribute-name z-multipart z-nix">teapot</span> <span class="z-keyword z-operator z-bind z-nix">=</span> 
+      <span class="z-variable z-parameter z-name z-nix">original</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosConfigurations</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">teapot</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">extendModules</span> <span class="z-punctuation z-definition z-attrset-or-function z-nix">{</span>
+        <span class="z-entity z-other z-attribute-name z-multipart z-nix">modules</span> <span class="z-keyword z-operator z-bind z-nix">=</span> <span class="z-punctuation z-definition z-list z-nix">[</span>
+          <span class="z-variable z-parameter z-name z-nix">extension</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">nixosModules</span><span class="z-keyword z-operator z-nix">.</span><span class="z-variable z-parameter z-name z-nix">default</span>
+        <span class="z-punctuation z-definition z-list z-nix">]</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+      <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+  <span class="z-punctuation z-definition z-attrset z-nix">}</span><span class="z-punctuation z-terminator z-bind z-nix">;</span>
+<span class="z-punctuation z-definition z-attrset z-nix">}</span>
+</span></code></pre>
+<p>Running <code>nix flake update</code> should then use your SSH key and work, as long as you have the ability to clone that repository over SSH.</p>
+
+</main>
+<footer class="post-footer">
+    Connect through &nbsp<a href="mailto:operator@hoverbear.org">operator@hoverbear.org</a>,&nbsp;
+    <a href="https://github.com/hoverbear">@hoverbear</a> on Github,&nbsp;
+    <a rel="me" href="https:&#x2F;&#x2F;hachyderm.io&#x2F;@ana">@ana@hachyderm.io</a> on Mastodon,</a>&nbsp;
+    <a href="https://twitter.com/a_hoverbear">@a_hoverbear</a> on Twitter,</a>&nbsp;
+    or track via <a class="subscribe" href="https:&#x2F;&#x2F;hoverbear.org/rss.xml">RSS Feed</a>.
+</footer>
+<pre
+        class="artifact"><a id="commit" href="https://github.com/Hoverbear/hoverbear.org/commit/64a72d6e44d0e2f71a03614a5c7026a106ce41b3
+">64a72d6e44d0e2f71a03614a5c7026a106ce41b3
+</a></pre></body>
+
+</html>
