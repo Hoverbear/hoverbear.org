@@ -35,7 +35,7 @@ Let's assume for a moment we have a simple flake called `original` with a `nixos
 # original/flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
   };
 
   outputs = { self, nixpkgs }: {
@@ -48,7 +48,7 @@ Let's assume for a moment we have a simple flake called `original` with a `nixos
       documentation.man.enable = false;
       boot.loader.grub.enable = false;
       fileSystems."/".device = "/dev/null";
-      system.stateVersion = "22.05";
+      system.stateVersion = "22.11";
     };
 
     nixosConfigurations.teapot = nixpkgs.lib.nixosSystem {
@@ -79,7 +79,7 @@ Now, let's assume there exists some other flake, called `extension` that looks l
 # extension/flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
   };
 
   outputs = { self, nixpkgs }: {
