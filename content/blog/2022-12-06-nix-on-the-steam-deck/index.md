@@ -372,3 +372,8 @@ You are welcome to explore the code [here](https://github.com/DeterminateSystems
 We explored how the Steam Deck takes certain measures to protect users from accidently losing changes when the system updates and swaps due to its A/B booting, we also explored how we can use persistent systemd units to create a `/nix` path on the Steam Deck which bind mounts to a persistent `/home/nix` directory. In order to ensure that the units linked from the `/nix` path are loaded, we also learnt we can have a unit which reloads the systemd daemon, and how this resolves the issue.
 
 Using these techniques, we successfully installed Nix on the Steam Deck using both the traditional installer, as well as a prototype that we've been working on.
+
+This article was suggested by my employer, [@grahamc] at [Determinate Systems].
+
+[@grahamc]: https://github.com/grahamc
+[Determinate Systems]: https://determinate.systems/

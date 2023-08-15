@@ -183,8 +183,12 @@ In these cases, try using the `git+ssh` protocol. For example:
 Running `nix flake update` should then use your SSH key and work, as long as you have the ability to clone that repository over SSH.
 
 
+This article was suggested by my employer, [@grahamc] at [Determinate Systems].
+
 [hoverbear-consulting-flake]: https://github.com/Hoverbear-Consulting/flake
 [nixos-modules]: https://nixos.wiki/wiki/NixOS_modules
 [nixos]: https://nixos.org/
 [configurable-nix-packages]: /blog/configurable-nix-packages/
 [github-nix-extendModules]: https://github.com/NixOS/nixpkgs/blob/4e416a8e847057c49e73be37ae8dc4fcdfe9eff8/lib/modules.nix#L333-L354
+[@grahamc]: https://github.com/grahamc
+[Determinate Systems]: https://determinate.systems/
