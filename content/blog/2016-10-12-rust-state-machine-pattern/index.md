@@ -86,7 +86,7 @@ Now that we know what a state machine is, how do we represent them in Rust? Firs
 Ideally, we'd like to see the following characteristics:
 
 * Can only be in one state at a time.
-* Each state should able have its own associated values if required.
+* Each state should have its own associated values if required.
 * Transitioning between states should have well defined semantics.
 * It should be possible to have some level of shared state.
 * Only explicitly defined transitions should be permitted.
