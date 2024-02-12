@@ -8,9 +8,9 @@ weight = 1
 in_menu = true
 
 [extra.image]
-path = "cover.png"
-photographer = "@ubepom"
-source = "https://twitter.com/ubepom"
+path = "cover.jpg"
+photographer = "Ana Hobden"
+source = "https://hoverbear.org"
 +++
 
 Hello,
