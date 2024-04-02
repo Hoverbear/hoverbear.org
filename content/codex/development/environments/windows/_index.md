@@ -14,6 +14,8 @@ photographer = "Roseanna Smith"
 source = "https://unsplash.com/photos/-qzLjuJEmsE"
 +++
 
+<!-- more -->
+
 # Use PowerShell
 
 To get to a PowerShell from a command prompt:
@@ -36,11 +38,4 @@ I prefer to configure my IDEs to also use PowerShell. In Visual Studio Code (VSC
 
 # Use a Package Manager
 
-There are several options such as [`scoop`](https://scoop.sh/) for Windows.
-
-```powershell
-Set-ExecutionPolicy RemoteSigned -scope CurrentUser
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-scoop install sudo
-sudo echo "Bloop"
-```
+Use `winget` if you can!
