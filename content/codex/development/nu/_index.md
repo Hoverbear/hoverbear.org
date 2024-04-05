@@ -46,7 +46,9 @@ pacman -S nu
 
 Things like `cp`, `rm`, and `ls` work consistently on `nu`. (Here's looking at `rm -rf` on Powershell...)
 
-## 
+# Configuration
+
+
 
 # Working with it
 
@@ -68,6 +70,30 @@ For `>>`:
 cat floof | save -a boop
 ```
 
+## Loops
+
+Loops differ syntactically from `bash` in several ways.
+
+For example, unpacking all the archives in the parent directory into the current directory:
+
+```nu
+for archive in (ls .. | where type != dir) { tar xvf $archive.name }
+```
+
+Similar, but unarchiving into named directories:
+
+
+```nu
+for archive in (ls | where type != dir) {
+    let archive_stem = $archive.name | path parse | get stem
+    mkdir $archive_stem
+    cd $archive_stem
+    let archive_path = ".." | path join $archive.name;
+    tar xvf $archive_path
+    cd ..
+}
+```
+
 ## Parameter Expansion
 
 Different shells approach [parameter expansion](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html) differently.
@@ -81,11 +107,11 @@ In `bash` we can do like:
 While `fish` it looks like:
 
 ```fish
- ./x.py --stage 2 dist $(ferrocene/ci/split-tasks.py dist | string split " ")
+./x.py --stage 2 dist $(ferrocene/ci/split-tasks.py dist | string split " ")
 ```
 
 On `nu` we do this:
 
 ```nu
- ./x.py --stage 2 dist ...(python ferrocene/ci/split-tasks.py dist | split row " ")
+./x.py --stage 2 dist ...(python ferrocene/ci/split-tasks.py dist | split row " ")
 ```
