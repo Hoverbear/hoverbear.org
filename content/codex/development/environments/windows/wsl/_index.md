@@ -25,17 +25,12 @@ sudo Enable-WindowsOptionalFeature -Online -FeatureName `
     $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
 ```
 
-# Use Docker in WSL2
-
-There are a few ways to get Docker working.
-
-* A hack such as [this one](https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional).
-* The Docker Desktop WSL2 integration option.
-
-If you only need Docker to work, I strongly suggest you use the Docker Desktop WSL2 integration.
-
 # Systemd in WSL2
 
-You can use a hack such as [this one](https://hoverbear.org/blog/getting-the-most-out-of-wsl/#get-systemd-functional), but really, this isn't a good solution. *(Largely because Microsoft updates it a lot and things break often.)*
+It should ['just work'](https://devblogs.microsoft.com/commandline/systemd-support-is-now-available-in-wsl/) now, but sometimes you may need to set something in your `wsl.conf`:
 
-I suggest you investigate a Hyper-V, VMWare, or VirtualBox VM. Alternatively, if you have another disk, dual booting is quite reasonable if you give each OS a disk.
+```toml
+# /etc/wsl.conf
+[boot]
+systemd=true
+```

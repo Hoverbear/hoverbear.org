@@ -17,11 +17,23 @@ source = "https://unsplash.com/photos/white-rose-in-close-up-photography-NzMzETo
 
 <!-- more -->
 
-# Installing 
+# Motivations
+
+## Cross Platform Consistency
 
 Developing across multiple operating systems can be pretty annoying! Mac `bash` is different than Arch `bash`, which is different than Windows `powershell`. 😵‍💫
 
-We can use `nu` to bring some consistency.
+Mac defaults to `zsh`, but also packs an old `bash` (usually 3.2). Windows packs Powershell (usually 4, maybe 7), sometimes a msys or mingw or Git `bash`, and `CMD.exe`. Meanwhile Linux can pack... well, a lot of different things.
+
+This means things like `&>` might work on some platforms, but not on others.
+
+It also means things like `cp`, `rm`, and `ls` work consistently on `nu`. (Here's looking at `rm -rf` on Powershell, setting `touch` with timestamps on Mac vs Linux...)
+
+# Configuration
+
+
+
+# Installing 
 
 With a Rust toolchain:
 
@@ -39,15 +51,6 @@ brew install nu
 # Arch Linux
 pacman -S nu
 ```
-
-# Motivations
-
-## Consistent Builtins
-
-Things like `cp`, `rm`, and `ls` work consistently on `nu`. (Here's looking at `rm -rf` on Powershell...)
-
-# Configuration
-
 
 
 # Working with it
@@ -88,7 +91,7 @@ for archive in (ls | where type != dir) {
     let archive_stem = $archive.name | path parse | get stem
     mkdir $archive_stem
     cd $archive_stem
-    let archive_path = ".." | path join $archive.name;
+    let archive_path = ".." | path join $archive.name
     tar xvf $archive_path
     cd ..
 }
