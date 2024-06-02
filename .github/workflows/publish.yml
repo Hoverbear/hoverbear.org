@@ -1,5 +1,9 @@
 name: Publish
 
+permissions:
+  pages: write      # to deploy to Pages
+  id-token: write   # to verify the deployment originates from an appropriate source
+
 on:
   push:
     branches:
@@ -9,19 +13,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - name: Configure Git
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "github-actions-bot@users.noreply.github.com"
-        git config --global url."https://".insteadOf git://
-        git config --global url."https://github.com/".insteadOf "git@github.com:"
-    - name: Fetch root branch
-      run: |
-        git init .
-        git remote add origin https://github.com/Hoverbear/hoverbear.org
-        git config gc.auto 0
-        git fetch --depth 1 origin root
-        git checkout root
+    - uses: actions/checkout@v4
     - name: Install Zola
       run: |
         mkdir -p bin/
@@ -30,32 +22,13 @@ jobs:
         echo "$(pwd)/bin" >> $GITHUB_PATH
         rm zola.tar.gz
         echo $PATH
-    - name: Fetch gh-pages branch
-      run: |
-        mkdir gh-pages
-        cd gh-pages
-        git init .
-        git remote add origin https://github.com/Hoverbear/hoverbear.org
-        git config gc.auto 0
-        git fetch --depth 1 origin gh-pages
-        git checkout gh-pages
-    - name: Use the processed_images of last commit
-      run: |
-        mv gh-pages/processed_images static/processed_images
     - name: Build site
       run: |
         zola build
-    - name: Commit changes to gh-pages branch
-      run: |
-        rm -rf gh-pages/* gh-pages/.nojekyll
-        mv public/* .nojekyll gh-pages/
-        cd gh-pages
-        git add .
-        git commit -s -m "Deploy ${GITHUB_SHA}." --allow-empty
-    - name: Deploy site through gh-pages branch
-      env:
-        # Seems the token described in https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables doesn't work
-        TOKEN: ${{ secrets.TOKEN }}
-      run: |
-        cd gh-pages
-        git push "https://${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+    - name: Upload GitHub Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: public
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
+      id: github-pages
