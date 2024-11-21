@@ -11,11 +11,19 @@
     <link rel="shortcut icon" href="{{ config.base_url }}/images/favicon.ico">
 
     <!-- Information about this site -->
+    {%- if page -%}
+        {%- set page_or_section = page -%}
+    {%- elif section -%}
+        {%- set page_or_section = section -%}
+    {%- endif -%}
+    {%- set title = page_or_section.title | default(value=page_or_section.title | default(value=config.title)) -%}
+    {%- set description = page_or_section.description | default(value=page_or_section.description | default(value=config.description)) -%}
+
     <title>
-        {{ page.title | default(value=section.title | default(value=config.title)) }}
+        {{ title }}
     </title>
     <meta name="description"
-        content="{{ page.description | default(value=section.description | default(value=config.description)) }}" />
+        content="{{ description }}" />
 
     <!-- Various Twitter related content. -->
     <meta name="twitter:card" content="summary_large_image">
@@ -41,17 +49,17 @@
     <link rel="me" href="{{ config.extra.mastodon_link }}">
 
     <meta name="twitter:title"
-        content="{{ page.title | default(value=section.title | default(value=config.title)) | striptags }}" />
+        content="{{ title | striptags }}" />
     <meta property='og:title'
-        content="{{ page.title | default(value=section.title | default(value=config.title)) | striptags }}" />
+        content="{{ title | striptags }}" />
 
     <meta property='og:url'
         content="{{ page.permalink | default(value=section.permalink | default(value=config.base_url)) | striptags }}" />
 
     <meta name="twitter:description"
-        content="{{ page.summary | default(value=section.summary | default(value=config.description)) | striptags }}" />
+        content="{{ description | striptags }}" />
     <meta property='og:description'
-        content="{{ page.summary | default(value=section.summary | default(value=config.description)) | striptags }}" />
+        content="{{ description | striptags }}" />
 
 
     <!-- Talk about the homepage and the rss feed. -->
