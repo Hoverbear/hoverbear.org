@@ -1,11 +1,16 @@
 nav {
-  &#tree > ul, {
+  &#tree > ul {
     padding-left: 0;
     & > li {
       display: inline-block;
       margin-left: 0 !important;
       &:not(:first-child):before {
         content: " | ";
+      }
+
+      & > *:is(a.ancestor, a.current) {
+        color: var(--color-text) !important;
+        text-decoration: var(--color-text) underline !important;
       }
     }
   }

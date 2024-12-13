@@ -7,53 +7,72 @@
         {%- set ancestor = get_section(path=ancestor_path) -%}
         {# We do pages first as they are the 'main content' for an ancestor, sections tend to be 'Sub-ideas' #}
         {%- for ancestor_page in ancestor.pages | default(value=[]) -%}
-        {%- if ancestor_page.extra.in_menu | default(value=false) or page_or_section.ancestors is
-        containing(ancestor_page.relative_path)
-        -%}
-        <li>
-            <a href="{{ ancestor_page.permalink | safe }}">
-                {{ ancestor_page.title | markdown(inline=true) }}
-            </a>&nbsp;
-        </li>
-        {%- endif -%}
+            {%- set is_descendant = page_or_section.ancestors is containing(ancestor_page.relative_path) -%}
+            {%- set is_current = page_or_section == ancestor_page -%}
+            {%- if ancestor_page.extra.in_menu | default(value=false) or is_descendant -%}
+                <li>
+                    <a
+                        {% if is_descendant -%} class="ancestor" {%- endif %}
+                        {% if is_current -%} class="current" {%- endif %}
+                        href="{{ ancestor_page.permalink | safe }}"
+                    >
+                        {{ ancestor_page.title | markdown(inline=true) }}
+                    </a>&nbsp;
+                </li>
+            {%- endif -%}
         {%- endfor -%}
 
         {# Now sections, the 'Sub-ideas' -- these may have their own descendants #}
         {%- for ancestor_section_path in ancestor.subsections -%}
-        {%- set ancestor_section = get_section(path=ancestor_section_path) -%}
-        {%- if ancestor_section.extra.in_menu | default(value=false) or page_or_section.ancestors is
-        containing(ancestor_section.relative_path) -%}
-        <li>
-            <a href="{{ ancestor_section.permalink | safe }}">
-                {{ ancestor_section.title | markdown(inline=true) }}
-            </a>&nbsp;
-        </li>
-        {%- endif -%}
+            {%- set ancestor_section = get_section(path=ancestor_section_path) -%}
+            {%- set is_descendant = page_or_section.ancestors is containing(ancestor_section.relative_path) -%}
+            {%- set is_current = page_or_section == ancestor_section -%}
+            {%- if ancestor_section.extra.in_menu | default(value=false) or is_descendant -%}
+                <li>
+                    <a
+                        {% if is_descendant -%} class="ancestor" {%- endif %}
+                        {% if is_current -%} class="current" {%- endif %}
+                        href="{{ ancestor_section.permalink | safe }}"
+                    >
+                        {{ ancestor_section.title | markdown(inline=true) }}
+                    </a>&nbsp;
+                </li>
+            {%- endif -%}
         {%- endfor -%}
     </ul>
     {%- endfor -%}
     <ul>
         {# Next, we show the line for the 'current' items pages (the 'main content'), then sections (the 'Sub-ideas') #}
         {%- for page in page_or_section.pages | default(value=[]) -%}
-        {%- if page.extra.in_menu | default(value=false) or page_or_section.ancestors is
-        containing(page.relative_path) -%}
-        <li>
-            <a href="{{ page.permalink | safe }}">
-                {{ page.title | markdown(inline=true) }}
-            </a>&nbsp;
-        </li>
-        {%- endif -%}
+            {%- set is_descendant = page_or_section.ancestors is containing(page.relative_path) -%}
+            {%- set is_current = page_or_section == page -%}
+            {%- if page.extra.in_menu | default(value=false) or is_descendant -%}
+                <li>
+                    <a
+                        {% if is_descendant -%} class="ancestor" {%- endif %}
+                        {% if is_current -%} class="current" {%- endif %}
+                        href="{{ page.permalink | safe }}"
+                    >
+                        {{ page.title | markdown(inline=true) }}
+                    </a>&nbsp;
+                </li>
+            {%- endif -%}
         {%- endfor -%}
         {%- for subsection_path in page_or_section.subsections | default(value=[]) -%}
-        {%- set subsection_section = get_section(path=subsection_path) -%}
-        {%- if subsection_section.extra.in_menu | default(value=false) or page_or_section.ancestors is
-        containing(subsection_section.relative_path) -%}
-        <li>
-            <a href="{{ subsection_section.permalink | safe }}">
-                {{ subsection_section.title | markdown(inline=true) }}
-            </a>&nbsp;
-        </li>
-        {%- endif -%}
+            {%- set subsection_section = get_section(path=subsection_path) -%}
+            {%- set is_descendant = page_or_section.ancestors is containing(subsection_section.relative_path) -%}
+            {%- set is_current = page_or_section == subsection_section -%}
+            {%- if subsection_section.extra.in_menu | default(value=false) or is_descendant -%}
+                <li>
+                    <a
+                        {% if is_descendant -%} class="ancestor" {%- endif %}
+                        {% if is_current -%} class="current" {%- endif %}
+                        href="{{ subsection_section.permalink | safe }}"
+                    >
+                        {{ subsection_section.title | markdown(inline=true) }}
+                    </a>&nbsp;
+                </li>
+            {%- endif -%}
         {%- endfor -%}
     </ul>
 </nav>
