@@ -8,9 +8,11 @@
 
 <header>
     <div class="content">
-        <h1 id="main-title"><a id="main-link" href="{{ config.base_url }}">
+        <h1 id="main-title">
+            <a id="main-link" href="{{ config.base_url }}">
                 {{ title }}
-            </a></h1>
+            </a>
+        </h1>
 
         {%- if title == config.title -%}
         <script defer async>
@@ -29,12 +31,15 @@
 
                 let new_display = data[new_lang].display;
                 let main_title = document.getElementById("main-link");
-                let old_animation = main_title.style.animation;
+
                 // Reflow
-                main_title.style.opacity = 0;
-                main_title.style.animation = 'none';
-                main_title.offsetHeight;
-                main_title.style.animation = old_animation;
+                let parent = main_title.parentElement;
+                let old_animation = parent.style.animation;
+                parent.style.opacity = 0;
+                parent.style.animation = 'none';
+                parent.offsetHeight;
+                parent.style.animation = old_animation;
+                
                 main_title.innerText = `${new_display}`;
             }, 5000);
                 }) ()
