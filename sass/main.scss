@@ -45,15 +45,22 @@ svg.logo {
   animation-duration: 1.5s;
 
   #bear {
-    fill: white;
-    opacity: 0;
+    fill: none;
+    stroke: white;
+    
+    & path {
+      opacity: 0;
+      stroke-dashoffset: 4000;
+      stroke-dasharray: 4000;
+      
+      animation: delayed-stroke-in;
+      animation-timing-function:ease-in;
+      animation-delay: 3s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+      animation-duration: 4.5s;
+    }
 
-    animation: fade-in;
-    animation-timing-function:ease-in;
-    animation-delay: 3s;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-    animation-duration: 1.5s;
   }
 
   #star-links {
