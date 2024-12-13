@@ -4,10 +4,10 @@
 	<h5 class="description">{{ post.description | default(value="") | markdown(inline=true) | safe }}</h5>
 	<div class="excerpt">
 		{{ post.summary | safe }}
-		<a class="continue-reading" href="{{ post.permalink }}#continue-reading">Continue reading...</a>
 	</div>
-
+	
 	<div class="post-meta">
+		<a class="continue-reading" href="{{ post.permalink }}#continue-reading">Continue reading...</a>
 		{%- if post.date -%}
 		<div class="posted-on">
 			<time datetime="{{ post.date | date(format=" %Y-%m-%d %H:%M") }}">{{ post.date | date(format="%Y-%m-%d")

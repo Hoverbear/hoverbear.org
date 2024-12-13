@@ -148,23 +148,21 @@ main {
   display: flex;
   flex-direction: column;
   align-content: center;
-  padding: 2vh 0;
   background-color: var(--color-background);
-  & article, & {
-    & > div, & > section, & > p, & > h1,
-    & > h2, & > h3, & > h4, & > h5, & > h6, & > blockquote,
-    & > table,
-    & > ul,
-    & > ol,
-    & > nav {
-      padding-left: var(--margins);
-      padding-right: var(--margins);
-    }
-    & > ul > li > pre,
-    & > ol > li > pre {
-      margin-left: calc(var(--margins) * -1 - 1rem) !important;
-      margin-right: calc(var(--margins) * -1) !important;
-    }
+}
+
+*:is(article, section, nav, div.excerpt) {
+  &::before {
+    padding-left: var(--margins);
+    padding-right: var(--margins);
+  }
+  & > *:is(p, h1, h2, h3, h4, h5, h6, blockquote, table, ul, ol, div.section-meta, div.post-meta) {
+    padding-left: var(--margins);
+    padding-right: var(--margins);
+  }
+  & > *:is(ul, ol) > li > pre {
+    margin-left: calc(var(--margins) * -1 - 1rem) !important;
+    margin-right: calc(var(--margins) * -1) !important;
   }
 }
 
