@@ -1,6 +1,6 @@
 +++
 title = "Windows"
-description = "A fickle, proprietary fragile, expensive monstrosity."
+description = "A fickle, proprietary, fragile, expensive monstrosity."
 sort_by = "weight"
 template =  "blog/list.html"
 
@@ -16,26 +16,38 @@ source = "https://unsplash.com/photos/-qzLjuJEmsE"
 
 <!-- more -->
 
-# Use PowerShell
-
-To get to a PowerShell from a command prompt:
-
-```bat
-powershell
-```
-
-You can also hit the Windows (⊞) key and type in "PowerShell" to find a PowerShell Prompt.
-
-I prefer to configure my IDEs to also use PowerShell. In Visual Studio Code (VSCode):
-
-```js
-// Settings.json
-{
-    // ...
-    "terminal.integrated.shell.windows": "powershell.exe"
-}
-```
-
 # Use a Package Manager
 
 Use `winget` if you can!
+
+# Use Nushell
+
+```powershell
+winget install Nushell.Nushell
+```
+
+# Git
+
+Git on Windows is a... 'special' flower.
+
+```powershell
+winget install Git.Git
+```
+
+On big clones errors like this are common:
+
+```powershell
+$ git clone --recurse-submodules -j16 git@github.com:boop/droop.git
+Cloning into 'droop'...
+remote: Enumerating objects: 2673758, done.
+remote: Counting objects: 100% (49873/49873), done.
+remote: Compressing objects: 100% (14594/14594), done.
+fetch-pack: unexpected disconnect while reading sideband packetB/s
+fatal: fetch-pack: invalid index-pack output
+```
+
+Pass `--depth 1` to improve the chance it might succeed. Then:
+
+```powershell
+git fetch --unshallow
+```
