@@ -34,7 +34,9 @@ If success is a destination, then purpose is the way there. Purpose is the wind 
 
 In 'Pale Blue Dot: A Vision of the Human Future in Space' (and part of the start of [Wanderers](https://www.youtube.com/watch?v=YH3c1QZzRK4)), Carl Sagan noted the following (emphasis added):
 
-> “For all its material advantages, the sedentary life has left us edgy, unfulfilled. Even after 400 generations in villages and cities, we haven’t forgotten. The open road still softly calls, like a nearly forgotten song of childhood. We invest far-off places with a certain romance. This appeal, I suspect, has been meticulously crafted by natural selection as an essential element in our survival. Long summers, mild winters, rich harvests, plentiful game—none of them lasts forever. It is beyond our powers to predict the future. Catastrophic events have a way of sneaking up on us, of catching us unaware. **Your own life, or your band’s, or even your species’ might be owed to a restless few—drawn, by a craving they can hardly articulate or understand, to undiscovered lands and new worlds.**" - Carl Sagan
+> “For all its material advantages, the sedentary life has left us edgy, unfulfilled. Even after 400 generations in villages and cities, we haven’t forgotten. The open road still softly calls, like a nearly forgotten song of childhood. We invest far-off places with a certain romance. This appeal, I suspect, has been meticulously crafted by natural selection as an essential element in our survival. Long summers, mild winters, rich harvests, plentiful game—none of them lasts forever. It is beyond our powers to predict the future. Catastrophic events have a way of sneaking up on us, of catching us unaware. **Your own life, or your band’s, or even your species’ might be owed to a restless few—drawn, by a craving they can hardly articulate or understand, to undiscovered lands and new worlds.**"
+>
+> \- Carl Sagan
 
 In 'Pale Blue Dot' Carl was speaking to space exploration, and I suggest the concept of being "drawn by a craving they can hardly articulate or understand" can apply quite broadly.
 
@@ -46,13 +48,15 @@ But then, one can come to realize another fear: What comes after success? Stagna
 
 **How can we hope to reach success, if it is what we fear? Who must we become to reach this success?**
 
-{{ figure(path="reflection.jpg", alt="Photographing oneself in a rainy mirror.", colocated=true, source="https://unsplash.com/photos/pdKL3xqnMio", photographer="@fabiock_") }}
+{{ figure(path="reflection.jpg", alt="Photographing oneself in a rainy mirror.", colocated=true, source="https://unsplash.com/photos/pdKL3xqnMio", photographer="@fabiock_", classes="aside-left") }}
 
 # Adaptation & Unrest
 
 Carl (above) follows into quoting this:
 
-> “I am tormented with an everlasting itch for things remote. I love to sail forbidden seas…” - Herman Melville, in Moby Dick
+> “I am tormented with an everlasting itch for things remote. I love to sail forbidden seas…”
+>
+> \- Herman Melville, in Moby Dick
 
 At the start of 2020 I once again listened to [Wanderers](https://www.youtube.com/watch?v=YH3c1QZzRK4) shortly after reading [*The Hedonic Treadmill – Are We Forever Chasing Rainbows?* by Seph Fontane Pennock](https://positivepsychology.com/hedonic-treadmill/) . I ponder the relatedness of the two concepts.
 
@@ -90,7 +94,7 @@ Both in lows and highs, and everywhere between, I've been starting to learn to l
 
 At times, things might seem purposeless, there might seem to be no definition of success to find. I'm still learning how to grope around these feelings. The best I've found is to search for a firestarter. For me, this is often found in volunteering to help organize conferences and events for my peers. I pour myself into it, I let it give my own fire life, and I cradle it the best I can, hoping not to lose it again in the afterglow.
 
-{{ figure(path="flame.jpg", alt="A flame with a reflection.", colocated=true, source="https://unsplash.com/photos/sO-LOleb0tE", photographer="@vanird") }}
+{{ figure(path="flame.jpg", alt="A flame with a reflection.", colocated=true, source="https://unsplash.com/photos/sO-LOleb0tE", photographer="@vanird", classes="aside-right") }}
 
 
 # Maintaining your momentum
@@ -105,7 +109,9 @@ I have been learning to attempt to predict problems which might occur, to commun
 
 But not all things can be addressed instantaneously. We can get worked up. Emotions can run hot. Like a kimchi or a sourdough, sometimes, the best solutions have to ferment. This period of being adrift, awaiting a looming resolution is a time I greatly dread. Sometimes, though, it must be done. Sometimes it is a component of the resolution.
 
->  “... Our remote descendants, (...) will marvel at how vulnerable the repository of all our potential once was, how perilous our infancy, how humble our beginnings, **how many rivers we had to cross before we found our way**.” ― Carl Sagan, The Pale Blue Dot (Emphasis added)
+>  “... Our remote descendants, (...) will marvel at how vulnerable the repository of all our potential once was, how perilous our infancy, how humble our beginnings, **how many rivers we had to cross before we found our way**.”
+>
+> \- Carl Sagan, The Pale Blue Dot (Emphasis added)
 
 # Build a firepit
 
@@ -119,7 +125,9 @@ These spaces are necessary. While they are empty and lifeless without us, they c
 
 These spaces also bring risk. The can invite conflict, unhappiness, or unrealized ambitions. These experiences themselves are valuable, and the process of learning to work through them in a good, healthy way can help offset the harm and pain they cause.
 
-> "Store my meat? I store my meat in the belly of my brother," an unnamed hunter, as noted by Daniel Everett, via [Robin Wall Kimmer's "The Serviceberry"](https://emergencemagazine.org/story/the-serviceberry/).
+> Store my meat? I store my meat in the belly of my brother,
+>
+> \- an unnamed hunter, as noted by Daniel Everett, via [Robin Wall Kimmer's "The Serviceberry"](https://emergencemagazine.org/story/the-serviceberry/).
 
 # Must, Should, May
 
