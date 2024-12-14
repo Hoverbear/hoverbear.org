@@ -1,6 +1,6 @@
 +++
-template = "page.html"
-title = "Ana, Hoverbear 🐻"
+template = "blog/single.html"
+title = "About"
 description = "I have been, and will be, many things, but what I shall always be, is me."
 weight = 1
 
