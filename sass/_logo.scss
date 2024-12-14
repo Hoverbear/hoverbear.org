@@ -1,0 +1,71 @@
+
+svg.logo {
+  width: 100vw;
+  height: 100vh;
+
+  animation: fade-in;
+  animation-timing-function:ease-in;
+  animation-delay: .25s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-duration: 1.5s;
+
+  #bear {
+    fill: none;
+    stroke: white;
+    
+    & path {
+      opacity: 0;
+      stroke-dashoffset: 4000;
+      stroke-dasharray: 4000;
+      
+      animation: delayed-stroke-in;
+      animation-timing-function:ease-in;
+      animation-delay: 3s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+      animation-duration: 4.5s;
+    }
+
+  }
+
+  #star-links {
+    stroke: #808285;
+    stroke-miterlimit: 10;
+    stroke-width: 0.75px;
+
+    line {
+      opacity: 0;
+      animation: twinkle;
+      animation-timing-function: ease-in;
+      animation-delay: 3s;
+      animation-iteration-count: 1;
+      animation-fill-mode: both;
+    }
+
+    @for $i from 1 through 20 {
+      line:nth-child(1n + #{$i}) {
+        animation-duration: #{random(10) * 2}s;
+        animation-timing-function: cubic-bezier(#{random()},#{random()},#{random()},#{random()});
+      }
+    }
+  }
+
+  #stars, #starfield {
+    fill: #808285;
+
+    circle {
+      opacity: 0;
+      animation: twinkle;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+    }
+
+    @for $i from 1 through 20 {
+      circle:nth-child(20n + #{$i}) {
+        animation-duration: #{random(10) * 2}s;
+        animation-timing-function: cubic-bezier(#{random()},#{random()},#{random()},#{random()});
+      }
+    }
+  }
+}
