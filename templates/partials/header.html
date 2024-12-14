@@ -17,32 +17,31 @@
         {%- if title == config.title -%}
         <script defer async>
             (function internationalize_hoverbear() {
-                const data = {{ load_data(path = "static/internationalized-hoverbear.json") | json_encode | safe
-            }};
-            const langs = Object.keys(data);
-            let current_lang = "english";
-            let num_languages = langs.length;
-            window.setInterval(function () {
-                let new_lang;
-                // Guard against same result.
-                do {
-                    new_lang = langs[Math.floor(Math.random() * num_languages)];
-                } while (current_lang == new_lang);
+                const data = {{ load_data(path = "static/internationalized-hoverbear.json") | json_encode | safe }};
+                const langs = Object.keys(data);
+                let current_lang = "english";
+                let num_languages = langs.length;
+                window.setInterval(function () {
+                    let new_lang;
+                    // Guard against same result.
+                    do {
+                        new_lang = langs[Math.floor(Math.random() * num_languages)];
+                    } while (current_lang == new_lang);
 
-                let new_display = data[new_lang].display;
-                let main_title = document.getElementById("main-link");
+                    let new_display = data[new_lang].display;
+                    let main_title = document.getElementById("main-link");
 
-                // Reflow
-                let parent = main_title.parentElement;
-                let old_animation = parent.style.animation;
-                parent.style.opacity = 0;
-                parent.style.animation = 'none';
-                parent.offsetHeight;
-                parent.style.animation = old_animation;
-                
-                main_title.innerText = `${new_display}`;
-            }, 5000);
-                }) ()
+                    // Reflow
+                    let parent = main_title.parentElement;
+                    let old_animation = parent.style.animation;
+                    parent.style.opacity = 0;
+                    parent.style.animation = 'none';
+                    parent.offsetHeight;
+                    parent.style.animation = old_animation;
+                    
+                    main_title.innerText = `${new_display}`;
+                }, 5000);
+            }) ()
         </script>
         {%- endif %}
 

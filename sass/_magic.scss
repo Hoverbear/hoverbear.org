@@ -1,0 +1,70 @@
+// Reference for this idea of using a primeCounter to know which 'index' a star is goes to https://medium.com/hypersphere-codes/counting-in-css-unlock-magic-of-css-variables-8e610881097a
+@function isPrime($n, $primesList) {
+  @each $prime in $primesList {
+    @if ($n % $prime == 0) {
+      @return false;
+    }
+  }
+  @return true;
+}
+  
+@mixin primeCounter($selector, $upperBound: 2000) {
+    
+  $curr: 2;
+  $primesList: [];
+  
+  @while $curr <= $upperBound {
+    @if isPrime($curr, $primesList) {
+      $primesList: append($primesList, $curr);
+    }
+    $curr: $curr + 1;
+  }
+  :root {
+    @each $prime in $primesList {
+      --prime#{$prime}: 1;
+    }
+  }
+  $mult: "1";
+  @each $prime in $primesList {
+    $mult: $mult " * var(--prime#{$prime})";
+    $val: $prime;
+    @while $val <= $upperBound {
+      #{$selector}:nth-child(#{$val}n) {
+        --prime#{$prime}: #{$val};
+      }
+      $val: $val * $prime;
+    }
+  }
+  
+  #{$selector} {
+    --index: calc(#{$mult});
+  }
+}
+  
+@include primeCounter("*", 600);
+
+
+// Reference for using a integer lock to make a 'floor' function goes to https://medium.com/hypersphere-codes/randomness-in-css-b55a0845c8dd
+@property --x-floor {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: true
+}
+
+@property --y-floor {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: true
+}
+
+@property --r-floor {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: true
+}
+
+@mixin primeRandom($property) {
+  --#{$property}-floating: calc(var(--random-seed) * var(--index) * #{random()} + var(--index) * var(--index) * #{random()} * var(--random-seed) * var(--random-seed));
+  --#{$property}-floor: calc(var(--#{$property}-floating) - 0.5);
+  --#{$property}: calc(var(--#{$property}-floating) - var(--#{$property}-floor));
+}
