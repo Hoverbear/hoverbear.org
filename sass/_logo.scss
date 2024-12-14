@@ -16,19 +16,12 @@ svg.logo {
   animation-duration: 1.5s;
 
   g#starfield circle {
-    // Reference for how to calculate a random x/y from some index goes to https://medium.com/hypersphere-codes/randomness-in-css-b55a0845c8dd
-    // Specifically these numbers are derived from https://codepen.io/hypersphere/pen/poVwwxK
-    // They seem to work well, and seem to be 'magic', so I left them.
-    
-    // x
     @include primeRandom("x");
     cx: calc(var(--x) * var(--viewbox-width));
     
-    // y
     @include primeRandom("y");
     cy: calc(var(--y) * var(--viewbox-height));
 
-    // r
     @include primeRandom("r");
     r: calc(var(--r) * var(--star-max-radius));
   }

@@ -63,6 +63,7 @@
   inherits: true
 }
 
+// Reference for how to calculate a random val from some seed/index goes to https://medium.com/hypersphere-codes/randomness-in-css-b55a0845c8dd
 @mixin primeRandom($property) {
   --#{$property}-floating: calc(var(--random-seed) * var(--index) * #{random()} + var(--index) * var(--index) * #{random()} * var(--random-seed) * var(--random-seed));
   --#{$property}-floor: calc(var(--#{$property}-floating) - 0.5);
