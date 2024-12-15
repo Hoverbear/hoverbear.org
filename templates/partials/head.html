@@ -1,21 +1,50 @@
 <head>
     <!-- Fun compatability things -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        charset="utf-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
     <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="MobileOptimized" content="320" />
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="IE=edge"> <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+    <meta
+        name="HandheldFriendly"
+        content="True" />
+    <meta
+        name="MobileOptimized"
+        content="320" />
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Hoverbear" />
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes">
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent">
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Hoverbear" />
 
-    <link rel="icon" type="image/png" href="{{ config.base_url }}/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="{{ config.base_url }}/favicon.svg" />
-    <link rel="shortcut icon" href="{{ config.base_url }}/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config.base_url }}/apple-touch-icon.png" />
-    <link rel="manifest" href="{{ config.base_url }}/site.webmanifest" />
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ config.base_url }}/favicon-96x96.png"
+        sizes="96x96" />
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="{{ config.base_url }}/favicon.svg" />
+    <link
+        rel="shortcut icon"
+        href="{{ config.base_url }}/favicon.ico" />
+    <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="{{ config.base_url }}/apple-touch-icon.png" />
+    <link
+        rel="manifest"
+        href="{{ config.base_url }}/site.webmanifest" />
 
     <!-- Information about this site -->
     {%- if page -%}
@@ -33,63 +62,90 @@
         content="{{ description }}" />
 
     <!-- Various Twitter related content. -->
-    <meta name="twitter:card" content="summary_large_image">
+    <meta
+        name="twitter:card"
+        content="summary_large_image">
 
     {%- if page.extra.image.path -%}
-    {%- set image = colocated_asset::colocated_asset(path=page.extra.image.path) | trim -%}
+        {%- set image = colocated_asset::colocated_asset(path=page.extra.image.path) | trim -%}
     {% elif section.extra.image.path %}
-    {%- set image = colocated_asset::colocated_asset(path=section.extra.image.path) | trim -%}
+        {%- set image = colocated_asset::colocated_asset(path=section.extra.image.path) | trim -%}
     {%- else -%}
-    {%- set image = '../static/' ~ config.extra.cover.path -%}
+        {%- set image = '../static/' ~ config.extra.cover.path -%}
     {%- endif -%}
 
     {% set image_3840 = resize_image(
-    path=image,
-    width=3840,
-    height=2160,
-    op='fit_width'
+        path=image,
+        width=3840,
+        height=2160,
+        op='fit_width'
     ) %}
-    <meta name="twitter:image" content="{{ image_3840.url }}" />
-    <meta property='og:image' content="{{ image_3840.url }}" />
-    <meta name="twitter:site" content="@{{ config.extra.twitter }}" />
-    <meta name="twitter:creator" content="@{{ config.extra.twitter }}" />
-    <link rel="me" href="{{ config.extra.mastodon_link }}">
+    <meta
+        name="twitter:image"
+        content="{{ image_3840.url }}" />
+    <meta
+        property='og:image'
+        content="{{ image_3840.url }}" />
+    <meta
+        name="twitter:site"
+        content="@{{ config.extra.twitter }}" />
+    <meta
+        name="twitter:creator"
+        content="@{{ config.extra.twitter }}" />
+    <link
+        rel="me"
+        href="{{ config.extra.mastodon_link }}">
 
-    <meta name="twitter:title"
+    <meta
+        name="twitter:title"
         content="{{ title | striptags }}" />
-    <meta property='og:title'
+    <meta
+        property='og:title'
         content="{{ title | striptags }}" />
 
-    <meta property='og:url'
+    <meta
+        property='og:url'
         content="{{ page.permalink | default(value=section.permalink | default(value=config.base_url)) | striptags }}" />
 
-    <meta name="twitter:description"
+    <meta
+        name="twitter:description"
         content="{{ description | striptags }}" />
     <meta property='og:description'
         content="{{ description | striptags }}" />
 
 
     <!-- Talk about the homepage and the rss feed. -->
-    <link rel="canonical"
+    <link
+        rel="canonical"
         href="{{ page.permalink | default(value=section.permalink | default(value=config.base_url)) | striptags }}">
-    <link rel="alternate" type="application/rss+xml" href="{{ config.base_url }}/rss.xml">
+    <link
+        rel="alternate"
+        type="application/rss+xml"
+        href="{{ config.base_url }}/rss.xml">
 
     <!-- Stylesheets are fun -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Delius&family=Kode+Mono&family=Noto+Sans&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ config.base_url }}/main.css" />
+    <link rel="stylesheet"
+        type="text/css" media="screen" href="{{ config.base_url }}/main.css" />
 
     <!-- Katex -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css"
         integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
     <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.js"
         integrity="sha384-483A6DwYfKeDa0Q52fJmxFXkcPCFfnXMoXblOkJ4JcA8zATN6Tm78UNL72AKk+0O"
         crossorigin="anonymous"></script>
     <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
+    <script defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/contrib/auto-render.min.js"
         integrity="sha384-yACMu8JWxKzSp/C1YV86pzGiQ/l1YUfE8oPuahJQxzehAjEt2GiQuy/BIvl9KyeF" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
 
