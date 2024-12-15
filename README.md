@@ -1,12 +1,8 @@
 These are the sources for my personal website.
 
-You'll need `cargo`. Get that by installing [Rustup](https://rustup.rs/). Next, install [Zola 0.14.1](https://github.com/getzola/zola/releases/tag/v0.14.1) via:
+Install [Zola v0.19.2](https://github.com/getzola/zola/releases/tag/v0.19.2).
 
-```bash
-cargo install --git https://github.com/getzola/zola --rev 84ecd2ac5e2913426ea6e6a9dc55928e81d0df25
-```
-
-Run `zola serve` from a terminal in the site working directory. The first time you do this, it could take a long time, as it has to process a lot of images.
+Then, run `zola serve` from a terminal in the site working directory. The first time you do this, it could take a long time, as it has to process a lot of images.
 
 ```bash
 ana@autonoma:~/git/hoverbear/hoverbear.org$ zola serve
