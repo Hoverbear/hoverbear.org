@@ -59,3 +59,11 @@ From an administrator terminal:
 ```powershell
 Dism /Online /Disable-Feature /Featurename:Recall
 ```
+
+# Disable Start Menu's Bing searches
+
+To disable the Bing searches in the start menu when you start typing (and thus only search the local machine):
+
+```powershell
+powershell -c 'Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Search -Name "DisableSearchBoxSuggestions" -Value 1 -Type DWord'
+```
