@@ -51,3 +51,11 @@ Pass `--depth 1` to improve the chance it might succeed. Then:
 ```powershell
 git fetch --unshallow
 ```
+
+# Disable Recall
+
+From an administrator terminal:
+
+```powershell
+Dism /Online /Disable-Feature /Featurename:Recall
+```
