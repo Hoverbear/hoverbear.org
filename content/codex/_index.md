@@ -3,6 +3,7 @@ title = "Research Codex"
 description = "Living documents on various topics I am studying."
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = false

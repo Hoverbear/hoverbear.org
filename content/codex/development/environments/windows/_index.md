@@ -3,6 +3,7 @@ title = "Windows"
 description = "A fickle, proprietary, fragile, expensive monstrosity."
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = true

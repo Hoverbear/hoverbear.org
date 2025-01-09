@@ -3,6 +3,7 @@ title = "Rust at Scale"
 description = "Shipping safe, fast, and fun."
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = true

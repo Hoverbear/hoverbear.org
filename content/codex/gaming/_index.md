@@ -3,6 +3,7 @@ title = "Gaming"
 description = "Interactivity and escapism"
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = true

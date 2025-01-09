@@ -3,6 +3,7 @@ title = "A Nu Shell"
 description = "Finding some consistency on interacting with the machine."
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = true

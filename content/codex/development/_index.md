@@ -3,6 +3,7 @@ title = "Development"
 description = "Some time ago, we taught sand to think. Now, it teaches us new ways to think."
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = true

@@ -3,6 +3,7 @@ title = "Research Methods"
 description = "Ways to gather and collect data."
 sort_by = "weight"
 template =  "blog/list.html"
+insert_anchor_links = "heading"
 
 [extra]
 in_menu = true
