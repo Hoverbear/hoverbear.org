@@ -27,6 +27,21 @@ Set up native 1password using [the `rpm-ostree` method](https://monospacementor.
 
 Then [set up native 1password to work with Flatpak's Firefox](https://gist.github.com/Hoverbear/fd164e63ec6a19bb74ecabc4c1a88dd4).
 
+According to [this](https://www.1password.community/discussions/developers/visual-studio-code-remote-development-server-and-1password-ssh-config/143213/replies/143214) in order to get the 1password agent working in VSCode DevContainers [you need to set `SSH_AUTH_SOCK`](https://developer.1password.com/docs/ssh/agent/compatibility/#ssh-auth-sock).
+
+To test:
+
+```bash
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+code .
+```
+
+To make permanent, do this then relog:
+
+```bash
+echo "export SSH_AUTH_SOCK=~/.1password/agent.sock" | sudo tee /etc/profile.d/1password-ssh-auth-sock.sh
+```
+
 ## "Developer mode"
 
 There is a [`bazzite-dx`](github.com/ublue-os/bazzite-dx) variant that includes a native VSCode. (This is possibly desirable, at time of writing the FlatPak was broken...)
