@@ -58,3 +58,12 @@ Becomes:
 sudo copr enable $ORG/$REPO
 sudo rpm-ostree install $PACKAGE
 ```
+
+## Broken Spotify
+
+Sometimes Spotify can seemingly just randomly break. [It can help to delete it's config and try again](https://www.reddit.com/r/Fedora/comments/1bls16k/comment/l1974s9/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button):
+
+```bash
+rm -rf ~/.var/app/com.spotify.Client
+flatpak run com.spotify.Client
+```
