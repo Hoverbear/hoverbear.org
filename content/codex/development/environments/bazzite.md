@@ -29,7 +29,7 @@ Then [set up native 1password to work with Flatpak's Firefox](https://gist.githu
 
 ## "Developer mode"
 
-There is a [`bazzite-dx`](github.com/ublue-os/bazzite-dx) variant that includes a native VSCode (possibly desirable, at time of writing the FlatPak was broken.)
+There is a [`bazzite-dx`](github.com/ublue-os/bazzite-dx) variant that includes a native VSCode. (This is possibly desirable, at time of writing the FlatPak was broken...)
 
 On the KDE variant you can probably just run:
 
@@ -40,3 +40,21 @@ rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/bazzite-dx:stabl
 ## Docker & Containers
 
 The "Developer Mode" has `podman`, use that. Otherwise `lima` is around via `brew`.
+
+## Copr
+
+Many guides will discuss a `dnf copr` command, you can just directly use `copr`.
+
+Eg.
+
+```bash
+sudo dnf copr enable $ORG/$REPO
+sudo dnf install $PACKAGE
+```
+
+Becomes:
+
+```bash
+sudo copr enable $ORG/$REPO
+sudo rpm-ostree install $PACKAGE
+```
