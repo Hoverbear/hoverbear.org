@@ -35,3 +35,34 @@ It should ['just work'](https://devblogs.microsoft.com/commandline/systemd-suppo
 [boot]
 systemd=true
 ```
+
+# Import WSL2 disks in place
+
+You can just import random `vhdx` disks you have with:
+
+```shell
+wsl --import-in-place ubuntu ext4.vhdx
+```
+
+You don't need to export them or anything, just getting the `vhdx` is enough.
+
+You can put them generally anywhere, even some random dev drive.
+
+# Sparse WSL2 disks
+
+You can make your WSL2 disks sparse now, saving disk space.
+
+To make a distro sparse:
+
+```shell
+wsl --manage $DISTRO $ --set-sparse true
+```
+
+Also:
+
+```toml
+# ~/.wslconfig
+
+[experimental]
+sparseVhd=true
+```

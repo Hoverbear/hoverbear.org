@@ -17,17 +17,23 @@ source = "https://unsplash.com/photos/-qzLjuJEmsE"
 
 <!-- more -->
 
+# Get `sudo`
+
+You can get [`sudo` working via the "Use Developer Features"](https://learn.microsoft.com/en-us/windows/advanced-settings/sudo/) hook in the Start Menu. Look for a shield called "Enable Sudo".
+
+It's... just okay.
+
 # Use a Package Manager
 
 Use `winget` if you can!
 
-# Use Nushell
+## Use Nushell
 
 ```powershell
 winget install Nushell.Nushell
 ```
 
-# Git
+## Git
 
 Git on Windows is a... 'special' flower.
 
