@@ -30,6 +30,8 @@ Besides, it's nice to flex old muscles occasionally.
 
 ## Implementation
 
+I found [this implementation](https://forum.obsidian.md/t/how-to-redirect-to-note-when-clicking-on-folder-in-publish/38042/6?u=hoverbear) by `gardener` which was a good start, but didn't quite work how I wanted it to. So I took the ideas from it and wrote my own.
+
 Without further ado, add the following to your [`publish.js`](https://help.obsidian.md/publish/customize#Static+assets):
 
 ```js
