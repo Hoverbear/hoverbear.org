@@ -16,7 +16,7 @@ source = "https://unsplash.com/photos/a-book-shelf-filled-with-lots-of-books-AxA
 +++
 
 Recently, I've been participating in some very fun TTRPG games. [Obsidian](https://obsidian.md/) has become my favorite tool for taking notes.
-One addon I've found which I quite like is [Folder Notes](https://github.com/LostPaul/obsidian-folder-notes).
+One plugin I've found which I quite like is [Folder Notes](https://github.com/LostPaul/obsidian-folder-notes).
 
 I ended up getting a [Publish](https://obsidian.md/publish) subscription, and wanted to have a similar experience on the published site.
 This weekend, I sat down and hacked a bit on it.
