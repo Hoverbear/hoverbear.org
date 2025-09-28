@@ -8,11 +8,11 @@ tags = [
     "Obsidian",
 ]
 
-# [extra.image]
-# path = "cover.jpg"
-# colocated = true
-# photographer = "Cristiano Firmani"
-# source = "https://unsplash.com/photos/tmTidmpILWw"
+[extra.image]
+path = "cover.jpg"
+colocated = true
+photographer = "Leiada Krözjhen"
+source = "https://unsplash.com/photos/a-book-shelf-filled-with-lots-of-books-AxA3YVYdv80w"
 +++
 
 Recently, I've been participating in some very fun TTRPG games. [Obsidian](https://obsidian.md/) has become my favorite tool for taking notes.
