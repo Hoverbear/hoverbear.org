@@ -8,11 +8,11 @@ tags = [
     "Obsidian",
 ]
 
-# [extra.image]
-# path = "cover.jpg"
-# colocated = true
-# photographer = "Leiada Krözjhen"
-# source = "https://unsplash.com/photos/a-book-shelf-filled-with-lots-of-books-AxA3YVYdv80w"
+[extra.image]
+path = "cover.jpg"
+colocated = true
+photographer = "Natalia Y."
+source = "https://unsplash.com/photos/gray-assorted-letter-jewelries-in-brown-wooden-organizer-boxes-Oxl_KBNqxGA"
 +++
 
 [Obsidian](https://obsidian.md/) lets you customize your fonts with its built in settings apparatus, but that's not always quite enough for more compicated use cases. Let's quickly review the basic settings, then take a look at how to use [CSS Snippets](https://help.obsidian.md/snippets) to fine tune fonts (and other styles) on the theme or selector level. Then, we'll look at how to do the same on an [Obsidian Publish][obsidian-publish] site.
