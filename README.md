@@ -1,6 +1,6 @@
 These are the sources for my personal website.
 
-Install [Zola v0.19.2](https://github.com/getzola/zola/releases/tag/v0.19.2).
+Install [Zola v0.22.1](https://github.com/getzola/zola/releases/tag/v0.22.1).
 
 Then, run `zola serve` from a terminal in the site working directory. The first time you do this, it could take a long time, as it has to process a lot of images.
 
