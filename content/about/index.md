@@ -17,7 +17,7 @@ Hello,
 
 My name is Ana Hobden. It's pronounced [-aːna](https://en.wiktionary.org/wiki/Rhymes:Icelandic/a%CB%90na), like the end of 'Banana.' I also go by [**Hoverbear**, or any of it's translations](#translations-of-hoverbear).
 
-I live in Lək̓ʷəŋən territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conveniently located close to Vancouver and Seattle, with connections to most of the world.
+I live in T'sou-ke territory on Vancouver Island, in Canada. There are around 92,000 residents in the city, and just under a million on the island. I grew up here, adore the cultures, green spaces, sustainable living, the island pace, and the community attitudes. It's also conveniently located close to Vancouver and Seattle, with connections to most of the world.
 
 You may know of me because of my background in technology, but there is much more that defines me. I love going hiking, walking the beach, road tripping, and exploring. I'm also an avid video gamer and a lover of cooking. You can get an idea of the projects I've been involved with by checking the rest of this site, as well as my [Github profile](https://github.com/hoverbear/). Things like Rust, distributed consensus, storage, networking, automation, operations, WASM, and embedded are within my interests.
 
